@@ -36,7 +36,7 @@ i_rule_cut( get_invoice_number, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( find_invoice_number_rule, [
+i_line_rule_cut( invoice_number_line, [
 %=======================================================================
 
   
