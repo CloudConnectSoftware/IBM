@@ -16,7 +16,7 @@ i_trace_lists.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	, get_invoice_number
+	 get_invoice_number
 	
 
 ] ).
