@@ -17,8 +17,6 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	 get_invoice_number
-
-	 test comit with vs git
 	
 
 ] ).
