@@ -13,6 +13,11 @@ i_version( ibm_training_chain, `22/08/2016 11:55:23` ).
 
 
 
+
+
+
+
+
 % i_pdf_parameter( max_pages, 30 ).
 
 i_page_split_rule_list( [ select_rules ] ).
