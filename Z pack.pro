@@ -4,34 +4,28 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( mapping_template, `05/09/2016 23:22:05` ).
+i_version( mapping_template, `22/08/2016 15:16:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+i_date_format( _ ).
+
+i_trace_lists.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	 get_invoice_number
 
-	 , 	get_invoice_date
+     , get_invoice_date
 
-<<<<<<< HEAD:Santhosh_HanjinShipping.pro
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-i_rule_list( [
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-	 get_invoice_number
+     , get_order_number
 
-	 , get_invoice_date
+     , get_total_invoice
 
-	 , get_total_invoice
-=======
-	 ,  get_total_invoice
-
-	 ,	get_order_number
-
->>>>>>> origin/master:Thejas Pax.pro
+     , get_total_net
+     	
 
 ] ).
 
@@ -45,47 +39,11 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-<<<<<<< HEAD:Santhosh_HanjinShipping.pro
-	q0n(line) 
+q0n(line)
 
-	, invoice_number_line
-	
+, generic_vertical_details( [ [ `TAX`, `INVOICE`, tab, `Invoice` , `Number` , newline ], `Number`, q(0,1), (start,10,10), invoice_number, s1, newline ] )
+
 ] ).
-
-%=======================================================================
-i_line_rule( invoice_number_line, [
-%=======================================================================
-
-	q0n(anything)
-
-	, `DEBIT` 
-	
-	, `NOTE` 
-
-	, `NO`
-
-	, `.`
-	
-	, tab
-
-	, `:`
-
-	, tab 
-
-	, generic_item( [ invoice_number , sf , newline ] )
-
-  ] ).
-
-=======
-	q0n(line)
-	
-	, generic_vertical_details( [ [ `Invoice`, `No`,  newline ], `No`, q(0,1),(End,10,10), invoice_number, s1, newline ] )
-	
-] ).
-
-
-
->>>>>>> origin/master:Thejas Pax.pro
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -97,61 +55,50 @@ i_line_rule( invoice_number_line, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-<<<<<<< HEAD:Santhosh_HanjinShipping.pro
-	q0n(line) 
+	q0n(line)
 
+	, invoice_date_header_line
+
+	, q01(line)
+	
 	, invoice_date_line
 	
 ] ).
 
 %=======================================================================
+i_line_rule( invoice_date_header_line, [
+%=======================================================================
+
+  `Invoice` , `Date` , newline
+      
+] ).
+
+%=======================================================================
 i_line_rule( invoice_date_line, [
 %=======================================================================
-
-	q0n(anything)
-
-	, `DATE` 
-	
-	, tab
-
-	, `:`
-
-	, tab 
-
-	, generic_item( [ invoice_number , date , newline ] )
-=======
-	q0n(line)
-	
-	, generic_vertical_details( [ [ `Invoice`, `Date`,  tab ], `Date`, q(0,1),(End,10,10), invoice_date, date, tab ] )
-	
+   
+	generic_item( [ invoice_date , date , newline ] )
+  
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE GROSS AMOUNT
+% GET Order Number
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_invoice, [
+i_rule( get_order_number, [
 %=======================================================================
 
 	q0n(line)
-	
-	, generic_vertical_details( [ [ `Total`, `Due`,  newline ], `Due`, q(0,1),(End,10,10), total_invoice, s1, newline ] )
-	
+
+	, generic_horizontal_details( [ [ `#`, `06`, `-`, `22`, `,`, `MAPLETREE`, `BUSINESS`, `CITY`, `SINGAPORE`, `117439`, tab ] , 100 , order_number , s1 , newline ] )
 ] ).
->>>>>>> origin/master:Thejas Pax.pro
-
-  ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-<<<<<<< HEAD:Santhosh_HanjinShipping.pro
 % GET INVOICE AMOUNT
-=======
-% GET INVOICE NET AMOUNT
->>>>>>> origin/master:Thejas Pax.pro
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -159,13 +106,10 @@ i_rule( get_total_invoice, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-<<<<<<< HEAD:Santhosh_HanjinShipping.pro
 	q0n(line) 
 
 	, total_invoice_line
 
-    , trace( [`At Invoice Total`] )
-	
 ] ).
 
 %=======================================================================
@@ -174,20 +118,44 @@ i_line_rule( total_invoice_line, [
 
 	q0n(anything)
 
-	, `Amount`
+	, `Subtotal`
 
-	, `Payable` 
-
-	, tab
+	, 	tab
 
 	, generic_item( [ total_invoice , s1 , newline ] )
-=======
-	
-	q0n(line)
-	
-	, generic_vertical_details( [ [ `Purchase`, `Order`,  Newline ], `Order`, q(0,1),(End,10,10), order_Number, s1, tab ] )
-	
-] ).
->>>>>>> origin/master:Thejas Pax.pro
 
   ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE NET AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_net, [
+%=======================================================================
+
+	q0n(line) 
+
+	, total_net_line
+
+] ).
+
+%=======================================================================
+i_line_rule( total_net_line, [
+%=======================================================================
+
+	q0n(anything)
+
+	, `Amount`
+
+    , `Due`
+
+    , 'AUD'
+
+	,  tab
+
+	, generic_item( [ total_invoice , s1 , newline ] )
+
+  ] ). 
