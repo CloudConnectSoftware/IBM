@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - Thejas_Pax
+% GRAMATICA - Thejas_LF
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(Thejas_Pax, `06/09/2016 15:16:05` ).
+i_version(Thejas_LF, `06/09/2016 15:16:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -18,7 +18,7 @@ i_rule_list( [
 
 	 ,  get_total_invoice
 
-	 ,	get_order_number
+	 ,	get_total_net
 
 
 ] ).
@@ -33,10 +33,9 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-	q0n(line)
+q0n(line)
 	
-	, generic_vertical_details( [ [ `Invoice`, `No`,  newline ], `No`, q(0,1),(End,10,10), invoice_number, s1, newline ] )
-	
+	, generic_horizontal_details( [ [ `NNoo`, `.`, `.`, `:`, `:`, tab ],100,invoice_number, s1, newline ] )
 ] ).
 
 
@@ -54,10 +53,8 @@ i_rule( get_invoice_date, [
 
 	q0n(line)
 	
-	, generic_vertical_details( [ [ `Invoice`, `Date`,  tab ], `Date`, q(0,1),(End,10,10), invoice_date, date, tab ] )
-	
+	, generic_horizontal_details( [ [ `Date`, `:`, tab ],100, invoice_date, date, newline ] )
 ] ).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE GROSS AMOUNT
@@ -70,7 +67,7 @@ i_rule( get_total_invoice, [
 
 	q0n(line)
 	
-	, generic_vertical_details( [ [ `Total`, `Due`,  newline ], `Due`, q(0,1),(End,10,10), total_invoice, s1, newline ] )
+	, generic_horizontal_details( [ [ `BBaallaannccee`, `DDuuee`, tab, `MYR`, tab ], total_invoice, s1, newline ] )
 	
 ] ).
 
@@ -82,13 +79,12 @@ i_rule( get_total_invoice, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_order_number, [
+i_rule( get_total_net, [
 %=======================================================================
 
 	
-	q0n(line)
+	qn0(line)
 	
-	, generic_vertical_details( [ [ `Purchase`, `Order`,  Newline ], `Order`, q(0,1),(End,10,10), order_Number, s1, tab ] )
-	
+	, generic_horizontal_details( [ [ `SSuubb`, `-`, `-`, `TToottaall`],total_net, s1, newline ] )
 ] ).
 
