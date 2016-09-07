@@ -40,9 +40,9 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-q0n(line)
+q(0,15,line)
 
-, generic_horizontal_details( [ [ `NNoo`, `.`, `.`, `:`, `:`, tab ] , 100 , invoice_number , s1 , newline ] )
+, generic_horizontal_details( [ [ `NNoo`, `.`, `.`, `:`, `:` ] , 100 , invoice_number , s1 , newline ] )
 
 ] ).
 
@@ -56,9 +56,9 @@ q0n(line)
 i_rule( get_invoice_date, [
 %=======================================================================
 
-q0n(line)
+q(0,20,line)
 
-, generic_horizontal_details( [ [ `Date`, `:`, tab ] , 100 , invoice_date , s1 , newline ] )
+, generic_horizontal_details( [ [ `Date`, `:` ] , 100 , invoice_date , date , newline ] )
 
 ] ).
 
@@ -74,7 +74,7 @@ i_rule( get_total_invoice, [
 
 q0n(line)
 
-, generic_horizontal_details( [ [ `BBaallaannccee`, `DDuuee`, tab, `MYR`, tab ] , 100 , total_invoice , s1 , newline ] )
+, generic_horizontal_details( [ [ `BBaallaannccee`, `DDuuee`, tab, `MYR` ] , 100 , total_invoice , d , newline ] )
 
 ] ).
 
@@ -90,7 +90,7 @@ i_rule( get_total_net, [
 
 q0n(line)
 
-, generic_horizontal_details( [ [ `SR`, tab, `001`, tab, `Sep16`, `-`, `Fixed`, `Shunting`, `charges`, tab, `6`, `%`, tab, `2`, `,`, `496`, `.`, `00`, tab ] , 100 , total_net , s1 , newline ] )
+, generic_horizontal_details( [ [ `SSuubb`, `-`, `-`, `TToottaall` ] , 300 , total_net , d , newline ] )
 
 ] ).
 
@@ -106,7 +106,7 @@ i_rule( get_total_vat, [
 
 q0n(line)
 
-, generic_horizontal_details( [ [ `MLSR`, tab, `6`, `%`, tab ] , 100 , total_vat , s1 , newline ] )
+, generic_horizontal_details( [ [ `MLSR`, tab, dummy_number(d), `%` ] , 500 , total_vat , d , newline ] )
 
 ] ).
 
@@ -122,6 +122,6 @@ i_rule( get_due_date, [
 
 q0n(line)
 
-, generic_horizontal_details( [ [ `Due`, `Date`, `:`, tab ] , 100 , due_date , s1 , newline ] )
+, generic_horizontal_details( [ [ `Due`, `Date`, `:` ] , 100 , due_date , date , newline ] )
 
 ] ).
