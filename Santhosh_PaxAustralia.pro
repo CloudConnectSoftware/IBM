@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - MAPPING TEMPLATE
+% GRAMATICA - SANTHOSH_PAXAUSTRALIA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( mapping_template, `05/09/2016 23:22:05` ).
+i_version( santhosh_paxaustralia , `07/09/2016 23:22:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,7 +42,7 @@ i_rule( get_invoice_number, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Invoice` , `No` ], `Invoice`, q(0,1), (start,0,10), invoice_number, w, newline ] )
+	, generic_vertical_details( [ [ `Invoice` , `No` ], `Invoice`, q(0,1), (start,10,10), invoice_number, w, newline ] )
 	
 ] ).
 
@@ -59,7 +59,7 @@ i_rule( get_invoice_date, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Invoice` , `Date` ], `Invoice`, q(0,1), (start,0,10), invoice_date, date, tab ] )
+	, generic_vertical_details( [ [ `Invoice` , `Date` ], `Invoice`, q(0,1), (start,10,10), invoice_date, date, tab ] )
 	
 ] ).
 
@@ -76,7 +76,7 @@ i_rule( get_order_number, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Our` , `Order` , `No` ], `Our`, q(0,1), (start,0,10), order_number, w, tab ] )
+	, generic_vertical_details( [ [ `Our` , `Order` , `No` ], `Our`, q(0,1), (start,10,10), order_number, w, tab ] )
 	
 ] ).
 
@@ -110,7 +110,7 @@ i_rule( get_total_net, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Total` , `Exc` , `GST` ], `Exc`, q(0,1), (start,0,10), total_net, w, tab ] )
+	, generic_vertical_details( [ [ `Total` , `Exc` , `GST` ], `Exc`, q(0,1), (start,10,10), total_net, w, tab ] )
 	
 ] ).
 
@@ -127,7 +127,7 @@ i_rule( get_total_vat, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Total` , `GST` ], [`Total` , `GST`], q(0,1), (start,0,10), total_vat, w, tab ] )
+	, generic_vertical_details( [ [ `Total` , `GST` ], `Total`, q(0,1), (start,10,10), total_vat, w, newline ] )
 	
 ] ).
 
