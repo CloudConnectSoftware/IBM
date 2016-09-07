@@ -21,6 +21,8 @@ i_rule_list( [
      , get_invoice_date
 
      , get_total_net
+
+     , get_order_number
      	
 
 ] ).
@@ -37,7 +39,7 @@ i_rule( get_invoice_number, [
 
 q0n(line)
 
-, generic_vertical_details( [ [ `Cust`, `Order`, `No`, tab, `Order`, `Date`, tab, `Our`, `Order`, `No`, tab, `Delivery`, `Number`, tab, `Req`, `Delivery`, `Date`, tab, `Currency`, tab, `Invoice`, `Date`, tab, `Invoice`, `No`,  newline ], `Invoice`, q(0,1), (start,10,10), invoice_number, s1, newline ] )
+, generic_vertical_details( [ [ `Cust`, `Order`, `No`, tab, `Order`, `Date`, tab, `Our`, `Order`, `No`, tab, `Delivery`, `Number`, tab, `Req`, `Delivery`, `Date`, tab, `Currency`, tab, `Invoice`, `Date`, tab, `Invoice`, `No` ], `Invoice`, q(0,1), (start,10,10), invoice_number, s1, newline ] )
 
 ] ).
 
@@ -53,7 +55,7 @@ i_rule( get_invoice_date, [
 
  q0n(line)
 
-, generic_vertical_details( [ [ `Cust`, `Order`, `No`, tab, `Order`, `Date`, tab, `Our`, `Order`, `No`, tab, `Delivery`, `Number`, tab, `Req`, `Delivery`, `Date`, tab, `Currency`, tab, `Invoice`, `Date`, tab ], `Invoice`, q(0,1), (start,400,400), invoice_date, Date, newline ] )
+, generic_vertical_details( [ [ `Cust`, `Order`, `No`, tab, `Order`, `Date`, tab, `Our`, `Order`, `No`, tab, `Delivery`, `Number`, tab, `Req`, `Delivery`, `Date`, tab, `Currency`, tab, `Invoice`, `Date` ], `Invoice`, q(0,1), (start,400,400), invoice_date, date, tab ] )
   
 ] ).
 
@@ -73,3 +75,18 @@ i_rule( get_total_net, [
   
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Order Number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+ q0n(line)
+
+, generic_vertical_details( [ [ `Cust` , `Order` , `No` ], `Cust`, q(0,1), (start,10,10), order_number, s1, tab ] )
+  
+] ).
