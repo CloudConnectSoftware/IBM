@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_india, `19/08/2016 14:22:59` ).
+i_version( p_ibm_unilever_india, `16:55 25 August 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -888,8 +888,8 @@ i_analyse_order_number___
 		i_user_check( gen_clean_and_extract_from_string, Order_Number, Order_Number_Final ),
 
 		q_gratabase_lookup( `ibm unilever india po header file`,
-			[ Order_Number_Final, _, _, _, _, _, _, _, _ ],
-			[ Order_Number_Final, _, _, _, _, _, _, _, _ ],
+			[ Order_Number_Final ],
+			[ Order_Number_Final ],
 			Available
 		),
 
@@ -1955,7 +1955,7 @@ compare_the_factory_and_return_best_match( Buyer_Party_In, Business_Area_Code, P
 :-
 	not( i_user_data( factory_data( _, _ ) ) ),
 	string_to_lower( Buyer_Party_In, Buyer_Party_In_L ),
-	sys_string_split( Buyer_Party_In_L, ` `, Buyer_Party_In_Split ),
+	sys_string_tokens( Buyer_Party_In_L, Buyer_Party_In_Split ),
 
 	(
 		strip_string2_from_string1( Buyer_Party_In_L, ` ~,<.>/?;:'"\\|]}[{=+-_)(*&^%$£@!`, Buyer_Party_Stripped ),
