@@ -23,6 +23,8 @@ i_rule_list( [
      , get_total_net
 
      , get_order_number
+
+     , get_invoice_lines
      	
 
 ] ).
@@ -89,4 +91,73 @@ i_rule( get_order_number, [
 
 , generic_vertical_details( [ [ `Cust` , `Order` , `No` ], `Cust`, q(0,1), (start,10,10), order_number, s1, tab ] )
   
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+	line_start_line
+
+	, qn0( [ peek_fails(line_end_line)
+
+		, or( [
+
+			line_invoice_line
+
+        			, line
+
+		] )
+
+	] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_start_line, [
+%=======================================================================
+
+	`Cust` , `Item` , `No` , tab
+
+    , trace([`found the start line`])
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+	 `Total` ,`Exc`, `GST` , tab
+
+     , trace([`found the end line`])
+
+
+] ).
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+      generic_item( [ customer_item_no , d , tab ] )
+
+     , generic_item( [line_item_no , d , tab])
+
+    , generic_item( [line_description , s1 , tab] )
+
+    , generic_item( [line_quantity , d , tab] )
+
+    , generic_item( [line_quantity_uom_code , w , tab] )
+
+    , generic_item( [line_vat_code , d , tab ])
+
+    , generic_item( [line_unit_price , d , tab] )
+
+    , generic_item( [line_net_amount , s1 , newline] )
+
+
 ] ).
