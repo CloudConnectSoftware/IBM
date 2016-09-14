@@ -22,6 +22,8 @@ i_rule_list( [
 
      , get_total_invoice
 
+     , get_total_vat
+
      , get_total_net
 
 ] ).
@@ -36,7 +38,7 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-q0n(line)
+q(0,15,line)
 
 , invoice_number_line
 	
@@ -48,7 +50,7 @@ i_line_rule( invoice_number_line, [
 
  `Invoice` , `No` , `:` , tab
    
-  , generic_item( [ invoice_number_line , s1 , tab ] )
+  , generic_item( [ invoice_number_line , d , tab ] )
 
 ] ).
 
@@ -64,7 +66,7 @@ i_rule( get_invoice_date, [
 
 q0n(line)
 
-, generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab ] , 100 , invoice_date , s1 , newline ] )
+, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ] , 100 , invoice_date , date , newline ] )
 
 ] ).
 
@@ -78,15 +80,31 @@ q0n(line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q0n(line)
+qn0(line)
 
-, generic_horizontal_details( [ [ `Total` , `Invoice` , `(` , `NZD` , `)` , tab ] , 100 , total_invoice , s1 , newline ] )
+, generic_horizontal_details( [ [ `Total` , `Invoice` , `(` , `NZD` , `)` ] , 100 , total_invoice , d , newline ] )
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE Amount
+% GET INVOICE Vat
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_vat, [
+%=======================================================================
+
+qn0(line)
+
+, generic_horizontal_details( [ [ `GST` ] , 100 , total_vat , d , newline ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE net
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -94,8 +112,8 @@ q0n(line)
 i_rule( get_total_net, [
 %=======================================================================
 
-q0n(line)
+qn0(line)
 
-, generic_horizontal_details( [ [ `GST` , tab ] , 100 , total_net , s1 , newline ] )
+, generic_vertical_details( [ [ `Total` , `Invoice` ], `Total`, q(1,3,up), (start,10,200), total_net, d, newline ] )
 
 ] ).
