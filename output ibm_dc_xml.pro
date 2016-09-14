@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ibm_xml_output, `09:37 17 May 2016` ).
+i_version( ibm_xml_output, `08/09/2016 14:40:38` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -188,7 +188,7 @@ write_header___
 		write_variable_as_tag( invoice, customer_comments, `Other_Information` ),
 		
 		write_element_string( `Nr_Of_Images`, `1` ),
-		write_element_string( `Exch_Rate`, `0` ),
+		write_variable_as_tag( invoice, exchange_rate, `Exch_Rate` ),
 		
 		write_element_string( `Indexer_Id`, `CLTR` ), % Our Identifier
 		
@@ -296,9 +296,24 @@ write_line___( LID )
 		sys_string_number( LIDS, LID ),
 		sys_calculate_str_multiply( LIDS, `10`, LID10 ),
 	
-		qq_op_param( unique_id, ScanID ),
-		write_element_string( `Scan_ID`, ScanID ), % ScanID - needs to be YYMMDD_CT* Sequential ID
+		( qq_op_param( unique_id, ScanID )
 		
+			% Below is what the unique_id op_param should do
+			
+			% i_mail( unique_id, ID ),
+			% sys_string_number( IDS, ID ),
+			
+			% date_get( today, Today ),
+			% sys_date_string( Today, 'y-m-d', TodayWithHyphen ),
+			% strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
+			% strcat_list( [ TodayWithHyphen, `_CT`, IDS ], Scan_ID ),
+			
+			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
+			
+			;	instance( Instance ),
+				q_sys_sub_string( Instance, _, _, `DBG` )
+		),
+
 		( result( _, LID, line_order_line_number, _ )
 			->	write_variable_as_tag( LID, line_order_line_number, `Invoice_Line` )
 			

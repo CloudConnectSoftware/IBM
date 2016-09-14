@@ -20,6 +20,10 @@ i_rule_list( [
 
 	 ,	get_total_net
 
+	 ,get_total_vat
+
+	 ,get_due_date
+
 
 ] ).
 
@@ -33,9 +37,9 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-q0n(line)
+q(0,15,line)
 	
-	, generic_horizontal_details( [ [ `NNoo`, `.`, `.`, `:`, `:`, tab ],100,invoice_number, s1, newline ] )
+	, generic_horizontal_details( [ [ `NNoo`, `.`, `.`, `:`, `:` ],100,invoice_number, s1, newline ] )
 ] ).
 
 
@@ -51,9 +55,9 @@ q0n(line)
 i_rule( get_invoice_date, [
 %=======================================================================
 
-	q0n(line)
+	q(0,15,line)
 	
-	, generic_horizontal_details( [ [ `Date`, `:`, tab ],100, invoice_date, date, newline ] )
+	, generic_horizontal_details( [ [ `Date`, `:`,tab],100, invoice_date, date, newline ] )
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,9 +69,9 @@ i_rule( get_invoice_date, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q0n(line)
+	qn0(line)
 	
-	, generic_horizontal_details( [ [ `BBaallaannccee`, `DDuuee`, tab, `MYR`, tab ], total_invoice, s1, newline ] )
+	, generic_horizontal_details( [ [ `BBaallaannccee`, `DDuuee`, tab, `MYR` ], total_invoice, s1, newline ] )
 	
 ] ).
 
@@ -85,6 +89,42 @@ i_rule( get_total_net, [
 	
 	qn0(line)
 	
-	, generic_horizontal_details( [ [ `SSuubb`, `-`, `-`, `TToottaall`],total_net, s1, newline ] )
+	, generic_horizontal_details( [ [ `SSuubb`, `-`, `-`, `TToottaall`,tab],100,total_net, s1, newline ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE VAT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_vat, [
+%=======================================================================
+
+		
+	q0n(line)
+	
+	, generic_horizontal_details( [ [`MLSR`, tab, dummy_number(d), `%`], 500 , total_vat, d, newline] )
+	
+	
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE Due Date
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_due_date, [
+%=======================================================================
+
+		
+	q0n(line)
+	
+	, generic_horizontal_details( [ [`Due`, `Date`, `:`,tab],100, due_date, date, newline] )
+	
 ] ).
 

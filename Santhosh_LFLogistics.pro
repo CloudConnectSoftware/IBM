@@ -39,7 +39,7 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-	q0n(line) 
+	q(0,15,line) 
 
 	, invoice_number_line
 	

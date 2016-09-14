@@ -1,0 +1,740 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GRAMATICA - P_IBM_UNILEVER_UAPL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+i_version( p_ibm_unilever_uapl, `15:37 09 September 2016` ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+i_rules_file( `d_ibm_unilever_uapl.pro` ).
+i_rules_file( `d_iso_currency_codes.pro` ).
+i_rules_file( `u_json_forms.pro` ).
+i_rules_file( `u_supporting_document_new.pro` ).
+i_rules_file( `u_invoice_number_validation_2.pro` ).
+
+i_op_param( unique_id, _, To, _, Scan_ID )
+:-
+	not( q_sys_member( To, [ ] ) ),
+	IDS = `Test`,
+	string_pad_left( IDS, 8, `0`, IDPad ),
+	date_get( today, Today ),
+	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
+	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
+	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID )
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% User Fields
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+i_user_field( invoice, plant_code, `Plant Code` ).
+i_user_field( invoice, total_local_vat, `Total Local VAT` ).
+i_user_field( invoice, exchange_rate, `Exchange Rate` ).
+
+i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
+i_user_field( line, line_gl, `Line GL` ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CUSTOMER INFORMATION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------------------------------
+% Customer Name
+%-----------------------------------------------------------------------
+i_op_param( customer_name, _, _, _, `Unilever UAPL` ). % This will be the role for customer intervention
+
+%-----------------------------------------------------------------------
+% Customer Forward Address List
+%-----------------------------------------------------------------------
+% i_op_param( customer_forward_address_list, _, _, _, `` ).
+
+%-----------------------------------------------------------------------
+% Custom Scenario
+%-----------------------------------------------------------------------
+document_reason_lookup( `Invoice quotes tax but is not a tax invoice`, `failed`, `i_analyse_tax_without_tax_invoice`, _, _ ).
+
+%-----------------------------------------------------------------------
+% Email Template Beginning Text
+%-----------------------------------------------------------------------
+beginning_text( Text )
+:-
+	Text = `Dear Business Partner,<br>
+<br>
+We regret to inform you that we are unable to process your Invoice/Credit Note for the reason/s mentioned below. In order to receive timely payment, we request you to do the needful corrections and re-submit the invoice via the appropriate invoicing mode as agreed.<br>
+<br>`
+.
+
+%-----------------------------------------------------------------------
+% Email Template Remaining Rejection Text
+%-----------------------------------------------------------------------
+remaining_rejection_text( Text )
+:-
+	result( _, invoice, sender_name, Sender_Name ),
+
+	(
+		result( _, invoice, invoice_number, Invoice_Number ),
+
+		strcat_list( [ `<br>Invoice Number: `, Invoice_Number ], Invoice_Number_Text )
+
+		;
+
+		Invoice_Number_Text = ``
+
+	),
+
+	strcat_list( [ `<br><br>See below the invoice details for your easy reference.<br><br>Vendor Name: `, Sender_Name, Invoice_Number_Text ], Text )
+
+	;
+
+	not( result( _, invoice, sender_name, _ ) ),
+
+	Text = ``
+.
+
+%-----------------------------------------------------------------------
+% Email Template Remaining Forward Text
+%-----------------------------------------------------------------------
+remaining_forward_text( Text )
+:-
+	result( _, invoice, sender_name, Sender_Name ),
+
+	(
+		result( _, invoice, invoice_number, Invoice_Number ),
+
+		strcat_list( [ `<br>Invoice Number: `, Invoice_Number ], Invoice_Number_Text )
+
+		;
+
+		Invoice_Number_Text = ``
+
+	),
+
+	strcat_list( [ `<br><br>See below the invoice details for your easy reference.<br><br>Vendor Name: `, Sender_Name, Invoice_Number_Text ], Text )
+
+	;
+
+	not( result( _, invoice, sender_name, _ ) ),
+
+	Text = ``
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PLANT CODE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	plant_code( `0000` )
+	
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% REMOVE VARIABLES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	remove( buyer_vat_number )
+	, remove( supplier_bank_code )
+	, remove( supplier_bank_ogm )
+	, remove( payment_terms )
+	, remove( narrative )
+	, remove( customer_comments )
+	, remove( total_discount )
+	, remove( line_order_line_number )
+	, remove( line_cost_centre )
+	, remove( line_internal_order_number )
+	, remove( line_gl )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CHECK FOR FUTURE INVOICE DATE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_future_invoice_date___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_future_invoice_date___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, invoice_date, Invoice_Date ),
+	
+	(
+		i_date_format( Date_Format )
+		
+		;
+		
+		true
+		
+	),
+
+	date_string( Date_Invoice, Date_Format, Invoice_Date ),
+	sys_date_1900_days( Date_Invoice, Invoice_Date_Count ),
+	
+	date_get( today, Today ),
+	sys_date_1900_days( Today, Today_Count ),
+	
+	sys_calculate( Day_Diff, Today_Count - Invoice_Date_Count ),
+	
+	Day_Diff < 0,
+
+	sys_assertz( grammar_set( future_dated ) ),
+
+	trace( [ `Date is in the future` ] ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% VENDOR ID
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_first:- i_analyse_vendor_id___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_vendor_id___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, buyers_code_for_supplier, BCFS ),
+	
+	sys_retractall( result( _, invoice, buyers_code_for_supplier, _ ) ),
+	
+	string_pad_left( BCFS, 10, `0`, BCFS_Padded ),
+	
+	assertz_derived_data( invoice, buyers_code_for_supplier, BCFS_Padded, i_analyse_vendor_id ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% INVOICE TYPE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_first:- i_analyse_invoice_type___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_type___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	sys_retractall( result( _, invoice, invoice_type, _ ) ),
+	
+	(
+		grammar_set( credit_note ),
+		
+		assertz_derived_data( invoice, invoice_type, `CN`, i_analyse_invoice_type )
+		
+		;
+		
+		grammar_set( debit_note ),
+		
+		assertz_derived_data( invoice, invoice_type, `CO`, i_analyse_invoice_type )
+		
+		;
+		
+		(
+			not( result( _, invoice, order_number, _ ) )
+			
+			;
+			
+			npnp_vendor
+			
+		),
+		
+		assertz_derived_data( invoice, invoice_type, `INV`, i_analyse_invoice_type )
+		
+		;
+		
+		result( _, invoice, order_number, _ ),
+		
+		assertz_derived_data( invoice, invoice_type, `INVPO`, i_analyse_invoice_type )
+		
+	),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% COMPANY CODE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_first:- i_analyse_company_code___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_company_code___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	sys_retractall( result( _, invoice, buyer_registration_number, _ ) ),
+	
+	(
+		result( _, invoice, order_number, Order_Number ),
+
+		q_gratabase_lookup( `ibm_po_list`,
+			[ Order_Number, _, _, _ ],
+			[ Order_Number, Company_Code, _, _ ],
+			Available
+		),
+
+		(
+			Available = false
+
+			-> trace( [ `Unable to access ibm po list table` ] ), fail
+
+			;
+
+			true
+
+		)
+		
+		;
+		
+		sys_retractall( result( _, invoice, order_number, _ ) ),
+		
+		Company_Code = `3009`
+		
+	),
+	
+	assertz_derived_data( invoice, buyer_registration_number, Company_Code, i_analyse_company_code ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CURRENCY CODE VALIDATION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_first:- i_analyse_currency_code___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_currency_code___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(
+		result( _, invoice, currency, Currency )
+		
+		->	sys_retractall( result( _, invoice, currency, _ ) ),
+		
+		string_to_upper( Currency, Currency_U ),
+		
+		(
+			iso_currency_code( Currency_U ),
+			
+			assertz_derived_data( invoice, currency, Currency_U, i_analyse_currency )
+			
+			;
+			
+			trace( [ `INVALID CURRENCY CODE` ] )
+			
+		)
+		
+		;
+		
+		assertz_derived_data( invoice, currency, `USD`, i_analyse_currency )
+		
+	),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% LINE VAT CODES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_last( LID ):- i_analyse_line_vat_code___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_vat_code___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(
+		result( _, LID, line_vat_code, _ ),
+		
+		sys_retractall( result( _, LID, line_vat_code, _ ) )
+		
+		;
+		
+		true
+		
+	),
+	
+	assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% LINE BUYERS ORDER NUMBER
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_last( LID ):- i_analyse_line_buyers_order_number___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_buyers_order_number___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_buyers_order_number, LBON ),
+	
+	q_gratabase_lookup( `ibm_po_list`,
+		[ LBON, _, _, _ ],
+		[ LBON, _, _, _ ],
+		Available
+	),
+
+	(
+		Available = false
+
+		-> trace( [ `Unable to access ibm po list table` ] ), fail
+
+		;
+
+		true
+
+	)
+	
+	;
+	
+	sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
+	
+	result( _, invoice, order_number, PO ),
+	
+	assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% DUPLICATE INVOICE ANALYSIS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_duplicate_invoice.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_duplicate_invoice
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	i_mail( receive_type, `imap` ),
+
+	instance( Inst ),
+
+	string_to_upper( Inst, INST ),
+
+	not( q_sys_sub_string( INST, _, _, `DBG` ) ),
+
+	create_basic_invoice_table_if_necessary,
+
+	grammar_set( table_exists ),
+
+	(
+		result( _, invoice, buyer_registration_number, Company_Code ),
+		
+		result( _, invoice, buyers_code_for_supplier, BCFS ),
+
+		result( _, invoice, invoice_number, Invoice_Number ),
+
+		result( _, invoice, date, Invoice_Date_Raw ),
+
+		string_date( Invoice_Date, Invoice_Date_Raw ),
+
+		i_mail( file, FILE ),
+
+		(
+			q_gratabase_lookup_one( `ibm_unilever_uapl_invoice_table`, [ `general`, Company_Code, BCFS, Invoice_Number, _, _ ], [ _, _, _, _, DATE_LOOKUP, ORIGINAL ], Available ),
+
+			trace( Available )
+
+			-> ( q_sys_comp( Available = false )
+
+				-> trace( [ `basic_invoice check, database disappeared` ] )
+
+				;
+
+				(
+					q_allow_duplicate_emails,
+					trace( [ `ALERT: Duplicate Emails Left On - Duplicate Processed` ] )
+
+					;
+
+					FILE = ORIGINAL,
+					trace( [ `ALERT: Duplicate file - Duplicate Processed` ] )
+
+					;
+
+					%	To compare dates regardless of format - needs to be adjusted if US dates are used
+					date_string( DATE_LOOKUP_RAW, _, DATE_LOOKUP ),
+					date_compare( Invoice_Date_Raw, =, DATE_LOOKUP_RAW ),
+
+					wordcat( [ `Duplicate invoice rejected:`, Company_Code, BCFS, Invoice_Number, Invoice_Date ], E_MSG ),
+
+					sys_assertz( grammar_set( i_analyse_duplicate ) ),
+
+					trace( E_MSG )
+
+				)
+
+			)
+
+			;
+
+			sys_assertz( i_user_data( new_invoice_detected, Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE ) )
+
+		)
+
+ 		;
+
+		trace( [ `analyse for duplicate fields ignored because of lack of fields: ` ] ),
+
+		( result( _, invoice, buyer_registration_number, _ ) ; trace( [ `missing buyer_registration_number` ] ) ),
+		
+		( result( _, invoice, buyers_code_for_supplier, _ ) ; trace( [ `missing buyers_code_for_supplier` ] ) ),
+
+		( result( _, invoice, invoice_number, _ ) ; trace( [ `missing invoice_number` ] ) ),
+
+		( result( _, invoice, date, _ ) ; trace( [ `missing date` ] ) ),
+
+		( i_mail( file, _ ) ; trace( [ `missing file name` ] ) )
+
+	),
+
+	!
+.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+create_basic_invoice_table_if_necessary
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	(
+		q_gratabase_check_table_exists( `ibm_unilever_uapl_invoice_table`, Available )
+
+		-> (
+			q_sys_comp( Available = false )
+			->	trace( [ `Cannot access database` ] )
+
+			;
+
+			true, trace( `Table exists` ), sys_assertz( grammar_set( table_exists ) )
+		)
+
+		;
+
+		% fail, % Don't want this to EVER happen
+
+		(
+			q_gratabase_create_table( 6, GUID )
+
+			-> (
+				q_gratabase_allocate( GUID, `ibm_unilever_uapl_invoice_table` ),
+
+				trace( `Created and allocated table` ),
+
+				sys_assertz( grammar_set( table_exists ) )
+
+				;
+
+				trace( [ `failed to allocate on creation ibm_unilever_uapl_invoice_table` ] )
+			)
+
+			;
+
+			trace( [ `failed to create ibm_unilever_uapl_invoice_table` ] )
+
+		)
+
+	)
+.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+i_final_process( Enq )
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	i_user_data( new_invoice_detected, Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE ),
+
+	(
+		Enq = true
+		->	trace( [ `Document destined for enquire, not written to database` ] )
+
+		;
+
+		(
+			process_status( defect, _, E_MSG )
+
+			;
+
+			result( _, invoice, force_result, `defect` )
+
+		)
+
+		-> trace( [ `Document has defected, not written to database` ] )
+
+		;
+
+		(
+			process_status( failed, _, E_MSG )
+
+			;
+
+			result( _, invoice, force_result, `failed` )
+
+		)
+
+		-> trace( [ `Document has failed, not written to database` ] )
+
+		;
+
+		Enq = false,
+		add_to_basic_invoice_table( Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE ),
+		trace( [ `Document processed - Database populated`, Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE ] )
+	)
+.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+add_to_basic_invoice_table( Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE )
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	(
+		q_gratabase_clone_table( `ibm_unilever_uapl_invoice_table`, GUID )
+
+		-> (
+			q_gratabase_add( GUID, [ `general`, Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE ] )
+
+			->	trace( [ `added`, Company_Code, BCFS, Invoice_Number, Invoice_Date, FILE , `to ibm_unilever_uapl_invoice_table` ] ),
+
+			( q_gratabase_allocate( GUID, `ibm_unilever_uapl_invoice_table` ) ; trace( [ `failed to allocate ibm_unilever_uapl_invoice_table` ] ) )
+
+			;
+
+			trace( [ `failed to add row to ibm_unilever_uapl_invoice_table` ] )
+
+		)
+
+		;
+
+		trace( [ `failed to clone ibm_unilever_uapl_invoice_table` ] )
+
+	)
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PREDICATES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------------------------------
+% NPNP Vendor
+%-----------------------------------------------------------------------
+npnp_vendor
+:-
+	result( _, invoice, buyers_code_for_supplier, BCFS ),
+
+	q_gratabase_lookup( `ibm_npnp_list`,
+		[ BCFS, _ ],
+		[ BCFS, _ ],
+		Available
+	),
+
+	(
+		Available = false
+
+		-> trace( [ `Unable to access ibm npnp list table` ] ), fail
+
+		;
+
+		true
+
+	)
+.
+
+%-----------------------------------------------------------------------
+% I Error Invoice Integer Totals Inconsistent
+%-----------------------------------------------------------------------
+i_error_invoice_integer_totals_inconsistent
+:-
+	result( _, invoice, total_net, Net ),
+	result( _, invoice, total_vat, VAT ),
+	result( _, invoice, total_invoice, Total ),
+	sys_calculate_str_add( Net, VAT, Sum ),
+	sys_calculate_str_subtract( Total, Sum, Diff ),
+	sys_calculate_str_round_0( Diff, Diff_0 ),
+	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
+	!
+.
+
+%-----------------------------------------------------------------------
+% I Error Sum Net Integer Discrepancy
+%-----------------------------------------------------------------------
+i_error_sum_net_integer_discrepancy
+:-
+	sys_findall( Net, result( _, LID, line_net_amount, Net ), List_of_nets_Raw ),
+	i_force_list( List_of_nets_Raw, List_of_nets ),
+	i_user_check( sum_string_list, List_of_nets, Sum_of_nets ),
+	result( _, invoice, total_net, Total_net ),
+	sys_calculate_str_subtract( Total_net, Sum_of_nets, Diff ),
+	sys_calculate_str_round_0( Diff, Diff_0 ),
+	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
+	!
+.
+
+%-----------------------------------------------------------------------
+% I Error Sum Total Integer Discrepancy
+%-----------------------------------------------------------------------
+i_error_sum_total_integer_discrepancy
+:-
+	sys_findall( Total, result( _, LID, line_total_amount, Total ), List_of_totals_Raw ),
+	i_force_list( List_of_totals_Raw, List_of_totals ),
+	i_user_check( sum_string_list, List_of_totals, Sum_of_totals ),
+	result( _, invoice, total_invoice, Total_invoice ),
+	sys_calculate_str_subtract( Total_invoice, Sum_of_totals, Diff ),
+	sys_calculate_str_round_0( Diff, Diff_0 ),
+	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
+	!
+.
