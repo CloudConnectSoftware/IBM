@@ -127,6 +127,9 @@ qn0(line)
 ] ).
 
 
+
+
+%=======================================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -137,76 +140,88 @@ qn0(line)
 i_section( get_invoice_lines, [
 %=======================================================================
 
-	line_start_line
+	line_header_line
 
-	
-	,qn0( [ peek_fails(line_end_line)
-		
-		,or( [
-		
-			line_invoice_line
+	, qn0( [ peek_fails(line_end_line)
 
+		, or( [
+
+			line_invoice_lines
 
 			, line
 
-			
-			
 		] )
-	
+
 	] )
 
 ] ).
 
 %=======================================================================
-i_line_rule( line_start_line, [
+i_line_rule_cut( line_header_line, [
 %=======================================================================
-	
-  `Date`, tab , `Bill`, `No`
 
-    , trace([`found the start line`])
+	`date`, tab, `Bill`, `No`
 
-
+	, trace( [`Found header line` ] )
 
 ] ).
 
 %=======================================================================
-i_line_rule( line_end_line, [
+i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-		or([ 
+	or([
 
-      `printed`
+		[ `printed` ]
+
 		, [`Invoice`, `No`, `:`, tab]
 
-     
+	])
 
-      ])
+	, trace( [ `FOUND END LINE`])
 
-	     , trace([`found the end line`])
-
-   
 ] ).
 
-
-%=======================================================================  
-i_line_rule( invoice_line, [
 %=======================================================================
+i_line_rule_cut( line_invoice_lines, [
+%=======================================================================
+
+
+generic_item([line_date, date])
+
+    , generic_item( [ line_bil_no, d,tab] )
+
+	, generic_item( [ line_Consignee, s1, tab ] )
 	
-	generic_item([line_date, date, tab])
+	, generic_item( [ line_ship_from, s1, tab ] )
 
-    , generic_item( [ line_bil_no, d, tab ] )
+	, generic_item( [ line_city, s, q10(tab) ] )
 
-	, ( generic_item( [ line_Consignee, d, tab ] ))
-	
-	, generic_item( [ line_ship_form, s1, tab ] )
+	, generic_item( [ line_bill_to_ref, d,tab] )
 
-	, generic_item( [ line_bill_to_ref, d, tab ] )
+	, generic_item( [ line_consignee_ref, d, tab ] )
 
+	, generic_item( [ line_freight, s1, tab ] )
 
+	, generic_item( [ line_quantity_uom_code, s1, tab ] )
 
-    
+	, generic_item( [ line_quantity, d, tab ] )
+
+	, generic_item( [ line_plts, d] )
+
+	, generic_item( [ line_unit_amount, d, tab ] )
+
+	, generic_item( [ line_ln_total, d,tab] )
+
+	, generic_item( [ line_net_amount, d, tab ] )
+
+	, generic_item( [ line_other, d,tab] )
+
+	, generic_item( [ line_surcharge, d, tab ] )
+
+	, generic_item( [ line_total_amount, d, newline] )
+
+	,trace( [ `Complete line`] )
+
 
 ] ).
-
-
-
