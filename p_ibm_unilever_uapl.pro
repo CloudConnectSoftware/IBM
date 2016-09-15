@@ -151,7 +151,7 @@ i_final_rule( [
 i_final_rule( [
 %=======================================================================
 
-	without( exchange_rate ), exchange_rate( `0` )
+	remove( exchange_rate ), exchange_rate( `0` )
 	
 ] ).
 
