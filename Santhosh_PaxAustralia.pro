@@ -28,6 +28,8 @@ i_rule_list( [
 
      , get_total_vat
 
+	 , get_delivery_number
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,7 +95,7 @@ i_rule( get_total_invoice, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Total` , `Due` ], `Total`, q(0,1), (start,0,10), total_invoice, w, newline ] )
+	, generic_vertical_details( [ [ `Total` , `Due` ], `Total`, q(0,1), (start,0,10), total_invoice, d, newline ] )
 	
 ] ).
 
@@ -110,7 +112,7 @@ i_rule( get_total_net, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Total` , `Exc` , `GST` ], `Exc`, q(0,1), (start,10,10), total_net, w, tab ] )
+	, generic_vertical_details( [ [ `Total` , `Exc` , `GST` ], `Exc`, q(0,1), (start,10,10), total_net, d, tab ] )
 	
 ] ).
 
@@ -127,9 +129,67 @@ i_rule( get_total_vat, [
 
 	q0n(line) 
 
-	, generic_vertical_details( [ [ `Total` , `GST` ], `Total`, q(0,1), (start,10,10), total_vat, w, newline ] )
+	, generic_vertical_details( [ [ `Total` , `GST` ], `Total`, q(0,1), (start,10,10), total_vat, d, tab ] )
 	
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET DELIVERY NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_number, [
+%=======================================================================
+
+	q0n(line) 
+
+	, delivery_number_header
+
+	, q01(line)
+
+	, delivery_number_line
+
+    , trace( [`At Delivery Number capture`] )
+	
+] ).
+
+%=======================================================================
+i_line_rule( delivery_number_header, [
+%=======================================================================
+
+	`Cust`
+	
+	, `Order`
+	
+	, `No`
+
+  ] ).
+
+
+%=======================================================================
+i_line_rule( delivery_number_line, [
+%=======================================================================
+
+	dummy_number(d)
+
+	, tab
+
+	, dummy_date(date)
+
+	, tab
+
+	, dummy_order(d)
+	
+	, tab
+	
+	, generic_item( [ delivery_number , d , tab ] )
+
+  ] ).
+	
+
 
 
 

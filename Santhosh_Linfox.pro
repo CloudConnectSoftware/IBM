@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - MAPPING TEMPLATE
+% GRAMATICA - SANTHOSH LINFOX
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( mapping_template, `05/09/2016 23:22:05` ).
+i_version( santhosh_linfox, `08/09/2016 15:15:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -51,23 +51,15 @@ i_line_rule( invoice_number_line, [
 
 	q0n(anything)
 
-	, `Customer`
+	, `Invoice`
 
-	, `VAT`
-
-	, `ID`
+	, `No`
 
 	, `:`
 
 	, tab
 
-	, `*`
-
-	, `INV`
-
-	, `-` 
-	
-	, generic_item( [ invoice_number , s1 , newline ] )
+	, generic_item( [ invoice_number , d , tab ] )
 
 	
   ] ).
@@ -95,7 +87,9 @@ i_line_rule( invoice_date_line, [
 
 	q0n(anything)
 
-	, `DATE` 
+	, `Invoice`
+
+    , `Date` 
 
     , `:`
 	
@@ -116,7 +110,7 @@ i_line_rule( invoice_date_line, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q0n(line) 
+	qn0(line) 
 
 	, total_invoice_line
 
@@ -130,17 +124,19 @@ i_line_rule( total_invoice_line, [
 
 	q0n(anything)
 
-	, `BBaallaannccee`
+	, `Total`
 	
-	, `DDuuee`
-	
-	, tab
-	
-	, `MYR`
-	
-	, tab
+	, `Invoice`
 
-	, generic_item( [ total_invoice , s1 , newline ] )
+    , `(`
+
+    , `NZD`
+
+    , `)`
+
+	, tab
+	
+	, generic_item( [ total_invoice , d , newline ] )
 
   ] ).
 
@@ -155,31 +151,9 @@ i_line_rule( total_invoice_line, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q0n(line) 
+	qn0(line) 
 
-	, total_net_line
-
-    , trace( [`At Invoice Net`] )
-	
-] ).
-
-%=======================================================================
-i_line_rule( total_net_line, [
-%=======================================================================
-
-	q0n(anything)
-
-	, `SSuubb`
-	
-	, `-`
-	
-	, `-`
-	
-	, `TToottaall`
-	
-	, tab
-
-	, generic_item( [ total_net , s1 , newline ] )
+	, generic_vertical_details( [ [ `Total`	, `Invoice`, `(` , `NZD`, `)`], `Total`, q(1,3,up), (start , 400 , 400), total_net , d, newline ] )
 
   ] ).
 
@@ -194,46 +168,11 @@ i_line_rule( total_net_line, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	q0n(line) 
+	qn0(line) 
 
-	, total_vat_line
+	, generic_horizontal_details( [ [ `GST` ], 130, total_vat , d , newline ] )
 
     , trace( [`At Invoice VAT`] )
 	
 ] ).
 
-%=======================================================================
-i_line_rule( total_vat_line, [
-%=======================================================================
-
-	q0n(anything)
-
-	, `SR`
-	
-	, tab
-	
-	, `001`
-	
-	, tab
-	
-	, `Sep16`
-	
-	, `-`
-	
-	, `Fixed`
-	
-	, `Shunting`
-	
-	, `charges`
-	
-	, tab
-	
-	, `6`
-	
-	, `%`
-	
-	, tab
-
-	, generic_item( [ total_vat , s1 , tab ] )
-
-  ] ).

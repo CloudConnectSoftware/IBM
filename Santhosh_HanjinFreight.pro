@@ -1,16 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - MAPPING TEMPLATE
+% GRAMATICA - SANTHOSH_HANJINFREIGHT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( mapping_template, `05/09/2016 23:22:05` ).
+i_version( santhosh_hanjinfreight, `08/09/2016 13:00:00` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
+
+i_pdf_parameter( x_tolerance_100, 100 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -22,10 +24,7 @@ i_rule_list( [
 
 	 ,  get_total_invoice
 
-	 ,	get_total_net
-
-	 , 	get_total_vat
-
+     ,  get_invoice_lines
 
 ] ).
 
@@ -41,28 +40,10 @@ i_rule( get_invoice_number, [
 
 	q0n(line) 
 
-	, invoice_number_line
+	, generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ], 100, invoice_number, s1, newline ] )
 	
 ] ).
 
-%=======================================================================
-i_line_rule( invoice_number_line, [
-%=======================================================================
-
-	q0n(anything)
-
-	, `Invoice`
-
-    , `No`
-
-    , `:`
-
-    , tab 
-	
-	, generic_item( [ invoice_number , d , newline ] )
-
-	
-  ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,27 +58,10 @@ i_rule( get_invoice_date, [
 
 	q0n(line) 
 
-	, invoice_date_line
+	, generic_horizontal_details( [ [ `Date` , tab , `:` ], 100, invoice_date , date , newline ] )
 	
 ] ).
 
-%=======================================================================
-i_line_rule( invoice_date_line, [
-%=======================================================================
-
-	q0n(anything)
-
-	, `Invoice`
-    
-    , `Date` 
-
-    , `:`
-	
-	, tab
-
-	, generic_item( [ invoice_number , date , newline ] )
-
-  ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,110 +88,84 @@ i_line_rule( total_invoice_line, [
 
 	q0n(anything)
 
-	, `BBaallaannccee`
-	
-	, `DDuuee`
-	
-	, tab
-	
-	, `MYR`
-	
-	, tab
+	, `Amount`
 
-	, generic_item( [ total_invoice , s1 , newline ] )
+	, `Payable`
+
+	, 	tab
+
+	, generic_item( [ total_invoice , d , newline ] )
 
   ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE NET AMOUNT
+% GET INVOICE LINES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_net, [
+i_section( get_invoice_lines, [
 %=======================================================================
 
-	q0n(line) 
-
-	, total_net_line
-
-    , trace( [`At Invoice Net`] )
+	line_start_line
 	
+	, qn0( [ peek_fails(line_end_line)
+		
+		, or( [
+		
+			line_invoice_line
+			
+			, line
+			
+		] )
+	
+	] )
+
 ] ).
 
 %=======================================================================
-i_line_rule( total_net_line, [
+i_line_rule( line_start_line, [
 %=======================================================================
 
-	q0n(anything)
+    `DDEESSCCRRIIPPTTIIOONN`, tab, `AAMMOOUUNNTT`,  newline
 
-	, `SSuubb`
-	
-	, `-`
-	
-	, `-`
-	
-	, `TToottaall`
-	
-	, tab
-
-	, generic_item( [ total_net , s1 , newline ] )
-
-  ] ).
+    , trace( [ `FOUND THE START LINE`] )
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE VAT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_vat, [
-%=======================================================================
-
-	q0n(line) 
-
-	, total_vat_line
-
-    , trace( [`At Invoice VAT`] )
-	
 ] ).
 
 %=======================================================================
-i_line_rule( total_vat_line, [
+i_line_rule( line_end_line, [
 %=======================================================================
 
-	q0n(anything)
+    `AMOUNT`, `PAYABLE`, tab 
 
-	, `SR`
-	
-	, tab
-	
-	, `001`
-	
-	, tab
-	
-	, `Sep16`
-	
-	, `-`
-	
-	, `Fixed`
-	
-	, `Shunting`
-	
-	, `charges`
-	
-	, tab
-	
-	, `6`
-	
-	, `%`
-	
-	, tab
+    , trace( [ `FOUND THE END LINE`] ) 
 
-	, generic_item( [ total_vat , s1 , tab ] )
 
-  ] ).
+] ).
+
+
+%=======================================================================
+i_line_rule( line_invoice_line, [
+%=======================================================================
+
+	generic_item( [line_descr , w , tab] )
+
+    , generic_item( [line_currency , w , tab] )
+
+    , generic_item([line_unit_price , d , tab])
+
+    , `x`
+
+    , tab
+
+    , generic_item([line_quantity , d , tab])
+
+    , generic_item([line_net_amount , d , newline])
+
+] ).
+
+

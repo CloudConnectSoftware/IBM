@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - MAPPING TEMPLATE
+% GRAMATICA - SANTHOSH LF LOGISTICS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( mapping_template, `05/09/2016 23:22:05` ).
+i_version( santhosh_lflogistics, `08/09/2016 14:50:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -39,7 +39,7 @@ i_rule_list( [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-	q(0,15,line) 
+	q0n(line) 
 
 	, invoice_number_line
 	
@@ -67,7 +67,7 @@ i_line_rule( invoice_number_line, [
 
 	, `-` 
 	
-	, generic_item( [ invoice_number , s1 , newline ] )
+	, generic_item( [ invoice_number , w , newline ] )
 
 	
   ] ).
@@ -196,44 +196,9 @@ i_rule( get_total_vat, [
 
 	q0n(line) 
 
-	, total_vat_line
+	, generic_horizontal_details( [ [ `MLSR` , tab , dummy_number(d) , `%` ], 186, total_vat , d , newline ] )
 
     , trace( [`At Invoice VAT`] )
 	
 ] ).
 
-%=======================================================================
-i_line_rule( total_vat_line, [
-%=======================================================================
-
-	q0n(anything)
-
-	, `SR`
-	
-	, tab
-	
-	, `001`
-	
-	, tab
-	
-	, `Sep16`
-	
-	, `-`
-	
-	, `Fixed`
-	
-	, `Shunting`
-	
-	, `charges`
-	
-	, tab
-	
-	, `6`
-	
-	, `%`
-	
-	, tab
-
-	, generic_item( [ total_vat , s1 , tab ] )
-
-  ] ).
