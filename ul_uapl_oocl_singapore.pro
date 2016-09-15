@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( OOCL (singapore_pte_ltd, `15/09/2016` ).
+i_version( oocl_singapore_pte_ltd, `15/09/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -29,6 +29,8 @@ i_rule_list( [
     , get_total_invoice
 
     , get_currency
+
+    , get_exchange_rate
 
     , get_invoice_lines
 
@@ -63,7 +65,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `INOVICE` , `NO` , `.` , tab , `:` ],100, invoice_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ],100, invoice_number, s1, newline ] )
 	
 	] ).
 
@@ -79,7 +81,7 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `L1`, `PO` , `NO` ,`:` ], ,100, order_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `L1`, `PO` , `NO` ,`:` ],100, order_number, s1, newline ] )
 
 ] ).
 
@@ -95,7 +97,10 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Issue` , Date` , tab , `:` ],100, invoice_date, date, newline ] )
+
+    , generic_horizontal_details( [ [ `Issue`, `Date` , tab ,`:` ],100, invoice_date, s1, newline ] )
+
+ 
 	
 ] ).
 
@@ -113,8 +118,9 @@ i_rule( get_due_date, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Due` , Date` , tab , `:` ],100, due_date, date, newline ] )
-	
+ , generic_horizontal_details( [ [ `Due`, `Date` , tab ,`:` ],100, due_date, s1, newline ] )
+
+   	
 ] ).
 
 
@@ -128,9 +134,9 @@ i_rule( get_due_date, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
-    , generic_horizontal_details( [ [ `AMOUNT` , `Due` ], 150 , total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD`], 100 , total_invoice, d, newline ] )
 
 
 ] ).
@@ -147,7 +153,24 @@ i_rule( get_currency, [
 
     q(0,30,line)
     
-    , generic_vertical_details( [ [ `Price` , tab , `Amount` ], `Amount`, q(0,1), (end,10,10), currency, w, tab ] )
+    , generic_vertical_details( [ [ `CUR` ], `CUR`, q(0,1), (end,10,10), currency, w, tab ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Enter Rule Exchange_rate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_exchange_rate, [
+%=======================================================================
+
+     qn0(line)
+    
+    , generic_vertical_details( [ [ `Exchange`], `Exchange`, q(0,3), (end,20,20), exchange_rate, d, tab ] )
 
 ] ).
 
@@ -167,9 +190,8 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_delivery_note_line
-
-            , line_invoice_line
+           
+              line_invoice_line
 
             , line_desr_line
 
@@ -185,7 +207,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `No` , `Description` , tab
+    `CHARGE` , `Description` , tab
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -195,19 +217,9 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `TOTAL` , `MYR` , `EXCL`
+    `AMOUNT`, `DUE`
 
     ,trace( [ `FOUND LINE END LINE`] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_delivery_note_line, [
-%=======================================================================
-
-    `Shipment`, `No` , `.`
-
-    , generic_item( [ line_delivery_note_number , s , [ `:` , newline ] ] )
 
 ] ).
 
@@ -215,23 +227,21 @@ i_line_rule_cut( line_delivery_note_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_invoice_line_dummy , d , tab ] )
+    
+      generic_item( [ line_descr , s1 , tab ] )
 
-    , generic_item( [ line_descr , s1 , tab ] )
-
-    , generic_item( [ line_buyers_order_number , w , tab ] )
-
-    , generic_item( [ line_quantity , d , q10(tab) ] )
-
-    , generic_item( [ line_quantity_uom_code , w , tab ] )
+    , generic_item( [ line_quantity , d , tab ] )  
 
     , generic_item( [ line_unit_amount , d , tab ] )
 
-    , q10( generic_item( [ line_vat_amount , d ,tab ] ) )
+    , generic_item( [ line_currency_dummy , w , tab ] )
 
-    , generic_item( [ line_net_amount , d , tab ] )
+    , generic_item( [ line_ext_vale_dummy , d , tab ] ) 
 
-    , generic_item( [ line_vat_code , w , newline ] )
+    , generic_item( [ line_exchange_rate_dummy , d , tab ] )
+    
+    , generic_item( [ line_total_amount, d , newline ] )
+
 
 
 ] ).
