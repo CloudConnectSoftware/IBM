@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - Thejas_OZPack
+% GRAMATICA - Thejas_Pax
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(Thejas_OZPack, `07/09/2016 15:16:05` ).
+i_version(Thejas_Pax, `06/09/2016 15:16:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -35,7 +35,7 @@ i_rule( get_invoice_number, [
 
 	q0n(line)
 	
-	, generic_vertical_details( [ [ `Invoice`, `Number`,  newline ], `No`, q(0,1),(End,10,10), invoice_number, s1, newline ] )
+	, generic_vertical_details( [ [ `Invoice`, `No`,  newline ], `No`, q(0,1),(End,10,10), invoice_number, s1, newline ] )
 	
 ] ).
 
