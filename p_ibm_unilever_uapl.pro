@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `13:29 16 September 2016` ).
+i_version( p_ibm_unilever_uapl, `09:28 16 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -46,6 +46,7 @@ i_user_field( line, line_gl, `Line GL` ).
 %-----------------------------------------------------------------------
 % Customer Name
 %-----------------------------------------------------------------------
+i_op_param( rules_intervention_role, _, _, _, `Unilever UAPL (Technical)` ). % This will be the role for rules intervention
 i_op_param( customer_name, _, _, _, `Unilever UAPL` ). % This will be the role for customer intervention
 
 %-----------------------------------------------------------------------
