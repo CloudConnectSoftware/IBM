@@ -192,7 +192,7 @@ i_rule( get_total_vat, [
     , trace( [ `THIS IS NOW THE TOTAL NET` , total_net ])
  
 
-] ).
+] )
 
 
 
