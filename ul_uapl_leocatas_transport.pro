@@ -332,7 +332,7 @@ i_line_rule( line_invoice_line, [
 
 	, generic_item( [ line_vat_amount, d, q10(tab) ] )
 
-	, generic_item( [ line_total_amount, d, newline ] )
+	, generic_item( [ line_total_net, d, newline ] )
 
     
 ] ).
