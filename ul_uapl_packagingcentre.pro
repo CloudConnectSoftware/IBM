@@ -117,7 +117,7 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `GST` , `AMOUNT` ], 150 , total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `%` , `GST` ], 200, total_vat, d, newline ] )
 
 ] ).
 
@@ -132,9 +132,12 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
+     
+     
      q0n(line)
 
-    , generic_horizontal_details( [ [ `INCL`, `.` , `GST` ], 150 , total_invoice, d, newline ] )
+     
+   , generic_horizontal_details( [ [ `INCL` , `.` , `GST` ] , 150 , total_invoice, d, newline ] )
 
 
 ] ).
