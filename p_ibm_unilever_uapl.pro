@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `13:34 19 September 2016` ).
+i_version( p_ibm_unilever_uapl, `13:44 19 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -65,12 +65,12 @@ document_reason_lookup( `Invoice quotes tax but is not a tax invoice`, `failed`,
 beginning_text( Text )
 :-
 	Text = `<span style="font-family:times new roman,times,serif;">
-<span style="font-size:10px;">Dear Business Partner,</span><br>
+<span style="font-size:12px;">Dear Business Partner,</span><br>
 <br>
-<span style="font-size:12px;"><span style="color:#0000FF;"><strong>
+<span style="font-size:14px;"><span style="color:#0000FF;"><strong>
 We regret to inform you that we are unable to process your Invoice/Credit Note for the reason/s mentioned below. In order to receive timely payment, we request you to do the needful corrections and re-submit the invoice via the appropriate invoicing mode as agreed.</span></span><br>
 <br>
-<span style="font-size:10px;">`
+<span style="font-size:12px;">`
 .
 
 %-----------------------------------------------------------------------
