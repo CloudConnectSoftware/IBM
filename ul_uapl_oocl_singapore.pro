@@ -169,35 +169,13 @@ i_rule( get_currency, [
 %=======================================================================
 i_rule( get_total_vat, [
 %=======================================================================
- qn0(line)
-
- , or([
-
     
-    generic_horizontal_details( [ [ `GST` , `AMOUNT` ], 150 , total_vat, d, newline ] )
     
-       
-
-    , check(total_vat = TotVat)
-
- 
-
-    , trace([`Total Vat Capital Varaible` , TotVat])
-
- 
-
-    , total_net(TotVat)
-
- 
-    , trace( [ `THIS IS NOW THE TOTAL NET` , total_net ])
- 
-
-] )
-
-
+ total_vat(`0`)
 
 ] ).
 
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

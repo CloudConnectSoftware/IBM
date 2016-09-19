@@ -281,9 +281,9 @@ generic_item([line_date, date])
 
 	, generic_item( [ line_quantity_uom_dummy, s1, tab ] )
 
-	, generic_item( [ line_quantity, d, tab ] )
+	, generic_item( [ line_pcs, d, tab ] )
 
-	, generic_item( [ line_plts, d] )
+	, generic_item( [ line_quantity, d] )
 
 	, generic_item( [ line_unit_amount, d, tab ] )
 
