@@ -94,7 +94,7 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `PO` , `No` ,`.` ], `PO`, q(0,3), (start,10,10), order_number, w , tab  ] )
+, generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab ] , 100 , invoice_date , s1 , newline ] )
 
 ] ).
 
@@ -224,6 +224,7 @@ i_section( get_invoice_lines, [
 
 			line_invoice_lines
 
+			
 			, line
 
 		] )
@@ -301,3 +302,8 @@ generic_item([line_date, date])
 
 
 ] ).
+
+
+%=======================================================================
+i_line_rule( line_po_lines, [
+%=======================================================================

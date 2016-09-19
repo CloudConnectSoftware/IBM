@@ -53,7 +53,7 @@ i_rule( get_supplier_details, [
 
  q0n(line)
     
-    , generic_horizontal_details( [ [ `GST` ,`No` ], 100, supplier_vat_number, s1 , newline ] )
+    , generic_horizontal_details( [ [ `GST` ,`No`, `(` ], supplier_vat_number, d , `)` ] )
      
      ,sender_name(`SWIFT CONSOLIDATORS SDN. BHD.`)
 
@@ -126,9 +126,9 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
-    , generic_vertical_details( [ [ `TAX`], `TAX`, q(0,2,up), (start,10,10), total_invoice, s1, newline ] )
+    , generic_vertical_details( [ [ `TAX`], `TAX`, q(0,3,up), (start,20,20), total_invoice, d, newline ] )
 
 
 ] ).
@@ -145,7 +145,7 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_horizontal_details( [ [ `AMOUNT`, `(`],currency, w , `)` ] )
+    , generic_horizontal_details( [ [ `GST`, tab, `AMOUNT`, `(`],currency, w , `)` ] )
 
 ] ).
 
@@ -164,7 +164,7 @@ i_rule( get_total_net, [
 
 
 
-, generic_horizontal_details( [ [ `TOTAL`, `(`, `MYR`, `)` ], 100, total_net, s1 , tab ] )
+, generic_horizontal_details( [ [ `TOTAL`, `(`, `MYR`, `)` ], 100, total_net, d , tab ] )
 
 
   
@@ -180,9 +180,9 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
- q0n(line)
-
-, generic_vertical_details( [ [ `Total`, `GST` ], `GST`, q(0,1), (start,10,10), total_vat, s1, tab ] )
+qn0(line)
+ 
+, generic_vertical_details( [ [ `AMOUNT` ], `AMOUNT`, q(0,1,up), (end,20,20), total_vat, d, tab ] )
   
 ] ).
 
@@ -218,7 +218,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `Cust` , `Item` , `No` , tab
+    `TAX`, tab, `DESCRIPTION`
 
     , trace([`found the start line`])
 
@@ -228,7 +228,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Total` ,`Exc`, `GST` , tab
+    `MYR`, `:`, `FIVE`, `THOUSAND`
 
      , trace([`found the end line`])
 
@@ -239,19 +239,20 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      generic_item( [ customer_item_no_dummy , d , tab ] )
+      generic_item( [ line_tax , w , tab ] )
 
-    , generic_item( [line_item_no_dummy , d , tab])
+     , generic_item( [line_descr , s1 , tab] )
 
-    , generic_item( [line_descr , s1 , tab] )
+     ,q01(generic_item( [line_size , s1 , tab] ))
 
     , generic_item( [line_quantity , d , tab] )
 
-    , generic_item( [line_quantity_uom_code_dummy , w , tab] )
+    , generic_item( [line_unit_amount , w , tab] )
+
+    , generic_item( [line_sales , w , tab] )
 
     , generic_item( [line_vat_rate , d , tab ])
 
-    , generic_item( [line_unit_amount , d , tab] )
 
     , generic_item( [line_total_amount , s1 , newline] )
 
