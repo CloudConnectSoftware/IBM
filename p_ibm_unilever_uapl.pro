@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `09:28 16 September 2016` ).
+i_version( p_ibm_unilever_uapl, `13:34 19 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -64,10 +64,13 @@ document_reason_lookup( `Invoice quotes tax but is not a tax invoice`, `failed`,
 %-----------------------------------------------------------------------
 beginning_text( Text )
 :-
-	Text = `Dear Business Partner,<br>
+	Text = `<span style="font-family:times new roman,times,serif;">
+<span style="font-size:10px;">Dear Business Partner,</span><br>
 <br>
-We regret to inform you that we are unable to process your Invoice/Credit Note for the reason/s mentioned below. In order to receive timely payment, we request you to do the needful corrections and re-submit the invoice via the appropriate invoicing mode as agreed.<br>
-<br>`
+<span style="font-size:12px;"><span style="color:#0000FF;"><strong>
+We regret to inform you that we are unable to process your Invoice/Credit Note for the reason/s mentioned below. In order to receive timely payment, we request you to do the needful corrections and re-submit the invoice via the appropriate invoicing mode as agreed.</span></span><br>
+<br>
+<span style="font-size:10px;">`
 .
 
 %-----------------------------------------------------------------------
@@ -75,26 +78,85 @@ We regret to inform you that we are unable to process your Invoice/Credit Note f
 %-----------------------------------------------------------------------
 remaining_rejection_text( Text )
 :-
-	result( _, invoice, sender_name, Sender_Name ),
+	(
+		result( _, invoice, sender_name, Sender_Name ),
 
+		strcat_list( [ `Vendor Name: `, Sender_Name, `<br>` ], Sender_Name_Text )
+
+		;
+
+		Sender_Name_Text = ``
+		
+	),
+	
+	!,
+	
 	(
 		result( _, invoice, invoice_number, Invoice_Number ),
 
-		strcat_list( [ `<br>Invoice Number: `, Invoice_Number ], Invoice_Number_Text )
+		strcat_list( [ `Invoice Number: `, Invoice_Number, `<br>` ], Invoice_Number_Text )
 
 		;
 
 		Invoice_Number_Text = ``
-
+		
 	),
+	
+	!,
+	
+	(
+		result( _, invoice, invoice_date, Invoice_Date ),
 
-	strcat_list( [ `<br><br>See below the invoice details for your easy reference.<br><br>Vendor Name: `, Sender_Name, Invoice_Number_Text ], Text )
+		strcat_list( [ `Invoice Date: `, Invoice_Date, `<br>` ], Invoice_Date_Text )
 
-	;
+		;
 
-	not( result( _, invoice, sender_name, _ ) ),
+		Invoice_Date_Text = ``
+		
+	),
+	
+	!,
+	
+	(
+		result( _, invoice, total_invoice, Invoice_Amount ),
 
-	Text = ``
+		strcat_list( [ `Invoice Amount: `, Invoice_Amount, `<br>` ], Invoice_Amount_Text )
+
+		;
+
+		Invoice_Amount_Text = ``
+		
+	),
+	
+	!,
+	
+	(
+		result( _, invoice, currency, Currency ),
+
+		strcat_list( [ `Invoice Currency: `, Currency, `<br>` ], Currency_Text )
+
+		;
+
+		Currency_Text = ``
+		
+	),
+	
+	!,
+	
+	(
+		qq_op_param( unique_id, Scan_ID ),
+
+		strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
+
+		;
+
+		Scan_ID_Text = ``
+		
+	),
+	
+	!,
+	
+	strcat_list( [ `<br><br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don’t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
 
 %-----------------------------------------------------------------------
@@ -102,26 +164,85 @@ remaining_rejection_text( Text )
 %-----------------------------------------------------------------------
 remaining_forward_text( Text )
 :-
-	result( _, invoice, sender_name, Sender_Name ),
+	(
+		result( _, invoice, sender_name, Sender_Name ),
 
+		strcat_list( [ `Vendor Name: `, Sender_Name, `<br>` ], Sender_Name_Text )
+
+		;
+
+		Sender_Name_Text = ``
+		
+	),
+	
+	!,
+	
 	(
 		result( _, invoice, invoice_number, Invoice_Number ),
 
-		strcat_list( [ `<br>Invoice Number: `, Invoice_Number ], Invoice_Number_Text )
+		strcat_list( [ `Invoice Number: `, Invoice_Number, `<br>` ], Invoice_Number_Text )
 
 		;
 
 		Invoice_Number_Text = ``
-
+		
 	),
+	
+	!,
+	
+	(
+		result( _, invoice, invoice_date, Invoice_Date ),
 
-	strcat_list( [ `<br><br>See below the invoice details for your easy reference.<br><br>Vendor Name: `, Sender_Name, Invoice_Number_Text ], Text )
+		strcat_list( [ `Invoice Date: `, Invoice_Date, `<br>` ], Invoice_Date_Text )
 
-	;
+		;
 
-	not( result( _, invoice, sender_name, _ ) ),
+		Invoice_Date_Text = ``
+		
+	),
+	
+	!,
+	
+	(
+		result( _, invoice, total_invoice, Invoice_Amount ),
 
-	Text = ``
+		strcat_list( [ `Invoice Amount: `, Invoice_Amount, `<br>` ], Invoice_Amount_Text )
+
+		;
+
+		Invoice_Amount_Text = ``
+		
+	),
+	
+	!,
+	
+	(
+		result( _, invoice, currency, Currency ),
+
+		strcat_list( [ `Invoice Currency: `, Currency, `<br>` ], Currency_Text )
+
+		;
+
+		Currency_Text = ``
+		
+	),
+	
+	!,
+	
+	(
+		qq_op_param( unique_id, Scan_ID ),
+
+		strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
+
+		;
+
+		Scan_ID_Text = ``
+		
+	),
+	
+	!,
+	
+	strcat_list( [ `<br><br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don’t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
