@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_india, `16:55 25 August 2016` ).
+i_version( p_ibm_unilever_india, `16:03 21 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -357,7 +357,7 @@ turn_specials_to_dashes( String_in, String_out, [ H | T ] )
 	(
 		T = [ ] -> !, String_replaced = String_out
 		;
-		turn_specials_to_spaces( String_replaced, String_out, T )
+		turn_specials_to_dashes( String_replaced, String_out, T )
 	)
 .
 
@@ -399,18 +399,6 @@ i_analyse_kind_attention_to___
 	assertz_derived_data( invoice, buyer_contact, Kind_Attention_To_Final, i_analyse_kind_attention_to ),
 
 	!
-.
-
-%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-turn_specials_to_dashes( String_in, String_out, [ H | T ] )
-%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-:-
-	string_string_replace( String_in, H, `-`, String_replaced ),
-	(
-		T = [ ] -> !, String_replaced = String_out
-		;
-		turn_specials_to_spaces( String_replaced, String_out, T )
-	)
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1248,7 +1236,7 @@ i_analyse_line_buyers_order_number___( LID )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% INSERT LINE DELIVERY NOTE NUMBER
+% STRIP SPECIAL CHARACTERS FROM LINE DELIVERY NOTE NUMBER
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1257,6 +1245,31 @@ i_analyse_line_buyers_order_number___( LID )
 i_analyse_line_fields_first( LID ):- i_analyse_line_delivery_note_number___( LID ).
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 i_analyse_line_delivery_note_number___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_delivery_note_number, Line_Delivery_Note_Number ),
+	
+	sys_retractall( result( _, LID, line_delivery_note_number, _ ) ),
+	
+	turn_specials_to_dashes( Line_Delivery_Note_Number, Line_Delivery_Note_Number_Stripped, [ ` `, `.`, `,`, `;`, `:`, `_`, `/`, `\\`, `*`, `(`, `)`, `[`, `]`, `{`, `}`, `#`, `~`, `@`, `'`, `?`, `>`, `<`, `&`, `^`, `%`, `$`, `�`, `�`, `"`, `!`, `�`, `|`, `+`, `=` ] ),
+	
+	assertz_derived_data( LID, line_delivery_note_number, Line_Delivery_Note_Number_Stripped, i_analyse_line_delivery_note_number ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% INSERT LINE DELIVERY NOTE NUMBER
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_first( LID ):- i_analyse_missing_line_delivery_note_number___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_missing_line_delivery_note_number___( LID )
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	not( result( _, LID, line_delivery_note_number, _ ) ),
