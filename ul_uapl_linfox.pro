@@ -151,6 +151,23 @@ qn0(line)
 , generic_horizontal_details( [ [ `GST` , tab ] , 100 , total_vat , d , newline ] )
 
 
+
+    , check(total_vat = TotVat)
+
+ 
+
+    , trace([`Total Vat Capital Varaible` , TotVat])
+
+ 
+
+    , line_vat_amount(TotVat)
+
+ 
+
+    , trace( [ `THIS IS NOW THE LINE VAT AMOUNT` ,line_vat_amount ])
+
+
+
 ] ).
 
 
@@ -268,7 +285,7 @@ generic_item([line_date, date])
 
     , generic_item( [ line_bil_no, d,tab] )
 
-	, generic_item( [ line_Consignee, s1, tab ] )
+	, generic_item( [ line_descr, s1, tab ] )
 	
 	, generic_item( [ line_ship_from, s1, tab ] )
 
@@ -280,7 +297,7 @@ generic_item([line_date, date])
 
 	, generic_item( [ line_freight, s1, tab ] )
 
-	, generic_item( [ line_quantity_uom_dummy, s1, tab ] )
+	, generic_item( [ line_quantity_uom, s1, tab ] )
 
 	, generic_item( [ line_pcs, d, tab ] )
 

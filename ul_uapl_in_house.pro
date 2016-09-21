@@ -166,11 +166,18 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           line_invoice_line
+           line_supplier_number_line
+
+           , line_desr_line_name_card
+           
+           , line_invoice_line
 
            , line_desr_line
 
+           
+
          , line
+
 
         ] )
 
