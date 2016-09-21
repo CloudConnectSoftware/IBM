@@ -168,7 +168,7 @@ i_section( get_invoice_lines, [
 
            line_supplier_number_line
 
-           , line_desr_line_name_card
+           ,line_desr_line_name_card
            
            , line_invoice_line
 

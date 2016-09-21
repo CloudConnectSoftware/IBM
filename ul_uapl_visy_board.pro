@@ -133,6 +133,23 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [ `Total`, `GST` ], 500 , total_vat, d, newline ] )
 
+
+    , check(total_vat = TotVat)
+
+ 
+
+    , trace([`Total Vat Capital Varaible` , TotVat])
+
+ 
+
+    , total_net(TotVat)
+
+ 
+
+    , trace( [ `THIS IS NOW THE LINE VAT AMOUNT` , total_net ])
+
+
+
 ] ).
 
 
