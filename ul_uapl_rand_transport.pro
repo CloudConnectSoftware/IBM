@@ -174,7 +174,7 @@ i_rule( get_total_invoice, [
      qn0(line)
 
      
-    , generic_horizontal_details( [ [ `Total`, `Due`, `:`, tab, `$` ], 100, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Due`, `:`, tab, `$` ], 100, total_invoice, d, newline ] )
 
 
 ] ).
@@ -241,7 +241,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_unit_amount , d , tab] )
 
-    , generic_item( [line_net_amount , d , newline] )
+    , generic_item( [line_total_amount , d , newline] )
 
 
 ] ).
