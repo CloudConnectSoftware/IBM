@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( oocl_singapore_pte_ltd, `15/09/2016` ).
+i_version( oocl_singapore_pte_ltd, `20/09/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -46,7 +46,11 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-     sender_name(`OOCL (Singapore) Pte Ltd`)
+q(0,10,line)
+
+     ,sender_name(`OOCL (Singapore) Pte Ltd`)
+
+     , generic_horizontal_details( [ [ `GST`, `Reg`, `:` ],100, supplier_vat_number, s1, newline ] )
 		
 
 ] ).
@@ -169,35 +173,13 @@ i_rule( get_currency, [
 %=======================================================================
 i_rule( get_total_vat, [
 %=======================================================================
- qn0(line)
-
- , or([
-
     
-    generic_horizontal_details( [ [ `GST` , `AMOUNT` ], 150 , total_vat, d, newline ] )
     
-       
-
-    , check(total_vat = TotVat)
-
- 
-
-    , trace([`Total Vat Capital Varaible` , TotVat])
-
- 
-
-    , total_net(TotVat)
-
- 
-    , trace( [ `THIS IS NOW THE TOTAL NET` , total_net ])
- 
-
-] )
-
-
+ total_vat(`0`)
 
 ] ).
 
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
