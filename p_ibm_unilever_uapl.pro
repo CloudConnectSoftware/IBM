@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `15:45 21 September 2016` ).
+i_version( p_ibm_unilever_uapl, `13:51 19 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -330,31 +330,6 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% STRIP SPECIAL CHARACTERS FROM INVOICE NUMBER
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_invoice_fields_first:- i_analyse_invoice_number___.
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_invoice_number___
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:-
-	result( _, invoice, invoice_number, Invoice_Number ),
-	
-	sys_retractall( result( _, invoice, invoice_number, _ ) ),
-	
-	strip_string2_from_string1( Invoice_Number, ` \\|,<.>/?;:'@#~]}[{=+-_)(*&^%$£"!`, Inv_Stripped ),
-	
-	assertz_derived_data( invoice, invoice_number, Inv_Stripped, i_analyse_invoice_number ),
-	
-	!
-.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 % CHECK FOR FUTURE INVOICE DATE
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -557,31 +532,6 @@ i_analyse_currency_code___
 		
 	),
 
-	!
-.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% STRIP SPECIAL CHARACTERS FROM DELIVERY NOTE NUMBER
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_line_fields_first( LID ):- i_analyse_line_delivery_note_number___( LID ).
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_line_delivery_note_number___( LID )
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:-
-	result( _, LID, line_delivery_note_number, Line_Delivery_Note_Number ),
-	
-	sys_retractall( result( _, LID, line_delivery_note_number, _ ) ),
-	
-	strip_string2_from_string1( Line_Delivery_Note_Number, ` \\|,<.>/?;:'@#~]}[{=+-_)(*&^%$£"!`, Line_Delivery_Note_Number_Stripped ),
-	
-	assertz_derived_data( LID, line_delivery_note_number, Line_Delivery_Note_Number_Stripped, i_analyse_line_delivery_note_number ),
-	
 	!
 .
 
