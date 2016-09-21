@@ -290,13 +290,13 @@ generic_item([line_date, date])
 
 	, generic_item( [ line_ln_total, d,tab] )
 
-	, generic_item( [ line_net_amount, d, tab ] )
+	, generic_item( [ line_sub_total, d, tab ] )
 
 	, generic_item( [ line_other, d,tab] )
 
 	, generic_item( [ line_surcharge, d, tab ] )
 
-	, generic_item( [ line_total_amount, d, newline] )
+	, generic_item( [ line_net_amount, d, newline] )
 
 	,trace( [ `Complete line`] )
 
