@@ -150,23 +150,7 @@ qn0(line)
 
 , generic_horizontal_details( [ [ `GST` , tab ] , 100 , total_vat , d , newline ] )
 
-
-
-    , check(total_vat = TotVat)
-
- 
-
-    , trace([`Total Vat Capital Varaible` , TotVat])
-
- 
-
-    , line_vat_amount(TotVat)
-
- 
-
-    , trace( [ `THIS IS NOW THE LINE VAT AMOUNT` ,line_vat_amount ])
-
-
+, generic_item( [ default_vat_rate, `15` ] )
 
 ] ).
 

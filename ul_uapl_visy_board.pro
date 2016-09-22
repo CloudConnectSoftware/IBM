@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,21 +136,6 @@ i_rule( get_total_vat, [
     , generic_horizontal_details( [ [ `Total`, `GST` ], 500 , total_vat, d, newline ] )
 
 
-    , check(total_vat = TotVat)
-
- 
-
-    , trace([`Total Vat Capital Varaible` , TotVat])
-
- 
-
-    , total_net(TotVat)
-
- 
-
-    , trace( [ `THIS IS NOW THE LINE VAT AMOUNT` , total_net ])
-
-
 
 ] ).
 
@@ -185,12 +172,16 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
-
+            
+                         
+             
              line_invoice_line
 
             , line_desr_line
 
-            , line
+             , line
+
+             
 
         ] )
 
@@ -212,7 +203,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `TOTAL` , `COST`,  tab
+    `PAYMENT`, `CAN`, `BE`, `MADE`, `TO`, `:`
 
     , trace( [ `FOUND LINE END LINE`] )
 
@@ -220,19 +211,20 @@ i_line_rule_cut( line_end_line, [
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
-%=======================================================================
+%=====================================  ==================================
 
-     generic_item( [ line_item_dummy, s1, tab ] )
+ 
      
-    , generic_item( [ line_descr, s1, tab ] )
-     
-    , generic_item( [ line_quantity , d , q10(tab) ] )
+
+      generic_item( [ line_descr, s1, tab ] )
+
+     , generic_item( [ line_quantity , d , tab ] )
 
     , generic_item( [ line_price_uom_code , s1 , tab ] )
 
-    , generic_item( [ line_amount, d, q10(tab) ] )
+    , generic_item( [ line_amount, d, tab ] )
 
-    , generic_item( [ line_vat_code , s1 , q10(tab) ] )
+    , generic_item( [ line_vat_amount , s1 , tab ] )
 
     , generic_item( [ line_total_amount , d , newline ] )
      
@@ -243,6 +235,11 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_desr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+
+   generic_append( [ line_descr, s1, newline, ` `, `` ] ) 
 
 ] ).
+
+
+
+

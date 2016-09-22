@@ -146,7 +146,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
     
     , generic_horizontal_details( [ [ `NET`, `:`] , 100 , currency, w, tab ] )
 
@@ -168,11 +168,8 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_delivery_note_line
-
-            , line_invoice_line
-
-            , line_desr_line
+           
+            line_invoice_line
 
             , line
 
@@ -186,7 +183,8 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `Phase`, `01`, `Design`, `Concepts`
+    `Singapore`, `117439`,  newline
+
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -196,19 +194,9 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Singapore`, `117439`
+    `NET`, `:`, tab, `GBP`
 
     ,trace( [ `FOUND LINE END LINE`] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_delivery_note_line, [
-%=======================================================================
-
-   `NET`, `:`, tab, `GBP`
-
-    , generic_item( [ line_delivery_note_number , s , [ `:` , newline ] ] )
 
 ] ).
 
@@ -216,13 +204,13 @@ i_line_rule_cut( line_delivery_note_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    
+      generic_item( [ line_descr, w, tab ] )
+
+      ,generic_item( [ currency, w, tab ] )
+
+      ,generic_item( [ line_net_amount, d, newline] )
+
+
 
 ] ).
 
-%=======================================================================
-i_line_rule_cut( line_desr_line, [
-%=======================================================================
-
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
-] ).
