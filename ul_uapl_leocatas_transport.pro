@@ -46,11 +46,12 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
+
     q0n(line)
     
     , generic_horizontal_details( [ [ `GST` , `REG` , `NO`, `:` ], 100, supplier_vat_number, s1 , newline ] )
 
-    , sender_name(`LEOCATAS TRANSPORT`)
+    , sender_name( `LEOCATAS TRANSPORT` )
 
 ] ).
 
