@@ -169,7 +169,9 @@ i_section( get_invoice_lines, [
         , or( [
 
            
-            line_invoice_line
+            line_desr_line
+            
+            , line_invoice_line
 
             , line
 
@@ -201,10 +203,21 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_desr_line, [
+%=======================================================================
+
+    read_ahead(`Phase`)
+
+    ,generic_item( [ line_descr , s1 , newline ])
+
+  
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-      generic_item( [ line_descr, w, tab ] )
+      generic_append( [ line_descr, w, tab , ` `,  ``  ] )
 
       ,generic_item( [ currency, w, tab ] )
 
