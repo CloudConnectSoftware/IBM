@@ -175,13 +175,9 @@ i_section( get_invoice_lines, [
             
                          
              
-             line_invoice_line
-
-            , line_desr_line
+            [ line_desr_line , q10(line_append_line)  , line_invoice_line ] 
 
              , line
-
-             
 
         ] )
 
@@ -210,15 +206,35 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_desr_line, [
+%=======================================================================
+
+   generic_item( [ dummy, s, [ q10(tab) , check(dummy(end) < -380 ) ] ] ) 
+
+    , generic_item( [ line_descr , s1 , newline ])
+
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+   
+    generic_item( [ dummy , s1 , tab ] )
+
+     , generic_append( [ line_descr , s1 , newline , ` `,  `` ] )
+
+   
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=====================================  ==================================
 
- 
-     
+    generic_append( [ line_descr, s1, tab , ` ` , `` ] )
 
-      generic_item( [ line_descr, s1, tab ] )
-
-     , generic_item( [ line_quantity , d , tab ] )
+    , generic_item( [ line_quantity , d , tab ] )
 
     , generic_item( [ line_price_uom_code , s1 , tab ] )
 
@@ -227,19 +243,9 @@ i_line_rule_cut( line_invoice_line, [
     , generic_item( [ line_vat_amount , s1 , tab ] )
 
     , generic_item( [ line_total_amount , d , newline ] )
+
      
    
 ] ).
-
-%=======================================================================
-i_line_rule_cut( line_desr_line, [
-%=======================================================================
-
-
-   generic_append( [ line_descr, s1, newline, ` `, `` ] ) 
-
-] ).
-
-
 
 
