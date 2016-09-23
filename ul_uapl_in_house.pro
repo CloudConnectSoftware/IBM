@@ -168,11 +168,7 @@ i_section( get_invoice_lines, [
 
            line_supplier_number_line
 
-           ,line_desr_line_name_card
-           
-           , line_invoice_line
-
-           , line_desr_line
+           , [ line_desr_line, line_invoice_line, line_append_line  ]
 
            
 
@@ -215,6 +211,17 @@ i_line_rule_cut( line_supplier_number_line, [
 
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+   
+     generic_append( [ line_descr , s1 , newline , ` `,  `` ] )
+
+   
+] ).
+
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
@@ -222,7 +229,7 @@ i_line_rule_cut( line_invoice_line, [
     
     generic_item( [ line_invoice_line_dummy, d, tab ] )
         
-    , generic_item( [ line_descr , s1 , tab ] )
+    , generic_append( [ line_descr, s1, tab , ` ` , `` ] )
 
     , generic_item( [ line_quantity , d ,tab ] )
 
@@ -235,22 +242,14 @@ i_line_rule_cut( line_invoice_line, [
    
 ] ).
  
+
+
 %=======================================================================
 i_line_rule_cut( line_desr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+  
+    generic_item( [ line_descr , s1 , newline ])
 
+  
 ] ).
-
-%=======================================================================
-i_line_rule_cut( line_desr_line_name_card, [
-%=======================================================================
-
-
- `name`, `card`, `:`
-
-    , generic_item( [ delivery_note_reference_dummy , w , newline] )
-
-] ).
- 
