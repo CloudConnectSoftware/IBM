@@ -44,6 +44,8 @@ i_rule( get_supplier_details, [
 %=======================================================================
 
      sender_name(`IN-HOUSE PRINTING`)
+
+     , generic_horizontal_details( [ [ `VAT` , `No`, `.`],  supplier_vat_number, s1 , newline ] )
 	
 ] ).
 
