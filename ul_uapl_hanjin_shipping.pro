@@ -18,9 +18,9 @@ i_pdf_parameter( x_tolerance_100, 100 ).
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% get_debit_note
+   get_debit_note
 
-	get_supplier_details
+	, get_supplier_details
 	
 	, get_invoice_number
 
