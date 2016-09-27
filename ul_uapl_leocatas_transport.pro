@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
    
 
 	 
-	 sender_name ( `LEOCATAS TRANSPORT ` )
+	 sender_name( `LEOCATAS TRANSPORT ` )
     
 	
 
