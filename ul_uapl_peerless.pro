@@ -40,9 +40,8 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
   
-   q(0,5,line)
-    
-    , sender_name(`PEERLESS HOLDINGS PTY LTD`)
+     
+    sender_name(`PEERLESS HOLDINGS PTY LTD`)
 
 ]).
 
@@ -55,10 +54,9 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule( supplier_registration_number, [
 %=======================================================================
-   
-  q(0,5,line)
+ 
 
-    , supplier_registration_number(`74 004 280 979`)
+    supplier_registration_number(`UNIMARN0`)
 
    ] ).
 
