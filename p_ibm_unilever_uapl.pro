@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `13:51 19 September 2016` ).
+i_version( p_ibm_unilever_uapl, `09:50 27 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -58,6 +58,7 @@ i_op_param( customer_name, _, _, _, `Unilever UAPL` ). % This will be the role f
 % Custom Scenario
 %-----------------------------------------------------------------------
 document_reason_lookup( `Invoice quotes tax but is not a tax invoice`, `failed`, `i_analyse_tax_without_tax_invoice`, _, _ ).
+document_reason_lookup( `Multiple Invoice Document`, `failed`, `i_analyse_multiple_invoice_document`, _, _ ).
 
 %-----------------------------------------------------------------------
 % Email Template Beginning Text

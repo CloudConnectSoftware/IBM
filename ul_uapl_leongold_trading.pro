@@ -19,6 +19,8 @@ i_rule_list( [
 
     get_supplier_details
 
+    , get_vat_code
+
 	  ,get_invoice_number
 
       , get_invoice_date 
@@ -47,11 +49,24 @@ i_rule_list( [
 %=======================================================================
 i_rule( get_supplier_details, [
 %=======================================================================
+  
+   sender_name(`LEONGOLD TRADING CO PTE LTD`)
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_vat_code, [
+%=======================================================================
    q(0,10,line)
   
-   , sender_name(`LEONGOLD TRADING CO PTE LTD`)
-
-    , generic_horizontal_details( [ [ `GST`, `Reg`, `:` ],100, supplier_vat_number, s1, newline ] )
+      , generic_horizontal_details( [ [ `GST`, `Reg`, `:` ],100, supplier_vat_number, s1, newline ] )
 
 ] ).
 
@@ -103,7 +118,7 @@ i_rule( get_order_number, [
 
  , generic_horizontal_details( [ [ `NPI`, `PO`, `:` ],  order_number, s1, newline ] )
 
-     ] ).
+      ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -244,8 +259,7 @@ i_line_rule_cut( line_invoice_line, [
       , generic_item( [ line_unit_amount, d , [tab, `S`, `$`]] )
 
       , generic_item( [ line_net_amount, d, newline ] )
-
-   
-   	
+ 
+ 	
 ] ).
  
