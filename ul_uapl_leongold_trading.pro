@@ -103,7 +103,7 @@ i_rule( get_order_number, [
 
  , generic_horizontal_details( [ [ `NPI`, `PO`, `:` ],  order_number, s1, newline ] )
 
-     ] ).
+      ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

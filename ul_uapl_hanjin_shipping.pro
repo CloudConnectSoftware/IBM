@@ -85,7 +85,7 @@ i_rule( get_supplier_details, [
     
     , generic_horizontal_details( [ [ `GST` , `Reg`], 250, supplier_vat_number, s1 , newline ] )
 
-    , sender_name(`HANJIN SHIPPING CO. LTD.`)
+    , sender_name( `HANJIN SHIPPING CO. LTD.` )
 
  
 

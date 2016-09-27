@@ -50,7 +50,7 @@ i_rule( get_supplier_details, [
     
 
 	 
-	 sender_name(`Leocata's Transport`)
+	 sender_name ( `LEOCATAS TRANSPORT ` )
     
 	,q0n(line)
 
