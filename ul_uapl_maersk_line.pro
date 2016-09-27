@@ -26,6 +26,8 @@ i_rule_list( [
 
 	, get_total_vat
 
+    , get_total_net
+
     , get_total_invoice
 
     , get_currency
@@ -111,9 +113,26 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
-    , generic_vertical_details( [ [ `Rate` ], VAT, q(0,10), (start,0,50), total_vat, s1, tab ] )
+    , generic_vertical_details( [ [ `Rate` ], `Rate`, q(0,4), (start,20,20), total_vat, d, tab ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_total_net
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_net, [
+%=======================================================================
+
+     qn0(line)
+
+    , generic_vertical_details( [ [ `Base` ], `Base`, q(0,4), (start,20,20), total_net, d, tab ] )
+
 
 ] ).
 
@@ -130,7 +149,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Net`,`Value`,  tab ], total_invoice, d, newline ] )  
+    , generic_horizontal_details( [ [ `Amount`,`Due`,  tab ], total_invoice, d, newline ] )  
 
 
 ] ).
@@ -147,8 +166,9 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_horizontal_details( [ [ `Total`, `(USD)`], 100, currency, w, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `(` ], 100, currency, `)`, w, newline ] )
 
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,7 +203,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-  `Description` , `of`, `Charges`, tab
+  `Description` , `of`, `Charges`
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -193,7 +213,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Total` , `Due`, `:`, tab
+    `Total` , `Due`, `:`
 
     , trace( [ `FOUND LINE END LINE`] )
 
@@ -202,16 +222,18 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
+      
+      generic_item( [ line_descr, s1, tab ] )
 
-     generic_item( [ line_quantity , d , tab ] )
+    , generic_item( [ line_quantity , d , tab ] )
 
     , generic_item( [ line_price_uom_code, w, tab ] ) 
 
     , generic_item( [ line_currency, w, tab ] )
 
-    , generic_item( [ line_unit_amount , d , tab ] )
+    , generic_item( [ line_unit_amount_dummy, d , tab ] )
 
-    , generic_item( [ line_roe , s1 , tab ] )
+    , generic_item( [ line_exchange_rate, d , tab ] )
 
     , generic_item( [ line_net_amount , d , newline ] )
 
