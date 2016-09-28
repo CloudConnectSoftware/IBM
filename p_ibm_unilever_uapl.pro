@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `09:50 27 September 2016` ).
+i_version( p_ibm_unilever_uapl, `13:45 28 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -16,7 +16,7 @@ i_rules_file( `u_invoice_number_validation_2.pro` ).
 
 i_op_param( unique_id, _, To, _, Scan_ID )
 :-
-	not( q_sys_member( To, [ ] ) ),
+	not( q_sys_member( To, [ `unilever.uapl@cloud-trade.com`, `unilever.uapl.test@cloud-trade.com` ] ) ),
 	IDS = `Test`,
 	string_pad_left( IDS, 8, `0`, IDPad ),
 	date_get( today, Today ),
