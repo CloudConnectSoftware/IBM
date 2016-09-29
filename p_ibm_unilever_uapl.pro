@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `13:45 28 September 2016` ).
+i_version( p_ibm_unilever_uapl, `12:48 29 September 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -412,6 +412,14 @@ i_analyse_invoice_type___
 	sys_retractall( result( _, invoice, invoice_type, _ ) ),
 	
 	(
+		not( result( _, invoice, order_number, _ ) ),
+
+		npnp_vendor,
+
+		assertz_derived_data( invoice, invoice_type, `INV`, i_analyse_invoice_type )
+		
+		;
+		
 		grammar_set( credit_note ),
 		
 		assertz_derived_data( invoice, invoice_type, `CN`, i_analyse_invoice_type )
@@ -423,21 +431,6 @@ i_analyse_invoice_type___
 		assertz_derived_data( invoice, invoice_type, `CO`, i_analyse_invoice_type )
 		
 		;
-		
-		(
-			not( result( _, invoice, order_number, _ ) )
-			
-			;
-			
-			npnp_vendor
-			
-		),
-		
-		assertz_derived_data( invoice, invoice_type, `INV`, i_analyse_invoice_type )
-		
-		;
-		
-		result( _, invoice, order_number, _ ),
 		
 		assertz_derived_data( invoice, invoice_type, `INVPO`, i_analyse_invoice_type )
 		
