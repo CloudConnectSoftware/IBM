@@ -46,11 +46,8 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
    
+  sender_name( `PAX AUSTRALIA` )
   
-   sender_name(`Pax AUSTRALIA`)
-
-  , supplier_registration_number(`42 000 447 414`)
-
 ] ).
 
 
@@ -247,7 +244,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_unit_amount , d , tab] )
 
-    , generic_item( [line_net_amount , s1 , newline] )
+    , generic_item( [line_net_amount_dummy , s1 , newline] )
 
 
 ] ).
