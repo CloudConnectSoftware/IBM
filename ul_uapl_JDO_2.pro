@@ -63,7 +63,7 @@ i_rule( get_vat_code, [
 %=======================================================================
    qn0(line)
   
-      , generic_horizontal_details( [ [ `VAT`, `No`, `.` ], supplier_vat_number, s1, newline ] )
+      , generic_horizontal_details( [ [ `VAT`, `No`, `.` ], supplier_vat_number, s1, tab ] )
 
 ] ).
 
@@ -97,6 +97,16 @@ i_rule( get_order_number, [
 q(0,15,line)
 
     , generic_horizontal_details( [ [ `Your`, `PO`  , `No` ,`:` ],100, order_number , s1, newline ] )
+
+   , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,8 +139,12 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `VAT`, `@`, `:`, tab, `GBP`], 100, total_vat, d, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `VAT`, `@`, `:`, tab, `GBP`], 100, total_vat, d, newline ] )
+        , total_vat(`0`)
 
+    ])
 ] ).
 
 
