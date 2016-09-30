@@ -22,9 +22,9 @@ i_rule_list( [
 	
 	, get_invoice_number
 
-    , get_order_number
-	
 	, get_invoice_date
+
+     , get_total_net
 
 	, get_total_vat
 
@@ -46,11 +46,7 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    q0n(line)
-    
-    , generic_horizontal_details( [ [ `GST` , `No`, `.` , `:` ], 100, supplier_vat_number, s1 , newline ] )
-
-    , sender_name(`ALTRATEC SDN BHD`)
+      sender_name(`ALTRATEC SDN BHD`)
 
     , supplier_vat_number(`001668337664`)
 
@@ -75,21 +71,7 @@ i_rule_cut( get_invoice_number, [
 	
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_order_number
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule( get_order_number, [
-%=======================================================================
-
-    q0n(line)
-
-    , generic_horizontal_details( [ [ `PO` , `:` ], 100, order_number, d, newline ] )
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,7 +103,9 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [  `Add` , `GST` , `@` , dummy_vat(d) , `%` ], 150 , total_local_vat , d, newline ] )
+    , generic_horizontal_details( [ [  `Add` , `GST` , `@` , dummy_vat(d) , `%` ], 150 , total_vat , d, newline ] )
+
+    , generic_item( [ default_vat_rate, `6` ] )
 
 ] ).
 
@@ -136,12 +120,29 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
+     qn0(line)
+	
+	, generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_total_net
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_net, [
+%=======================================================================
+
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total` ], 150 , total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
 
 ] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,9 +197,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_invoice_line
-
-            , line_decr_line
+           [ line_invoice_line, q10(line_descr_line)  , line_po_line ]
 
             , line
 
@@ -249,14 +248,34 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_unit_amount , d , tab ] )
 
-    , generic_item( [ line_total_amount, d , newline ] )
+    , generic_item( [ line_net_amount_dummy, d , newline ] )
 
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_decr_line, [
+i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+   
+    generic_append( [ line_descr, s1 , newline, ` `, ` `  ] )
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_po_line, [
+%=======================================================================
+
+    `PO`, `:` ,  tab
+    
+    , generic_item( [ line_buyers_order_number , s1 , newline ] )
+
+     , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
+
 
 ] ).
