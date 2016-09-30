@@ -238,17 +238,23 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_descr , s1 , tab ] )
 
-    , set(regexp_allow_partial_matching)
+     ,q10(  
+          [ set(regexp_allow_partial_matching)
 
-    , generic_item( [ line_quantity , d ])
+    , generic_item( [ line_quantity_dummy , d ])
     
     , generic_item( [ line_quantity_uom_code , w , tab ] )
 
-    , clear(regexp_allow_partial_matching)
+    , clear(regexp_allow_partial_matching) ]
+    
+    )
+
 
     , generic_item( [ line_unit_amount , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
+
+   
 
 ] ).
 
