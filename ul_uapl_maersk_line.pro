@@ -19,6 +19,8 @@ i_rule_list( [
 	get_supplier_details
 	
 	, get_invoice_number
+
+    , get_order_number
 	
 	, get_invoice_date
 
@@ -69,6 +71,31 @@ i_rule_cut( get_invoice_number, [
    , generic_horizontal_details( [ [ `IMPORT`, `INVOICE`, `Number`, `:` ], 100, invoice_number, d, newline ] )
 	
 	
+] ).
+
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_order_number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_horizontal_details( [ [ `Your`, `Reference`, `:`], order_number, s, newline] )
+
+     , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
