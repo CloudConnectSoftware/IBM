@@ -95,7 +95,7 @@ i_rule_cut( get_invoice_date, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `DATE` ],150, invoice_date, s1, newline ] )
+    , generic_horizontal_details( [ [ `DATE`, `:`, tab ], invoice_date, s1, newline ] )
 	
 	
 ] ).
@@ -183,10 +183,9 @@ i_section( get_invoice_lines, [
 
            line_supplier_number_line
 
-           , [ line_desr_line, line_invoice_line, line_append_line  ]
+           , [ q10(line_desecription) ,  line_invoice_line ]
 
            
-
          , line
 
 
@@ -227,33 +226,23 @@ i_line_rule_cut( line_supplier_number_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_desr_line, [
+i_line_rule_cut( line_desecription, [
 %=======================================================================
 
-  
-    generic_item( [ line_descr , s1 , newline ])
+    
+    generic_item( [ line_descr_dummy , s1 , newline ] )
 
-  
 ] ).
 
-%=======================================================================
-i_line_rule_cut( line_append_line, [
-%=======================================================================
-
-   
-     generic_append( [ line_descr , s1 , newline , ` `,  `` ] )
-
-   
-] ).
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-    generic_item( [ line_invoice_line_dummy, d, tab ] )
+    generic_item( [ line_dummy, d, tab ] )
         
-    , generic_append( [ line_descr, s1, tab , ` ` , `` ] )
+      , generic_item( [ line_descr, s1, tab] )
 
     , generic_item( [ line_quantity , d ,tab ] )
 
@@ -265,6 +254,7 @@ i_line_rule_cut( line_invoice_line, [
 
    
 ] ).
- 
+
+
 
 
