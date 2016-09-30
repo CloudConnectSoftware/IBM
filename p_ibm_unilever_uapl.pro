@@ -13,6 +13,7 @@ i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_json_forms.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` ).
+i_rules_file( `u_date_validation.pro` ).
 
 i_op_param( unique_id, _, To, _, Scan_ID )
 :-
