@@ -30,7 +30,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
+     , get_currency
 
     , get_invoice_lines
 
@@ -66,9 +66,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice` , `No` , `.` , `:` ] , 100 , invoice_number , s1, newline ] )
+    , or( [
+        
+        generic_horizontal_details( [ [ `Invoice` , `No` , `.` , `:` ] , 100 , invoice_number , s1, newline ] )
+	    
+        , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
 	
-	
+    ])
 ] ).
 
 
@@ -85,8 +89,14 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ],100, invoice_date, date, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ],100, invoice_date, date, newline ] )
 	
+    ,generic_horizontal_details( [ [  `Date` , `:` ],100, invoice_date, date, newline ] )
+
+])
+
 ] ).
 
 
@@ -122,8 +132,18 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 	
-	, generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+	, or([
+        
+        generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+
+        , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+
+    ])
+
+    
 ] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,7 +157,13 @@ i_rule( get_total_net, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
+
+     , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
+
+    ])
 
 
 ] ).
