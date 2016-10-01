@@ -224,6 +224,8 @@ i_line_rule( total_vat_line, [
 
 	, generic_item( [ total_vat , d , newline ] )
 
+	, generic_item( [ default_vat_rate, `10` ] )
+
 
 
   ] ).
@@ -313,9 +315,9 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			line_invoice_line
-
-            , line_description_line
+			line_invoice_line 
+			
+			, line_description_line
 
 			, line
 
