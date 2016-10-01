@@ -121,7 +121,7 @@ i_rule( get_line_item, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `SAP`, `CODE`, `:` ], 100 , line_item , d, tab ] )
+    , generic_horizontal_details( [ [ q10(`SAP`), `CODE`, `:` ], line_item , d, tab ] )
 
 ] ).
 
@@ -230,7 +230,9 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `No` , `Description` , tab , `Qty`
+    `No` , `Description` , tab 
+
+     , read_ahead(`Qty`) , quantity_hook(w)
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -253,10 +255,16 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_invoice_line_dummy , d ] )
 
-    , generic_item( [ line_descr , s1 , or([q10(`code` , `:`), tab]) ]) 
+    , or([
+        
+        generic_item( [ line_descr , s ,  or([  [`CODE`, `:`], [ tab , `CODE`, `:` , tab ]  ])  ])
 
-    , q10(generic_item( [ line_item , d , tab ]))
+        , generic_item( [ line_descr , s1 ,   tab  ])
 
+    ])
+       
+     ,  q10(generic_item( [ line_item ,d, [ check( line_item(end) < -115) ]  ]))
+    
     , generic_item( [ line_quantity , d ])
 
     , generic_item( [line_qty_dummy , s1 , tab])
@@ -269,7 +277,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_vat_amount , d , tab ])
 
-    , generic_item( [ line_total_amount , d  ])
+    , generic_item( [ line_total_amount , d , q10(tab) ])
 
     , generic_item( [ line_vat_code_dummy , w , newline ])
     
