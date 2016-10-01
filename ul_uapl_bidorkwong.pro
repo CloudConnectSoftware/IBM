@@ -24,6 +24,8 @@ i_rule_list( [
     , get_order_number
 	
     , get_line_delivery_note_number
+
+    ,get_line_item
 	
     , get_total_vat
 	
@@ -86,14 +88,14 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Your` , `P` , `/` , `O` , `NO` , `.` , `:` ], 100, order_number, d, newline ] )
+    , generic_horizontal_details( [ [ `Your` , `P` , `/` , `O` , `NO` , `.` , `:` ], 100, line_buyers_order_number, d, newline ] )
 
 ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_order_number
+% get_Line Delivery Note
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,10 +105,25 @@ i_rule( get_line_delivery_note_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Our` , `D` , `/` , `O` , `NO` , `.` , `:` ], 100 , line_delivery_note_number , d, tab ] )
+    , generic_horizontal_details( [ [ `Our` , `D` , `/` , `O` , `NO` , `.` , `:` ], 100 , line_delivery_note_number , d, or([tab, newline]) ] )
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_Line Delivery Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_line_item, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_horizontal_details( [ [ `SAP`, `CODE`, `:` ], 100 , line_item , d, tab ] )
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -236,9 +253,9 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_invoice_line_dummy , d ] )
 
-    , generic_item( [ line_descr , s , [`code` , `:`] ] )
+    , generic_item( [ line_descr , s1 , or([q10(`code` , `:`), tab]) ]) 
 
-    , generic_item( [ line_item , d , tab ])
+    , q10(generic_item( [ line_item , d , tab ]))
 
     , generic_item( [ line_quantity , d ])
 
@@ -254,6 +271,6 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_total_amount , d  ])
 
-    , generic_item( [ line_vat_code , w , newline ])
+    , generic_item( [ line_vat_code_dummy , w , newline ])
     
 ] ).

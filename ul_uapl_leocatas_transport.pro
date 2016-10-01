@@ -222,9 +222,9 @@ i_line_rule( total_vat_line, [
 
 	q0n(anything) , `GST` , `AMOUNT` , 	tab
 
-	, generic_item( [ total_vat , s1 , newline ] )
+	, generic_item( [ total_vat , d , newline ] )
 
-	
+
 
   ] ).
 
