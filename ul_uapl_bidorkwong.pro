@@ -28,6 +28,8 @@ i_rule_list( [
     ,get_line_item
 	
     , get_total_vat
+
+    , get_total_net
 	
     , get_total_invoice
 	
@@ -48,12 +50,10 @@ i_rule( get_supplier_details, [
 %=======================================================================
 
     q0n(line)
-    
-    , generic_horizontal_details( [ [ `GST` , `No`, `.` ], 100, supplier_vat_number, s1 , newline ] )
 
-    , sender_name(`BIDOR KWONG HENG SDN BHD`)
+    ,sender_name(`BIDOR KWONG HENG SDN BHD`)
 
-    , supplier_vat_number(`001559580672`)
+    ,  generic_horizontal_details( [ [ `GST` , `No`, `.` ], 100, supplier_vat_number, s1 , newline ] )
 
 ] ).
 
@@ -141,8 +141,25 @@ i_rule( get_total_vat, [
 
     , generic_vertical_details( [ [ `GST` , `Amount` ], `Amount`, q(0,2), (end,10,10), total_vat , d , tab ] )
 
+    , generic_item( [ default_vat_rate, `6` ] )
+
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_total_invoice
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_net, [
+%=======================================================================
+
+     q0n(line)
+
+    , generic_horizontal_details( [ [ `T`, `ot`, `al`, `Amount`, `Due`], 300, total_net, d, tab ] )
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,7 +233,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_invoice_line
+            [ line_invoice_line , q10(line_material_line) ]
 
             , line
 
@@ -230,10 +247,8 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `No` , `Description` , tab 
+    `No` , `Description` , tab , `Qty`
 
-     , read_ahead(`Qty`) , quantity_hook(w)
-    
     , trace( [ `FOUND LINE HEADER LINE`])
 
 ] ).
@@ -281,4 +296,12 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_vat_code_dummy , w , newline ])
     
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_material_line, [
+%=======================================================================
+
+  generic_item( [ line_item ,d , tab])
+
 ] ).
