@@ -47,6 +47,8 @@ i_rule( get_supplier_details, [
 %=======================================================================
    
   sender_name( `PAX AUSTRALIA` )
+
+  , supplier_vat_number(`42 000 447 414`)
   
 ] ).
 
