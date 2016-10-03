@@ -47,7 +47,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`VISY BOARD PTY LTD (HPC)`)
 
-  , supplier_registration_number(`58 005 787 913`)
+  , supplier_vat_number(`58 005 787 913`)
 
 ] ).
 
