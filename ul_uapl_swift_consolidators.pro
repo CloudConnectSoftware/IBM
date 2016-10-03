@@ -190,7 +190,7 @@ i_rule( get_total_vat, [
 
 qn0(line)
  
-, generic_vertical_details( [ [ `AMOUNT` ], `AMOUNT`, q(0,1,up), (end,20,20), total_vat, d, tab ] )
+, generic_vertical_details( [ [ `AMOUNT` ], `AMOUNT`, q(0,1,up), (end,10,10), total_vat, d, tab ] )
   
 ] ).
 
@@ -212,7 +212,9 @@ i_section( get_invoice_lines, [
         , or( [
 
            
-              line_invoice_line
+              [ line_invoice_line , q10(line_append_line) ]
+
+
 
             , line
 
@@ -253,15 +255,23 @@ i_line_rule_cut( line_invoice_line, [
 
      ,q01(generic_item( [line_size , d , tab] ))
 
-    , generic_item( [line_quantity , d , tab] )
+    , generic_item( [line_quantity , d , q10(tab) ] )
 
     , generic_item( [line_unit_amount , d , tab] )
 
     , generic_item( [line_sales , w , tab] )
 
-    , generic_item( [line_vat_rate , d , tab ])
+    , generic_item( [line_vat_amount , d , tab ])
 
-    , generic_item( [line_total_amount , s1 , newline] )
+    , generic_item( [line_net_amount , d , newline] )
 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+    generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
 ] ).
