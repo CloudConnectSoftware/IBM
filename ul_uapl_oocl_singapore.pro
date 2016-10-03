@@ -50,7 +50,7 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-q(0,10,line)
+
 
      sender_name(`OOCL (Singapore) Pte Ltd`)
 
