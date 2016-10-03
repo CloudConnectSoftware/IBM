@@ -52,10 +52,9 @@ i_rule( get_supplier_details, [
 
 q(0,10,line)
 
-     ,sender_name(`OOCL (Singapore) Pte Ltd`)
+     sender_name(`OOCL (Singapore) Pte Ltd`)
 
-     , generic_horizontal_details( [ [ `GST`, `Reg`, `:` ],100, supplier_vat_number, s1, newline ] )
-		
+     		
 
 ] ).
 
@@ -256,15 +255,15 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_quantity , d , tab ] )  
 
-    , generic_item( [ line_unit_amount , d , tab ] )
+    , generic_item( [ line_unit , d , tab ] )
 
     , generic_item( [ line_currency_dummy , w , tab ] )
 
-    , generic_item( [ line_ext_vale_dummy , d , tab ] ) 
+    , generic_item( [ line_ext_dummy , d , tab ] ) 
 
-    , generic_item( [ line_exchange_rate_dummy , d , tab ] )
+    , generic_item( [ line_exchange_dummy , d , tab ] )
     
-    , generic_item( [ line_total_amount, d , newline ] )
+    , generic_item( [ line_net_amount, d , newline ] )
 
 
 
