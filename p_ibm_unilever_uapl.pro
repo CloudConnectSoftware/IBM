@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `12:48 29 September 2016` ).
+i_version( p_ibm_unilever_uapl, `14:35 03 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -858,6 +858,7 @@ i_error_invoice_integer_totals_inconsistent
 	result( _, invoice, total_net, Net ),
 	result( _, invoice, total_vat, VAT ),
 	result( _, invoice, total_invoice, Total ),
+	!,
 	sys_calculate_str_add( Net, VAT, Sum ),
 	sys_calculate_str_subtract( Total, Sum, Diff ),
 	sys_calculate_str_round_0( Diff, Diff_0 ),
@@ -874,6 +875,7 @@ i_error_sum_net_integer_discrepancy
 	i_force_list( List_of_nets_Raw, List_of_nets ),
 	i_user_check( sum_string_list, List_of_nets, Sum_of_nets ),
 	result( _, invoice, total_net, Total_net ),
+	!,
 	sys_calculate_str_subtract( Total_net, Sum_of_nets, Diff ),
 	sys_calculate_str_round_0( Diff, Diff_0 ),
 	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
@@ -889,6 +891,7 @@ i_error_sum_total_integer_discrepancy
 	i_force_list( List_of_totals_Raw, List_of_totals ),
 	i_user_check( sum_string_list, List_of_totals, Sum_of_totals ),
 	result( _, invoice, total_invoice, Total_invoice ),
+	!,
 	sys_calculate_str_subtract( Total_invoice, Sum_of_totals, Diff ),
 	sys_calculate_str_round_0( Diff, Diff_0 ),
 	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
