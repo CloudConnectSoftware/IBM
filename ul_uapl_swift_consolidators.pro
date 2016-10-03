@@ -251,7 +251,7 @@ i_line_rule_cut( line_invoice_line, [
 
      , generic_item( [line_descr , s1 , tab] )
 
-     ,q01(generic_item( [line_size , s1 , tab] ))
+     ,q01(generic_item( [line_size , d , tab] ))
 
     , generic_item( [line_quantity , d , tab] )
 
