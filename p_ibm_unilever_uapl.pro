@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `14:35 03 October 2016` ).
+i_version( p_ibm_unilever_uapl, `14:17 04 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,10 +45,12 @@ i_user_field( line, line_gl, `Line GL` ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %-----------------------------------------------------------------------
-% Customer Name
+% Intervention Stuff
 %-----------------------------------------------------------------------
 i_op_param( rules_intervention_role, _, _, _, `Unilever UAPL (Technical)` ). % This will be the role for rules intervention
 i_op_param( customer_name, _, _, _, `Unilever UAPL` ). % This will be the role for customer intervention
+i_op_param( default_rts_email_subject, _, _, _, `UAPL Invoice Processing Error` ).
+i_op_param( default_forward_email_subject, _, _, _, `UAPL Invoice Processing Error` ).
 
 %-----------------------------------------------------------------------
 % Customer Forward Address List
