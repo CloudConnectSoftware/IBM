@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
 %=======================================================================
     
      
-     sender_name(`IDS Manufacturing.`)
+     sender_name(`IDS MANUFACTURING SDN BHD.`)
 
 		
 
