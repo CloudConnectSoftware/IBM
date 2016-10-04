@@ -51,9 +51,8 @@ i_rule( get_supplier_details, [
 %=======================================================================
 
 
- q0n(line)
     
-    , generic_horizontal_details( [ [ `GST` ,`No`, `(` ], supplier_vat_number, d , `)` ] )
+     supplier_vat_number( `002052874240` )
      
      ,sender_name(`SWIFT CONSOLIDATORS SDN. BHD.`)
 
@@ -93,20 +92,20 @@ i_rule( get_order_number, [
 
  , or([
 
-    generic_horizontal_details( [ [ `PO`, `NO`], order_number, s, `/`] )
+    generic_horizontal_details( [ [ `PO`, `NO`], line_buyers_order_number, s, `/`] )
 
-    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], order_number, s1, newline] )
+    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], line_buyers_order_number, s1, newline] )
 
 
  ])
 
-     , check(order_number = OrdNo)
+     , check(line_buyers_order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , line_buyers_order_number(OrdNo)
+    , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE ORDER Number` , OrdNo ])
 
 ] ).
 
