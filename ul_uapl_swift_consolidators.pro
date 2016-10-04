@@ -199,13 +199,6 @@ qn0(line)
  
 , generic_vertical_details( [ [ `AMOUNT` ], `AMOUNT`, q(0,1,up), (end,10,10), total_vat, d, tab ] )
 
-, or([
-
-      generic_item( [ default_vat_rate, `6` ] )
-
-    , generic_item( [ default_vat_rate, `0` ] )
-
-])
   
 ] ).
 
@@ -264,7 +257,7 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      generic_item( [ line_tax , w , tab ] )
+      generic_item( [ line_tax , w , q10(tab) ] )
 
      , generic_item( [line_descr , s1 , tab] )
 
@@ -274,7 +267,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_unit_amount , d , tab] )
 
-    , generic_item( [line_sales , w , tab] )
+    , generic_item( [line_sales , d , tab] )
 
     , generic_item( [line_vat_amount , d , tab ])
 
