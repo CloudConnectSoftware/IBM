@@ -91,7 +91,14 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `PO`, `NO`], order_number, s, `/`] )
+ , or([
+
+    generic_horizontal_details( [ [ `PO`, `NO`], order_number, s, `/`] )
+
+    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], order_number, s1, newline] )
+
+
+ ])
 
      , check(order_number = OrdNo)
 
@@ -191,6 +198,14 @@ i_rule( get_total_vat, [
 qn0(line)
  
 , generic_vertical_details( [ [ `AMOUNT` ], `AMOUNT`, q(0,1,up), (end,10,10), total_vat, d, tab ] )
+
+, or([
+
+      generic_item( [ default_vat_rate, `6` ] )
+
+    , generic_item( [ default_vat_rate, `0` ] )
+
+])
   
 ] ).
 
@@ -263,7 +278,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_vat_amount , d , tab ])
 
-    , generic_item( [line_net_amount , d , newline] )
+    , generic_item( [line_total_amount , d , newline] )
 
 
 ] ).
