@@ -198,6 +198,14 @@ qn0(line)
  
 , generic_vertical_details( [ [ `AMOUNT` ], `AMOUNT`, q(0,1,up), (end,10,10), total_vat, d, tab ] )
 
+, or([
+
+      generic_item( [ default_vat_rate, `6` ] )
+
+    , generic_item( [ default_vat_rate, `0` ] )
+
+])
+
   
 ] ).
 
