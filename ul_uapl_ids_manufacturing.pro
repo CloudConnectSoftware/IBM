@@ -223,17 +223,9 @@ i_rule( get_line_item, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Description` ], `Description`, q(1,2), (start,10,10), line_item_dummy, s1 , tab  ] )
+    , generic_vertical_details( [ [ `Description` ], `Description`, q(1,2), (start,10,10), line_item, s1 , tab  ] )
 
-    , check(line_item_dummy = LineNo)
-
-    , trace([`Line Item Capital Varaible` , LineNo])
-
-    , line_item(LineNo)
-
-    , trace( [ `THIS IS NOW THE LINE ITEM` , LineNo ])
-
-    
+   
     
 ] ).
 
