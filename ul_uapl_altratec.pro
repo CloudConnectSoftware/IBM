@@ -71,6 +71,8 @@ i_rule_cut( get_invoice_number, [
         generic_horizontal_details( [ [ `Invoice` , `No` , `.` , `:` ] , 100 , invoice_number , s1, newline ] )
 	    
         , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
+
+        ,generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
 	
     ])
 ] ).
@@ -91,7 +93,7 @@ i_rule_cut( get_invoice_date, [
 
     , or([
         
-        generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ],100, invoice_date, date, newline ] )
+        generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date, date, newline ] )
 	
     ,generic_horizontal_details( [ [  `Date` , `:` ],100, invoice_date, date, newline ] )
 
@@ -115,7 +117,13 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [  `Add` , `GST` , `@` , dummy_vat(d) , `%` ], 150 , total_vat , d, newline ] )
 
-    , generic_item( [ default_vat_rate, `6` ] )
+
+     , or([
+
+              generic_item( [ default_vat_rate, `6` ] )
+   
+
+     ])
 
 ] ).
 
@@ -223,7 +231,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ line_invoice_line, q10(line_descr_line)  , line_po_line ]
+           [ or([ line_invoice_line, line_invoice_line2]), q10(line_descr_line)  , line_po_line ]
+
+     
 
             , line
 
@@ -258,7 +268,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_invoice_line_dummy , d , tab ] )
+    generic_item( [ line_invoice_line_dummy , d , tab] )
 
     , generic_item( [ line_item, s, [q10(tab),check(line_item(end) < -250 )]])
 
@@ -297,9 +307,14 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_po_line, [
 %=======================================================================
 
-    `PO`, `:` ,  tab
+    `PO`, `:` ,  q10(tab)
     
-    , generic_item( [ line_buyers_order_number , s1 , newline ] )
+    , or([
+        generic_item( [ line_buyers_order_number , s1 , newline ] )
+
+        , generic_item( [ line_buyers_order_number , s , `=` ] )
+
+    ])
 
      , check(line_buyers_order_number = OrdNo)
 
@@ -309,5 +324,32 @@ i_line_rule_cut( line_po_line, [
 
     , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
 
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+    generic_item( [ line_invoice_line_dummy , d , `)`] )
+
+    , generic_item( [ line_item, w, [check(line_item(end) < -25 )]])
+
+    , generic_item( [ line_descr , s1, tab ] )
+
+     
+    , generic_item( [ line_quantity , d ])
+    
+    , generic_item( [ line_quantity_uom_code , w , tab ] )
+
+    
+
+
+    , generic_item( [ line_unit_amount , d , tab ] )
+
+    , generic_item( [ line_net_amount, d , newline ] )
+
+   
 
 ] ).
