@@ -53,6 +53,7 @@ i_rule( get_supplier_details, [
      
      sender_name(`IDS MANUFACTURING SDN BHD.`)
 
+     ,supplier_vat_number(`000955711488`)
 		
 
 ] ).
