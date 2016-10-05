@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_currency
 
+    ,  get_line_item
+
     ,  get_line_Description
 
     , get_invoice_lines
@@ -54,7 +56,8 @@ i_rule( get_supplier_details, [
      sender_name(`IDS MANUFACTURING SDN BHD.`)
 
      ,supplier_vat_number(`000955711488`)
-		
+
+     , set(tax_invoice)	
 
 ] ).
 
@@ -210,6 +213,32 @@ qn0(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_line Item
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_line_item, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_vertical_details( [ [ `Description` ], `Description`, q(1,2), (start,10,10), line_item_dummy, s1 , tab  ] )
+
+    , check(line_item_dummy = LineNo)
+
+    , trace([`Line Item Capital Varaible` , LineNo])
+
+    , line_item(LineNo)
+
+    , trace( [ `THIS IS NOW THE LINE ITEM` , LineNo ])
+
+    
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_description
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -278,7 +307,7 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      q10(generic_item( [ line_item, w , tab ] ))
+      q10(generic_item( [ line_item_dummy, w , tab ] ))
 
      , q10(generic_item( [line_descr_dummy , s , `:` ] ))
 
