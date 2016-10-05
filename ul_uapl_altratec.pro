@@ -310,9 +310,9 @@ i_line_rule_cut( line_po_line, [
     `PO`, `:` ,  q10(tab)
     
     , or([
-        generic_item( [ line_buyers_order_number , s1 , newline ] )
+            generic_item( [ line_buyers_order_number , w1 , `=` ] )
 
-        , generic_item( [ line_buyers_order_number , s , `=` ] )
+            , generic_item( [ line_buyers_order_number , s1 , newline ] )
 
     ])
 
