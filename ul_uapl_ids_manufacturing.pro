@@ -126,8 +126,13 @@ i_rule( get_line_order_number, [
 %=======================================================================
 
    q0n(line)
+
+, or([
+   generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
  
 ,generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
+
+])
 
 , check(line_buyers_order_number = OrdNo)
 
@@ -223,7 +228,7 @@ i_rule( get_line_item, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Description` ], `Description`, q(1,2), (start,10,10), line_item, s1 , tab  ] )
+    , generic_vertical_details( [ [ `Description` ], `Description`, q(3,5), (start,10,10), line_item, d , tab  ] )
 
    
     
