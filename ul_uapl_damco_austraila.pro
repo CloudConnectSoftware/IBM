@@ -87,7 +87,8 @@ i_rule_cut( get_order_number, [
     q0n(line)
 
 
-    , generic_horizontal_details( [ [ `PO` ],  line_buyers_order_number, w ] )
+    
+    , generic_horizontal_details( [ [ `PO` ],  line_buyers_order_number, w , q10(newline)] )
 
     , check(line_buyers_order_number = OrdNo)
 
@@ -149,6 +150,7 @@ i_rule( get_total_vat, [
     q0n(line)
 
     , generic_vertical_details( [ [ `Total`, `(`, `NZD`, `)`], `NZD`, q(2,5), (start,20,20), total_vat, d, newline ] )
+    , generic_item( [ default_vat_rate, `15` ] )
 
 ] ).
 
@@ -252,6 +254,8 @@ or( [
     `No`, tab, `Container`, `ID`, tab, `Size`, `/`, `Type`, tab, `Service`,  newline
 
    , `Amount` , `Due`, `:`, tab
+
+   ,  `Damco` , `New Zealand` , `Limited`
 
 ] )
 
