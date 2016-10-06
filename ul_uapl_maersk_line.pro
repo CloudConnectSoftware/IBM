@@ -55,6 +55,8 @@ i_rule( get_supplier_details, [
 
   , supplier_registration_number(`197401342Z`)
 
+  , supplier_vat_number(`72 730 876 913`)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
