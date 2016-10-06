@@ -26,6 +26,8 @@ i_rule_list( [
 
     , get_due_date
 
+    , get_order_number
+
     , get_total_vat
 
     , get_total_net
@@ -70,6 +72,33 @@ i_rule_cut( get_invoice_number, [
     , generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], 100, invoice_number, d, newline ] )
 	
 	] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_order_number, [
+%=======================================================================
+
+    q0n(line)
+
+
+    , generic_horizontal_details( [ [ `PO` ],  line_buyers_order_number, w ] )
+
+    , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
+
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

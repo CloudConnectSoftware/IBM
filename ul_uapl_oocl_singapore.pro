@@ -89,12 +89,19 @@ i_rule( get_order_number, [
     q0n(line)
 
     , or([
-        generic_horizontal_details( [ [ `STO`, `NO`, `.`, `:` ],100, line_order_line_number, s1, newline ] )
+        generic_horizontal_details( [ [ `STO`, `NO`, `.`, `:` ],100, line_buyers_order_number, s1, newline ] )
 
-    , generic_horizontal_details( [ [ `L1`, `PO` , `NO` ,`:` ],100, line_order_line_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `L1`, `PO` , `NO` ,`:` ],100, line_buyers_order_number, s1, newline ] )
 
     ])
+    
+    , check(line_buyers_order_number = OrdNo)
 
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
   
 
 
