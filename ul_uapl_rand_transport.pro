@@ -55,6 +55,8 @@ i_rule( get_supplier_details, [
      
      sender_name(`RAND TRANSPORT (1986) PTY LTD.`)
 
+     , supplier_vat_number(`72 730 876 913`)
+
 		
 
 ] ).
