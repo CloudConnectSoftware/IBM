@@ -95,7 +95,7 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `AMOUNT`, `(`, `SGD`, `)`], `SGD`, q(10,20), (start,20,20), total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `TOTAL`, `(`, `$`, `)`, tab ], total_net, d, tab ] )
 
 ] ).
 
@@ -111,9 +111,10 @@ i_rule( get_total_vat, [
 %=======================================================================
 
     q0n(line)
+    
+    , generic_horizontal_details( [ [ `GST`, tab ], total_vat, d, tab ] )
 
-    , generic_horizontal_details( [ [`GST`, tab ], total_vat, d, newline ] )
-
+    
 ] ).
 
 
@@ -129,9 +130,9 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_vertical_details( [ [ `AMOUNT`, `(`, `SGD`, `)`], `SGD`, q(10,25), (end,20,20), total_invoice, d, newline ] )
- 
+    , generic_horizontal_details( [ [ `GRAND`, `TTL`, `(`, `$`, `)`, tab ], total_invoice, d, tab ] )
 
+   
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,27 +143,76 @@ i_rule( get_total_invoice, [
 
 %=======================================================================
 i_rule( get_currency, [
-%=======================================================================  
-          
-   
-q0n(line)
-
-    , currency_line
-
-]).
-
-
-%=======================================================================
-i_line_rule( currency_line, [
 %=======================================================================
 
-    q0n(anything)
+    q0n(line)
+        
+   , generic_horizontal_details( [ [ `AMOUNT`, `(` ],  150, w, `)`,tab ] )
+  
+] ).
 
-   , `AMOUNT`, `SGD`
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    , currency(`SGD`)
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
 
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+
+             line_invoice_line
+
+              , line
+
+        ] )
+
+    ] )
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+  `PARTICULARS`, tab, `ITEM`, tab, `AMOUNT`, `(`, `USD`, `)`, tab, `AMOUNT`, `(`, `SGD`, `)`,  newline
+    
+    , trace( [ `FOUND LINE HEADER LINE`])
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+    `EXCHANGE`, `RATE`, `:`, tab, `1`, `.`, `3695`, `DATE`, `:`, `28`, `SEP`, `.`, `2016`,  newline
+
+    , trace( [ `FOUND LINE END LINE`] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+      generic_item( [ line_descr , s1 , tab ] )
+
+    , generic_item( [ line_item, s1, tab ] )
+
+    , generic_item( [ line_item_no, d, tab ] )
+
+    , generic_item( [ line_item_, w, tab ] )
+
+   , generic_item( [ line_net_amount , d , tab ] )
+
+   , generic_item( [ line_net_amount_dummy, d, newline ] )
+
+   
+] ).
 
