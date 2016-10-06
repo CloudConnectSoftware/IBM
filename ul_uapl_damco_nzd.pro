@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - DAMCO AUSTRALIA PTY LTD
+% GRAMATICA - DAMCO NEW ZEALAND LIMITED
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_damco_austraila, `05/10/2016` ).
+i_version( ul_uapl_damco_nzd, `05/10/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -50,9 +50,13 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
  
-     sender_name(`DAMCO AUSTRALIA PTY LTD`)
+     sender_name(`DAMCO NEW ZEALAND LIMITED`)
 
      , supplier_vat_number(`70-285-177`)
+
+     , currency( `AUD` )
+
+    , buyer_registration_number(`AU00`)
 
 	] ).
 
@@ -267,7 +271,7 @@ or( [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
       
-      generic_item( [ line_item, d, tab ] )
+      generic_item( [ line_item_dummy, d, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
 
