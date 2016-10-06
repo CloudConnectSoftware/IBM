@@ -51,11 +51,12 @@ i_rule( get_supplier_details, [
 %=======================================================================
 
 
- q0n(line)
     
-    , generic_horizontal_details( [ [ `GST` ,`No`, `(` ], supplier_vat_number, d , `)` ] )
+     supplier_vat_number( `002052874240` )
      
      ,sender_name(`SWIFT CONSOLIDATORS SDN. BHD.`)
+
+     , buyer_registration_number(`MY00`)
 
 		
 
@@ -93,20 +94,20 @@ i_rule( get_order_number, [
 
  , or([
 
-    generic_horizontal_details( [ [ `PO`, `NO`], order_number, s, `/`] )
+    generic_horizontal_details( [ [ `PO`, `NO`], line_buyers_order_number, s, `/`] )
 
-    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], order_number, s1, newline] )
+    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], line_buyers_order_number, s1, newline] )
 
 
  ])
 
-     , check(order_number = OrdNo)
+     , check(line_buyers_order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , line_buyers_order_number(OrdNo)
+    , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE ORDER Number` , OrdNo ])
 
 ] ).
 
@@ -206,6 +207,7 @@ qn0(line)
     , generic_item( [ default_vat_rate, `0` ] )
 
 ])
+
   
 ] ).
 
@@ -264,7 +266,7 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      generic_item( [ line_tax , w , tab ] )
+      generic_item( [ line_tax , w , q10(tab) ] )
 
      , generic_item( [line_descr , s1 , tab] )
 
@@ -274,7 +276,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_unit_amount , d , tab] )
 
-    , generic_item( [line_sales , w , tab] )
+    , generic_item( [line_sales , d , tab] )
 
     , generic_item( [line_vat_amount , d , tab ])
 

@@ -253,7 +253,7 @@ i_section( get_invoice_lines, [
     ] )
 
 ] ).
-
+    
 %=======================================================================
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
@@ -282,7 +282,12 @@ i_line_rule_cut( line_invoice_line, [
     
     , generic_item( [ line_item, d, tab ] )
 
-    , generic_item( [ line_descr, s1, tab ] )
+    , or([
+        generic_item( [ line_descr, s1, [ check(line_descr(end) < -55) , tab ] ] )
+
+        ,generic_item( [ line_descr, s, [ check(line_descr(end) < -55)  ] ] )
+
+    ])
 
     , generic_item( [ line_quantity , d ] )
 

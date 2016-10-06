@@ -49,6 +49,9 @@ i_rule( get_supplier_details, [
 
   , supplier_vat_number(`58 005 787 913`)
 
+  , currency( `AUD` )
+
+  , buyer_registration_number(`AU00`)
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

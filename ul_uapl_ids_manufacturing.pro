@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_currency
 
+    ,  get_line_item
+
     ,  get_line_Description
 
     , get_invoice_lines
@@ -53,7 +55,9 @@ i_rule( get_supplier_details, [
      
      sender_name(`IDS MANUFACTURING SDN BHD.`)
 
-		
+     ,supplier_vat_number(`000955711488`)
+
+     , set(tax_invoice)	
 
 ] ).
 
@@ -122,8 +126,13 @@ i_rule( get_line_order_number, [
 %=======================================================================
 
    q0n(line)
+
+, or([
+   generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
  
 ,generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
+
+])
 
 , check(line_buyers_order_number = OrdNo)
 
@@ -209,6 +218,24 @@ qn0(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_line Item
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_line_item, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_vertical_details( [ [ `Description` ], `Description`, q(3,5), (start,10,10), line_item, d , tab  ] )
+
+   
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_description
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -277,22 +304,34 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      q10(generic_item( [ line_item, w , tab ] ))
+          q10(generic_item( [ line_item_dummy, w , tab ] ))
 
-     , q10(generic_item( [line_descr_dummy , s , `:` ] ))
+    , q10(generic_item( [line_descr_dummy , s , `:` ] ))
+	
+	, q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_net_amount has been captured
+	
+		, with( 1, line_item, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+		, generic_item( [ line_item, Item ] ) % This stores the value in line_item for the current line
+	
+		, with( 1, line_descr, Descr ) % This takes the first value of line_descr (captured in rule 'get_line_Description')
+		, generic_item( [ line_descr, Descr ] ) % This stores the value in line_descr for the current line
+		
+	] )
 
-         ,generic_item( [line_reference , d , tab] )
+    , generic_item( [line_reference , d , tab] )
 
-      ,generic_item( [line_date , date , tab] )
+    , generic_item( [line_date , date , tab] )
 
     , generic_item( [line_quantity , d ] )
 
-     ,generic_item( [line_quantity_uom_code , w , tab] )
+    , generic_item( [line_quantity_uom_code , w , tab] )
 
     , generic_item( [line_unit_amount , d , tab] )
 
-     , generic_item( [line_net_amount , d , newline] )
-
+    , generic_item( [line_net_amount , d , newline] )
 
 ] ).
+
+
+
 
