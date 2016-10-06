@@ -304,22 +304,34 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      q10(generic_item( [ line_item_dummy, w , tab ] ))
+          q10(generic_item( [ line_item_dummy, w , tab ] ))
 
-     , q10(generic_item( [line_descr_dummy , s , `:` ] ))
+    , q10(generic_item( [line_descr_dummy , s , `:` ] ))
+	
+	, q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_net_amount has been captured
+	
+		, with( 1, line_item, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+		, generic_item( [ line_item, Item ] ) % This stores the value in line_item for the current line
+	
+		, with( 1, line_descr, Descr ) % This takes the first value of line_descr (captured in rule 'get_line_Description')
+		, generic_item( [ line_descr, Descr ] ) % This stores the value in line_descr for the current line
+		
+	] )
 
-         ,generic_item( [line_reference , d , tab] )
+    , generic_item( [line_reference , d , tab] )
 
-      ,generic_item( [line_date , date , tab] )
+    , generic_item( [line_date , date , tab] )
 
     , generic_item( [line_quantity , d ] )
 
-     ,generic_item( [line_quantity_uom_code , w , tab] )
+    , generic_item( [line_quantity_uom_code , w , tab] )
 
     , generic_item( [line_unit_amount , d , tab] )
 
-     , generic_item( [line_net_amount , d , newline] )
-
+    , generic_item( [line_net_amount , d , newline] )
 
 ] ).
+
+
+
 
