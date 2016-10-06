@@ -56,6 +56,8 @@ i_rule( get_supplier_details, [
      
      ,sender_name(`SWIFT CONSOLIDATORS SDN. BHD.`)
 
+     , buyer_registration_number(`MY00`)
+
 		
 
 ] ).
