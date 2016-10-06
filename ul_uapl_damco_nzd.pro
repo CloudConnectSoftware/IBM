@@ -90,9 +90,8 @@ i_rule_cut( get_order_number, [
 
     q0n(line)
 
-
     
-    , generic_horizontal_details( [ [ `PO` ],  line_buyers_order_number, w , q10(newline)] )
+     , generic_horizontal_details( [ [ `PO` ],  line_buyers_order_number, w , [ q10(newline), check(line_buyers_order_number(end) < -340 )] ] )
 
     , check(line_buyers_order_number = OrdNo)
 
@@ -101,6 +100,8 @@ i_rule_cut( get_order_number, [
     , order_number(OrdNo)
 
     , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
+
+   
 
 
 ] ).
