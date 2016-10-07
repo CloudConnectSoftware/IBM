@@ -90,16 +90,21 @@ i_rule_cut( get_order_number, [
 
     q0n(line)
 
-    
-     , generic_horizontal_details( [ [ `PO` ],  line_buyers_order_number, w , [ q10(newline), check(line_buyers_order_number(end) < -340 )] ] )
+    ,or([
 
-    , check(line_buyers_order_number = OrdNo)
+      generic_horizontal_details( [ [ `PO` ],  order_number, s1 , [ or([tab , newline]), check(order_number(end) < -340) ]  ])
+
+     , generic_horizontal_details( [ [ `PO` ],  order_number, s ,   check(order_number(end) < -340) ])
+
+])
+
+    , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , order_number(OrdNo)
+    , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
 
    
 
