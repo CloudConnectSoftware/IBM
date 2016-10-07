@@ -92,16 +92,16 @@ i_rule_cut( get_invoice_date, [
     q0n(line)
 
     , or([
+
+         generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date, date, newline ] )
+
+
         
-        generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date_raw, s1, newline ] )
-	
-    ,generic_horizontal_details([ [  `Date` , `:`  ], invoice_date, date, newline ] )
+       , [  
+           
+           generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date_raw, s1, newline ] )
 
-    
-
-])
-
-, check( invoice_date_raw = DateRaw )
+       , check( invoice_date_raw = DateRaw )
 
     , trace( [ `Invoice date raw` , DateRaw ] )
 
@@ -111,7 +111,20 @@ i_rule_cut( get_invoice_date, [
 
     , invoice_date(DateStrip)
 
-    , trace( [ `Invoice Date` , invoice_date ] )
+    , trace( [ `Invoice Date` , invoice_date ] )  
+    
+    ]
+
+
+	
+    ,generic_horizontal_details([ [  `Date` , `:`  ], invoice_date, date, newline ] )
+
+    
+    
+
+])
+
+
 
 ] ).
 
@@ -158,7 +171,15 @@ i_rule( get_total_invoice, [
         
         generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
 
-        , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+        , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+             
+             ,  check(total_invoice = TotInv)
+
+    , trace([`Total Capital Varaible` , TotInv])
+
+    , line_total_amount(TotInv)
+
+    , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
 
     ])
 
@@ -183,7 +204,15 @@ i_rule( get_total_net, [
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
-     , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
+     , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
+
+     ,  check(total_net = TotNet)
+
+    , trace([`Net Capital Varaible` , TotNet])
+
+    , line_net_amount(TotNet)
+
+    , trace( [ `THIS IS NOW THE LINE NET` , TotNet ]) ]
 
     ])
 
