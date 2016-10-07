@@ -58,6 +58,12 @@ i_rule( supplier_registration_number, [
 
     supplier_registration_number(`UNIMARN0`)
 
+    ,supplier_vat_number(`ABN 74 004 280 979`)
+
+    ,currency(`AUD`)
+
+    ,buyer_registration_number(`AU00`)
+
    ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

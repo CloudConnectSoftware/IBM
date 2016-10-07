@@ -128,9 +128,9 @@ i_rule( get_line_order_number, [
    q0n(line)
 
 , or([
-   generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
+   generic_horizontal_details( [[ or([`M`, `SG`]) , `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
  
-,generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
+,generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
 
 ])
 
@@ -212,7 +212,8 @@ qn0(line)
  
 , generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`, tab ], total_vat, d , newline] )
 
-, generic_item( [ default_vat_rate, `6` ] )
+
+
   
 ] ).
 
