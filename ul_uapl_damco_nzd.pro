@@ -54,9 +54,9 @@ i_rule( get_supplier_details, [
 
      , supplier_vat_number(`70-285-177`)
 
-     , currency( `AUD` )
+     , currency( `NZD` )
 
-    , buyer_registration_number(`AU00`)
+   
 
 	] ).
 
