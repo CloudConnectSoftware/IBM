@@ -96,6 +96,8 @@ i_rule_cut( get_order_number, [
 
      , generic_horizontal_details( [ [ `PO` ],  order_number, s ,   check(order_number(end) < -340) ])
 
+     , generic_horizontal_details( [ [ `PO` ],  order_number, w ,   check(order_number(end) < -345) ])
+
 ])
 
     , check(order_number = OrdNo)
