@@ -14,6 +14,7 @@ i_trace_lists.
 
 i_include_partner_attachments_image_only.
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,6 +49,8 @@ i_rule( get_supplier_details, [
    
   
    sender_name(`RCL FEEDER PTE LTD`)
+
+   , set(freight_vendor)
 
   ] ).
 
