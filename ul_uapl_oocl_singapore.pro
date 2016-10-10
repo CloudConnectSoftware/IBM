@@ -54,6 +54,8 @@ i_rule( get_supplier_details, [
 
      sender_name(`OOCL (Singapore) Pte Ltd`)
 
+     , set(freight_vendor)
+
      		
 
 ] ).
@@ -173,11 +175,9 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-  currency( `USD` )
+currency( `USD` )
 
 ] ).
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_total_vat
