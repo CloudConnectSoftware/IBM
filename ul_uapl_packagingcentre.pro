@@ -196,9 +196,9 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , [ line_invoice_line            , line_desr_line , line_material_line]
+            , [ line_invoice_line , line  , line_desr_line , q10(line_material_line) ]
 
-            , line
+            
 
         ] )
 
@@ -220,7 +220,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `TOTAL` , `MYR` , `EXCL`
+   `TOTAL`, `MYR`, `EXCL`
 
     ,trace( [ `FOUND LINE END LINE`] )
 
@@ -242,7 +242,9 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_invoice_line_dummy , d , tab ] )
 
-    , generic_item( [ line_descr , s , q10(tab) ] )
+    , or([ generic_item( [ line_descr , s  ] )
+
+        , generic_item( [ line_descr , s1, tab  ] ) ])
 
     , generic_item( [ line_buyers_order_number , w , tab ] )
 
@@ -266,7 +268,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr, s1, newline , ` `, ` `  ] )
+    generic_append( [ line_descr , s1 , newline , `  `,  ` `  ] )
 
 ] ).
 
@@ -274,6 +276,8 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_material_line, [
 %=======================================================================
      
-     generic_item( [line_item , s1 , newline] )
+ `PRODUCT`, `CODE`, `:`
+
+     , generic_item([line_item , s1 , newline ])
 
 ] ).
