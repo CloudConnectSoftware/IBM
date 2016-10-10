@@ -268,7 +268,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , `  `,  ` `  ] )
+    generic_append( [ line_descr, s1, newline, `_`, `  `  ] )
 
 ] ).
 
@@ -278,6 +278,6 @@ i_line_rule_cut( line_material_line, [
      
  `PRODUCT`, `CODE`, `:`
 
-     , generic_item([line_item , s1 , newline ])
+     , generic_item([line_item , s1, newline ])
 
 ] ).
