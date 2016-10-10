@@ -173,11 +173,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q(0,30,line)
-    
-    , generic_vertical_details( [ [ `CUR` ], `CUR`, q(0,1), (end,10,10), currency, w, tab ] )
-
-] ).
+  currency( `USD` )
 
 
 
