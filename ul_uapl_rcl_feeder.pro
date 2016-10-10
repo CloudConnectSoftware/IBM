@@ -118,6 +118,9 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [ `Total`, `GST`, `amount`, `in`, `SGD` ], 150, total_vat, d, newline ] )
 
+
+     
+
 ]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

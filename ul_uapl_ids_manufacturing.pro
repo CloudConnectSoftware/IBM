@@ -212,6 +212,8 @@ qn0(line)
  
 , generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`, tab ], total_vat, d , newline] )
 
+, generic_item( [ default_vat_rate, `6` ] )
+
 
 
   
