@@ -56,6 +56,8 @@ i_rule( get_supplier_details, [
   , supplier_registration_number(`197401342Z`)
 
   , supplier_vat_number(`72 730 876 913`)
+  
+  , set(freight_vendor)
 
 ] ).
 
@@ -250,8 +252,6 @@ i_line_rule_cut( line_end_line, [
 
 ] ).
 
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [
 %=======================================================================
       
       generic_item( [ line_descr, s1, tab ] )

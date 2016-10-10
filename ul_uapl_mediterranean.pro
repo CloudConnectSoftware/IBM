@@ -56,6 +56,7 @@ i_rule( get_supplier_details, [
      
      ,sender_name(`MEDITERRANEAN SHIPPING CO SEA (S) PTE LTD`)
 
+     , set(freight_vendor)
 		
 ] ).
 

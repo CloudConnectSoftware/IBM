@@ -48,6 +48,8 @@ i_rule( get_supplier_details, [
 
 	   , supplier_vat_number(`M2-0109131-4`)	
 
+       , set(freight_vendor)
+
    ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
