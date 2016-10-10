@@ -196,7 +196,7 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , [ line_invoice_line , line  , line_desr_line , q10(line_material_line) ]
+            , [ line_invoice_line , line  , q10(line_desr_line) , q10(line_material_line) ]
 
             
 
@@ -246,7 +246,7 @@ i_line_rule_cut( line_invoice_line, [
 
         , generic_item( [ line_descr , s1, tab  ] ) ])
 
-    , generic_item( [ line_buyers_order_number , w , tab ] )
+    , q10(generic_item( [ line_buyers_order_number , w , tab ] ))
 
     , generic_item( [ line_quantity , d , q10(tab) ] )
 
