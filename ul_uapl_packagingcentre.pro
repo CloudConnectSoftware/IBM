@@ -176,23 +176,7 @@ i_rule( get_currency, [
  
  ] ).
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- % Enter Line Material nummber
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
- %=======================================================================
- i_rule( get_line_material, [
- %=======================================================================
- 
- q0n(line)
-     
-     
-     ,generic_horizontal_details( [ [ `PRODUCT`, `CODE`, `:`], line_item, d, newline ] ) 
- 
- ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -212,9 +196,7 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , line_invoice_line
-
-            , line_desr_line
+            , [ line_invoice_line            , line_desr_line , line_material_line]
 
             , line
 
@@ -260,7 +242,7 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_invoice_line_dummy , d , tab ] )
 
-    , generic_item( [ line_descr , s1 , tab ] )
+    , generic_item( [ line_descr , s , q10(tab) ] )
 
     , generic_item( [ line_buyers_order_number , w , tab ] )
 
@@ -274,14 +256,24 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_net_amount , d , tab ] )
 
-    , generic_item( [ line_vat_code , w , newline ] )
+    , generic_item( [ line_vat_code_dummy , w , newline ] )
 
 
 ] ).
 
+
 %=======================================================================
-i_line_rule_cut( line_desr_line, [
+i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+    generic_append( [ line_descr, s1, newline , ` `, ` `  ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_material_line, [
+%=======================================================================
+     
+     generic_item( [line_item , s1 , newline] )
+
 ] ).
