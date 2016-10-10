@@ -56,6 +56,8 @@ i_rule( get_supplier_details, [
 
      , currency( `NZD` )
 
+     , set(freight_vendor)
+
    
 
 	] ).
