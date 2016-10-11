@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( packaging_centre, `14/09/2016` ).
+i_version( packaging_centre, `09:46 11 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -12,7 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_include_partner_attachments_image_only.
+% i_include_partner_attachments_image_only. % Removed because this supplier sends multiple invoices on one email. This can only be used for suppliers who send one invoice per email with supporting documents.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
