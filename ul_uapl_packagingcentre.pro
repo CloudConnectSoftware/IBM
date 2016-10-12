@@ -50,9 +50,7 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    q0n(line)
-    
-    , generic_horizontal_details( [ [ `GST` , `REG` , `NO`, `:` ], 100, supplier_vat_number, s1 , newline ] )
+    supplier_vat_number(`000331620352`)
 
     , sender_name(`PACKAGING CENTRE SERVICES SDN BHD`)
 

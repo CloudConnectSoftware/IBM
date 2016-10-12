@@ -55,6 +55,8 @@ i_rule( get_supplier_details, [
 
      sender_name(`OOCL (Singapore) Pte Ltd`)
 
+     ,supplier_vat_number(`197801878K`)
+
      , set(freight_vendor)
 
      		
