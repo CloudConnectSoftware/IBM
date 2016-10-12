@@ -107,7 +107,13 @@ i_line_rule( invoice_number_line, [
 
 	q0n(anything)
 
-	, `INVOICE` , `NO`	, tab
+	, or([
+
+	[`INVOICE` , `NO`	, tab]
+
+	, [`I`, `N`, `V`, `OI`, `CE`, `N`, `O`, tab]
+
+	])
 
 	, generic_item( [ invoice_number , d , newline ] )
 
@@ -151,7 +157,11 @@ i_line_rule( invoice_date_line, [
 
 	q0n(anything)
 
-	, `DATE` , tab
+	,or([ [ `DATE` , tab ]
+
+	, [`DA`, `T`, `E`, tab]
+
+	])
 
 	, generic_item( [ invoice_date , date , newline ] )
 
@@ -181,9 +191,7 @@ i_line_rule( total_net_line, [
 
 	q0n(anything)
 
-	, `SUBTOTAL`
-
-	, 	tab
+	, [`SUBTOTAL` 	, 	tab]
 
 	, generic_item( [ total_net , d , newline ] )
 
@@ -247,7 +255,16 @@ i_line_rule( total_invoice_line, [
 
 	q0n(anything)
 
-	, `Total` , tab
+	, or([ 
+		
+
+	 [ `A`, `/`, `C`, `No`, `:`, `2909`, `-`, `25975`, tab, `03`, `)`, `5824`, `2135`, tab, `TOTAL`, tab, `$`]
+
+	 
+
+	])
+
+
 
 	, generic_item( [ total_invoice , d , newline ] )
 
@@ -289,7 +306,11 @@ i_section( get_invoice_lines, [
 i_line_rule( line_start_line, [
 %=======================================================================
 	
-	`date` ,tab, `your` , `ref`
+	or([ [`date` ,tab, `your` , `ref`]
+
+	, [`DA`, `T`, `E`, tab, `Y`, `OU`, `R`, `REF`, `.`]
+
+	])
 
     , trace([`found the start line`])
 
@@ -304,6 +325,8 @@ i_line_rule( line_end_line, [
 		 [ `Payment` , `Options` , `.` ]
 
 	     , [ `subtotal` , tab ]
+
+		 , [`SUB`, `TOTA`, `L`]
 
 	 ])
 
