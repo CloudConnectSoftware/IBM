@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    , get_debit_note
 	
 	, get_invoice_number
 
@@ -52,11 +54,47 @@ i_rule( get_supplier_details, [
 
      sender_name(`OOCL (Singapore) Pte Ltd`)
 
+     ,supplier_vat_number(`197801878K`)
+
      , set(freight_vendor)
 
      		
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET DEBIT NOTE FLAG
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_debit_note, [
+%=======================================================================
+
+    q(0, 20, line)
+    
+        , debit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( debit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+,`DEBIT`, `NOTE`,  tab
+
+, set(debit_note)
+
+, trace( [ `Found DEBIT NOTE` ] )
+
+] ).
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,7 +110,12 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ],100, invoice_number, s1, newline ] )
+    , or([ 
+        generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ],100, invoice_number, s1, newline ] )
+
+        ,generic_horizontal_details( [ [ `Debit`, `Note` , `NO`, `.`, tab, `:` ],100, invoice_number, s1, newline ] )
+
+    ])
 	
 	] ).
 

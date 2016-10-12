@@ -50,9 +50,7 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    q0n(line)
-    
-    , generic_horizontal_details( [ [ `GST` , `REG` , `NO`, `:` ], 100, supplier_vat_number, s1 , newline ] )
+    supplier_vat_number(`000331620352`)
 
     , sender_name(`PACKAGING CENTRE SERVICES SDN BHD`)
 
@@ -157,10 +155,15 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-    q0n(line)
+    
 
-    , generic_horizontal_details( [ [ `%` , `GST` ], 200, total_vat, d, newline ] )
+    or([ [q0n(line), generic_horizontal_details( [ [ `%` , `GST` , tab ],  total_vat, d, newline ] )]
 
+     , total_vat(`0`)
+
+       
+
+    ])
 ] ).
 
 
@@ -294,7 +297,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , q10(generic_item( [ line_buyers_order_number , w , tab ] ))
 
-    , generic_item( [ line_quantity , d , q10(tab) ] )
+    , generic_item( [ line_quantity_dummy , d , q10(tab) ] )
 
     , generic_item( [ line_quantity_uom_code , w , tab ] )
 
