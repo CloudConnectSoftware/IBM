@@ -237,7 +237,7 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , [ line_invoice_line , line  , q10(line_desr_line) , q10(line_material_line) ]
+            , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line , line  , q10(line_desr_line) , q10(line_material_line) ]
 
             
 
@@ -286,14 +286,30 @@ i_line_rule_cut( line_delivery_note_line, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_dummy, [
+%=======================================================================
+
+         generic_item( [ line_descr_dummy , s1 ,  newline  ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_dummy2, [
+%=======================================================================
+
+         generic_item( [ line_descr_dummy , s1  , newline  ] )
+
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_invoice_line_dummy , d , tab ] )
+    q10(generic_item( [ line_invoice_line_dummy , d , tab ] ))
 
-    , or([ generic_item( [ line_descr , s  ] )
+    , or([ generic_item( [ line_descr , s1, tab  ] )
 
-        , generic_item( [ line_descr , s1, tab  ] ) ])
+        , generic_item( [ line_descr , s  ] ) ])
 
     , q10(generic_item( [ line_buyers_order_number , w , tab ] ))
 
@@ -325,8 +341,11 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_material_line, [
 %=======================================================================
      
- `PRODUCT`, `CODE`, `:`
+ or([  [`PRODUCT`, `CODE`, `:`]
 
+ , [`SKU`, `#`]
+
+ ])
      , generic_item([line_item , s1, newline ])
 
 ] ).
