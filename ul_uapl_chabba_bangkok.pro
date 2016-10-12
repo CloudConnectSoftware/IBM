@@ -20,9 +20,8 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   get_debit_note
 
-	, get_supplier_details
+	get_supplier_details
 
    
 	, get_invoice_number
@@ -96,7 +95,7 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `REF`, `.`, `P`, `/`, `O`, `NO`, `.` ], 100, order_number, w, `,` ] )
+    , generic_horizontal_details( [ [ `REF`, `.`, `P`, `/`, `O`, `NO`, `.` ], 100, order_number, w, q10(`,`) ] )
 
 ] ).
 
