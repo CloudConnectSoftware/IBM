@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `14:17 04 October 2016` ).
+i_version( p_ibm_unilever_uapl, `16:22 07 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -329,6 +329,46 @@ i_final_rule( [
 	
 	, trace( [ `Tax invoice detected` ] )
 
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ADD A SINGLE SUMMARY LINE IF NO LINES ARE PRESENT FOR FREIGHT VENDORS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	test( freight_vendor )
+
+	, peek_fails( with( 1, line_quantity, _ ) )
+	, peek_fails( with( 1, line_descr, _ ) )
+	, peek_fails( with( 1, line_net_amount, _ ) )
+	
+	, line_quantity( `1` )
+	, line_descr( `Freight Charges` )
+	
+	, q10( [ with( invoice, total_net, Net )
+		, line_net_amount( Net )
+		, set( summary_net_used )
+	] )
+	, q10( [ with( invoice, total_invoice, Gross )
+		, line_total_amount( Gross )
+		, set( summary_gross_used )
+	] )
+	, q10( [ with( invoice, total_vat, VAT )
+		, line_vat_amount( VAT )
+		, set( summary_vat_used )
+	] )
+	
+	, or( [ test( summary_gross_used ), test( summary_net_used ), test( summary_vat_used ) ] )
+	
+	, trace( [ `Summary line Created`, line_descr, line_net_amount, line_total_amount ] )
+	
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

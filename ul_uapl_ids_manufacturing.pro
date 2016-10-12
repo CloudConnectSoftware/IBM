@@ -128,9 +128,9 @@ i_rule( get_line_order_number, [
    q0n(line)
 
 , or([
-   generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
+   generic_horizontal_details( [[ or([`M`, `SG`]) , `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
  
-,generic_horizontal_details( [[`M`, `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
+,generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
 
 ])
 
@@ -213,6 +213,9 @@ qn0(line)
 , generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`, tab ], total_vat, d , newline] )
 
 , generic_item( [ default_vat_rate, `6` ] )
+
+
+
   
 ] ).
 
@@ -304,22 +307,34 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      q10(generic_item( [ line_item_dummy, w , tab ] ))
+          q10(generic_item( [ line_item_dummy, w , tab ] ))
 
-     , q10(generic_item( [line_descr_dummy , s , `:` ] ))
+    , q10(generic_item( [line_descr_dummy , s , `:` ] ))
+	
+	, q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_net_amount has been captured
+	
+		, with( 1, line_item, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+		, generic_item( [ line_item, Item ] ) % This stores the value in line_item for the current line
+	
+		, with( 1, line_descr, Descr ) % This takes the first value of line_descr (captured in rule 'get_line_Description')
+		, generic_item( [ line_descr, Descr ] ) % This stores the value in line_descr for the current line
+		
+	] )
 
-         ,generic_item( [line_reference , d , tab] )
+    , generic_item( [line_reference , d , tab] )
 
-      ,generic_item( [line_date , date , tab] )
+    , generic_item( [line_date , date , tab] )
 
     , generic_item( [line_quantity , d ] )
 
-     ,generic_item( [line_quantity_uom_code , w , tab] )
+    , generic_item( [line_quantity_uom_code , w , tab] )
 
     , generic_item( [line_unit_amount , d , tab] )
 
-     , generic_item( [line_net_amount , d , newline] )
-
+    , generic_item( [line_net_amount , d , newline] )
 
 ] ).
+
+
+
 

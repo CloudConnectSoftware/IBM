@@ -58,8 +58,9 @@ i_rule( get_supplier_details, [
 
      , buyer_registration_number(`MY00`)
 
-		
+     , set(freight_vendor)
 
+		
 ] ).
 
 
@@ -80,7 +81,7 @@ i_rule_cut( get_invoice_number, [
 	
 	] ).
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_order_number
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -229,10 +230,9 @@ i_section( get_invoice_lines, [
         , or( [
 
            
-              [ line_invoice_line , q10(line_append_line) ]
+              [ line_invoice_line , line_append_line, line_material_line, q10(line_descr_line_dummy) ]
 
-
-
+              
             , line
 
         ] )
@@ -266,7 +266,7 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      generic_item( [ line_tax , w , q10(tab) ] )
+      q01(generic_item( [ line_tax , w , tab ] ))
 
      , generic_item( [line_descr , s1 , tab] )
 
@@ -274,13 +274,17 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_quantity , d , q10(tab) ] )
 
+    , generic_item( [line_quantity_uom_code , w, tab ] )
+
     , generic_item( [line_unit_amount , d , tab] )
 
-    , generic_item( [line_sales , d , tab] )
+    , q01(generic_item( [line_sales , d , tab] ))
 
     , generic_item( [line_vat_amount , d , tab ])
 
-    , generic_item( [line_total_amount , d , newline] )
+    , generic_item( [line_net_amount , d , tab] )
+
+    , q01(generic_item( [line_tax_dummy , d , newline] ))
 
 
 ] ).
@@ -292,3 +296,25 @@ i_line_rule_cut( line_append_line, [
     generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
 ] ).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_material_line, [
+%=======================================================================
+     `SKU` , `#`
+
+    , generic_item( [line_item , s1 , newline] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line_dummy, [
+%=======================================================================
+
+    generic_item( [line_descr_dummy , s1 , newline] )
+
+] ).
+
+
+

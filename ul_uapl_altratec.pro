@@ -92,12 +92,39 @@ i_rule_cut( get_invoice_date, [
     q0n(line)
 
     , or([
+
+         generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date, date, newline ] )
+
+
         
-        generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date, date, newline ] )
+       , [  
+           
+           generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , `:` ],100, invoice_date_raw, s1, newline ] )
+
+       , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice date raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `.`, ``, DateStrip ))
+
+    , trace( [ `Date Stripped Dot` , DateStrip ] )
+
+    , invoice_date(DateStrip)
+
+    , trace( [ `Invoice Date` , invoice_date ] )  
+    
+    ]
+
+
 	
-    ,generic_horizontal_details( [ [  `Date` , `:` ],100, invoice_date, date, newline ] )
+    ,generic_horizontal_details([ [  `Date` , `:`  ], invoice_date, date, newline ] )
+
+    
+    
 
 ])
+
+
 
 ] ).
 
@@ -144,7 +171,15 @@ i_rule( get_total_invoice, [
         
         generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
 
-        , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+        , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+             
+             ,  check(total_invoice = TotInv)
+
+    , trace([`Total Capital Varaible` , TotInv])
+
+    , line_total_amount(TotInv)
+
+    , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
 
     ])
 
@@ -169,7 +204,15 @@ i_rule( get_total_net, [
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
-     , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
+     , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
+
+     ,  check(total_net = TotNet)
+
+    , trace([`Net Capital Varaible` , TotNet])
+
+    , line_net_amount(TotNet)
+
+    , trace( [ `THIS IS NOW THE LINE NET` , TotNet ]) ]
 
     ])
 
@@ -231,7 +274,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ or([ line_invoice_line, line_invoice_line2]), q10(line_descr_line)  , line_po_line ]
+           [ or([ line_invoice_line, line_invoice_line2,line_invoice_line3]), q10(line_descr_line)  , line_po_line ]
 
      
 
@@ -329,17 +372,17 @@ i_line_rule_cut( line_po_line, [
 
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line2, [
+i_line_rule_cut( line_invoice_line3, [
 %=======================================================================
 
-    generic_item( [ line_invoice_line_dummy , d , `)`] )
+    generic_item( [ line_invoice_line_dummy , d , [or([`.` , `)`]), tab ] ] )
 
-    , generic_item( [ line_item, w, [check(line_item(end) < -25 )]])
+    
 
     , generic_item( [ line_descr , s1, tab ] )
 
      
-    , generic_item( [ line_quantity , d ])
+    , generic_item( [ line_quantity , d, tab ])
     
     , generic_item( [ line_quantity_uom_code , w , tab ] )
 
@@ -353,3 +396,4 @@ i_line_rule_cut( line_invoice_line2, [
    
 
 ] ).
+

@@ -12,6 +12,9 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_include_partner_attachments_image_only.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,6 +49,8 @@ i_rule( get_supplier_details, [
    
   
    sender_name(`RCL FEEDER PTE LTD`)
+
+   , set(freight_vendor)
 
   ] ).
 
@@ -116,6 +121,9 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [ `Total`, `GST`, `amount`, `in`, `SGD` ], 150, total_vat, d, newline ] )
 
+
+     
+
 ]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,7 +138,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`,`Payable`, `in`, `SGD` ], 200, total_invoice, d, newline ] )  
+    , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` ], 200, total_invoice, d, newline ] )  
 
 
 ] ).
@@ -145,95 +153,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q0n(line)
-    
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `payable`, `in` ], 100, currency, w, tab ] )
-        
-] ).
+    currency(`USD`)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE LINES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    ] ).
 
-%=======================================================================
-i_section( get_invoice_lines, [
-%=======================================================================
-
-    line_header_line
-
-    , qn0( [ peek_fails(line_end_line)
-
-        , or( [
-
-             [line_invoice_line , q10(line_desr_line)]
-
-            , line
-
-        ] )
-
-    ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_header_line, [
-%=======================================================================
-
-    `No`,  `.`
-    
-    , trace( [ `FOUND LINE HEADER LINE`])
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-   `Amount` , `Due`, `to`, `RCL`
-
-    , trace( [ `FOUND LINE END LINE`] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [
-%=======================================================================
-      
-      generic_item( [ line_no_dummy, d, tab ] )
-
-    , generic_item( [ line_descr, s, q10(tab) ] )
-
-    , generic_item( [ line_item_size_dummy, d] )
-
-    , generic_item( [ line_type_dummy, w, tab ] )
-
-    , generic_item( [ line_quantity , d ] )
-
-    , generic_item( [ line_currency_dummy, w, tab ] )
-
-    , generic_item( [ line_rate_dummy, d, tab ] )
-
-    , generic_item( [ line_net_amount_dummy, d, tab ] )
-
-    , q10(generic_item( [ line_vat_rate_dummy, d, tab ] ))
-
-    , q10(generic_item( [ line_vat_amount_dummy, d, tab ] ))
-
-    , generic_item( [ line_unit_price, d , tab ] )
-
-    , generic_item( [ line_exchange_rate, d , tab ] )
-
-    , generic_item( [ line_net_amount , d , newline ] )
-
-   
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_desr_line, [
-%=======================================================================
-
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
-
-] ).
