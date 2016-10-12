@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    , get_credit_note
 	
 	, get_invoice_number
 
@@ -56,6 +58,36 @@ i_rule( get_supplier_details, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET DEBIT NOTE FLAG
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_credit_note, [
+%=======================================================================
+
+    q(0, 15, line)
+    
+        , credit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+,`CREDIT`, `NOTE`,  newline
+
+, set( credit_note )
+
+, trace( [ `Found CREDIT NOTE` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,7 +102,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice` , `No` , tab , `:` ],100, invoice_number, s1, newline ] )
+
+, or([
+    generic_horizontal_details( [ [ `Invoice` , `No` , tab , `:` ],100, invoice_number, s1, newline ] )
+
+     ,generic_horizontal_details( [ [ `CN` , `No` , tab , `:` ],100, invoice_number, s1, newline ] )
+
+])
 	
 	
 ] ).
@@ -210,7 +248,11 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `No` , `Description` , tab
+    or([  [`No` ,  `Description` , tab]
+
+    , [`NO`, `.`, tab, `DESCRIPTION`, tab]
+
+    ])
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -230,7 +272,11 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_delivery_note_line, [
 %=======================================================================
 
-    `Shipment`, `No` , `.`
+    or([ [`Shipment`, `No` , `.`]
+
+    , [`return` , `Receipt` , `No` `.`]
+    
+     ])
 
     , generic_item( [ line_delivery_note_number , s , [ `:` , newline ] ] )
 

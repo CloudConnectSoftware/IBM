@@ -166,7 +166,6 @@ i_rule( get_total_vat, [
     , generic_vertical_details( [ [ `Total`, `(`, `NZD`, `)`], `NZD`, q(2,5), (start,20,20), total_vat, d, newline ] )
     
     
-    , generic_item( [ default_vat_rate, `15` ] )
 
 ] ).
 
