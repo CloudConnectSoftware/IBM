@@ -207,7 +207,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
       
-      generic_item( [ line_no_dummy, d, tab ] )
+      generic_item( [ line_item, d, tab ] )
 
     , generic_item( [ line_descr, s, q10(tab) ] )
 
@@ -221,17 +221,17 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_rate_dummy, d, tab ] )
 
-    , generic_item( [ line_net_amount_dummy, d, tab ] )
+    , generic_item( [ line_net_amount, d, tab ] )
 
     , q10(generic_item( [ line_vat_rate_dummy, d, tab ] ))
 
     , q10(generic_item( [ line_vat_amount_dummy, d, tab ] ))
 
-    , generic_item( [ line_unit_price, d , tab ] )
+    , q10(generic_item( [ line_unit_price, d , tab ] ))
 
-    , generic_item( [ line_exchange_rate, d , tab ] )
+    , q10(generic_item( [ line_exchange_rate, d , tab ] ))
 
-    , generic_item( [ line_net_amount , d , newline ] )
+    , generic_item( [ line_net_amount_dummy, d , newline ] )
 
    
 ] ).
