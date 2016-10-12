@@ -157,8 +157,11 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `%` , `GST` ], 200, total_vat, d, newline ] )
+    , or([ generic_horizontal_details( [ [ `%` , `GST` ], 200, total_vat, d, newline ] )
 
+    , total_vat(`0`)
+
+    ])
 ] ).
 
 
