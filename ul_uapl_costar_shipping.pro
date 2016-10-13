@@ -125,7 +125,7 @@ i_rule( get_due_date, [
 
     , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
 
-    , trace( [ `Date Stripped Coma` , DateStrip ] )
+    , trace( [ `Date Stripped Comma` , DateStrip ] )
 
     , due_date(DateStrip)
 
@@ -148,6 +148,8 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD` ], total_invoice, d, newline ] )
 
+   
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,21 +166,4 @@ i_rule( get_currency, [
 
     ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_vat
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%=======================================================================
-i_rule( get_total_vat, [
-%=======================================================================
-
-    q0n(line)
-
-     , generic_vertical_details( [ [ `AMOUNT`, tab ], `AMOUNT`, q(0,1), (end,10,10), total_vat, d, tab ] )
-
-     
-     
-] ).
