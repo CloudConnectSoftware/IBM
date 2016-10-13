@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `16:22 07 October 2016` ).
+i_version( p_ibm_unilever_uapl, `11:19 13 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -496,7 +496,7 @@ i_analyse_fields_first:- i_analyse_company_code___.
 i_analyse_company_code___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
-	sys_retractall( result( _, invoice, buyer_registration_number, _ ) ),
+	not( result( _, invoice, buyer_registration_number, _ ) ),
 	
 	(
 		result( _, invoice, order_number, Order_Number ),
