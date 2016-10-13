@@ -161,6 +161,14 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD` ], total_invoice, d, newline ] )
 
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
