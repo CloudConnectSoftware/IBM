@@ -43,7 +43,7 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `20-0009291-Z` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
 
-		 ,  [ check_text( `M2-0027371-X` ), set( chain, `ul_uapl_mol_ltd` ), trace( [ `THIS IS A MOL SINGAPORE DOCUMENT` ] ) ]
+		 
 
 		% [ check_text( `` ), set( chain, `` ), trace( [ `` ] ) ]
 		
