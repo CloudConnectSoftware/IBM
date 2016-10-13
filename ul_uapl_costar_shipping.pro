@@ -145,13 +145,6 @@ i_rule( get_total_vat, [
 
      , generic_vertical_details( [ [ `AMOUNT`, tab ], `AMOUNT`, q(0,1), (end,10,10), total_vat, d, tab ] )
 
-<<<<<<< HEAD
-     
-     
-=======
-   
-
->>>>>>> origin/master
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,7 +163,6 @@ i_rule( get_total_invoice, [
 
 ] ).
 
-<<<<<<< HEAD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_currency
@@ -185,7 +177,5 @@ i_rule( get_currency, [
 
  , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab ], 100, currency, w ] )
 
-] )
-=======
 
->>>>>>> origin/master
+ ] ).
