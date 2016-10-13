@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`TOLL LOGISTICS (ASIA) LIMITED`)
 
-   , supplier_vat_number(`197801878K`)
+   , supplier_vat_number(`31006604191`)
 
     , set(freight_vendor)
 
@@ -104,7 +104,7 @@ i_rule( get_total_net, [
 
       q0n(line)
 
-    , generic_vertical_details( [ [ `Sub`, `Total` ], `Total`, q(1,15), (start,20,20), total_invoice, d, `$` ] )
+    , generic_vertical_details( [ [ `Sub`, `Total` ], `Total`, q(1,15), (start,20,20), total_net, d, `$` ] )
 
 ] ).
 
@@ -125,7 +125,6 @@ i_rule( get_total_vat, [
 
 ]).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_total_invoice
@@ -140,13 +139,7 @@ i_rule( get_total_invoice, [
 
     , generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(1,15), (start,20,20), total_invoice, d, newline ] )
 
-       , check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net] )
+       
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
