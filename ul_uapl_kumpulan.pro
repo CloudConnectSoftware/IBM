@@ -48,6 +48,8 @@ i_rule( get_supplier_details, [
 
 	   , supplier_vat_number(`001668046848`)	
 
+       , set(freight_vendor)
+
    ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -78,23 +80,23 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `DATE`, `:`, tab ], 100, invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [`Date`, tab, `:`, tab ],  invoice_date, date, newline ] )
 	
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET ORDER NUMBER
+% GET BUYERS ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_order_number, [
+i_rule( get_buyers_order_number, [
 %=======================================================================
 
- q0n(line)
+    q0n(line)
 
- , generic_horizontal_details( [ [ `#` ], 100,  order_number, s1, newline ] )
+       , generic_horizontal_details( [ [ `#`, ], 100, buyers_order_number, d, newline ] )
 
       ] ).
 
@@ -112,6 +114,14 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `TOTAL`, tab ],100, total_invoice, d, newline ] )
 
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
    
 ] ).
 
@@ -121,98 +131,12 @@ i_rule( get_total_invoice, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 %=======================================================================
 i_rule( get_currency, [
 %=======================================================================
 
-    qn0(line)
-    
-    , line_currency_line
+     currency( `MYR` )
 
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_currency_line, [
-%=======================================================================
-
-    q0n(anything)
-
-    , `Total`
-
-     , or( [ 
-
-        [ `RM` , currency( `MYR` )]
-
-        , generic_item( [ currency, s1 , `)` ] )
-
-        ])
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE LINES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_section( get_invoice_lines, [
-%=======================================================================
-
-    line_header_line
-
-    , qn0( [ peek_fails(line_end_line)
-
-        , or( [
-
-             line_invoice_line
-
-              , line
-
-        ] )
-
-    ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_header_line, [
-%=======================================================================
-
-  `RM`, tab, `RM`,  newline
-    
-    , trace( [ `FOUND LINE HEADER LINE`])
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-    `Shipment`, `:`, tab, `ICE`, `CREAM`,  newline
-
-    , trace( [ `FOUND LINE END LINE`] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [
-%=======================================================================
-
-      generic_item( [ line_item , s1 , tab ] )
-
-    , generic_item( [ line_descr, s1, tab ] )
-
-    , generic_item( [ line_quantity, d, tab ] )
-
-    , generic_item( [ line_price_uom_code, w, tab ] )
-
-    , generic_item( [ line_unit_price, d, tab ] )
-
-    , generic_item( [ line_disc_dummy, d, tab ] )
-
-    , generic_item( [ line_net_amount, d, newline ] )
-
-   
 ] ).
 

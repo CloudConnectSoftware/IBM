@@ -46,7 +46,8 @@ i_rule( get_supplier_details, [
   
    sender_name(`ISSARIYAWATANA CO. LTD`)
 
-  
+   , set(freight_vendor)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,6 +113,15 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, `FIVE`, `(`, `5`, `)`, `CARTONS`, tab, `US`, `$`, tab ], 100, total_invoice, d, newline ] )
 
+       , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,64 +153,4 @@ i_line_rule( currency_line, [
 
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE LINES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_section( get_invoice_lines, [
-%=======================================================================
-
-	line_start_line
-	
-	, qn0( [ peek_fails(line_end_line)
-		
-		, or( [
-		
-			line_invoice_line
-
-            , line			
-		] )
-	
-	] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_start_line, [
-%=======================================================================
-	
-    `(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`,  newline
-     
-     , trace( [ `FOUND THE HEADER LINE` ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-   `TOTAL`, `:`, tab, `FIVE`, `(`, `5`, `)`, `CARTONS`, tab, `US`, `$`, tab
-
-        , trace( [ `FOUND THE END LINE` ] )
-] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [   
-%=======================================================================
-
-        generic_item( [ line_item, d, tab ] )  
-
-       , generic_item( [ line_descr, s1, tab ] )
-
-       , generic_item( [ line_quantity, d, tab ] )
-
-       , generic_item( [ line_unit_price, d, tab ] )
-
-      , generic_item( [ line_total_amount, d, newline ] )
- 
- 	
-] ).
