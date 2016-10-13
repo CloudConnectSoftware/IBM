@@ -33,7 +33,7 @@ i_rule_list( [
 
     , get_currency
 
-    , get_invocie_lines
+    , get_invoice_lines
 
     
     ] ).
@@ -138,8 +138,8 @@ i_rule( get_total_invoice, [
      q0n(line)
 
     , generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(1,15), (start,20,20), total_invoice, d, newline ] )
-
-       
+     
+            
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
