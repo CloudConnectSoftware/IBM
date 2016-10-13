@@ -127,7 +127,7 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-	, generic_vertical_details( [ [ `AMOUNT`, newline ], `AMOUNT`, q(5,10), (end,20,20), total_invoice, d , newline ] )
+	, generic_vertical_details( [ [ `AMOUNT`, newline ], `AMOUNT`, q(7,20), (end,20,20), total_invoice, d , newline ] )
 
         , check( total_invoice = TotInv )
 
