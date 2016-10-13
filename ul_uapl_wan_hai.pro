@@ -151,6 +151,6 @@ i_rule( get_currency, [
 
     q0n(line)
         
-   , generic_horizontal_details( [ [ `AMOUNT`, `(` ],  w, `)`,tab ] )
+   , generic_horizontal_details( [ [ `AMOUNT`, `(` ], 100, currency, w, `)` ] )
   
 ] ).

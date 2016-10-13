@@ -203,10 +203,12 @@ i_section( get_invoice_lines, [
 	, qn0( [ peek_fails(line_end_line)
 		
 		, or( [
-		
-			[ line_descr_line , q10(line_append_line ) , line_invoice_line ]
 
-            , [line]		
+             line_invoice_line
+		
+			, [ line_descr_line , q10(line_append_line ) , line_invoice_line ]
+
+            , line		
 		] )
 	
 	] )
@@ -238,9 +240,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [   
 %=======================================================================
                 
-         generic_item( [ line_descr, s1, q10(tab) ] )
+         generic_item( [ line_descr, s1, tab ] )
 
-       , generic_item( [ line_item_title, s1 , q10(tab) ] )
+       , generic_item( [ line_item_title, s1 , tab ] )
 
        , generic_item( [ line_item_media, s1, tab ] )
 

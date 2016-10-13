@@ -33,7 +33,7 @@ i_rule_list( [
 
     , get_currency
 
-    , get_invocie_lines
+    , get_invoice_lines
 
     
     ] ).
