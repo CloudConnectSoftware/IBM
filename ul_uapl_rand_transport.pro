@@ -124,7 +124,7 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
-,or([  generic_horizontal_details( [ [ `:` ], invoice_date, date , newline ] )
+,or([  generic_horizontal_details( [ [`Date` , `:` ], invoice_date, date , newline ] )
     , generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
 
     
@@ -173,7 +173,7 @@ i_rule( get_total_vat, [
 qn0(line)
  ,or([
 
-     generic_horizontal_details( [ [ `GST` ], 60, total_vat, d, newline ] )
+     generic_horizontal_details( [ [ `GST` , tab ],  total_vat, d, newline ] )
     , generic_horizontal_details( [ [ `GST`, `=`, tab, `$` ], 100, total_vat, d, newline ] )
 
  ])
@@ -195,7 +195,7 @@ i_rule( get_total_invoice, [
      qn0(line)
 
      ,or([
-         generic_horizontal_details( [ [ `Invoice`, `Total` ], 50, total_invoice, d, newline ] )
+         generic_horizontal_details( [ [ `Invoice`, `Total`, tab ], total_invoice, d, newline ] )
         , generic_horizontal_details( [ [ `Total`, `Due`, `:`, tab, `$` ], 100, total_invoice, d, newline ] )
 
 
