@@ -128,7 +128,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `SGD` ],100,  total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab, ],100,  total_invoice, d, newline ] )
 
 
 ] ).
