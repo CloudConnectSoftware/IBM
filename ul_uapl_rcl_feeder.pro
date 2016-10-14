@@ -27,13 +27,17 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+    , get_invoice_lines
+
     , get_total_vat
 
     , get_total_invoice
 
     , get_currency
 
-    , get_invoice_lines
+    
+
+    
     
     ] ).
 
@@ -91,6 +95,7 @@ i_rule_cut( get_invoice_number, [
 	
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE DATE
@@ -138,8 +143,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` ], 200, total_invoice, d, newline ] )  
+    , or( [ 
+        
+        [ test(tml_found) , generic_horizontal_details( [ [ `Total`, `Amount`, `payable` , `in`, `SGD` ], 200, total_invoice, d, newline ] ) ]
 
+       ,  [ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` ], 200, total_invoice, d, newline ] ) ]
+
+    ] )
 
 ] ).
 
@@ -157,3 +167,80 @@ i_rule( get_currency, [
 
     ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+
+            line_invoice_line
+
+            , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+    `no` , `.` , `charge`
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+   `Total` , `Amount`
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+    generic_item( [ line_no , d , tab ] )
+
+    , q10( [ 
+        
+        read_ahead( [ 
+            
+                q(0,5,word) 
+                
+                , `TML` 
+                
+                , `HANDLING`
+
+                ] )
+
+            , set(tml_found)
+
+            , trace( [ `TML FOUND` ] )
+
+    ] )
+
+    
+    , generic_item( [ line_descr , s1 , tab ] )
+
+    , generic_item( [ line_quantity_uom_code , s1 , tab ] )
+
+    , generic_item( [ line_quantity , d ] )
+
+    %%%% LINES NEED COMPLETING %%%%
+
+] ).
