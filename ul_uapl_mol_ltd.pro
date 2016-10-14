@@ -18,6 +18,8 @@ i_trace_lists.
 i_include_partner_attachments_image_only.
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,11 +46,14 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-     set(freight_vendor)
-
-    , supplier_vat_number([`M2-0027371-X`])
      
-    , sender_name(`MOL SINGAPORE PTE. LTD.`)
+
+    set( freight_vendor )
+     
+     ,sender_name(`MOL SINGAPORE PTE. LTD.`)
+
+    
+   
 
      
 		
