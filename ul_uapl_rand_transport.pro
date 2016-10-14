@@ -20,9 +20,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_vat_code
-	
-	, get_invoice_number
+ 	, get_invoice_number
 
     , get_order_number
 	
