@@ -94,7 +94,7 @@ q0n(line)
 	
    ,or( [
 
-       generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d, `,` ] )
+       generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d,[`,`, check(line_buyers_order_number(end) < 55)] ] )
 	, generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d,  newline  ] )
 
    ])
