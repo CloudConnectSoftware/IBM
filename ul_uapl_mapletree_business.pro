@@ -240,13 +240,13 @@ i_line_rule_cut( line_invoice_line, [
           
        generic_item( [ line_descr, s1, tab ] ) 
 
-     , q(0,3, generic_append( [ line_descr, s1, tab, ` `, `` ] ) )
+     , generic_item( [ line_descr_dummy, s1, tab ] )
 
      , generic_item( [ line_net_amount, d, tab ] )
 
-    , generic_item( [ line_vat_amount, d, tab ] )
+     , generic_item( [ line_vat_amount, d, tab ] )
 
-    , generic_item( [ line_total_amount , d , newline ] )
+     , generic_item( [ line_total_amount , d , newline ] )
 
 ] ).
 
@@ -254,7 +254,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_desr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+     generic_append( [ line_descr, s1, newline, ` `, `` ] )
 
 ] ).
 
