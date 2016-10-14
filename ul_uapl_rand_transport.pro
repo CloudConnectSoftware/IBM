@@ -22,7 +22,7 @@ i_rule_list( [
 
  	, get_invoice_number
 
-    , get_order_number
+   
 	
 	, get_invoice_date
 
@@ -87,30 +87,6 @@ i_rule_cut( get_invoice_number, [
 	
 	] ).
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_order_number
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_order_number, [
-%=======================================================================
-
-    q(0,30,line)
-
-    , generic_horizontal_details( [ [ `PO`, `NO`], order_number, s, `/`] )
-
-     , check(order_number = OrdNo)
-
-    , trace([`Order Number Capital Varaible` , OrdNo])
-
-    , line_buyers_order_number(OrdNo)
-
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
-
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -144,7 +120,7 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 ,or([
 
     generic_horizontal_details( [ [ `Freight`, `(`, `inc`, `onforward`, `)` ], 50, total_net_dummy, d, newline ] )
@@ -170,7 +146,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-qn0(line)
+q0n(line)
  ,or([
 
      generic_horizontal_details( [ [ `GST` , tab ],  total_vat, d, newline ] )
@@ -192,7 +168,7 @@ qn0(line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
      ,or([
          generic_horizontal_details( [ [ `Invoice`, `Total`, tab ], total_invoice, d, newline ] )
