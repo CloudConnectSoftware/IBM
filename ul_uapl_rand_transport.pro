@@ -147,7 +147,7 @@ i_rule( get_total_net, [
      qn0(line)
 ,or([
 
-    generic_horizontal_details( [ [ `Freight`, `(`, `inc`, `onforward`, `)` ], 50, total_net, d, newline ] )
+    generic_horizontal_details( [ [ `Freight`, `(`, `inc`, `onforward`, `)` ], 50, total_net_dummy, d, newline ] )
 
     , generic_horizontal_details( [ [ `Total`, `=`, tab, `$` ], 100, total_net, d, newline ] )
 ])
