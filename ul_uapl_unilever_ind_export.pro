@@ -218,7 +218,12 @@ i_line_rule_cut( line_start_line,[
 i_line_rule_cut( line_end_line,[
 %=======================================================================
 
-	  `Amount`, `Chargeable`, `(`, `in`, `words`, `)`, `:`
+     or([ 
+         
+         [`Shipping`, `Bill`, `No`]
+	 , [`Amount`, `Chargeable`, `(`, `in`, `words`, `)`, `:`]
+
+     ])
 
       , trace([`found the end line`])
     
