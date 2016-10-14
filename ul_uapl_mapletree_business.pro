@@ -179,9 +179,9 @@ q0n(line)
 i_line_rule( currency_line, [
 %=======================================================================
 
-    q0n(anything)
-
-     , currency(`SGD`)
+    q0n(line)
+    
+    , currency(`SGD`)
 
 ] ).
 
@@ -201,11 +201,11 @@ i_section( get_invoice_lines, [
 
         , or( [
                      
-              [ [ line_desr_line , line_invoice_line, q10(line_append_line) ]  ]
+            line_invoice_line 
               
-              , line_invoice_line
+              , line_desr_line 
 
-             , line
+                , line
 
         ] )
 
@@ -227,7 +227,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   `REF`, `:`, `DO9347274`,  newline
+   `REF`, `:`
 
     , trace( [ `FOUND LINE END LINE`] )
 
@@ -238,7 +238,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
           
-       generic_item( [ line_descr, s1, q10(tab)] ) 
+       generic_item( [ line_descr, s1, tab ] ) 
+
+     , q(0,3, generic_append( [ line_descr, s1, tab, ` `, `` ] ) )
 
      , generic_item( [ line_net_amount, d, tab ] )
 
