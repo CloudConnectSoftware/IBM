@@ -90,6 +90,14 @@ i_rule( get_order_number, [
 
     , generic_horizontal_details( [ [ `Your` , `P` , `/` , `O` , `NO` , `.` , `:` ], 100, line_buyers_order_number, d, newline ] )
 
+    , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+
 ] ).
 
 
@@ -288,7 +296,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_sub_total_dummy, d , tab ] )
 
-    , generic_item( [ line_net_amount , d , tab ] )
+    , generic_item( [ line_net_amount , d , q01(tab) ] )
 
     , generic_item( [ line_vat_amount , d , tab ])
 
