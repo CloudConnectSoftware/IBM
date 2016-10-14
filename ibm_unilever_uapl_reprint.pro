@@ -41,7 +41,7 @@ i_line_rule( check_text_id_line, [
 
 		  [ check_text( `000760807424` ), set( chain, `ul_uapl_tepak_marketing` ), trace( [ `THIS IS A TEPAK MARKETING SDN BHD DOCUMENT` ] ) ]
 
-		 , [ check_text( `20-0009291-Z` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
+		 , [ check_text( `CITISGSG` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
 
 		 
 
