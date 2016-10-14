@@ -12,6 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_pdf_parameter( same_line, 7 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -19,9 +20,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_vat_code
-	
-	, get_invoice_number
+ 	, get_invoice_number
 
     , get_order_number
 	
@@ -223,6 +222,8 @@ i_section( get_invoice_lines, [
            
               line_invoice_line
 
+              ,line_invoice_line_2
+
             , line
 
         ] )
@@ -235,7 +236,11 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `Charge`, tab, `Description`
+   or([ [`Charge`, tab, `Description`]
+
+    ,[`Qty`, tab, `Description`, tab, `Plts`]
+
+   ])
 
     , trace([`found the start line`])
 
@@ -245,7 +250,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Total`, `=`, tab, `$`
+or([
+
+    [ `Freight`, `(`, `inc`, `onforward`, `)` ]
+
+    ,[`Total`, `=`, tab, `$`]
+
+])
 
      , trace([`found the end line`])
 
@@ -265,6 +276,24 @@ i_line_rule_cut( line_invoice_line, [
      , generic_item( [line_quantity_uom_code , w , tab] )
 
     , generic_item( [line_unit_amount , d , tab] )
+
+    , generic_item( [line_net_amount , d , newline] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+
+    
+      q10(generic_item( [ line_item_dummy , s1 , tab ] ))
+
+      , generic_item( [line_quantity , d ] )
+
+       , generic_item( [line_descr , s1 , tab] )
+
+         , generic_item( [line_unit_amount_dummy , d , [q10(` % `), tab] ])
 
     , generic_item( [line_net_amount , d , newline] )
 
