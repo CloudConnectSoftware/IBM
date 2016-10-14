@@ -104,6 +104,14 @@ i_rule( get_line_buyers_order_number, [
 
     , generic_horizontal_details( [ [`REF`, `:` ], 100, line_buyers_order_number, s1 , newline ] )
 
+    , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+
 ] ).
 
 
@@ -119,7 +127,7 @@ i_rule( get_total_net, [
 
     qn0(line)
 
-    , generic_vertical_details( [ [ `Amount`, `before`, tab ], `Amount`, q(15,25), (end,20,20), total_net, d, tab ] )
+    , generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,5,up), (end,0,300), total_net, d, tab ] )
 
 ] ).
 
@@ -133,10 +141,8 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-     qn0(line)
-
-    , generic_vertical_details( [ [ `GST`, `(`, `SGD`, `)` ], `SGD`, q(15,25), (end,20,20), total_vat, d, tab ] )
-
+    
+ generic_item( [ default_vat_rate, `7` ] )
 
 ] ).
 
