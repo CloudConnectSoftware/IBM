@@ -116,6 +116,14 @@ i_rule( get_line_buyers_order_number, [
 
     , generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ]) ] )
 
+     , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -214,7 +222,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   `TOTAL`, `:`, tab, `FIVE`, `(`, `5`, `)`, `CARTONS`, tab, `US`, `$`, tab, `134`, `.`, `63`,  newline
+   `TOTAL`, `:`
 
     , trace( [ `FOUND LINE END LINE`] )
 
