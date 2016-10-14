@@ -222,7 +222,9 @@ i_section( get_invoice_lines, [
            
               line_invoice_line
 
-              ,line_invoice_line_2
+              , line_invoice_line_2
+
+              , line_split_line_rule
 
             , line
 
@@ -255,6 +257,8 @@ or([
     [ `Freight`, `(`, `inc`, `onforward`, `)` ]
 
     ,[`Total`, `=`, tab, `$`]
+
+    , [ `_`, `_`, `_`, `_`, `_`, `_`, `_` ]
 
 ])
 
@@ -297,5 +301,55 @@ i_line_rule_cut( line_invoice_line_2, [
 
     , generic_item( [line_net_amount , d , newline] )
 
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LINE SPLIT LINE RULE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( line_split_line_rule, [
+%=======================================================================
+
+    line_qty_descr_line
+
+    , q(0,6,line)
+
+    , line_totals_line
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_qty_descr_line, [
+%=======================================================================
+
+    generic_item( [ line_quantity , d , tab ] )
+
+    , generic_item( [ line_descr , s1 , tab ] )
+
+    , generic_item( [ line_plts , d , tab ] )
+
+    , generic_item( [ line_class , w , tab ] )
+
+    , generic_item( [ line_units , d, tab ] )
+
+    , generic_item( [ line_charge , s1 , newline ] )
+
+    , trace( [ `END OF SPLIT LINE` ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_totals_line, [
+%=======================================================================
+
+    `sub` , `total` , tab
+    
+    , generic_item( [ line_net_amount , d , newline ] )
 
 ] ).
