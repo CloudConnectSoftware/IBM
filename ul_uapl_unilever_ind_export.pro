@@ -142,7 +142,7 @@ i_rule( get_total_invoice, [
 
 
     , 
-       generic_vertical_details( [ [ `For`, `Unilever`, `India`, `Exports`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,40), total_invoice,  d , newline ] )
+       generic_vertical_details( [ [ `For`, `Unilever`, `India`, `Exports`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), total_invoice,  d , newline ] )
 
         , check( total_invoice = TotInv )
 
