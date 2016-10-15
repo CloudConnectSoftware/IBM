@@ -26,6 +26,8 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+    , get_total_net
+
 	, get_total_vat
 
     , get_total_invoice
@@ -52,6 +54,7 @@ i_rule( get_supplier_details, [
   , currency( `AUD` )
 
   , buyer_registration_number(`AU00`)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,9 +120,7 @@ i_rule( get_total_net, [
 
 	q0n(line) 
 
-	, total_net_line
-
-    , generic_horizontal_details( [ [ `Subtotal` ], 500 , total_net, d, newline ] )
+	, generic_horizontal_details( [ [ `Total`, `Cost` ], 500 , total_net, d, newline ] )
 	
 ] ).
 
