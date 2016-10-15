@@ -95,7 +95,29 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `REF`, `.`, `P`, `/`, `O`, `NO`, `.` ], 100, order_number, w, q10(`,`) ] )
+    , generic_horizontal_details( [ [ `REF`, `.`, `P`, `/`, `O`, `NO`, `.` ], 100, line_buyers_order_number_raw, w, q10(`,`) ] )
+
+
+    , check( line_buyers_order_number_raw = OrderRaw )
+
+    , trace( [ `Order No raw` , OrderRaw ] )
+
+    , check(string_string_replace( OrderRaw, `,`, ``, OrdStrip ))
+
+    , trace( [ `Order No Stripped Comma` , OrdStrip ] )
+
+    , line_buyers_order_number(OrdStrip)
+
+    , trace( [ `Order No` , line_buyers_order_number ] )
+
+    , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+
 
 ] ).
 
