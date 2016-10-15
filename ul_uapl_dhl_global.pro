@@ -46,9 +46,9 @@ i_rule( get_supplier_details, [
   
       sender_name(`DHL GLOBAL FORWARDING`)
 
-	   , supplier_vat_number(`M2-0010793-4`)	
+	   , supplier_vat_number(`M2-0010793-4`)
 
-       , set(freight_vendor)
+        , set(freight_vendor)
 
    ] ).
 
@@ -86,18 +86,19 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET ORDER NUMBER
+% GET LINE BUYERS ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================    
-i_rule( get_order_number, [
+i_rule( get_line_buyers_order_number, [
 %=======================================================================
 
     q0n(line)
 
-       , generic_horizontal_details( [ [`PO`, `#` ],  order_number, d, newline ] )
+      , generic_horizontal_details( [ [ `FXL`, `/`, `3PB`, `-`, `PO`, `#` ], line_buyers_order_number, d, newline ] )
 
+       
       ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
