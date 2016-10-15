@@ -113,7 +113,7 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `SUBTOTAL`, `:`], 200 , total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `SUBTOTAL`, `:`], 200 , total_net, d, newline ] )
 
 ] ).
 
