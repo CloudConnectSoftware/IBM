@@ -100,7 +100,7 @@ i_rule( get_line_buyers_order_number, [
 
        , [
            
-           generic_vertical_details( [ [`IMPORT`, `GST`], `IMPORT`, q(0,3), (start,20,20), order_number_raw, w, newline ] )
+           generic_vertical_details( [ [`IMPORT`, `GST`], `IMPORT`, q(0,3), (start,20,20), order_number_raw, w, or([`,` , newline]) ] )
 
        
     , check( order_number_raw = OrdRaw )
