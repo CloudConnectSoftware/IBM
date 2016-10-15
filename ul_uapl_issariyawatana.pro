@@ -61,7 +61,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, tab ], invoice_number, s1, tab ] )
+   ,or([
+
+        generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, tab ], invoice_number, s1, tab ] )
+
+   , generic_horizontal_details( [ [`RE`, `:`, `Invoice`, `No`, `.`, `:` ], invoice_number, s1, newline ] )
+
+   ])
 	
 	
 ] ).
@@ -198,8 +204,9 @@ i_section( get_invoice_lines, [
 
              line_invoice_line
 
-             
-             , line
+             , q10( line_descr_line)
+
+              , line
 
         ] )
 
@@ -211,8 +218,14 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
 
+     or([ 
+
     `(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`,  newline
- 
+
+    , `(`, `Carton`, `)`, tab, `Per`, `Cartons`, tab, `Per`, `Cartons`, tab, `Per`, `Carton`,  newline
+
+    ])
+
     , trace( [ `FOUND LINE HEADER LINE`])
 
 ] ).
@@ -235,6 +248,8 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_descr, s1, tab ] )
 
+    , generic_item( [ line_carton, dummy, d, tab ] )
+
     , generic_item( [ line_quantity , d , tab ] )
 
     , generic_item( [ line_price_uom_code, d, tab ] )
@@ -244,5 +259,11 @@ i_line_rule_cut( line_invoice_line, [
        
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_desr_line, [
+%=======================================================================
 
+    generic_append( [ line_descr, s1, newline, ` `, `` ] )
+
+] ).
 
