@@ -163,7 +163,9 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `Base` ], `Base`, q(0,4), (start,20,20), total_net, d, tab ] )
+  
+
+    , generic_horizontal_details( [ [ `net`, `value`, tab],  total_invoice,  d , newline] )
 
 
 ] ).
