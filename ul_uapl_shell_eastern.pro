@@ -36,8 +36,9 @@ i_rule_list( [
 
     , get_currency
 
-    
+    , get_invoice_lines
 
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,7 +155,7 @@ i_rule( get_total_vat, [
 
      q0n(line) 
 
-	, generic_horizontal_details( [ [`Tax`, `Total`, tab, `USD`, tab ],  total_net, d, newline ] )
+	, generic_horizontal_details( [ [`Tax`, `Total`, tab, `USD`, tab ],  total_vat, d, newline ] )
 	
 ] ).
 
@@ -210,10 +211,10 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
-            
-                         
+
+           line_invoice_line         
              
-            [ line_desr_line , q10(line_append_line)  , line_invoice_line ] 
+            , [ line_descr_line , q10(line_append_line ) , line_invoice_line ]
 
              , line
 
@@ -237,7 +238,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `PAYMENT`, `CAN`, `BE`, `MADE`, `TO`, `:`
+     `Item`, `Total`, tab , `USD`, tab
 
     , trace( [ `FOUND LINE END LINE`] )
 
@@ -246,19 +247,13 @@ i_line_rule_cut( line_end_line, [
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
-%=====================================  ==================================
+%=======================================================================
+ 
+     generic_item( [ line_item, d, tab ] )
+ 
+    , generic_append( [ line_descr, s1, tab , ` ` , `` ] )
 
-    generic_append( [ line_descr, s1, tab , ` ` , `` ] )
-
-    , generic_item( [ line_quantity , d , tab ] )
-
-    , generic_item( [ line_price_uom_code , s1 , tab ] )
-
-    , generic_item( [ line_amount, d, tab ] )
-
-    , generic_item( [ line_vat_amount , s1 , tab ] )
-
-    , generic_item( [ line_total_amount , d , newline ] )
+    , generic_item( [ line_net_amount , s1 , newline ] )
 
      
    
