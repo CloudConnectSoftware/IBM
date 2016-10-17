@@ -53,11 +53,11 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `Unilever India Exports Ltd.` )
+    sender_name( `Unilever India Export` )
 
-    
+    , supplier_vat_number(`IEC No0390003034`)
 
-] ).
+    ] ).
 
  
 
