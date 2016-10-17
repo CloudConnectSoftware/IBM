@@ -20,7 +20,7 @@ i_rule_list( [
 	
 	, get_invoice_number
 
- 	, get_invoice_date
+ 	, get_invoice_dateS
     
     , get_due_date
 
@@ -118,7 +118,7 @@ i_rule_cut( get_line_buyers_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab ], 100, line_buyers_order_number, s1, `/` ] )
+    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab ],  line_buyers_order_number, s1, tab ] )
 
     
     ] ).    
@@ -154,6 +154,7 @@ i_rule( get_total_vat, [
 
      , generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `GST`, q(0,3), (start,20,20), total_vat, d, tab ] )
 
+      , generic_item( [ default_vat_rate, `7` ] )
 
 ] ).
 
@@ -209,6 +210,8 @@ i_section( get_invoice_lines, [
 
              line_invoice_line
 
+             , line_description_line
+
               , line
 
         ] )
@@ -243,8 +246,17 @@ i_line_rule_cut( line_invoice_line, [
 
      generic_item( [ line_descr , s1 , tab ] )
 
-    , generic_item( [ line_total_amount , d , newline ] )
+    , generic_item( [ line_net_amount , d , newline ] )
 
    
+] ).
+
+%=======================================================================
+i_line_rule( line_description_line, [
+%=======================================================================
+	
+    generic_append( [ line_descr, s1, newline, `-`, ` `  ] )
+
+
 ] ).
 
