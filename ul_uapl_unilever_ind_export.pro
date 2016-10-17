@@ -94,10 +94,18 @@ q0n(line)
 	
    ,or( [
 
-       generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,20,10), line_buyers_order_number, w, `,` ] )
-	, generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,20,10), line_buyers_order_number, w,  newline  ] )
+       generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d,[`,`, check(line_buyers_order_number(end) < 55)] ] )
+	, generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d,  newline  ] )
 
    ])
+
+   , check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
 
 ] ).
 
@@ -133,7 +141,8 @@ i_rule( get_total_invoice, [
 	
 
 
-    , generic_vertical_details( [ [ `AMOUNT`, newline ], `AMOUNT`, q(1,10), (end,10,10), total_invoice,  d , newline ] )
+    , 
+       generic_vertical_details( [ [ `For`, `Unilever`, `India`, `Exports`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), total_invoice,  d , newline ] )
 
         , check( total_invoice = TotInv )
 
@@ -209,7 +218,12 @@ i_line_rule_cut( line_start_line,[
 i_line_rule_cut( line_end_line,[
 %=======================================================================
 
-	  `Amount`, `Chargeable`, `(`, `in`, `words`, `)`, `:`
+     or([ 
+         
+         [`Shipping`, `Bill`, `No`]
+	 , [`Amount`, `Chargeable`, `(`, `in`, `words`, `)`, `:`]
+
+     ])
 
       , trace([`found the end line`])
     
@@ -226,13 +240,17 @@ i_line_rule( line_invoice_line, [
 
 	 , generic_item([ line_description_dummy , s1 , tab ]) 
  
-     , generic_item([ line_quantity , d ] )
+     , generic_item([ line_quantity_dummy , d ] )
 
      , generic_item([ line_quantity_uom_code , w , tab ] )
 
 	 , generic_item([ line_unit_amount , d , [`/`, tab ] ] )
 
-
+,q10( [ with( 1, line_total_amount, _ ) % This q10 will only run if the first line_total_amount has been captured
+	
+		, with( 1, line_buyers_order_number, Order ) % This takes the first value of PO Number (captured in rule 'get_order_number')
+		, generic_item( [ line_buyers_order_number, Order] ) % This stores the value in Line_buer Number for the current line
+])
 
 	 , generic_item([ line_total_amount , d , newline ] ) 
      

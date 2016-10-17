@@ -55,8 +55,9 @@ i_rule( get_supplier_details, [
 
   , supplier_registration_number(`197401342Z`)
 
-  , supplier_vat_number(`72 730 876 913`)
-  
+  , supplier_vat_number(`001668046848`)
+
+    
   , set(freight_vendor)
 
 ] ).
@@ -74,7 +75,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `IMPORT`, `INVOICE`, `Number`, `:` ], 100, invoice_number, d, newline ] )
+   , generic_horizontal_details( [ [ `INVOICE`, `Number`, `:` ], 100, invoice_number, d, newline ] )
 	
 	
 ] ).
@@ -164,7 +165,9 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `Base` ], `Base`, q(0,4), (start,20,20), total_net, d, tab ] )
+  
+
+    , generic_horizontal_details( [ [ `net`, `value`, tab],  total_invoice,  d , newline] )
 
 
 ] ).

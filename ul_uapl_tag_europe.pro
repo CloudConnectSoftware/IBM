@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tag_europe, `12/10/2016` `6:10:05` ).
+i_version( ul_uapl_tag_europe, `17/10/2016` `11:30:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -136,7 +136,6 @@ i_rule( get_total_net, [
 
  q0n(line)
 
- , generic_horizontal_details( [ [ `Goods`, `:`, tab, `GBP`, tab ], total_net, d, newline ] )
 
 ] ).
 
@@ -168,8 +167,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `:`, tab , `GBP`, tab ],  total_invoice, d, newline ] )
-
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -229,7 +227,7 @@ i_line_rule_cut( line_start_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-  `BACS`, `payments`, `in`, `GBP`, `make`, `to`, `:`, tab, `CHAPS`, `or`, `Cross`, `Border`, `payments`, `in`, `GBP`,  newline
+  `Total`, `:`,  `GBP` , tab
 
      , trace( [ `FOUND THE END LINE` ] )
 
@@ -259,7 +257,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule( line_description_line, [
 %=======================================================================
 	
-generic_append( [ line_descr, s1, newline, `-`, ` `  ] )
+     generic_append( [ line_descr, s1, newline, `-`, ` `  ] )
 
 
 ] ).

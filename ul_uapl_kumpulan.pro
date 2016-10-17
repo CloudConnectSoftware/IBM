@@ -46,7 +46,9 @@ i_rule( get_supplier_details, [
   
       sender_name(`KUMPULAN SAMASTAR SDN BHD`)
 
-	   , supplier_vat_number(`001668046848`)	
+	   , supplier_vat_number(`001668046848`)
+
+       , buyer_registration_number(`MY00`)	
 
        , set(freight_vendor)
 
@@ -91,12 +93,40 @@ i_rule_cut( get_invoice_date, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================    
-i_rule( get_order_number, [
+i_rule( get_line_buyers_order_number, [
 %=======================================================================
 
     q0n(line)
 
-       , generic_vertical_details( [ [`IMPORT`, `GST`, tab ], `IMPORT`, q(1,3), (start,20,20), order_number, d, newline ] )
+       , [
+           
+           generic_vertical_details( [ [`IMPORT`, `GST`], `IMPORT`, q(0,3), (start,20,20), order_number_raw, w, or([`,` , newline]) ] )
+
+       
+    , check( order_number_raw = OrdRaw )
+
+    , trace( [ `Order Raw` , OrdRaw ] )
+
+    , check(string_string_replace( OrdRaw, `#`, ``, OrdStrip ))
+
+    , trace( [ `Order Stripped #` , OrdStrip ] )
+
+    , line_buyers_order_number(OrdStrip)
+
+    , trace( [ `Order No now` , line_buyers_order_number ] )
+    
+    ]
+
+    , [
+         check(line_buyers_order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ]) ]
+
+
 
       ] ).
 
