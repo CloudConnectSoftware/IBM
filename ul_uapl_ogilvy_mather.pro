@@ -20,7 +20,7 @@ i_rule_list( [
 	
 	, get_invoice_number
 
- 	, get_invoice_dateS
+ 	, get_invoice_date
     
     , get_due_date
 
@@ -33,6 +33,8 @@ i_rule_list( [
     , get_total_invoice
 
     , get_currency
+
+    , get_line_total_amount
 
     , get_invoice_lines
 
@@ -53,6 +55,8 @@ i_rule( get_supplier_details, [
     sender_name(`OGILVY & MATHER (S) PTE LTD`)
 
     , supplier_vat_number(`M200030362`)
+    
+    , set(freight_vendor)
 
 ]).
 
@@ -156,6 +160,7 @@ i_rule( get_total_vat, [
 
       , generic_item( [ default_vat_rate, `7` ] )
 
+    x
 ] ).
 
 
@@ -172,6 +177,7 @@ i_rule( get_total_invoice, [
    q0n(line)
 
   , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], total_invoice, d, newline ] )
+  
     
 ] ).
 
@@ -187,10 +193,21 @@ i_rule( get_currency, [
 
    q0n(line)
 
-     , generic_horizontal_details( [ [ `GST` ], 100,  currency, w, tab ] )  
+     , generic_horizontal_details( [ [ `Gross` ], 100, currency, w, tab ] )  
 
     ] ).
 
+
+%=======================================================================
+i_rule( get_line_total_amount, [
+%=======================================================================
+   
+   q0n(line)
+
+  , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )
+  
+    
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,62 +218,12 @@ i_rule( get_currency, [
 %=======================================================================
 i_section( get_invoice_lines, [
 %=======================================================================
-
-    line_header_line
-
-    , qn0( [ peek_fails(line_end_line)
-
-        , or( [
-
-             line_invoice_line
-
-             , line_description_line
-
-              , line
-
-        ] )
-
-    ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_header_line, [
-%=======================================================================
-
-  `Category`, tab, `Description`, tab, `Amount`,  newline
-    
-    , trace( [ `FOUND LINE HEADER LINE`])
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-    `Subtotal`, tab
-
-    , trace( [ `FOUND LINE END LINE`] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [
-%=======================================================================
-
-     generic_item( [ line_descr , s1 , tab ] )
-
-    , generic_item( [ line_net_amount , d , newline ] )
-
    
-] ).
+   q0n(line)
+    
+    , invoice_lines( `Line Charges` )
 
-%=======================================================================
-i_line_rule( line_description_line, [
-%=======================================================================
-	
-    generic_append( [ line_descr, s1, newline, `-`, ` `  ] )
+]).
 
 
-] ).
 
