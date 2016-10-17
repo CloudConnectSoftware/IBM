@@ -35,8 +35,6 @@ i_rule_list( [
 
     , get_currency
 
-    , get_invoice_lines
-
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -261,3 +259,4 @@ i_line_rule( line_description_line, [
 
 
 ] ).
+	
