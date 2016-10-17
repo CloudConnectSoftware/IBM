@@ -22,8 +22,7 @@ i_rule_list( [
 
    	, get_invoice_number
 
-  
-	, get_invoice_date
+  	, get_invoice_date
 
 	, get_due_date
 
@@ -32,6 +31,8 @@ i_rule_list( [
     , get_currency
 
     , get_total_vat
+
+    , get_line_total_amount
 
     , get_invoice_lines
 
@@ -51,12 +52,11 @@ i_rule( get_supplier_details, [
 
      sender_name(`DHL EXPRESS (SINGAPORE) PTE LTD`)
 
-     ,supplier_vat_number(`M2-0026281-6`)
+     , supplier_vat_number(`M2-0026281-6`)
+
+    , set(freight_vendor)
 
     
-
-     		
-
 ] ).
 
 
@@ -128,7 +128,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab, ],100,  total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ],100,  total_invoice, d, newline ] )
 
 
 ] ).
@@ -165,3 +165,36 @@ qn0(line)
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_line_total_amount
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_line_total_amount, [
+%=======================================================================
+   
+   q0n(line)
+
+  , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], 100, total_invoice, d, newline ] ) 
+  
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+   
+   q0n(line)
+    
+    , invoice_lines( `Courier Charges` )
+
+]).

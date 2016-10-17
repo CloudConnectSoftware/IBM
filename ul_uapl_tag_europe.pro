@@ -134,6 +134,8 @@ i_rule( get_total_net, [
 
  q0n(line)
 
+ , generic_horizontal_details( [ [ `Total`, `:`, `GBP`, tab ], 400, total_net, s1, newline ] )
+
 
 ] ).
 
@@ -165,6 +167,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
+   , generic_horizontal_details( [ [ `Total`, `:`, `GBP`, tab ], 400, total_invoice, d, newline ] )
     
 ] ).
 

@@ -31,6 +31,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_line_total_amount
+
     , get_invoice_lines
     
     ] ).
@@ -67,7 +69,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, tab  ], 100, invoice_number, s1, newline ] )
+   , generic_horizontal_details( [ [ `Invoice`, tab ], 100, invoice_number, s1, newline ] )
 	
 	
 ] ).
@@ -114,7 +116,7 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q(0,700, line)
+     qn0(line)
 
     , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], 100, total_invoice, d, newline ] )  
 
@@ -131,8 +133,42 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total` ], 100, currency, w ] )  
+    , generic_horizontal_details( [ [ `Grand`, `Total` ], 100, currency, w, tab ] )  
 
     ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_line_total_amount
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_line_total_amount, [
+%=======================================================================
+   
+   q0n(line)
+
+  , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], 100, total_invoice, d, newline ] ) 
+  
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+   
+   q0n(line)
+    
+    , invoice_lines( `Courier Charges` )
+
+]).
