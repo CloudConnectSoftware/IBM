@@ -12,8 +12,6 @@ i_version( ul_uapl_mediterranean, `06/10/2016` ).
 
 i_date_format( _ ).
 
-set(freight_vendor).
-
 i_trace_lists.
 
 i_include_partner_attachments_image_only.
@@ -48,7 +46,7 @@ i_rule( get_supplier_details, [
 
  q0n(line)
     
-    , supplier_vat_number([`20`, `-` , `0009291` , `-`, `Z`])
+    , supplier_vat_number([`20-0009291-Z`])
      
     , sender_name(`MEDITERRANEAN SHIPPING COMPANY`)
 
@@ -88,14 +86,14 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `DATE` , tab , `:` ] , 100 , invoice_date, date , newline ] )
+    , generic_horizontal_details( [ [ `Date` ] , 150 , invoice_date, date , newline ] )
 
 ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET INVOICE AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,14 +103,14 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 500, total_invoice, d , tab ] )
+    , generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 650, total_invoice, d , tab ] )
 
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
+% GET INVOICE CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -125,6 +123,9 @@ i_rule( get_currency, [
     , currency( `USD` )
 
 ] ).
+
+
+
 
 
 
