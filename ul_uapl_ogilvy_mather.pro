@@ -38,7 +38,6 @@ i_rule_list( [
 
     , get_invoice_lines
 
-
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,7 +121,7 @@ i_rule_cut( get_line_buyers_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab ],  line_buyers_order_number, s1, tab ] )
+    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab ],  line_buyers_order_number, d, `/` ] )
 
     
     ] ).    
@@ -158,10 +157,10 @@ i_rule( get_total_vat, [
 
      , generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `GST`, q(0,3), (start,20,20), total_vat, d, tab ] )
 
-      , generic_item( [ default_vat_rate, `7` ] )
+     , generic_item( [ default_vat_rate, `7` ] )
 
-    x
-] ).
+      
+   ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,24 +195,24 @@ i_rule( get_currency, [
      , generic_horizontal_details( [ [ `Gross` ], 100, currency, w, tab ] )  
 
     ] ).
-
+    
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% get_total_line_amount
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %=======================================================================
 i_rule( get_line_total_amount, [
 %=======================================================================
-   
-   q0n(line)
 
-  , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )
-  
-    
+     q0n(line)
+
+    , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )
+
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,12 +221,12 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_section( get_invoice_lines, [
+i_rule( get_invoice_lines, [
 %=======================================================================
    
    q0n(line)
     
-    , invoice_lines( `Line Charges` )
+    , line_descr( `Line Charges` )
 
 ]).
 
