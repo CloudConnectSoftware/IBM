@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `16:10 17 October 2016` ).
+i_version( p_ibm_unilever_uapl, `09:38 18 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -696,7 +696,8 @@ i_analyse_duplicate_invoice
 
 				(
 					q_allow_duplicate_emails,
-					alert( `Duplicate Emails Left On - Duplicate Processed`, 0, `hours` )
+					strcat_list( [ `Duplicate Emails Left On - Duplicate Processed - `, FILE ], Alert ),
+					alert( Alert, 0, `hours` )
 
 					;
 

@@ -55,7 +55,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `Unilever India Export` )
 
-    , supplier_vat_number(`IEC No0390003034`)
+    , supplier_vat_number(`0390003034`)
 
     ] ).
 
