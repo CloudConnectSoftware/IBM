@@ -234,9 +234,11 @@ i_rule( get_currency, [
 
     ,or([
 
-        generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`],currency, w ] )
+        
     
-    , generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`, `(`],currency, w , `)` ] )
+    generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`, `(`],currency, w , `)` ] )
+
+    ,generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`],currency, w ] )
 
     ])
 
