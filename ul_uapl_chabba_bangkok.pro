@@ -55,6 +55,8 @@ i_rule( get_supplier_details, [
 
     sender_name( `CHABAA BANGKOK CO., LTD.` )
 
+    ,supplier_registration_number(`0993000081137`)
+
     
 
 ] ).
