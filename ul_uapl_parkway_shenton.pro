@@ -107,6 +107,8 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [ `GST`, `(`, `7`, `%`, `)`, tab ], 100, total_vat, d, newline ] )
 
+     , generic_item( [ default_vat_rate, `7` ] )
+
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
