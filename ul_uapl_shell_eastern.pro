@@ -34,11 +34,9 @@ i_rule_list( [
 
 	, get_total_vat
 
-    , get_total_invoice
+     , get_currency
 
-    , get_currency
-
-    , get_line_total_amount
+     , get_line_total_amount
 
     , get_invoice_lines
 
@@ -143,7 +141,7 @@ i_rule_cut( get_line_buyers_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Customer`, `Order`, `Number`, tab ],  line_buyers_order_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `Customer`, `Order`, `Number`, tab ],  line_buyers_order_number, d, `/` ] )
 
     
     ] ). 
@@ -221,21 +219,21 @@ i_rule( get_currency, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% get_total_line_amount
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %=======================================================================
 i_rule( get_line_total_amount, [
 %=======================================================================
-   
-   q0n(line)
+
+     q0n(line)
 
     , generic_horizontal_details( [ [ `Invoice`, `Amount`, tab, `USD`, tab ],  line_total_amount, d, newline ] )  
 
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -244,12 +242,12 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_section( get_invoice_lines, [
+i_rule( get_invoice_lines, [
 %=======================================================================
    
    q0n(line)
     
-    , invoice_lines( `Line Charges` )
+    , line_descr( `Line Charges` )
 
 ]).
 
