@@ -20,7 +20,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-	,get_vat_amount
+	, get_vat_amount
 	
 	, get_invoice_number
 
@@ -33,8 +33,6 @@ i_rule_list( [
 	, get_total_vat
 
     , get_total_invoice	
-
-    , get_currency
 
     , get_invoice_lines
 
