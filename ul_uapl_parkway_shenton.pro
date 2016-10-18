@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`PARKWAY SHENTON PTE LTD`)
 
-  , supplier_registration_number(`199509118D`)
+  , supplier_vat_number(`199509118D`)
   
   , set(freight_vendor)
 

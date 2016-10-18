@@ -54,6 +54,8 @@ i_rule( get_supplier_details, [
 
      , currency( `NZD` )
 
+     , buyer_registration_number(`NZ00`)
+
      , set(freight_vendor)
 
    
@@ -158,8 +160,10 @@ i_rule_cut( get_due_date, [
 %=======================================================================
 i_rule( get_total_vat, [
 %=======================================================================
+  
+   q0n(line)
 
-    total_vat(`0`)
+    , generic_horizontal_details( [ [ `Standard`, `Rate`, `GST`  ], 200, total_vat, d , tab ] )
 
 ] ).
 
