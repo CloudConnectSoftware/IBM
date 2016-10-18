@@ -35,6 +35,10 @@ i_rule_list( [
 
     , get_currency
 
+    , get_line_total_amount
+
+    , get_invoice_lines
+
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,6 +55,8 @@ i_rule( get_supplier_details, [
    sender_name(`TAG EUROPE LIMITED`)
 
   , supplier_vat_number(`662 7747 03`)
+
+   , set(freight_vendor)
 
 ] ).
 
@@ -134,8 +140,12 @@ i_rule( get_total_net, [
 
  q0n(line)
 
- , generic_horizontal_details( [ [ `Total`, `:`, `GBP`, tab ], 400, total_net, s1, newline ] )
-
+  ,  [ set(regexp_cross_word_boundaries )
+ 
+ , generic_horizontal_details( [ [ `Goods`, `:`, tab, `GBP`, tab ], total_net, d, newline ] )
+ 
+ , clear( regexp_cross_word_boundaries) ]
+ 
 
 ] ).
 
@@ -151,8 +161,14 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [`VAT`, `(`, `0`, `.`, `0`, `%`, `)`, `:`, tab, `GBP`, tab ], total_vat, s1, newline ] )
+    ,  [ set(regexp_cross_word_boundaries )
 
+    , generic_horizontal_details( [ [`VAT`, `(`, `0`, `.`, `0`, `%`, `)`, `:`, tab, `GBP`, tab  ], total_vat, d, newline ] )
+
+    , generic_item( [ default_vat_rate, `0` ] )
+
+    , clear( regexp_cross_word_boundaries) ]
+       
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,9 +183,21 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-   , generic_horizontal_details( [ [ `Total`, `:`, `GBP`, tab ], 400, total_invoice, d, newline ] )
+         ,  [ set(regexp_cross_word_boundaries )
+       
+         ,  generic_horizontal_details( [ [`Total`, `:`, tab, `GBP`, tab], total_invoice, d, newline ] )
+
+         , clear( regexp_cross_word_boundaries) ]
+
+         , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
     
-] ).
+     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -182,10 +210,34 @@ i_rule( get_currency, [
 %=======================================================================
 
 q0n(line)
+   
+   
+    , generic_horizontal_details( [ [ `Total`, `:`, tab  ],  currency, w, tab ] )
 
-    , generic_horizontal_details( [ [ `Total`, `:`, tab  ], 100, currency, w, tab ] )
+    ]).
 
-]).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_line_total_amount
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_line_total_amount, [
+%=======================================================================
+   
+   q0n(line)
+
+         ,  [ set(regexp_cross_word_boundaries )
+       
+         ,  generic_horizontal_details( [ [`Total`, `:`, tab, `GBP`, tab], total_invoice, d, newline ] )
+
+         , clear( regexp_cross_word_boundaries) ]
+         
+    
+     ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,70 +248,9 @@ q0n(line)
 %=======================================================================
 i_section( get_invoice_lines, [
 %=======================================================================
+   
+   q0n(line)
+    
+    , invoice_lines( `Service Charges` )
 
-	line_start_line
-	
-	, qn0( [ peek_fails(line_end_line)
-		
-		, or( [
-
-             line_invoice_line
-		
-			, [ line_descr_line , q10(line_append_line ) , line_invoice_line ]
-
-            , line		
-		] )
-	
-	] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_start_line, [
-%=======================================================================
-	
-    `Job`, tab, `Client`, tab, `Job`, `Title`, tab, `Media`, `Owner`, tab, `Campaign`, `/`, `Size`, tab, `Amount`,  newline
-     
-     , trace( [ `FOUND THE HEADER LINE` ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-  `Total`, `:`,  `GBP` , tab
-
-     , trace( [ `FOUND THE END LINE` ] )
-
-] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [   
-%=======================================================================
-                
-         generic_item( [ line_descr, s1, tab ] )
-
-       , generic_item( [ line_item_title, s1 , tab ] )
-
-       , generic_item( [ line_item_media, s1, tab ] )
-
-       , q10(generic_item( [ line_reference, s1, tab ] ))
-
-       , generic_item( [ line_item_size, s1, tab ] )
-
-      , generic_item( [ line_net_amount, d, newline ] )
- 
- 	
-] ).
-
-%=======================================================================
-i_line_rule( line_description_line, [
-%=======================================================================
-	
-     generic_append( [ line_descr, s1, newline, `-`, ` `  ] )
-
-
-] ).
-	
+]).
