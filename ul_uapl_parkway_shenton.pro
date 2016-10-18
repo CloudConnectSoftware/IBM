@@ -70,9 +70,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `INVOICE`, `No`, tab, `:` ], 100, invoice_number, s1, newline ] )
-	
-	
+    , or([
+
+    generic_horizontal_details( [ [ `INVOICE`, `No`, tab, `:` ], 100, invoice_number, s1, newline ] )
+
+   , generic_horizontal_details( [ [ `TAX`, `INVOICE` ], 230, invoice_number, d, newline ] )
+
+   ])
+
 ] ).
 
 
@@ -88,8 +93,14 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `Date`, tab, `:` ], 100, invoice_date, date, newline ] )
+    , or([
+
+      generic_horizontal_details( [ [ `Invoice`, `Date`, tab, `:` ], 100, invoice_date, date, newline ] )
+
+    , generic_horizontal_details( [ [  `Date`, tab, `:` ], 100, invoice_date, date, newline ] )
 	
+    ])
+
 ] ).
 
 
@@ -105,9 +116,15 @@ i_rule( get_total_vat, [
 
     qn0(line)
 
-    , generic_horizontal_details( [ [ `GST`, `(`, `7`, `%`, `)`, tab ], 100, total_vat, d, newline ] )
+    ,or([
+
+      generic_horizontal_details( [ [ `GST`, `(`, `7`, `%`, `)`, tab ], 100, total_vat, d, newline ] )
 
      , generic_item( [ default_vat_rate, `7` ] )
+
+     , generic_horizontal_details( [ [ `ADD`, `GST`, `7`, `%`,  tab ], total_vat, d, newline ] )
+
+    ])
 
     ] ).
 
@@ -123,8 +140,13 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-      , generic_horizontal_details( [ [ `Total`, `Before`, `GST`, tab], 100, total_invoice,  d , newline] )
+     , or([
 
+       generic_horizontal_details( [ [ `Total`, `Before`, `GST`, tab], 100, total_net,  d , newline] )
+
+     , generic_horizontal_details( [ [ `SUBTOTAL`, tab ], total_net, d , newline] )
+
+     ])
 
 ] ).
 
@@ -141,8 +163,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], 100, total_invoice, d, newline ] )  
+      , or([
 
+      generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], 100, total_invoice, d, newline ] )  
+
+    , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`, `PAYABLE`,  tab ], total_invoice, d, newline ] )  
+
+      ])
 
 ] ).
 
@@ -157,10 +184,15 @@ i_rule( get_currency, [
 %=======================================================================
 
     q0n(line)
-    
-    , generic_horizontal_details( [ [ `Singapore`, `Dollars`, `(` ], 100, currency,  w, `)` ] )
 
+    , or([
     
+     generic_horizontal_details( [ [ `Singapore`, `Dollars`, `(` ], 100, currency,  w, `)` ] )
+
+    , currency( `SGD` )
+
+    ])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -175,8 +207,13 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], 100, line_total_amount, d, newline ] )  
+      , or([
 
+      generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], 100, line_total_amount, d, newline ] )  
+
+    , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`, `PAYABLE`,  tab ], line_total_amount, d, newline ] )  
+
+      ])
 
 ] ).
 
