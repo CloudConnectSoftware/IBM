@@ -34,8 +34,6 @@ i_rule_list( [
 
     , get_total_invoice	
 
-    , get_currency
-
     , get_invoice_lines
 
 ] ).
