@@ -88,7 +88,29 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date` ] , 120 , invoice_date, date , newline ] )
+    , generic_horizontal_details( [ [ `Date` ] , 120 , invoice_date_raw, s1 , newline ] )
+
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice date raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `-`, `/`, DateStrip ))
+
+    , trace( [ `Replaced - with / ` , DateStrip ] )
+
+    , or( [
+
+                check(string_string_replace( DateStrip, `SEP` , `09` , DateMonthRepl ))
+
+            ,   check(string_string_replace( DateStrip, `OCT` , `10` , DateMonthRepl ))
+
+    ])
+
+    , trace( [ `Replaced Month` , DateMonthRepl])
+
+    , invoice_date(DateMonthRepl)
+
+    , trace( [ `Invoice Date` , invoice_date ] )  
 
 ] ).
 
