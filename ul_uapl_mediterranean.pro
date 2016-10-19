@@ -29,6 +29,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_total_vat
+
     , get_currency
 
 ] ).
@@ -46,7 +48,7 @@ i_rule( get_supplier_details, [
 
  q0n(line)
     
-    , supplier_vat_number([`20-0009291-Z`])
+    , supplier_vat_number(`20-0009291-Z`)
      
     , sender_name(`MEDITERRANEAN SHIPPING COMPANY`)
 
@@ -86,7 +88,29 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date` ] , 150 , invoice_date, date , newline ] )
+    , generic_horizontal_details( [ [ `Date` ] , 120 , invoice_date_raw, s1 , newline ] )
+
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice date raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `-`, `/`, DateStrip ))
+
+    , trace( [ `Replaced - with / ` , DateStrip ] )
+
+    , or( [
+
+                check(string_string_replace( DateStrip, `SEP` , `09` , DateMonthRepl ))
+
+            ,   check(string_string_replace( DateStrip, `OCT` , `10` , DateMonthRepl ))
+
+    ])
+
+    , trace( [ `Replaced Month` , DateMonthRepl])
+
+    , invoice_date(DateMonthRepl)
+
+    , trace( [ `Invoice Date` , invoice_date ] )  
 
 ] ).
 
@@ -121,6 +145,22 @@ i_rule( get_currency, [
     q0n(line)
     
     , currency( `USD` )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL VAT AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_vat, [
+%=======================================================================
+
+     qn0(line)
+
+    , generic_horizontal_details( [ [ `Add`, `:`, `GST`, `@`, `0`, `%`, `(`, `Zero`, `Rated`, `)` ], 600 , total_vat, d , tab ] )
 
 ] ).
 
