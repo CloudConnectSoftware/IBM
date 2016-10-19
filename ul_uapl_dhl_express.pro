@@ -102,11 +102,11 @@ i_rule_cut( get_due_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Due`, `Date`, tab ], 100, due_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Due`, `Date`, tab ], due_date, date, newline ] )
 	
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_total_invoice
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,7 +118,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], 100, total_invoice, d, newline ] )  
+    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], total_invoice , d , newline ] )  
 
 
 ] ).
@@ -150,9 +150,9 @@ i_rule( get_currency, [
 i_rule( get_line_total_amount, [
 %=======================================================================
    
-   q0n(line)
+   qn0(line)
 
-  , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], 100, total_invoice, d, newline ] ) 
+  , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ] , total_invoice, d, newline ] ) 
   
     
 ] ).
@@ -169,6 +169,6 @@ i_section( get_invoice_lines, [
    
    q0n(line)
     
-    , invoice_lines( `Courier Charges` )
+    , line_descr( `Courier Charges` )
 
 ]).

@@ -34,7 +34,7 @@ i_rule_list( [
 
     , get_currency
 
-     , get_invoice_lines
+    , get_invoice_lines
 
 
     ] ).
@@ -135,7 +135,7 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Sub`, `Total`, newline ], 100, total_net, d, newline] )
+   , generic_horizontal_details( [ [ `Sub`, `Total` ], 100, total_net, d, newline] )
 
 ] ).
 
@@ -152,7 +152,7 @@ i_rule( get_total_vat, [
 
    q0n(line)
 
-     , generic_horizontal_details( [ [ `G`, `.`, `S`, `.`, `T`, tab ], 200, total_vat, d, newline ] )
+     , generic_horizontal_details( [ [ `G`, `.`, `S`, `.`, `T`, tab ] , total_vat, d, newline ] )
 
       
 ] ).
@@ -191,7 +191,6 @@ i_rule( get_currency, [
 
     ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -201,12 +200,64 @@ i_rule( get_currency, [
 %=======================================================================
 i_section( get_invoice_lines, [
 %=======================================================================
-   
-   q0n(line)
-    
-    , invoice_lines( `Freight Charges` )
 
-]).
+	line_start_line
+	
+	, qn0( [ peek_fails(line_end_line)
+		
+		, or( [
+		
+			line_invoice_line 
+
+            , line			
+		] )
+	
+	] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_start_line, [
+%=======================================================================
+	
+     `Le`, `Mac`, `Item`, `No`, `.`, tab
+     
+     , trace( [ `FOUND THE HEADER LINE` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+   `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust`, `to`, `the`, `Purchaser`, `shall`, `be`, `at`, `Purchaser`, `'`, `s`, `risk`, `on`, `delivery`, `to`, `the`, `Purchaser`, `or`, `into`, `the`, `Purchaser`, `'`, `s`, `custody`, tab, `Sub`, `Total`,  newline
+
+     , trace( [ `FOUND THE END LINE` ] )
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [   
+%=======================================================================
+   
+       generic_item( [ line_item, s1, tab ] )
+
+       , generic_item( [ line_customer_item_no, d, tab ] )
+        
+       , generic_item( [ line_descr, s1, tab ] )
+
+       , generic_item( [ line_quantity, d, tab ] )
+
+       , generic_item( [ line_price_uom_code, w, tab ] )
+
+       , generic_item( [ line_unit_amount, d, tab ] )
+
+      , generic_item( [ line_net_amount, d, newline ] )
+ 
+ 	
+] ).
+
+
 
 
 
