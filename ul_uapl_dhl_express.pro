@@ -27,6 +27,8 @@ i_rule_list( [
 
     , get_due_date
 
+    , get_total_vat
+
     , get_total_invoice
 
     , get_currency
@@ -67,7 +69,7 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q0n(line)
+    qn0(line)
 
    , generic_horizontal_details( [ [ `Invoice`, tab ], 100, invoice_number, s1, newline ] )
 	
@@ -84,9 +86,9 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
-    , generic_horizontal_details( [ [`Date`, tab ], 100, invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [`Date` ], 100, invoice_date, date, newline ] )
 	
 ] ).
 
@@ -100,10 +102,26 @@ i_rule_cut( get_invoice_date, [
 i_rule_cut( get_due_date, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
     , generic_horizontal_details( [ [ `Due`, `Date`, tab ], due_date, date, newline ] )
 	
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_total_vat
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+ i_rule( get_total_vat, [
+%=======================================================================
+    
+    
+ total_vat(`0`)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,7 +185,7 @@ i_rule( get_line_total_amount, [
 i_section( get_invoice_lines, [
 %=======================================================================
    
-   q0n(line)
+   qn0(line)
     
     , line_descr( `Courier Charges` )
 
