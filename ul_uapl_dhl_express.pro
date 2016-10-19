@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_dhl_express, `13/10/2016` `10:55:05` ).
+i_version( ul_uapl_dhl_express, `13:12 19 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -69,9 +69,9 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    qn0(line)
+    q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice` ], 100, invoice_number, s1, newline ] )
+   , generic_horizontal_details( [ [ gen_beof, `Invoice` ], invoice_number, s1, newline ] )
 	
 	
 ] ).
@@ -86,9 +86,9 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    qn0(line)
+    q0n(line)
 
-    , generic_horizontal_details( [ [`Date` ], 100, invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ gen_beof, `Date` ], invoice_date, date, newline ] )
 	
 ] ).
 
@@ -102,29 +102,30 @@ i_rule_cut( get_invoice_date, [
 i_rule_cut( get_due_date, [
 %=======================================================================
 
-    qn0(line)
+    q0n(line)
 
-    , generic_horizontal_details( [ [ `Due`, `Date`, tab ], due_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Due`, `Date` ], due_date, date, newline ] )
 	
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_vat
+% GET TOTAL VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( get_total_vat, [
+%=======================================================================
+  
+   q0n(line)
 
-%=======================================================================
- i_rule( get_total_vat, [
-%=======================================================================
-    
-    
- total_vat(`0`)
+    , total_vat(`0`)
 
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % get_total_invoice
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,7 +137,15 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], total_invoice , d , newline ] )  
+    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, total_invoice, d, newline ] )  
+
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) 
 
 
 ] ).
@@ -153,7 +162,7 @@ i_rule( get_currency, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total` ], 100, currency, w, tab ] )  
+    , generic_horizontal_details( [ [ `Grand`, `Total` ], currency, w, tab ] )  
 
     ] ).
 
@@ -170,7 +179,15 @@ i_rule( get_line_total_amount, [
    
    qn0(line)
 
-  , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ] , total_invoice, d, newline ] ) 
+  , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, total_invoice, d, newline ] )
+
+  , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )  
   
     
 ] ).
@@ -182,10 +199,10 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_section( get_invoice_lines, [
+i_rule( get_invoice_lines, [
 %=======================================================================
    
-   qn0(line)
+   q0n(line)
     
     , line_descr( `Courier Charges` )
 
