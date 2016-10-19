@@ -88,7 +88,14 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date` ] , 120 , invoice_date_raw, s1 , newline ] )
+    , or( [ 
+    
+          generic_horizontal_details( [ [ `Date` ] , 120 , invoice_date_raw, s1 , newline ] )
+
+        , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `Box`, `:`, tab, `1`, tab, `:` ], invoice_date_raw, s1 , newline ] )
+
+
+        ] )
 
     , check( invoice_date_raw = DateRaw )
 
