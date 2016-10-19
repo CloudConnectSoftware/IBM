@@ -53,11 +53,8 @@ i_rule( get_supplier_details, [
   
    sender_name(`MAERSK SINGAPORE PTE LTD`)
 
-  , supplier_registration_number(`197401342Z`)
-
-  , supplier_vat_number(`001668046848`)
-
-    
+  , supplier_vat_number(`197401342Z`)
+  
   , set(freight_vendor)
 
 ] ).
