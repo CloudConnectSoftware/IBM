@@ -29,6 +29,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_total_vat
+
     , get_currency
 
 ] ).
