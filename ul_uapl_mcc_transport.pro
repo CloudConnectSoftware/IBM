@@ -48,7 +48,7 @@ i_rule( get_supplier_details, [
  
      sender_name(`MCC TRANSPORT SINGAPORE PTE LTD`)
 
-     , supplier_vat_number(`M2-0074074-2`)
+     , supplier_vat_number(`M200740742`)
 
       , set(freight_vendor)
 
