@@ -18,13 +18,13 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	 get_supplier_details
 	
-	, get_invoice_number
+	  , get_invoice_number
     	
-	, get_invoice_date
+	  , get_invoice_date
 
-	, get_total_vat
+	  , get_total_vat
 
     , get_total_net
 
@@ -74,7 +74,7 @@ i_rule_cut( get_invoice_number, [
 
     generic_horizontal_details( [ [ `INVOICE`, `No`, tab, `:` ], 100, invoice_number, s1, newline ] )
 
-   , generic_horizontal_details( [ [ `TAX`, `INVOICE` ], 230, invoice_number, d, newline ] )
+   , generic_horizontal_details( [ [ gen_beof, `TAX`, `INVOICE` ], 100, invoice_number, d, newline ] )
 
    ])
 
@@ -224,7 +224,7 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rrule( get_invoice_lines, [
+i_rule( get_invoice_lines, [
 %=======================================================================
    
    q0n(line)
