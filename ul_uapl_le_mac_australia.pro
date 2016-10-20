@@ -12,6 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -21,10 +22,8 @@ i_rule_list( [
 	, get_invoice_number
 
  	, get_invoice_date
-    
+ 
     , get_order_number
-
-    , get_line_buyers_order_number
 
     , get_total_net
 
@@ -90,6 +89,8 @@ i_rule_cut( get_invoice_date, [
 	
 ] ).
 
+
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET ORDER NUMBER
@@ -102,23 +103,15 @@ i_rule_cut( get_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Le`, `Mac`,`Order`, `No`, `.`, tab ], order_number, d, newline ] )
-	
-] ).
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE BUYERS ORDER NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    , generic_horizontal_details( [ [ `Customer`, `Order`, `No`, `.`, tab],  order_number, d, newline ] )
 
-%=======================================================================
-i_rule_cut( get_line_buyers_order_number, [
-%=======================================================================
+    , check(order_number = OrdNo)
 
- q0n(line)
+    , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , generic_horizontal_details( [ [ `Customer`, `Order`, `No`, `.`, tab],  line_buyers_order_number, d, newline ] )
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE Line ORDER Number` , line_buyers_order_number ])
 
     
     ] ).    
@@ -135,7 +128,11 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Sub`, `Total` ], 100, total_net, d, newline] )
+    ,or([generic_vertical_details( [ [ `Sub`, `Total`  ], `Total`, q(0,1), (start,250,250), total_net, d, newline ] )
+
+   , generic_horizontal_details( [ [ `Sub`, `Total` ], total_net, d, newline] )
+
+    ])
 
 ] ).
 
