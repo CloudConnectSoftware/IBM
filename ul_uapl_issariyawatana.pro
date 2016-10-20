@@ -125,9 +125,11 @@ i_rule( get_line_buyers_order_number, [
     q0n(line)
 
     , or([
-        generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ]) ] )
+        generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ] ) ] )
         
-        ,generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, tab ], line_buyers_order_number, d, newline ] )
+        ,generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, q10(tab) ], line_buyers_order_number, d, or( [ newline , tab ]) ] )
+
+        
 
 
     ])
@@ -214,8 +216,6 @@ i_section( get_invoice_lines, [
 
              [line_invoice_line  , q10( line_descr_line)]
 
-             , line_invoice_line
-
               , line
 
         ] )
@@ -233,6 +233,8 @@ i_line_rule_cut( line_header_line, [
     [`(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`]
 
     ,[`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
+
+    ,[`(`, `Pallets`, `)`, `(`, `Cartons`, `)`]
 
 
     ])
