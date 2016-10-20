@@ -45,7 +45,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`CMA CGM & ANL (SINGAPORE) PTE LTD`)
 
-     , supplier_registration_number(`20-0007072-D)`)
+     , supplier_registration_number(`20-0007072-D`)
  
       , set(freight_vendor)
 
