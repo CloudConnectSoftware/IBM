@@ -360,7 +360,14 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_sub_total_dummy, d , tab ] )
 
-    , generic_item( [ line_net_amount , d , q01(tab) ] )
+    , or([
+        generic_item( [ line_net_amount , d , tab ] )
+
+     , generic_item( [ line_net_amount , d  ] )
+
+    ])
+
+
 
     , generic_item( [ line_vat_amount , d , tab ])
 
@@ -374,7 +381,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_material_line, [
 %=======================================================================
 
-  generic_item( [ line_item ,d , tab])
+   generic_item( [ line_item ,d , tab])
 
 ] ).
 
