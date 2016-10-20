@@ -206,9 +206,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-             line_invoice_line
+             [line_invoice_line  , q10( line_descr_line)]
 
-             , q10( line_descr_line)
+             , line_invoice_line
 
               , line
 
@@ -224,9 +224,10 @@ i_line_rule_cut( line_header_line, [
 
      or([ 
 
-    `(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`,  newline
+    [`(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`]
 
-    , `(`, `Carton`, `)`, tab, `Per`, `Cartons`, tab, `Per`, `Cartons`, tab, `Per`, `Carton`,  newline
+      
+
 
     ])
 
@@ -252,11 +253,11 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_descr, s1, tab ] )
 
-    , generic_item( [ line_carton, , d, tab ] )
+    , generic_item( [ line_carton, d, tab ] )
 
     , generic_item( [ line_quantity , d , tab ] )
 
-    , generic_item( [ line_price_uom_code, d, tab ] )
+    , q10(generic_item( [ line_price_uom_code, d, tab ] ))
 
     , generic_item( [ line_total_amount , d , newline ] )
 
