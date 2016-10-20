@@ -143,8 +143,10 @@ i_rule( get_total_invoice, [
 %=======================================================================
 i_rule( get_currency, [
 %=======================================================================
+   
+   q0n(line)
 
-     currency( `USD` )
+      , generic_horizontal_details( [ [ `DEBIT`, tab], currency, w, tab ] )
 
 ] ).
 
