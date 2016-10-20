@@ -22,7 +22,7 @@ i_rule_list( [
 	
 	, get_invoice_date
 
-    , get_line_buyers_order_number
+    , get_order_number
 
     , get_total_net
 
@@ -66,7 +66,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_vertical_details( [ [ `DO`, `No` ], `DO`, `No`, q(1,5), (start,20,20), invoice_number, s1, newline ] )
+   , generic_vertical_details( [ [ `INVOICE`, `/`, `DO`, `No` ], `No`, q(0,3,up), (end,150,150), invoice_number, s1, newline ] )
 	
 	
 ] ).
@@ -88,17 +88,25 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE BUYERS ORDER NUMBER
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_line_buyers_order_number, [
+i_rule( get_order_number, [
 %=======================================================================
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(1,4), (start,20,20), line_buyers_order_number, d, tab ] )
+    , generic_vertical_details( [ [`YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(0,2), (start,20,20), order_number, s1, tab ] )
+
+    , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , order_number ])
 
 ] ).
 
@@ -148,7 +156,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [`Total`, `:`  ], 450, total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [`Goods`, `sold`, `are`, `not`, `returnable`, tab, `Total`, `:` ], 170, total_invoice, d, newline ] )
 
 ] ).
 
@@ -219,13 +227,17 @@ i_line_rule_cut( line_invoice_line, [
   
        generic_item( [ line_item, d, tab ] )
 
-      , generic_item( [ line_decr, s1, tab ] )
+      ,  generic_item( [ line_decr, s1, tab ] )
 
-      , generic_item( [ line_quantity_uom_code, s1, tab ] )
+      , q10( generic_append( [ line_descr, s, tab, ` `, `` ] ))
+
+      , generic_item( [ line_quantity, d] )
+
+      ,generic_item( [ line_quantity_uom_code, w, tab ] )
 
       , generic_item( [line_unit_amount, d, tab ] )
 
-      , generic_item( [ line_total_amount, d, newline ] )
+      , generic_item( [ line_net_amount, d, newline ] )
  
  	
 ] ).
