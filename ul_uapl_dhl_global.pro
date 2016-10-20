@@ -98,6 +98,14 @@ i_rule( get_line_buyers_order_number, [
 
       , generic_horizontal_details( [ [ `FXL`, `/`, `3PB`, `-`, `PO`, `#` ], line_buyers_order_number, d, newline ] )
 
+    , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+
        
       ] ).
 
