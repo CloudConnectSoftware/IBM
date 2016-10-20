@@ -156,7 +156,7 @@ i_rule_cut( get_line_buyers_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q0n(line) 
+	qn0(line) 
 
 	, generic_horizontal_details( [ [`Nett`, `Total`, tab, `USD`, tab ],  total_net, d, newline ] )
 	
@@ -173,7 +173,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-     q0n(line) 
+     qn0(line) 
 
 	, generic_horizontal_details( [ [`Tax`, `Total`, tab, `USD`, tab ],  total_vat, d, newline ] )
 
@@ -193,7 +193,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
     , generic_horizontal_details( [ [ `Invoice`, `Amount`, tab, `USD`, tab ],  total_invoice, d, newline ] )  
 
