@@ -32,6 +32,7 @@ i_op_param( unique_id, _, To, _, Scan_ID )
 i_user_field( invoice, plant_code, `Plant Code` ).
 i_user_field( invoice, total_local_vat, `Total Local VAT` ).
 i_user_field( invoice, exchange_rate, `Exchange Rate` ).
+i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
 i_user_field( line, line_gl, `Line GL` ).
@@ -160,7 +161,7 @@ remaining_rejection_text( Text )
 	
 	!,
 	
-	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don’t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
+	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you donï¿½t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
 
 %-----------------------------------------------------------------------
@@ -246,7 +247,7 @@ remaining_forward_text( Text )
 	
 	!,
 	
-	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don’t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
+	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you donï¿½t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -370,6 +371,68 @@ i_final_rule( [
 	, trace( [ `Summary line Created`, line_descr, line_net_amount, line_total_amount ] )
 	
 ] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% POPULATE TOTALS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_missing_invoice_totals___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_missing_invoice_totals___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(
+		not( result( _, invoice, total_net, _ ) ),
+		result( _, invoice, total_vat, VAT ),
+		(
+			result( _, invoice, rounding_amount, Sub_3 )
+			;
+			not( result( _, invoice, rounding_amount, _ ) ),
+			Sub_3 = `0`
+		),
+		result( _, invoice, total_invoice, Total ),
+		sys_calculate_str_add( VAT, Sub_3, X ),
+		sys_calculate_str_subtract( Total, X, Net ),
+		assertz_derived_data( invoice, total_net, Net, i_analyse_total_net )
+		
+		;
+		
+		not( result( _, invoice, total_vat, _ ) ),
+		result( _, invoice, total_net, Net ),
+		(
+			result( _, invoice, rounding_amount, Sub_3 )
+			;
+			not( result( _, invoice, rounding_amount, _ ) ),
+			Sub_3 = `0`
+		),
+		result( _, invoice, total_invoice, Total ),
+		sys_calculate_str_add( Net, Sub_3, X ),
+		sys_calculate_str_subtract( Total, X, VAT ),
+		assertz_derived_data( invoice, total_vat, VAT, i_analyse_total_vat )
+		
+		;
+		
+		not( result( _, invoice, total_invoice, _ ) ),
+		result( _, invoice, total_net, Net ),
+		result( _, invoice, total_vat, VAT ),
+		(
+			result( _, invoice, rounding_amount, Sub_3 )
+			;
+			not( result( _, invoice, rounding_amount, _ ) ),
+			Sub_3 = `0`
+		),
+		sys_calculate_str_add( Net, VAT, X ),
+		sys_calculate_str_add( X, Sub_3, Total ),
+		assertz_derived_data( invoice, total_invoice, Total, i_analyse_total_invoice )
+		
+	),
+	
+	!
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -901,9 +964,16 @@ i_error_invoice_integer_totals_inconsistent
 	result( _, invoice, total_net, Net ),
 	result( _, invoice, total_vat, VAT ),
 	result( _, invoice, total_invoice, Total ),
+	(
+		result( _, invoice, rounding_amount, Sub_3 )
+		;
+		not( result( _, invoice, rounding_amount, _ ) ),
+		Sub_3 = `0`
+	),
 	!,
 	sys_calculate_str_add( Net, VAT, Sum ),
-	sys_calculate_str_subtract( Total, Sum, Diff ),
+	sys_calculate_str_add( Sum, Sub_3, Sum_Final ),
+	sys_calculate_str_subtract( Total, Sum_Final, Diff ),
 	sys_calculate_str_round_0( Diff, Diff_0 ),
 	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
 	!
@@ -934,8 +1004,15 @@ i_error_sum_total_integer_discrepancy
 	i_force_list( List_of_totals_Raw, List_of_totals ),
 	i_user_check( sum_string_list, List_of_totals, Sum_of_totals ),
 	result( _, invoice, total_invoice, Total_invoice ),
+	(
+		result( _, invoice, rounding_amount, Sub_3 )
+		;
+		not( result( _, invoice, rounding_amount, _ ) ),
+		Sub_3 = `0`
+	),
+	sys_calculate_str_subtract( Total_invoice, Sub_3, Sub_Diff ),
 	!,
-	sys_calculate_str_subtract( Total_invoice, Sum_of_totals, Diff ),
+	sys_calculate_str_subtract( Sub_Diff, Sum_of_totals, Diff ),
 	sys_calculate_str_round_0( Diff, Diff_0 ),
 	not( q_sys_comp_str_eq( Diff_0, `0` ) ),
 	!
