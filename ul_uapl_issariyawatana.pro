@@ -124,7 +124,13 @@ i_rule( get_line_buyers_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ]) ] )
+    , or([
+        generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ]) ] )
+        
+        ,generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, tab ], line_buyers_order_number, d, newline ] )
+
+
+    ])
 
      , check(line_buyers_order_number = OrdNo)
 
@@ -226,7 +232,7 @@ i_line_rule_cut( line_header_line, [
 
     [`(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`]
 
-      
+    ,[`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
 
 
     ])
@@ -249,15 +255,17 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
           
-     generic_item( [ line_item, d, tab ] )
+     generic_item( [ line_item, s1, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
+
+    , q10(generic_item( [ line_dummy, s1, tab ] ))
 
     , generic_item( [ line_carton, d, tab ] )
 
     , generic_item( [ line_quantity , d , tab ] )
 
-    , q10(generic_item( [ line_price_uom_code, d, tab ] ))
+     ,q10(generic_item( [ line_unit_amount, d, tab ] ))
 
     , generic_item( [ line_total_amount , d , newline ] )
 
