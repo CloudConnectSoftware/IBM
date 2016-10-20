@@ -368,9 +368,14 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
 
+or([
+
+    [`CUSTOMER`, `COPY`]
+
+   , [`Total`, `Quantity`, `:`]
 
 
-    `CUSTOMER`, `COPY`
+])
 
 
      , trace([`found the end line`])
