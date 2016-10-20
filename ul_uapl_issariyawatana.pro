@@ -48,6 +48,8 @@ i_rule( get_supplier_details, [
   
    sender_name(`ISSARIYAWATANA CO. LTD`)
 
+   ,supplier_registration_number(`0000007378`)
+
   ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,7 +252,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_descr, s1, tab ] )
 
-    , generic_item( [ line_carton, dummy, d, tab ] )
+    , generic_item( [ line_carton, , d, tab ] )
 
     , generic_item( [ line_quantity , d , tab ] )
 
