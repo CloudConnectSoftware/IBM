@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `09:38 18 October 2016` ).
+i_version( p_ibm_unilever_uapl, `14:44 21 October 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -585,6 +585,8 @@ i_analyse_company_code___
 		
 		sys_retractall( result( _, invoice, order_number, _ ) ),
 		
+		trace( [ `order_number missing/invalid - value removed` ] ),
+		
 		Company_Code = `3009`
 		
 	),
@@ -622,7 +624,7 @@ i_analyse_currency_code___
 			
 			;
 			
-			trace( [ `INVALID CURRENCY CODE` ] )
+			trace( [ `currency invalid - value removed` ] )
 			
 		)
 		
@@ -702,9 +704,16 @@ i_analyse_line_buyers_order_number___( LID )
 	
 	sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
 	
-	result( _, invoice, order_number, PO ),
+	(
+		result( _, invoice, order_number, PO ),
 	
-	assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
+		assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
+		
+		;
+		
+		trace( [ `line_buyers_order_number missing/invalid - value removed` ] )
+		
+	)
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

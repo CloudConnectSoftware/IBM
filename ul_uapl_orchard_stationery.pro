@@ -106,7 +106,7 @@ i_rule( get_order_number, [
 
     , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , order_number ])
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
 
 ] ).
 
@@ -225,15 +225,15 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [   
 %=======================================================================
   
-       generic_item( [ line_item, d, tab ] )
+         generic_item( [ line_item, d, tab ] )
 
-      ,  generic_item( [ line_decr, s1, tab ] )
+      , generic_item( [ line_descr, s1, tab ] )
 
       , q10( generic_append( [ line_descr, s, tab, ` `, `` ] ))
 
       , generic_item( [ line_quantity, d] )
 
-      ,generic_item( [ line_quantity_uom_code, w, tab ] )
+      , generic_item( [ line_quantity_uom_code, w, tab ] )
 
       , generic_item( [line_unit_amount, d, tab ] )
 
