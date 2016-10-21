@@ -52,6 +52,8 @@ i_rule( get_supplier_details, [
     sender_name(`LE MAC AUSTRALIA PTY LTD`)
 
     , supplier_vat_number(`72 294 937 953`)
+
+    , set(tax_invoice)	
     
    
 ]).
