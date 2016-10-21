@@ -24,7 +24,7 @@ i_rule_list( [
 
     , get_invoice_date
 
-     , get_total_vat
+    , get_total_vat
 
     , get_total_invoice
 

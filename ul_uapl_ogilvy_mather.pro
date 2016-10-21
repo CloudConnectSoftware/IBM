@@ -24,7 +24,7 @@ i_rule_list( [
     
     , get_due_date
 
-    , get_line_buyers_order_number
+    , get_order_number
 
     , get_total_net
 
@@ -111,17 +111,25 @@ i_rule_cut( get_due_date, [
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE BUYERS ORDER NUMBER
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut( get_line_buyers_order_number, [
+i_rule_cut( get_order_number, [
 %=======================================================================
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab ],  line_buyers_order_number, d, `/` ] )
+    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab  ], order_number,  s1, tab  ] )
+
+    , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , line_buyers_order_number ])
 
     
     ] ).    
