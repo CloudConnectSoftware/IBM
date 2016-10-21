@@ -129,7 +129,7 @@ i_rule_cut( get_invoice_number, [
 i_rule( get_order_number, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
     , or([
         generic_horizontal_details( [ [ `STO`, `NO`, `.`, `:` ],100, line_buyers_order_number, s1, newline ] )
@@ -203,8 +203,31 @@ i_rule( get_total_invoice, [
 ,or([
      generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD` ], total_invoice, d, newline ] )
 
+     ,[ 
+         generic_horizontal_details( [ [ `A`, `M`, `OU`, `N`, `T`, `D`, `U`, `E`, tab, `U`, `SD` ], total_invoice_raw, s1, newline ] )
+
+     , check( total_invoice_raw = TotRaw )
+
+    , trace( [ `Total amount raw` , TotRaw ] )
+
+    , check(string_string_replace( TotRaw, `,`, ``, TotStrip ))
+
+    , trace( [ `Total Stripped ,` , TotStrip ] )
+
+    , check(string_string_replace( TotStrip, ` `, ``, TotSpace ))
+
+    , trace( [ `Total without space` , TotSpace ] )
+
+    , total_invoice(TotSpace)
+
+    , trace( [ `Total invoice now is ` , total_invoice ] )
+    
+    ]
+
     , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `SGD` ], total_invoice, d, newline ] )
 ])
+
+
 
  , check( total_invoice = TotInv )
 
