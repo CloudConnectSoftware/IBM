@@ -32,6 +32,8 @@ i_rule_list( [
 
 	, get_total_vat
 
+    , get_vat_rate
+
     , get_total_invoice
 
     , get_currency
@@ -57,7 +59,7 @@ i_rule( get_supplier_details, [
 %=======================================================================
     
      
-     sender_name(`IDS MANUFACTURING SDN BHD.`)
+     sender_name(`IDS MANUFACTURING SDN BHD`)
 
      ,supplier_vat_number(`000955711488`)
 
@@ -276,12 +278,44 @@ i_rule( get_total_vat, [
 
 qn0(line)
  
-, generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`, tab ], total_vat, d , newline] )
-
-, generic_item( [ default_vat_rate, `6` ] )
-
+, or([
+    
+    generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`, tab ], total_vat, d , newline] )
+])
 
   
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Vat RATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_vat_rate, [
+%=======================================================================
+
+qn0(line)
+ 
+     , vat_rate_line
+
+       
+] ).
+
+%=======================================================================
+i_line_rule( vat_rate_line, [
+%=======================================================================
+
+q0n(anything)
+
+    ,or([
+       [  `Standard`, `Rated`   , generic_item( [ default_vat_rate, `6` ] )]
+
+    ,generic_item( [ default_vat_rate, `0` ] )
+
+    ])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
