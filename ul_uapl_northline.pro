@@ -12,19 +12,15 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_include_partner_attachments_image_only.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	  get_supplier_details
 
-	
-	, get_invoice_number
+    , get_invoice_number
  
-	
 	, get_invoice_date
 
     , get_total_net
@@ -33,12 +29,9 @@ i_rule_list( [
 
     , get_total_invoice
 
-    
     , get_invoice_lines
 
- 
-
-] ).
+ ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,18 +43,14 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
+       sender_name(`NORTHLINE PTY LIMITED.`)
 
-
-     
-     sender_name(`NORTHLINE PTY LIMITED.`)
-
-     , supplier_vat_number(`53 283 605 228`)
+     , supplier_vat_number(`53283605228`)
 
      , currency( `AUD` )
 
 	, buyer_registration_number(`AU00`)
 
-		
 
 ] ).
 
@@ -76,16 +65,14 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule_cut( get_invoice_number, [
 %=======================================================================
-
     
     q(0,20,line)
  	
-	, generic_vertical_details( [ [ `Reference`], `Reference`, q(0,1),(end,10,10), invoice_number, s1, tab ] )
-	
-	] ).
+	, generic_horizontal_details( [ [ `TAX`, `INVOICE`, `:` ], invoice_number, w , newline ] )
+    	
+] ).
 
    
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -97,19 +84,17 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    
-q(0,20,line)
+    q(0,15,line)
  	
-	, generic_vertical_details( [ [ `Date`], `Date`, q(0,1),(end,10,10), invoice_date, s1, tab ] )
+	, generic_horizontal_details( [ [ `Date` ], invoice_date , date , newline ] )
 	
 	] ).
  
 	
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_net
+% GET INVOICE NET AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -117,9 +102,11 @@ q(0,20,line)
 i_rule( get_total_net, [
 %=======================================================================
 
-  q(0,20,line)
+  q(0,25,line)
+
+  
  	
-	, generic_vertical_details( [ [ `Price`], `Price`, q(0,1),(end,10,10), total_net, d, tab ] )
+	, generic_vertical_details( [ [ `Price`] , `Price` , q(0,1),(end,10,10), total_net, d, tab ] )
 	
 	] ).
     
