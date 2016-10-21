@@ -206,7 +206,7 @@ i_line_rule_cut( line_start_line,[
 %=======================================================================
 	
 	
-`Container`, `No`, `.`, tab, `in`, `USD`, tab, `in`, `USD`
+`Exporter`, `'`, `s`, `ref`
 
     , trace([`found the start line`])
 
@@ -218,9 +218,9 @@ i_line_rule_cut( line_end_line,[
 
      or([ 
 
-        
+        [`Commercial`, `Invoice`, tab, `Page`, `2`, `of`, `2`]
          
-         [`Amount`, `Chargeable`, `(`, `in`, `words`, `)`]
+         ,[`Amount`, `Chargeable`, `(`, `in`, `words`, `)`]
 
          
 	 
