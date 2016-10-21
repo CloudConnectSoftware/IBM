@@ -283,6 +283,12 @@ q10(generic_item( [ dummy2, w, tab ] ) )
     , generic_item( [ line_descr , w , newline ])
     ])
 
+,q10( [ with( 1, line_total_amount, _ ) % This q10 will only run if the first line_total_amount has been captured
+	
+		, with( 1, line_buyers_order_number, Order ) % This takes the first value of PO Number (captured in rule 'get_order_number')
+		, generic_item( [ line_buyers_order_number, Order] ) % This stores the value in Line_buer Number for the current line 
+
+])
     ,q10( generic_item( [ line_UOM_dummy1 , w , tab ]))
 
     ,q10( generic_item( [ line_UOM_dummy2 , s1 , newline ]))
