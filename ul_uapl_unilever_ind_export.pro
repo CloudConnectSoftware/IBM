@@ -187,7 +187,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line , description_line     , description_line_append ]
+			[line_invoice_line , q10(description_line)     , q10(description_line_append) ]
 
                         
 			, line
@@ -219,7 +219,11 @@ i_line_rule_cut( line_end_line,[
      or([ 
          
          [`Shipping`, `Bill`, `No`]
-	 , [`Amount`, `Chargeable`, `(`, `in`, `words`, `)`, `:`]
+
+         ,[`Total`, `Quantity`]
+	 
+
+     
 
      ])
 
@@ -268,7 +272,7 @@ q10(generic_item([ line_description_dummy , w , tab ]))
 i_line_rule( description_line, [
 %=======================================================================
 
-generic_item( [ dummy2, w, tab ] ) 
+q10(generic_item( [ dummy2, w, tab ] ) )
 
     , generic_item( [ line_descr_dummy2 , w , tab ])
 

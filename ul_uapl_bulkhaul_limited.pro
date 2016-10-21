@@ -96,7 +96,7 @@ i_rule( get_order_number, [
 
     , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
 
 ] ).
 

@@ -123,7 +123,7 @@ i_rule( get_order_number, [
 
     , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , order_number ])
 
 ] ).
 
