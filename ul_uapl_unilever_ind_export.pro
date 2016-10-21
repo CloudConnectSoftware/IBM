@@ -272,7 +272,7 @@ q10(generic_item([ line_description_dummy , w , tab ]))
 i_line_rule( description_line, [
 %=======================================================================
 
-q10(generic_item( [ dummy2, w, [ tab , check(dummys(end) < -330 ) ]] ) )
+q10(generic_item( [ dummy2, w, [ tab , check(dummy2(end) < -330 ) ]] ) )
 
     , generic_item( [ line_descr_dummy2 , s1 , tab ])
 
