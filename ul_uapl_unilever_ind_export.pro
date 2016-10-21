@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_Unilever_ind_export , `17/10/2016` ).
+i_version( ul_uapl_Unilever_ind_export , `20/10/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -274,21 +274,15 @@ q10(generic_item([ line_description_dummy , w , tab ]))
 i_line_rule( description_line, [
 %=======================================================================
 
-q10(generic_item( [ dummy2, w, tab ] ) )
+q10(generic_item( [ dummy2, w, [ tab , check(dummys(end) < -330 ) ]] ) )
 
-    , generic_item( [ line_descr_dummy2 , w , tab ])
+    , generic_item( [ line_descr_dummy2 , s1 , tab ])
 
-    , or([ generic_item( [ line_descr , w , tab ])
+    , or([ generic_item( [ line_descr , s1 , tab ])
 
     , generic_item( [ line_descr , w , newline ])
     ])
 
-,q10( [ with( 1, line_total_amount, _ ) % This q10 will only run if the first line_total_amount has been captured
-	
-		, with( 1, line_buyers_order_number, Order ) % This takes the first value of PO Number (captured in rule 'get_order_number')
-		, generic_item( [ line_buyers_order_number, Order] ) % This stores the value in Line_buer Number for the current line 
-
-])
     ,q10( generic_item( [ line_UOM_dummy1 , w , tab ]))
 
     ,q10( generic_item( [ line_UOM_dummy2 , s1 , newline ]))
