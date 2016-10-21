@@ -53,6 +53,8 @@ i_rule( get_supplier_details, [
 
    , supplier_vat_number(`M90367623G`)
 
+   , set(tax_invoice)	
+
   ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
