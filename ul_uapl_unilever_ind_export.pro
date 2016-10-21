@@ -217,10 +217,12 @@ i_line_rule_cut( line_end_line,[
 %=======================================================================
 
      or([ 
-         
-         [`Shipping`, `Bill`, `No`]
 
-         ,[`Total`, `Quantity`]
+        
+         
+         [`Amount`, `Chargeable`, `(`, `in`, `words`, `)`]
+
+         
 	 
 
      
