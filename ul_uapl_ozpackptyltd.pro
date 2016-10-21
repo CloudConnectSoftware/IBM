@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`OZPACK PTY LTD`)
 
-  , supplier_registration_number(`16 101 942 312`)
+  , supplier_vat_number(`16 101 942 312`)
 
 ] ).
 

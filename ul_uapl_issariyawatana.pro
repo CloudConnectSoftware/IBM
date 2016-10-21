@@ -48,7 +48,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`ISSARIYAWATANA CO. LTD`)
 
-   ,supplier_registration_number(`0000007378`)
+   ,supplier_vat_number(`0000007378`)
 
   ] ).
 

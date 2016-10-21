@@ -202,8 +202,8 @@ i_rule( get_line_total_amount, [
 i_rule( get_invoice_lines, [
 %=======================================================================
    
-   q0n(line)
+   qn0(line)
     
-    , line_descr( `Courier Charges` )
+    , line_descr(`Courier Charges`)
 
 ]).

@@ -52,12 +52,8 @@ i_rule( get_supplier_details, [
      
      ,sender_name(`MOL SINGAPORE PTE. LTD.`)
 
-     , supplier_registration_number(`2000009291Z`)
-
+     , supplier_vat_number(`2000009291Z`)
     
-   
-
-     
 		
   ] ).
 

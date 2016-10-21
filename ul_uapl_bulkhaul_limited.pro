@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`BULKHAUL LIMITED`)
 
-  , supplier_registration_number(`1927 2732 15`)
+  , supplier_vat_number(`1927 2732 15`)
  
   , set(freight_vendor)
 

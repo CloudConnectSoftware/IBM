@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`LF LOGISTICS SERVICES (M) SDN BHD`)
 
-  , supplier_registration_number(`4593-D`)
+  , supplier_vat_number(`4593-D`)
 
 ] ).
 
