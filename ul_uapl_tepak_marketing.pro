@@ -69,11 +69,10 @@ i_rule( get_supplier_vat_number, [
 
 
  q0n(line)
-    
+
     , generic_horizontal_details( [ [`(`, `GST`, `Reg`, `No`, `:` ], 100, supplier_vat_number, s, [`)`, newline ] ])
-     
-	
-]).
+
+    ]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,8 +88,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `LEVEL`, `33`, `-`, `35`, `,`, `MENARA`, `TELEKOM`, `,`, tab, `NO`, `.` ], 100, invoice_number, s1, newline ] )
-	
+    , or( [ 
+
+        generic_horizontal_details( [ [ `LEVEL`, `33`, `-`, `35`, `,`, `MENARA`, `TELEKOM`, `,`, tab, `NO`, `.` ], 100, invoice_number, s1, newline ] )
+
+        , generic_horizontal_details( [ [ `NO`, `.` ], 100, invoice_number, s1, newline ] )
+
+    ])
 	
 ] ).
 
