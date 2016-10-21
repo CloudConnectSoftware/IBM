@@ -253,7 +253,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ or([ line_invoice_line, line_invoice_line2,line_invoice_line3]), q10(line_descr_line)  , line_po_line ]
+           [ or([ line_invoice_line, line_invoice_line2,line_invoice_line3]), q10(line_descr_line) , q10(line_descr_line)  , line_po_line ]
 
      
 
@@ -279,7 +279,12 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Sub` , `Total`
+    or([ 
+        [`Sub` , `Total`]
+
+        ,[`Place`, `Of`, `Delivery`]
+
+    ])
 
     ,trace( [ `FOUND LINE END LINE`] )
 
@@ -338,14 +343,7 @@ i_line_rule_cut( line_po_line, [
 
     ])
 
-     , check(line_buyers_order_number = OrdNo)
-
-    , trace([`Order Number Capital Varaible` , OrdNo])
-
-    , order_number(OrdNo)
-
-    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
-
+    
 
 ] ).
 
@@ -365,10 +363,7 @@ i_line_rule_cut( line_invoice_line3, [
     
     , generic_item( [ line_quantity_uom_code , w , tab ] )
 
-    
-
-
-    , generic_item( [ line_unit_amount , d , tab ] )
+     , generic_item( [ line_unit_amount , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
 
