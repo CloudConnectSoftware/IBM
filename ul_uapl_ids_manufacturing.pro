@@ -309,12 +309,13 @@ i_line_rule( vat_rate_line, [
 
 q0n(anything)
 
-    ,or([
-       [  `Standard`, `Rated`   , generic_item( [ default_vat_rate, `6` ] )]
+    
+    , `Standard`, `Rated`   
+     
+     , generic_item( [ default_vat_rate, `6` ] )
 
-    ,generic_item( [ default_vat_rate, `0` ] )
+    
 
-    ])
 
 ] ).
 
