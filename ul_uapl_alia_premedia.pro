@@ -22,7 +22,7 @@ i_rule_list( [
 	
 	, get_invoice_date
 
-    , get_line_delivery_note_number
+    , get_order_number
 
      , get_total_invoice
 
@@ -84,17 +84,25 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE DELIVERY NOTE NUMBER
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_line_delivery_note_number, [
+i_rule( get_order_number, [
 %=======================================================================
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `DO`, `No`, tab ],   line_delivery_note_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `DO`, `No`, tab ], order_number, s1, newline ] )
+
+    , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , order_number ])
 
 ] ).
 
