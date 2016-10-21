@@ -96,18 +96,18 @@ q0n(line)
 	
    ,or( [
 
-       generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d,[`,`, check(line_buyers_order_number(end) < 55)] ] )
-	, generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), line_buyers_order_number, d,  newline  ] )
+       generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), order_number, d,[`,`, check(order_number(end) < 56)] ] )
+	, generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), order_number, d,  newline  ] )
 
    ])
 
-   , check(line_buyers_order_number = OrdNo)
+   , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , order_number(OrdNo)
+    , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE LINE ORDER NUMBER` , line_buyers_order_number ])
 
 ] ).
 
