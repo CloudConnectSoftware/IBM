@@ -187,11 +187,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			line_invoice_line
-
-            , description_line
-
-            , description_line_append
+			[line_invoice_line , description_line     , description_line_append ]
 
                         
 			, line
@@ -236,15 +232,22 @@ i_line_rule( line_invoice_line, [
 %=======================================================================
 	
      
+q10(generic_item([ line_description_dummy , w , tab ]))
+     
+     ,generic_item([ line_quantity_dummy , d , tab ])
 
-     generic_item([ line_quantity_dummy , d , tab ])
 
-
-	 , generic_item([ line_description_dummy , s1 , tab ]) 
+	 , generic_item([ line_description_dummy1 , s1 , tab ]) 
  
-     , generic_item([ line_quantity_dummy , d ] )
+     , or([
+         generic_item([ line_quantity_dummy2 , d, tab ] )
 
-     , generic_item([ line_quantity_uom_code , w , tab ] )
+         ,generic_item([ line_quantity_dummy2 , d ] )
+     ])
+
+
+
+     , q10(generic_item([ line_quantity_uom_cod , w , tab ] ))
 
 	 , generic_item([ line_unit_amount , d , [`/`, tab ] ] )
 
@@ -267,9 +270,16 @@ i_line_rule( description_line, [
 
 generic_item( [ dummy2, w, tab ] ) 
 
-    , generic_item( [ line_descr , w , tab ])
+    , generic_item( [ line_descr_dummy2 , w , tab ])
 
-    , generic_item( [ line_descr_dummy1 , s1 , newline ])
+    , or([ generic_item( [ line_descr , w , tab ])
+
+    , generic_item( [ line_descr , w , newline ])
+    ])
+
+    ,q10( generic_item( [ line_UOM_dummy1 , w , tab ]))
+
+    ,q10( generic_item( [ line_UOM_dummy2 , s1 , newline ]))
 
 
   
