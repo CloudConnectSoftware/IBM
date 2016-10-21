@@ -100,7 +100,7 @@ i_rule( get_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [`PO`, `#`], 30, order_number, d, newline ] )
+    , generic_horizontal_details( [ [`PO`], 50, order_number, s1, newline ] )
 
     , check(order_number = OrdNo)
 
@@ -108,7 +108,7 @@ i_rule( get_order_number, [
 
     , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE HEAD ORDER Number` , order_number ])
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
 
     
     ] ).  
