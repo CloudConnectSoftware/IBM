@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tag_europe, `17/10/2016` `11:30:05` ).
+i_version( ul_uapl_tag_europe, `24/10/2016` `11:30:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -90,7 +90,19 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [`Date`, tab, `:` ], 100, invoice_date, s1, newline ] )
+    , generic_horizontal_details( [ [`Date`, tab, `:` ], 100, invoice_date_raw, s1, newline ] )
+
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice date raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, ` `, ``, DateStrip ))
+
+    , trace( [ `Date Stripped Dot` , DateStrip ] )
+
+    , invoice_date(DateStrip)
+
+    , trace( [ `Invoice Date` , invoice_date ] )
 
 ] ).
 
