@@ -47,7 +47,7 @@ i_rule( get_supplier_details, [
 
 	sender_name(`AMERICOLD NZ LIMITED`)
 	
-	, supplier_vat_number(`92−306−712`)
+	, supplier_vat_number(`714139`)
 
 ] ).
 
