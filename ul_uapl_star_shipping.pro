@@ -60,16 +60,14 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule_cut( get_invoice_number, [
 %=======================================================================
-
     
-    q0n(line)
+    q(0,20,line)
 
-   , generic_horizontal_details( [ [ `NOTE`, `:`, tab ],  invoice_number, s1, tab ] )
+   , generic_horizontal_details( [ [ `DEBIT`, `-`, `NOTE`, `:` ], 100 , invoice_number, w , tab ] )
 
 ] ).
 
 
- 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE DATE
@@ -89,7 +87,7 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET INVOICE TOTAL AMOUNT, CURRENCY AND NET AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -99,18 +97,18 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `DEBIT`, tab , `USD`, tab], total_invoice, d, newline ] ) 
+    , generic_horizontal_details( [ [ `TOTAL`, `DEBIT`, tab , generic_item( [ currency , w ] ) ], 100 , total_invoice, d, newline ] ) 
 
     , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+    , trace( [ `Total Inv` , TotInv] )
 
-        , total_net(TotInv)
+    , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
-
+    , trace( [ `Total net` , total_net] ) 
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,7 +122,7 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_horizontal_details( [ [ `TOTAL`,`DEBIT`, tab ], currency,  w, tab ] )
+    , generic_horizontal_details( [ [ `TOTAL`,`DEBIT`, tab ], currency,  w , tab ] )
 
     
 ] ).
