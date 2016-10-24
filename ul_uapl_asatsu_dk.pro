@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - OGILVY & MATHER (S) PTE LTD
+% GRAMATICA - ASATSU-DK INC.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ogilvy_mather, `16/10/2016` `9:30:05` ).
+i_version( ul_uapl_asatsu_dk, `24/10/2016` `2:35:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -22,8 +22,6 @@ i_rule_list( [
 
  	, get_invoice_date
     
-    , get_due_date
-
     , get_order_number
 
     , get_total_net
@@ -51,10 +49,8 @@ i_rule( get_supplier_details, [
 %=======================================================================
   
      
-    sender_name(`OGILVY & MATHER (S) PTE LTD`)
+    sender_name(`ASATSU-DK INC.`)
 
-    , supplier_vat_number(`M200030362`)
-    
     , set(freight_vendor)
 
 ]).
@@ -73,7 +69,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `Number`, `:`, tab ],  invoice_number, s1, newline ] ) 
+   , generic_horizontal_details( [ [ `Invoice`, `No`, `:`, tab ],  invoice_number, s1, newline ] ) 
 
 ] ).
 
@@ -89,23 +85,7 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Date`, `:`, tab ], 100, invoice_date, date, newline ] )
-	
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET DUE DATE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut( get_due_date, [
-%=======================================================================
-
- q0n(line)
-
-    , generic_horizontal_details( [ [ `Due`, `date`, `:`, tab ], 100, due_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Issue`, `Date`, `:`  ], 160, invoice_date, date, newline ] )
 	
 ] ).
     
@@ -121,7 +101,7 @@ i_rule_cut( get_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab  ], order_number,  s1, tab  ] )
+    , generic_horizontal_details( [ [ `PO`, `No`, `:` ], 150, order_number,  s1, newline  ] )
 
     , check(order_number = OrdNo)
 
@@ -136,7 +116,7 @@ i_rule_cut( get_order_number, [
      
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_net
+% GET TOTAL NET
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -144,16 +124,28 @@ i_rule_cut( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
-   , generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `Gross`, q(0,3), (start,20,20), total_invocie, d, tab ] )
+     , generic_horizontal_details( [ [`Sub`, `Total`], 200, total_net_raw, s1, newline ] )
 
-] ).
+     , check( total_net_raw = AmountRaw )
+
+    , trace( [ `Net Amount raw` , AmountRaw ] )
+
+    , check(strip_string2_from_string1( AmountRaw , `¥` , AmountNew ))
+
+    , trace( [ `Yen stripped amount` , AmountNew ] )
+
+	, total_net(AmountNew)
+
+    , trace( [ `Total Net Amount` , total_net ] )
+   
+        ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_vat
+% GET TOTAL VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -161,13 +153,22 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-   q0n(line)
+   qn0(line)
 
-     , generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `GST`, q(0,3), (start,20,20), total_vat, d, tab ] )
+     , generic_horizontal_details( [ [`Consumption`, `Tax`, `(`, `0`, `.`, `00`, `%`, `)`] , 210, total_vat_raw, s1, newline ] )
 
-     , generic_item( [ default_vat_rate, `7` ] )
+     , check( total_vat_raw = AmountRaw )
 
-      
+    , trace( [ `Vat Amount raw` , AmountRaw ] )
+
+    , check(strip_string2_from_string1( AmountRaw , `¥` , AmountNew ))
+
+    , trace( [ `Yen stripped amount` , AmountNew ] )
+
+	, total_vat(AmountNew)
+
+    , trace( [ `Total Vat Amount` , total_vat ] )
+ 
    ] ).
 
 
@@ -181,12 +182,23 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
    
-   q0n(line)
+   qn0(line) 
 
-  , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], total_invoice, d, newline ] )
-  
-    
-] ).
+	, generic_horizontal_details( [ [ `Grand`, `Total` ], 200 , total_invoice_raw , s1 , newline ] )
+
+	, check( total_invoice_raw = AmountRaw )
+
+    , trace( [ `Invoice Amount raw` , AmountRaw ] )
+
+    , check(strip_string2_from_string1( AmountRaw , `¥` , AmountNew ))
+
+    , trace( [ `Yen stripped amount` , AmountNew ] )
+
+	, total_invoice(AmountNew)
+
+    , trace( [ `Total Invoice Amount` , total_invoice ] )
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,7 +212,7 @@ i_rule( get_currency, [
 
    q0n(line)
 
-     , generic_horizontal_details( [ [ `Gross` ], 100, currency, w, tab ] )  
+     , currency( `JPY` )
 
     ] ).
     
@@ -215,11 +227,23 @@ i_rule( get_currency, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line) 
 
-    , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )
+	, generic_horizontal_details( [ [ `Grand`, `Total` ], 200 , line_total_amount_raw , s1, newline ] )
 
-] ).
+	, check( line_total_amount_raw = AmountRaw )
+
+    , trace( [ `Line Amount raw` , AmountRaw ] )
+
+    , check(strip_string2_from_string1( AmountRaw , `¥` , AmountNew ))
+
+    , trace( [ `Yen stripped amount` , AmountNew ] )
+
+	, line_total_amount(AmountNew)
+
+    , trace( [ `Line Total Amount` , line_total_amount ] )
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
