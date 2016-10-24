@@ -30,6 +30,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_vat_amount
+
     , get_invoice_lines
 
 ] ).
