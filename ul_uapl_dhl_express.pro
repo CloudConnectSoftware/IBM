@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_currency
 
-    , get_line_total_amount
+    , get_total_line_amount
 
     , get_invoice_lines
     
@@ -128,6 +128,7 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) 
 
+        ,total_vat(`0`)
 
 ] ).
 
@@ -159,9 +160,18 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
+<<<<<<< HEAD
+     
+    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )  
+
+    
+
+] ).
+=======
     , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, line_total_amount, d, newline ] )  
 
    ] ).
+>>>>>>> origin/master
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

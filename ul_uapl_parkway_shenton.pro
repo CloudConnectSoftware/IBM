@@ -24,9 +24,7 @@ i_rule_list( [
     	
 	  , get_invoice_date
 
-	  , get_total_vat
-
-    , get_total_net
+	 , get_total_vat
 
     , get_total_invoice
 
@@ -114,19 +112,9 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-    qn0(line)
+    total_vat(`0`)
 
-    ,or([
-
-      generic_horizontal_details( [ [ `GST`, `(`, `7`, `%`, `)`, tab ], 100, total_vat, d, newline ] )
-
-       , generic_horizontal_details( [ [ `ADD`, `GST`, `7`, `%`,  tab ], total_vat, d, newline ] )
-
-       , generic_horizontal_details( [ [ `7`, `%`, `TOTAL`, `GST`, `:`, tab ], total_vat, d, newline ] )
-
-    ])
-
-    , generic_item( [ default_vat_rate, `7` ] )
+    
 
     ] ).
 
@@ -145,6 +133,8 @@ i_rule( get_total_net, [
      , or([
 
        generic_horizontal_details( [ [ `Total`, `Before`, `GST`,`:`, tab], total_net,  d , newline] )
+
+       ,generic_horizontal_details( [ [ `Total`, `Before`, `GST`, tab], total_net,  d , newline] )
 
      , generic_horizontal_details( [ [ `SUBTOTAL`, tab ], total_net, d , newline] )
 
@@ -174,6 +164,13 @@ i_rule( get_total_invoice, [
     ,generic_horizontal_details( [ [ `TOTAL`, `INCL`, `GST`, `:`], 100, total_invoice, d, newline ] )  
 
       ])
+      , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
 
 ] ).
 
@@ -209,7 +206,7 @@ i_rule( get_currency, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
       , or([
 
