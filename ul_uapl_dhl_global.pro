@@ -121,7 +121,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, `TO`, `US`, tab, `DEBIT`, tab, `USD`, tab  ],  total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, `TO`, `US`, tab, `DEBIT`, tab, or([ `USD`, `SGD` ]), tab  ],  total_invoice, d, newline ] )
 
     , check( total_invoice = TotInv )
 
@@ -146,7 +146,7 @@ i_rule( get_currency, [
    
    q0n(line)
 
-      , generic_horizontal_details( [ [ `DEBIT`, tab], currency, w, tab ] )
+      , generic_horizontal_details( [ [`AMOUNT`, `DUE`, `TO`, `US`, tab, `DEBIT`, tab], currency, w, tab ] )
 
 ] ).
 
