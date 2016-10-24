@@ -98,7 +98,7 @@ i_rule_cut( get_invoice_date, [
 
     , check(string_string_replace( DateRaw, ` `, ``, DateStrip ))
 
-    , trace( [ `Date Stripped Dot` , DateStrip ] )
+    , trace( [ `Date Stripped Space` , DateStrip ] )
 
     , invoice_date(DateStrip)
 
