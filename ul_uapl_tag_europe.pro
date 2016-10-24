@@ -189,8 +189,7 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [`VAT`, `(`, `0`, `.`, `0`, `%`, `)`, `:`, tab, `GBP`, tab  ], total_vat, d, newline ] )
 
-    , generic_item( [ default_vat_rate, `0` ] )
-
+    
     , clear( regexp_cross_word_boundaries) ]
        
 ] ).
