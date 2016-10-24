@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_americoldnz, `24/10/2016 09:16:05` ).
+i_version( ul_uapl_americoldaus , `24/10/2016 10:16:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,9 +45,9 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-	sender_name(`AMERICOLD NZ LIMITED`)
+	sender_name( `AMERICOLD` )
 	
-	, supplier_vat_number(`714139`)
+	, supplier_vat_number( `58004902998` )
 
 ] ).
 
@@ -99,7 +99,7 @@ i_rule_cut( get_invoice_totals, [
 
 	q0n(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ], 100, total_invoice, d, [`NZD` , newline] ] )
+    , generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ], 100, total_invoice, d, generic_item( [ currency , w , newline ] ) ] )    
 	
 ] ).
 
