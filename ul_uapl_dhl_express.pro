@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_currency
 
-    , get_total_line_amount
+    , get_line_total_amount
 
     , get_invoice_lines
     
@@ -163,9 +163,7 @@ i_rule( get_line_total_amount, [
 
     , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )  
 
-    
-
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, line_total_amount, d, newline ] )  
+        
 
    ] ).
 
