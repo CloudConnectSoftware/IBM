@@ -72,7 +72,7 @@ i_rule_cut( get_invoice_number, [
 
     , or([
 
-    generic_horizontal_details( [ [ `INVOICE`, `No`, tab, `:` ], 100, invoice_number, s1, newline ] )
+    generic_horizontal_details( [ [ `INVOICE`, `No`, q10(tab), `:` ], 100, invoice_number, s1, newline ] )
 
    , generic_horizontal_details( [ [ gen_beof, `TAX`, `INVOICE` ], 100, invoice_number, d, newline ] )
 
@@ -95,7 +95,7 @@ i_rule_cut( get_invoice_date, [
 
     , or([
 
-      generic_horizontal_details( [ [ `Invoice`, `Date`, tab, `:` ], 100, invoice_date, date, newline ] )
+      generic_horizontal_details( [ [ `Invoice`, `Date`, q10(tab), `:` ], 100, invoice_date, date, newline ] )
 
     , generic_horizontal_details( [ [  `Date`, tab, `:` ], 100, invoice_date, date, newline ] )
 	
@@ -122,6 +122,8 @@ i_rule( get_total_vat, [
 
        , generic_horizontal_details( [ [ `ADD`, `GST`, `7`, `%`,  tab ], total_vat, d, newline ] )
 
+       , generic_horizontal_details( [ [ `7`, `%`, `TOTAL`, `GST`, `:`, tab ], total_vat, d, newline ] )
+
     ])
 
     , generic_item( [ default_vat_rate, `7` ] )
@@ -142,7 +144,7 @@ i_rule( get_total_net, [
 
      , or([
 
-       generic_horizontal_details( [ [ `Total`, `Before`, `GST`, tab], 100, total_net,  d , newline] )
+       generic_horizontal_details( [ [ `Total`, `Before`, `GST`,`:`, tab], total_net,  d , newline] )
 
      , generic_horizontal_details( [ [ `SUBTOTAL`, tab ], total_net, d , newline] )
 
@@ -161,13 +163,15 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
       , or([
 
-      generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], 100, total_invoice, d, newline ] )  
+      generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ],  total_invoice, d, newline ] )  
 
     , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`, `PAYABLE`,  tab ], total_invoice, d, newline ] )  
+
+    ,generic_horizontal_details( [ [ `TOTAL`, `INCL`, `GST`, `:`], 100, total_invoice, d, newline ] )  
 
       ])
 
@@ -209,9 +213,11 @@ i_rule( get_line_total_amount, [
 
       , or([
 
-      generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], 100, line_total_amount, d, newline ] )  
+      generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ], line_total_amount, d, newline ] )  
 
     , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`, `PAYABLE`,  tab ], line_total_amount, d, newline ] )  
+
+    , generic_horizontal_details( [ [ `TOTAL`, `INCL`, `GST`, `:`], 100, line_total_amount, d, newline ] )  
 
       ])
 
