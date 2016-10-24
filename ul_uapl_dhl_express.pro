@@ -160,18 +160,15 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-<<<<<<< HEAD
-     
+
     , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )  
 
     
 
-] ).
-=======
     , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, line_total_amount, d, newline ] )  
 
    ] ).
->>>>>>> origin/master
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
