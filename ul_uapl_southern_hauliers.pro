@@ -46,7 +46,7 @@ i_rule( get_supplier_details, [
 
       , set(freight_vendor)
 
-      ,buyer_registration_number (`MY00`)
+      ,buyer_registration_number(`MY00`)
 
    	] ).
 
