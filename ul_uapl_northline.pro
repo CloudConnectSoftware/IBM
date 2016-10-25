@@ -68,7 +68,12 @@ i_rule_cut( get_invoice_number, [
     
     q(0,20,line)
  	
-	, generic_horizontal_details( [ [ `TAX`, `INVOICE`, `:` ], invoice_number, w , newline ] )
+	,or([
+
+         generic_vertical_details( [ [ `Reference`] , `Reference` , q(0,1),(end,30,30), invoice_number, s1, tab ] )
+        , generic_horizontal_details( [ [ `TAX`, `INVOICE`, `:` ], invoice_number, w , newline ] )
+
+    ])
     	
 ] ).
 
@@ -85,8 +90,14 @@ i_rule_cut( get_invoice_date, [
 %=======================================================================
 
     q(0,15,line)
+
+    ,or([
+        
+        generic_vertical_details( [ [ `Date`] , `Date` , q(0,1),(end,30,30), invoice_date, date, tab ] )
  	
 	, generic_horizontal_details( [ [ `Date` ], invoice_date , date , newline ] )
+
+    ])
 	
 	] ).
  
@@ -106,7 +117,7 @@ i_rule( get_total_net, [
 
   
  	
-	, generic_vertical_details( [ [ `Price`] , `Price` , q(0,1),(end,10,10), total_net, d, tab ] )
+	, generic_vertical_details( [ [ `Price`] , `Price` , q(0,1),(end,30,30), total_net, d, tab ] )
 	
 	] ).
     
@@ -126,7 +137,7 @@ i_rule( get_total_vat, [
 
  q(0,20,line)
  	
-	, generic_vertical_details( [ [ `GST`], `GST`, q(0,1),(start,20,20), total_vat, d, tab ] )
+	, generic_vertical_details( [ [ `GST`], `GST`, q(0,1),(start,30,20), total_vat, d, tab ] )
 	
 	] ).
 
@@ -143,7 +154,7 @@ i_rule( get_total_invoice, [
 
      q(0,20,line)
  	
-	, generic_vertical_details( [ [ `Total`], `Total`, q(0,1),(start,25,25), total_invoice, d, newline ] )
+	, generic_vertical_details( [ [ `Total`], `Total`, q(0,1),(start,30,25), total_invoice, d, newline ] )
 	
 	] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
