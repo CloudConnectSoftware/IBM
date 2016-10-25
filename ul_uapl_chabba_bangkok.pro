@@ -140,17 +140,17 @@ i_rule( get_order_number, [
 
     , trace( [ `Order No Stripped Comma` , OrdStrip ] )
 
-    , line_buyers_order_number(OrdStrip)
+    , order_number(OrdStrip)
 
-    , trace( [ `Order No` , line_buyers_order_number ] )
+    , trace( [ `Order No` , order_number ] )
 
-    , check(line_buyers_order_number = OrdNo)
+    , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , order_number(OrdNo)
+    , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , line_buyers_order_number ])
 
 
 ] ).
@@ -339,7 +339,7 @@ i_line_rule( line_invoice_line, [
 
 	 , generic_item([ line_quantity_uom_code , w , tab ] )
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount_dummy2 , d , tab] )
 
 
 	 , generic_item([ line_total_amount , d , newline ] ) 
