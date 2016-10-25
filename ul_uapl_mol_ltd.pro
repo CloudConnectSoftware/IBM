@@ -114,6 +114,8 @@ i_rule( get_total_invoice, [
 
         , generic_horizontal_details( [ [ `Total`, `:`, `USD`, tab, dummy2(d), tab, `USD`, tab],  total_invoice, d , newline ] )
 
+        , generic_horizontal_details( [ [ `Total`, `:`, `AUD`, tab, dummy2(d), tab, `USD`, tab],  total_invoice, d , newline ] )
+
         
 
     ])
