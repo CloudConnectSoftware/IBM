@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `14:44 21 October 2016` ).
+i_version( p_ibm_unilever_uapl, `25/10/2016 14:21:23` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -324,7 +324,7 @@ i_final_rule( [
 	
 	, q(0,10,line)
 	
-	, generic_horizontal_details( [ [ gen_beof, `Tax`, `Invoice`, gen_eof ] ] )
+	, generic_horizontal_details( [ [ gen_beof, `Tax`, `Invoice`, q10( `:` ), gen_eof ] ] )
 	
 	, set( tax_invoice )
 	
