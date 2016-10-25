@@ -35,9 +35,7 @@ i_rule_list( [
 
     , get_currency
 
-    , get_total_vat
-
-    , get_invoice_lines
+        , get_invoice_lines
 
 ] ).
 
@@ -193,7 +191,7 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+        , trace( [ `Total net` , total_net ] )
 
 ] ).
 
@@ -341,7 +339,7 @@ i_line_rule( line_invoice_line, [
 
 	 , generic_item([ line_quantity_uom_code , w , tab ] )
 
-     , generic_item([ line_unit_amount , d , tab] )
+     , generic_item([ line_unit_amount_dummy , d , tab] )
 
 
 	 , generic_item([ line_total_amount , d , newline ] ) 
