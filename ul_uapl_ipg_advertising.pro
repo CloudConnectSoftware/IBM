@@ -200,6 +200,8 @@ i_section( get_invoice_lines, [
 		, or( [
 
             [line_descr_line , line_append_line, q10(line_append_line) , line_invoice_line]
+
+            , line_invoice_line_2
 		
 			   
             , line			
@@ -227,7 +229,8 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 or([
 
-    [`VAT`, `7`, `%`, tab ]
+    [ `Total`, `non`, `-`, `commissionable`]
+    ,[`VAT`, `7`, `%`, tab ]
   , [`Total`, `non`, `-`, `commissionable`, tab, `197`, `,`, `500`, `.`, `00`,  newline]
 
    
@@ -266,6 +269,17 @@ i_line_rule_cut( line_descr_line, [
 
     generic_item( [ line_descr , s1 , newline ] )
 
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [   
+%=======================================================================
+  
+       generic_item( [ line_descr , s1 , tab ] )
+
+      , generic_item( [ line_net_amount, d, newline ] )
+ 
+ 	
 ] ).
 
 
