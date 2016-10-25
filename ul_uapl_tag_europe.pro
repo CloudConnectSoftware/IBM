@@ -130,7 +130,15 @@ i_rule( get_line_buyers_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Cust`, `Ord`, `No`, tab, `:` ], 100, line_buyers_order_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `Cust`, `Ord`, `No`, tab, `:` ], 100, order_number, s1, newline ] )
+
+   , check(order_number = OrdNo)
+
+      , trace([`Order Number Capital Varaible` , OrdNo])
+
+      , line_buyers_order_number(OrdNo)
+
+      , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
 
 ] ).
 
@@ -148,6 +156,8 @@ i_rule( get_buyers_code_for_supplier, [
     q0n(line)
 
     , generic_horizontal_details( [ [ `Supplier`, `Number`, `:` ], buyers_code_for_supplier, d, newline ] )
+
+
 
 ] ).
 
