@@ -113,8 +113,12 @@ i_rule( get_total_net, [
 %=======================================================================
 
  q0n(line)
+,or([
+  generic_horizontal_details( [ [`Total`, `Excluding`, `Tax`, tab ], total_net, d, newline ] )
 
- , generic_horizontal_details( [ [`Total`, `Excluding`, `Tax`, tab ], total_net, d, newline ] )
+ , generic_horizontal_details( [ [`Total`,  tab ], total_net, d, newline ] )
+
+])
 
 ] ).
 
@@ -130,7 +134,7 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `VAT`, `-`, `7`, `%`, tab ], total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `VAT`, q10(`-`), `7`, `%`, tab ], total_vat, d, newline ] )
 
     , generic_item( [ default_vat_rate, `7` ] )
 
@@ -194,9 +198,10 @@ i_section( get_invoice_lines, [
 	, qn0( [ peek_fails(line_end_line)
 		
 		, or( [
-		
-			[line_invoice_line , q10(line_descr_line)]
 
+            [line_descr_line , line_append_line , line_invoice_line]
+		
+			   
             , line			
 		] )
 	
@@ -208,27 +213,47 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line, [
 %=======================================================================
 	
-    `Cost`, `Description`, tab, `AC`, tab, `THB`,  newline
+
+   [`VAT`, `Registration`, `:`, `3033397758`,  newline]
      
      , trace( [ `FOUND THE HEADER LINE` ] )
+
+    
 
 ] ).
 
 %=======================================================================
 i_line_rule_cut( line_end_line, [
 %=======================================================================
+or([
 
-   `Total`, `non`, `-`, `commissionable`, tab, `197`, `,`, `500`, `.`, `00`,  newline
+    [`VAT`, `7`, `%`, tab ]
+  , [`Total`, `non`, `-`, `commissionable`, tab, `197`, `,`, `500`, `.`, `00`,  newline]
+
+   
+  
+   
+
+])
 
      , trace( [ `FOUND THE END LINE` ] )
 ] ).
 
 
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+
+] ).
+
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [   
 %=======================================================================
   
-       generic_item( [ line_descr, s1, tab ] )
+       generic_append( [ line_descr , s1 , tab , ` ` , `` ] )
 
       , generic_item( [ line_net_amount, d, newline ] )
  
@@ -236,9 +261,11 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_desr_line, [
+i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+    generic_item( [ line_descr , s1 , newline ] )
 
 ] ).
+
+
