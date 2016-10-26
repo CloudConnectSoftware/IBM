@@ -90,7 +90,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date`, `:` ] , 100 , invoice_date, date , newline ] )
+    , generic_horizontal_details( [ [ `Date`, `:`, q10(tab)],  invoice_date, date , newline ] )
 
 ] ).
 
@@ -113,6 +113,8 @@ i_rule( get_total_invoice, [
         , generic_horizontal_details( [ [ `Total`, `:`, `SGD`, tab, dummy1(d), tab, `USD`, tab],  total_invoice, d , newline ] )
 
         , generic_horizontal_details( [ [ `Total`, `:`, `USD`, tab, dummy2(d), tab, `USD`, tab],  total_invoice, d , newline ] )
+
+        , generic_horizontal_details( [ [ `Total`, `:`, `AUD`, tab, dummy2(d), tab, `USD`, tab],  total_invoice, d , newline ] )
 
         
 

@@ -129,6 +129,8 @@ i_rule( get_line_buyers_order_number, [
         
         ,generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, q10(tab) ], line_buyers_order_number, d, or( [ newline , tab ]) ] )
 
+        ,generic_horizontal_details( [ [`REF`, `.`, `P`, `/`, `O`, `NO`, `.`, `:`], line_buyers_order_number, d, `,`] )
+
         
 
 
@@ -140,7 +142,7 @@ i_rule( get_line_buyers_order_number, [
 
     , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , order_number ])
 
 ] ).
 

@@ -4,9 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_mediterranean, `19/10/2016` ).
-
-
+i_version( ul_uapl_mediterranean, `25/10/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -26,6 +24,8 @@ i_rule_list( [
 	, get_invoice_number
 
     , get_invoice_date
+
+    , import_or_elsewhere_inv
 
     , get_total_invoice
 
@@ -66,14 +66,12 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule_cut( get_invoice_number, [
 %=======================================================================
-
     
     q0n(line)
 
     , generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab,  `:` ] , 100 , invoice_number, w , newline ] )
 	
 	] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,6 +91,8 @@ i_rule_cut( get_invoice_date, [
           generic_horizontal_details( [ [ `Date` ] , 120 , invoice_date_raw, s1 , newline ] )
 
         , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `Box`, `:`, tab, `1`, tab, `:` ], invoice_date_raw, s1 , newline ] )
+
+        , generic_horizontal_details( [ [ `UNILEVER`, `ASIA`, `PTE`, `LTD`, tab, `:` ], invoice_date_raw , s1 , newline ] )
 
 
         ] )
@@ -124,6 +124,35 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IMPORT OR ELSEWHERE INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( import_or_elsewhere_inv, [
+%=======================================================================
+
+	q(0,10,line)
+	
+	, import_or_elsewhere_inv_line
+
+] ).
+
+%=======================================================================
+i_line_rule( import_or_elsewhere_inv_line, [
+%=======================================================================
+
+	`IMPORT`, `TAX` , `INVOICE`
+	
+	, set(importinv_found)
+	
+	, trace( [ `This is an Import Invoice` ] )
+
+] ). 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,10 +163,16 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 650, total_invoice, d , tab ] )
+     , or( [
+    
+        [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )]
 
+        , [ peek_fails(test(importinv_found)) , generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 650, total_invoice, d , tab ] )]
+
+    ])
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -149,11 +184,10 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q0n(line)
-    
-    , currency( `USD` )
+    currency( `USD` )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

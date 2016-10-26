@@ -54,6 +54,8 @@ i_rule( get_supplier_details, [
 
 	,currency(`NZD`)
 
+	,buyer_registration_number(`NZ00`)
+
 ] ).
 
 

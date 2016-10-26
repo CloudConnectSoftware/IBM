@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tag_europe, `17/10/2016` `11:30:05` ).
+i_version( ul_uapl_tag_europe, `24/10/2016` `11:30:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -90,8 +90,32 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [`Date`, tab, `:` ], 100, invoice_date, s1, newline ] )
+    ,or([
 
+        generic_horizontal_details( [ [`Tax`, `Point`, `/`, `Date`, tab, `:`], invoice_date_raw, s1, newline ] )
+        
+
+    
+        ,generic_horizontal_details( [ [`Date`, tab, `:` , tab ], invoice_date_raw, s1, newline ] )
+
+    ])
+
+
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice date raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, ` `, ``, DateStrip ))
+
+    , trace( [ `Date Stripped Space` , DateStrip ] )
+
+    , invoice_date(DateStrip)
+
+    , trace( [ `Invoice Date` , invoice_date ] )
+    
+    
+
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,7 +130,15 @@ i_rule( get_line_buyers_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Cust`, `Ord`, `No`, tab, `:` ], 100, line_buyers_order_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `Cust`, `Ord`, `No`, tab, `:` ], 100, order_number, s1, newline ] )
+
+   , check(order_number = OrdNo)
+
+      , trace([`Order Number Capital Varaible` , OrdNo])
+
+      , line_buyers_order_number(OrdNo)
+
+      , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
 
 ] ).
 
@@ -124,6 +156,8 @@ i_rule( get_buyers_code_for_supplier, [
     q0n(line)
 
     , generic_horizontal_details( [ [ `Supplier`, `Number`, `:` ], buyers_code_for_supplier, d, newline ] )
+
+
 
 ] ).
 
@@ -165,8 +199,7 @@ i_rule( get_total_vat, [
 
     , generic_horizontal_details( [ [`VAT`, `(`, `0`, `.`, `0`, `%`, `)`, `:`, tab, `GBP`, tab  ], total_vat, d, newline ] )
 
-    , generic_item( [ default_vat_rate, `0` ] )
-
+    
     , clear( regexp_cross_word_boundaries) ]
        
 ] ).
