@@ -73,7 +73,19 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, tab, `:` ], 100, invoice_number, s1, newline ] )
+   , generic_horizontal_details( [ [ `Invoice`, tab, `:` ], 100, invoice_number_raw, s1, newline ] )
+
+   , check( invoice_number_raw = InvoiceRaw )
+
+    , trace( [ `Invoice number raw` , InvoiceRaw ] )
+
+    , check(string_string_replace( InvoiceRaw, ` `, ``, InvoiceStrip ))
+
+    , trace( [ `Invoice Stripped Space` , InvoiceStrip ] )
+
+    , invoice_number(InvoiceStrip)
+
+    , trace( [ `Invoice Number` , invoice_number ] )  
 	
 	
 ] ).
