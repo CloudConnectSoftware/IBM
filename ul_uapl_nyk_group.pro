@@ -80,7 +80,19 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_vertical_details( [ [ `ISSUE`, `DATE` ], `DATE`, q(0,2), (start,10,10), invoice_date , s1, newline ] )
+    , generic_vertical_details( [ [ `ISSUE`, `DATE` ], `DATE`, q(0,2), (start,10,10), invoice_date_raw , s1, newline ] )
+
+    , check( invoice_date_raw =DateRaw )
+
+    , trace( [ `Date Amount raw` , DateRaw ] )
+
+    , check(q_sys_sub_string( `29Sep2016`, 10, 5, Substring )) 
+
+    , trace( [ `/ added string` , DateNew ] )
+
+	, invoice_date_raw(DateNew)
+
+    , trace( [ `Invoice Date` , invoice_date ] )
 
     ] ).
 

@@ -25,8 +25,6 @@ i_rule_list( [
 	
 	, get_invoice_date
 
-    , line_buyers_order_number
-
     , get_total_vat
 
     , get_total_invoice
@@ -62,14 +60,29 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule_cut( get_invoice_number, [
 %=======================================================================
+     
+     q0n(line)
+       
+       , invoice_number_line
 
-    
-    q0n(line)
-
-   , generic_vertical_details( [ [ `SEPTEMBER` ], `SEPTEMBER`, q(0,3,up), (start,10,10), invocie_number, d, tab ] )
-	
-	
+     
+   , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,10,10), invoice_number , s1, newline ] )
+   
 ] ).
+    
+%=======================================================================
+i_line_rule( invoice_number_line, [
+%=======================================================================
+
+
+        q0n(anything)
+
+     
+         ,[read_ahead( [ `1`, `/`] )   , nearest( 20, 20 )     , generic_item( [invoice_number, s1 , newline ] )]
+
+
+      
+	] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,7 +96,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-   , generic_vertical_details( [ [ `THAILAND` ], `THAILAND`, q(1,5,up), (start,20,20), invoice_date , s1, newline ] )
+   , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end,10,25), invoice_date_raw , s1, newline ] )
 
    , check( invoice_date_raw = DateRaw )
 
@@ -99,25 +112,6 @@ i_rule_cut( get_invoice_date, [
 
 	
 ] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE BUYERS ORDER NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut( get_line_buyers_order_number, [
-%=======================================================================
-
-    
-    q0n(line)
-
-   , generic_horizontal_details( [ [ `PO`, `.` ], 155, line_buyers_order_number, d, `-` ] )
-	
-	
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
