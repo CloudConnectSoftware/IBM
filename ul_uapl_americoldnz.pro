@@ -229,6 +229,8 @@ i_line_rule_cut( line_invoice_line, [
 
 	, generic_item( [ line_descr , s1, tab ] )
 
+			
+
 	, 	q10( generic_item( [ line_dummy , s1 , tab ] ))
 
 	, generic_item( [ line_uom , w, tab ] )
@@ -249,7 +251,11 @@ i_line_rule_cut( line_invoice_line2, [
 
 	generic_item( [ line_charge , d, tab ] )
 
-	, generic_item( [ line_descr , s ] )
+	, or([ 
+		generic_item( [ line_descr , s ] )
+
+	,generic_item( [ line_descr , s1, tab ] )
+		])
 
 	, q10(generic_item( [ line_dummy2 , s ] ))
 
