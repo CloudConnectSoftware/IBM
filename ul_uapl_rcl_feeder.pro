@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( rcl_feederltd, `28/09/2016` `1:35:05` ).
+i_version( rcl_feederltd, `26/10/2016`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -167,11 +167,17 @@ i_line_rule_cut( line_invoice_line, [
                 
                 , `HANDLING`
 
+                , generic_item( [ size_dummy , s1 , tab ] )
+
+                , generic_item( [ line_qty_dummy , d , q10(tab) ] )
+
+                , `SGD`
+
                 ] )
 
             , set(tml_found)
 
-            , trace( [ `TML FOUND` ] )
+            , trace( [ `TML line FOUND` ] )
 
     ] )
 
@@ -234,9 +240,9 @@ i_rule( get_currency, [
 
     , or( [ 
         
-        [ test(tml_found) , generic_horizontal_details( [ [ `Total`, `Amount`, `payable` , `in` ] , currency , w , tab ] ) ]
-
-       ,  [ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in` ], currency , w , tab ] ) ]
+         [ test(tml_found) , generic_horizontal_details( [ [ `Total`, `Amount`, `payable` , `in` ] , currency , w , tab ] ) ]
+        
+       ,[ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in` ], currency , w , tab ] ) ]
 
         ] )
 

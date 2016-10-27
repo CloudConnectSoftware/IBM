@@ -69,7 +69,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ gen_beof, `Invoice` ], invoice_number, s1, newline ] )
+   ,or([ 
+       
+       generic_horizontal_details( [ [ gen_beof, `Invoice` ], invoice_number, s1, newline ] )
+
+   ,generic_horizontal_details( [ [ `Invoice` ,`Number`, tab ,`:` ], invoice_number, s1, newline ] )
+
+   ])
 	
 	
 ] ).
@@ -86,7 +92,12 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ gen_beof, `Date` ], invoice_date, date, newline ] )
+    , or([
+        generic_horizontal_details( [ [ gen_beof, `Date` ], invoice_date, date, newline ] )
+
+         ,generic_horizontal_details( [ [ `Date`, tab ,`:` ], invoice_date, date, newline ] )
+
+   ])
 	
 ] ).
 
@@ -118,8 +129,14 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, total_invoice, d, newline ] )  
+   , or([
+        generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, total_invoice, d, newline ] ) 
 
+        ,generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD`, tab ] , total_invoice, d, newline ] )
+
+    ])
+
+    
     , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
@@ -144,7 +161,11 @@ i_rule( get_currency, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total` ], currency, w, tab ] )  
+    , or([
+        generic_horizontal_details( [ [ `Grand`, `Total` ], currency, w, tab ] )  
+
+    , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:` ], currency, w, tab ] ) 
+    ])
 
     ] ).
 
@@ -161,10 +182,12 @@ i_rule( get_line_total_amount, [
      qn0(line)
 
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )  
+    , or([
+        generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, line_total_amount, d, newline ] ) 
 
-        
+        ,generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD`, tab ] , line_total_amount, d, newline ] )
 
+    ])
    ] ).
 
 

@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_americoldnz, `24/10/2016 09:16:05` ).
+i_version( ul_uapl_americoldnz, `26/10/2016 09:16:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,6 +20,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+	, get_Invoice_tax
 
 	, get_invoice_number
 	
@@ -50,6 +52,37 @@ i_rule( get_supplier_details, [
 	, supplier_vat_number(`714139`)
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_Invoice_tax, [
+%=======================================================================
+
+    q(0, 10, line)
+    
+        , invoice_tax_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_tax_line, [
+%=======================================================================
+
+q0n(anything)
+
+	,`Tax`, `Invoice`, `/`, `(`, `Adjustment`, `Note`, `)`
+
+	,set(tax_invoice)
+
+	, trace( [ `Found Tax Invoice` ] )
+
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -155,6 +188,8 @@ i_section( get_invoice_lines, [
 		, or( [
 		
 			line_invoice_line
+
+			,line_invoice_line2
 			
 			, line
 			
@@ -194,7 +229,9 @@ i_line_rule_cut( line_invoice_line, [
 
 	, generic_item( [ line_descr , s1, tab ] )
 
-	, q10(generic_item( [ line_item , s1 , tab ] ))
+			
+
+	, 	q10( generic_item( [ line_dummy , s1 , tab ] ))
 
 	, generic_item( [ line_uom , w, tab ] )
 
@@ -207,4 +244,33 @@ i_line_rule_cut( line_invoice_line, [
 	, generic_item( [ line_gstdummy , w , newline ] )
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+	generic_item( [ line_charge , d, tab ] )
+
+	, or([ 
+		generic_item( [ line_descr , s ] )
+
+	,generic_item( [ line_descr , s1, tab ] )
+		])
+
+	, q10(generic_item( [ line_dummy2 , s ] ))
+
+	, generic_item( [ line_uom , w, tab ] )
+
+	, generic_item( [ line_quantity , d , [tab , `$` , tab] ] )
+
+	, generic_item( [ line_unit_amount , d , [tab , `$` , tab ] ])
+
+	, generic_item( [ line_net_amount, d , tab ] )
+
+	, generic_item( [ line_gstdummy , w , newline ] )
+
+] ).
+
+
+
 
