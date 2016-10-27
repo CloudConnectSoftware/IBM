@@ -139,9 +139,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-    q0n(line)
-
-    , generic_item( [ default_vat_rate, `10` ] )
+  
 
 ]).
 
@@ -157,9 +155,11 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, tab ], total_invoice, d, newline] )
+    ,or([ generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, tab ], total_invoice, d, newline] )
 
-   
+    , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, generic_item( [ total_net, d, tab ] ), generic_item( [ total_vat, d, tab ] ) ], total_invoice, d, newline] )
+
+    ])
                 
 ] ).
 
@@ -175,7 +175,11 @@ i_rule( get_currency, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, `$`], 100, currency, w, tab ] )
+    , or([generic_horizontal_details( [ [ `TOTAL`, `:`, tab, `$`], 100, currency, w, tab ] )
+
+    , currency(`SGD`)
+
+    ])
 
 
     ] ).
