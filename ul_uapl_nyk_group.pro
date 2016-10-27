@@ -84,13 +84,13 @@ i_rule_cut( get_invoice_date, [
 
     , check( invoice_date_raw =DateRaw )
 
-    , trace( [ `Date Amount raw` , DateRaw ] )
+    , trace( [ `Invoice Date raw` , DateRaw ] )
 
-    , check(q_sys_sub_string( `29Sep2016`, 10, 5, Substring )) 
+    , check(q_sys_sub_string( `29Sep2016`,  _, _, `/` ))
 
-    , trace( [ `/ added string` , DateNew ] )
-
-	, invoice_date_raw(DateNew)
+    , trace( [ `Date Added String` , DateString ] )
+       
+	, invoice_date(DateString)
 
     , trace( [ `Invoice Date` , invoice_date ] )
 
