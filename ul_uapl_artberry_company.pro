@@ -176,7 +176,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,95,95), total_invoice, d, tab ] )
+    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), total_invoice, d, tab ] )
 
 ] ).
 
@@ -208,7 +208,7 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,95,95), line_total_amount, d, tab ] )
+    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), line_total_amount, d, tab ] )
 
 ] ).
 
