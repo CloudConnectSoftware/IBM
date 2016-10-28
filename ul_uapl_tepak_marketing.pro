@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tepak_marketing, `26/10/2016` `09:02:05` ).
+i_version( ul_uapl_tepak_marketing, `28/10/2016` `09:02:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -163,7 +163,7 @@ i_rule( get_total_vat, [
 
         , generic_horizontal_details( [ [ `GST` , `@` , line_vat_rate_dummy(d) , `%` , `:` ], 100 , total_vat , d , newline ] )
 
-     %   , generic_item( [ default_vat_rate, `0` ] )
+        , generic_item( [ default_vat_rate, `0` ] )
 
      ])
     
@@ -289,7 +289,7 @@ i_section( get_invoice_lines, [
                    
                , line_invoice_twoline
                
-               , line_desr_line ]
+               , line_desr_line2 ]
                
                , line
 
@@ -381,7 +381,30 @@ i_line_rule_cut( line_desr_line, [
 
     generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
 
-    , trace(`Appended Line Description`)
+    , trace( [`Appended Line Description`])
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_oneline, [
+%=======================================================================
+      
+      generic_item( [ line_item_dummy , d , tab ] )
+    
+    , generic_item( [ line_item, s1 , tab ] )
+
+    , generic_item( [ line_descr, s1 , tab ])
+
+    , generic_item( [ line_buyers_order_number , d , tab ])
+
+    , generic_item( [ line_delivery_note_number, d , tab ] )
+
+    , generic_item( [ line_quantity , d , tab ] )
+
+    , generic_item( [ line_unit_price, d, tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ] )
 
 ] ).
 
@@ -416,23 +439,14 @@ i_line_rule_cut( line_invoice_twoline, [
 
 
 %=======================================================================
-i_line_rule_cut( line_invoice_oneline, [
+i_line_rule_cut( line_desr_line2, [
 %=======================================================================
-      
-      generic_item( [ line_item_dummy , d , tab ] )
-    
-    , generic_item( [ line_item, s1 , tab ] )
 
-    , generic_item( [ line_descr, s1 , tab ])
+    generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
 
-    , generic_item( [ line_buyers_order_number , d , tab ])
+    , trace( [`Appended Line Description`])
 
-    , generic_item( [ line_delivery_note_number, d , tab ] )
+]).   
 
-    , generic_item( [ line_quantity , d , tab ] )
 
-    , generic_item( [ line_unit_price, d, tab ] )
 
-    , generic_item( [ line_net_amount, d, newline ] )
-
-] ).
