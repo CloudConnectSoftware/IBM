@@ -86,7 +86,7 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q0n(line)
+    q(0,15,line)
 
     , generic_horizontal_details( [ [ `Date`, `:`,  tab  ], invoice_date, date, newline ] )
 ] ).
@@ -208,7 +208,7 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,95,95), line_total_invoice, d, tab ] )
+    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,95,95), line_total_amount, d, tab ] )
 
 ] ).
 
