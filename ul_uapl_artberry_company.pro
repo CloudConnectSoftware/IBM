@@ -56,6 +56,8 @@ i_rule( get_supplier_details, [
 
    , supplier_vat_number(`0105546028431`)
 
+   , set(freight_vendor)
+
   
 ] ).
 
