@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_milott_laboratories, `7:12 19 October 2016` ).
+i_version( ul_uapl_milott_laboratories, `28/10/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,9 +45,7 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
    
-  
-   sender_name(`MILOTT LABORATORIES CO,LTD`)
-
+     sender_name(`MILOTT LABORATORIES CO LTD`)
    
   ] ).
 
@@ -61,28 +59,12 @@ i_rule( get_supplier_details, [
 i_rule_cut( get_invoice_number, [
 %=======================================================================
      
-     q0n(line)
+     q(0,20,line)
        
-       , invoice_number_line
+     , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,300,300), invoice_number , d , tab ] )
 
-     
-   , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,10,10), invoice_number , s1, newline ] )
-   
 ] ).
     
-%=======================================================================
-i_line_rule( invoice_number_line, [
-%=======================================================================
-
-
-        q0n(anything)
-
-     
-         ,[read_ahead( [ `1`, `/`] )   , nearest( 20, 20 )     , generic_item( [invoice_number, s1 , newline ] )]
-
-
-      
-	] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,21 +78,8 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-   , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end,10,25), invoice_date_raw , s1, newline ] )
+   , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end , 300 , 300), invoice_date , date , newline ] )
 
-   , check( invoice_date_raw = DateRaw )
-
-    , trace( [ `Invoice date raw` , DateRaw ] )
-
-    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
-
-    , trace( [ `Date Stripped Coma` , DateStrip ] )
-
-    , invoice_date(DateStrip)
-
-    , trace( [ `Invoice Date` , invoice_date ] )
-
-	
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
