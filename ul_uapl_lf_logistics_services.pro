@@ -12,7 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_pdf_parameter( x_tolerance_100, 100 ).
+i_pdf_parameter(x_tolerance_100, 100).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -47,6 +47,8 @@ i_rule( get_supplier_details, [
    sender_name(`LF LOGISTICS SERVICES (M) SDN BHD`)
 
   , supplier_vat_number(`000990416896`)
+
+  , buyer_registration_number(`MY00`)
 
 
 ] ).
@@ -92,6 +94,29 @@ i_rule_cut( get_invoice_date, [
 
    , generic_horizontal_details( [ [ `Date`, `:` ], invoice_date, date, newline ] )
 
+    ])
+
+    
+	
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_due_date, [
+%=======================================================================
+
+    q(0,20,line)
+
+    ,or([
+
+    generic_horizontal_details( [ [ `Due` , `Date`, `:` , tab],invoice_date, date, newline ] )
+
+   
     ])
 
     
