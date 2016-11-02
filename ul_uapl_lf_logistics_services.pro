@@ -48,6 +48,8 @@ i_rule( get_supplier_details, [
 
   , supplier_vat_number(`000990416896`)
 
+  , buyer_registration_number(`MY00`)
+
 
 ] ).
 
