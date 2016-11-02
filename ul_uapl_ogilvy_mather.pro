@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ogilvy_mather, `16/10/2016` `9:30:05` ).
+i_version( ul_uapl_ogilvy_mather, `2/11/2016` `9:30:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -121,7 +121,11 @@ i_rule_cut( get_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab  ], order_number,  s1, tab  ] )
+    , or([generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab  ], order_number,  s, `/` ] )
+
+    ,generic_horizontal_details( [ [ `Client`, `Requisition`, `:`, tab  ], order_number,  s1,  tab ]) 
+
+])
 
     , check(order_number = OrdNo)
 
@@ -146,7 +150,12 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-   , generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `Gross`, q(0,3), (start,20,20), total_invocie, d, tab ] )
+   , or([
+       generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `Gross`, q(0,3), (start,20,20), total_net, d, tab ] )
+
+       ,generic_horizontal_details( [ [ `Total`, `Excluding`, `tax`, tab ], total_net, d, newline ] )
+
+   ])
 
 ] ).
 
@@ -163,9 +172,15 @@ i_rule( get_total_vat, [
 
    q0n(line)
 
-     , generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `GST`, q(0,3), (start,20,20), total_vat, d, tab ] )
+     , or([
+         generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `GST`, q(0,3), (start,20,20), total_vat, d, tab ] )
 
-     , generic_item( [ default_vat_rate, `7` ] )
+         ,generic_horizontal_details( [ [ `GST`, tab, generic_item( [ default_vat_rate, d ] ), `%`, tab ], total_vat, d, newline ] )
+
+
+])
+
+     
 
       
    ] ).
