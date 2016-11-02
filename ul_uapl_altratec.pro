@@ -212,6 +212,7 @@ i_rule( get_total_net, [
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
+        ,generic_horizontal_details( [ [ `Total`, `:`, tab  ] , total_net, d, newline ] )
      , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
      ,  check(total_net = TotNet)
