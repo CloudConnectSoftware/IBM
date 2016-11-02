@@ -161,6 +161,8 @@ i_rule( get_total_invoice, [
 
     , or([ generic_horizontal_details( [ [ `AMOUNT`, `payable`, tab, `USD` ], total_invoice, d, newline ] )
 
+    ,generic_horizontal_details( [ [ `AMOUNT`, `due`, tab, `USD` ], total_invoice, d, newline ] )
+
    
     ])
 
@@ -190,6 +192,8 @@ i_rule( get_currency, [
      
 
       generic_horizontal_details( [ [ `AMOUNT`, `PAYABLE`, tab ], currency, w ] )
+
+      ,generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab ], currency, w ] )
 
     
 
