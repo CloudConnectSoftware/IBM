@@ -215,7 +215,7 @@ i_rule( get_currency, [
 
    q0n(line)
 
-     , generic_horizontal_details( [ [ `Gross` ], 100, currency, w, tab ] )  
+     , generic_horizontal_details( [ [ `Invoice`, `Total` ],  currency, w, tab ] )  
 
     ] ).
     
