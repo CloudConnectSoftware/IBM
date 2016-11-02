@@ -215,7 +215,7 @@ i_rule( get_totals, [
         
         [generic_horizontal_details( [ [ `SSuubb`, `-`, `-`, `TToottaall`] , 350 , total_net , d, newline ] )
 
-    , generic_horizontal_details( [ [ dummy_num(d) , `%`] , 350 , total_vat , d , q10(newline) ] )
+    , q10(generic_horizontal_details( [ [ dummy_num(d) , `%`] , 350 , total_vat , d , q10(newline) ] ))
 
     , q(0,3,line)
 
@@ -232,6 +232,10 @@ i_rule( get_totals, [
 
     , generic_horizontal_details( [ [ `Balance`, `Due`, tab, generic_item([ currency , w ] ), tab ]  , total_invoice , d, newline ] )
     ]
+
+    
+
+    
 
     ])
 
