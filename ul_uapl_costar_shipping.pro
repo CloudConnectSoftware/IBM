@@ -188,11 +188,10 @@ i_rule( get_currency, [
 
  , or([
      
-     generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab ], currency, w ] )
 
-     , generic_horizontal_details( [ [ `AMOUNT`, `PAYABLE`, tab ], currency, w ] )
+      generic_horizontal_details( [ [ `AMOUNT`, `PAYABLE`, tab ], currency, w ] )
 
-     , generic_horizontal_details( [ [ `total`, `AMOUNT`], currency, w ] )
+    
 
 
  ])
