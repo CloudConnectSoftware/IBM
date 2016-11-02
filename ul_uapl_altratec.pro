@@ -144,15 +144,18 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [  `Add` , `GST` , `@` , dummy_vat(d) , `%` ], 150 , total_vat , d, newline ] )
+    
+    
+    , or([ 
+        generic_horizontal_details( [ [  `Add` , `GST` , `@` , generic_item( [ default_vat_rate, d ] ) , `%` ], 150 , total_vat , d, newline ] )
 
+    ,generic_horizontal_details( [ [  `GST` , generic_item( [ default_vat_rate, d ] ) , `%` , tab ],  total_vat , d, newline ] )
 
-     , or([
+  
+    ])
 
-              generic_item( [ default_vat_rate, `6` ] )
    
 
-     ])
 
 ] ).
 
@@ -173,7 +176,10 @@ i_rule( get_total_invoice, [
         
         generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
 
-        , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+                     
+             ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+
+             , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
              
              ,  check(total_invoice = TotInv)
 
@@ -255,9 +261,11 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ or([ line_invoice_line, line_invoice_line2]), q10(line_descr_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           [ line_invoice_line, q10(line_descr_line) , q10(line_descr_line)  , q10(line_po_line) ]
 
-     
+           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_descr_line)  , q10(line_po_line) ]
+
+           ,line_invoice_line2
 
             , line
 
@@ -270,9 +278,14 @@ i_section( get_invoice_lines, [
 %=======================================================================
 i_line_rule_cut( line_header_line, [
 %=======================================================================
-
-    `Product` , `Code` , tab
+or([
+    [`PARTICULARS`, tab, `AMOUNT`,  newline]
     
+    ,[`Product` , `Code` , tab]
+
+])
+
+     
     , trace( [ `FOUND LINE HEADER LINE`])
 
 ] ).
@@ -282,7 +295,9 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
     or([ 
-        [`Sub` , `Total`]
+
+        [`GST`, `6`, `%`, tab ]
+        ,[`Sub` , `Total`]
 
         ,[`Place`, `Of`, `Delivery`]
 
@@ -363,7 +378,7 @@ i_line_rule_cut( line_invoice_line2, [
      
     , generic_item( [ line_quantity , d, q10(tab) ])
     
-    , generic_item( [ line_quantity_uom_code , w , tab ] )
+    , q10(generic_item( [ line_quantity_uom_code , w , tab ] ))
 
      , generic_item( [ line_unit_amount , d , tab ] )
 
