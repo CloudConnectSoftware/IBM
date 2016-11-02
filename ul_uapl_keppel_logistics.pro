@@ -136,7 +136,7 @@ i_rule( get_total_vat, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `ADD`,`GST`, `AT`, `7`, `%` ], 850, total_vat, d, newline ] ) 
+    , generic_horizontal_details( [ [ `ADD`,`GST`, `AT` , generic_item( [ default_vat_rate, d ]) , `%` ], 850, total_vat, d, newline ] ) 
    
 ] ).
 
