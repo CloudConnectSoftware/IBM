@@ -94,7 +94,7 @@ i_line_rule_cut( report_line, [
 
 	qn0(anything), `,`, q10(`"`)
 
-	, doc_id(s1), q10(`"`), newline
+	, doc_id(sf), q10(`"`), newline
 
 	, trace([ `line`, doc_id ])
 
