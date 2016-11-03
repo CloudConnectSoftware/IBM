@@ -155,7 +155,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    ,or([ generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, tab ], total_invoice, d, newline] )
+    ,or([ generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, q10(`AUD`), tab ], total_invoice, d, newline] )
 
     , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, generic_item( [ total_net, d, tab ] ), generic_item( [ total_vat, d, tab ] ) ], total_invoice, d, newline] )
 
