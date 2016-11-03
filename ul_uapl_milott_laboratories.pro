@@ -12,6 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -22,6 +23,8 @@ i_rule_list( [
     , get_invoice_number
 	
 	, get_invoice_date
+
+    ,get_total_net
 
     , get_total_vat
 
@@ -46,6 +49,8 @@ i_rule( get_supplier_details, [
 %=======================================================================
    
      sender_name(`MILOTT LABORATORIES CO LTD`)
+
+     ,supplier_vat_number(``)
    
   ] ).
 
@@ -84,6 +89,28 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL NET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_total_net, [
+%=======================================================================
+
+   q0n(line) 
+       , or([
+
+             generic_horizontal_details( [ [ q10(`1`), q10(`CS`), tab, `TOTAL`, tab ] , total_net , d , newline ] )
+            
+        ])
+     
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,8 +121,12 @@ i_rule( get_total_vat, [
 %=======================================================================
 
    q0n(line) 
+        ,or([
 
-     , total_vat( `0` )
+                [generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] ), generic_item( [ default_vat_rate, 7] )]
+            
+        ])
+     
 
 ] ).
 
@@ -115,19 +146,23 @@ i_rule( get_total_invoice, [
 
         generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
 
-        , generic_horizontal_details( [ [ `GRAND` , `TOTAL` ], 150 , total_invoice , d , newline ] )
+        , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
 
-        , generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
- 
-    ]) 
+        , [generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
-    ,check( total_invoice = TotInv )
+        ,check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
+        , trace( [ `Total net` , total_net] ) ]
+
+        
+ 
+    ]) 
+
+    
 
 
 ] ).
@@ -249,7 +284,7 @@ i_line_rule_cut( line_invoice_line, [
 
      , generic_item( [ line_unit_price, d, tab ] )
 
-     , generic_item( [ line_total_amount , d , newline ] )
+     , generic_item( [ line_net_amount , d , newline ] )
 
 ] ).
 
