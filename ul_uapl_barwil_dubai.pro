@@ -48,6 +48,8 @@ i_rule( get_supplier_details, [
    
   sender_name( `WILHELMSEN SHIP SERVICE` )
 
+  , supplier_vat_number(`217227`)
+
 
 ] ).
 

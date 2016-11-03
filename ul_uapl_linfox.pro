@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_linfox, `15/09/2016` ).
+i_version( ul_uapl_linfox, `2/11/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -126,7 +126,7 @@ i_rule( get_total_net, [
 
 		generic_horizontal_details( [ [ `Sub`, `Total`, tab ] , total_net , d , newline ] )
 		 
-		 ,generic_horizontal_details( [ [ `Sub`, `Total`, tab, `NZD`, tab, `$` ] , total_net , d , newline ] )
+		 ,generic_horizontal_details( [ [ `Sub`, `Total`, tab, `NZD`, q10(tab), `$` ] , total_net , d , newline ] )
 
 		, generic_vertical_details( [ [ `Total`, `Invoice`], `Total`, q(0,3,up),(end,10,10), total_net, d, tab ] )
 
@@ -239,13 +239,12 @@ i_line_rule_cut( line_end_line, [
 
 	or([
 
-		[`Sub`, `Total`, tab, `NZD`, tab, `$`]
 		
-		,[ `printed` ]
+		[`Sub`, `Total`, tab, `NZD`,`$`, tab, dummy_num10(d), newline ]
 
-		, [`Invoice`, `No`, `:`, tab]
-
-	])
+		,[`TOTAL`, `AMOUNT`, `PAYABLE`]
+		
+			])
 
 	, trace( [ `FOUND END LINE`])
 
@@ -259,9 +258,7 @@ i_line_rule_cut( line_invoice_lines, [
 
 		generic_item( [ line_descr, s1, tab ] )
 	
-	, generic_item( [ line_ref, s1, tab ] )
-
-	, generic_item( [ line_net_amount, d, newline] )
+		, generic_item( [ line_net_amount, d, newline] )
 
 	,trace( [ `Complete line`] )
 

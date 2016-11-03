@@ -14,6 +14,8 @@ i_trace_lists.
 
 i_pdf_parameter( x_tolerance_100, 100 ).
 
+i_include_partner_attachments_image_only.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,8 +164,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q0n(line)
     
-    , currency( `AUD` )
+    currency( `AUD` )
 
 ] ).

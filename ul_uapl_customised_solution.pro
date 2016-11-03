@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - TOLL LOGISTICS (ASIA) LIMITED
+% GRAMATICA - CUSTOMISED SOLUTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_toll_logistics, `12/10/2016` `4:30:05` ).
+i_version( ul_uapl_customised_solution, `2/11/2016` `4:30:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
 %=======================================================================
    
   
-   sender_name(`TOLL LOGISTICS (ASIA) LIMITED`)
+   sender_name(`CUSTOMISED SOLUTION`)
 
    , supplier_vat_number(`31006604191`)
 
@@ -155,7 +155,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    ,or([ generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, tab ], total_invoice, d, newline] )
+    ,or([ generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, q10(`AUD`), tab ], total_invoice, d, newline] )
 
     , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, generic_item( [ total_net, d, tab ] ), generic_item( [ total_vat, d, tab ] ) ], total_invoice, d, newline] )
 

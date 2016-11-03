@@ -22,6 +22,10 @@ i_rule_list( [
 	
 	, get_invoice_number
 
+    ,get_order_number
+
+    ,get_Invoice_tax
+
     , get_invoice_date
    
 	, get_currency
@@ -53,6 +57,60 @@ i_rule( get_supplier_details, [
 
 ] ).
 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_Invoice_tax, [
+%=======================================================================
+
+    q(0, 30, line)
+    
+        , invoice_tax_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_tax_line, [
+%=======================================================================
+
+q0n(anything)
+
+	,`Tax`, `Invoice`
+
+	,set(tax_invoice)
+
+	, trace( [ `Found Tax Invoice` ] )
+
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_order_number, [
+%=======================================================================
+
+    
+    q0n(line)
+
+    ,or([
+
+    generic_horizontal_details( [ [ `PO`, `No`, `:` ], order_number, s, `,` ] )
+   , generic_horizontal_details( [ [ `PO`, `No`, `:` ], order_number, s1, newline ] )
+
+    ])
+	
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -176,7 +234,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_item_dummy, w , tab ] )
+   q10( generic_item( [ line_item_dummy, w , tab ] ))
 
     , generic_item( [ line_number , w , tab ] )
 
@@ -215,7 +273,7 @@ i_rule( get_totals, [
         
         [generic_horizontal_details( [ [ `SSuubb`, `-`, `-`, `TToottaall`] , 350 , total_net , d, newline ] )
 
-    , generic_horizontal_details( [ [ dummy_num(d) , `%`] , 350 , total_vat , d , q10(newline) ] )
+    , q10(generic_horizontal_details( [ [ dummy_num(d) , `%`] , 350 , total_vat , d , q10(newline) ] ))
 
     , q(0,3,line)
 
@@ -232,6 +290,10 @@ i_rule( get_totals, [
 
     , generic_horizontal_details( [ [ `Balance`, `Due`, tab, generic_item([ currency , w ] ), tab ]  , total_invoice , d, newline ] )
     ]
+
+    
+
+    
 
     ])
 

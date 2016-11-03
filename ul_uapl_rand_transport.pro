@@ -154,6 +154,8 @@ q0n(line)
 
  ])
 
+ , generic_item( [ default_vat_rate, 10 ] )
+
   
 ] ).
 

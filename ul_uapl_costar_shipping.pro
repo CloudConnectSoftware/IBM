@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_costar_shipping, `12/10/2016` `3:35:05` ).
+i_version( ul_uapl_costar_shipping, `2/11/2016` `3:35:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -159,10 +159,11 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , or([ generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD` ], total_invoice, d, newline ] )
+    , or([ generic_horizontal_details( [ [ `AMOUNT`, `payable`, tab, `USD` ], total_invoice, d, newline ] )
 
-    , generic_horizontal_details( [ [`TOTAL`, `AMOUNT`, `SGD`, tab ],  total_invoice, d, newline ] )
+    ,generic_horizontal_details( [ [ `AMOUNT`, `due`, tab, `USD` ], total_invoice, d, newline ] )
 
+   
     ])
 
     , check( total_invoice = TotInv )
@@ -189,11 +190,12 @@ i_rule( get_currency, [
 
  , or([
      
-     generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab ], currency, w ] )
 
-     , generic_horizontal_details( [ [ `AMOUNT`, `PAYABLE`, tab ], currency, w ] )
+      generic_horizontal_details( [ [ `AMOUNT`, `PAYABLE`, tab ], currency, w ] )
 
-     , generic_horizontal_details( [ [ `total`, `AMOUNT`], currency, w ] )
+      ,generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab ], currency, w ] )
+
+    
 
 
  ])

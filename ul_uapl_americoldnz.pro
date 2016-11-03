@@ -27,6 +27,8 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+	,get_invoice_net
+
 	, get_invoice_totals
 
 	, get_total_vat
@@ -122,7 +124,24 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE TOTALS
+% GET INVOICE NET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_net, [
+%=======================================================================
+
+	q0n(line)
+
+	, generic_horizontal_details( [ [ `Total` , `Taxable` , `Amount`, tab , `$`, tab ], total_net, d, newline ] )
+
+	
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE TOTAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -132,7 +151,9 @@ i_rule_cut( get_invoice_totals, [
 
 	q0n(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ], 100, total_invoice, d, [`NZD` , newline] ] )
+	, generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
+
+	
 	
 ] ).
 
@@ -249,12 +270,12 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
-	generic_item( [ line_charge , d, tab ] )
+	generic_item( [ line_charge , d, q10(tab) ] )
 
 	, or([ 
-		generic_item( [ line_descr , s ] )
+		generic_item( [ line_descr , s1,tab  ] )
 
-	,generic_item( [ line_descr , s1, tab ] )
+	,generic_item( [ line_descr , s1 ] )
 		])
 
 	, q10(generic_item( [ line_dummy2 , s ] ))
@@ -270,6 +291,8 @@ i_line_rule_cut( line_invoice_line2, [
 	, generic_item( [ line_gstdummy , w , newline ] )
 
 ] ).
+
+
 
 
 
