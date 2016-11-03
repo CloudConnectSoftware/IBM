@@ -204,7 +204,10 @@ i_section( get_invoice_lines, [
 
 			line_invoice_lines
 
+			,line_invoice_lines_new
+
 			, line_invoice_lines_2
+
 
 			
 			, line
@@ -242,6 +245,8 @@ i_line_rule_cut( line_end_line, [
 		
 		[`Sub`, `Total`, tab, `NZD`,`$`, tab, dummy_num10(d), newline ]
 
+		,[`Sub`, `total`, tab, `$`, dummy_num10(d), newline ]
+
 		,[`TOTAL`, `AMOUNT`, `PAYABLE`]
 		
 			])
@@ -266,10 +271,28 @@ i_line_rule_cut( line_invoice_lines, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_lines_new, [
+%=======================================================================
+
+    
+
+		generic_item( [ line_descr, s1, tab ] )
+
+		,generic_item( [ line_reference, s1, tab ] )
+	
+		, generic_item( [ line_net_amount, d, newline] )
+
+	,trace( [ `Complete line`] )
+
+
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_lines_2, [
 %=======================================================================
+
 
 
 generic_item([line_date, date])
