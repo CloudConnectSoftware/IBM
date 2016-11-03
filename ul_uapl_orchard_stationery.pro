@@ -170,9 +170,8 @@ i_rule( get_total_invoice, [
 i_line_rule( currency_line, [
 %=======================================================================
 
-    q0n(line)
-
-    , currency(`SGD`)
+    
+    currency(`SGD`)
 
 ] ).
 
