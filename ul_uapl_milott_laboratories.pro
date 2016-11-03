@@ -50,7 +50,7 @@ i_rule( get_supplier_details, [
    
      sender_name(`MILOTT LABORATORIES CO LTD`)
 
-     ,supplier_vat_number(``)
+     ,supplier_vat_number(`0105532080312`)
    
   ] ).
 
