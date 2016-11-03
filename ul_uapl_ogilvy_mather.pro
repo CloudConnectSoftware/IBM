@@ -26,11 +26,7 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_total_net
-
-	, get_total_vat
-
-    , get_total_invoice
+    , get_invoice_totals
 
     , get_currency
 
@@ -145,60 +141,22 @@ i_rule_cut( get_order_number, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_net, [
+i_rule( get_invoice_totals, [
 %=======================================================================
 
     q0n(line)
 
-   , or([
-       generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `Gross`, q(0,3), (start,20,20), total_net, d, tab ] )
+   
 
        ,generic_horizontal_details( [ [ `Total`, `Excluding`, `tax`, tab ], total_net, d, newline ] )
 
-   ])
-
-] ).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_vat
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_vat, [
-%=======================================================================
-
-   q0n(line)
-
-     , or([
-         generic_vertical_details( [ [ `Gross`, `SGD`, tab ], `GST`, q(0,3), (start,20,20), total_vat, d, tab ] )
+        , q(0,1,line)
 
          ,generic_horizontal_details( [ [ `GST`, tab, generic_item( [ default_vat_rate, d ] ), `%`, tab ], total_vat, d, newline ] )
 
+         , q(0,1,line)
 
-])
-
-     
-
-      
-   ] ).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_invoice, [
-%=======================================================================
-   
-   q0n(line)
-
-  , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], total_invoice, d, newline ] )
+        , generic_horizontal_details( [ [ `Invoice`, `Total`, generic_item( [ currency, w ] ), tab ], total_invoice, d, newline ] )
   
     
 ] ).
@@ -232,7 +190,15 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `Total`, `SGD`, tab ], line_total_amount, d, newline ] )
+    ,generic_horizontal_details( [ [ `Total`, `Excluding`, `tax`, tab ], line_net_amount, d, newline ] )
+
+        , q(0,1,line)
+
+         ,generic_horizontal_details( [ [ `GST`, tab, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab ], line_vat_amount, d, newline ] )
+
+         , q(0,1,line)
+
+        , generic_horizontal_details( [ [ `Invoice`, `Total`, generic_item( [ currency_dummy, w ] ), tab ], line_total_amount, d, newline ] )
 
 ] ).
 
