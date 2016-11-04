@@ -145,6 +145,10 @@ i_rule( get_total_invoice, [
 
         , generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
+        , generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `LAEM`, `CHABANG`], 400, total_invoice, d, newline ] ) 
+
+        
+
          ]) 
 
         ,check( total_invoice = TotInv )
@@ -258,6 +262,8 @@ i_line_rule_cut( line_end_line, [
         , [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`, tab ]
 
         , [`TOTAL`, `EX`, `-`, `FACTORY`]
+
+        , [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `LAEM`, `CHABANG`]
 
     ])
 
