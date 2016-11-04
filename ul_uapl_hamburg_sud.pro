@@ -46,8 +46,6 @@ i_rule( get_supplier_details, [
  
      sender_name(`HAMBURG SUD HONG KONG LTD`)
 
-     , supplier_vat_number(`M2-0008074-2`)
-
       , set(freight_vendor)
 
    	] ).
@@ -65,7 +63,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_vertical_details( [ [ `VOUCHER` ], `VOUCHER`, q(0,3), (start,10,10), invoice_number, d, newline ] )
+    , generic_vertical_details( [ [ `NUMBER` ], `NUMBER`, q(0,3), (start,10,210), invoice_number, d, newline ] )
 	
 	] ).
 
@@ -84,7 +82,7 @@ i_rule_cut( get_invoice_date, [
     q0n(line)   
 
 
-    , generic_vertical_details( [ [ `DATE` ], `DATE`, q(0,3), (start,10,10), invoice_date, date, newline ] )
+    , generic_vertical_details( [ [ `DATE` ], `DATE`, q(0,2), (start,10,10), invoice_date, date, newline ] )
 
 ] ).
 
@@ -116,7 +114,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `USD`, tab ], total_invoice, d, newline ] ) 
+    , generic_horizontal_details( [ [ `BALANCE`, `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
 
     , check( total_invoice = TotInv )
 
@@ -141,8 +139,7 @@ i_rule( get_currency, [
 
     q0n(line)
         
-    , generic_vertical_details( [ [ `CURRENCY` ], `CURRENCY`, q(0,3), (end,20,20), currency, w, tab ] )
-
+    , currency( `USD` )
     
 ] ).
 
