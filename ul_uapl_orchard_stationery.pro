@@ -99,15 +99,33 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [`YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(0,2), (start,20,20), order_number, s1, tab ] )
+    , generic_vertical_details( [ [`YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(0,2), (start,20,20), order_number_raw, s1, tab ] )
 
-    , check(order_number = OrdNo)
+    , check( order_number_raw = OrdRaw )
+
+    , trace( [ `Order Raw` , OrdRaw ] )
+
+    , check(string_string_replace( OrdRaw, ` `, ``, OrdStrip ))
+
+    , trace( [ `Order Stripped space` , OrdStrip ] )
+
+    , line_buyers_order_number(OrdStrip)
+
+    , trace( [ `Order No now` , line_buyers_order_number ] )
+    
+    
+
+    , [
+         check(line_buyers_order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , line_buyers_order_number(OrdNo)
+    , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ]) ]
+
+
+
 
 ] ).
 
@@ -178,12 +196,12 @@ i_section( get_invoice_lines, [
 		
 		, or( [
 
-            line_invoice_line  
-
-            ,[line_invoice_line , line_invoice_line2]
+          
+            line_invoice_line 
+            
+            , line_invoice_line2
 			
-            
-            
+                        
 
             , line			
 		] )
@@ -218,9 +236,15 @@ i_line_rule_cut( line_invoice_line, [
   
          generic_item( [ line_item, d, tab ] )
 
-      , generic_item( [ line_descr, s1, [ tab , check(line_descr(end) < -75 ) ]] )
+      , or([
+          
+          generic_item( [ line_descr, s1, [ tab ]] )
 
-     
+          ,generic_item( [ line_descr, s1 ])
+
+      ])
+
+        
            ,generic_item( [ line_quantity , d, q10(tab) ] )
        
 
@@ -244,7 +268,7 @@ generic_item( [ line_item, d, tab ] )
 
       , generic_item( [ line_descr, s1, tab ] )
 
-      , q10(generic_append( [ line_descr, s1, tab, ` `, `` ] ))
+        , generic_item( [ line_descr_dummy, s1, tab] )
 
       ,generic_item( [ line_quantity, d ] )
       
