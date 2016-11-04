@@ -253,9 +253,11 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    or([  [`No` ,  `Description` , tab]
+    or([  [`No` ,  `Description` ]
 
-    , [`NO`, `.`, tab, `DESCRIPTION`, tab]
+    , [`NO`, `.`, `DESCRIPTION`]
+
+    , [`NO`, `.`, tab, `DESCRIPTION`]
 
     ])
     
