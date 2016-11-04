@@ -144,9 +144,9 @@ i_rule( get_total_invoice, [
 
         , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
 
-        , [generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
+        , generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
-         
+         ]) 
 
         ,check( total_invoice = TotInv )
 
@@ -154,8 +154,8 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] ) ]
-        ]) 
+        , trace( [ `Total net` , total_net ] ) 
+        
 
 ] ).
 
