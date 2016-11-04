@@ -215,10 +215,16 @@ i_rule( get_total_invoice, [
      q0n(line)
 
      ,or([ 
-     generic_horizontal_details( [ [`Grand`, `Total`, tab, `:` , tab], total_invoice, d, newline ] )
-    , generic_horizontal_details( [ [`Grand`, `Total`, tab, `:`, `(`, `MYR`, `)`, tab], total_invoice, d, newline ] )
+     generic_horizontal_details( [ [`Grand`, `Total`, tab, `:` ],300 ,  total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [`Grand`, `Total`, tab, `:`, `(`, `MYR`, `)`],300, total_invoice, d, newline ] )
 
      ])
+
+      , q10( [  check( q_sys_comp_str_le( total_invoice, `0` ) )   
+
+       , set( credit_note )     
+       
+      , trace( [ `Document Value < 0 - CREDIT NOTE SET` ] )  ] )
 
 ] ).
 
@@ -260,7 +266,7 @@ i_rule( get_total_net, [
 
     ,or([ generic_horizontal_details( [ [ `Sub`, `Total`, tab, `:` ], 200,  total_net, d , newline ] )
 
-    ,generic_horizontal_details( [ [ `Sub`, `Total`, tab ], total_net, d , newline ] )
+    ,generic_horizontal_details( [ [ `Sub`, `Total`],200, total_net, d , newline ] )
 
 ])
   
@@ -280,7 +286,7 @@ qn0(line)
  
 , or([
     
-    generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`, tab ], total_vat, d , newline] )
+    generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`],200, total_vat, d , newline] )
 ])
 
   
@@ -370,13 +376,12 @@ i_section( get_invoice_lines, [
         , or( [
 
               [line_invoice_line_2, line_desc_line]
+
              ,line_invoice_line 
 
-             
+             ,credit_note_line
 
-           
-
-            , line
+             , line
 
         ] )
 
@@ -482,6 +487,26 @@ i_line_rule_cut( line_desc_line, [
 ] ).
 
 
+
+%=======================================================================
+i_line_rule_cut( credit_note_line, [
+%=======================================================================
+      
+      
+     
+    generic_item( [line_item_dummy , d , tab ] )
+
+      ,generic_item( [line_descr_dummy , s1 , tab] )
+
+      ,generic_item( [line_quantity_dummy , d ] )
+
+      ,generic_item( [line_uom_dummy , w, tab] )
+
+       , generic_item( [line_unit_amount , d , tab] )
+
+         , generic_item( [line_net_amount , d , newline] )
+
+] ).
 
 
 
