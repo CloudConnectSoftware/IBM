@@ -153,7 +153,11 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] ) 
+        ,line_net_amount(TotInv)
+
+        , trace( [ `Total net` , total_net ] )
+
+        , trace( [ `Line net` , line_net_amount ] ) 
         
 
 ] ).
@@ -275,7 +279,7 @@ i_line_rule_cut( line_invoice_line, [
 
      , generic_item( [ line_unit_price, d, tab ] )
 
-     , generic_item( [ line_net_amount , d , newline ] )
+     , generic_item( [ line_net_amount_dummy , d , newline ] )
 
 ] ).
 
