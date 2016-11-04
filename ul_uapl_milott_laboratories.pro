@@ -99,6 +99,7 @@ i_rule( get_total_net, [
 %=======================================================================
 
    q0n(line) 
+
        , or([
 
              generic_horizontal_details( [ [ q10(`1`), q10(`CS`), tab, `TOTAL`, tab ] , total_net , d , newline ] )
@@ -120,12 +121,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-   q0n(line) 
-        ,or([
-
-                [generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] ), generic_item( [ default_vat_rate, 7] )]
-            
-        ])
+generic_item( [ default_vat_rate, `0` ] )
      
 
 ] ).
@@ -150,20 +146,15 @@ i_rule( get_total_invoice, [
 
         , [generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
+         ]) 
+
         ,check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
-
-        
- 
-    ]) 
-
-    
-
+        , trace( [ `Total net` , total_net ] ) ]
 
 ] ).
 
