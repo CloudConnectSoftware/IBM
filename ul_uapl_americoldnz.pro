@@ -53,6 +53,8 @@ i_rule( get_supplier_details, [
 	
 	, supplier_vat_number(`714139`)
 
+	,buyer_registration_number(`NZ00`)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -254,7 +256,7 @@ i_line_rule_cut( line_invoice_line, [
 
 	, 	q10( generic_item( [ line_dummy , s1 , tab ] ))
 
-	, generic_item( [ line_uom , w, tab ] )
+	, q10(generic_item( [ line_uom , w, tab ] ))
 
 	, generic_item( [ line_quantity , d , [tab , `$` , tab] ] )
 
