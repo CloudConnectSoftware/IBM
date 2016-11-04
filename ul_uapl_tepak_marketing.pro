@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tepak_marketing, `28/10/2016` `09:02:05` ).
+i_version( ul_uapl_tepak_marketing, `02/11/2016` `09:02:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -17,6 +17,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    , invoice_or_credit_note
 	
     , get_invoice_number
 	
@@ -59,6 +61,35 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE OR CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( invoice_or_credit_note, [
+%=======================================================================
+
+	q(0,10,line)
+	
+	, invoice_or_credit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_or_credit_note_line, [
+%=======================================================================
+
+	`CREDIT`, `NOTE`
+	
+	, set(credit_note), set(credit)
+	
+	, trace( [ `This is a credit note` ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,7 +102,9 @@ i_rule_cut( get_invoice_number, [
 
     , or( [ 
 
-        generic_horizontal_details( [ [ `LEVEL`, `33`, `-`, `35`, `,`, `MENARA`, `TELEKOM`, `,`, tab, `NO`, `.` ], 100, invoice_number, s1, newline ] )
+        [test(credit_note) , generic_horizontal_details( [ [ `Credit`, `Note`, `No` , `:` ], 200, invoice_number, s1 , newline ] ) ]
+
+        , generic_horizontal_details( [ [ `LEVEL`, `33`, `-`, `35`, `,`, `MENARA`, `TELEKOM`, `,`, tab, `NO`, `.` ], 100, invoice_number, s1, newline ] )
 
         , generic_horizontal_details( [ [ `NO`, `.` ], 100, invoice_number, s1, newline ] )
 
@@ -93,7 +126,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `DATE` , q01(`:`) ], 100, invoice_date, date, newline ] )    
+    , generic_horizontal_details( [ [ `DATE` , q01(tab) , q01(`:`) ], 100, invoice_date, date, newline ] )    
 	
 ] ).
 
@@ -187,6 +220,8 @@ i_rule( get_total_invoice, [
 
      , generic_horizontal_details( [ [ `GRAND` , `TOTAL` , `:` ], 100 , total_invoice , d , newline ] )
 
+     , [test(credit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_invoice, d , newline ] )]
+
      ])
 
 ] ).
@@ -219,11 +254,13 @@ i_rule( get_currency, [
 
     q0n(line)
 
-    , or( [ 
+    , or( [
 
-        generic_vertical_details( [ [ `SUB` , `TOTAL` ], `SUB`, q(0,1,up), (start , 400 , 400 ), currency , w , newline ] )
+         [test(credit_note) , generic_horizontal_details( [ [ `DESCRIPTION`, tab , `Amount` , `(` ] , currency , w , [`)`, newline ] ] ) ]  
 
-    , ([ generic_vertical_details( [ [ `TOTAL` , `AMT` ], `TOTAL` , q(0,2,down), (start , 20 , 20 ), currency_raw , w , newline ] )
+        , generic_vertical_details( [ [ `SUB` , `TOTAL` ], `SUB`, q(0,1,up), (start , 400 , 400 ), currency , w , newline ] )
+
+        , ([ generic_vertical_details( [ [ `TOTAL` , `AMT` ], `TOTAL` , q(0,2,down), (start , 20 , 20 ), currency_raw , w , newline ] )
 
         , check( currency_raw = CurrencyRaw )
 
@@ -290,6 +327,8 @@ i_section( get_invoice_lines, [
                , line_invoice_twoline
                
                , line_desr_line2 ]
+
+               , [line_credit_line]              
                
                , line
 
@@ -305,7 +344,9 @@ i_line_rule_cut( line_header_line, [
 
     or( [ 
     
-        [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, tab ]
+       [ test(credit_note), `DESCRIPTION` , tab , `Amount` , `(` ] 
+        
+       , [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, tab ]
 
        , [`MATERIAL`, tab, `MATERIAL`, tab, `QTY`, tab, `UNIT`, `PRICE`, tab, `TOTAL`, `AMT`,  newline]
 
@@ -321,9 +362,11 @@ i_line_rule_cut( line_end_line, [
 
      or( [
 
-     [`RINGGIT`, `MALAYSIA`, `:`]
+     [ test(credit_note), `TOTAL` ] 
      
-      , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`,  newline ]
+     , [`RINGGIT`, `MALAYSIA`, `:`]
+     
+     , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`,  newline ]
 
      , [`GRAND` , `TOTAL`]
 
@@ -447,6 +490,32 @@ i_line_rule_cut( line_desr_line2, [
     , trace( [`Appended Line Description`])
 
 ]).   
+
+
+%=======================================================================
+i_line_rule_cut( line_credit_line, [
+%=======================================================================
+      
+        generic_item( [ line_descr, s1 , tab ] )
+    
+        , generic_item( [ line_amount_raw , s1 , newline ] )
+
+        , check( line_amount_raw = LineAmountRaw )
+
+        , trace( [ `Line Amount raw` , LineAmountRaw ] )
+
+        , check(strip_string2_from_string1( LineAmountRaw , `,` , LineAmountNew ))
+
+        , trace( [ `Comma stripped Amount` , LineAmountNew ] )
+
+	    , line_total_amount(LineAmountNew)
+
+        , trace( [ `Line Total Amount` , line_total_amount ] )
+
+] ).
+
+
+
 
 
 
