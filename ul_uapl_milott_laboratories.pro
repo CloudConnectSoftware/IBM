@@ -120,7 +120,14 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-generic_item( [ default_vat_rate, `0` ] )
+
+q0n(line)
+
+ ,[generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] )
+
+, generic_item( [ default_vat_rate, `7` ] ) ]
+
+
      
 
 ] ).
@@ -139,17 +146,21 @@ i_rule( get_total_invoice, [
 
      , or([ 
 
-        generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
+                  
 
-        , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
+        generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
 
-        , generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
-        , generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `LAEM`, `CHABANG`], 400, total_invoice, d, newline ] ) 
+         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
+          ,check( total_invoice = TotInv )
 
-        
+        , trace( [ `Total Inv` , TotInv] )
 
-         ]) 
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
+        , [generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
         ,check( total_invoice = TotInv )
 
@@ -157,11 +168,22 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        ,line_net_amount(TotInv)
+        , trace( [ `Total net` , total_net] ) ]
 
-        , trace( [ `Total net` , total_net ] )
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `LAEM`, `CHABANG`], 400, total_invoice, d, newline ] ) 
 
-        , trace( [ `Line net` , line_net_amount ] ) 
+        ,check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
+
+         ]) 
+
+        
         
 
 ] ).
@@ -285,7 +307,7 @@ i_line_rule_cut( line_invoice_line, [
 
      , generic_item( [ line_unit_price_dummy, d, tab ] )
 
-     , generic_item( [ line_net_amount_dummy , d , newline ] )
+     , generic_item( [ line_net_amount , d , newline ] )
 
 ] ).
 
