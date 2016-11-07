@@ -21,9 +21,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_credit_note
-	
-	, get_invoice_number
+  	, get_invoice_number
 
     , get_invoice_date
 
@@ -31,9 +29,9 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_total_vat
+      , get_currency
 
-    , get_currency
+        ,get_credit_note
 
 ] ).
 
@@ -201,27 +199,20 @@ i_rule( get_total_invoice, [
 
     ])
 
+    ,check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
+
 ] ).
 
 
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL VAT AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_vat, [
-%=======================================================================
-
-     qn0(line)
-
-    , generic_horizontal_details( [ [ `Add`, `:`, `GST`, `@`, `0`, `%`, `(`, `Zero`, `Rated`, `)` ], 600 , total_vat, d , tab ] )
-
-] ).
 
 
 

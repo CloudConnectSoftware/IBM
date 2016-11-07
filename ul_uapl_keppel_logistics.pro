@@ -26,10 +26,7 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_total_net
-
-    , get_total_vat
-
+    
     , get_total_invoice
 
     , get_currency
@@ -101,7 +98,7 @@ i_rule_cut( get_invoice_date, [
 i_rule_cut( get_order_number, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
     , generic_horizontal_details( [ [ `PO`, `#` ], 30, order_number, d, `;` ] )
 
@@ -130,15 +127,6 @@ i_rule( get_total_net, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule( get_total_vat, [
-%=======================================================================
-
-     qn0(line)
-
-    , generic_horizontal_details( [ [ `ADD`,`GST`, `AT` , generic_item( [ default_vat_rate, d ]) , `%` ], 850, total_vat, d, newline ] ) 
-   
-] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,6 +142,14 @@ i_rule( get_total_invoice, [
      qn0(line)
 
     , generic_horizontal_details( [ [ `TOTAL` ], 650, total_invoice, d, newline ] ) 
+    ,check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
    
 ] ).
 
