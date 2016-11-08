@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_milott_laboratories, `28/10/2016` ).
+i_version( ul_uapl_milott_laboratories, `8/11/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -148,10 +148,28 @@ i_rule( get_total_invoice, [
 
                   
 
-        generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
+        [generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
+
+        ,check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
 
 
-         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
+         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`], 400, total_invoice, d, newline ] ) 
+          ,check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
+
           ,check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
@@ -286,6 +304,8 @@ i_line_rule_cut( line_end_line, [
         , [`TOTAL`, `EX`, `-`, `FACTORY`]
 
         , [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `LAEM`, `CHABANG`]
+
+        , [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`]
 
     ])
 
