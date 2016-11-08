@@ -57,6 +57,8 @@ i_rule( get_supplier_details, [
 
    , set(freight_vendor)
 
+   ,currency( `USD` )
+
   
 ] ).
 
