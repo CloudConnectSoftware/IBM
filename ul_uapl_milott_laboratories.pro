@@ -18,7 +18,10 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+
+invoice_or_credit_note
+
+	,get_supplier_details
 	
     , get_invoice_number
 	
@@ -36,6 +39,34 @@ i_rule_list( [
     , get_invoice_lines
     
     ] ).
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE OR CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( invoice_or_credit_note, [
+%=======================================================================
+
+	q(0,10,line)
+	
+	, invoice_or_credit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_or_credit_note_line, [
+%=======================================================================
+
+	`CREDIT`, `NOTE`
+	
+	, set(credit_note)
+	
+	, trace( [ `This is a credit note` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,7 +96,14 @@ i_rule_cut( get_invoice_number, [
      
      q(0,20,line)
 
-            , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,300,300), invoice_number , d , tab ] )
+            ,or([
+                
+                generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,300,300), invoice_number , d , tab ] )
+
+                , generic_horizontal_details( [ [ `NO`, `.`, tab],invoice_number, d , newline ] )
+
+
+            ])
 
 ] ).
     
@@ -82,7 +120,11 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
+   ,or([
+        generic_horizontal_details( [ [`DATE`, tab],invoice_date, date , newline ] )
    , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end , 300 , 300), invoice_date , date , newline ] )
+
+   ])
 
 ] ).
 
