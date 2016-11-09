@@ -50,7 +50,7 @@ invoice_or_credit_note
 i_rule( invoice_or_credit_note, [
 %=======================================================================
 
-	q(0,10,line)
+	q(0,50,line)
 	
 	, invoice_or_credit_note_line
 
@@ -240,7 +240,15 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
-        ,[ generic_vertical_details( [ [ `Amount` ], `Amount`, q(0,5), (start,30,30), total_invoice , d , newline ] )]
+        ,[ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
+        
+        ,check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
 
 
          ]) 
@@ -305,9 +313,12 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
+
+            line_credit_line
                      
-            line_invoice_line 
-              
+            ,line_invoice_line 
+
+                         
               , line_desr_line 
 
                 , line
@@ -327,6 +338,8 @@ i_line_rule_cut( line_header_line, [
         [`CS`, tab , `USD` , tab , `USD`]
 
         , [`SET`, tab , `USD` , tab , `USD`]
+
+        , [`,`, `(`, `SAY`, `TOTAL`, `:`]
 
     ])    
  
@@ -369,6 +382,21 @@ i_line_rule_cut( line_invoice_line, [
      , generic_item( [ line_descr, s1, tab ] )
 
      , generic_item( [ line_unit_price_dummy, d, tab ] )
+
+     , generic_item( [ line_net_amount , d , newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_credit_line, [
+%=======================================================================
+          
+     generic_item( [ line_quantity, d, tab ] )
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     , q10(generic_item( [ line_unit_price_dummy, d, tab ] ))
 
      , generic_item( [ line_net_amount , d , newline ] )
 
