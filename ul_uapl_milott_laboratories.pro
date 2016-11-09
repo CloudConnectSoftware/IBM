@@ -50,7 +50,7 @@ invoice_or_credit_note
 i_rule( invoice_or_credit_note, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,10,line)
 	
 	, invoice_or_credit_note_line
 
@@ -60,7 +60,7 @@ i_rule( invoice_or_credit_note, [
 i_line_rule( invoice_or_credit_note_line, [
 %=======================================================================
 
-	`CREDIT`, `NOTE`
+	`S`, tab, `Unilever`, `Asia`, `Private`, `Limited`, tab, `CREDIT`, `NOTE`,  newline
 	
 	, set(credit_note)
 	
