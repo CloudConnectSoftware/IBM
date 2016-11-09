@@ -167,6 +167,15 @@ i_rule( get_total_net, [
 
     , generic_horizontal_details( [ [ `Sub`, `Total`, `in`, `USD`, tab ],  total_net, d, newline ] )
 
+
+    , check( total_net = TotNet )
+
+        , trace( [ `Total Net` , TotNet] )
+
+        , line_net_amount(TotNet)
+
+        , trace( [ `Line Net now` , line_net_amount] )
+
 ] ).
 
 
@@ -183,6 +192,14 @@ i_rule( get_total_invoice, [
      q0n(line)
 
     , generic_horizontal_details( [ [ `Total`, `Amount`,`in`,  tab ], total_invoice, d, newline ] )  
+
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , line_total_amount(TotInv)
+
+        , trace( [ `Line Total now` , line_total_amount] )
 
 
 ] ).
