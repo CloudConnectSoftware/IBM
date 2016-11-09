@@ -24,8 +24,6 @@ i_rule_list( [
 
     , get_invoice_date
 
-    , get_currency
-
     , get_total_net
 
 	, get_total_vat
@@ -52,6 +50,8 @@ i_rule( get_supplier_details, [
   , supplier_vat_number(`53 001 669 898`)
 
   , buyer_registration_number(`AU00`)
+
+  , currency(`AUD`)
 
 ] ).
 
