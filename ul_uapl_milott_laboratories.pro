@@ -240,10 +240,11 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
+        ,[ generic_vertical_details( [ [ `Amount` ], `Amount`, q(0,5), (start,30,30), total_invoice , d , newline ] )]
+
 
          ]) 
-
-        
+       
         
 
 ] ).
