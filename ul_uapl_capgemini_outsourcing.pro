@@ -218,7 +218,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -228,25 +228,25 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-     , generic_horizontal_details( [ [ `Montant`, `TTC`, tab ], line_total_invoice_raw, s, [`EUR`,  newline] ] ) 
+     , generic_horizontal_details( [ [ `Montant`, `TTC`, tab ], line_total_amount_raw, s, [`EUR`,  newline] ] ) 
 
-    , check( line_total_invoice_raw = TotalRaw )
+    , check( line_total_amount_raw = TotalRaw )
 
-    , trace( [ `Line Total Invoice raw1` , TotalRaw ] )
+    , trace( [ `Line Total Amount raw1` , TotalRaw ] )
 
     , check(string_string_replace( TotalRaw, `,`, `.`, TotalStrip ))
 
-    , trace( [ `Line Total Invoice Stripped Comma`, TotalStrip ] )
+    , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
     
-    , trace( [ `Line Total Invoice raw2` , TotalStrip] )
+    , trace( [ `Line Total Amount raw2` , TotalStrip] )
 
     , check(string_string_replace( TotalStrip, ` `, ``, TotalStrip1 ))
 
-    , trace( [ `Total Invoice Stripped Space` , TotalStrip1 ] )
+    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
 
-    , line_total_invoice(TotalStrip1)
+    , line_total_amount(TotalStrip1)
 
-    , trace( [ `Line Total Invoice` , line_total_invoice ] )
+    , trace( [ `Line Total Amount` , line_total_amount ] )
 
 ]).
 
