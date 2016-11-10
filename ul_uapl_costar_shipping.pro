@@ -21,6 +21,8 @@ i_rule_list( [
 
 	get_supplier_details
 	
+    , set_credit_note
+
 	, get_invoice_number
 	
 	, get_invoice_date
@@ -56,6 +58,37 @@ i_rule( get_supplier_details, [
 
   ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,50,line)
+
+    ,credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    ,`CREDIT`, `NOTE`
+
+    ,set(credit_note)
+
+    ,trace( [ `Credit Note Found` ] )
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -69,7 +102,11 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab ], invoice_number, s1, newline ] )
+   ,or([ generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab ], invoice_number, s1, newline ] )
+
+   , generic_horizontal_details( [ [ `Credit`, `NOTE`, `NO`,`.` ], invoice_number, s1, newline ] )
+
+   ])
 	
 	
 ] ).
@@ -162,6 +199,8 @@ i_rule( get_total_invoice, [
     , or([ generic_horizontal_details( [ [ `AMOUNT`, `payable`, tab, `USD` ], total_invoice, d, newline ] )
 
     ,generic_horizontal_details( [ [ `AMOUNT`, `due`, tab, `USD` ], total_invoice, d, newline ] )
+
+    ,generic_horizontal_details( [ [ `@`, `costar`, `.`, `com`, `.`, `sg`, tab, `USD`], total_invoice, d, newline ] )
 
    
     ])
