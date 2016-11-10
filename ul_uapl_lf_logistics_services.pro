@@ -69,7 +69,7 @@ i_rule( get_supplier_details, [
 i_rule( get_Invoice_tax, [
 %=======================================================================
 
-    q(0, 30, line)
+    q(0, 50, line)
     
         , invoice_tax_line
 
