@@ -50,6 +50,10 @@ i_rule( get_supplier_details, [
   
    sender_name(`THAI DAIZO AEROSOL CO LTD`)
 
+   ,supplier_vat_number(`385-3-03217`)
+
+
+
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
