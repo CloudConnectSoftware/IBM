@@ -215,7 +215,13 @@ i_line_rule_cut( line_start_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
- `Total`, tab, `15`, `,`, `452`, `.`, `17`,  newline
+or([
+
+     [`Total`, tab, dummy1(w) ,  newline ]
+
+    ,[`Total`, tab, `15`, `,`, `452`, `.`, `17`,  newline ]
+
+])
 
         , trace( [ `FOUND THE END LINE` ] )
 

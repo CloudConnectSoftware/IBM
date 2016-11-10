@@ -66,7 +66,12 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_vertical_details( [ [ `INVOICE`, `NUMBER` ], `INVOICE`, q(0,2), (start,10,10), invoice_number, s1, tab ] )
+    , or([
+        generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab], invoice_number, s1, newline ] )
+
+   , generic_vertical_details( [ [ `INVOICE`, `NUMBER`], `INVOICE`, q(0,2), (start,10,10), invoice_number, s1, tab ] )
+
+    ])
 
 ] ).
 
@@ -82,7 +87,12 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_vertical_details( [ [ `ISSUE`, `DATE` ], `DATE`, q(0,2), (start,10,10), invoice_date_raw , s1, newline ] )
+  , or([
+        generic_horizontal_details( [ [`Issue`, `Date`, tab ], invoice_date_raw, s1, tab ] )
+
+    , generic_vertical_details( [ [ `Issue`, `Date`, q10(tab) ], `DATE`, q(0,2), (start,10,10), invoice_date_raw , s1, newline ] )
+
+    ])
 
     , check( invoice_date_raw = DateRaw )    , trace( [ `Date raw` , DateRaw ] )
 
