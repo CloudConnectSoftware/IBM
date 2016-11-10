@@ -29,9 +29,9 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
-
     , get_line_delivery_note_number
+
+    , get_currency
 
     , get_invoice_lines
 
