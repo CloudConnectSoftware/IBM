@@ -47,7 +47,6 @@ i_rule( get_supplier_details, [
 	
 	, set(freight_vendor)
 
-	, trace( [ `THIS VENDOR IS SET AS A FREIGHT VENDOR`] )
 
 ] ).
 
