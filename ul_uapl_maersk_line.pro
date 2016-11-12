@@ -65,7 +65,7 @@ i_line_rule( credit_note_line, [
 q0n(anything)
 
 
-    ,`IMPORT`, `CREDIT`, `NOTE`
+    ,`CREDIT`, `NOTE`
 
     ,set(credit_note)
 
