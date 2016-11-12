@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
 
      , buyer_registration_number(`MY00`)
 
-     , supplier_registration_number(` `)
+     , supplier_registration_number(`HORMEL FOODS CORPORATION`)
    
      , set(freight_vendor)
 
