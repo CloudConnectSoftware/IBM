@@ -242,7 +242,9 @@ i_line_rule_cut( line_end_line, [
 
 	or([
 
-			[`Sub`, `total`, tab, `NZD`, `$`, dummy_num11(d), newline ]
+			[`Sub`, `total`, tab, `$`, dummy_num11(d), newline ]
+
+			,[`Sub`, `total`, tab, `NZD`, `$`, dummy_num11(d), newline ]
 
 		,[`Sub`, `Total`, tab, `NZD`,`$`, tab, dummy_num10(d), newline ]
 
