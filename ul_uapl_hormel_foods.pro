@@ -51,7 +51,7 @@ i_rule( get_supplier_details, [
 
      , buyer_registration_number(`MY00`)
 
-     , supplier_registration_number(`HORMEL FOODS CORPORATION`)
+     , supplier_registration_number(`50281268`)
    
      , set(freight_vendor)
 
