@@ -153,7 +153,9 @@ i_rule( get_total_invoice, [
 
     qn0(line)
 
-          , generic_vertical_details( [ [ `Amount` ], `Amount`, q(0,30), (start,20,20), total_invoice_raw, s1, newline ] )
+          , generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WEIGHT`, dummy_num1(d) , tab, dummy_num2(s1), tab, dummy_num3(s1) , tab ], total_invoice_raw  , s1 , newline ] )
+          
+               
 
            , check( total_invoice_raw = InvoiceRaw )
 
@@ -180,7 +182,7 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+        , trace( [ `Total net` , total_net ] )
 
 
 ] ).
@@ -195,10 +197,10 @@ i_rule( get_total_invoice, [
 %=======================================================================
 i_rule( get_line_total_amount, [
 %=======================================================================
-
+                  
      q0n(line)
 
-    , generic_vertical_details( [ [ `Amount` ], `Amount`, q(0,30), (start,20,20), line_total_amount_raw, s1, newline ] )
+    , generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WEIGHT`, dummy_num4(d) , tab, dummy_num5(s1), tab, dummy_num6(s1) , tab ], line_total_amount_raw  , s1 , newline ] )
 
       , check( line_total_amount_raw = TotalRaw )
 
@@ -216,7 +218,7 @@ i_rule( get_line_total_amount, [
 
       , line_total_amount(TotalStrip1)
 
-       , trace( [ `Line Total Amount` , line_total_amount] ) 
+       , trace( [ `Line Total Amount` , line_total_amount ] ) 
 
         
 ] ).
