@@ -69,9 +69,16 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q0n(line)
+    q( 0,20 , line)
 
+   , or([ 
+       
+       
+   generic_horizontal_details( [ [`1`, `HORMEL`, `PL`, `,`, `AUSTIN`, `,`, `MN`, `55912`, `-`, `3673`, tab ], invoice_number_raw, s1, newline ] )
    , generic_horizontal_details( [ [ `Invoice`, `Reprinted`, `On`, tab ], invoice_number_raw, s1, newline ] )
+
+
+   ])
 
       , check( invoice_number_raw = NumberRaw )
 
