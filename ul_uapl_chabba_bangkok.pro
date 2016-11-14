@@ -167,11 +167,11 @@ i_rule( get_order_number, [
 %=======================================================================
 i_rule( get_invoice_date, [
 %=======================================================================
-q(0,6,line)
+q(0,15,line)
 	
 	 ,or([ generic_horizontal_details( [ [ `DATE`, `:` ,q10(tab)],invoice_date, date,  or([ tab , newline ]) ] )
 
-     generic_horizontal_details( [ [ `DATE`, `:` , tab ],invoice_date, date, tab ] )
+     ,generic_horizontal_details( [ [ `Date`, `:`, tab ],invoice_date, s1, tab ] )
 
     ,generic_vertical_details( [ [ `Date`, tab ], `date`, q(0,1), (start,20,20), invoice_date,  date , tab ] )
 
