@@ -218,6 +218,8 @@ i_section( get_invoice_lines, [
 		, or( [
 		
 			line_invoice_line
+
+            ,discount_line
                       
            	, line
 			
@@ -261,5 +263,28 @@ i_line_rule_cut( line_invoice_line, [
       , generic_item( [ line_net_amount, d, newline ] )
  
  	
+] ).
+
+%=======================================================================
+i_line_rule( discount_line, [
+%=======================================================================
+
+
+
+ read_ahead([`Less`])
+
+, generic_item( [ line_descr, s1, tab] )
+
+, generic_item( [ line_quantity, d, [tab, `s`,`$` ]] )
+
+, generic_item( [ line_unit_amount, s1 , [ tab , `(`, `s`,`$`  ]]  )
+
+
+
+, generic_item( [ line_total_amount_dummy, d,  [ `)` , newline ]]  )
+
+
+  
+
 ] ).
  
