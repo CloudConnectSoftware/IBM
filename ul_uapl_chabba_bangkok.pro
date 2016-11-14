@@ -109,8 +109,9 @@ q0n(line)
 	
    ,  or([
 
-       generic_horizontal_details( [[`INVOICE` , `NO`, `.` ], invoice_number, s1, tab ] )
-      , generic_vertical_details( [ [ `Invoice`, `No`, `.`], `Invoice`, q(0,1), (start,10,10), invoice_number,  s1 , tab ] )
+        generic_vertical_details( [ [ `Invoice`, `No`, `.`], `Invoice`, q(0,1), (start,20,20), invoice_number,  s1 , tab ] )
+
+        , generic_horizontal_details( [[`INVOICE` , `NO`, `.` ], invoice_number, s1, tab ] )
 	 
          ,  generic_horizontal_details( [[`No`, `.`, `:`, tab ], invoice_number, s1, tab ] )
 
