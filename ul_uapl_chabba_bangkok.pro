@@ -291,10 +291,11 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
+            
+
 			line_invoice_line
 
-            ,line_debit_note_line
-
+        
             ,[line_invoice_new_line, line_append_line, line_append_line2 ]
 
                         
@@ -333,7 +334,8 @@ i_line_rule_cut( line_end_line,[
 	  or([
 
           [`Sub`, `Total`]
-		 
+
+                		 
 		 ,[ `TOTAL`, `FOB`, `BANGKOK` ]
 
          ,[`Issued`, `by`, tab, `Checked`, `by`, tab, `Approved`, `by`, tab, `Received`, `by`]
@@ -420,3 +422,4 @@ i_line_rule( line_append_line2, [
      generic_append([ line_descr , s1 , newline , `_`, ` `  ])
      
 ]).
+
