@@ -171,6 +171,8 @@ q(0,6,line)
 	
 	 ,or([ generic_horizontal_details( [ [ `DATE`, `:` ,q10(tab)],invoice_date, date,  or([ tab , newline ]) ] )
 
+     generic_horizontal_details( [ [ `DATE`, `:` , tab ],invoice_date, date, tab ] )
+
     ,generic_vertical_details( [ [ `Date`, tab ], `date`, q(0,1), (start,20,20), invoice_date,  date , tab ] )
 
 ])
