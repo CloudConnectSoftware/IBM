@@ -159,7 +159,7 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_line_buyers_order_number, [
 %=======================================================================
 
-    q0n(line)
+    q(0, 60, line)
 
     , or([
         generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ] ) ] )
@@ -274,6 +274,8 @@ i_line_rule_cut( line_header_line, [
     ,[`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
 
     ,[`(`, `Pallets`, `)`, `(`, `Cartons`, `)`]
+
+    ,[`Product`, `Code`, tab, `Description`, `of`, `Goods`, tab ]
 
 
     ])
