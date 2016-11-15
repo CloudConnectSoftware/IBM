@@ -269,9 +269,9 @@ i_line_rule_cut( line_header_line, [
 
      or([ 
 
-    [`(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`]
+    
 
-    ,[`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
+    [`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
 
     ,[`(`, `Pallets`, `)`, `(`, `Cartons`, `)`]
 
