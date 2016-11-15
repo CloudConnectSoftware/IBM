@@ -47,6 +47,8 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `000955711488` ), set( chain, `ul_uapl_ids_manufacturing` ), trace( [ `THIS IS AN IDS MANUFACTURING DOCUMENT` ] ) ]
 
+		 , [ check_text( `2051536` ), set( chain, `ul_uapl_kantar_japan` ), trace( [ `THIS IS A KANTAR JAPAN INC DOCUMENT` ] ) ]
+
 		 
 
 		 
