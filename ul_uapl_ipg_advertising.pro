@@ -201,9 +201,10 @@ i_section( get_invoice_lines, [
 		
 		, or( [
 
-            [line_descr_line , line_append_line, q10(line_append_line) , line_invoice_line]
 
-            , line_invoice_line_2
+            line_invoice_line_2
+
+                    
 		
 			   
             , line			
@@ -218,9 +219,11 @@ i_line_rule_cut( line_start_line, [
 %=======================================================================
 	or([
 
-   [`VAT`, `Registration`, `:`, `3033397758`,  newline]
+ 
 
-   ,[`cost`, `description`]
+   [`cost`, `description`]
+
+     
 
     ])
      
@@ -235,10 +238,8 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 or([
 
-    [ `Total`, `non`, `-`, `commissionable`, tab , dummy3(d), newline ]
-    ,[`VAT`, `7`, `%`, tab ]
-  , [`Total`, `non`, `-`, `commissionable`, tab, `197`, `,`, `500`, `.`, `00`,  newline]
-
+    [ `Total`, `non`, `-`, `commissionable`, tab , dummy_num10(d)]
+    
    
   
    
