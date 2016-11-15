@@ -104,7 +104,7 @@ i_rule_cut( get_invoice_number, [
 
    ,or([
 
-        generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, tab ], invoice_number, s1, tab ] )
+        generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, q10(tab) ], invoice_number, s1, tab ] )
 
    , generic_horizontal_details( [ [`RE`, `:`, `Invoice`, `No`, `.`, `:` ], invoice_number, s1, newline ] )
 
