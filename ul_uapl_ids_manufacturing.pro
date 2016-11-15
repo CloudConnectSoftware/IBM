@@ -65,6 +65,8 @@ i_rule( get_supplier_details, [
 
      , set(tax_invoice)	
 
+     ,curency(`MYR`)
+
 ] ).
 
 
@@ -247,6 +249,8 @@ i_rule( get_currency, [
     generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`, `(`],currency, w , `)` ] )
 
     ,generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`],currency, w ] )
+
+    ,generic_horizontal_details( [ [`Tax`, `Code`, tab ],currency, w ] )
 
     ])
 
