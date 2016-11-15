@@ -416,7 +416,9 @@ i_line_rule_cut( line_end_line, [
 
 or([
 
-  [`FOR`, `GST`, `PURPOSE`, `USE`, `ONLY`, tab, `Sub`, `Total`, tab, `:`, tab ]
+    [`write` , `off`]
+
+,[`FOR`, `GST`, `PURPOSE`, `USE`, `ONLY`, tab, `Sub`, `Total`, tab, `:`, tab ]
     ,[`CUSTOMER`, `COPY`]
 
        , [`Total`, `Quantity`, `:`]
