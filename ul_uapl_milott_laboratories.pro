@@ -27,6 +27,8 @@ invoice_or_credit_note
 	
 	, get_invoice_date
 
+    ,get_total_net
+
     , get_total_vat
 
     , get_total_invoice
@@ -142,7 +144,9 @@ i_rule( get_total_net, [
 
        , or([
 
-             generic_horizontal_details( [ [ q10(`1`), q10(`CS`), tab, `TOTAL`, tab ] , total_net , d , newline ] )
+             generic_horizontal_details( [ [ q10(`1`), q10(`CS`), q10(tab) , `TOTAL`, tab ] , total_net , d , newline ] )
+
+             ,generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_net , d , newline ] )
             
         ])
      
@@ -191,13 +195,7 @@ i_rule( get_total_invoice, [
 
         [generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
 
-        ,check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net] ) ]
+        ]
 
 
          , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`], 400, total_invoice, d, newline ] ) 
