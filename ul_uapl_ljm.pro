@@ -155,6 +155,8 @@ i_rule_cut( get_invoice_totals, [
 
     , trace( [ `THIS IS NOW THE TOTAL VAT Amount` , line_vat_amount ])
 
+    ,generic_item( [ default_vat_rate ,`9.9987` ] )
+
     ]
 
 ] ).        
