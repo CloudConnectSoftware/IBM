@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_issariyawatana, `3/11/2016` ).
+i_version( ul_uapl_issariyawatana, `15/11/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -159,14 +159,14 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_line_buyers_order_number, [
 %=======================================================================
 
-    q(0, 60, line)
+    q0n(line)
 
     , or([
         generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ] ) ] )
         
         ,generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, q10(tab) ], line_buyers_order_number, d, or( [ newline , tab ]) ] )
 
-        ,generic_horizontal_details( [ [`REF`, `.`, `P`, `/`, `O`, `NO`, `.`, `:`], line_buyers_order_number, d, `,`] )
+        ,generic_horizontal_details( [ [`REF`, `.`, `P`, `/`, `O`, `NO`, `.`, `:`], line_buyers_order_number, d, newline ])
 
         
 
@@ -269,13 +269,13 @@ i_line_rule_cut( line_header_line, [
 
      or([ 
 
-    [`(`, `Cartons`, `)`, tab, `Unit`, `Price`, `(`, `US`, `$`, `)`, tab, `Amount`, `(`, `US`, `$`, `)`]
+    
 
-    ,[`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
+    [`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
 
     ,[`(`, `Pallets`, `)`, `(`, `Cartons`, `)`]
 
-    ,[`Product`, `Code`, tab, `Description`, `of`, `Goods`, tab ]
+        ,[`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
 
 
     ])
@@ -298,7 +298,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
           
-     generic_item( [ line_item, s1, tab ] )
+     generic_item( [ line_item, w, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
 
