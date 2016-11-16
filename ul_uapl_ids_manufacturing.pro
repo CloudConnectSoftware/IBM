@@ -379,10 +379,10 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-              [line_invoice_line_2, line_desc_line]
+            
+              [or([line_invoice_line_2, line_invoice_debit_note]) ,  q10(line_desc_line) ]
 
-              ,line_invoice_debit_note
-
+              
              ,line_invoice_line 
 
              ,credit_note_line
@@ -419,8 +419,7 @@ or([
     [`write` , `off`]
 
 ,[`FOR`, `GST`, `PURPOSE`, `USE`, `ONLY`, tab, `Sub`, `Total`, tab, `:`, tab ]
-    ,[`CUSTOMER`, `COPY`]
-
+    
        , [`Total`, `Quantity`, `:`]
 
 
