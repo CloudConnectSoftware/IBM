@@ -530,6 +530,8 @@ i_line_rule( line_invoice_debit_note, [
      , generic_item([ line_tax_code , w ,  tab  ] )
 	 
 		 , generic_item([ line_net_amount , d , newline ] ) 
+
+         , generic_item([ line_net_amount , d , [ newline, check( line_net_amount(start) > 250 ) ] ] ) 
      
 ]).
 
