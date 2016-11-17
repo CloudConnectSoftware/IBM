@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ljm_marketing, `11/11/2016` `4:15:05` ).
+i_version( ul_uapl_ljm_marketing, `17/11/2016` `4:15:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -47,7 +47,7 @@ i_rule( get_supplier_details, [
      
     sender_name(`LJM MARKETING SERVICES PTY LTD`)
 
-    , supplier_vat_number(`26 150 642 872`)
+    , supplier_vat_number(`63 116 310 788`)
 
     , currency( `AUD` )
 
