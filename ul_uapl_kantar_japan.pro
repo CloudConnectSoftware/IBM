@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - DHL EXPRESS (SINGAPORE) PTE LTD
+% GRAMATICA - KANTAR JAPAN INC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_chep_australia, `17 November 2016` ).
+i_version( ul_uapl_kantar_japan, `15/11/2016` `2:20:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,24 +13,25 @@ i_date_format( _ ).
 i_trace_lists.
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
 	
-    , get_invoice_number
+	, get_invoice_number
 	
 	, get_invoice_date
 
-    , get_due_date
+    , get_order_number
 
     , get_total_invoice
 
     , get_line_total_amount
 
     , get_invoice_lines
-    
+
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,17 +45,14 @@ i_rule( get_supplier_details, [
 %=======================================================================
    
   
-   sender_name(`CHEP AUSTRALIA`)
+   sender_name(`KANTAR JAPAN INC`)
 
-   , supplier_vat_number(`11 117 266 323`)
+   ,supplier_vat_number(`supplierno 560952`)
 
-   , buyer_registration_number(`AU00`)
+    , currency( `JPY` )
 
-   ,currency(`AUD`)
-
-   , set(freight_vendor)
-
-  ] ).
+  
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,13 +65,9 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q(0,50,line)
+    q0n(line)
 
-  
-       
-        ,  generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, tab ], invoice_number, s1, newline ] )
-
- 
+   , generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ], invoice_number, s1, newline ] )
 	
 	
 ] ).
@@ -88,61 +82,69 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q(0,50,line)
+    q0n(line)
 
-         ,generic_horizontal_details( [ [ `INVOICE`, `DATE`, tab ], invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`, `Date`, tab ],  invoice_date, s1, newline ] )
 
-   
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET DUE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut( get_due_date, [
+i_rule( get_order_number, [
 %=======================================================================
 
-    q(0,50, line )
+    q0n(line)
 
-    , generic_horizontal_details( [ [ `PAYMENT`, `DUE`, tab ], due_date, date, newline ] )
-	
+    , generic_horizontal_details( [ [ `Your`, `PO`, `No`, tab  ], order_number, s1, newline ] )
+
+        , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Variable` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
+
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
 %=======================================================================
 i_rule( get_total_invoice, [
 %=======================================================================
 
-      q(0,50, line )
+     q0n(line)
 
-   ,    generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], total_invoice, d, newline ] ) 
+     
+    , generic_vertical_details( [ [ `Please`, `wire`, `the`, `money`, `to`, `:`], `Money`, q(0,2,up), (end,0,100), total_invoice, d, newline ] )
 
-      
-    
     , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
+        , trace( [ `Total net` , total_net] )
 
-      
-] ).
+    
+
+           
+        ] ).
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,14 +152,12 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-      q(0,50, line )
+     qn0(line)
+
+    , generic_vertical_details( [ [ `Please`, `wire`, `the`, `money`, `to`, `:`], `Money`, q(0,2,up), (end,0,100), line_total_amount, d, newline ] )
 
 
-    ,  generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], line_total_amount, d, newline ] ) 
-
-      
-   ] ).
-
+    ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,8 +170,8 @@ i_rule( get_line_total_amount, [
 i_rule( get_invoice_lines, [
 %=======================================================================
    
-    q0n(line)
+   q0n(line)
     
-    , line_descr(`line Total`)
+    , line_descr( `Line Charges` )
 
 ]).
