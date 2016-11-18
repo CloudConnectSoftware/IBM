@@ -85,19 +85,19 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date`, `:`, tab  ], invoice_date_raw, s1, newline ] )
+    , [generic_horizontal_details( [ [ `Date`, `:`, tab ,  generic_item( [ invoice_date_raw1 , w ] )], 50 ,  invoice_date_raw2, s1, newline ] )   
 
-    , check( invoice_date_raw = DateRaw )
+     , check( invoice_date_raw1 = DateRaw1 )    , trace( [ `Date raw` , DateRaw1 ] )
 
-    , trace( [ `Invoice date raw` , DateRaw ] )
+     , check( invoice_date_raw2 = DateRaw2 )    , trace( [ `Date raw` , DateRaw2 ] )
 
-    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
+      , check(strcat_list( [ DateRaw1,` ` , DateRaw2 ], DateNew ))   , trace( [ `New Date Format` , DateNew ] ) 
+    
+	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
 
-    , trace( [ `Date Stripped Coma` , DateStrip ] )
+    ]              
 
-    , invoice_date(DateStrip)
-
-    , trace( [ `Invoice Date` , invoice_date ] )
+       
 
 ] ).
 
@@ -113,7 +113,14 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `PO`, `#` ], 50, order_number, d, tab ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `PO`, `#` ], order_number, d, or([`,` , newline]) ] )
+        ,generic_horizontal_details( [ [ `PO`, `#` ], 50, order_number, d, tab ] )
+
+        
+
+    ])
 
     , check(order_number = OrdNo)
 
@@ -138,7 +145,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [`TOTAL`, `=`, `3`, `,`, `000`, `PC`, tab, `US`, `$` ] , total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [`TOTAL`, `=`, dummy_num(d), `PC`, tab, `US`, `$` ] , total_invoice, d, newline ] )
 
         , check( total_invoice = TotInv )
 
@@ -146,7 +153,7 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+        , trace( [ `Total net` , total_net ] )
 
         
 ] ).
@@ -179,7 +186,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [`TOTAL`, `=`, `3`, `,`, `000`, `PC`, tab, `US`, `$` ] , line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [`TOTAL`, `=`, dummy_num1(d), `PC`, tab, `US`, `$` ] , line_total_amount, d, newline ] )
 
 ] ).
 
