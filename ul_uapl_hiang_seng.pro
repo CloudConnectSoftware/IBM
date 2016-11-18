@@ -50,6 +50,8 @@ i_rule( get_supplier_details, [
 
    , buyer_registration_number(`MY00`)
 
+   ,supplier_vat_number(`3101032505`)
+
    , set(freight_vendor)
    
   
