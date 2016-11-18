@@ -184,9 +184,9 @@ i_rule( get_line_order_number, [
    q0n(line)
 
 , or([
-   generic_horizontal_details( [[ or([`M`, `SG`]) , `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
+   generic_horizontal_details( [[ or([`M`, `SG`]) , `(`, dummy_word1(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
  
-,generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
+,generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word2(w), `)`, `-`], line_buyers_order_number, s1, newline] )
 
 ])
 
@@ -246,11 +246,14 @@ i_rule( get_currency, [
 
         
     
-    generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`, `(`],currency, w , `)` ] )
+    generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`, `(`],currency, w , [`)` , tab ] ] )
 
     ,generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`],currency, w ] )
 
-    ,generic_horizontal_details( [ [`Tax`, `Code`, tab ],currency, w ] )
+    ,generic_horizontal_details( [ [`Exchange`, `Rate`, `:`, tab, dummy_num1(d), tab, `Total`, `GST`, tab, `:` ],currency, w , tab ])
+
+    
+    ,generic_horizontal_details( [ [`Total`,`GST`, tab , `:` ],currency, w , tab ] )
 
     ])
 
