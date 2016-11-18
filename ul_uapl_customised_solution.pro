@@ -142,7 +142,10 @@ i_rule( get_total_net, [
 %=======================================================================
 i_rule( get_total_vat, [
 %=======================================================================
+ 
+ q0n(line)
 
+   , generic_vertical_details( [ [ `GST`], `GST`, q(3,15), (end,10,10), total_vat, d, [ `$`, tab] ] )
   
 
 ]).
@@ -159,10 +162,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    ,or([ generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, q10(`AUD`), tab ], total_invoice, d, newline] )
+    ,or([ 
+        
+       generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, q10(`AUD`), tab ], total_invoice, d, newline] )
 
     , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, generic_item( [ total_net, d, tab ] ), generic_item( [ total_vat, d, tab ] ) ], total_invoice, d, newline] )
 
+    
     ])
                 
 ] ).
