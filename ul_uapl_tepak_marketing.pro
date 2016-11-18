@@ -363,6 +363,8 @@ i_line_rule_cut( line_end_line, [
      or( [
 
      [ test(credit_note), `TOTAL` ] 
+
+      ,`TOTAL` 
      
      , [`RINGGIT`, `MALAYSIA`, `:`]
      
