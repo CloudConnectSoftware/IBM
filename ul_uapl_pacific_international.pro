@@ -29,7 +29,7 @@ i_rule_list( [
     
     , get_total_invoice
 
-    , get_currency
+    % get_currency
 
     , get_invoice_lines
 
@@ -50,6 +50,8 @@ i_rule( get_supplier_details, [
      , supplier_vat_number(`M2-0008074-2`)
 
       , set(freight_vendor)
+
+      ,currency( `USD` )
 
    	] ).
 
