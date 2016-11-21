@@ -4,13 +4,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_hiang_seng, `19/11/2016` `6:35:00` ).
+i_version( ul_uapl_hiang_seng, `21/11/2016` `6:35:00` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
+
+i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -48,9 +50,10 @@ i_rule( get_supplier_details, [
   
    sender_name(`HIANG SENG FIBRE CONTAINER`)
 
-   , buyer_registration_number(`MY00`)
+   , buyer_registration_number(`MM00`)
 
    ,supplier_vat_number(`3101032505`)
+   
 
    , set(freight_vendor)
    
