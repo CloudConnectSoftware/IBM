@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tepak_marketing, `02/11/2016` `09:02:05` ).
+i_version( ul_uapl_tepak_marketing, `22/11/2016 08:32:04` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -500,6 +500,8 @@ i_line_rule_cut( line_credit_line, [
       
         generic_item( [ line_descr, s1 , tab ] )
     
+        , fail % Added to prevent rules breaking production service
+
         , generic_item( [ line_amount_raw , s1 , newline ] )
 
         , check( line_amount_raw = LineAmountRaw )
