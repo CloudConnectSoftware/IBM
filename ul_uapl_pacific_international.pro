@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,set_credit_note
+
     , get_invoice_number
 
     , get_invoice_date
@@ -34,6 +36,37 @@ i_rule_list( [
     , get_invoice_lines
 
  ] ).
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Credit Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,50,line)
+
+    ,credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    ,`CREDIT`, `NOTE`
+
+    ,set(credit_note)
+
+    ,trace( [ `Credit Note Found` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,7 +101,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [`INVOICE`, `NO`, `:`, tab ],  invoice_number, s1, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [`INVOICE`, `NO`, `:`, tab ],  invoice_number, s1, newline ] )
+
+    , generic_horizontal_details( [ [`Credit`, `NOTE`, `NO`, `.`, `:`, tab ],  invoice_number, s1, newline ] )
+
+    ])
 	
 	] ).
 
@@ -87,7 +126,12 @@ i_rule_cut( get_invoice_date, [
     q0n(line)
 
 
-    , generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
+    , or([
+        generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
+
+    , generic_horizontal_details( [ [ `CREDIT`, `NOTE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
+
+    ])
 
 
 ] ).
@@ -123,7 +167,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `PAID`,`IN`, `USD`, tab ], total_invoice, d, newline ] ) 
+    , or([
+        
+        generic_horizontal_details( [ [ `PAID`,`IN`, `USD`, tab ], total_invoice, d, newline ] ) 
+
+        ,generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`, tab, `USD`, tab ], total_invoice, d, newline ] ) 
+
+    ])
 
     ,check(total_invoice = TotInv) 
 
