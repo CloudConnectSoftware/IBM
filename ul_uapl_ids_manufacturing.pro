@@ -65,7 +65,7 @@ i_rule( get_supplier_details, [
 
      , set(tax_invoice)	
 
-     ,curency(`MYR`)
+     ,currency( `MYR` )
 
 ] ).
 
