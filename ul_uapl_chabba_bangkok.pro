@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_chabba_bangkok , `21/10/2016` ).
+i_version( ul_uapl_chabba_bangkok , `23/11/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -109,9 +109,7 @@ q0n(line)
 	
    ,  or([
 
-        generic_vertical_details( [ [ `Invoice`, `No`, `.`], `Invoice`, q(0,1), (start,20,20), invoice_number,  s1 , tab ] )
-
-        , generic_horizontal_details( [[`INVOICE` , `NO`, `.` ], invoice_number, s1, tab ] )
+            generic_horizontal_details( [[`INVOICE` , `NO`, `.` ], invoice_number, s1, tab ] )
 	 
          ,  generic_horizontal_details( [[`No`, `.`, `:`, tab ], invoice_number, s1, tab ] )
 
@@ -295,6 +293,8 @@ i_section( get_invoice_lines, [
 
 			line_invoice_line
 
+            ,line_invoice_line2
+
         
             ,[line_invoice_new_line, line_append_line, line_append_line2 ]
 
@@ -364,11 +364,11 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_debit_note_line, [
+i_line_rule( line_invoice_line2, [
 %=======================================================================
 
 
-     generic_item([ line_item , w , tab  ])
+     generic_item([ line_item , d , tab  ])
 
 	 , generic_item([ line_descr , s1 , tab ]) 
  
