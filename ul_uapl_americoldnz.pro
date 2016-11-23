@@ -296,7 +296,7 @@ i_line_rule_cut( line_start_line, [
 	
 	or([
 
-	  [`Charge`, `Code`, `Charge`, `Description`, tab, `Charge`, `Units`, tab, `Invoice`, `Units`, tab, `Charge`, `Price`, tab, `GST`,  newline]
+	  [`Charge`, `Code`, `Charge`, `Description`, tab, `Charge`, `Units`, tab, `Invoice`, `Units`, tab, `Charge`, `Price`, tab, `GST`,  newline ]
 
 	  , [`Charge`, `Code`, tab, `Quantity`, tab, `Charge`, `Rate`, tab, `Charge`, `Description`]
 
