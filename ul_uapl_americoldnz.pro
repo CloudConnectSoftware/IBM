@@ -230,7 +230,7 @@ i_rule_cut( get_total_vat, [
 
 	, or([
         
-        generic_horizontal_details( [ [ `GST`], total_net , d , newline ] )
+        generic_horizontal_details( [ [ `GST`], total_vat , d , newline ] )
 
 	, generic_horizontal_details( [ [ `Total` , `GST` , `AMOUNT`, tab , `$` ], 100, total_vat , d, newline ] )
 	])
