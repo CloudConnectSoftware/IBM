@@ -137,7 +137,9 @@ i_rule_cut( get_invoice_number, [
 
 	, or([
         
-        generic_horizontal_details( [ [`Invoice`, `number`, `the`, `credit`, `note`, `relates`, `to`, `:`, tab ],  invoice_number, s1, newline ] )
+		generic_horizontal_details( [ [`Invoice`, q10(`number`), `:`, tab ],  invoice_number, s1, or([ tab, newline ]) ] )
+        
+		,generic_horizontal_details( [ [`Invoice`, `number`, `the`, `credit`, `note`, `relates`, `to`, `:`, tab ],  invoice_number, s1, newline ] )
 
 	, generic_vertical_details( [ [ `Invoice` , `No` , `.` , tab  ], `Invoice`, q(0,1), (end,10,10), invoice_number, w , tab ] )
 
@@ -160,7 +162,7 @@ i_rule_cut( get_invoice_date, [
 
 	, or([
         
-        generic_horizontal_details( [ [ `Date`, `:` ],  invoice_date, s1, newline ] )
+        generic_horizontal_details( [ [ `Date`, `:` , q10(tab)],  invoice_date, s1, or([ tab, newline ])  ] )
 
 	, generic_vertical_details( [ [ `Date` , tab ], `Date`, q(0,1), (start,10,10), invoice_date, date , tab ] )
 
@@ -186,7 +188,9 @@ i_rule_cut( get_invoice_net, [
         
         generic_horizontal_details( [ [ `Sub`, `Total` ], total_net , d , newline ] )
 
-	, generic_horizontal_details( [ [ `Total` , `Taxable` , `Amount`, tab , `$`, tab ], total_net, d, newline ] )
+		, generic_horizontal_details( [ [ `Total` , `For` , `Invoice`, tab , `$`], 100 , total_net, d, tab] )
+
+	, generic_horizontal_details( [ [ `Total` , `Taxable` , `Amount`, tab , `$`], 100 , total_net, d, newline ] )
 
 	])
 
@@ -208,6 +212,8 @@ i_rule_cut( get_invoice_totals, [
 	, or([
         
         generic_horizontal_details( [ [ `TOTAL`, `Credit` ], total_invoice , d , newline ] )
+
+		, generic_horizontal_details( [ [ `Total`, `Including`, `any`, `Goods`, `&`, `Services`, `Tax`, `(`, `in`, `NZD`, `)`, tab, `$`], total_invoice, d ] )
 
 	, generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 
@@ -231,6 +237,8 @@ i_rule_cut( get_total_vat, [
 	, or([
         
         generic_horizontal_details( [ [ `GST`], total_vat , d , newline ] )
+
+		, generic_horizontal_details( [ [ `Plus`, `15`, `%`, `Goods`, `&`, `Services`, `Tax`, tab, `$` ], 100, total_vat, d ] )
 
 	, generic_horizontal_details( [ [ `Total` , `GST` , `AMOUNT`, tab , `$` ], 100, total_vat , d, newline ] )
 	])
@@ -274,8 +282,10 @@ i_section( get_invoice_lines, [
 		, or( [
 
 
-			line_credit_note
-			
+			line_credit_note_new
+			,line_credit_note
+
+					
 			,line_invoice_line
 
 			,line_invoice_line2
@@ -300,6 +310,8 @@ i_line_rule_cut( line_start_line, [
 
 	  , [`Charge`, `Code`, tab, `Quantity`, tab, `Charge`, `Rate`, tab, `Charge`, `Description`]
 
+	  ,[`27`, `Dalgety`, `Drive`, tab, `NZB` ]
+
 	])
 
 	, trace( [ `FOUND LINE HEADER LINE`])
@@ -312,8 +324,10 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
 	 or([
+
+		 [`Total`, `for`, `Invoice`, tab, `$`]
 		 
-		 [`TOTAL` , `TAXABLE` , `AMOUNT` , tab , `$` , tab]
+		 ,[`TOTAL` , `TAXABLE` , `AMOUNT` , tab , `$` , tab ]
 		 , [`Sub`, `Total`]
 
 	 ])
@@ -391,6 +405,28 @@ i_line_rule_cut( line_credit_note, [
 
 
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_credit_note_new, [
+%=======================================================================
+
+	generic_item( [ line_number , d, tab ] )
+      
+	, generic_item( [ line_descr , s1 ,  tab  ])
+
+	, generic_item( [ line_dummy4 , w , tab ])            
+
+	, generic_item( [ line_unit_amount , n , tab ])
+
+	, generic_item( [ line_quantity , n ,  [ tab ,`-` , tab ]  ] )
+
+	
+	, generic_item( [ line_net_amount, n ] )
+
+
+] ).
+
 
 
 
