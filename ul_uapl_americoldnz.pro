@@ -188,7 +188,7 @@ i_rule_cut( get_invoice_net, [
         
         generic_horizontal_details( [ [ `Sub`, `Total` ], total_net , d , newline ] )
 
-		, generic_horizontal_details( [ [ `Total` , `For` , `Invoice`, tab , `$`], 100 , total_net, d, tab] )
+		, generic_horizontal_details( [ [ `Total` , `For` , `Invoice`, tab , `$`], 100 , total_net, d, q10(tab) ] )
 
 	, generic_horizontal_details( [ [ `Total` , `Taxable` , `Amount`, tab , `$`], 100 , total_net, d, newline ] )
 
@@ -312,6 +312,8 @@ i_line_rule_cut( line_start_line, [
 
 	  ,[`27`, `Dalgety`, `Drive`, tab, `NZB` ]
 
+	  ,[`CREDIT`, `NOTE`, `FOR`, `INV`]
+
 	])
 
 	, trace( [ `FOUND LINE HEADER LINE`])
@@ -419,7 +421,7 @@ i_line_rule_cut( line_credit_note_new, [
 
 	, generic_item( [ line_unit_amount , n , tab ])
 
-	, generic_item( [ line_quantity , n ,  [ tab ,`-` , tab ]  ] )
+	, generic_item( [ line_quantity_dummy , n ,  [ tab ,`-` , q10(tab) ]  ] )
 
 	
 	, generic_item( [ line_net_amount, n ] )
