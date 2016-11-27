@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - UNILEVER INDUSTRIES PRIVATE LIMITED
+% GRAMATICA - HINDUSTAN UNILEVER LIMITED
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,6 +23,8 @@ i_rule_list( [
    	, get_invoice_number
 
     , get_invoice_date
+
+    , get_order_number
 
 	, get_currency
 
@@ -65,7 +67,7 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [`Invoice`, `No`, `.`, `:` ], invoice_number, d, newline ] )
+   	, generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:` ], invoice_number, d, newline ] )
   
 
 ] ).
@@ -98,7 +100,7 @@ i_rule( get_order_number, [
 
 q0n(line)
 	
-    , generic_horizontal_details( [ [ `DO`, `No`, `.`, `:`],  order_number, d , newline ] )
+    , generic_horizontal_details( [ [ `DO`, `No`, `.`, `:` ],  order_number, d , newline ] )
 
 ] ).
 
@@ -112,9 +114,9 @@ q0n(line)
 i_rule( get_currency, [
 %=======================================================================
 
-q0n(line)
+   q0n(line)
 	
-    , generic_horizontal_details( [ [ `Currency`, `:`], Currency, w , newline ] )
+    , generic_horizontal_details( [ [ `Currency`, `:`], currency, w , newline ] )
 
 ] ).
 
@@ -156,7 +158,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `-`, `USD`], 800, line_total_invoice, d , newline ] )
+    , generic_horizontal_details( [ [ `Total`, `-`, `USD`], 800, line_total_amount, d , newline ] )
 
 ] ).
 
