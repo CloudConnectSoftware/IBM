@@ -67,7 +67,7 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:` ], invoice_number, d, newline ] )
+   	, generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:` ], 10, invoice_number, d, newline ] )
   
 
 ] ).
@@ -84,7 +84,7 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ], invoice_date, date, newline ] )
+	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ], 10, invoice_date, date, newline ] )
 
 ] ).
 
@@ -100,7 +100,7 @@ i_rule( get_order_number, [
 
 q0n(line)
 	
-    , generic_horizontal_details( [ [ `DO`, `No`, `.`, `:` ],  order_number, d , newline ] )
+    , generic_horizontal_details( [ [ `DO`, `No`, `.`, `:` ], 10, order_number, d , newline ] )
 
 ] ).
 
@@ -116,7 +116,7 @@ i_rule( get_currency, [
 
    q0n(line)
 	
-    , generic_horizontal_details( [ [ `Currency`, `:`], currency, w , newline ] )
+    , generic_horizontal_details( [ [ `Currency`, `:`], 10, currency, w , newline ] )
 
 ] ).
 
