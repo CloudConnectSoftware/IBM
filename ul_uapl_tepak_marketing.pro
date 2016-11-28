@@ -171,6 +171,8 @@ i_rule( get_total_net, [
             
         generic_horizontal_details( [ [ `TOTAL`, `EXCL`, `.`, `GST` ], 230 , total_net , d , newline ] )
 
+        ,generic_horizontal_details( [ [ `ZR`, tab, `@`, `0`, `%` ], 230 , total_net , d , tab ] )
+
         , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )
 
     ])
@@ -216,11 +218,13 @@ i_rule( get_total_invoice, [
 
      , or([ 
 
-     generic_horizontal_details( [ [ `TOTAL`, `PAYABLE` , `INCL` , `.` , `GST` ], 200 , total_invoice , d , newline ] )
+     generic_horizontal_details( [ [ `TOTAL`, `PAYABLE` , `INCL` , `.` , `GST` ], 300 , total_invoice , d , newline ] )
 
-     , generic_horizontal_details( [ [ `GRAND` , `TOTAL` , `:` ], 100 , total_invoice , d , newline ] )
+          , generic_horizontal_details( [ [ `GRAND` , `TOTAL` , `:` ], 100 , total_invoice , d , newline ] )
 
      , [test(credit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_invoice, d , newline ] )]
+
+     ,generic_horizontal_details( [ [ `ZR`, tab, `@`, `0`, `%`], 230 , total_invoice , d , tab ] )
 
      ])
 
@@ -368,7 +372,7 @@ i_line_rule_cut( line_end_line, [
      
      , [`RINGGIT`, `MALAYSIA`, `:`]
      
-     , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`,  newline ]
+     , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`]
 
      , [`GRAND` , `TOTAL`]
 
