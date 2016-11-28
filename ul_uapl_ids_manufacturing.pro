@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ids_manufacturing, `16/11/2016` ).
+i_version( ul_uapl_ids_manufacturing, `22/11/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -65,7 +65,7 @@ i_rule( get_supplier_details, [
 
      , set(tax_invoice)	
 
-     ,curency(`MYR`)
+     ,currency( `MYR` )
 
 ] ).
 
@@ -184,9 +184,9 @@ i_rule( get_line_order_number, [
    q0n(line)
 
 , or([
-   generic_horizontal_details( [[ or([`M`, `SG`]) , `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
+   generic_horizontal_details( [[ or([`M`, `SG`]) , `(`, dummy_word1(w), `)`, `-`], line_buyers_order_number, s, dummy_word2(w)] )
  
-,generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word(w), `)`, `-`], line_buyers_order_number, s1, newline] )
+,generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word2(w), `)`, `-`], line_buyers_order_number, s1, newline] )
 
 ])
 
@@ -230,31 +230,7 @@ i_rule( get_total_invoice, [
 
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule( get_currency, [
-%=======================================================================
-
-    q0n(line)
-
-    ,or([
-
-        
-    
-    generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`, `(`],currency, w , `)` ] )
-
-    ,generic_horizontal_details( [ [ `Grand`, `Total`, tab, `:`],currency, w ] )
-
-    ,generic_horizontal_details( [ [`Tax`, `Code`, tab ],currency, w ] )
-
-    ])
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -379,13 +355,14 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            
-              [or([line_invoice_line_2, line_invoice_debit_note]) ,  q10(line_desc_line) ]
+                credit_note_line
+
+              , line_invoice_debit_credit_note
 
               
              ,line_invoice_line 
 
-             ,credit_note_line
+            
 
              , line
 
@@ -416,9 +393,9 @@ i_line_rule_cut( line_end_line, [
 
 or([
 
-    [`write` , `off`]
+   
 
-,[`FOR`, `GST`, `PURPOSE`, `USE`, `ONLY`, tab, `Sub`, `Total`, tab, `:`, tab ]
+[`FOR`, `GST`, `PURPOSE`, `USE`, `ONLY`, tab, `Sub`, `Total`, tab, `:`, tab ]
     
        , [`Total`, `Quantity`, `:`]
 
@@ -466,26 +443,6 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_2, [
-%=======================================================================
-      
-      
-      q10( [ with( 1, line_net_amount, _ )
-
-     , with( 1, line_buyers_order_number, Order ) 
-		, generic_item( [ line_buyers_order_number, Order ] ) ])
-	
-
-      ,generic_item( [line_descr , s1 , tab] )
-
-    , generic_item( [line_tax_code , w , tab] )
-
-        , generic_item( [line_net_amount , d , newline] )
-
-] ).
-
 %=======================================================================
 i_line_rule_cut( line_desc_line, [
 %=======================================================================
@@ -493,16 +450,14 @@ i_line_rule_cut( line_desc_line, [
     generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
 ] ).
-
-
-
+          
 %=======================================================================
 i_line_rule_cut( credit_note_line, [
 %=======================================================================
       
       
      
-    generic_item( [line_item_dummy , d , tab ] )
+      generic_item( [line_item_dummy , d , tab ] )
 
       ,generic_item( [line_descr_dummy , s1 , tab] )
 
@@ -510,15 +465,15 @@ i_line_rule_cut( credit_note_line, [
 
       ,generic_item( [line_uom_dummy , w, tab] )
 
-       , generic_item( [line_unit_amount , d , tab] )
+      , generic_item( [line_unit_amount , d , tab] )
 
-         , generic_item( [line_net_amount , d , newline] )
+     , generic_item( [line_net_amount , d , newline] )
 
 ] ).
 
 
 %=======================================================================
-i_line_rule( line_invoice_debit_note, [
+i_line_rule( line_invoice_debit_credit_note, [
 %=======================================================================
 
 
@@ -528,9 +483,7 @@ i_line_rule( line_invoice_debit_note, [
  
      , generic_item([ line_tax_code , w ,  tab  ] )
 	 
-		 , generic_item([ line_net_amount , d , newline ] ) 
-
-         , generic_item([ line_net_amount , d , [ newline, check( line_net_amount(start) > 250 ) ] ] ) 
+	 , generic_item([ line_net_amount , d , [ newline, check( line_net_amount(start) > 250 ) ] ] ) 
      
 ]).
 

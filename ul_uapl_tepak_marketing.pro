@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_tepak_marketing, `02/11/2016` `09:02:05` ).
+i_version( ul_uapl_tepak_marketing, `22/11/2016 08:32:04` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -81,7 +81,7 @@ i_line_rule( invoice_or_credit_note_line, [
 
 	`CREDIT`, `NOTE`
 	
-	, set(credit_note), set(credit)
+	, set(credit_note)
 	
 	, trace( [ `This is a credit note` ] )
 
@@ -102,13 +102,13 @@ i_rule_cut( get_invoice_number, [
 
     , or( [ 
 
-        [test(credit_note) , generic_horizontal_details( [ [ `Credit`, `Note`, `No` , `:` ], 200, invoice_number, s1 , newline ] ) ]
+        generic_horizontal_details( [ [ `Credit`, `Note`, `No`, tab, `:` ], invoice_number , s1 , newline ] ) 
 
         , generic_horizontal_details( [ [ `LEVEL`, `33`, `-`, `35`, `,`, `MENARA`, `TELEKOM`, `,`, tab, `NO`, `.` ], 100, invoice_number, s1, newline ] )
 
-        , generic_horizontal_details( [ [ `NO`, `.` ], 100, invoice_number, s1, newline ] )
-
         , generic_horizontal_details( [ [ `REF` , `NO` , `:` ], 100 , invoice_number , s1 , newline ] )
+
+        , generic_vertical_details( [ [ `Date` ], 'Date', q(0,1,up), (start,10,10), invoice_number , s1 , newline ] )
 
     ])
 	
@@ -171,6 +171,8 @@ i_rule( get_total_net, [
             
         generic_horizontal_details( [ [ `TOTAL`, `EXCL`, `.`, `GST` ], 230 , total_net , d , newline ] )
 
+        ,generic_horizontal_details( [ [ `ZR`, tab, `@`, `0`, `%` ], 230 , total_net , d , tab ] )
+
         , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )
 
     ])
@@ -216,11 +218,13 @@ i_rule( get_total_invoice, [
 
      , or([ 
 
-     generic_horizontal_details( [ [ `TOTAL`, `PAYABLE` , `INCL` , `.` , `GST` ], 200 , total_invoice , d , newline ] )
+     generic_horizontal_details( [ [ `TOTAL`, `PAYABLE` , `INCL` , `.` , `GST` ], 300 , total_invoice , d , newline ] )
 
-     , generic_horizontal_details( [ [ `GRAND` , `TOTAL` , `:` ], 100 , total_invoice , d , newline ] )
+          , generic_horizontal_details( [ [ `GRAND` , `TOTAL` , `:` ], 100 , total_invoice , d , newline ] )
 
      , [test(credit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_invoice, d , newline ] )]
+
+     ,generic_horizontal_details( [ [ `ZR`, tab, `@`, `0`, `%`], 230 , total_invoice , d , tab ] )
 
      ])
 
@@ -260,7 +264,7 @@ i_rule( get_currency, [
 
         , generic_vertical_details( [ [ `SUB` , `TOTAL` ], `SUB`, q(0,1,up), (start , 400 , 400 ), currency , w , newline ] )
 
-        , ([ generic_vertical_details( [ [ `TOTAL` , `AMT` ], `TOTAL` , q(0,2,down), (start , 20 , 20 ), currency_raw , w , newline ] )
+        , ([ generic_vertical_details( [ [ `TOTAL` , `AMT` ], `TOTAL` , q(0,2), (start , 20 , 20 ), currency_raw , w , newline ] )
 
         , check( currency_raw = CurrencyRaw )
 
@@ -363,10 +367,12 @@ i_line_rule_cut( line_end_line, [
      or( [
 
      [ test(credit_note), `TOTAL` ] 
+
+      ,`TOTAL` 
      
      , [`RINGGIT`, `MALAYSIA`, `:`]
      
-     , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`,  newline ]
+     , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`]
 
      , [`GRAND` , `TOTAL`]
 
@@ -495,24 +501,13 @@ i_line_rule_cut( line_desr_line2, [
 %=======================================================================
 i_line_rule_cut( line_credit_line, [
 %=======================================================================
-      
-        generic_item( [ line_descr, s1 , tab ] )
-    
-        , generic_item( [ line_amount_raw , s1 , newline ] )
 
-        , check( line_amount_raw = LineAmountRaw )
-
-        , trace( [ `Line Amount raw` , LineAmountRaw ] )
-
-        , check(strip_string2_from_string1( LineAmountRaw , `,` , LineAmountNew ))
-
-        , trace( [ `Comma stripped Amount` , LineAmountNew ] )
-
-	    , line_total_amount(LineAmountNew)
-
-        , trace( [ `Line Total Amount` , line_total_amount ] )
-
-] ).
+        generic_item( [ line_descr, s1 , tab ] )        
+        
+        , generic_item( [ line_total_amount, d, newline ] )] 
+        
+        
+).
 
 
 

@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_issariyawatana, `15/11/2016` ).
+i_version( ul_uapl_issariyawatana, `21/11/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -269,13 +269,9 @@ i_line_rule_cut( line_header_line, [
 
      or([ 
 
-    
+ 
 
-    [`(`, `Pallets`, `)`, tab, `(`, `Cartons`, `)`]
-
-    ,[`(`, `Pallets`, `)`, `(`, `Cartons`, `)`]
-
-        ,[`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
+        [`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
 
 
     ])

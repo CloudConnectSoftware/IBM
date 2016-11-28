@@ -334,6 +334,8 @@ i_line_rule_cut( line_header_line, [
 
         [`CS`, tab , `USD` , tab , `USD`]
 
+        ,[`PCS`, tab , `USD` , tab , `USD`]
+
         , [`SET`, tab , `USD` , tab , `USD`]
 
         , [`,`, `(`, `SAY`, `TOTAL`, `:`]

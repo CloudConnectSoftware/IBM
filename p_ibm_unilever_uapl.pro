@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `16:19 04 November 2016` ).
+i_version( p_ibm_unilever_uapl, `09:48 24 November 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,11 +92,11 @@ remaining_rejection_text( Text )
 		;
 
 		Sender_Name_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, invoice_number, Invoice_Number ),
 
@@ -105,11 +105,11 @@ remaining_rejection_text( Text )
 		;
 
 		Invoice_Number_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, invoice_date, Invoice_Date ),
 
@@ -118,11 +118,11 @@ remaining_rejection_text( Text )
 		;
 
 		Invoice_Date_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, total_invoice, Invoice_Amount ),
 
@@ -131,11 +131,11 @@ remaining_rejection_text( Text )
 		;
 
 		Invoice_Amount_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, currency, Currency ),
 
@@ -144,11 +144,11 @@ remaining_rejection_text( Text )
 		;
 
 		Currency_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		qq_op_param( unique_id, Scan_ID ),
 
@@ -157,11 +157,11 @@ remaining_rejection_text( Text )
 		;
 
 		Scan_ID_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don�t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
 
@@ -178,11 +178,11 @@ remaining_forward_text( Text )
 		;
 
 		Sender_Name_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, invoice_number, Invoice_Number ),
 
@@ -191,11 +191,11 @@ remaining_forward_text( Text )
 		;
 
 		Invoice_Number_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, invoice_date, Invoice_Date ),
 
@@ -204,11 +204,11 @@ remaining_forward_text( Text )
 		;
 
 		Invoice_Date_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, total_invoice, Invoice_Amount ),
 
@@ -217,11 +217,11 @@ remaining_forward_text( Text )
 		;
 
 		Invoice_Amount_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, currency, Currency ),
 
@@ -230,11 +230,11 @@ remaining_forward_text( Text )
 		;
 
 		Currency_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		qq_op_param( unique_id, Scan_ID ),
 
@@ -243,11 +243,11 @@ remaining_forward_text( Text )
 		;
 
 		Scan_ID_Text = ``
-		
+
 	),
-	
+
 	!,
-	
+
 	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don�t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
 
@@ -264,7 +264,7 @@ i_final_rule( [
 %=======================================================================
 
 	plant_code( `0000` )
-	
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -280,7 +280,7 @@ i_final_rule( [
 %=======================================================================
 
 	remove( exchange_rate ), exchange_rate( `0` )
-	
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -322,13 +322,13 @@ i_final_rule( [
 %=======================================================================
 
 	peek_fails( test( tax_invoice ) )
-	
+
 	, q(0,10,line)
-	
+
 	, generic_horizontal_details( [ [ gen_beof, `Tax`, `Invoice`, q10( `:` ), gen_eof ] ] )
-	
+
 	, set( tax_invoice )
-	
+
 	, trace( [ `Tax invoice detected` ] )
 
 ] ).
@@ -350,10 +350,10 @@ i_final_rule( [
 	, peek_fails( with( 1, line_quantity, _ ) )
 	, peek_fails( with( 1, line_descr, _ ) )
 	, peek_fails( with( 1, line_net_amount, _ ) )
-	
+
 	, line_quantity( `1` )
 	, line_descr( `Freight Charges` )
-	
+
 	, q10( [ with( invoice, total_net, Net )
 		, line_net_amount( Net )
 		, set( summary_net_used )
@@ -366,11 +366,11 @@ i_final_rule( [
 		, line_vat_amount( VAT )
 		, set( summary_vat_used )
 	] )
-	
+
 	, or( [ test( summary_gross_used ), test( summary_net_used ), test( summary_vat_used ) ] )
-	
+
 	, trace( [ `Summary line Created`, line_descr, line_net_amount, line_total_amount ] )
-	
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -390,7 +390,7 @@ i_analyse_customer_id___
 	qq_op_param( unique_id, Scan_ID ),
 
 	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_customer_id ),
-	
+
 	!
 .
 
@@ -421,9 +421,9 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( VAT, Sub_3, X ),
 		sys_calculate_str_subtract( Total, X, Net ),
 		assertz_derived_data( invoice, total_net, Net, i_analyse_total_net )
-		
+
 		;
-		
+
 		not( result( _, invoice, total_vat, _ ) ),
 		result( _, invoice, total_net, Net ),
 		(
@@ -436,9 +436,9 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( Net, Sub_3, X ),
 		sys_calculate_str_subtract( Total, X, VAT ),
 		assertz_derived_data( invoice, total_vat, VAT, i_analyse_total_vat )
-		
+
 		;
-		
+
 		not( result( _, invoice, total_invoice, _ ) ),
 		result( _, invoice, total_net, Net ),
 		result( _, invoice, total_vat, VAT ),
@@ -451,9 +451,9 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( Net, VAT, X ),
 		sys_calculate_str_add( X, Sub_3, Total ),
 		assertz_derived_data( invoice, total_invoice, Total, i_analyse_total_invoice )
-		
+
 	),
-	
+
 	!
 .
 
@@ -472,30 +472,30 @@ i_analyse_future_invoice_date___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	result( _, invoice, invoice_date, Invoice_Date ),
-	
+
 	(
 		i_date_format( Date_Format )
-		
+
 		;
-		
+
 		true
-		
+
 	),
 
 	date_string( Date_Invoice, Date_Format, Invoice_Date ),
 	sys_date_1900_days( Date_Invoice, Invoice_Date_Count ),
-	
+
 	date_get( today, Today ),
 	sys_date_1900_days( Today, Today_Count ),
-	
+
 	sys_calculate( Day_Diff, Today_Count - Invoice_Date_Count ),
-	
+
 	Day_Diff < 0,
 
 	sys_assertz( grammar_set( future_dated ) ),
 
 	trace( [ `Date is in the future` ] ),
-	
+
 	!
 .
 
@@ -508,19 +508,19 @@ i_analyse_future_invoice_date___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_fields_first:- i_analyse_vendor_id___.
+i_analyse_invoice_fields_first:- i_analyse_vendor_id___.
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 i_analyse_vendor_id___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	result( _, invoice, buyers_code_for_supplier, BCFS ),
-	
+
 	sys_retractall( result( _, invoice, buyers_code_for_supplier, _ ) ),
-	
+
 	string_pad_left( BCFS, 10, `0`, BCFS_Padded ),
-	
+
 	assertz_derived_data( invoice, buyers_code_for_supplier, BCFS_Padded, i_analyse_vendor_id ),
-	
+
 	!
 .
 
@@ -533,38 +533,38 @@ i_analyse_vendor_id___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_fields_first:- i_analyse_invoice_type___.
+i_analyse_invoice_fields_first:- i_analyse_invoice_type___.
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 i_analyse_invoice_type___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	sys_retractall( result( _, invoice, invoice_type, _ ) ),
-	
+
 	(
 		grammar_set( credit_note ),
-		
+
 		assertz_derived_data( invoice, invoice_type, `CN`, i_analyse_invoice_type )
-		
+
 		;
-		
+
 		not( result( _, invoice, order_number, _ ) ),
 
 		npnp_vendor,
 
 		assertz_derived_data( invoice, invoice_type, `INV`, i_analyse_invoice_type )
-		
+
 		;
-		
+
 		grammar_set( debit_note ),
-		
+
 		assertz_derived_data( invoice, invoice_type, `CO`, i_analyse_invoice_type )
-		
+
 		;
-		
+
 		assertz_derived_data( invoice, invoice_type, `INVPO`, i_analyse_invoice_type )
-		
+
 	),
-	
+
 	!
 .
 
@@ -577,19 +577,19 @@ i_analyse_invoice_type___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_fields_first:- i_analyse_company_code___.
+i_analyse_invoice_fields_first:- i_analyse_company_code___.
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 i_analyse_company_code___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	not( result( _, invoice, buyer_registration_number, _ ) ),
-	
+
 	(
 		result( _, invoice, order_number, Order_Number ),
 
 		q_gratabase_lookup( `ibm_po_list`,
-			[ Order_Number, _, _, _ ],
-			[ Order_Number, Company_Code, _, _ ],
+			[ Order_Number, _, _, _, _ ],
+			[ Order_Number, Company_Code, _, _, _ ],
 			Available
 		),
 
@@ -600,22 +600,22 @@ i_analyse_company_code___
 
 			;
 
-			true
+			trace( [ `Header Order Number Found` ] )
 
 		)
-		
+
 		;
-		
+
 		sys_retractall( result( _, invoice, order_number, _ ) ),
-		
+
 		trace( [ `order_number missing/invalid - value removed` ] ),
-		
+
 		Company_Code = `3009`
-		
+
 	),
-	
+
 	assertz_derived_data( invoice, buyer_registration_number, Company_Code, i_analyse_company_code ),
-	
+
 	!
 .
 
@@ -628,33 +628,33 @@ i_analyse_company_code___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_fields_first:- i_analyse_currency_code___.
+i_analyse_invoice_fields_first:- i_analyse_currency_code___.
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 i_analyse_currency_code___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	(
 		result( _, invoice, currency, Currency )
-		
+
 		->	sys_retractall( result( _, invoice, currency, _ ) ),
-		
+
 		string_to_upper( Currency, Currency_U ),
-		
+
 		(
 			iso_currency_code( Currency_U ),
-			
+
 			assertz_derived_data( invoice, currency, Currency_U, i_analyse_currency )
-			
+
 			;
-			
+
 			trace( [ `currency invalid - value removed` ] )
-			
+
 		)
-		
+
 		;
-		
+
 		assertz_derived_data( invoice, currency, `USD`, i_analyse_currency )
-		
+
 	),
 
 	!
@@ -676,17 +676,17 @@ i_analyse_line_vat_code___( LID )
 :-
 	(
 		result( _, LID, line_vat_code, _ ),
-		
+
 		sys_retractall( result( _, LID, line_vat_code, _ ) )
-		
+
 		;
-		
+
 		true
-		
+
 	),
-	
+
 	assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code ),
-	
+
 	!
 .
 
@@ -705,10 +705,10 @@ i_analyse_line_buyers_order_number___( LID )
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	result( _, LID, line_buyers_order_number, LBON ),
-	
+
 	q_gratabase_lookup( `ibm_po_list`,
-		[ LBON, _, _, _ ],
-		[ LBON, _, _, _ ],
+		[ LBON, _, _, _, _ ],
+		[ LBON, _, _, _, _ ],
 		Available
 	),
 
@@ -719,23 +719,23 @@ i_analyse_line_buyers_order_number___( LID )
 
 		;
 
-		true
+		trace( [ `Line Order Number Found` ] )
 
 	)
-	
+
 	;
-	
+
 	sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
-	
+
 	(
 		result( _, invoice, order_number, PO ),
-	
+
 		assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
-		
+
 		;
-		
+
 		trace( [ `line_buyers_order_number missing/invalid - value removed` ] )
-		
+
 	)
 .
 
@@ -767,7 +767,7 @@ i_analyse_duplicate_invoice
 
 	(
 		result( _, invoice, buyer_registration_number, Company_Code ),
-		
+
 		result( _, invoice, buyers_code_for_supplier, BCFS ),
 
 		result( _, invoice, invoice_number, Invoice_Number ),
@@ -826,7 +826,7 @@ i_analyse_duplicate_invoice
 		trace( [ `analyse for duplicate fields ignored because of lack of fields: ` ] ),
 
 		( result( _, invoice, buyer_registration_number, _ ) ; trace( [ `missing buyer_registration_number` ] ) ),
-		
+
 		( result( _, invoice, buyers_code_for_supplier, _ ) ; trace( [ `missing buyers_code_for_supplier` ] ) ),
 
 		( result( _, invoice, invoice_number, _ ) ; trace( [ `missing invoice_number` ] ) ),
@@ -953,6 +953,27 @@ add_to_basic_invoice_table( Company_Code, BCFS, Invoice_Number, Invoice_Date, FI
 		trace( [ `failed to clone ibm_unilever_uapl_invoice_table` ] )
 
 	)
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% USER CHECKS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------------------------------
+i_user_check( check_po_currency, Order_Number, Currency )
+%-----------------------------------------------------------------------
+:-
+	q_gratabase_lookup( `ibm_po_list`,
+		[ Order_Number, _, _, _, _ ],
+		[ Order_Number, _, _, _, Currency ],
+		Available
+	),
+	
+	!
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_artberry_company, `27/10/2016` `3:15:05` ).
+i_version( ul_uapl_artberry_company, `28/11/2016` `13:20:00` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,7 +57,7 @@ i_rule( get_supplier_details, [
 
    , set(freight_vendor)
 
-   ,currency( `USD` )
+   
 
   
 ] ).
@@ -120,7 +120,7 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,4,up), (start,30,30), order_number, s1, tab ] )
+    , generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,4,up), (start,30,30), order_number, w, q10(tab) ] )
 
     , check(order_number = OrdNo)
 
@@ -142,10 +142,24 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
-    , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,200), total_net, d, tab ] )
 
+     , with( invoice, order_number, Order_Number )
+
+, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+, or( [
+
+[ check( Currency = `USD` ) , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,200), total_net, d, tab ] ) ]
+
+
+, [ check( Currency = `THB` ), generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, newline ] ) ] 
+                
+] )
+
+,currency( Currency )
+ 
 
 ] ).    
 
@@ -161,7 +175,20 @@ i_rule( get_total_vat, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] )
+         
+     , with( invoice, order_number, Order_Number )
+
+, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+, or( [
+
+
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,0,95), total_vat, d, newline ] ) ]
+
+
+, [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] ) ] 
+                
+] )
 
 
 ] ).
@@ -179,9 +206,23 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), total_invoice, d, tab ] )
+         
+     , with( invoice, order_number, Order_Number )
+
+, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+, or( [
+
+
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, tab ] ) ]
+
+
+, [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, newline ] ) ] 
+                
+] )
 
 ] ).
+
 
 
 
@@ -197,7 +238,24 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-    , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), line_total_amount, d, tab ] )
+        
+     , with( invoice, order_number, Order_Number )
+
+, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+, or( [
+
+
+
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), line_total_amount, d, tab ] )  ]
+
+
+
+
+, [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), line_total_amount, d, newline ] )  ] 
+                
+] )
+
 
 ] ).
 
@@ -210,9 +268,7 @@ i_rule( get_line_total_amount, [
 %=======================================================================
 i_rule( get_invoice_lines, [
 %=======================================================================
-   
-   q0n(line)
-    
-    , line_descr( `Line Charges` )
+       
+    line_descr( `Line Charges` )
 
 ]).

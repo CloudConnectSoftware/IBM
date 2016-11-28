@@ -32,8 +32,6 @@ i_rule_list( [
 
     , get_currency
 
-    , get_line_total_amount
-
     , get_invoice_lines
     
    
@@ -102,7 +100,11 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `PO`, `NO`, `:` ], 100, order_number, s1, newline ] )
+    , or([generic_horizontal_details( [ [ `PO`, `NO`, `:` ], 100, order_number, s1, newline ] )
+
+    ,generic_horizontal_details( [ [ `P`, `.`, `O` , `:` ], order_number, s1, newline ] ) ])
+
+
 
     , check(order_number = OrdNo)
 
@@ -124,9 +126,9 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
-    , generic_horizontal_details( [ [ `Gross` ], 700, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Gross` ], 350, total_net, d, newline ] )
 
 
 ] ).    
@@ -141,9 +143,11 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
-    , generic_horizontal_details( [ [ `GST`, tab, `7`,`.`, `00`, `%` ], 350, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `GST`, tab, `7`,`.`, `00`, `%` ], 350, total_vat, d, newline ] )
+
+    , generic_item( [ default_vat_rate, 7 ] )
 
 
 ] ).
@@ -159,7 +163,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
     , generic_horizontal_details( [ [ `Total`, tab, `SGD` ], 400, total_invoice, d, newline ] )
 
@@ -200,10 +204,14 @@ i_section( get_invoice_lines, [
 
 		, or( [
 
-			[ line_descr_line,line_invoice_lines ]
+			
+            line_invoice_lines_new
 
-			
-			
+            ,[ line_descr_line,line_invoice_lines ]
+
+            
+
+					
 			, line
 
 		] )
@@ -217,10 +225,9 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 or([
+	[`Job`, `No`, `.`, tab ]
 
-	[`SUPPLIER`, `NO`, `.`, `750111`,  newline]
-
-	])
+])
 
 	, trace( [`Found header line` ] )
 
@@ -232,13 +239,11 @@ or([
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-	or([
+
 
 		
-		[`The`, `amounts`, `in`, `this`, `invoice`, `is`, `net`, `of`, `any`, `bank`, `charges`, `and`, `withholding`, `tax`, `or`, `any`, `similar`, `taxes`, `which`,  newline]
-		
-			])
-
+		[`The`, `amounts`, `in`, `this`, `invoice`, `is`, `net`, `of`, `any`]
+        
 	, trace( [ `FOUND END LINE`])
 
 ] ).
@@ -251,10 +256,10 @@ i_line_rule_cut( line_invoice_lines, [
 
 		 generic_append([ line_descr , s1 , tab , `_` , ` `  ])
 	
-		, generic_item( [ line_net_amount, d, newline] )
+		, generic_item( [ line_net_amount, d, newline ] )
 
 	,trace( [ `Complete line`] )
-
+    
 
 ] ).
 
@@ -266,4 +271,19 @@ i_line_rule( line_descr_line, [
      generic_item( [ line_descr, s1, newline ] )
      
 ]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_lines_new , [
+%=======================================================================
+
+    
+
+		generic_item( [ line_descr, s1, tab ] )
+	
+		, generic_item( [ line_net_amount, d, newline ] )
+
+	,trace( [ `Complete line`] )
+
+
+] ).
 

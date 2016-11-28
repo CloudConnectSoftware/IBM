@@ -300,6 +300,8 @@ i_line_rule_cut( line_end_line, [
     or([ 
 
         [`GST`, `6`, `%`, tab ]
+
+        , [`TOTal`]
         ,[`Sub` , `Total`]
 
         ,[`Place`, `Of`, `Delivery`]
@@ -395,7 +397,7 @@ i_line_rule_cut( line_invoice_line2, [
 i_line_rule_cut( line_debit_line, [
 %=======================================================================
 
-    generic_item( [ line_invoice_line_dummy , d , [or([`.` , `)`]), q10(tab) ] ] )
+    q10(generic_item( [ line_invoice_line_dummy , d , [or([`.` , `)`]), q10(tab) ] ] ))
     
 
     , generic_item( [ line_descr , s1, tab ] )
