@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - HINDUSTAN UNILEVER LIMITED
+% GRAMATICA - LA CESENATE CONVERVE ALIMENTRI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_hindustan_unilever_ltd , `25/11/2016`).
+i_version( ul_uapl_la_cesenate_converve, `25/11/2016`).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,10 +23,6 @@ i_rule_list( [
    	, get_invoice_number
 
     , get_invoice_date
-
-    , get_order_number
-
-	, get_currency
 
     , get_total_invoice
 
@@ -47,11 +43,13 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `UNILEVER INDUSTRIES PRIVATE LIMITED` )
+    sender_name( `LA CESENATE CONVERVE ALIMENTRI` )
 
-    , supplier_vat_number(`29300104607`)
+    , supplier_vat_number(`00139620405`)
 
-    , set(freight_vendor)
+    , currency( `EUR` )
+
+     , set(freight_vendor)
 
     ] ).
 
@@ -67,7 +65,8 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:` ], 10, invoice_number, d, newline ] )
+   	, generic_vertical_details( [ [ `INVOICE` , `NUMBER` ], `NUMBER`, q(0,1), (start,20,20), invoice_number, d, tab ] )
+
   
 
 ] ).
@@ -84,42 +83,10 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ], 10, invoice_date, date, newline ] )
+	, generic_vertical_details( [ [ `INVOICE` , `DATE` ], `INVOICE`, q(0,1), (start,10,10), invoice_date, date, tab ] )
+
 
 ] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET ORDER NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_order_number, [
-%=======================================================================
-
-q0n(line)
-	
-    , generic_horizontal_details( [ [ `DO`, `No`, `.`, `:` ], 10, order_number, d , newline ] )
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET CURRENCY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_currency, [
-%=======================================================================
-
-   q0n(line)
-	
-    , generic_horizontal_details( [ [ `Currency`, `:`], 10, currency, w , newline ] )
-
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,7 +100,26 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `Total`, `-`, `USD`], 800, total_invoice, d , newline ] )
+     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), total_invoice_raw, s1, tab ] )
+
+     , check( total_invoice_raw = InvoiceRaw )
+
+    , trace( [ `Total Invoice raw1` , InvoiceRaw ] )
+
+    , check(string_string_replace( InvoiceRaw, `.`, `,`, InvoiceStrip ))
+
+    , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
+    
+    , trace( [ `Total Invoice raw2` , InvoiceStrip] )
+
+    , check(string_string_replace( InvoiceStrip, `,`, `.`, InvoiceStrip1 ))
+
+    , trace( [ `Total Invoice Stripped Dot` , InvoiceStrip1 ] )
+
+    , total_invoice(InvoiceStrip1)
+
+    , trace( [ `Total Invoice` , total_invoice ] )
+
 
         , check( total_invoice = TotInv )
 
@@ -158,7 +144,25 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `-`, `USD`], 800, line_total_amount, d , newline ] )
+    ,  generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), line_total_amount_raw, s1, tab ] )
+
+    , check( line_total_amount_raw = TotalRaw )
+
+    , trace( [ `Line Total Amount raw1` , TotalRaw ] )
+
+    , check(string_string_replace( TotalRaw, `.`, `,`, TotalStrip ))
+
+    , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
+    
+    , trace( [ `Line Total Amount raw2` , TotalStrip] )
+
+    , check(string_string_replace( TotalStrip, ``, `.`, TotalStrip1 ))
+
+    , trace( [ `Line Total Amount Stripped Dot` , TotalStrip1 ] )
+
+    , line_total_amount(TotalStrip1)
+
+    , trace( [ `Line Total Amount` , line_total_amount ] )
 
 ] ).
 
@@ -175,6 +179,6 @@ i_rule( get_invoice_lines, [
    
    q0n(line)
     
-    , line_descr( `Line Charges` )
+    , line_descr( `Monthly Charges` )
 
 ]).
