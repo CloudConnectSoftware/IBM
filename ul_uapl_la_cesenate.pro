@@ -106,19 +106,19 @@ i_rule( get_total_invoice, [
 
     , trace( [ `Total Invoice raw1` , InvoiceRaw ] )
 
-    , check(string_string_replace( InvoiceRaw, `,`, `.`, InvoiceStrip ))
+    , check(string_string_replace( InvoiceRaw, `.`, `,`, InvoiceStrip ))
 
     , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
     
     , trace( [ `Total Invoice raw2` , InvoiceStrip] )
 
-    , check(string_string_replace( InvoiceStrip, `.`, `.`, InvoiceStrip1 ))
+    , check(string_string_replace( InvoiceStrip, `,`, `.`, InvoiceStrip1 ))
 
-    , trace( [ `Total Invoice Stripped Space` , InvoiceStrip1 ] )
+    , trace( [ `Total Invoice Stripped Dot` , InvoiceStrip1 ] )
 
     , total_invoice(InvoiceStrip1)
 
-    , trace( [ `Total Invoice` , total_invoice ] ) 
+    , trace( [ `Total Invoice` , total_invoice ] )
 
 
         , check( total_invoice = TotInv )
@@ -150,15 +150,15 @@ i_rule( get_line_total_amount, [
 
     , trace( [ `Line Total Amount raw1` , TotalRaw ] )
 
-    , check(string_string_replace( TotalRaw, `,`, `.`, TotalStrip ))
+    , check(string_string_replace( TotalRaw, `.`, `,`, TotalStrip ))
 
     , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
     
     , trace( [ `Line Total Amount raw2` , TotalStrip] )
 
-    , check(string_string_replace( TotalStrip, `.`, ``, TotalStrip1 ))
+    , check(string_string_replace( TotalStrip, ``, `.`, TotalStrip1 ))
 
-    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
+    , trace( [ `Line Total Amount Stripped Dot` , TotalStrip1 ] )
 
     , line_total_amount(TotalStrip1)
 
