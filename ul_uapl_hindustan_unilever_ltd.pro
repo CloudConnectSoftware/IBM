@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_unilever_industries_ltd , `25/11/2016`).
+i_version( ul_uapl_hindustan_unilever_ltd , `25/11/2016`).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `UNILEVER INDUSTRIES PRIVATE LIMITED` )
 
-    , supplier_vat_number(`SEPC/03/07/1988/2013-14`)
+    , supplier_vat_number(`29300104607`)
 
     , set(freight_vendor)
 
