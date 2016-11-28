@@ -183,7 +183,7 @@ i_rule( get_total_vat, [
 , or( [
 
 
-[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, tab ] ) ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,0,95), total_vat, d, newline ] ) ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] ) ] 
