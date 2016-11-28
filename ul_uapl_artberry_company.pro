@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_artberry_company, `25/11/2016` `13:20:00` ).
+i_version( ul_uapl_artberry_company, `28/11/2016` `13:20:00` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -142,7 +142,7 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
 
      , with( invoice, order_number, Order_Number )
@@ -157,6 +157,8 @@ i_rule( get_total_net, [
 , [ check( Currency = `THB` ), generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, newline ] ) ] 
                 
 ] )
+
+,currency( Currency )
  
 
 ] ).    
@@ -181,7 +183,7 @@ i_rule( get_total_vat, [
 , or( [
 
 
-[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] ) ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, tab ] ) ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] ) ] 
@@ -212,10 +214,10 @@ i_rule( get_total_invoice, [
 , or( [
 
 
-[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, tab] ) ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, tab ] ) ]
 
 
-, [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, newline] ) ] 
+, [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, newline ] ) ] 
                 
 ] )
 
