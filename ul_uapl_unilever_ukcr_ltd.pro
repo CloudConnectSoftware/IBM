@@ -117,7 +117,7 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Net`, tab ,`GBP`, tab ], total_net, d, nelwine ] )
+    , generic_horizontal_details( [ [ `Total`, `Net`, tab, `GBP`, tab ], total_net, d, newline ] )
 
 
 ] ).
@@ -134,7 +134,7 @@ i_rule( get_total_vat, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Vat`, tab ,`GBP`, tab ], total_vat, d, nelwine ] )
+    , generic_horizontal_details( [ [ `Total`, `VAT`, tab, `GBP`, tab ], total_vat, d, newline ] )
 
 
 ] ).
@@ -151,7 +151,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, `GBP`, tab ], total_invoice, d, nelwine ] )
+    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, `GBP`, tab ], total_invoice, d, newline ] )
 
 
 ] ).
