@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - UNILEVER THAI HOLDINGS LIMITED
+% GRAMATICA - UNILEVER DE ARGENTINA S A
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_unilever_thai, `25/11/2016`).
+i_version( ul_uapl_unilever_argentina, `29/11/2016` `6:00:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,6 +23,10 @@ i_rule_list( [
    	, get_invoice_number
 
     , get_invoice_date
+
+    , get_due_date
+
+    , get_order_number
 
     , get_total_invoice
 
@@ -43,11 +47,11 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `UNILEVER THAI HOLDINGS LIMITED` )
+    sender_name( `UNILEVER DE ARGENTINA S A` )
 
-    , supplier_vat_number(`0105475000033`)
+    , supplier_vat_number(`199002280G`)
 
-    , currency( `THB` )
+    , currency( `USD` )
 
      , set(freight_vendor)
 
@@ -65,7 +69,7 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `NO`, `.` ], 5, invoice_number, d, newline ] )
+   	, generic_horizontal_details( [ [ `Numb`, `:` ], 5, invoice_number, s1, newline ] )
   
 
 ] ).
@@ -82,7 +86,40 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `PRIVATE`, `LIMITED`, tab ] , invoice_date, date, newline ] )
+	, generic_horizontal_details( [ [ `Tortuguitas`, `,` ] , 5, invoice_date, date, newline ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET DUE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_due_date, [
+%=======================================================================
+
+   q0n(line)
+	
+	, generic_horizontal_details( [ [ `Due`, `Date`, `C`, `.`, `A`, `.`, `E`, `.`, `:` ] , 5, due_date, date, tab ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+   q0n(line)
+	
+   	, generic_horizontal_details( [ [ `PO` ], 5, order_number, d, newline ] )
+  
 
 ] ).
 
@@ -98,7 +135,7 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `Total`, `Amount`, tab ], total_invoice, d , newline ] )
+     , generic_horizontal_details( [ [ `U`, `$`, `S`, tab ], total_invoice, d , newline ] )
 
         , check( total_invoice = TotInv )
 
@@ -123,7 +160,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, tab ],  line_total_amount, d , newline ] )
+    , generic_horizontal_details( [ [  `U`, `$`, `S`, tab ],  line_total_amount, d , newline ] )
 
 ] ).
 
@@ -140,6 +177,6 @@ i_rule( get_invoice_lines, [
    
    q0n(line)
     
-    , line_descr( `Monthly Charges` )
+    , line_descr( `Line Charges` )
 
 ]).
