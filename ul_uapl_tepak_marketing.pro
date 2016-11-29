@@ -349,6 +349,7 @@ i_line_rule_cut( line_header_line, [
     or( [ 
     
        [ test(credit_note), `DESCRIPTION` , tab , `Amount` , `(` ] 
+      
         
        , [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, tab ]
 
@@ -502,7 +503,9 @@ i_line_rule_cut( line_desr_line2, [
 i_line_rule_cut( line_credit_line, [
 %=======================================================================
 
-        generic_item( [ line_descr, s1 , tab ] )        
+        test(credit_note)
+
+        ,generic_item( [ line_descr, s1 , tab ] )        
         
         , generic_item( [ line_total_amount, d, newline ] )] 
         
