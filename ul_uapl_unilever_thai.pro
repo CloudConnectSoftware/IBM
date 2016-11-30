@@ -98,7 +98,7 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `Total`, `Amount`, tab ], total_invoice, s1 , newline ] )
+     , generic_horizontal_details( [ [ `Total`, `Amount`, tab ], total_invoice, d , newline ] )
 
         , check( total_invoice = TotInv )
 
@@ -123,7 +123,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, tab ],  line_total_amount, s1 , newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Amount`, tab ],  line_total_amount, d , newline ] )
 
 ] ).
 

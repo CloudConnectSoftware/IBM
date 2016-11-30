@@ -152,29 +152,29 @@ i_rule( get_line_total_amount, [
 
     ,  generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), line_total_amount_raw, s1, tab ] )
 
-    , check( line_total_amount_raw = TotalRaw )
+     , check( line_total_amount_raw = TotalRaw )
 
-    , trace( [ `Line Total Amount raw1` , TotalRaw ] )
+     , trace( [ `Line Total Amount raw1` , InvoiceRaw ] )
 
-    , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
+     , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
 
-    , trace( [ `Line Total Amount Stripped Dot`, TotalStrip ] )
+     , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
     
-    , trace( [ `Line Total Amount raw2` , TotalStrip] )
+     , trace( [ `Line Total Amount raw2` , TotalStrip] )
 
-    , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
+     , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
 
-    , trace( [ `Line Total Amount Stripped Dot` , TotalStrip1 ] )
+     , trace( [ ` Line Total Amount Stripped Dot` , TotalStrip1 ] )
 
-    , trace( [ `Line Total Amount raw3` , TotalStrip1] )
+     , trace( [ `Line Total Amount raw3` , TotalStrip1] )
 
-    , check(string_string_replace( TotalStrip1, `.`, `.`, TotalStrip2 ))
+     , check(string_string_replace( TotalStrip1, `.`, `.`, TotalStrip2 ))
 
-    , trace( [ `Line Total Amount Stripped Dot` , TotalStrip2 ] )
+     , trace( [ `Line Total Amount Stripped Dot` , TotalStrip2 ] )
 
-    , line_total_invoice(TotalStrip2)
+     , line_total_amount(TotalStrip2)
 
-    , trace( [ `Line Total Amount` , line_total_amount ] )
+     , trace( [ `Line Total Amount` , line_total_amount ] )
 
 ] ).
 
