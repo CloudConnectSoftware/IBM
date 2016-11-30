@@ -143,21 +143,11 @@ q0n(line)
 i_rule( get_total_net, [
 %=======================================================================
 
-	qn0(line)
+	q0n(line)
+      
+,  generic_vertical_details( [ [ `Excl`], `Excl`, q(0,12), (start,10,10), total_net, d, tab ] ) 
 
       
-, with( invoice, order_number, Order_Number )
-
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
-
-, or( [
-
-  [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`, tab ], total_net, d, newline ] ) ]
-
-, [ check( Currency = `USD` )  , generic_vertical_details( [ [ `Excl`], `Excl`, q(0,10), (start,10,10), total_net, d, tab ] ) ]
-
-] )
-        
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,7 +160,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	qn0(line)
+	q0n(line)
 
     , with( invoice, order_number, Order_Number )
 
@@ -196,7 +186,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	qn0(line)
+	q0n(line)
 
     , with( invoice, order_number, Order_Number )
 
