@@ -148,13 +148,15 @@ i_rule( get_invoice_totals, [
 
    
 
-       ,generic_horizontal_details( [ [ `Total`, `Excluding`, `tax`, tab ], total_net, d, newline ] )
+       , generic_horizontal_details( [ [ `Total`, `Excluding`, `tax`, tab ], total_net, d, newline ] )
+
+       
 
         , q(0,1,line)
 
          ,generic_horizontal_details( [ [ `GST`, tab, generic_item( [ default_vat_rate, d ] ), `%`, tab ], total_vat, d, newline ] )
 
-         , q(0,1,line)
+         , q(0,15,line)
 
         , generic_horizontal_details( [ [ `Invoice`, `Total`, generic_item( [ currency, w ] ), tab ], total_invoice, d, newline ] )
   
@@ -196,7 +198,7 @@ i_rule( get_line_total_amount, [
 
          ,generic_horizontal_details( [ [ `GST`, tab, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab ], line_vat_amount, d, newline ] )
 
-         , q(0,1,line)
+         , q(0,15,line)
 
         , generic_horizontal_details( [ [ `Invoice`, `Total`, generic_item( [ currency_dummy, w ] ), tab ], line_total_amount, d, newline ] )
 
