@@ -54,6 +54,8 @@ i_rule( get_supplier_details, [
 
     , sender_name(`PACKAGING CENTRE SERVICES SDN BHD`)
 
+    , buyer_registration_number(`MY00`)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
