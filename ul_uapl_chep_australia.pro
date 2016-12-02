@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - Chep Australia
+% GRAMATICA - CHEP AUSTRALIA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -50,7 +50,7 @@ i_rule( get_supplier_details, [
 
    , buyer_registration_number(`AU00`)
 
-   ,currency(`AUD`)
+   , currency(`AUD`)
 
    , set(freight_vendor)
 
@@ -69,12 +69,9 @@ i_rule_cut( get_invoice_number, [
     
     q(0,50,line)
 
-  
        
         ,  generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, tab ], invoice_number, s1, newline ] )
 
- 
-	
 	
 ] ).
 
@@ -90,7 +87,7 @@ i_rule_cut( get_invoice_date, [
 
     q(0,50,line)
 
-         ,generic_horizontal_details( [ [ `INVOICE`, `DATE`, tab ], invoice_date, date, newline ] )
+         , generic_horizontal_details( [ [ `INVOICE`, `DATE`, tab ], invoice_date, date, newline ] )
 
    
 ] ).
@@ -113,7 +110,7 @@ i_rule_cut( get_due_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -123,11 +120,10 @@ i_rule( get_total_invoice, [
 
       q(0,50, line )
 
-   ,    generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], total_invoice, d, newline ] ) 
+   ,  generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], total_invoice, d, newline ] ) 
 
-      
     
-    , check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -142,7 +138,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
