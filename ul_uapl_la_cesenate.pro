@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_la_cesenate, `25/11/2016`).
+i_version( ul_uapl_la_cesenate, `2/12/2016`).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,6 +23,8 @@ i_rule_list( [
    	, get_invoice_number
 
     , get_invoice_date
+    
+    ,get_order_number
 
     , get_total_invoice
 
@@ -86,6 +88,38 @@ i_rule( get_invoice_date, [
 	, generic_vertical_details( [ [ `INVOICE` , `DATE` ], `INVOICE`, q(0,1), (start,10,10), invoice_date, date, tab ] )
 
 
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Order Number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+q0n(line)
+
+ ,  or([
+     
+     generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`, `:`], order_number, w, newline ] )
+
+     ,generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`], order_number, w, newline ] )
+
+ ])
+
+
+ 
+     , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( packaging_centre, `09:46 11 October 2016` ).
+i_version( packaging_centre, `02 December 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -53,6 +53,8 @@ i_rule( get_supplier_details, [
     supplier_vat_number(`000331620352`)
 
     , sender_name(`PACKAGING CENTRE SERVICES SDN BHD`)
+
+    , buyer_registration_number(`MY00`)
 
 ] ).
 
