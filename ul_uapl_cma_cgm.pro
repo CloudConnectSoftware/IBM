@@ -20,7 +20,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,set_credit_note
+    , set_credit_note
 	
 	, get_invoice_number
 
@@ -67,8 +67,10 @@ i_rule_cut( get_invoice_number, [
     q0n(line)
 
    , or([
+
        generic_vertical_details( [ [ `CREDIT`, `NOTE` ], `CREDIT`, q(0,1), (start,10, 10), invoice_number, s1, tab ] )
-       ,generic_vertical_details( [ [ `INVOICE` ], `INVOICE`, q(0,3), (start,10, 10), invoice_number, s1, newline ] )
+
+       , generic_vertical_details( [ [ `INVOICE` ], `INVOICE`, q(0,3), (start,10, 10), invoice_number, s1, newline ] )
 
        
 
@@ -88,7 +90,7 @@ i_rule( set_credit_note, [
 
     q(0,20,line)
 
-    ,credit_note_line
+    , credit_note_line
 
     
 ] ).
@@ -99,11 +101,11 @@ i_line_rule( credit_note_line, [
 q0n(anything)
 
 
-    ,`CREDIT`, `NOTE`
+    , `CREDIT`, `NOTE`
 
-    ,set(credit_note)
+    , set(credit_note)
 
-    ,trace( [ `Credit Note Found` ] )
+    , trace( [ `Credit Note Found` ] )
 
 ] ).
  
@@ -126,7 +128,7 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -138,7 +140,7 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `TOTAL`,  tab ], total_invoice, d, newline ] ) 
 
-    , check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -151,7 +153,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
+% GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
