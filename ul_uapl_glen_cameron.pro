@@ -175,7 +175,7 @@ i_rule( get_invoice_lines, [
    
    q0n(line)
     
-    , line_descr( `Goods & Services` )
+    , line_descr( `Service Charges` )
 
 ]).
 
