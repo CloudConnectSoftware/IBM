@@ -74,7 +74,8 @@ i_rule_cut( get_invoice_number, [
    , or([ 
        
        
-   generic_horizontal_details( [ [`1`, `HORMEL`, `PL`, `,`, `AUSTIN`, `,`, `MN`, `55912`, `-`, `3673`, tab ], invoice_number_raw, s1, newline ] )
+     generic_horizontal_details( [ [`1`, `HORMEL`, `PL`, `,`, `AUSTIN`, `,`, `MN`, `55912`, `-`, `3673`, tab ], invoice_number_raw, s1, newline ] )
+
    , generic_horizontal_details( [ [ `Invoice`, `Reprinted`, `On`, tab ], invoice_number_raw, s1, newline ] )
 
 
@@ -172,9 +173,8 @@ i_rule( get_total_invoice, [
 
           ])
           
-               
 
-           , check( total_invoice_raw = InvoiceRaw )
+    , check( total_invoice_raw = InvoiceRaw )
 
     , trace( [ `Total Invoice raw` , InvoiceRaw ] )
 
@@ -193,7 +193,7 @@ i_rule( get_total_invoice, [
     , trace( [ `Total Invoice` , total_invoice] ) 
 
 
-    , check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -218,13 +218,14 @@ i_rule( get_line_total_amount, [
      q0n(line)
 
     , or([
+
         generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WEIGHT`, dummy_num4(d) , tab, dummy_num5(s1), tab, dummy_num6(s1) , tab ], line_total_amount_raw  , s1 , newline ] )
 
-    ,generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WGT`, tab , dummy_num4(d) , tab, dummy_num5(s1), tab, dummy_num6(s1) , tab ], line_total_amount_raw  , s1 , newline ] )
+       , generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WGT`, tab , dummy_num4(d) , tab, dummy_num5(s1), tab, dummy_num6(s1) , tab ], line_total_amount_raw  , s1 , newline ] )
 
     ])
 
-      , check( line_total_amount_raw = TotalRaw )
+    , check( line_total_amount_raw = TotalRaw )
 
     , trace( [ `Line Total Amount raw` , TotalRaw ] )
 
@@ -236,11 +237,11 @@ i_rule( get_line_total_amount, [
 
     , check(string_string_replace( TotalStrip, ` `, ``, TotalStrip1 ))
      
-     , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
+    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
 
-      , line_total_amount(TotalStrip1)
+    , line_total_amount(TotalStrip1)
 
-       , trace( [ `Line Total Amount` , line_total_amount ] ) 
+    , trace( [ `Line Total Amount` , line_total_amount ] ) 
 
         
 ] ).
