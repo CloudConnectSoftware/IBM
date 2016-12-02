@@ -103,7 +103,13 @@ i_rule( get_order_number, [
 
 q0n(line)
 
- ,  generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`, `:`], order_number, w, newline ] )
+ ,  or([
+     
+     generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`, `:`], order_number, w, newline ] )
+
+     ,generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`], order_number, w, newline ] )
+
+ ])
 
 
  
