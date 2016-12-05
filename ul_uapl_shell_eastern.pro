@@ -32,13 +32,13 @@ i_rule_list( [
 
     , get_total_net
 
-    ,get_total_invoice
+    , get_total_invoice
 
 	, get_total_vat
 
-     , get_currency
+    , get_currency
 
-     , get_line_total_amount
+    , get_line_total_amount
 
     , get_invoice_lines
 
@@ -85,7 +85,7 @@ i_rule_cut( get_invoice_number, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_order_number
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -160,10 +160,11 @@ i_rule( get_total_net, [
 
 	qn0(line) 
 
-	,or([
+	, or([
+
          generic_horizontal_details( [ [`Nett`, `Total`, tab, `USD`, tab ],  total_net, d, newline ] )
 
-    , generic_horizontal_details( [ [`Price`, tab, `Price`, tab, dummy_num1(d), tab, `USD`, tab, dummy_num2(d), tab, `TO`, tab ],  total_net, d, newline ] )
+        , generic_horizontal_details( [ [`Price`, tab, `Price`, tab, dummy_num1(d), tab, `USD`, tab, dummy_num2(d), tab, `TO`, tab ],  total_net, d, newline ] )
 
     ])
 	
@@ -172,7 +173,7 @@ i_rule( get_total_net, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_vat
+% GET TOTAL VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -182,10 +183,11 @@ i_rule( get_total_vat, [
 
      qn0(line) 
 
-	,or([
+	, or([
+
          generic_horizontal_details( [ [`Tax`, `Total`, tab, `USD`, tab ],  total_vat, d, newline ] )
 
-         ,generic_horizontal_details( [ [`GST`, `(`, `SG`, `)`, tab, dummy_num3(d), tab, `%`, tab, `of`, tab, dummy_num4(d), tab, `USD`, tab ],  total_vat, d, newline ] )
+        , generic_horizontal_details( [ [`GST`, `(`, `SG`, `)`, tab, dummy_num3(d), tab, `%`, tab, `of`, tab, dummy_num4(d), tab, `USD`, tab ],  total_vat, d, newline ] )
 
     ])
 
@@ -197,7 +199,7 @@ i_rule( get_total_vat, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -214,7 +216,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
+% GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -231,7 +233,7 @@ i_rule( get_currency, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_line_amount
+% GET TOTAL LINE AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -54,9 +54,9 @@ i_rule( get_supplier_details, [
   
    sender_name(`TAG EUROPE LIMITED`)
 
-  , supplier_vat_number(`662 7747 03`)
+    , supplier_vat_number(`662 7747 03`)
 
-   , set(freight_vendor)
+    , set(freight_vendor)
 
 ] ).
 
@@ -75,7 +75,7 @@ i_rule_cut( get_invoice_number, [
 
    , generic_horizontal_details( [ [ `Invoice`, tab, `:` ], 100, invoice_number_raw, s1, newline ] )
 
-   , check( invoice_number_raw = InvoiceRaw )
+    , check( invoice_number_raw = InvoiceRaw )
 
     , trace( [ `Invoice number raw` , InvoiceRaw ] )
 
@@ -102,13 +102,11 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    ,or([
+    , or([
 
         generic_horizontal_details( [ [`Tax`, `Point`, `/`, `Date`, tab, `:`], invoice_date_raw, s1, newline ] )
-        
-
-    
-        ,generic_horizontal_details( [ [`Date`, tab, `:` , tab ], invoice_date_raw, s1, newline ] )
+          
+        , generic_horizontal_details( [ [`Date`, tab, `:` , tab ], invoice_date_raw, s1, newline ] )
 
     ])
 
@@ -144,7 +142,7 @@ i_rule( get_line_buyers_order_number, [
 
     , generic_horizontal_details( [ [ `Cust`, `Ord`, `No`, tab, `:` ], 100, order_number, s1, newline ] )
 
-   , check(order_number = OrdNo)
+      ,  check(order_number = OrdNo)
 
       , trace([`Order Number Capital Varaible` , OrdNo])
 
@@ -169,8 +167,6 @@ i_rule( get_buyers_code_for_supplier, [
 
     , generic_horizontal_details( [ [ `Supplier`, `Number`, `:` ], buyers_code_for_supplier, d, newline ] )
 
-
-
 ] ).
 
 
@@ -184,13 +180,13 @@ i_rule( get_buyers_code_for_supplier, [
 i_rule( get_total_net, [
 %=======================================================================
 
- q0n(line)
+  q0n(line)
 
   ,  [ set(regexp_cross_word_boundaries )
  
- , generic_horizontal_details( [ [ `Goods`, `:`, tab, `GBP`, tab ], total_net, d, newline ] )
+  , generic_horizontal_details( [ [ `Goods`, `:`, tab, `GBP`, tab ], total_net, d, newline ] )
  
- , clear( regexp_cross_word_boundaries) ]
+  , clear( regexp_cross_word_boundaries) ]
  
 
 ] ).
@@ -236,11 +232,11 @@ i_rule( get_total_invoice, [
 
          , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+         , trace( [ `Total Inv` , TotInv] )
 
-        , total_net(TotInv)
+         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+         , trace( [ `Total net` , total_net] )
     
      ] ).
 
@@ -254,8 +250,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-q0n(line)
-   
+   q0n(line)
    
     , generic_horizontal_details( [ [ `Total`, `:`, tab  ],  currency, w, tab ] )
 
@@ -263,7 +258,7 @@ q0n(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

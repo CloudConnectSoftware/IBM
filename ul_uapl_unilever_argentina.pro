@@ -53,7 +53,7 @@ i_rule( get_supplier_details, [
 
     , currency( `USD` )
 
-     , set(freight_vendor)
+    , set(freight_vendor)
 
     ] ).
 
