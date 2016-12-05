@@ -108,6 +108,7 @@ i_rule( get_total_invoice, [
      qn0(line)
 
     , or([
+
         generic_horizontal_details( [ [ `Total`, `:`, `USD`], 150, total_invoice, d , tab ] )
 
         , generic_horizontal_details( [ [ `Total`, `:`, `SGD`, tab, dummy1(d), tab, `USD`, tab],  total_invoice, d , newline ] )
@@ -124,7 +125,7 @@ i_rule( get_total_invoice, [
 
     ])
 
-    ,check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -137,7 +138,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
+% GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

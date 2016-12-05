@@ -21,13 +21,13 @@ i_rule_list( [
 
 invoice_or_credit_note
 
-	,get_supplier_details
+	, get_supplier_details
 	
     , get_invoice_number
 	
 	, get_invoice_date
 
-    ,get_total_net
+    , get_total_net
 
     , get_total_vat
 
@@ -41,7 +41,7 @@ invoice_or_credit_note
     
     ] ).
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE OR CREDIT NOTE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,7 +81,7 @@ i_rule( get_supplier_details, [
    
      sender_name(`MILOTT LABORATORIES CO LTD`)
 
-     ,supplier_vat_number(`0105532080312`)
+     , supplier_vat_number(`0105532080312`)
    
   ] ).
 
@@ -97,9 +97,9 @@ i_rule_cut( get_invoice_number, [
      
      q(0,20,line)
 
-            ,or([
+            , or([
                 
-                generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,300,300), invoice_number , d , tab ] )
+                 generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,300,300), invoice_number , d , tab ] )
 
                 , generic_horizontal_details( [ [ `NO`, `.`, tab],invoice_number, d , newline ] )
 
@@ -121,9 +121,11 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
-   ,or([
+   , or([
+        
         generic_horizontal_details( [ [`DATE`, tab],invoice_date, date , newline ] )
-   , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end , 300 , 300), invoice_date , date , newline ] )
+
+       , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end , 300 , 300), invoice_date , date , newline ] )
 
    ])
 
@@ -146,7 +148,7 @@ i_rule( get_total_net, [
 
              generic_horizontal_details( [ [ q10(`1`), q10(`CS`), q10(tab) , `TOTAL`, tab ] , total_net , d , newline ] )
 
-             ,generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_net , d , newline ] )
+             , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_net , d , newline ] )
             
         ])
      
@@ -168,12 +170,11 @@ i_rule( get_total_vat, [
 
 q0n(line)
 
- ,[generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] )
+, [generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] )
 
 , generic_item( [ default_vat_rate, `7` ] ) ]
 
 
-     
 
 ] ).
 
@@ -198,8 +199,9 @@ i_rule( get_total_invoice, [
         ]
 
 
-         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`], 400, total_invoice, d, newline ] ) 
-          ,check( total_invoice = TotInv )
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`], 400, total_invoice, d, newline ] ) 
+          
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -209,7 +211,7 @@ i_rule( get_total_invoice, [
 
         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
 
-          ,check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -219,7 +221,7 @@ i_rule( get_total_invoice, [
 
         , [generic_horizontal_details( [ [ `TOTAL`, `EX`, `-`, `FACTORY` ], 150 , total_invoice , d , newline ] )
 
-        ,check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -229,7 +231,7 @@ i_rule( get_total_invoice, [
 
         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `LAEM`, `CHABANG`], 400, total_invoice, d, newline ] ) 
 
-        ,check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -237,9 +239,9 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
-        ,[ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
+        , [ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
         
-        ,check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -250,7 +252,6 @@ i_rule( get_total_invoice, [
 
          ]) 
        
-        
 
 ] ).
 
@@ -313,9 +314,8 @@ i_section( get_invoice_lines, [
 
             line_credit_line
                      
-            ,line_invoice_line 
-
-                         
+            , line_invoice_line 
+     
               , line_desr_line 
 
                 , line
@@ -334,7 +334,7 @@ i_line_rule_cut( line_header_line, [
 
         [`CS`, tab , `USD` , tab , `USD`]
 
-        ,[`PCS`, tab , `USD` , tab , `USD`]
+        , [`PCS`, tab , `USD` , tab , `USD`]
 
         , [`SET`, tab , `USD` , tab , `USD`]
 

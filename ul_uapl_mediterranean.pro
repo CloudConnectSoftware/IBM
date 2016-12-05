@@ -29,9 +29,9 @@ i_rule_list( [
 
     , get_total_invoice
 
-      , get_currency
+    , get_currency
 
-        ,get_credit_note
+    , get_credit_note
 
 ] ).
 
@@ -199,7 +199,7 @@ i_rule( get_total_invoice, [
 
     ])
 
-    ,check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
