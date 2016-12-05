@@ -26,7 +26,6 @@ i_rule_list( [
 
     , get_order_number
 
-    
     , get_total_invoice
 
     , get_currency
@@ -142,7 +141,8 @@ i_rule( get_total_invoice, [
      qn0(line)
 
     , generic_horizontal_details( [ [ `TOTAL` ], 650, total_invoice, d, newline ] ) 
-    ,check( total_invoice = TotInv )
+    
+        ,check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
