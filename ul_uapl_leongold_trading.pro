@@ -19,9 +19,9 @@ i_rule_list( [
 
     get_supplier_details
 
-    , get_vat_code
+      , get_vat_code
 
-	  ,get_invoice_number
+	  , get_invoice_number
 
       , get_invoice_date 
 
@@ -64,6 +64,7 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule( get_vat_code, [
 %=======================================================================
+   
    q(0,10,line)
   
       , generic_horizontal_details( [ [ `GST`, `Reg`, `:` ],100, supplier_vat_number, s1, newline ] )
@@ -114,9 +115,9 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
- q0n(line)
+  q0n(line)
 
- , generic_horizontal_details( [ [ `NPI`, `PO`, `:` ],  order_number, s1, newline ] )
+  , generic_horizontal_details( [ [ `NPI`, `PO`, `:` ],  order_number, s1, newline ] )
 
       ] ).
 
@@ -165,14 +166,15 @@ i_rule( get_total_vat, [
 
  q0n(line)
 
- , generic_horizontal_details( [ [`of`, `GST`, `:`, tab, `S`, `$` ], 100, total_vat, d, newline ] )
- , generic_item( [ default_vat_rate, `7` ] )
+   , generic_horizontal_details( [ [`of`, `GST`, `:`, tab, `S`, `$` ], 100, total_vat, d, newline ] )
+ 
+   , generic_item( [ default_vat_rate, `7` ] )
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Get Currency
+% GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -180,12 +182,11 @@ i_rule( get_total_vat, [
 i_rule( get_currency, [
 %=======================================================================
 
-q0n(line)
+  q0n(line)
 
     , currency_line
 
 ]).
-
 
 %=======================================================================
 i_line_rule( currency_line, [
@@ -270,7 +271,6 @@ i_line_rule( discount_line, [
 %=======================================================================
 
 
-
  read_ahead([`Less`])
 
 , generic_item( [ line_descr, s1, tab] )
@@ -279,11 +279,7 @@ i_line_rule( discount_line, [
 
 , generic_item( [ line_unit_amount, s1 , [ tab , `(`, `s`,`$`  ]]  )
 
-
-
 , generic_item( [ line_total_amount_dummy, d,  [ `)` , newline ]]  )
-
-
   
 
 ] ).
