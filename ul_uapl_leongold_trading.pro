@@ -57,7 +57,7 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET Vat code
+% GET VAT CODE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -220,7 +220,7 @@ i_section( get_invoice_lines, [
 		
 			line_invoice_line
 
-            ,discount_line
+            , discount_line
                       
            	, line
 			
@@ -257,7 +257,7 @@ i_line_rule_cut( line_invoice_line, [
   
  generic_item( [ line_descr, s1, tab ] )
 
-     , generic_item( [ line_quantity, d, [tab, `S`, `$`] ] )
+      , generic_item( [ line_quantity, d, [tab, `S`, `$`] ] )
 
       , generic_item( [ line_unit_amount, d , [tab, `S`, `$`]] )
 
