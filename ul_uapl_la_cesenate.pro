@@ -24,7 +24,7 @@ i_rule_list( [
 
     , get_invoice_date
     
-    ,get_order_number
+    , get_order_number
 
     , get_total_invoice
 
@@ -93,7 +93,7 @@ i_rule( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET Order Number
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -113,13 +113,14 @@ q0n(line)
 
 
  
-     , check(order_number = OrdNo)
+    , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
     , line_buyers_order_number(OrdNo)
 
     , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -186,7 +187,7 @@ i_rule( get_line_total_amount, [
 
      , trace( [ `Line Total Amount Stripped Dot`, TotalStrip ] )
     
-       , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
+     , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
 
      , trace( [ ` Line Total Amount Stripped Comma` , TotalStrip1 ] )
 
