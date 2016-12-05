@@ -56,7 +56,7 @@ i_rule( get_supplier_details, [
 
      , buyer_registration_number(`AU00`)
 
-      , set(freight_vendor)
+     , set(freight_vendor)
 
    	] ).
 
@@ -90,7 +90,6 @@ i_rule_cut( get_invoice_date, [
 %=======================================================================
 
     q0n(line)
-
 
     , generic_horizontal_details( [ [ `Date`, tab ], invoice_date, date , newline ] )
 

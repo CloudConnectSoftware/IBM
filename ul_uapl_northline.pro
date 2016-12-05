@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
 
      , currency( `AUD` )
 
-	, buyer_registration_number(`AU00`)
+	 , buyer_registration_number(`AU00`)
 
 
 ] ).
@@ -68,9 +68,10 @@ i_rule_cut( get_invoice_number, [
     
     q(0,20,line)
  	
-	,or([
+	, or([
 
          generic_vertical_details( [ [ `Reference`] , `Reference` , q(0,1),(end,30,30), invoice_number, s1, tab ] )
+        
         , generic_horizontal_details( [ [ `TAX`, `INVOICE`, `:` ], invoice_number, w , newline ] )
 
     ])
@@ -91,7 +92,7 @@ i_rule_cut( get_invoice_date, [
 
     q(0,15,line)
 
-    ,or([
+    , or([
         
         generic_vertical_details( [ [ `Date`] , `Date` , q(0,1),(end,30,30), invoice_date, date, tab ] )
  	
@@ -125,7 +126,7 @@ i_rule( get_total_net, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET Net Amount
+% GET NET AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -144,7 +145,7 @@ i_rule( get_total_vat, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -157,6 +158,7 @@ i_rule( get_total_invoice, [
 	, generic_vertical_details( [ [ `Total`], `Total`, q(0,1),(start,30,25), total_invoice, d, newline ] )
 	
 	] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -173,9 +175,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           
-              line_invoice_line
-
+             line_invoice_line
             
             , line
 
@@ -216,13 +216,13 @@ i_line_rule_cut( line_invoice_line, [
     
       generic_item( [ line_date_dummy , date , tab ] )
 
-     , generic_item( [line_invoice_no , s1 , tab ] )
+      , generic_item( [line_invoice_no , s1 , tab ] )
 
-       , generic_item( [line_net_amount , d, tab ] )
+      , generic_item( [line_net_amount , d, tab ] )
     
-     , generic_item( [line_vat_amount , d , tab ] )
+      , generic_item( [line_vat_amount , d , tab ] )
 
-       , generic_item( [line_total_amount , d , newline ] )
+      , generic_item( [line_total_amount , d , newline ] )
 
 
 ] ).

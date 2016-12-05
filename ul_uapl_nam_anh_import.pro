@@ -85,7 +85,7 @@ i_rule_cut( get_invoice_date, [
 
     , generic_horizontal_details( [ [ `Date`, `:` ], 100, invoice_date_raw, s1, newline ] )
 
-     , check( invoice_date_raw = DateRaw )
+    , check( invoice_date_raw = DateRaw )
 
     , trace( [ `Invoice date raw` , DateRaw ] )
 
@@ -114,7 +114,7 @@ i_rule( get_order_number, [
 
     , generic_horizontal_details( [ [ `PO`, `NOS`, `.`, tab, `:` ], order_number, d, newline ] )
 
-     , check(order_number = OrdNo)
+    , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 
@@ -155,17 +155,17 @@ i_rule( get_total_invoice, [
 
      ,  [ set(regexp_cross_word_boundaries )
 
-    , generic_horizontal_details( [ [ `TOTAL`, tab, `24`, `,`, `000`, `.`, `00`, tab, `-`, tab ],  total_invoice, d, newline ] )
+       , generic_horizontal_details( [ [ `TOTAL`, tab, `24`, `,`, `000`, `.`, `00`, tab, `-`, tab ],  total_invoice, d, newline ] )
 
-    , clear( regexp_cross_word_boundaries) ]
+       , clear( regexp_cross_word_boundaries) ]
 
        , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+       , trace( [ `Total Inv` , TotInv] )
 
-        , total_net(TotInv)
+       , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+       , trace( [ `Total net` , total_net] )
 
 ] ).
 
@@ -182,6 +182,7 @@ i_rule( get_currency, [
     q0n(line)
 
     , currency( `USD` )
+    
 ]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
