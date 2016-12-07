@@ -105,8 +105,9 @@ i_rule( get_invoice_number, [
 q0n(line)
 	
    ,  or([
+             generic_horizontal_details( [[`No`, `.`], invoice_number, s1, newline ] )
 
-            generic_horizontal_details( [[`INVOICE` , `NO`, `.` ], invoice_number, s1, tab ] )
+            ,generic_horizontal_details( [[`INVOICE` , `NO`, `.` ], invoice_number, s1, tab ] )
 	 
          , generic_horizontal_details( [[`No`, `.`, `:`, tab ], invoice_number, s1, tab ] )
 
@@ -173,6 +174,8 @@ i_rule( get_invoice_date, [
 
     , generic_vertical_details( [ [ `Date`, tab ], `date`, q(0,1), (start,20,20), invoice_date,  date , tab ] )
 
+    , generic_vertical_details( [ [ `Debit`, `Note` ], `note`, q(0,2), (start,0,150), invoice_date,  date , newline ] )
+
 ])
 
 ] ).
@@ -196,6 +199,10 @@ i_rule( get_total_invoice, [
         generic_horizontal_details( [ [ `Grand`,`total`, tab ], total_invoice, d, newline ] )
 
         , generic_vertical_details( [ [ `AMOUNT`, newline ], `AMOUNT`, q(7,20), (end,20,20), total_invoice, d , newline ] )
+
+        , generic_vertical_details( [ [ `Account`, `&`, `Finance`, `Dept`, `.`, `Manager`,  newline ], `Manager`, q(1,2, up), (end,0,150), total_invoice, d , newline ] )
+
+
 
     ])
 
@@ -296,6 +303,7 @@ i_section( get_invoice_lines, [
 
             ,line_invoice_line2
 
+            ,line_debitnote_line
         
             , [line_invoice_new_line, line_append_line, line_append_line2 ]
 
@@ -318,6 +326,8 @@ i_line_rule_cut( line_start_line,[
     or([
 
         [`Item`, `Description`]
+
+        ,[`DESCRIPTION`, tab, `AMOUNT`, `USD`,  newline ]
 	
      , [`DESCRIPTION`, `OF`, `GOODS`, tab, `QUANTITY`, tab, `BOTTLES`, tab, `AMOUNT`,  newline]
 
@@ -337,7 +347,8 @@ i_line_rule_cut( line_end_line,[
 
           [`Sub`, `Total`]
 
-                		 
+          , [`(`, `U`, `.`, `S`, `.`, `DOLLARS`]
+          
 		 , [ `TOTAL`, `FOB`, `BANGKOK` ]
 
          , [`Issued`, `by`, tab, `Checked`, `by`, tab, `Approved`, `by`, tab, `Received`, `by`]
@@ -422,6 +433,18 @@ i_line_rule( line_append_line2, [
 
 
      generic_append([ line_descr , s1 , newline , `_`, ` `  ])
+     
+]).
+
+%=======================================================================
+i_line_rule( line_debitnote_line, [
+%=======================================================================
+
+
+     generic_item([ line_descr , s1 , tab ]) 
+
+     , generic_item([ line_net_amount , d , newline ] ) 
+     
      
 ]).
 
