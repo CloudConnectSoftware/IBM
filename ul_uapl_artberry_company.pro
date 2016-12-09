@@ -119,7 +119,12 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,4,up), (start,30,30), order_number, w, q10(tab) ] )
+    , or([
+        generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
+        
+        ,generic_vertical_details( [ [ `Refer`, `To`, `Qtotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
+
+    ])
 
     , check(order_number = OrdNo)
 
