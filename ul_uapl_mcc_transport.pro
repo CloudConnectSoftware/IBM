@@ -48,7 +48,7 @@ i_rule( get_supplier_details, [
  
      sender_name(`MCC TRANSPORT SINGAPORE PTE LTD`)
 
-     , supplier_vat_number(`M200740742`)
+      , supplier_vat_number(`M200740742`)
 
       , set(freight_vendor)
 
@@ -85,9 +85,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-
     , generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
-
 
 ] ).
 
@@ -140,7 +138,7 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `Total`,`Due`, `:`, tab ], total_invoice, d, newline ] )  
 
-    , check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 

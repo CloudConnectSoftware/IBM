@@ -24,7 +24,7 @@ i_rule_list( [
     	
 	  , get_invoice_date
 
-	 , get_total_vat
+	  , get_total_vat
 
     , get_total_invoice
 
@@ -104,7 +104,7 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_vat
+% GET TOTAL VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -114,13 +114,11 @@ i_rule( get_total_vat, [
 
     total_vat(`0`)
 
-    
-
     ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_net
+% GET TOTAL NET
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -132,11 +130,11 @@ i_rule( get_total_net, [
 
      , or([
 
-       generic_horizontal_details( [ [ `Total`, `Before`, `GST`,`:`, tab], total_net,  d , newline] )
+        generic_horizontal_details( [ [ `Total`, `Before`, `GST`,`:`, tab], total_net,  d , newline] )
 
-       ,generic_horizontal_details( [ [ `Total`, `Before`, `GST`, tab], total_net,  d , newline] )
+       , generic_horizontal_details( [ [ `Total`, `Before`, `GST`, tab], total_net,  d , newline] )
 
-     , generic_horizontal_details( [ [ `SUBTOTAL`, tab ], total_net, d , newline] )
+       , generic_horizontal_details( [ [ `SUBTOTAL`, tab ], total_net, d , newline] )
 
      ])
 
@@ -145,7 +143,7 @@ i_rule( get_total_net, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -159,12 +157,14 @@ i_rule( get_total_invoice, [
 
       generic_horizontal_details( [ [ `Total`,`(`, `Incl`, `.`, `GST`, `)`, tab ],  total_invoice, d, newline ] )  
 
-    , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`, `PAYABLE`,  tab ], total_invoice, d, newline ] )  
+      , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`, `PAYABLE`,  tab ], total_invoice, d, newline ] )  
 
-    ,generic_horizontal_details( [ [ `TOTAL`, `INCL`, `GST`, `:`], 100, total_invoice, d, newline ] )  
+      , generic_horizontal_details( [ [ `TOTAL`, `INCL`, `GST`, `:`], 100, total_invoice, d, newline ] )  
 
       ])
-      , check( total_invoice = TotInv )
+
+
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
@@ -176,7 +176,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
+% GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -198,7 +198,7 @@ i_rule( get_currency, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_line_amount
+% GET TOTAL LINE AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

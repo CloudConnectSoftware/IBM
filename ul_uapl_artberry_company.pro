@@ -32,7 +32,6 @@ i_rule_list( [
 
     , get_total_invoice
 
-
     , get_line_total_amount
 
     , get_invoice_lines
@@ -56,8 +55,6 @@ i_rule( get_supplier_details, [
    , supplier_vat_number(`0105546028431`)
 
    , set(freight_vendor)
-
-   
 
   
 ] ).
@@ -92,6 +89,7 @@ i_rule_cut( get_invoice_date, [
     q(0,15,line)
 
     , generic_horizontal_details( [ [ `Date`, `:`,  tab  ], invoice_date, date, newline ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,6 +104,7 @@ i_rule_cut( get_due_date, [
     q0n(line)
 
     , generic_horizontal_details( [ [ `Due`, `Date`, `:`,  tab  ], due_date, date, newline ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -120,7 +119,12 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,4,up), (start,30,30), order_number, w, q10(tab) ] )
+    , or([
+        generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
+        
+        ,generic_vertical_details( [ [ `Refer`, `To`, `Qtotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
+
+    ])
 
     , check(order_number = OrdNo)
 
@@ -147,18 +151,18 @@ i_rule( get_total_net, [
 
      , with( invoice, order_number, Order_Number )
 
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+    , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-, or( [
-
+    , or( [
+  
 [ check( Currency = `USD` ) , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,200), total_net, d, tab ] ) ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, newline ] ) ] 
                 
-] )
+ ] )
 
-,currency( Currency )
+, currency( Currency )
  
 
 ] ).    
@@ -178,9 +182,9 @@ i_rule( get_total_vat, [
          
      , with( invoice, order_number, Order_Number )
 
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+    , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-, or( [
+    , or( [
 
 
 [ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,0,95), total_vat, d, newline ] ) ]
@@ -188,7 +192,7 @@ i_rule( get_total_vat, [
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] ) ] 
                 
-] )
+  ] )
 
 
 ] ).
@@ -209,22 +213,20 @@ i_rule( get_total_invoice, [
          
      , with( invoice, order_number, Order_Number )
 
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+    , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-, or( [
+    , or( [
 
 
-[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, tab ] ) ]
+   [ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, tab ] ) ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), total_invoice, d, newline ] ) ] 
                 
-] )
+ ] )
 
-] ).
-
-
-
+ ] ).
+  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,15 +243,11 @@ i_rule( get_line_total_amount, [
         
      , with( invoice, order_number, Order_Number )
 
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-, or( [
-
-
+     , or( [
 
 [ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), line_total_amount, d, tab ] )  ]
-
-
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), line_total_amount, d, newline ] )  ] 

@@ -24,9 +24,9 @@ i_rule_list( [
 	
 	, get_invoice_number
 
-    ,get_order_number
+    , get_order_number
 
-    ,get_Invoice_tax
+    , get_Invoice_tax
 
     , get_invoice_date
    
@@ -79,11 +79,11 @@ i_rule( get_Invoice_tax, [
 i_line_rule( invoice_tax_line, [
 %=======================================================================
 
-q0n(anything)
+  q0n(anything)
 
 	,`Tax`, `Invoice`
 
-	,set(tax_invoice)
+	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
 
@@ -105,14 +105,16 @@ i_rule_cut( get_order_number, [
     
     q0n(line)
 
-    ,or([
+    , or([
 
     generic_horizontal_details( [ [ `PO`, `No`, `:` ], order_number, s, `,` ] )
+
    , generic_horizontal_details( [ [ `PO`, `No`, `:` ], order_number, s1, newline ] )
 
     ])
 	
 ] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -126,7 +128,7 @@ i_rule_cut( get_invoice_number, [
     
     q(0,20,line)
 
-    ,or([
+    , or([
 
     generic_horizontal_details( [ [ `NNoo`, `.`, `.`, `:`, `:`, tab ], invoice_number, s1, newline ] )
 
@@ -148,9 +150,9 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
-    ,or([
+    , or([
 
-    generic_horizontal_details( [ [ `Date`, `:` , tab],invoice_date, date, newline ] )
+     generic_horizontal_details( [ [ `Date`, `:` , tab],invoice_date, date, newline ] )
 
    , generic_horizontal_details( [ [ `Date`, `:` ], invoice_date, date, newline ] )
 
@@ -172,14 +174,12 @@ i_rule_cut( get_due_date, [
 
     q(0,20,line)
 
-    ,or([
+    , or([
 
     generic_horizontal_details( [ [ `Due` , `Date`, `:` , tab],invoice_date, date, newline ] )
-
    
     ])
 
-    
 	
 ] ).
 
@@ -231,7 +231,6 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 
-
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
@@ -261,7 +260,7 @@ i_line_rule_cut( line_desr_line, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_totals
+% GET TOTALS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -280,6 +279,7 @@ i_rule( get_totals, [
     , q(0,3,line)
 
     , generic_horizontal_details( [ [ `BBaallaannccee`, `DDuuee`, tab, generic_item([ currency , w ] ),tab ]  , total_invoice , d, newline ] )
+
     ]
 
 
@@ -291,11 +291,8 @@ i_rule( get_totals, [
     , q(0,3,line)
 
     , generic_horizontal_details( [ [ `Balance`, `Due`, tab, generic_item([ currency , w ] ), tab ]  , total_invoice , d, newline ] )
+
     ]
-
-    
-
-    
 
     ])
 

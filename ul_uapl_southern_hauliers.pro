@@ -42,11 +42,11 @@ i_rule( get_supplier_details, [
  
      sender_name(`SOUTHERN HAULIERS (THAILAND) CO., L`)
 
-     , supplier_vat_number(`0905539002743`)
+      , supplier_vat_number(`0905539002743`)
 
       , set(freight_vendor)
 
-      ,buyer_registration_number(`MY00`)
+      , buyer_registration_number(`MY00`)
 
    	] ).
 
@@ -63,11 +63,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , or([ 
+   , or([
+
         generic_horizontal_details( [ [ `NO`, `.` , `:` ] , 100 , invoice_number, s1, newline ] )
-    , generic_horizontal_details( [ [ `NO`, `.`, `:`] , invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [ `NO`, `.`, `:`] , invoice_number, s1, newline ] )
 
    ])	
+
 	] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,7 +105,7 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [`T0TAL`, `(`, `BHT`, `)`, tab ], total_invoice, d, newline ] )  
 
-    , check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 

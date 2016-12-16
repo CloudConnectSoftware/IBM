@@ -18,7 +18,7 @@ i_rule_list( [
 
     get_Invoice_tax
 
-	,get_supplier_details
+	, get_supplier_details
 	
 	, get_invoice_number
 
@@ -61,7 +61,7 @@ q0n(anything)
 
 	,`Tax`, `Invoice`
 
-	,set(tax_invoice)
+	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
 
@@ -179,17 +179,17 @@ i_rule_cut( get_invoice_totals, [
 	
     , q(0,1,line)
 
-      , [generic_horizontal_details( [ [`GST`, tab ], total_vat, d, newline ] )
+     , [generic_horizontal_details( [ [`GST`, tab ], total_vat, d, newline ] )
 
      , check(total_vat =TotVat)
 
-    , trace([`Total Vat Capital Varaible` , TotVat])
+     , trace([`Total Vat Capital Varaible` , TotVat])
 
-    , line_vat_amount(TotVat)
+     , line_vat_amount(TotVat)
 
-    , trace( [ `THIS IS NOW THE TOTAL VAT Amount` , line_vat_amount ])
+     , trace( [ `THIS IS NOW THE TOTAL VAT Amount` , line_vat_amount ])
 
-    ,generic_item( [ default_vat_rate ,`9.9987` ] )
+     , generic_item( [ default_vat_rate ,`9.9987` ] )
 
     ]
 
@@ -214,7 +214,7 @@ i_rule( get_total_invoice, [
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

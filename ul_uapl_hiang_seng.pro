@@ -52,9 +52,8 @@ i_rule( get_supplier_details, [
 
    , buyer_registration_number(`MM00`)
 
-   ,supplier_vat_number(`3101032505`)
+   , supplier_vat_number(`3101032505`)
    
-
    , set(freight_vendor)
    
   
@@ -92,17 +91,16 @@ i_rule_cut( get_invoice_date, [
 
     , [generic_horizontal_details( [ [ `Date`, `:`, tab ,  generic_item( [ invoice_date_raw1 , w ] )], 50 ,  invoice_date_raw2, s1, newline ] )   
 
-     , check( invoice_date_raw1 = DateRaw1 )    , trace( [ `Date raw` , DateRaw1 ] )
+      , check( invoice_date_raw1 = DateRaw1 )    , trace( [ `Date raw` , DateRaw1 ] )
 
-     , check( invoice_date_raw2 = DateRaw2 )    , trace( [ `Date raw` , DateRaw2 ] )
+      , check( invoice_date_raw2 = DateRaw2 )    , trace( [ `Date raw` , DateRaw2 ] )
 
       , check(strcat_list( [ DateRaw1,` ` , DateRaw2 ], DateNew ))   , trace( [ `New Date Format` , DateNew ] ) 
     
-	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
+	  , invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
 
     ]              
-
-       
+  
 
 ] ).
 
@@ -121,10 +119,10 @@ i_rule( get_order_number, [
     , or([
         
         generic_horizontal_details( [ [ `PO`, `#` ], order_number, d, or([`,` , newline]) ] )
-        ,generic_horizontal_details( [ [ `PO`, `#` ], 50, order_number, d, tab ] )
+
+        , generic_horizontal_details( [ [ `PO`, `#` ], 50, order_number, d, tab ] )
 
         
-
     ])
 
     , check(order_number = OrdNo)
@@ -181,7 +179,7 @@ q0n(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_line_total_amount
+% GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

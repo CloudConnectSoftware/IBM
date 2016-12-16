@@ -90,20 +90,9 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	 , generic_vertical_details( [ [`Date`], `Date`, q(0,4), (start,10,10), invoice_date_raw, s1 ] )
+	 , generic_vertical_details( [ [`Date`], `Date`, q(0,4), (start,10,10), invoice_date, date ] )
 
-     , check( invoice_date_raw = DateRaw )
-
-    , trace( [ `Invoice date raw` , DateRaw ] )
-
-    , check(string_string_replace( DateRaw, `.`, `-`, DateStrip ))
-
-    , trace( [ `Date Stripped Dot` , DateStrip ] )
-
-    , invoice_date(DateStrip)
-
-    , trace( [ `Invoice Date` , invoice_date ] )  
-
+     
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

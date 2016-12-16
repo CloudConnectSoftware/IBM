@@ -50,7 +50,7 @@ i_rule( get_supplier_details, [
  
      sender_name(`NIELSEN (INDIA) PRIVATE LIMITED`)
 
-     , supplier_vat_number(`AAACM9279LST002`)
+      , supplier_vat_number(`AAACM9279LST002`)
 
       , set(freight_vendor)
 
@@ -92,11 +92,11 @@ i_rule_cut( get_line_buyers_order_number, [
     
      , check(line_buyers_order_number = OrdNo)
 
-    , trace([`Order Number Capital Varaible` , OrdNo])
+     , trace([`Order Number Capital Varaible` , OrdNo])
 
-    , order_number(OrdNo)
+     , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+     , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
 
 
 ]).
@@ -176,7 +176,7 @@ q0n(anything)
 
 	,`Tax`, `Invoice`
 
-	,set(tax_invoice)
+	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
 
@@ -194,10 +194,10 @@ i_rule( get_total_net, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Sub`, `Total`, `in`, `USD`, tab ],  total_net, d, newline ] )
+     , generic_horizontal_details( [ [ `Sub`, `Total`, `in`, `USD`, tab ],  total_net, d, newline ] )
 
 
-    , check( total_net = TotNet )
+        , check( total_net = TotNet )
 
         , trace( [ `Total Net` , TotNet] )
 
@@ -220,9 +220,9 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`,`in`,  tab ], total_invoice, d, newline ] )  
+     , generic_horizontal_details( [ [ `Total`, `Amount`,`in`,  tab ], total_invoice, d, newline ] )  
 
-    , check( total_invoice = TotInv )
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 

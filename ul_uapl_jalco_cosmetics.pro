@@ -20,7 +20,7 @@ i_rule_list( [
   
 	get_supplier_details
 
-    ,get_Invoice_tax
+    , get_Invoice_tax
 
     , get_vat_code
 	
@@ -30,7 +30,7 @@ i_rule_list( [
 	
 	, get_invoice_date
 
-	 , get_total_invoice
+	, get_total_invoice
 
     , get_currency
 
@@ -64,7 +64,7 @@ q0n(anything)
 
 	,`Tax`, `Invoice`
 
-	,set(tax_invoice)
+	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
 
@@ -83,7 +83,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `HANJIN SHIPPING CO. LTD.` )
 
-    ,supplier_vat_number(`53 084 809 450`)
+    , supplier_vat_number(`53 084 809 450`)
 
     , buyer_registration_number(`AU00`)
 
@@ -118,7 +118,7 @@ q0n(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_order_number
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,7 +150,7 @@ q0n(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_totals
+% GET TOTALS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

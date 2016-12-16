@@ -104,7 +104,7 @@ i_rule( get_order_number, [
 
     , generic_horizontal_details( [ [ `PO`, `/`, `WO`, `/`, `DO`, tab, `:` ], order_number, s1, newline ] )
 
-     , check(order_number = OrdNo)
+    , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
 

@@ -20,7 +20,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_Invoice_tax
+    , get_Invoice_tax
 
     , get_Invoice_tax
 	
@@ -43,7 +43,7 @@ i_rule_list( [
        ] ).
 
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TAX INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,15 +63,16 @@ i_rule( get_Invoice_tax, [
 i_line_rule( invoice_tax_line, [
 %=======================================================================
 
-q0n(anything)
+    q0n(anything)
 
 	, `VAT`, q10(`-`), `7`, `%`
 
-	,set(tax_invoice)
+	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
 
 ] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET SUPPLIER DETAILS
@@ -121,6 +122,7 @@ i_rule_cut( get_invoice_date, [
     q0n(line)
 
     , generic_horizontal_details( [ [ `Date`, tab, `:` ], invoice_date, date, newline ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,8 +152,10 @@ i_rule( get_total_net, [
 %=======================================================================
 
  q0n(line)
-,or([
-  generic_horizontal_details( [ [`Total`, `Excluding`, `Tax`, tab ], total_net, d, newline ] )
+
+, or([
+
+   generic_horizontal_details( [ [`Total`, `Excluding`, `Tax`, tab ], total_net, d, newline ] )
 
  , generic_horizontal_details( [ [`Total`,  tab ], total_net, d, newline ] )
 
@@ -239,14 +243,11 @@ i_section( get_invoice_lines, [
 
             line_invoice_line_2
 
-            ,[line_descr_line, line_append_line , line_append_line, line_invoice_line ]
+            , [line_descr_line, line_append_line , line_append_line, line_invoice_line ]
 
-
-
-                    
-		
 			   
-            , line			
+            , line		
+
 		] )
 	
 	] )
@@ -256,40 +257,36 @@ i_section( get_invoice_lines, [
 %=======================================================================
 i_line_rule_cut( line_start_line, [
 %=======================================================================
-	or([
+	
+    or([
 
- 
 
    [`cost`, `description`]
 
    , [`description`, tab, `THB`]
 
-     
 
     ])
      
-     , trace( [ `FOUND THE HEADER LINE` ] )
-
-    
+     , trace( [ `FOUND THE HEADER LINE` ] ) 
 
 ] ).
 
 %=======================================================================
 i_line_rule_cut( line_end_line, [
 %=======================================================================
-or([
+ 
+ or([
 
     [ `Total`, `non`, `-`, `commissionable`, tab , dummy_num10(d)]
 
     , [`VAT`, `7`, `%`, tab ]
-    
-   
-  
    
 
 ])
 
      , trace( [ `FOUND THE END LINE` ] )
+
 ] ).
 
 
@@ -306,7 +303,7 @@ i_line_rule_cut( line_append_line, [
 i_line_rule_cut( line_invoice_line, [   
 %=======================================================================
   
-       generic_append( [ line_descr , s1 , tab , ` ` , `` ] )
+        generic_append( [ line_descr , s1 , tab , ` ` , `` ] )
 
       , generic_item( [ line_net_amount, d, newline ] )
  
@@ -325,7 +322,7 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_invoice_line_2, [   
 %=======================================================================
   
-       generic_item( [ line_descr , s1 , tab ] )
+        generic_item( [ line_descr , s1 , tab ] )
 
       , generic_item( [ line_net_amount, d, newline ] )
  

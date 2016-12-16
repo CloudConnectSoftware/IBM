@@ -83,7 +83,7 @@ q0n(anything)
 
 	,`Tax`, `Invoice`
 
-	,set(tax_invoice)
+	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
 
@@ -163,7 +163,12 @@ i_rule( get_total_net, [
 
     qn0(line)
 
-    , generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,5,up), (end,0,300), total_net, d, tab ] )
+    , or([
+        generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,5,up), (end,0,300), total_net, d, tab ] )
+
+        ,generic_vertical_details( [ [`Description`, tab, `Amount`, `before`, tab ], `Amount`, q(22,23), (end,0,50), total_net, d, tab ] )
+
+    ])
 
 ] ).
 
@@ -177,8 +182,11 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-    
- generic_item( [ default_vat_rate, `7` ] )
+q0n(line)
+
+,generic_vertical_details( [ [`Description`, tab, `Amount`, `before`, tab, `GST`, `(`, `SGD`, `)`, tab ], `GST`, q(22,23), (end,0,50), total_vat, d, tab ] )
+
+ 
 
 ] ).
 
@@ -242,10 +250,9 @@ i_section( get_invoice_lines, [
 
         , or( [
                      
-            line_invoice_line 
+            [line_invoice_line , q10(line_desr_line), q10(line_desr_line) , q10(line_po_line)]
               
-              , line_desr_line 
-
+              
                 , line
 
         ] )
@@ -299,3 +306,14 @@ i_line_rule_cut( line_desr_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_po_line, [
+%=======================================================================
+
+     generic_item( [ line_ref_dummy, w, `:` ] )
+
+     , generic_item( [ line_buyers_order_number , w , newline ] )
+
+
+
+] ).

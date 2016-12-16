@@ -29,7 +29,6 @@ i_rule_list( [
     , get_total_vat
 
     , get_total_invoice
-
       
     , get_invoice_lines
     
@@ -199,9 +198,7 @@ i_section( get_invoice_lines, [
           
             line_invoice_line 
             
-            , line_invoice_line2
-			
-                        
+            , line_invoice_line2     
 
             , line			
 		] )
@@ -240,13 +237,12 @@ i_line_rule_cut( line_invoice_line, [
           
           generic_item( [ line_descr, s1, [ tab ]] )
 
-          ,generic_item( [ line_descr, s1 ])
+          , generic_item( [ line_descr, s1 ])
 
       ])
 
         
-           ,generic_item( [ line_quantity , d, q10(tab) ] )
-       
+      , generic_item( [ line_quantity , d, q10(tab) ] )
 
       , q10(generic_item( [ line_quantity_uom_code, w, tab ] ))
 
@@ -266,17 +262,17 @@ i_line_rule_cut( line_invoice_line2, [
 
 generic_item( [ line_item, d, tab ] )
 
-      , generic_item( [ line_descr, s1, tab ] )
+        , generic_item( [ line_descr, s1, tab ] )
 
         , generic_item( [ line_descr_dummy, s1, tab] )
 
-      ,generic_item( [ line_quantity, d ] )
+        , generic_item( [ line_quantity, d ] )
       
-      , q10(generic_item( [ line_quantity_uom_code, w, tab ] ))
+        , q10(generic_item( [ line_quantity_uom_code, w, tab ] ))
 
-      , generic_item( [line_unit_amount_dummy, d, tab ] )
+        , generic_item( [line_unit_amount_dummy, d, tab ] )
 
-      , generic_item( [ line_net_amount, d, newline ] )
+        , generic_item( [ line_net_amount, d, newline ] )
  
 
 ]).

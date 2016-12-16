@@ -54,11 +54,10 @@ i_rule( get_supplier_details, [
 
      sender_name(`OOCL (Singapore) Pte Ltd`)
 
-     ,supplier_vat_number(`197801878K`)
+     , supplier_vat_number(`197801878K`)
 
      , set(freight_vendor)
-
-     		
+  		
 
 ] ).
 
@@ -94,9 +93,6 @@ q0n(anything)
 ] ).
 
 
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -121,7 +117,7 @@ i_rule_cut( get_invoice_number, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_order_number
+% GET ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -136,7 +132,7 @@ i_rule( get_order_number, [
 
     , generic_horizontal_details( [ [ `L1`, `PO` , `NO` ,`:` ],100, line_buyers_order_number, s1, newline ] )
 
-    ,generic_horizontal_details( [ [ `PO`, `NO`, `.`, `:` ], line_buyers_order_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `PO`, `NO`, `.`, `:` ], line_buyers_order_number, s1, newline ] )
 
     ])
     
@@ -167,8 +163,7 @@ i_rule_cut( get_invoice_date, [
 
     , generic_horizontal_details( [ [ `Issue`, `Date` , tab ,`:` ],100, invoice_date, s1, newline ] )
 
- 
-	
+ 	
 ] ).
 
 
@@ -193,7 +188,7 @@ i_rule( get_due_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_total_invoice
+% GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -202,13 +197,15 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
      q0n(line)
-,or([
+
+, or([
+
      generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD` ], total_invoice, d, newline ] )
 
-     ,[ 
+     , [ 
          generic_horizontal_details( [ [ `A`, `M`, `OU`, `N`, `T`, `D`, `U`, `E`, tab, `U`, `SD` ], total_invoice_raw, s1, newline ] )
 
-     , check( total_invoice_raw = TotRaw )
+    , check( total_invoice_raw = TotRaw )
 
     , trace( [ `Total amount raw` , TotRaw ] )
 
@@ -243,7 +240,7 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% get_currency
+% GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

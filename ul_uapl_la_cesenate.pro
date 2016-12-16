@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_la_cesenate_converve, `25/11/2016`).
+i_version( ul_uapl_la_cesenate, `2/12/2016`).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,6 +23,8 @@ i_rule_list( [
    	, get_invoice_number
 
     , get_invoice_date
+    
+    , get_order_number
 
     , get_total_invoice
 
@@ -88,6 +90,39 @@ i_rule( get_invoice_date, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+q0n(line)
+
+ ,  or([
+     
+     generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`, `:`], order_number, w, newline ] )
+
+     ,generic_horizontal_details( [ [ `YR`, `.`, `P`, `.`, `O`, `.`, `N`, `.`], order_number, w, newline ] )
+
+ ])
+
+
+ 
+    , check(order_number = OrdNo)
+
+    , trace([`Order Number Capital Varaible` , OrdNo])
+
+    , line_buyers_order_number(OrdNo)
+
+    , trace( [ `THIS IS NOW THE HEADER ORDER Number` , OrdNo ])
+    
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL INVOICE
@@ -100,7 +135,7 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), total_invoice_raw, s1, tab ] )
+     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), total_invoice_raw, w, tab ] )
 
      , check( total_invoice_raw = InvoiceRaw )
 
@@ -108,21 +143,13 @@ i_rule( get_total_invoice, [
 
     , check(string_string_replace( InvoiceRaw, `.`, ``, InvoiceStrip ))
 
-    , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
+    , trace( [ `Total Invoice Stripped Dot`, InvoiceStrip ] )
     
-    , trace( [ `Total Invoice raw2` , InvoiceStrip] )
-
     , check(string_string_replace( InvoiceStrip, `,`, `.`, InvoiceStrip1 ))
 
-    , trace( [ `Total Invoice Stripped Dot` , InvoiceStrip1 ] )
-
-    , trace( [ `Total Invoice raw3` , InvoiceStrip1] )
-
-    , check(string_string_replace( InvoiceStrip1, `.`, `.`, InvoiceStrip2 ))
-
-    , trace( [ `Total Invoice Stripped Dot` , InvoiceStrip2 ] )
-
-    , total_invoice(InvoiceStrip2)
+    , trace( [ `Total Invoice raw2` , InvoiceStrip1 ] )
+ 
+    , total_invoice(InvoiceStrip1)
 
     , trace( [ `Total Invoice` , total_invoice ] )
 
@@ -150,7 +177,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    ,  generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), line_total_amount_raw, s1, tab ] )
+    ,  generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), line_total_amount_raw, w, tab ] )
 
      , check( line_total_amount_raw = TotalRaw )
 
@@ -158,21 +185,15 @@ i_rule( get_line_total_amount, [
 
      , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
 
-     , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
+     , trace( [ `Line Total Amount Stripped Dot`, TotalStrip ] )
     
-     , trace( [ `Line Total Amount raw2` , TotalStrip] )
-
      , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
 
-     , trace( [ ` Line Total Amount Stripped Dot` , TotalStrip1 ] )
+     , trace( [ ` Line Total Amount Stripped Comma` , TotalStrip1 ] )
 
      , trace( [ `Line Total Amount raw3` , TotalStrip1] )
 
-     , check(string_string_replace( TotalStrip1, `.`, `.`, TotalStrip2 ))
-
-     , trace( [ `Line Total Amount Stripped Dot` , TotalStrip2 ] )
-
-     , line_total_amount(TotalStrip2)
+      , line_total_amount(TotalStrip1)
 
      , trace( [ `Line Total Amount` , line_total_amount ] )
 
