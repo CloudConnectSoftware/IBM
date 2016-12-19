@@ -122,7 +122,7 @@ i_rule( get_order_number, [
 
 q0n(line)
 	
-    , generic_horizontal_details( [ [ `15`, `October`, `2017`, `)`, `(` ], 5, order_number, s, `)` ] )
+    , generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
 
     , check(order_number = OrdNo)
 
@@ -158,6 +158,11 @@ i_rule( get_total_net, [
 
 , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`, tab ], total_net, d, newline ] ) ]
 
+   ,[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`, tab ], total_net, d, newline ] ) ]
+
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`, tab ], total_net, d, newline ] ) ]
+
+
 ] )
 
 , currency( Currency )
@@ -187,6 +192,8 @@ i_rule( get_total_vat, [
 
     , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`, tab ], total_vat, d, newline ] ) ]
 
+    ,[ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, `7`, `%`, tab, `SGD`, tab ], total_vat, d, newline ] ) ]
+
    ] )
 
    , generic_item( [ default_vat_rate, `7` ] )
@@ -214,6 +221,8 @@ i_rule( get_total_invoice, [
        [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `USD`, tab ], total_invoice, d, newline ] ) ]
 
      , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD`, tab ], total_invoice, d, newline ] ) ]
+
+     
 
 
      ] )
