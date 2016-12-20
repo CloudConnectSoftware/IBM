@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `UNILEVER DE ARGENTINA S A` )
 
-    , supplier_vat_number(`199002280G`)
+    , supplier_vat_number(`30-50109269-6`)
 
     , currency( `USD` )
 
