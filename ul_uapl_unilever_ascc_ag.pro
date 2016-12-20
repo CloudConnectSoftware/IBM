@@ -51,9 +51,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `UNILEVER ASCC AG` )
 
-    , supplier_vat_number(`199002280G`)
-
-    , currency( `USD` )
+      , currency( `USD` )
 
      , set(freight_vendor)
 
