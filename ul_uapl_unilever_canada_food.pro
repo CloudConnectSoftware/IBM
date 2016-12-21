@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - UNILEVER DE ARGENTINA S A
+% GRAMATICA - UNILEVER CANADA FOOD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_unilever_argentina, `29/11/2016` `6:00:05` ).
+i_version( ul_uapl_unilever_canada_food, `20/12/2016` `2:20:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -24,13 +24,11 @@ i_rule_list( [
 
     , get_invoice_date
 
-    , get_due_date
+    , get_total_net
 
-    , get_order_number
+    , get_total_vat
 
     , get_total_invoice
-
-    , get_line_total_amount
 
     , get_invoice_lines
 
@@ -47,13 +45,11 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `UNILEVER DE ARGENTINA S A` )
+    sender_name( `UNILEVER CANADA FOOD` )
 
-    , supplier_vat_number(`30-50109269-6`)
+      , currency( `CAD` )
 
-    , currency( `USD` )
-
-    , set(freight_vendor)
+     , set(freight_vendor)
 
     ] ).
 
@@ -69,7 +65,7 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Numb`, `:` ], 5, invoice_number, s1, newline ] )
+   	, generic_horizontal_details( [ [ `Doc`, `No`, `#`, `:` ], 100, invoice_number, d, newline ] )
   
 
 ] ).
@@ -86,42 +82,43 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Tortuguitas`, `,` ] , 5, invoice_date, date, newline ] )
+	, generic_horizontal_details( [ [ `Date`, `:` ] , 200, invoice_date, date, newline ] )
 
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET DUE DATE
+% GET TOTAL NET
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_due_date, [
+i_rule( get_total_net, [
 %=======================================================================
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Due`, `Date`, `C`, `.`, `A`, `.`, `E`, `.`, `:` ] , 5, due_date, date, tab ] )
+	, generic_horizontal_details( [ [ `Sub`, `Total` ] , 200, total_net, d, newline ] )
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET ORDER NUMBER
+% GET TOTAL VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_order_number, [
+i_rule( get_total_vat, [
 %=======================================================================
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `PO` ], 5, order_number, d, newline ] )
-  
+	, generic_horizontal_details( [ [ `Others`] , 200, total_vat, d, newline ] )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,35 +132,10 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `U`, `$`, `S`, tab ], total_invoice, d , newline ] )
+     , generic_horizontal_details( [ [ `Total` ], 200, total_invoice, d , newline ] )
 
-        , check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net ] )
-  
+        
 ] ).
-
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE TOTAL AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_line_total_amount, [
-%=======================================================================
-
-     qn0(line)
-
-    , generic_horizontal_details( [ [  `U`, `$`, `S`, tab ],  line_total_amount, d , newline ] )
-
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,11 +144,56 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_lines, [
+i_section( get_invoice_lines, [
 %=======================================================================
-   
-   q0n(line)
-    
-    , line_descr( `Line Charges` )
 
-]).
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+
+           
+              line_invoice_line
+
+            , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+   `Description`, tab, `TOTAL`, `(`, `CAD`, `)`,  newline
+
+    , trace([`found the start line`])
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+   `GL`, `account`, tab, `Cost`, `/`, `Profit`, `centre`,  newline
+
+     , trace([`found the end line`])
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+    
+      generic_item( [line_item , s1 , tab] )
+
+     , generic_item( [line_descr , s1 , tab ])
+
+    , generic_item( [line_net_amount , d , newline] )
+    
+    
+] ).  
