@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_chabba_bangkok , `23/11/2016` ).
+i_version( ul_uapl_chabba_bangkok , `21/12/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -324,7 +324,7 @@ i_line_rule_cut( line_start_line,[
 	
     or([
 
-        [`Item`, `Description`]
+        [`for`, `Malaysia`,  newline ]
 
         ,[`DESCRIPTION`, tab, `AMOUNT`, `USD`,  newline ]
 	
@@ -344,9 +344,11 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 
-          [`Sub`, `Total`]
+           [`(`, `THB`, dummy_num(d), `/`, `Exchange`, `rate`, dummy_num2(d), `)`,  newline ]
 
-          , [`(`, `U`, `.`, `S`, `.`, `DOLLARS`]
+         , [`Sub`, `Total`]
+
+         , [`(`, `U`, `.`, `S`, `.`, `DOLLARS`]
           
 		 , [ `TOTAL`, `FOB`, `BANGKOK` ]
 
@@ -387,6 +389,25 @@ i_line_rule( line_invoice_line2, [
      , generic_item([ line_quantity , d , tab  ] )
 
      , generic_item([ line_quantity_dummy , d , tab ] )
+	 
+	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
+
+     , generic_item([ line_unit_amount_dummy , d , tab] )
+
+	 , generic_item([ line_net_amount , d , newline ] ) 
+     
+]).
+
+%=======================================================================
+i_line_rule( line_debitnote_line, [
+%=======================================================================
+
+
+     generic_item([ line_number , w , [tab, `x`, tab] ])
+
+	 , generic_item([ line_descr , s1 , tab ]) 
+ 
+     , generic_item([ line_quantity , d , [ `.` , tab ] ] )
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
