@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,set_credit_note
 	
 	, get_invoice_number
 
@@ -63,13 +65,41 @@ i_rule( get_supplier_details, [
 
      ,supplier_vat_number(`000955711488`)
 
-     , set(tax_invoice)	
-
      , currency( `MYR` )
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Credit Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,15, line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q(0,15,anything)
+
+
+    , `Credit`, `Note`
+
+     , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER AND DATE
@@ -85,6 +115,8 @@ i_rule_cut( get_invoice_number, [
    , or([
        
        generic_vertical_details( [ [ `Invoice`, `No`, `:` ], `Invoice`, q(0,1), (start, 30,30), invoice_number, s1, newline ] )
+
+       ,generic_vertical_details( [ [ `Credit`, `NOTE` , `No`, `:` ], `Credit`, q(0,1), (start, 30,30), invoice_number, s1, newline ] )
 
        
        , invoice_number_line
@@ -213,6 +245,8 @@ i_rule( get_total_invoice, [
 
       , generic_horizontal_details( [ [`Grand`, `Total`, tab, `:`, `(`, `MYR`, `)`],300, total_invoice, d, newline ] )
 
+      , generic_horizontal_details( [ [`Grand`, `Total`, `:`],200, total_invoice, d, newline ] )
+
      ])
 
        , q10( [  check( q_sys_comp_str_le( total_invoice, `0` ) )   
@@ -239,7 +273,7 @@ i_rule( get_total_net, [
 
     , or([ generic_horizontal_details( [ [ `Sub`, `Total`, tab, `:` ], 200,  total_net, d , newline ] )
 
-    , generic_horizontal_details( [ [ `Sub`, `Total`],200, total_net, d , newline ] )
+    , generic_horizontal_details( [ [ `Sub`, `Total`, q10(`:`)],200, total_net, d , newline ] )
 
 ])
   
@@ -260,6 +294,8 @@ qn0(line)
 , or([
     
     generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`],200, total_vat, d , newline] )
+
+    ,generic_horizontal_details( [ [ `Total`, `GST`,`:`],200, total_vat, d , newline] )
 ])
 
   
