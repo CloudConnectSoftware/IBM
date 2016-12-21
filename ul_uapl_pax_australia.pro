@@ -153,7 +153,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `Total`, `Due` ], `Due`, q(0,1), (end,10,10), total_invoice, s1, newline ] )
+    , generic_vertical_details( [ [ `Total`, `Due` ], `Due`, q(0,1), (end,10,10), total_invoice, d, newline ] )
 
 
 ] ).
@@ -186,7 +186,11 @@ i_rule( get_total_net, [
 
   q0n(line)
 
-     , generic_vertical_details( [ [ `Total`, `Exc` , `GST` ], `Exc`, q(0,1), (start,10,10), total_net, s1, tab ] )
+     , or([
+         
+         generic_vertical_details( [ [ `Total`, `Exc` , `GST` ], `Exc`, q(0,1), (start,10,10), total_net, d, tab ] )
+
+     ])
   
 ] ).
 
@@ -202,7 +206,7 @@ i_rule( get_total_vat, [
 
    q0n(line)
 
-    , generic_vertical_details( [ [ `Total`, `GST` ], `GST`, q(0,1), (start,10,10), total_vat, s1, tab ] )
+    , generic_vertical_details( [ [ `Total`, `GST` ], `GST`, q(0,1), (start,10,10), total_vat, d, tab ] )
   
 ] ).
 
@@ -223,8 +227,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           
-              line_invoice_line
+              [test(credit_note), line_credit_line]
+
+              ,line_invoice_line
 
             , line
 
@@ -261,19 +266,47 @@ i_line_rule_cut( line_invoice_line, [
     
       generic_item( [ customer_item_no_dummy , d , tab ] )
 
-    , generic_item( [line_item , d , tab])
+    , generic_item( [line_item , d , tab ])
 
-    , generic_item( [line_descr , s1 , tab] )
+    , generic_item( [line_descr , s1 , tab ] )
 
-    , generic_item( [line_quantity , d , tab] )
+    , generic_item( [line_quantity , d , tab ] )
 
-    , generic_item( [line_quantity_uom_code_dummy , w , tab] )
+    , generic_item( [line_quantity_uom_code_dummy , w , tab ] )
 
     , generic_item( [line_vat_rate , d , tab ])
 
-    , generic_item( [line_unit_amount , d , tab] )
+    , generic_item( [line_unit_amount , d , tab ] )
 
-    , generic_item( [line_net_amount_dummy , s1 , newline] )
+    , generic_item( [line_net_amount , d , newline ] )
+
+    ,trace( [ `Invoice line complete` ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_credit_line, [
+%=======================================================================
+
+    
+      generic_item( [ customer_item_no_dummy , d , tab ] )
+
+    , generic_item( [line_item , d , tab ])
+
+    , generic_item( [line_descr , s1 , tab ] )
+
+    , generic_item( [line_quantity_dummy , n , tab ] )
+
+    , generic_item( [line_quantity_uom_code_dummy , w , tab ] )
+
+    , generic_item( [line_vat_rate , d , tab ])
+
+    , generic_item( [line_unit_amount , d , tab ] )
+
+    , generic_item( [line_net_amount , d , newline ] )
+
+    ,trace( [ `Creit note complete` ] )
 
 
 ] ).

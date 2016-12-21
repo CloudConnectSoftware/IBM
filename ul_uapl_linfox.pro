@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+	,set_credit_note
+
 	, get_invoice_number
 	
 	, get_invoice_date
@@ -54,6 +56,37 @@ i_rule( get_supplier_details, [
 	, currency(`NZD`)
 
 	,buyer_registration_number(`NZ00`)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,30,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , `CREDIT`, `NOTE`
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
 
 ] ).
 
@@ -125,7 +158,9 @@ i_rule( get_total_net, [
 
 	, or([
 
-		 generic_horizontal_details( [ [ `Sub`, `Total`, tab ] , total_net , d , newline ] )
+		[test(credit_note) , 
+
+		 ,generic_horizontal_details( [ [ `Sub`, `Total`, tab ] , total_net , d , newline ] )
 		 
 		 , generic_horizontal_details( [ [ `Sub`, `Total`, tab, `NZD`, q10(tab), `$` ] , total_net , d , newline ] )
 
