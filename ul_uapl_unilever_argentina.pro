@@ -69,7 +69,15 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Numb`, `:` ], 5, invoice_number, s1, newline ] )
+   	, or([
+           
+           generic_horizontal_details( [ [ `Numb`, `:` ], 5, invoice_number, s1, newline ] )
+
+           ,generic_horizontal_details( [ [ `Nro`, `.` ,`:` ], 50, invoice_number, s1, newline ] )
+
+       ])
+
+
   
 
 ] ).
