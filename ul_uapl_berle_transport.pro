@@ -208,7 +208,7 @@ i_section( get_invoice_lines, [
         , or( [
                    
              
-             line_invoice_line 
+             [q10(line_desr_line) ,line_invoice_line  ]
 
              , line
 
@@ -242,7 +242,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
          
-     generic_item( [ line_date, date, tab ] )
+     q10(generic_item( [ line_date, date, tab ] ))
 
     , generic_item( [ line_descr , s1 , tab ] )
 
@@ -252,6 +252,18 @@ i_line_rule_cut( line_invoice_line, [
  
    
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_desr_line, [
+%=======================================================================
+ 
+    q10(generic_item( [ line_date, date, tab ] ))
+
+    ,generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
+
+    , trace( [`Appended Line Description`])
+
+]).  
 
 
 
