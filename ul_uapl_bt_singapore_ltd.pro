@@ -122,7 +122,12 @@ i_rule( get_order_number, [
 
 q0n(line)
 	
-    , generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
+    , or([
+    generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
+    
+    ,generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [`)` , newline ] ]  )
+    
+    ])
 
     , check(order_number = OrdNo)
 
