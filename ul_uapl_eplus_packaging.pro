@@ -87,7 +87,7 @@ i_rule_cut( get_invoice_date, [
     
     q0n(line)
     
-    , generic_horizontal_details( [ [ `Date` ], 150, invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Date` ], 170, invoice_date, date, newline ] )
 
 	] ).
 
