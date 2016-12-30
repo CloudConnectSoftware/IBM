@@ -95,9 +95,13 @@ i_line_rule( invoice_or_credit_note_line, [
 i_rule_cut( get_invoice_number, [
 %=======================================================================
 
-	q(0,30,line)
+	q(0,100,line)
 
-    , generic_vertical_details( [ [ `TAX`, `INVOICE` ], `INVOICE`, q(0,2), (end,200,200), invoice_number, w , newline ] )
+    , or([generic_vertical_details( [ [ `TAX`, `INVOICE` ], `INVOICE`, q(0,3), (end,10,500), invoice_number, w , newline ] )
+
+    , generic_vertical_details( [ [ `TAXINVOICE` ], `TAXINVOICE`, q(0,3), (end,10,500), invoice_number, w , newline ] )
+
+    ])
 	
 ] ).
 
@@ -111,7 +115,7 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q(0,30,line)
+    q(0,50,line)
 
     , generic_horizontal_details( [ [ `DATE` ], 100, invoice_date , date , newline ] )
 
@@ -130,7 +134,12 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `SUB` , `TOTAL` ], 400 , total_net, d, newline ] )
+    , or([
+        generic_horizontal_details( [ [ `SUB` , `TOTAL` ], 400 , total_net, d, newline ] )
+
+        ,generic_horizontal_details( [ [ `SUBTOTAL` ], 400 , total_net, d, newline ] )
+
+    ])
 
 
 ] ).
@@ -148,7 +157,12 @@ i_rule_cut( get_total_vat, [
 
 	qn0(line)
 
-    , generic_vertical_details( [ [ `GST` , `Amt` ], `GST`, q(0,1), (end,10,10), total_vat , d , tab ] )
+    , or([
+        generic_vertical_details( [ [ `GST` , `Amt` ], `GST`, q(0,1), (end,10,10), total_vat , d , tab ] )
+
+        ,generic_vertical_details( [ [ `GSTAmt` ], `GSTAMT`, q(0,1), (end,10,10), total_vat , d , tab ] )
+
+    ])
 
 ] ).
 
@@ -165,7 +179,11 @@ i_rule_cut( get_invoice_totals, [
 
 	qn0(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `PAYABLE`, `INCL`, `.`, `GST` ], 250 , total_invoice, d , newline ] )
+    , or([
+        generic_horizontal_details( [ [ `TOTAL`, `PAYABLE`, `INCL`, `.`, `GST` ], 250 , total_invoice, d , newline ] )
+
+        ,generic_horizontal_details( [ [ `TOTALPAYABLEINCL`, `.`, `GST` ], 250 , total_invoice, d , newline ] )
+    ])
 
 ] ).
 
@@ -182,7 +200,12 @@ i_rule_cut( get_currency, [
 
 	qn0(line)
 
-    , generic_vertical_details( [ [ `SUB` , `TOTAL` ], `TOTAL`, q(0,1,up), (end, 500 ,500), currency , w , newline ] )
+    , or([
+        generic_vertical_details( [ [ `SUB` , `TOTAL` ], `TOTAL`, q(0,1,up), (end, 500 ,500), currency , w , newline ] )
+
+        ,generic_vertical_details( [ [ `SUBTOTAL` ], `SUBTOTAL`, q(0,1,up), (end, 500 ,500), currency , w , newline ] )
+
+    ])
 
 ] ).
 
@@ -199,7 +222,13 @@ i_rule_cut( get_order_number, [
 
 	q0n(line)
 
-    , generic_horizontal_details( [ [ `PO`, `NO`, `.` ], 100 , order_number, d , newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `PO`, `NO`, `.` ], 100 , order_number, d , newline ] )
+
+        ,generic_horizontal_details( [ [ `PONO`, `.` ], 100 , order_number, d , newline ] )
+
+    ])
 	
 ] ).
 
@@ -238,7 +267,12 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line, [
 %=======================================================================
 
-    `ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab
+    or([
+        [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
+
+          ,[`ITEMNO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
+
+    ])
      
     , trace( [ `FOUND THE HEADER LINE` ] )
 
@@ -251,9 +285,13 @@ i_line_rule_cut( line_end_line, [
 
     or([ 
         
-        [`RINGGIT`, `MALAYSIA`]
+        [`RINGGIT`, `MALAYSIA`]                     
+
+        , [`RINGGITMALAYSIA`]
 
         , [`NEXT` , `PAGE`]
+
+       
 
     ])
 
@@ -283,7 +321,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item([ line_vat_amount , d , or([ tab , newline ])])
 
-    , q10(generic_item([ line_vat_code , w , newline ]))
+    , q10(generic_item([ line_vat_code_dummy , w , newline ]))
 
 ] ).
 

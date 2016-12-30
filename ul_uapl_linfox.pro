@@ -111,7 +111,7 @@ q0n(line)
 
    , generic_horizontal_details( [ [ `Invoice` , `No` , `:` , tab ] , invoice_number , w , tab ] )
 
-    , generic_horizontal_details( [ [ `Credit` , `Note` , tab, `:` , tab ] , invoice_number , w , tab ] )
+	, generic_horizontal_details( [ [ `Credit` , `Note` , tab, `:` , q10(tab) ] , invoice_number , w , newline ] )
 
  ])
 

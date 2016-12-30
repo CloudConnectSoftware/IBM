@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_bartle_bogle, `28/10/2016` `3:15:05` ).
+i_version( ul_uapl_bartle_bogle, `30/12/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -100,9 +100,15 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , or([generic_horizontal_details( [ [ `PO`, `NO`, `:` ], 100, order_number, s1, newline ] )
+    , or([generic_horizontal_details( [ [ `PO`, `NO`, `:` ], 100, order_number, w, newline ] )
 
-    ,generic_horizontal_details( [ [ `P`, `.`, `O` , `:` ], order_number, s1, newline ] ) ])
+    ,generic_horizontal_details( [ [ `P`, `.`, `O` , `:` ], order_number, w, newline ] )
+
+    ,generic_horizontal_details( [ [ `P`, `.`, `O` , `No` `:` ], order_number, w, newline ] )    
+
+    ,generic_horizontal_details( [ [ `P`, `.`, `O` , `No` `:` ], order_number, w, newline ] )
+    
+     ])
 
 
 
@@ -145,10 +151,9 @@ i_rule( get_total_vat, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `GST`, tab, `7`,`.`, `00`, `%` ], 350, total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `GST`, tab, generic_item( [ default_vat_rate, d ] ), `%` ], 350, total_vat, d, newline ] )
 
-    , generic_item( [ default_vat_rate, 7 ] )
-
+    
 
 ] ).
 
@@ -225,8 +230,8 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 or([
-	[`Job`, `No`, `.`, tab ]
 
+    [`Job`, `No` , `.`]
 ])
 
 	, trace( [`Found header line` ] )
@@ -239,10 +244,16 @@ or([
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-
-
+or([
+        
 		
 		[`The`, `amounts`, `in`, `this`, `invoice`, `is`, `net`, `of`, `any`]
+
+        ,[`BBH`, `Communications`, `(`, `Asia`, `Pacific`, `)`]
+
+        , [`GST`, `Registration`, `No`, `.`, tab, `201104648W`,  newline ] 
+
+])
         
 	, trace( [ `FOUND END LINE`])
 
