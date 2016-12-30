@@ -267,13 +267,12 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line, [
 %=======================================================================
 
-    or([
-        [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
+   
+       
 
-          ,[`ITEMNO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
+          [`ITEMNO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
 
-    ])
-     
+         
     , trace( [ `FOUND THE HEADER LINE` ] )
 
 
@@ -289,7 +288,7 @@ i_line_rule_cut( line_end_line, [
 
         , [`RINGGITMALAYSIA`]
 
-        , [`NEXT` , `PAGE`]
+        ,[`APEXPACKAGINGSDNBHD`, tab, `(`, `CompanyRegNo`, `:`, `(`, `331958`, `-`, `K`, `)`, `)`,  newline ]
 
        
 
