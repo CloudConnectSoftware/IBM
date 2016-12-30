@@ -326,9 +326,9 @@ i_line_rule_cut( line_invoice_line, [
     
     )
 
-    , generic_item( [ line_unit_amount , d , tab ] )
+    , generic_item( [ line_unit_amount_dummy , d , tab ] )
 
-    , generic_item( [ line_net_amount, d , newline ] )
+    , generic_item( [ line_total_amount, d , newline ] )
 
    
 
