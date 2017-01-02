@@ -160,7 +160,7 @@ i_rule( get_total_net, [
 
 		[test(credit_note)  
 
-		 , generic_horizontal_details( [ [ `Sub`, `Total`, tab ] , total_net , d , newline ] )]
+		 , generic_horizontal_details( [ [ `Sub`, `Total` ] ,100,total_net , d , newline ] )]
 
 		 , generic_horizontal_details( [ [ `Sub`, `Total`, tab, `NZD`, q10(tab), `$` ] , total_net , d , newline ] )
 
