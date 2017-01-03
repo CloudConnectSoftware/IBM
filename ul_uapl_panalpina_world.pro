@@ -94,7 +94,7 @@ i_rule_cut( get_order_number, [
 
     , line_buyers_order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
 
 
 ]).
@@ -112,7 +112,7 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_vertical_details( [ [ `INVOICE`, `NO` ], `NO`, q(1,3,up), (end,5,30), invoice_date, s1, newline ] )
+ , generic_vertical_details( [ [ `INVOICE`, `NO` ], `INVOICE`, q(1,3,up),(endword,10,10), invoice_date, date, [ check( invoice_date(end) > 95 ) , newline ] ] )
 
 
 ] ).
@@ -146,7 +146,7 @@ i_rule( get_total_net, [
   
   qn0(line)
 
-    , generic_vertical_details( [ [ `ORIGIN`, `FEE` ], `FEE`, q(1,5), (end,550,550),total_net, d, newline ] )
+   , generic_vertical_details( [ [ `ORIGIN`, `FEE` ], `FEE`, q(1,5), (end,550,550),total_net, d, newline ] )
   
 ] ).
 
@@ -163,7 +163,7 @@ i_rule( get_total_vat, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `2`, `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, `USD`, tab ],total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, `USD`, tab ],total_vat, d, newline ] )
 
 ] ).
 
