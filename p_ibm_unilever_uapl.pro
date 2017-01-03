@@ -323,7 +323,7 @@ i_final_rule( [
 
 	peek_fails( test( tax_invoice ) )
 
-	, q(0,10,line)
+	, q(0,20,line)
 
 	, generic_horizontal_details( [ [ gen_beof, `Tax`, `Invoice`, q10( `:` ), gen_eof ] ] )
 
