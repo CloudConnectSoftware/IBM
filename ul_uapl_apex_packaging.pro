@@ -298,9 +298,13 @@ i_line_rule_cut( line_start_line, [
 %=======================================================================
 
    
-       
+       or([
 
           [`ITEMNO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
+
+          ,[`ITEM`, `NO`, `.`, tab, `DESCRIPTION`]
+
+       ])
 
          
     , trace( [ `FOUND THE HEADER LINE` ] )
