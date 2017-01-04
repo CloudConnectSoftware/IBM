@@ -481,6 +481,8 @@ i_analyse_future_invoice_date___
 		true
 
 	),
+	
+	!,
 
 	date_string( Date_Invoice, Date_Format, Invoice_Date ),
 	sys_date_1900_days( Date_Invoice, Invoice_Date_Count ),
