@@ -30,6 +30,8 @@ i_rule_list( [
 
     , get_total_vat
 
+    ,get_vat_rate
+
     , get_invoice_totals
 
     , get_currency
@@ -174,7 +176,6 @@ i_rule( get_total_net, [
 
 ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL VAT
@@ -186,6 +187,7 @@ i_rule_cut( get_total_vat, [
 %=======================================================================
 
 	qn0(line)
+    
 
     , or([
         generic_vertical_details( [ [ `GST` , `Amt` ], `GST`, q(0,1), (end,10,10), total_vat , d , tab ] )
@@ -193,6 +195,26 @@ i_rule_cut( get_total_vat, [
         ,generic_vertical_details( [ [ `GSTAmt` ], `GSTAMT`, q(0,1), (end,10,10), total_vat , d , tab ] )
 
     ])
+
+   
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET   VAT RATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_vat_rate, [
+%=======================================================================
+
+	qn0(line)
+    
+
+    
+    ,generic_horizontal_details( [ [ `SR`, tab, `@`], default_vat_rate, d , [`%`, tab ] ] )
 
 ] ).
 
@@ -214,6 +236,8 @@ i_rule_cut( get_invoice_totals, [
 
         ,generic_horizontal_details( [ [ `TOTALPAYABLEINCL`, `.`, `GST` ], 250 , total_invoice, d , newline ] )
     ])
+
+    
 
 ] ).
 
@@ -302,6 +326,8 @@ i_line_rule_cut( line_start_line, [
 
           [`ITEMNO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
 
+          
+
           ,[`ITEM`, `NO`, `.`, tab, `DESCRIPTION`]
 
        ])
@@ -317,12 +343,16 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
     or([ 
+
+        [`APEXPACKAGINGSDNBHD`, tab, `(`, `CompanyRegNo`, `:`, `(`, `331958`, `-`, `K`, `)`, `)`,  newline ]
+
+        ,[`APEX`, `PACKAGING`, `SDN`, `BHD`]
         
-        [`RINGGIT`, `MALAYSIA`]                     
+        ,[`RINGGIT`, `MALAYSIA`]                     
 
         , [`RINGGITMALAYSIA`]
 
-        ,[`APEXPACKAGINGSDNBHD`, tab, `(`, `CompanyRegNo`, `:`, `(`, `331958`, `-`, `K`, `)`, `)`,  newline ]
+        
 
        
 
@@ -355,6 +385,8 @@ i_line_rule_cut( line_invoice_line, [
     , generic_item([ line_vat_amount , d , or([ tab , newline ])])
 
     , q10(generic_item([ line_vat_code_dummy , w , newline ]))
+
+    , trace( [ `Line Complete` ] )
 
 ] ).
 
