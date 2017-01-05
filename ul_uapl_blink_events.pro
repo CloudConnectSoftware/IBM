@@ -116,8 +116,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `:`, tab, `$`], 45, total_invoice, d, newline ] )  
+      , or([ 
 
+      generic_horizontal_details( [ [ `Total`, `:`, tab, `$`], 45, total_invoice, d, newline ] ) 
+
+     , generic_horizontal_details( [ [ `Total`, `:`, `$`, tab] , 80, total_invoice, d, newline ] ) 
+
+      ])
         , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
@@ -158,8 +163,14 @@ i_rule( get_line_total_amount, [
 %=======================================================================
    
    q0n(line)
+
+   , or([ 
               
-        , generic_horizontal_details( [ [`Total`, `:`, tab, `$` ], 45, line_total_amount, d, newline ] )  
+          generic_horizontal_details( [ [`Total`, `:`, tab, `$` ], 45, line_total_amount, d, newline ] )  
+
+         , generic_horizontal_details( [ [ `Total`, `:`, `$`, tab] , 80, line_total_amount, d, newline ] ) 
+
+      ])
     
      ] ).
 
