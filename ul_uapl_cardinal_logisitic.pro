@@ -47,7 +47,7 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_supplier_party, [
+i_rule( get_supplier_detail, [
 %=======================================================================
 
 	sender_name(`Cardinal Logistics Ltd`)
@@ -85,7 +85,7 @@ i_rule( get_invoice_number, [
 
 	q(0,20,line)
 	
-	, generic_horizontal_details( [ [ `Tax`, `Invoice`, `:`, q10(tab) ], invoice_number, s1 , newline  ] )
+	, generic_horizontal_details( [ [ `Tax`, `Invoice`, `:`, q10(tab) ], invoice_number, w , newline  ] )
 
 ] ).
 
