@@ -252,9 +252,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ line_invoice_line, q10(line_descr_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           [ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
 
-           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
 
            ,line_invoice_line2
 
@@ -353,7 +353,7 @@ i_line_rule_cut( line_po_line, [
     , or([
             generic_item( [ line_buyers_order_number , w1 , `=` ] )
 
-            , generic_item( [ line_buyers_order_number , s1 , newline ] )
+            , generic_item( [ line_buyers_order_number , w , newline ] )
 
     ])
 
