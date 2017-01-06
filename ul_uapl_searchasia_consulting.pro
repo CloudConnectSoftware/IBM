@@ -70,9 +70,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, `:` ], 50, invoice_number, s1, newline ] )
+      , or([
+
+    generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, `:` ], 50, invoice_number, s1, newline ] )
 	
+    , generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, tab, `:` ], 50, invoice_number, s1, newline ] )
 	
+ ])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
