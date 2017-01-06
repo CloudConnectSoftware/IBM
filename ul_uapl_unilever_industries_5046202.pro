@@ -49,7 +49,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `UNILEVER INDUSTRIES PRIVATE LIMITED` )
 
-    , supplier_vat_number(`29300104607`)
+    , supplier_vat_number(`U24110MH1994PTC081672`)
 
     , set(freight_vendor)
 
