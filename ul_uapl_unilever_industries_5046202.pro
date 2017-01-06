@@ -67,12 +67,9 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, or([
-           generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:` ], 10, invoice_number, d, newline ] )
-
     , generic_vertical_details( [ [ `Invoice`, `No`], `Invoice`, q(0,1),(end,20,20), invoice_number, d ] )
   
-       ])
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -87,7 +84,7 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ], 10, invoice_date, date, newline ] )
+	,   generic_horizontal_details( [ [ `Dt`, `.` ],  invoice_date, date, tab ] )
 
 ] ).
 
@@ -103,7 +100,7 @@ i_rule( get_order_number, [
 
 q0n(line)
 	
-    , generic_horizontal_details( [ [ `DO`, `No`, `.`, `:` ], 10, order_number, d , newline ] )
+   , generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), order_number, d,  newline  ] )
 
 ] ).
 
@@ -117,12 +114,9 @@ q0n(line)
 i_rule( get_currency, [
 %=======================================================================
 
-   q0n(line)
-	
-    , generic_horizontal_details( [ [ `Currency`, `:`], 10, currency, w , newline ] )
+  currency( `USD` )
 
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,9 +128,9 @@ i_rule( get_currency, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	qn0(line)
+qn0(line)
 	
-     , generic_horizontal_details( [ [ `Total`, `-`, `USD`], 800, total_invoice, d , newline ] )
+    , generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), total_invoice,  d , newline ] )
 
         , check( total_invoice = TotInv )
 
@@ -144,10 +138,9 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] )
-  
-] ).
+        , trace( [ `Total net` , total_net ] )   
 
+] ).
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -161,7 +154,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `-`, `USD`], 800, line_total_amount, d , newline ] )
+    , generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), line_total_amount,  d , newline ] )
 
 ] ).
 
