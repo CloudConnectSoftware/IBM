@@ -133,7 +133,7 @@ qn0(line)
     , or([
         generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), total_invoice,  d , newline ] )
 
-        ,generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `FOR`, q(0,10,up), (start,100,100), total_invoice,  d , newline ] )
+        ,generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `FOR`, q(0,15,up), (start,300,300), total_invoice,  d , newline ] )
 
     ])
 
@@ -159,7 +159,11 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), line_total_amount,  d , newline ] )
+    , or([ generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,50), line_total_amount,  d , newline ] )
+
+    ,generic_vertical_details( [ [ `For`, `Unilever`, `Industries`, `(`, `P`, `)`, `Ltd` ], `FOR`, q(0,15,up), (start,300,300), line_total_amount,  d , newline ] )
+
+    ])
 
 ] ).
 
