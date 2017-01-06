@@ -343,7 +343,7 @@ i_line_rule( line_invoice_line, [
 	
 	generic_item( [ line_date, date, tab ] )
 
-    , generic_item( [ line_reference_dummy, w , or([ [ `-`, tab ] , tab ])])
+    , generic_item( [ line_reference_dummy, s1 , or([ [ `-`, tab ] , tab ])])
 
     , q10(generic_item( [ line_con_note, w, tab ] ))
 	
@@ -357,6 +357,7 @@ i_line_rule( line_invoice_line, [
 
 	, generic_item( [ line_net_amount, d, newline ] )
 
+	,trace( [`At End of Invoice Line`] )
     
 ] ).
 
