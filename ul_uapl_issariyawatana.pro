@@ -115,6 +115,8 @@ i_rule_cut( get_invoice_number, [
 
    , generic_horizontal_details( [ [`RE`, `:`, `Invoice`, `No`, `.`, `:` ], invoice_number, s1, newline ] )
 
+   , generic_horizontal_details( [ [`INV`, `.`, `NO`, `:` ], invoice_number, s1, newline ] )
+
    ])
 	
 	
@@ -169,13 +171,14 @@ i_rule( get_line_buyers_order_number, [
     q0n(line)
 
     , or([
+
         generic_horizontal_details( [ [`P`, `/`, `O`, `NO`, `.`, `:` ], line_buyers_order_number, d, or( [tab , newline ] ) ] )
         
-        ,generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, q10(tab) ], line_buyers_order_number, d, or( [ newline , tab ]) ] )
+        , generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, q10(tab) ], line_buyers_order_number, d, or( [ newline , tab ]) ] )
 
-        ,generic_horizontal_details( [ [`REF`, `.`, `P`, `/`, `O`, `NO`, `.`, `:`], line_buyers_order_number, d, newline ])
+        , generic_horizontal_details( [ [`REF`, `.`, `P`, `/`, `O`, `NO`, `.`, `:`], line_buyers_order_number, d, newline ])
 
-        
+         , generic_horizontal_details( [ [`REF`, `DO`, `NO`, `.`, `:`, tab ], line_buyers_order_number, d, newline ])
 
 
     ])
@@ -202,7 +205,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `:`, tab , dummy(s1), tab ,  `US`, `$`], 100, total_invoice, d, newline ] )
+   , or([
+
+      generic_horizontal_details( [ [ `TOTAL`, `:`, tab , dummy(s1), tab ,  `US`, `$`], 100, total_invoice, d, newline ] )
+
+      , generic_vertical_details( [ [ `Term`, `of`, `payment` ], `payment`, q(0,1,up), (end,10,600), total_invoice, d, newline ] )
+
+   ])
 
        , check( total_invoice = TotInv )
 
@@ -211,6 +220,8 @@ i_rule( get_total_invoice, [
         , total_net(TotInv)
 
         , trace( [ `Total net` , total_net] )
+
+
 
 
 ] ).
@@ -260,9 +271,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-             [line_invoice_line  , q10( line_descr_line)]
+                [line_invoice_line  , q10( line_descr_line)]
 
-              , line
+               , line
 
         ] )
 
@@ -274,14 +285,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
 
-     or([ 
+      or([
 
- 
+        [ `PCS`, tab, `F`, `.`, `O`, `.`, `B`, `.`, `BKK`, tab, `(`, `US`, `$`, `)`,  newline  ]
 
-        [`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
+         ,  [`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
 
-
-    ])
+        ])
 
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -291,7 +301,14 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   `TOTAL`, `:`
+    or([ 
+        
+         [`TOTAL`, `:`]
+
+        , [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:`]
+ 
+   
+       ])
 
     , trace( [ `FOUND LINE END LINE`] )
 
@@ -301,15 +318,15 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
           
-     generic_item( [ line_item, w, tab ] )
+     generic_item( [ line_item, d, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
 
-    , q10(generic_item( [ line_dummy, s1, tab ] ))
+    , q10(generic_item( [ line_dummy, d, tab ] ))
 
     , q10(generic_item( [ line_carton, d, tab ] ))
 
-    , generic_item( [ line_quantity , d , tab ] )
+    , q10(generic_item( [ line_quantity , d , tab ] ))
 
      ,q10(generic_item( [ line_unit_amount_dummy, d, tab ] ))
 
