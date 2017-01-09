@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `09:48 24 November 2016` ).
+i_version( p_ibm_unilever_uapl, `13:04 06 January 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -706,39 +706,43 @@ i_analyse_line_fields_last( LID ):- i_analyse_line_buyers_order_number___( LID )
 i_analyse_line_buyers_order_number___( LID )
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
-	result( _, LID, line_buyers_order_number, LBON ),
+	(
+		result( _, LID, line_buyers_order_number, LBON ),
 
-	q_gratabase_lookup( `ibm_po_list`,
-		[ LBON, _, _, _, _ ],
-		[ LBON, _, _, _, _ ],
-		Available
+		q_gratabase_lookup( `ibm_po_list`,
+			[ LBON, _, _, _, _ ],
+			[ LBON, _, _, _, _ ],
+			Available
+		),
+
+		(
+			Available = false
+
+			-> trace( [ `Unable to access ibm po list table` ] ), fail
+
+			;
+
+			trace( [ `Line Order Number Found` ] )
+
+		)
+
+		;
+
+		sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
+
+		(
+			result( _, invoice, order_number, PO ),
+
+			assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
+
+			;
+
+			trace( [ `line_buyers_order_number missing/invalid - value removed` ] )
+
+		)
 	),
-
-	(
-		Available = false
-
-		-> trace( [ `Unable to access ibm po list table` ] ), fail
-
-		;
-
-		trace( [ `Line Order Number Found` ] )
-
-	)
-
-	;
-
-	sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
-
-	(
-		result( _, invoice, order_number, PO ),
-
-		assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
-
-		;
-
-		trace( [ `line_buyers_order_number missing/invalid - value removed` ] )
-
-	)
+	
+	!
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
