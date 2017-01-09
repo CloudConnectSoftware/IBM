@@ -77,7 +77,14 @@ i_line_rule( supporting_doc_line, [
 
 q0n(anything)
 
-, [`packing` , `list`]
+, or([
+    
+    [`packing` , `list`]
+
+    ,[`QUOTATION`]
+
+
+])
 
 , trace( [ `This is a packing List doc` ] )
 
