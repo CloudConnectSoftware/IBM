@@ -254,7 +254,7 @@ i_section( get_invoice_lines, [
 
               , line_credit_note_line
 
-              ,[line_invoice_new_line , q10(line_descr_append_line) , q10(line_descr_append_line) ]
+              ,[line_invoice_new_line , q10(line_order_line) , q10(line_descr_append_line) , q10(line_descr_append_line) , q10(line_descr_append_line) , q10(line_descr_append_line)]
 
             , line
 
@@ -434,5 +434,15 @@ i_line_rule_cut( line_descr_append_line, [
 
    
     generic_append( [ line_descr, s1 , newline, ` `, ` `  ] )
+
+] ).
+
+ %=======================================================================
+i_line_rule_cut( line_order_line, [
+%=======================================================================
+
+   `Purchase` , `Order` , `#`
+
+   , generic_item( [ line_buyers_order_number, w , newline  ] )
 
 ] ).
