@@ -28,8 +28,6 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_line_buyers_order_number
-
     , get_total_net
 
     , get_total_invoice
