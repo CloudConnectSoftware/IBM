@@ -20,8 +20,6 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_bankdetails
-
     , get_credit_note
 	
 	, get_invoice_number
