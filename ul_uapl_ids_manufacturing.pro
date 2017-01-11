@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ids_manufacturing, `22/11/2016` ).
+i_version( ul_uapl_ids_manufacturing, `11/1/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,6 +66,7 @@ i_rule( get_supplier_details, [
      ,supplier_vat_number(`000955711488`)
 
      , currency( `MYR` )
+
 
 ] ).
 
@@ -134,7 +135,7 @@ i_line_rule( invoice_number_line, [
     q0n(anything)
 
      
-         , [read_ahead( [ `16`,`/` ] )   , nearest( 260,  10, 10 )     , generic_item( [invoice_number, s1 , newline ] )]
+         , [read_ahead( [ `17`,`/` ] )   , nearest( 260,  10, 10 )     , generic_item( [invoice_number, s1 , newline ] )]
 
 
       
@@ -324,9 +325,11 @@ i_line_rule( vat_rate_line, [
 
    q0n(anything)
 
-    , `Standard`, `Rated`   
+     , `Standard`, `Rated`   
      
      , generic_item( [ default_vat_rate, `6` ] )
+
+     , set(tax_invoice)
 
 
 ] ).
