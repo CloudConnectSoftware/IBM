@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_rand_transport, `30/11/2016` ).
+i_version( ul_uapl_rand_transport, `11/1/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -160,6 +160,8 @@ i_rule( get_total_net, [
     , generic_horizontal_details( [ [ `Total`, `=`, tab, `$` ], 100, total_net, d, newline ] )
 
     , generic_horizontal_details( [ [  `Total`, `(`, `ex`, `GST`, `)`, `:`, tab, `(`   ], total_net, n, `)` ] )
+
+    , generic_horizontal_details( [ [  `Total`, `(`, `ex`, `GST`, `)`, `:`, tab ], total_net, d, newline ] )
 ])
     
 ] ).
@@ -188,9 +190,13 @@ q0n(line)
 
        , generic_horizontal_details( [ [ `Total`, `GST`, `:`, tab, `(` ], total_vat, n, `)` ] )
 
+       , generic_horizontal_details( [ [ `Total`, `GST`, `:`, tab ], total_vat, d, newline ] )
+
  ])
 
  , generic_item( [ default_vat_rate, 10 ] )
+
+ ,set(tax_invoice)
 
   
 ] ).
@@ -215,6 +221,8 @@ i_rule( get_total_invoice, [
         , generic_horizontal_details( [ [ `Total`, `Due`, `:`, tab, `$` ], 100, total_invoice, d, newline ] )
 
         , generic_horizontal_details( [ [ `Invoice`, `Total`, `(`, `Inc`, `.`, `GST`, `)`, `:`, tab, `(` ], total_invoice, n, `)` ] )
+
+        , generic_horizontal_details( [ [ `Invoice`, `Total`, `(`, `Inc`, `.`, `GST`, `)`, `:`, tab ], total_invoice, d, newline ] )
 
 
      ])
@@ -245,6 +253,8 @@ i_section( get_invoice_lines, [
               , line_split_line_rule
 
               , line_credit_note_line
+
+              ,[line_invoice_new_line , q10(line_descr_append_line) , q10(line_descr_append_line) ]
 
             , line
 
@@ -278,7 +288,7 @@ or([
 
     [ `Freight`, `(`, `inc`, `onforward`, `)` ]
 
-    ,[`Total`, `(`, `ex`, `GST`, `)`, `:`, tab, `(`]
+    ,[`Total`, `(`, `ex`, `GST`, `)`, `:`]
 
     ,[`Total`, `=`, tab, `$`]
 
@@ -397,5 +407,32 @@ i_line_rule_cut( line_credit_note_line, [
     , trace( [ `END OF SPLIT LINE` ] )
 
 
+
+] ).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_new_line, [
+%=======================================================================
+
+      q10(generic_item( [ line_descr , s1 , tab ] ))
+
+     , generic_item( [ line_quantity , d , tab ] )
+
+     , generic_item( [line_unit_amount , d ,  tab ])
+
+     , generic_item( [ line_gst , w , tab ] )
+
+     , generic_item( [line_net_amount , d , newline ] )
+
+]).
+
+ %=======================================================================
+i_line_rule_cut( line_descr_append_line, [
+%=======================================================================
+
+   
+    generic_append( [ line_descr, s1 , newline, ` `, ` `  ] )
 
 ] ).
