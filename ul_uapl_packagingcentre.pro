@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,get_bankdetails
+
     , get_credit_note
 	
 	, get_invoice_number
@@ -55,6 +57,23 @@ i_rule( get_supplier_details, [
     , sender_name(`PACKAGING CENTRE SERVICES SDN BHD`)
 
     , buyer_registration_number(`MY00`)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bankdetails, [
+%=======================================================================
+
+	qn0(line)
+
+	, generic_horizontal_details( [ [ `BANK`, `ACCOUNT`, `NO`, `:`],  buyer_bank_account_number, s, `with`  ] )
+	
 
 ] ).
 
