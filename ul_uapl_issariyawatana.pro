@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_issariyawatana, `21/11/2016` ).
+i_version( ul_uapl_issariyawatana, `12/1/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -322,7 +322,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_descr, s1, tab ] )
 
-    , q10(generic_item( [ line_dummy, d, tab ] ))
+    , q10(generic_item( [ line_dummy, w, tab ] ))
 
     , q10(generic_item( [ line_carton, d, tab ] ))
 
