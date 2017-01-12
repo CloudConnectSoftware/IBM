@@ -26,6 +26,8 @@ i_rule_list( [
 
 	, get_invoice_date
 
+    , get_order_number
+
     , get_total_net
 
 	, get_total_vat
@@ -143,7 +145,22 @@ i_rule_cut( get_invoice_date, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_horizontal_details( [ [`PO`, `:` ], 50, order_number, w, newline ] )
+
+   
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL VAT
@@ -273,8 +290,6 @@ i_section( get_invoice_lines, [
            [ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
 
            ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
-
-           ,line_invoice_line2
 
            ,line_debit_line
 
