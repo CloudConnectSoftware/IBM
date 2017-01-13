@@ -107,7 +107,7 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q0n(line)
+    q(0,150, line)
 
    ,or([
 
@@ -135,7 +135,7 @@ i_rule_cut( get_invoice_date, [
     q0n(line)
 
 ,or([
-     generic_horizontal_details( [ [ `Date`, q10(tab), `:`, tab ],  invoice_date, date, newline ] )
+     generic_horizontal_details( [ [ `Date`, q10(tab), `:`, q10(tab) ],  invoice_date, date, newline ] )
 
     , [
         generic_horizontal_details( [ [ `DATE`, tab, `:` ],  invoice_date_raw, s1, newline ] )
@@ -168,7 +168,7 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_line_buyers_order_number, [
 %=======================================================================
 
-    q0n(line)
+    q(0,200,line)
 
     , or([
 
@@ -318,7 +318,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
           
-     generic_item( [ line_item, d, tab ] )
+     generic_item( [ line_item, s1, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
 
