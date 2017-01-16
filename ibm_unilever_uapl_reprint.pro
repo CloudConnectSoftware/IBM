@@ -43,6 +43,8 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `0-820162-013` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN REPRINT DOCUMENT` ] ) ]
 
+		 , [ check_text( `66-355-993` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN REPRINT DOCUMENT` ] ) ]
+
 		 , [ check_text( `PTPANURJWAN` ), set( chain, `ul_uapl_pt_perusahaan` ), trace( [ `THIS IS A  PT.Perusahaan Pelayaran Nusantara Panurjwan DOCUMENT` ] ) ]
 
 		 , [ check_text( `2051536` ), set( chain, `ul_uapl_kantar_japan` ), trace( [ `THIS IS A KANTAR JAPAN INC DOCUMENT` ] ) ]
