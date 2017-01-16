@@ -1,16 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - QINGWA PTE. LTD.
+% GRAMATICA - IMS GROUP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_qingwa_pte, `16/01/2017` `3:30:05` ).
+i_version( ul_uapl_ims_group, `16/01/2017` `3:30:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
+
+i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -67,7 +69,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `Number`], 120, invoice_number, s1, newline ] ) 
+   , generic_horizontal_details( [ [`iNVOiCE`, `#`, `:`, tab ], invoice_number, s1, newline ] ) 
 
 ] ).
 
@@ -83,19 +85,7 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_vertical_details( [ [ `Tax`, `Invoice` ], `Invoice`, q(0,3), (end,20,20), invoice_date_raw, s1, newline] )
-
-    , check( invoice_date_raw = DateRaw )
-
-    , trace( [ `Invoice Date Raw` , DateRaw ] )
-
-    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
-
-    , trace( [ `Date Stripped Coma` , DateStrip ] )
-
-    , invoice_date(DateStrip)
-
-    , trace( [ `Invoice Date` , invoice_date ] )
+     , generic_horizontal_details( [ [`DATE`, `:`, tab ], invoice_date, date, newline ] ) 
 	
 ] ).
 
@@ -111,7 +101,7 @@ i_rule( get_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [`Purchase`, `Order`, `No`, `.`, tab ], order_number, s1, newline ] )
+   , generic_horizontal_details( [ [`ORDER`, `#`, `:`, tab ], order_number, s1, tab ] )
 	
 ] ).
 
@@ -128,7 +118,7 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Taxable`, `Amount`, `in`, `US`, `$`], 550, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Inc`, `GST`, `:`, tab ], total_net, d, newline ] )
 	
 ] ).
 
@@ -145,7 +135,7 @@ i_rule( get_total_vat, [
 
     q0n(line)
     
-    , generic_vertical_details( [ [`Taxable`, `Amount` ], `Amount`, q(0,3), (end,750,800), total_vat, d, newline ] )
+   , generic_horizontal_details( [ [ `GST`, `:`, tab  ],  total_vat, d, newline ] ) 
     
 ] ).
 
@@ -162,7 +152,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `in`, `US`, `$` ], 560, total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [ `Total`, `Inc`, `GST`, `:`, tab ],  total_invoice, d, newline ] )
 
    
 ] ).
@@ -180,7 +170,7 @@ i_rule( get_currency, [
 
     q0n(line)
         
-    , currency( `USD` )
+   , generic_horizontal_details( [ [ `Currency`  ], 10,  currency, w, newline ] )
   
 ] ).
 
@@ -197,7 +187,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Grand`, `Total`, `in`, `US`, `$` ], 560, line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Inc`, `GST`, `:`, tab ],  line_total_amount, d, newline ] )
 
 
     ] ).
