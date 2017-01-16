@@ -49,6 +49,8 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `2051536` ), set( chain, `ul_uapl_kantar_japan` ), trace( [ `THIS IS A KANTAR JAPAN INC DOCUMENT` ] ) ]
 
+		 ,  [ check_text( `M2-0078869-9` ), set( chain, `ul_uapl_rcl_feeder` ), trace( [ `THIS IS A RCL FEEDER PTE DOCUMENT` ] ) ]
+
 		 
 
 		 
