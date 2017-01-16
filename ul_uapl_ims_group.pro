@@ -48,9 +48,9 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
   
-      sender_name(`QINGWA PTE. LTD.`)
+      sender_name(`IMS GROUP`)
 
-      , supplier_vat_number(`201206570K`)	
+      , supplier_vat_number(`91 109 507 799`)	
 
        , set(freight_vendor)
 
