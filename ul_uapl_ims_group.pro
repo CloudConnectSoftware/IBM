@@ -170,7 +170,7 @@ i_rule( get_currency, [
 
     q0n(line)
         
-    , currency( `AUD` )
+   , generic_horizontal_details( [ [ `Currency`  ], 10,  currency, w, newline ] )
   
 ] ).
 
