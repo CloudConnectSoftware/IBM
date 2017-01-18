@@ -225,7 +225,13 @@ i_rule( get_currency, [
 
     q(0,30,line)
     
-    , generic_vertical_details( [ [ `Price` , tab , `Amount` ], `Amount`, q(0,1), (end,10,10), currency, w, tab ] )
+    , or([
+
+        generic_vertical_details( [ [ `Price` , tab , `Amount` ], `Amount`, q(0,1), (end,10,10), currency, w, tab ] )
+
+        , generic_horizontal_details( [ [ `Total` ] ,  currency, w , or([ `EXCL` , `INCL`]) ] )
+
+    ])
 
 ] ).
 
