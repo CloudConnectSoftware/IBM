@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( altratec, `10 January 2017 ` ).
+i_version( altratec, `18 January 2017 ` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,7 +70,7 @@ i_rule( get_bankdetails, [
 
 	q(10,60,line)
 
-	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  buyer_bank_account_number, s1, newline  ] )
+	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
 	
 
 ] ).

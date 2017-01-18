@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_americoldnz, `26/10/2016 09:16:05` ).
+i_version( ul_uapl_americoldnz, `18/01/2017 09:16:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -73,7 +73,7 @@ i_rule( get_bankdetails, [
 
 	q(10,60,line)
 
-	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  buyer_bank_account_number, s1, newline  ] )
+	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
 	
 
 ] ).
