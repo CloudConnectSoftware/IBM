@@ -51,6 +51,8 @@ i_line_rule( check_text_id_line, [
 
 		 ,  [ check_text( `M2-0078869-9` ), set( chain, `ul_uapl_rcl_feeder` ), trace( [ `THIS IS A RCL FEEDER PTE DOCUMENT` ] ) ]
 
+		 , [ check_text( `001264435200` ), set( chain, `ul_uapl_apex_packaging` ), trace( [ `This is  APEX PACKAGING DOCUMENT` ] ) ]
+
 		 
 
 		 
