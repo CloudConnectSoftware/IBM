@@ -84,7 +84,7 @@ i_rule( get_invoice_number, [
 
  q0n(line)
 
- , generic_horizontal_details( [ [ `Tax`, `Invoice`, `#`, `:` ], 450, invoice_number, d, newline ] )
+ , generic_horizontal_details( [ [ `Tax`, `Invoice`, `#`, `:` , tab ], invoice_number, d, newline ] )
 
      ] ).
 

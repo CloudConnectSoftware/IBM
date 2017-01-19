@@ -161,7 +161,7 @@ i_rule( get_total_net, [
 
 		 , generic_horizontal_details( [ [ `Sub`, `Total` ] ,100,total_net , d , newline ] )]
 
-		 , generic_horizontal_details( [ [ `Sub`, `Total`, tab, `NZD`, q10(tab), `$` ] , total_net , d , newline ] )
+		 , generic_horizontal_details( [ [ `Sub`, `Total`, tab, q10(`NZD`), q10(tab), `$` ] , total_net , d , newline ] )
 
 		 , generic_vertical_details( [ [ `Total`, `Invoice`], `Total`, q(0,3,up),(end,10,10), total_net, d, tab ] )
 
@@ -210,7 +210,7 @@ i_rule( get_total_invoice, [
 
 qn0(line)
 
-, generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `PAYABLE`, tab, `NZD`, `$` ] , total_invoice , d , newline ] )
+, generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `PAYABLE`, tab, q10(`NZD`), `$` ] , total_invoice , d , newline ] )
 
 ] ).
 
