@@ -246,8 +246,12 @@ i_line_rule_cut( line_end_line, [
 
 or([
         
-		
+
 		[`The`, `amounts`, `in`, `this`, `invoice`, `is`, `net`, `of`, `any`]
+
+        , [`Page`, `2`, `of`, `2`]
+
+        , [`Page`, `3`, `of`, `3`]
 
         ,[`BBH`, `Communications`, `(`, `Asia`, `Pacific`, `)`]
 
