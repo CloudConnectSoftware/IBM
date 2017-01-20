@@ -307,8 +307,7 @@ i_line_rule_cut( line_end_line, [
 
         , [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:`]
 
-        ,[`PAYMENT`, `:`, tab, `By`, `T`, `/`, `T`, `30`, `days`, `from`, `date`, `of`, `B`, `/`, `L`]
- 
+    
    
        ])
 
@@ -328,7 +327,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , q10(generic_item( [ line_carton, d, tab ] ))
 
-    , q10(generic_item( [ line_quantity , d , tab ] ))
+    , generic_item( [ line_quantity , d , tab ] )
 
      ,q10(generic_item( [ line_unit_amount_dummy, d, tab ] ))
 
