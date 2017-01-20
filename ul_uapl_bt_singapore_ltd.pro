@@ -163,9 +163,11 @@ i_rule( get_total_net, [
 
 , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`, tab ], total_net, d, newline ] ) ]
 
-   ,[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`, tab ], total_net, d, newline ] ) ]
+,[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`, tab ], total_net, d, newline ] ) ]
 
 , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`, tab ], total_net, d, newline ] ) ]
+
+ , [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD`, tab ], total_net, d, newline ] ) ]
 
 
 ] )
