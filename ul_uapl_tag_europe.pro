@@ -18,6 +18,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,set_credit_note
 	
 	, get_invoice_number
 	
@@ -62,6 +64,37 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Credit Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , `CREDIT`, `Memo`
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +106,8 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, tab, `:` ], 100, invoice_number_raw, s1, newline ] )
+   , or([
+       [generic_horizontal_details( [ [ `Invoice`, tab, `:` ], 100, invoice_number_raw, s1, newline ] )
 
     , check( invoice_number_raw = InvoiceRaw )
 
@@ -85,7 +119,11 @@ i_rule_cut( get_invoice_number, [
 
     , invoice_number(InvoiceStrip)
 
-    , trace( [ `Invoice Number` , invoice_number ] )  
+, trace( [ `Invoice Number` , invoice_number ] )  ]
+
+    , generic_horizontal_details( [ [ `credit`, `memo`, tab , `:` ], 100,  invoice_number, s1, newline ] )
+
+   ])
 	
 	
 ] ).
