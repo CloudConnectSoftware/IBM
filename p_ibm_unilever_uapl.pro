@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `13:04 06 January 2017` ).
+i_version( p_ibm_unilever_uapl, `10:40 24 January 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -709,35 +709,63 @@ i_analyse_line_buyers_order_number___( LID )
 	(
 		result( _, LID, line_buyers_order_number, LBON ),
 
-		q_gratabase_lookup( `ibm_po_list`,
-			[ LBON, _, _, _, _ ],
-			[ LBON, _, _, _, _ ],
-			Available
-		),
-
+		trace( [ `Looking up line_buyers_order_number in ibm po list table`, LBON ] ),
+		
 		(
-			Available = false
+			q_gratabase_lookup( `ibm_po_list`,
+				[ LBON, _, _, _, _ ],
+				[ LBON, _, _, _, _ ],
+				Available
+			),
 
-			-> trace( [ `Unable to access ibm po list table` ] ), fail
+			(
+				Available = false
 
+				-> trace( [ `Unable to access ibm po list table` ] ), fail
+
+				;
+
+				trace( [ `Line Order Number Found` ] )
+
+			)
+			
 			;
+			
+			sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
 
-			trace( [ `Line Order Number Found` ] )
+			trace( [ `line_buyers_order_number not found in table - value removed` ] ),
+			
+			(
+				result( _, invoice, order_number, PO ),
+			
+				trace( [ `Using order_number value instead` ] ),
+
+				assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
+
+				;
+
+				trace( [ `order_number has not been mapped, so cannot use this` ] )
+
+			)
 
 		)
 
 		;
+		
+		not( result( _, LID, line_buyers_order_number, LBON ) ),
 
-		sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
-
+		trace( [ `line_buyers_order_number has not been mapped for line`, LID ] ),
+		
 		(
 			result( _, invoice, order_number, PO ),
+			
+			trace( [ `Using order_number value instead` ] ),
 
 			assertz_derived_data( LID, line_buyers_order_number, PO, i_analyse_line_buyers_order_number )
 
 			;
 
-			trace( [ `line_buyers_order_number missing/invalid - value removed` ] )
+			trace( [ `order_number has not been mapped either, so cannot use this` ] )
 
 		)
 	),
