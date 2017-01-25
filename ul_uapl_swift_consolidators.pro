@@ -97,7 +97,7 @@ i_rule( get_order_number, [
 
  , or([
 
-    generic_horizontal_details( [ [ `PO`, `NO`], line_buyers_order_number, s, `/`] )
+    generic_horizontal_details( [ [ `PO`, `NO`], line_buyers_order_number, s, or([`/` , newline ]) ] )
 
     , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], line_buyers_order_number, s1, newline] )
 

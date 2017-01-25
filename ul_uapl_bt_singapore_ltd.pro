@@ -126,6 +126,8 @@ q0n(line)
     ,generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [`)` , newline ] ]  )
 
     ,generic_horizontal_details( [ [ `Fixed`, `Voice`, `-`, `Baseline`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    ,generic_horizontal_details( [ [ `UAPL`, `(`],  order_number, w, [`)` , newline ] ]  )
     
     ])
 
@@ -195,11 +197,11 @@ i_rule( get_total_vat, [
     , or( [
 
     
-    [ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, `7`, `%`, tab, `USD`, tab ], total_vat, d, newline ] ) ]
+    [ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, d, newline ] ) ]
 
-    , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`, tab ], total_vat, d, newline ] ) ]
+    , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`],150, total_vat, d, newline ] ) ]
 
-    ,[ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, `7`, `%`, tab, `SGD`, tab ], total_vat, d, newline ] ) ]
+    ,[ check( Currency = `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, d, newline ] ) ]
 
    ] )
 
