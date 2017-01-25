@@ -160,6 +160,10 @@ q0n(line)
     ,generic_horizontal_details( [ [ `Fixed`, `Voice`, `-`, `Baseline`, `(`],  order_number, w, [`)` , newline ] ]  )
 
     ,generic_horizontal_details( [ [ `UAPL`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    ,generic_horizontal_details( [ [ `DASHBOARD`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    ,generic_horizontal_details( [ [ `Centres`, `(`],  order_number, w, [`)` , newline ] ]  )
     
     ])
 
@@ -264,9 +268,9 @@ i_rule( get_total_invoice, [
      , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD`, tab ], total_invoice, d, newline ] ) ]
 
      
-
-
      ] )
+
+     , currency( Currency )
   
 ] ).
 
