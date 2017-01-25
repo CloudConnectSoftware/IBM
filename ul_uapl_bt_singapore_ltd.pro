@@ -205,7 +205,7 @@ i_rule( get_total_vat, [
 
    ] )
 
-   , generic_item( [ default_vat_rate, `7` ] )
+  
   
 ] ).
 
