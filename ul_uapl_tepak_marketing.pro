@@ -324,9 +324,9 @@ i_section( get_invoice_lines, [
 
                 , q01(line_desr_line) ]
 
-               , [ line_invoice_oneline ]
+               , [ line_invoice_oneline , q10(line_desr_line2) ]
 
-               , [ line_desr_firstline   
+               , [ q10(line_desr_firstline)  
                    
                , line_invoice_twoline
                
@@ -442,13 +442,13 @@ i_line_rule_cut( line_invoice_oneline, [
       
       generic_item( [ line_item_dummy , d , tab ] )
     
-    , generic_item( [ line_item, s1 , tab ] )
+    , generic_item( [ line_item, w , tab ] )
 
-    , generic_item( [ line_descr, s1 , tab ])
+    , generic_item( [ line_descr, s1 , [ check(line_descr(end) < -40) , tab ] ])
 
     , generic_item( [ line_buyers_order_number , d , tab ])
 
-    , generic_item( [ line_delivery_note_number, d , tab ] )
+    , q10(generic_item( [ line_delivery_note_number, d , tab ] ))
 
     , generic_item( [ line_quantity , d , tab ] )
 
@@ -471,13 +471,13 @@ i_line_rule_cut( line_desr_firstline, [
 i_line_rule_cut( line_invoice_twoline, [
 %=======================================================================
       
-      generic_item( [ line_item_dummy, d , tab ] )
+      generic_item( [ line_dummy, d , tab ] )
     
-    , generic_item( [ line_item, s1, tab ] )
+    , generic_item( [ line_item, w, tab ] )
 
     , generic_item( [ line_buyers_order_number , d , tab ])
 
-    , generic_item( [ line_delivery_note_number, d , tab ] )
+    , q10(generic_item( [ line_delivery_note_number, d , tab ] ))
 
     , generic_item( [ line_quantity , d , tab ] )
 
