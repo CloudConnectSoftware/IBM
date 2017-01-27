@@ -99,7 +99,10 @@ i_rule( get_order_number, [
 
     generic_horizontal_details( [ [ `PO`, `NO` , q10(`.`)], line_buyers_order_number, w, or([`/` , newline ]) ] )
 
-    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], line_buyers_order_number, w, newline] )
+    ,
+    generic_horizontal_details( [ [ `PO`, q10(`NO`) , q10(`.`)], line_buyers_order_number, w, or([`/` , `,` ]) ] )
+
+    , generic_horizontal_details( [ [ `CUSTOMER`, `REF`, `:`], line_buyers_order_number, w, newline ] )
 
     , generic_vertical_details( [ [ `PO`, `NO`], `PO`, q(0,1), (end,10,10), line_buyers_order_number, w, or([`/` , newline ]) ] )
 
