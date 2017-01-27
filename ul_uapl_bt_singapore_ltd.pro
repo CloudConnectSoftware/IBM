@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,set_Invoice_tax
+
    	, get_invoice_number
 
     , get_invoice_date
@@ -58,6 +60,36 @@ i_rule( get_supplier_details, [
     , set(freight_vendor)
 
     ] ).
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_Invoice_tax, [
+%=======================================================================
+
+    q(0, 100, line)
+    
+        , invoice_tax_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_tax_line, [
+%=======================================================================
+
+q0n(anything)
+
+	,`Tax`, `Invoice`
+
+	, set(tax_invoice)
+
+	, trace( [ `Found Tax Invoice` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -126,6 +158,12 @@ q0n(line)
     ,generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [`)` , newline ] ]  )
 
     ,generic_horizontal_details( [ [ `Fixed`, `Voice`, `-`, `Baseline`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    ,generic_horizontal_details( [ [ `UAPL`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    ,generic_horizontal_details( [ [ `DASHBOARD`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    ,generic_horizontal_details( [ [ `Centres`, `(`],  order_number, w, [`)` , newline ] ]  )
     
     ])
 
@@ -195,15 +233,15 @@ i_rule( get_total_vat, [
     , or( [
 
     
-    [ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, `7`, `%`, tab, `USD`, tab ], total_vat, d, newline ] ) ]
+    [ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, d, newline ] ) ]
 
-    , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`, tab ], total_vat, d, newline ] ) ]
+    , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`],150, total_vat, d, newline ] ) ]
 
-    ,[ check( Currency = `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, `7`, `%`, tab, `SGD`, tab ], total_vat, d, newline ] ) ]
+    ,[ check( Currency = `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, d, newline ] ) ]
 
    ] )
 
-   , generic_item( [ default_vat_rate, `7` ] )
+  
   
 ] ).
 
@@ -230,9 +268,9 @@ i_rule( get_total_invoice, [
      , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD`, tab ], total_invoice, d, newline ] ) ]
 
      
-
-
      ] )
+
+     , currency( Currency )
   
 ] ).
 
