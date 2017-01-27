@@ -293,6 +293,8 @@ i_section( get_invoice_lines, [
 			
 			, line_desr_line
 
+			,line_surcharge
+
 			, line
 
 			
@@ -351,13 +353,29 @@ i_line_rule( line_invoice_line, [
 
 	, generic_item( [ line_quantity, d, tab ] )
 
-	, generic_item( [ line_unit_amount_dummy1, d, tab ] )
+	, generic_item( [ line_vat_rate, d, tab ] )
 
 	, generic_item( [ line_vat_amount, d, q10(tab) ] )
 
 	, generic_item( [ line_net_amount, d, newline ] )
 
 	,trace( [`At End of Invoice Line`] )
+    
+] ).
+
+%=======================================================================
+i_line_rule( line_surcharge, [
+%=======================================================================
+	
+	
+	 generic_item( [ line_descr, s1, tab ] )
+
+	, generic_item( [ line_vat_rate, d, [`%`, tab ] ]  )
+
+	, generic_item( [ line_vat_amount, d, tab ] )
+
+	, generic_item( [ line_net_amount, d, newline ] )
+
     
 ] ).
 
@@ -374,8 +392,7 @@ i_line_rule( line_dummy_line, [
 
 	, generic_item( [ line_net_amount, d, newline ] )
 
-    
-] ).
+]).
 
 %=======================================================================
 i_line_rule_cut( line_desr_line, [
