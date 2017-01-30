@@ -117,17 +117,15 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-       , generic_vertical_details( [ [ `Number`, `:` ], `Number`, q(0,1,up), (end, 450,450 ), total_invoice, d, newline ] )
+       , generic_vertical_details( [ [ `Number`, `:` ], `Number`, q(0,1,up), (end,380,380), total_invoice, d, newline ] )
     
        , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+        , trace( [ `Total Inv` , TotInv ] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
-
-        ,total_vat(`0`)
+        , trace( [ `Total net` , total_net ] ) 
 
 ] ).
 
@@ -143,7 +141,7 @@ i_rule( get_line_total_amount, [
 
       qn0(line)
 
-       , generic_vertical_details( [ [ `Number`, `:` ], `Number`, q(0,1,up), (end,550,550 ), line_total_amount, d, newline ] )
+       , generic_vertical_details( [ [ `Number`, `:` ], `Number`, q(0,1,up), (end,380,380 ), line_total_amount, d, newline ] )
 
    ] ).
 
