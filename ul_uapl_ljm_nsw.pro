@@ -108,6 +108,8 @@ i_rule_cut( get_invoice_number, [
 
    , generic_horizontal_details( [ [ `TAX`, `INVOICE` ], 50, invoice_number, d, newline ] ) 
 
+   
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
