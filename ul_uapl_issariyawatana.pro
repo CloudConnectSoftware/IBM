@@ -180,6 +180,7 @@ i_rule( get_line_buyers_order_number, [
 
          , generic_horizontal_details( [ [`REF`, `DO`, `NO`, `.`, `:`, tab ], line_buyers_order_number, d, newline ])
 
+          , generic_horizontal_details( [ [`REF`, `DO`, `NO`, `.`, `:`, tab ],  line_buyers_order_number, s1, newline ])
 
     ])
 
@@ -190,6 +191,7 @@ i_rule( get_line_buyers_order_number, [
     , order_number(OrdNo)
 
     , trace( [ `THIS IS NOW THE Header ORDER Number` , order_number ])
+
 
 ] ).
 
@@ -271,8 +273,10 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-                [line_invoice_line  , q10( line_descr_line)]
+                [ line_invoice_line , q10( line_descr_line) ]
 
+                ,  line_invoice_line2 
+           
                , line
 
         ] )
@@ -290,6 +294,8 @@ i_line_rule_cut( line_header_line, [
         [ `PCS`, tab, `F`, `.`, `O`, `.`, `B`, `.`, `BKK`, tab, `(`, `US`, `$`, `)`,  newline  ]
 
          ,  [`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
+
+         , [ `Item`, tab, `Quantity`, tab, `Unit`, `price`, `(`, `US`, `$`, `)`, tab, `Amount`,  newline ]
 
         ])
 
@@ -316,7 +322,7 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line, [
+i_line_rule( line_invoice_line, [
 %=======================================================================
           
      generic_item( [ line_item, s1, tab ] )
@@ -337,10 +343,28 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_desr_line, [
+i_line_rule( line_desr_line, [
 %=======================================================================
 
     generic_append( [ line_descr, s1, newline, ` `, `` ] )
 
 ] ).
+
+
+%=======================================================================
+i_line_rule( line_invoice_line2, [
+%=======================================================================
+
+
+      generic_item([ line_no, d , tab  ])
+
+	 , generic_item([ line_descr , s1 , tab ]) 
+ 
+     , generic_item([ line_quantity , d , tab  ] )
+
+     , generic_item([ line_unit_amount , d , tab ] )
+
+	 , generic_item([ line_net_amount , d , newline ] ) 
+     
+]).
 
