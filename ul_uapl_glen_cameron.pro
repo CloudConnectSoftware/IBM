@@ -24,11 +24,7 @@ i_rule_list( [
 
  	, get_invoice_date
     
-    , get_total_net
-
-    , get_total_vat
-
-    , get_total_invoice
+    , get_invoice_totals
 
     , get_line_total_amount
 
@@ -94,54 +90,22 @@ i_rule_cut( get_invoice_date, [
 
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL NET
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut( get_total_net, [
-%=======================================================================
-
- q0n(line)
-
-    , generic_horizontal_details( [ [ `TOTAL`, `FOR`, `SERVICE`, `GROUP`, `LOCAL`, tab ], total_net, d, tab ] )
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL VAT
+% GET INVOICE TOTALS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut( get_total_vat, [
+i_rule( get_invoice_totals, [
 %=======================================================================
 
- q0n(line)
+qn0(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `FOR`, `SERVICE`, `GROUP`, `LOCAL`, tab, dummy_num1(d)], total_vat, d, tab ] )
+, generic_horizontal_details( [ [ `Total`, `this`, `Invoice`, `:`, tab, dummy_number1(d), tab, generic_item( [ total_net, d ] ), tab, generic_item( [ total_vat, d ] ), tab ], total_invoice, d, newline ] )
 
-] ).
 
-     
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL INVOICE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_invoice, [
-%=======================================================================
-
-    qn0(line)
-
-         , generic_horizontal_details( [ [ `TOTAL`, `FOR`, `SERVICE`, `GROUP`, `LOCAL`, tab, dummy_num1(d) , tab, dummy_num2(d), tab ], total_invoice  , d , newline ] )
-
-          
 ] ).
    
     
@@ -157,7 +121,7 @@ i_rule( get_line_total_amount, [
                   
      q0n(line)
 
-        , generic_horizontal_details( [ [`TOTAL`, `FOR`, `SERVICE`, `GROUP`, `LOCAL`, tab,  dummy_num1(d) , tab, dummy_num2(d), tab ], line_total_amount  , d , newline ] )
+        , generic_horizontal_details( [ [`Total`, `this`, `Invoice`, `:`, tab, dummy_number1(d) , tab, dummy_num2(d), tab, dummy_num3(d), tab ], line_total_amount , d , newline ] )
 
         
 ] ).
