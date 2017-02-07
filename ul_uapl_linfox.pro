@@ -246,6 +246,8 @@ i_section( get_invoice_lines, [
 
 			, line_invoice_lines_2
 
+			,[line_credit_lines , line_credit_descr_lines ]
+
 
 			
 			, line
@@ -373,4 +375,27 @@ generic_item([line_date, date])
 
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_credit_lines, [
+%=======================================================================
+
+    
+		 generic_item( [ line_net_amount, d, newline] )
+
+	    , trace( [ `Complete line Net`] )
+
+
+] ).
+%=======================================================================
+i_line_rule_cut( line_credit_descr_lines, [
+%=======================================================================
+
+    
+		 generic_item( [ line_descr, s1, newline] )
+
+	    , trace( [ `Complete line Decr`] )
+
+
+] ).
 
