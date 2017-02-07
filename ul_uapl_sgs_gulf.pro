@@ -48,7 +48,7 @@ i_rule( get_supplier_detail, [
 
 	sender_name(`SGS GULF LIMITED`)
 
-	, supplier_vat_number(`1253881 / 1250001819`)
+	, supplier_vat_number(`1250001819`)
 
      , set(freight_vendor)
 
