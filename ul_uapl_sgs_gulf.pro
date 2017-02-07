@@ -23,6 +23,8 @@ i_rule_list( [
 	, get_invoice_number
 	
 	, get_invoice_date
+
+	, get_due_date
 	
 	, get_order_number
 
