@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_demo_environment, `15:04 17 January 2017` ).
+i_version( p_ibm_demo_environment, `12:32 07 February 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -24,7 +24,8 @@ i_rules_file( `u_invoice_number_validation_2.pro` ).
 %-----------------------------------------------------------------------
 % Customer Name
 %-----------------------------------------------------------------------
-i_op_param( customer_name, _, _, _, `Demo Environment` ). % This will be the role for customer intervention
+i_op_param( rules_intervention_role, _, _, _, `IBM Demo (Technical)` ). % This will be the role for customer intervention
+i_op_param( customer_name, _, _, _, `IBM Demo` ). % This will be the role for customer intervention
 
 %-----------------------------------------------------------------------
 % Customer Forward Address List
