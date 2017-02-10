@@ -32,7 +32,7 @@ i_rule_list( [
 
     , get_total_net
 
-%	, get_total_vat
+	, get_total_vat
 
     , get_total_invoice
 
@@ -245,15 +245,17 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-		q0n(anything)
-        
-        , [`Ship` , `Date` , `:`]
+		read_ahead([ `Ship` , `Date` , `:`])
 		
-		, generic_item_cut( [ line_delivery_date , date , tab ] )
+		, generic_item( [ ship_date_ref, s , `:` ] )
 
+		, generic_item_cut( [ line_delivery_date , date , tab ] )
+		
 		, generic_item( [ line_refer_dummy , s, `:` ] )
 
 		, generic_item_cut( [ line_reference, s1 , tab ] )
+
+		, generic_item_cut( [ line_ref2_dummy, s1 , newline ] )
 
 ] ).
 
@@ -262,14 +264,16 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_tracking_line, [
 %=======================================================================
 
-		q0n(anything)
+		read_ahead([ `Tracking` , `ID`])
+		
+		, generic_item( [ tracking_ref, s1 , tab ] )
 
-        , `Tracking` , `ID` , tab
-        
-        , generic_item_cut( [ line_item , d , tab ] )
+		, generic_item_cut( [ line_item , d , tab ] )
 
 		, generic_item_cut( [ line_descr , s1 , tab])
 
+		, generic_item_cut( [ line_refer1_dummy , s1, newline ] )
+		
 ] ).
 
 
@@ -277,10 +281,16 @@ i_line_rule_cut( line_tracking_line, [
 i_line_rule_cut( line_charges_line, [
 %=======================================================================
 
-		q0n(anything)
-        
-        , `Total`, `Charge`, tab, `USD`, tab
+		read_ahead([ `FedEx` , `Use`])
 		
+		, generic_item_cut( [ dummy_fedexuse, s1 , tab ] )
+
+		, generic_item_cut( [ line_item_dummy , w , tab ] )
+
+		, generic_item( [ line_descr_dummy , s1 , tab])
+
+		, generic_item_cut( [ line_currency , w, tab ] )
+
 		, generic_item_cut( [ line_total_amount, d , newline ] )
 		
 ] ).
