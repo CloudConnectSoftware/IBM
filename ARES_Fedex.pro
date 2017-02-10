@@ -281,7 +281,7 @@ i_line_rule_cut( line_charges_line, [
         
         , `Total`, `Charge`, tab, `USD`, tab
 		
-		, generic_item_cut( [ line_total_amount, d , newline ] )
+		, generic_item_cut( [ line_net_amount, d , newline ] )
 		
 ] ).
 
