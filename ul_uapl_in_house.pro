@@ -130,11 +130,7 @@ i_rule_cut( get_invoice_date, [
 
     , trace( [ `Date Stripped Dot` , DateStrip ] )
 
-    , check(string_string_replace( DateStrip, `Fev`, `Feb`, DateStrip1 ))
-
-    , trace( [ `Date Stripped Dot` , DateStrip1 ] )
-
-    , invoice_date(DateStrip1)
+     , invoice_date(DateStrip)
 
     , trace( [ `Invoice Date` , invoice_date ] )
     
