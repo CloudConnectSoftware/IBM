@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( in_house, `19/09/2016 10:46:05` ).
+i_version( in_house, `14/2/2017 10:46:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -130,7 +130,11 @@ i_rule_cut( get_invoice_date, [
 
     , trace( [ `Date Stripped Dot` , DateStrip ] )
 
-    , invoice_date(DateStrip)
+    , check(string_string_replace( DateStrip, `Fev`, `Feb`, DateStrip1 ))
+
+    , trace( [ `Date Stripped Dot` , DateStrip1 ] )
+
+    , invoice_date(DateStrip1)
 
     , trace( [ `Invoice Date` , invoice_date ] )
     
