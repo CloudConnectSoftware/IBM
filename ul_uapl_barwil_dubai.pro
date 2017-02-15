@@ -8,7 +8,7 @@ i_version( ul_uapl_barwil_dubai, `27/10/2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
