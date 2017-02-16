@@ -171,6 +171,8 @@ q0n(line)
 
     ,generic_horizontal_details( [ [ `MMR`,  `(` ],  order_number, w, [`)` , newline ] ]  )
 
+     ,generic_horizontal_details( [ [ `25M`,  `(` ],  order_number, w, [`)` , newline ] ]  )
+
     
     
     ])
