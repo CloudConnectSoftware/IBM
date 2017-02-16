@@ -169,6 +169,8 @@ q0n(line)
 
     ,generic_horizontal_details( [ [ `2017`, `)`, `(` ],  order_number, w, [`)` , newline ] ]  )
 
+    ,generic_horizontal_details( [ [ `MMR`,  `(` ],  order_number, w, [`)` , newline ] ]  )
+
     
     
     ])
