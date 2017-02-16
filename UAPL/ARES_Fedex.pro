@@ -245,9 +245,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-		q0n(anything)
-        
-        , [`Ship` , `Date` , `:`]
+		 [`Ship` , `Date` , `:`]
 		
 		, generic_item_cut( [ line_delivery_date , date , tab ] )
 
@@ -261,14 +259,12 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 i_line_rule_cut( line_tracking_line, [
 %=======================================================================
-
-		q0n(anything)
-
-        , `Tracking` , `ID` , tab
+        
+		 `Tracking` , `ID` , tab
         
         , generic_item_cut( [ line_item , d , tab ] )
 
-		, generic_item_cut( [ line_descr , s1 , tab])
+		, generic_item_cut( [ line_descr , s1 , tab ])
 
 ] ).
 
@@ -277,7 +273,7 @@ i_line_rule_cut( line_tracking_line, [
 i_line_rule_cut( line_charges_line, [
 %=======================================================================
 
-		q0n(anything)
+		q(0,2, [ dummy(s1) , tab ] )
         
         , `Total`, `Charge`, tab, `USD`, tab
 		
