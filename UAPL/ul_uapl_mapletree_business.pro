@@ -275,7 +275,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   `REF`, `:`
+   [`Total`, `Amount`, `(`, `Including`, `GST`]
 
     , trace( [ `FOUND LINE END LINE`] )
 
