@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ares_fedex , `06/02/2017 10:16:05` ).
+i_version( ares_fedex , `16/02/2017 10:42:30` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -207,11 +207,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-              line_invoice_line 
-
-			  , line_tracking_line
-
-			  , line_charges_line
+              line_invoice_line_rule 
 
 			  , line
 
@@ -238,6 +234,22 @@ i_line_rule_cut( line_end_line, [
     `Total`, `FedEx`, `Ground`, tab, `USD`
 
      , trace([`found the end line`])
+
+] ).
+
+%=======================================================================
+i_rule_cut( line_invoice_line_rule, [
+%=======================================================================
+
+	line_invoice_line
+
+	, q(0,10,line)
+	
+	, line_tracking_line
+
+	, q(0,15,line)
+
+	, line_charges_line
 
 ] ).
 
@@ -273,7 +285,7 @@ i_line_rule_cut( line_tracking_line, [
 i_line_rule_cut( line_charges_line, [
 %=======================================================================
 
-		q(0,2, [ dummy(s1) , tab ] )
+		q(0,5, [ dummy(s1) , tab ] )
         
         , `Total`, `Charge`, tab, `USD`, tab
 		
