@@ -165,6 +165,8 @@ q0n(line)
 
     ,generic_horizontal_details( [ [ `Centres`, `(`],  order_number, w, [`)` , newline ] ]  )
 
+    ,generic_horizontal_details( [ [ `Centre`, `(`],  order_number, w, [`)` , newline ] ]  )
+
     ,generic_horizontal_details( [ [ `2017`, `)`, `(` ],  order_number, w, [`)` , newline ] ]  )
 
     
