@@ -88,22 +88,7 @@ i_rule_cut( get_invoice_date, [
 	
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET CURRENCY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule( get_currency, [
-%=======================================================================
-
-    q0n(line)
-    
-    , generic_horizontal_details( [ [ `Total`,`Net`, tab ], currency,  w , tab ] )
-    
-
-  ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,7 +102,7 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Net`, tab, `GBP`, tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Net`, tab, generic_item( [ currency, w ] )],110, total_net, d, newline ] )
 
 
 ] ).
@@ -134,7 +119,7 @@ i_rule( get_total_vat, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `VAT`, tab, `GBP`, tab ], total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `VAT`, tab, generic_item( [ currency_d1, w ] )],100, total_vat, d, newline ] )
 
 
 ] ).
@@ -151,7 +136,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, `GBP`, tab ], total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Gross`, tab,generic_item( [ currency_1, w ] )  ],110,  total_invoice, d, newline ] )
 
 
 ] ).
@@ -168,7 +153,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, `GBP`, tab ], line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, generic_item( [ currency_2, w ] ) ],100, line_total_amount, d, newline ] )
 
 
     ] ).

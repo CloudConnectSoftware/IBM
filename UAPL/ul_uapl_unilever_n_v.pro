@@ -16,7 +16,9 @@ i_trace_lists.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+    set_credit_note
+
+	, get_supplier_details
 	
 	, get_invoice_number
 
@@ -33,6 +35,38 @@ i_rule_list( [
     , get_line_total_amount
 
     , get_invoice_lines
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,50,line)
+
+    , credit_note_line
+
+    
+] ).
+
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    ,`CREDIT`, `NOTE`
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
 
 ] ).
 
@@ -88,22 +122,7 @@ i_rule_cut( get_invoice_date, [
 	
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET CURRENCY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule( get_currency, [
-%=======================================================================
-
-    q0n(line)
-    
-    , generic_horizontal_details( [ [ `Total`,`Net`, tab ], currency,  w , tab ] )
-    
-
-  ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,7 +136,7 @@ i_rule( get_total_net, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Net`, tab ,`EUR`, tab ],  total_net, d, nelwine ] )
+    , generic_horizontal_details( [ [ `Total`, `Net`, tab ,generic_item( [ currency, w ] )],110,  total_net, d, newline ] )
 
 
 ] ).
@@ -134,7 +153,7 @@ i_rule( get_total_vat, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Vat`, tab ,`EUR`, tab ],  total_vat, d, nelwine ] )
+    , generic_horizontal_details( [ [ `Total`, `Vat`, tab ,generic_item( [ currency_3, w ] )], 110,  total_vat, d, newline ] )
 
 
 ] ).
@@ -151,7 +170,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, `EUR`, tab ],  total_invoice, d, nelwine ] )
+    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, generic_item( [ currency_1, w ] )], 110 , total_invoice, d, newline ] )
 
 
 ] ).
@@ -168,7 +187,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, `EUR`, tab ], line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Gross`, tab, generic_item( [ currency_2, w ] ) ],110, line_total_amount, d, newline ] )
 
 
     ] ).
