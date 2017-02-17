@@ -177,6 +177,8 @@ q0n(line)
 
      ,generic_horizontal_details( [ [ `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
 
+     ,generic_horizontal_details( [ [ `Active`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
      
     
     ])
