@@ -126,7 +126,7 @@ i_rule_cut( get_line_buyers_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	qn0(line) 
+	q0n(line) 
 
 	, generic_horizontal_details( [ [ `Montant`, `HT`, tab ], total_net_raw, s, [`EUR`,  newline] ] )
 

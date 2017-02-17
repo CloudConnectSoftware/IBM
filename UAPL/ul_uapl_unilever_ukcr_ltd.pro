@@ -65,7 +65,7 @@ i_rule( get_supplier_details, [
 i_rule_cut( get_invoice_number, [
 %=======================================================================
     
-    q0n( line)
+    q0n(line)
 
    , generic_horizontal_details( [ [ `Invoice`, `Number`, tab ],  invoice_number, d , newline ] )
 
