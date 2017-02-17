@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ozpack_ptyltd, `15/09/2016` `3:15:05` ).
+i_version( ozpack_ptyltd, `17/2/2017` `3:15:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -194,9 +194,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-             line_invoice_line
+             [q10(line_desr_line) ,line_invoice_line ,q10(line_append_line) ]
 
-            , line_desr_line
+           
 
             , line
 
@@ -234,7 +234,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_quantity , d , q10(tab) ] )
 
-    , generic_item( [ line_unit_amount , d , tab ] )
+    , generic_item( [ line_unit_amount_dummy , d , tab ] )
 
     , generic_item( [ line_vat_code_dummy , s1 , tab ] )
 
@@ -244,9 +244,17 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_desr_line, [
+i_line_rule_cut( line_append_line, [
 %=======================================================================
 
     generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_desr_line, [
+%=======================================================================
+
+    generic_item( [ line_descr , s1 , tab ] )
+
+]).
