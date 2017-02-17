@@ -171,7 +171,11 @@ q0n(line)
 
     ,generic_horizontal_details( [ [ `MMR`,  `(` ],  order_number, w, [`)` , newline ] ]  )
 
-     ,generic_horizontal_details( [ [ `25M`,  `(` ],  order_number, w, [`)` , newline ] ]  )
+     ,generic_horizontal_details( [ [ `30M`, `/`, `25M`, `(` ],  order_number, w, [`)` , newline ] ]  )
+
+     ,generic_horizontal_details( [ [ `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
+     ,generic_horizontal_details( [ [  `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
 
     
     
@@ -234,7 +238,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	q0n(line)
+	qn0(line)
 
     , with( invoice, order_number, Order_Number )
 
@@ -249,11 +253,11 @@ i_rule( get_total_vat, [
 
     ,[ check( Currency = `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, d, newline ] ) ]
 
-    , generic_item( [ default_vat_rate, `7` ] )
 
    ] )
 
   
+    , generic_item( [ default_vat_rate, `7` ] )
   
 ] ).
 
