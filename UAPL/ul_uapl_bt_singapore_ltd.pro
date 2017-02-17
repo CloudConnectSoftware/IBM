@@ -173,21 +173,15 @@ q0n(line)
 
      ,generic_horizontal_details( [ [ `30M`, `/`, `25M`, `(` ],  order_number, w, [`)` , newline ] ]  )
 
+     ,generic_horizontal_details( [ [  `17`, `(` ] ,  order_number, w, [ `-`, `V2`, `)`] ]  )
+
      ,generic_horizontal_details( [ [ `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
 
-     ,generic_horizontal_details( [ [  `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
-
-    
+     
     
     ])
 
-    , check(order_number = OrdNo)
-
-    , trace([`Order Number Capital Varaible` , OrdNo])
-
-    , line_buyers_order_number(OrdNo)
-
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , order_number ])
+    
 
 ] ).
 
