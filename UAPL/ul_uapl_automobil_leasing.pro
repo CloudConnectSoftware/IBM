@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_automobil_leasing, `13/10/2016 6:15:05` ).
+i_version( ul_uapl_automobil_leasing, `21/02/2017 6:15:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -114,9 +114,8 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `GST`, `(`, `7`, `.`, `00`, `%`, `:`, tab ], total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `GST`, `(`, generic_item( [ default_vat_rate, d ] ), `%`, `)`, `:`, tab ], total_vat, d, newline ] )
 
-    , generic_item( [ default_vat_rate, `7` ] )
 
 ] ).
 
@@ -148,7 +147,19 @@ i_rule( get_currency, [
 
 q0n(line)
 
-    , generic_vertical_details( [ [ `RATES` ], `RATES`, q(0,3), (start,10,10), currency, w, tab ] )
+    , generic_vertical_details( [ [ `RATES` ], `RATES`, q(0,3), (start,10,10), currency_raw, w, tab ] )
+
+    , check( currency_raw = CurrencyRaw )
+
+    , trace( [ `Curency raw` , CurrencyRaw ] )
+
+    , check(string_string_replace( CurrencyRaw , `()`,`` , Curency ))
+
+    , trace( [ `Bracket stripped Currency` , Currency ] )
+
+	, currency( Currency )
+
+    , trace( [ `New Currency` , currency ] )
 
 ]).
 
@@ -170,6 +181,8 @@ i_section( get_invoice_lines, [
 		, or( [
 		
 			[line_invoice_line , q10(line_descr_line)]
+
+            ,[line_invoice_line_new, q10(line_descr_line),q10(line_descr_line),q10(line_descr_line) ]
 
             , line			
 		] )
@@ -215,6 +228,25 @@ i_line_rule_cut( line_desr_line, [
 
     generic_append( [ line_descr , s1 , newline , ` ` , `` ] )
 
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_new, [   
+%=======================================================================
+  
+       generic_item( [ line_date, date, tab ] )
+
+       ,generic_item( [ line_dummy, s1, tab ] )
+
+       , generic_item( [ line_descr, s1, tab ] )
+
+       , generic_item( [ line_unit_amount, d, tab ] )
+
+       , generic_item( [ line_quantity, d, tab ] )
+
+      , generic_item( [ line_net_amount, d, newline ] )
+ 
+ 	
 ] ).
 
 
