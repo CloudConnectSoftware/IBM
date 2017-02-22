@@ -150,7 +150,7 @@ q0n(line)
 i_rule( get_order_number, [
 %=======================================================================
 
-q0n(line)
+qn0(line)
 	
     , or([
     generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
@@ -178,6 +178,8 @@ q0n(line)
      ,generic_horizontal_details( [ [ `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
 
      ,generic_horizontal_details( [ [ `Active`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
+      ,generic_horizontal_details( [ [`)`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
 
      
     

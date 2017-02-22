@@ -294,3 +294,22 @@ i_line_rule_cut( line_charges_line, [
 ] ).
 
 
+%=======================================================================
+i_rule_cut( line_sender_line, [
+%=======================================================================
+
+
+    with( invoice, line_descr, Descr ) , generic_item( [ line_descr, Descr ] )
+
+   	 ,or([
+			
+			check( Desc = [ `Ann`,` Margaret`,` Tudisco` ] ) , generic_item( [ line_delivery_note_number, `MCO` ] ) 
+
+			,check( Desc = [`KIM`, `SITES`] ) , generic_item( [ line_delivery_note_number, `P2P` ] )
+
+			, trace([`found the cost centre line`])
+
+	
+		])
+
+            ]).
