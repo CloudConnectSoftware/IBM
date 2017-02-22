@@ -232,7 +232,7 @@ i_rule( get_total_invoice, [
         
        generic_horizontal_details( [ [ `TOTAL`, `DUE`, `:`, q10(`AUD`), tab ], total_invoice, d, newline] )
 
-    , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, generic_item( [ total_quantity, d, tab ] ) ,generic_item( [ total_net, d, tab ] ), generic_item( [ total_vat, d, tab ] ) ], total_invoice, d, newline] )
+    , generic_horizontal_details( [ [ `TOTAL`, `:`, tab, q10(generic_item( [ total_quantity, d, tab ] )) ,generic_item( [ total_net, d, tab ] ), generic_item( [ total_vat, d, tab ] ) ], total_invoice, d, newline] )
 
      , generic_horizontal_details( [ [ `ADJUSTMENT`, `INCL`, `GST`, tab, `(`, `$` ], 10, total_invoice, d, `)`] ) 
 
