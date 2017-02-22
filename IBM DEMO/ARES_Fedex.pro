@@ -285,13 +285,13 @@ i_line_rule_cut( line_tracking_line, [
 
    	 ,or([
 			
-			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ cost_centre, `cost 1` ] ) ]
+			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ line_delivery_note_number, `cost 1` ] ) ]
 
-			,[check( Descr = `Laura Williams` ) , generic_item( [ cost_centre, `cost 2` ] )]
+			,[check( Descr = `Laura Williams` ) , generic_item( [ line_delivery_note_number, `cost 2` ] )]
 
-			,[check( Descr = `Ashley Caines` ) , generic_item( [ cost_centre, `cost  3` ] )]
+			,[check( Descr = `Ashley Caines` ) , generic_item( [ line_delivery_note_number, `cost  3` ] )]
 
-			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ cost_centre, `cost 4` ] )]
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `cost 4` ] )]
 
 			,[check( Descr = `Angela Williams` ) , generic_item( [ line_delivery_note_number, `cost 5` ] )]
 
