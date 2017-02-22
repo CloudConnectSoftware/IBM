@@ -285,49 +285,49 @@ i_line_rule_cut( line_tracking_line, [
 
    	 ,or([
 			
-			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ line_delivery_note_number, `cost 1` ] ) ]
+			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ cost_centre, `cost 1` ] ) ]
 
-			,[check( Descr = `Laura Williams` ) , generic_item( [ line_delivery_note_number, `cost 2` ] )]
+			,[check( Descr = `Laura Williams` ) , generic_item( [ cost_centre, `cost 2` ] )]
 
-			,[check( Descr = `Ashley Caines` ) , generic_item( [ line_delivery_note_number, `cost  3` ] )]
+			,[check( Descr = `Ashley Caines` ) , generic_item( [ cost_centre, `cost  3` ] )]
 
-			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `cost 4` ] )]
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ cost_centre, `cost 4` ] )]
 
-			,[check( Descr = `Angela Williams` ) , generic_item( [ line_delivery_note_number, `cost 5` ] )]
+			,[check( Descr = `Angela Williams` ) , generic_item( [ cost_centre, `cost 5` ] )]
 
-			,[check( Descr = `Lauren Chun` ) , generic_item( [ line_delivery_note_number, `Cost 6` ] )]
+			,[check( Descr = `Lauren Chun` ) , generic_item( [ cost_centre, `Cost 6` ] )]
 
-			,[check( Descr = `SEAN SPRING` ) , generic_item( [ line_delivery_note_number, `Cost 7` ] )]
+			,[check( Descr = `SEAN SPRING` ) , generic_item( [ cost_centre, `Cost 7` ] )]
 
-			,[check( Descr = `Nathalie Tolentino` ) , generic_item( [ line_delivery_note_number, `Cost 8` ] )]
+			,[check( Descr = `Nathalie Tolentino` ) , generic_item( [ cost_centre, `Cost 8` ] )]
 
-			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_delivery_note_number, `Cost 9 ` ] )]
+			,[check( Descr = `Annie McIvor` ) , generic_item( [ cost_centre, `Cost 9 ` ] )]
 
-			,[check( Descr = `AARON SINGH` ) , generic_item( [ line_delivery_note_number, `Cost 10 ` ] )]
+			,[check( Descr = `AARON SINGH` ) , generic_item( [ cost_centre, `Cost 10 ` ] )]
 
-			,[check( Descr = `Ann Kono` ) , generic_item( [ line_delivery_note_number, `Cost 11 ` ] )]
+			,[check( Descr = `Ann Kono` ) , generic_item( [ cost_centre, `Cost 11 ` ] )]
 
-			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_delivery_note_number, `Cost 12 ` ] )]
+			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ cost_centre, `Cost 12 ` ] )]
 
-			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `Cost 13 ` ] )]
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ cost_centre, `Cost 13 ` ] )]
 
-			,[check( Descr = `Jenny Anthony` ) , generic_item( [ line_delivery_note_number, `Cost 14 ` ] )]
+			,[check( Descr = `Jenny Anthony` ) , generic_item( [ cost_centre, `Cost 14 ` ] )]
 
-			,[check( Descr = `Matthew Keppley` ) , generic_item( [ line_delivery_note_number, `Cost 15 ` ] )]
+			,[check( Descr = `Matthew Keppley` ) , generic_item( [ cost_centre, `Cost 15 ` ] )]
 
-			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_delivery_note_number, `Cost 16 ` ] )]
+			,[check( Descr = `Stephanie Brock` ) , generic_item( [ cost_centre, `Cost 16 ` ] )]
 
-			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_delivery_note_number, `Cost 17 ` ] )]
+			,[check( Descr = `Annie McIvor` ) , generic_item( [ cost_centre, `Cost 17 ` ] )]
 
-			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_delivery_note_number, `Cost 18 ` ] )]
+			,[check( Descr = `Stephanie Brock` ) , generic_item( [ cost_centre, `Cost 18 ` ] )]
 
-			,[check( Descr = `Edward Sur` ) , generic_item( [ line_delivery_note_number, `Cost 19 ` ] )]
+			,[check( Descr = `Edward Sur` ) , generic_item( [ cost_centre, `Cost 19 ` ] )]
 
-			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_delivery_note_number, `Cost 20 ` ] )]
+			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ cost_centre, `Cost 20 ` ] )]
 
-			,[check( Descr = `Kim Stites` ) , generic_item( [ line_delivery_note_number, `Cost 21 ` ] )]
+			,[check( Descr = `Kim Stites` ) , generic_item( [ cost_centre, `Cost 21 ` ] )]
 
-			,[check( Descr = `Frank Tanelli` ) , generic_item( [ line_delivery_note_number, `Cost 21 ` ] )]
+			,[check( Descr = `Frank Tanelli` ) , generic_item( [ cost_centre, `Cost 21 ` ] )]
 
 					
 		]) 
