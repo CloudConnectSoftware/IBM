@@ -278,6 +278,63 @@ i_line_rule_cut( line_tracking_line, [
 
 		, generic_item_cut( [ line_descr , s1 , tab ])
 
+		  ,  with( invoice, line_descr, Descr ) 
+
+			, trace([`found the line descr line`])
+		  
+
+   	 ,or([
+			
+			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ line_delivery_note_number, `cost 1` ] ) ]
+
+			,[check( Descr = `Laura Williams` ) , generic_item( [ line_delivery_note_number, `cost 2` ] )]
+
+			,[check( Descr = `Ashley Caines` ) , generic_item( [ line_delivery_note_number, `cost  3` ] )]
+
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `cost 4` ] )]
+
+			,[check( Descr = `Angela Williams` ) , generic_item( [ line_delivery_note_number, `cost 5` ] )]
+
+			,[check( Descr = `Lauren Chun` ) , generic_item( [ line_delivery_note_number, `Cost 6` ] )]
+
+			,[check( Descr = `SEAN SPRING` ) , generic_item( [ line_delivery_note_number, `Cost 7` ] )]
+
+			,[check( Descr = `Nathalie Tolentino` ) , generic_item( [ line_delivery_note_number, `Cost 8` ] )]
+
+			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_delivery_note_number, `Cost 9 ` ] )]
+
+			,[check( Descr = `AARON SINGH` ) , generic_item( [ line_delivery_note_number, `Cost 10 ` ] )]
+
+			,[check( Descr = `Ann Kono` ) , generic_item( [ line_delivery_note_number, `Cost 11 ` ] )]
+
+			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_delivery_note_number, `Cost 12 ` ] )]
+
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `Cost 13 ` ] )]
+
+			,[check( Descr = `Jenny Anthony` ) , generic_item( [ line_delivery_note_number, `Cost 14 ` ] )]
+
+			,[check( Descr = `Matthew Keppley` ) , generic_item( [ line_delivery_note_number, `Cost 15 ` ] )]
+
+			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_delivery_note_number, `Cost 16 ` ] )]
+
+			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_delivery_note_number, `Cost 17 ` ] )]
+
+			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_delivery_note_number, `Cost 18 ` ] )]
+
+			,[check( Descr = `Edward Sur` ) , generic_item( [ line_delivery_note_number, `Cost 19 ` ] )]
+
+			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_delivery_note_number, `Cost 20 ` ] )]
+
+			,[check( Descr = `Kim Stites` ) , generic_item( [ line_delivery_note_number, `Cost 21 ` ] )]
+
+			,[check( Descr = `Frank Tanelli` ) , generic_item( [ line_delivery_note_number, `Cost 21 ` ] )]
+
+					
+		]) 
+
+		, trace([`found the cost centre line`]) 
+		  
+
 ] ).
 
 
@@ -294,22 +351,4 @@ i_line_rule_cut( line_charges_line, [
 ] ).
 
 
-%=======================================================================
-i_rule_cut( line_sender_line, [
-%=======================================================================
 
-
-    with( invoice, line_descr, Descr ) , generic_item( [ line_descr, Descr ] )
-
-   	 ,or([
-			
-			check( Desc = [ `Ann`,` Margaret`,` Tudisco` ] ) , generic_item( [ line_delivery_note_number, `MCO` ] ) 
-
-			,check( Desc = [`KIM`, `SITES`] ) , generic_item( [ line_delivery_note_number, `P2P` ] )
-
-			, trace([`found the cost centre line`])
-
-	
-		])
-
-            ]).
