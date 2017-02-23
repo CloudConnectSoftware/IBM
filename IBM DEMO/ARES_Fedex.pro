@@ -285,51 +285,51 @@ i_line_rule_cut( line_tracking_line, [
 
    	 ,or([
 			
-			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ line_delivery_note_number, `cost 1` ] ) ]
+			[check( Descr =  `Ann Margaret Tudisco`  ) , generic_item( [ line_buyers_order_number, `90067A` ] ) ]
 
-			,[check( Descr = `Laura Williams` ) , generic_item( [ line_delivery_note_number, `cost 2` ] )]
+			,[check( Descr = `Laura Williams` ) , generic_item( [ line_buyers_order_number, `90067B` ] )]
 
-			,[check( Descr = `Ashley Caines` ) , generic_item( [ line_delivery_note_number, `cost  3` ] )]
+			,[check( Descr = `Ashley Caines` ) , generic_item( [ line_buyers_order_number, `90067C` ] )]
 
-			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `cost 4` ] )]
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_buyers_order_number, `90067D` ] )]
 
-			,[check( Descr = `Angela Williams` ) , generic_item( [ line_delivery_note_number, `cost 5` ] )]
+			,[check( Descr = `Angela Williams` ) , generic_item( [ line_buyers_order_number, `90067E` ] )]
 
-			,[check( Descr = `Lauren Chun` ) , generic_item( [ line_delivery_note_number, `Cost 6` ] )]
+			,[check( Descr = `Lauren Chun` ) , generic_item( [ line_buyers_order_number, `90067F` ] )]
 
-			,[check( Descr = `SEAN SPRING` ) , generic_item( [ line_delivery_note_number, `Cost 7` ] )]
+			,[check( Descr = `SEAN SPRING` ) , generic_item( [ line_buyers_order_number, `90067G` ] )]
 
-			,[check( Descr = `Nathalie Tolentino` ) , generic_item( [ line_delivery_note_number, `Cost 8` ] )]
+			,[check( Descr = `Nathalie Tolentino` ) , generic_item( [ line_buyers_order_number, `90067H` ] )]
 
-			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_delivery_note_number, `Cost 9 ` ] )]
+			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_buyers_order_number, `90067I ` ] )]
 
-			,[check( Descr = `AARON SINGH` ) , generic_item( [ line_delivery_note_number, `Cost 10 ` ] )]
+			,[check( Descr = `AARON SINGH` ) , generic_item( [ line_buyers_order_number, `90067J ` ] )]
 
-			,[check( Descr = `Ann Kono` ) , generic_item( [ line_delivery_note_number, `Cost 11 ` ] )]
+			,[check( Descr = `Ann Kono` ) , generic_item( [ line_buyers_order_number , `90067K ` ] )]
 
-			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_delivery_note_number, `Cost 12 ` ] )]
+			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_buyers_order_number, `90067L ` ] )]
 
-			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_delivery_note_number, `Cost 13 ` ] )]
+			,[check( Descr = `Gerald Bongcaron` ) , generic_item( [ line_buyers_order_number, `90067M ` ] )]
 
-			,[check( Descr = `Jenny Anthony` ) , generic_item( [ line_delivery_note_number, `Cost 14 ` ] )]
+			,[check( Descr = `Jenny Anthony` ) , generic_item( [ line_buyers_order_number, `90067N ` ] )]
 
-			,[check( Descr = `Matthew Keppley` ) , generic_item( [ line_delivery_note_number, `Cost 15 ` ] )]
+			,[check( Descr = `Matthew Keppley` ) , generic_item( [ line_buyers_order_number, `90067N ` ] )]
 
-			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_delivery_note_number, `Cost 16 ` ] )]
+			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_buyers_order_number, `90067O ` ] )]
 
-			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_delivery_note_number, `Cost 17 ` ] )]
+			,[check( Descr = `Annie McIvor` ) , generic_item( [ line_buyers_order_number, `90067P` ] )]
 
-			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_delivery_note_number, `Cost 18 ` ] )]
+			,[check( Descr = `Stephanie Brock` ) , generic_item( [ line_buyers_order_number, `90067Q` ] )]
 
-			,[check( Descr = `Edward Sur` ) , generic_item( [ line_delivery_note_number, `Cost 19 ` ] )]
+			,[check( Descr = `Edward Sur` ) , generic_item( [ line_buyers_order_number, `990067R` ] )]
 
-			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_delivery_note_number, `Cost 20 ` ] )]
+			,[check( Descr = `Jorge Hernandez` ) , generic_item( [ line_buyers_order_number, `90067S ` ] )]
 
-			,[check( Descr = `Kim Stites` ) , generic_item( [ line_delivery_note_number, `Cost 21 ` ] )]
+			,[check( Descr = `Kim Stites` ) , generic_item( [ line_buyers_order_number, `90067T ` ] )]
 
-			,[check( Descr = `Frank Tanelli` ) , generic_item( [ line_delivery_note_number, `Cost 22 ` ] )]
+			,[check( Descr = `Frank Tanelli` ) , generic_item( [ line_buyers_order_number, `90067U ` ] )]
 
-			,[check( Descr = `Sender` ) , generic_item( [ line_delivery_note_number, `Cost 23 ` ] )]
+			,[check( Descr = `Sender` ) , generic_item( [ line_buyers_order_number, `90067V ` ] )]
 
 					
 		]) 
