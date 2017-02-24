@@ -352,7 +352,9 @@ i_line_rule_cut( line_end_line, [
 
    or([ 
    
-        [`GRAND`, `TOTAL`, tab ]
+         [`TI`, `NO`, `.`]
+
+        ,[`GRAND`, `TOTAL`, tab ]
 
         , [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`, tab ]
 
