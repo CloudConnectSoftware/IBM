@@ -28,9 +28,9 @@ i_rule_list( [
 	
 	, get_invoice_date
 
-    , get_total_net
+    % , get_total_net ( Removed as per email from Delivery team )
 
-	, get_total_vat
+	% , get_total_vat ( Removed as per email from Delivery team )
 
     , get_total_invoice
 
@@ -53,6 +53,8 @@ i_rule( get_supplier_detail, [
 	sender_name(`Cardinal Logistics Ltd`)
 
 	,supplier_vat_number(`059512706`)
+
+	,buyer_registration_number(`NZ00`)
 
 ] ).
 
@@ -152,6 +154,14 @@ i_rule( get_total_invoice, [
 	q(0,100,line)
 	
 	, generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, total_invoice, d, newline ] )
+
+	, check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )
 		
 ] ).
 
@@ -176,59 +186,14 @@ i_rule( get_currency, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_section( get_invoice_lines, [
+i_rule( get_invoice_lines, [
 %=======================================================================
+q(0,100,line)
+	
+	, generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, line_total_amount, d, newline ] )
 
-    line_header_line
-
-    , qn0( [ peek_fails(line_end_line)
-
-        , or( [
-
-              line_invoice_line 
-                                       
-              , line
-
-        ] )
-
-    ] )
-
+	,line_descr(`Service charges`)
+		
 ] ).
-
-%=======================================================================
-i_line_rule_cut( line_header_line, [
-%=======================================================================
-
-    [`Description`, tab, `Quantity`, tab, `Price`, tab, `Line`, `Total`]
-
-    , trace([`found the start line`])
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-    [`Total`, `Net`]
-
-     , trace([`found the end line`])
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [
-%=======================================================================
-
-     generic_item( [line_descr , s1 , tab ] )
-
-    , generic_item( [line_quantity , d , tab ] )
-
-    , generic_item( [line_unit_amount , d , tab ] )
-
-    , generic_item( [line_net_amount , d , newline ] )
-
-    ,  trace([`END of LINE`])
-
-    
-] ).
+   
 
