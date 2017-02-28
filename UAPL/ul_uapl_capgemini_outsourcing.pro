@@ -167,7 +167,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Montant`, `TTC`, tab, set( regexp_cross_word_boundaries ) ], total_invoice, s, [`EUR`,  newline] ] ) 
+    , generic_horizontal_details( [ [ `Montant`, `TTC`, tab, set( regexp_cross_word_boundaries ) ], total_invoice, d, [`EUR`,  newline] ] ) 
 
     , clear( regexp_cross_word_boundaries ) 
 
