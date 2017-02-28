@@ -56,6 +56,8 @@ i_rule( get_supplier_details, [
 
   , set(freight_vendor)
 
+  , set(reverse_punctuation_in_numbers)
+
   ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,26 +130,9 @@ i_rule( get_total_net, [
 
 	q0n(line) 
 
-	, generic_horizontal_details( [ [ `Montant`, `HT`, tab ], total_net_raw, s, [`EUR`,  newline] ] )
-
-    , check( total_net_raw = NetRaw )
-
-    , trace( [ `Total Net raw1` , NetRaw ] )
-
-    , check(string_string_replace( NetRaw, `,`, `.`, NetStrip ))
-
-    , trace( [ `Total Net Stripped Comma`, NetStrip ] )
+	, generic_horizontal_details( [ [ `Montant`, `HT`, tab, set( regexp_cross_word_boundaries ) ], total_net, d, [`EUR`,  newline] ] )  
     
-    , trace( [ `Total Net raw2` , NetStrip] )
-
-    , check(string_string_replace( NetStrip, ` `, ``, NetStrip1 ))
-
-    , trace( [ `Total Net Stripped Space` , NetStrip1 ] )
-
-    , total_net(NetStrip1)
-
-    , trace( [ `Total Net` , total_net ] )  
-
+    , clear( regexp_cross_word_boundaries )
 ] ).
 
 
@@ -163,19 +148,9 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Montant`, `TVA`, tab ], total_vat_raw, s, [`EUR`,  newline] ] )
+    , generic_horizontal_details( [ [ `Montant`, `TVA`, tab , set( regexp_cross_word_boundaries ) ], total_vat, d, [`EUR`,  newline] ] )
     
-    , check( total_vat_raw = VatRaw )
-
-    , trace( [ `Total Vat raw` , VatRaw ] )
-
-    , check(string_string_replace( VatRaw, `,`, `.`, VatStrip ))
-
-    , trace( [ `Total Vat Stripped Comma`, VatStrip ] )
-    
-    , total_vat(VatStrip)
-
-    , trace( [ `Total Vat` , total_vat ] )  
+    , clear( regexp_cross_word_boundaries ) 
 
 ] ).
 
@@ -192,25 +167,9 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Montant`, `TTC`, tab ], total_invoice_raw, s, [`EUR`,  newline] ] ) 
+    , generic_horizontal_details( [ [ `Montant`, `TTC`, tab, set( regexp_cross_word_boundaries ) ], total_invoice, s, [`EUR`,  newline] ] ) 
 
-    , check( total_invoice_raw = InvoiceRaw )
-
-    , trace( [ `Total Invoice raw1` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, `,`, `.`, InvoiceStrip ))
-
-    , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
-    
-    , trace( [ `Total Invoice raw2` , InvoiceStrip] )
-
-    , check(string_string_replace( InvoiceStrip, ` `, ``, InvoiceStrip1 ))
-
-    , trace( [ `Total Invoice Stripped Space` , InvoiceStrip1 ] )
-
-    , total_invoice(InvoiceStrip1)
-
-    , trace( [ `Total Invoice` , total_invoice ] )  
+    , clear( regexp_cross_word_boundaries ) 
 
 
 ] ).
@@ -227,25 +186,10 @@ i_rule( get_line_total_amount, [
 
      q0n(line)
 
-     , generic_horizontal_details( [ [ `Montant`, `TTC`, tab ], line_total_amount_raw, s, [`EUR`,  newline] ] ) 
+     , generic_horizontal_details( [ [ `Montant`, `TTC`, tab ,set( regexp_cross_word_boundaries ) ], line_total_amount, d, [`EUR`,  newline] ] ) 
 
-    , check( line_total_amount_raw = TotalRaw )
+     ,clear( regexp_cross_word_boundaries ) 
 
-    , trace( [ `Line Total Amount raw1` , TotalRaw ] )
-
-    , check(string_string_replace( TotalRaw, `,`, `.`, TotalStrip ))
-
-    , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
-    
-    , trace( [ `Line Total Amount raw2` , TotalStrip] )
-
-    , check(string_string_replace( TotalStrip, ` `, ``, TotalStrip1 ))
-
-    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
-
-    , line_total_amount(TotalStrip1)
-
-    , trace( [ `Line Total Amount` , line_total_amount ] )
 
 ]).
 
