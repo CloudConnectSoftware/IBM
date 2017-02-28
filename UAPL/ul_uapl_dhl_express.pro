@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_dhl_express, `13:12 19 October 2016` ).
+i_version( ul_uapl_dhl_express, `28 Feb 2016` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,6 +20,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,set_credit_note
 	
     , get_invoice_number
 	
@@ -56,6 +58,36 @@ i_rule( get_supplier_details, [
 
   ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Credit Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , `CREDIT`, `NOTE`
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -133,7 +165,7 @@ i_rule( get_total_invoice, [
 
         generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, total_invoice, d, newline ] ) 
 
-        , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD`, tab ] , total_invoice, d, newline ] )
+        , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD` ] ,300, total_invoice, d, newline ] )
 
     ])
 
@@ -188,7 +220,7 @@ i_rule( get_line_total_amount, [
 
         generic_horizontal_details( [ [ `Grand`, `Total`, `SGD` ], 300, line_total_amount, d, newline ] ) 
 
-       , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD`, tab ] , line_total_amount, d, newline ] )
+       , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD` ] ,300, line_total_amount, d, newline ] )
 
     ])
 
