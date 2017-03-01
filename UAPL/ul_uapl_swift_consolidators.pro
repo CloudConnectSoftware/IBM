@@ -106,6 +106,8 @@ i_rule( get_order_number, [
 
     , generic_vertical_details( [ [ `PO`, `NO`], `PO`, q(0,1), (end,10,10), line_buyers_order_number, w, or([`/` , newline ]) ] )
 
+    , generic_horizontal_details( [ [ `Remarks`, tab,  `:`], line_buyers_order_number, w, or([ `/` , newline ]) ] )
+
 
  ])
 
