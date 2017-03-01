@@ -12,8 +12,6 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_include_partner_attachments_image_only.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,7 +44,7 @@ i_rule( get_supplier_details, [
      
    sender_name(`BULKHAUL LIMITED`)
 
-  , supplier_vat_number(`927 2732 15`)
+  , supplier_vat_number(`GB 927 2732 15`)
  
   , set(freight_vendor)
 
