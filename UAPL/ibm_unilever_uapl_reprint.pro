@@ -41,9 +41,11 @@ i_line_rule( check_text_id_line, [
 
 		  [ check_text( `000760807424` ), set( chain, `ul_uapl_tepak_marketing` ), trace( [ `THIS IS A TEPAK MARKETING SDN BHD DOCUMENT` ] ) ]
 
+		  ,  [ check_text( `204952` ), set( chain, `ul_uapl_tepak_marketing` ), trace( [ `THIS IS A TEPAK MARKETING SDN BHD DOCUMENT` ] ) ]
+
 		 , [ check_text( `0-820162-013` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN REPRINT DOCUMENT` ] ) ]
 
-		 , [ check_text( `66-355-993` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN REPRINT DOCUMENT` ] ) ]
+		 , [ check_text( `66-355-993` ), set( chain, `ul_uapl_mediterranean_nz` ), trace( [ `THIS IS A MEDITERRANEAN NZ DOCUMENT` ] ) ]
 
 		 , [ check_text( `PTPANURJWAN` ), set( chain, `ul_uapl_pt_perusahaan` ), trace( [ `THIS IS A  PT.Perusahaan Pelayaran Nusantara Panurjwan DOCUMENT` ] ) ]
 
@@ -52,6 +54,10 @@ i_line_rule( check_text_id_line, [
 		 ,  [ check_text( `M2-0078869-9` ), set( chain, `ul_uapl_rcl_feeder` ), trace( [ `THIS IS A RCL FEEDER PTE DOCUMENT` ] ) ]
 
 		 , [ check_text( `001264435200` ), set( chain, `ul_uapl_apex_packaging` ), trace( [ `This is  APEX PACKAGING DOCUMENT` ] ) ]
+
+		 , [ check_text( `0-820162-017` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
+
+		, [ check_text( `0-862595-009` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
 
 		 
 
