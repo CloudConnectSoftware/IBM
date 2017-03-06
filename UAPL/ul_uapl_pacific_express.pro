@@ -74,11 +74,23 @@ i_rule_cut( get_invoice_number, [
     q0n(line)
 
     , or([
+
         generic_horizontal_details( [ [`Number`, tab, `FR`, tab ],  invoice_number, w, newline ] )
 
-    ,generic_horizontal_details( [ [`Number`, tab, `DM`, tab ],  invoice_number, w, newline ] )
+    , generic_horizontal_details( [ [`Number`, tab, `DM`, tab ],  invoice_number, w, newline ] )
 
-    ])
+     , generic_horizontal_details( [ [`Number`, tab, generic_item( [ invoice_number_raw1, w ] ) , or([ tab ]) ], invoice_number_raw2 , s1, newline ] )
+
+     , check( invoice_number_raw1 = Substring1 )    , trace( [ `Invoice first half ` , Substring1 ] )
+
+      , check( invoice_number_raw2 = Substring2 )    , trace( [ `Invoice second half ` , Substring2 ] )
+
+      , check(strcat_list( [ Substring1,` ` , Substring2,`` ], InvoiceNew ))  , trace( [ `New Invoice Format` , InvoiceNew ] ) 
+    
+	  , invoice_number(InvoiceNew)  , trace( [ `Invoice number Now` , invoice_number ] )
+
+
+          ])
 	
 	] ).
 
