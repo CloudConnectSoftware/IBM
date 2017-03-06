@@ -222,9 +222,11 @@ qn0(line)
 
     , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `-`, `V2`, `)`, newline ] ]  )
 
-    , generic_horizontal_details( [ [ `office`, `(` ],  order_number, w,  newline ]  )
+    , generic_horizontal_details( [ [ `office`, `(` ],  order_number, w, [ `)` , newline ] ] )
 
-    , generic_horizontal_details( [ [ `account`, `22570124`, `(` ],  order_number, w,  newline  ]  )
+    , generic_horizontal_details( [ [ `account`, `22570124`, `(` ],  order_number, w,  [ `)` , newline ]  ]  )
+
+    , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `)` , newline ] ] )
 
     
      
