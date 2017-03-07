@@ -350,6 +350,8 @@ i_line_rule_cut( line_end_line,[
           
 		 , [ `TOTAL`, `FOB`, `BANGKOK` ]
 
+         , [`TOTAL`, `FOB`, `LAEM`, `CHABANG`]
+
          , [`Issued`, `by`, tab, `Checked`, `by`, tab, `Approved`, `by`, tab, `Received`, `by`]
 
 	 	 ])
