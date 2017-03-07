@@ -257,15 +257,15 @@ i_rule( get_total_net, [
 
 , or( [
 
-  [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD`, tab ], total_net, d, or([ `CR` , newline ])  ] ) ]
+  [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD` ], 150,total_net, d, or([ `CR` , newline ])  ] ) ]
 
-, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`, tab ], total_net, d, or([ `CR` , newline ]) ] ) ]
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
 
-,[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`, tab ], total_net, d, newline ] ) ]
+,[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, total_net, d, newline ] ) ]
 
-, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`, tab ], total_net, d, newline ] ) ]
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,total_net, d, newline ] ) ]
 
- , [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD`, tab ], total_net, d, newline ] ) ]
+ , [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD` ],150, total_net, d, newline ] ) ]
 
 
 ] )
@@ -328,9 +328,9 @@ i_rule( get_total_invoice, [
 
     , or( [
 
-       [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `USD`, tab ], total_invoice, d, or([ `CR` , newline ]) ] ) ]
+       [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `USD`],150, total_invoice, d, or([ `CR` , newline ]) ] ) ]
 
-     , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD`, tab ], total_invoice, d, or([ `CR` , newline ]) ] ) ]
+     , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD` ],150 , total_invoice, d, or([ `CR` , newline ]) ] ) ]
 
      
      ] )
@@ -358,13 +358,13 @@ i_rule( get_line_total_amount, [
 
     , or( [
 
-     [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `USD`, tab ], line_total_amount, d, newline ] ) ]
+     [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `USD`], 150, line_total_amount, d, newline ] ) ]
 
-    , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `SGD`,  tab ], line_total_amount, d, newline ] ) ]
+    , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `SGD` ],150,  line_total_amount, d, newline ] ) ]
 
-     , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD`, tab ], line_total_amount, d, or([ `CR` , newline ]) ] ) ]
+     , [ check( Currency = `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD` ],150, line_total_amount, d, or([ `CR` , newline ]) ] ) ]
 
-      , [ check( Currency = `USD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `USD`, tab ], line_total_amount, d, or([ `CR` , newline ]) ] ) ]
+      , [ check( Currency = `USD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `USD`],150, line_total_amount, d, or([ `CR` , newline ]) ] ) ]
 
      ] )
 
