@@ -228,9 +228,20 @@ qn0(line)
 
     , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `)` , newline ] ] )
 
-    
+    , generic_horizontal_details( [ [ `discount`, `(` ],  order_number, w, [ `)` , newline ] ] )
+
+    , generic_horizontal_details( [ [ `centre`, `(`, generic_item( [ dummy_number1, w ] )],  order_number, w, [`)` , newline ] ]  )
      
+    , generic_horizontal_details( [ [ `renewal`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
+
+    , generic_horizontal_details( [ [ `MBC`,  `(` ],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `Channel`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
     
+    , generic_horizontal_details( [ [ `Acres`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
+
+    , generic_horizontal_details( [ [ `Rental`, `(` ],  order_number, w, [ `)` , `in` ] ] ) 
+
     ])
 
     
