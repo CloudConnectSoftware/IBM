@@ -240,7 +240,7 @@ qn0(line)
     
     , generic_horizontal_details( [ [ `Acres`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
 
-    , generic_horizontal_details( [ [ `Rental`, `(` ],  order_number, w, [ `)` , `in` ] ] ) 
+    , generic_horizontal_details( [ [ `Numbering`, `(` ],  order_number, w, [ `)` , `in` ] ] ) 
 
     ])
 
