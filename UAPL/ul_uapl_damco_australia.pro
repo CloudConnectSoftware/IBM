@@ -75,7 +75,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], invoice_number, d, newline ] )
+       , or([
+
+      generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], invoice_number, d, newline ] )
+
+     , generic_horizontal_details( [ [ `ENTRY`, `NO`, `.` ], invoice_number, w, or([ `PRINT` , newline ]) ] )
+
+
+    ])
 	
 	] ).
 
@@ -118,8 +125,27 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
+     , or([
 
+      generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ], 100, invoice_date, date , newline ] )
+
+     
+     , [ generic_horizontal_details( [ [ `PREPARED` ], invoice_date_raw, w ] )
+
+     , check( invoice_date_raw = DateRaw )    , trace( [ `Date raw` , DateRaw ] )
+
+    , check(q_sys_sub_string( DateRaw, 1,2 , Substring1 ))    , trace( [ `Date raw1` , Substring1 ] )
+
+    , check(q_sys_sub_string( DateRaw, 3,3 , Substring2 ))    , trace( [ `Date raw2` , Substring2 ] )
+
+    , check(q_sys_sub_string( DateRaw, 6,2, Substring3 ))   , trace( [ `Date raw3` , Substring3 ] )
+
+    , check(strcat_list( [ Substring1,` ` , Substring2,` `, Substring3 ], DateNew ))   , trace( [ `New Date Format` , DateNew ] ) 
+    
+	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )]
+
+    
+   ])   
 
 ] ).
 
@@ -186,7 +212,20 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Amount`,`Due`,  tab ], total_invoice, d, newline ] )  
+        , or([
 
+      generic_horizontal_details( [ [ `Amount`,`Due`,  tab ], total_invoice, d, newline ] )  
+
+    , [ generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `PAYABLE`, `*`, `*`, `*`, tab ], total_invoice, d, or([`*`, `*`, `*` , newline ]) ] )
+
+      , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] ) ]
+
+ ])   
 
 ] ).
