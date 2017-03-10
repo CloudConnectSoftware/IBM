@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `10:40 24 January 2017` ).
+i_version( p_ibm_unilever_uapl, `14:14 10 March 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -12,7 +12,6 @@ i_rules_file( `d_ibm_unilever_uapl.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_json_forms.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
-i_rules_file( `u_invoice_number_validation_2.pro` ).
 i_rules_file( `u_date_validation.pro` ).
 
 i_op_param( unique_id, _, To, _, Scan_ID )
