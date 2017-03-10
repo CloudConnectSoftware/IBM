@@ -99,7 +99,13 @@ i_rule_cut( get_order_number, [
 
     q0n(line)
 
-     , generic_horizontal_details( [ [ `PO`,`#` ], 20, order_number, d, `,` ] )
+    , or([
+
+       generic_horizontal_details( [ [ `PO`,`#` ], 20, order_number, d, `,` ] )
+
+      , generic_horizontal_details( [ [ `O`, `/`, `REF`, tab, `:` ],  order_number, d, tab ] )
+
+       ])
     
      , check(order_number = OrdNo)
 
