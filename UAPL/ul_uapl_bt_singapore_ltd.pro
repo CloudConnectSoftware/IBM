@@ -42,6 +42,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    , get_total_line_net
+
 ] ).
 
 
@@ -190,57 +192,19 @@ q0n(line)
          
     generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
 
-    , generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [ `-`, `V2`, `)`, newline ] ]  )
+    ,  [  set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`)`] ]  )
+
+    , check( order_number_raw = OrdRaw ) ,trace( [ `Raw PO Number` , OrdRaw ] ) 
+
+   , check(strcat_list( [ `DO`,OrdRaw ], OrdNew ))   , trace( [ `New PO Number` , OrdNew ] ) 
     
-    , generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `Fixed`, `Voice`, `-`, `Baseline`, `(`],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `UAPL`, `(`],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `DASHBOARD`, `(`],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `Centres`, `(`],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `Centre`, `(`],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `2017`, `)`, `(` ],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `MMR`,  `(` ],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `30M`, `/`, `25M`, `(` ],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [  `17`, `(` ] ,  order_number, w, [ `-`, `V2`, `)`] ]  )
-
-    , generic_horizontal_details( [ [ `16`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `Active`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [`)`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `-`, `V2`, `)`, newline ] ]  )
-
-    , generic_horizontal_details( [ [ `office`, `(` ],  order_number, w, [ `)` , newline ] ] )
-
-    , generic_horizontal_details( [ [ `account`, `22570124`, `(` ],  order_number, w,  [ `)` , newline ]  ]  )
-
-    , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `)` , newline ] ] )
-
-    , generic_horizontal_details( [ [ `discount`, `(` ],  order_number, w, [ `)` , newline ] ] )
-
-    , generic_horizontal_details( [ [ `centre`, `(`, generic_item( [ dummy_number1, w ] )],  order_number, w, [`)` , newline ] ]  )
+	  , order_number(OrdNew)  , trace( [ `Invoice PO Now` , order_number ] ) 
+      
+      
+      , clear(regexp_allow_partial_matching) ]
+        
      
-    , generic_horizontal_details( [ [ `renewal`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
-
-    , generic_horizontal_details( [ [ `MBC`,  `(` ],  order_number, w, [`)` , newline ] ]  )
-
-    , generic_horizontal_details( [ [ `Channel`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
-    
-    , generic_horizontal_details( [ [ `Acres`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
-
-    , generic_horizontal_details( [ [ `Numbering`, `(` ],  order_number, w, [ `)` , `in` ] ] ) 
+ 
 
     ])
 
@@ -383,6 +347,7 @@ i_rule( get_line_total_amount, [
 ] ).
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -397,4 +362,43 @@ i_rule( get_invoice_lines, [
     
     , line_descr( `Goods Charges` )
 
+
+    
+
 ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL Line NET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_line_net, [  
+%=======================================================================
+
+	q0n(line)
+
+
+    , with( invoice, order_number, Order_Number )
+
+, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+, or( [
+
+  [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD` ], 150,line_net_amount, d, or([ `CR` , newline ])  ] ) ]
+
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`],150, line_net_amount, d, or([ `CR` , newline ]) ] ) ]
+
+,[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, line_net_amount, d, newline ] ) ]
+
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,line_net_amount, d, newline ] ) ]
+
+ , [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD` ],150, line_net_amount, d, newline ] ) ]
+
+
+] )
+
+
+
+] ).
