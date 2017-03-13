@@ -201,6 +201,6 @@ i_rule( get_invoice_lines, [
    
    q0n(line)
     
-    , line_descr( `Line Charges` )
+    , line_descr( `Goods Charges` )
 
 ]).
