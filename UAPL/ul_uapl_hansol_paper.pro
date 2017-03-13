@@ -49,7 +49,6 @@ i_rule( get_supplier_details, [
      
     sender_name(`HANSOL PAPER CO., LTD`)
 
-    , supplier_vat_number(`19-9002280-G`)
 
     ]).
 
