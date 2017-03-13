@@ -184,7 +184,7 @@ q0n(line)
 i_rule( get_order_number, [
 %=======================================================================
 
-qn0(line)
+q0n(line)
 	
     , or([
          
@@ -319,7 +319,6 @@ i_rule( get_total_vat, [
    ] )
 
   
-    , generic_item( [ default_vat_rate, `7` ] )
   
 ] ).
 
