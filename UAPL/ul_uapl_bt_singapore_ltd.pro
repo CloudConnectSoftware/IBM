@@ -204,6 +204,58 @@ q0n(line)
       , clear(regexp_allow_partial_matching) ]
         
      
+     
+    , generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [ `-`, `V2`, `)`, newline ] ]  )
+    
+    , generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `Fixed`, `Voice`, `-`, `Baseline`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `UAPL`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `DASHBOARD`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `Centres`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `Centre`, `(`],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `2017`, `)`, `(` ],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `MMR`,  `(` ],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `30M`, `/`, `25M`, `(` ],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [  `17`, `(` ] ,  order_number, w, [ `-`, `V2`, `)`] ]  )
+
+    , generic_horizontal_details( [ [ `16`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `17`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `Active`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [`)`, `(` ] ,  order_number, w, [ `)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `-`, `V2`, `)`, newline ] ]  )
+
+    , generic_horizontal_details( [ [ `office`, `(` ],  order_number, w, [ `)` , newline ] ] )
+
+    , generic_horizontal_details( [ [ `account`, `22570124`, `(` ],  order_number, w,  [ `)` , newline ]  ]  )
+
+    , generic_horizontal_details( [ [ `charge`, `(` ],  order_number, w, [ `)` , newline ] ] )
+
+    , generic_horizontal_details( [ [ `discount`, `(` ],  order_number, w, [ `)` , newline ] ] )
+
+    , generic_horizontal_details( [ [ `centre`, `(`, generic_item( [ dummy_number1, w ] )],  order_number, w, [`)` , newline ] ]  )
+     
+    , generic_horizontal_details( [ [ `renewal`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
+
+    , generic_horizontal_details( [ [ `MBC`,  `(` ],  order_number, w, [`)` , newline ] ]  )
+
+    , generic_horizontal_details( [ [ `Channel`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
+    
+    , generic_horizontal_details( [ [ `Acres`, `(` ],  order_number, w, [ `)` , newline ] ] ) 
+
+    , generic_horizontal_details( [ [ `Numbering`, `(` ],  order_number, w, [ `)` , `in` ] ] )
  
 
     ])
