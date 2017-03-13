@@ -80,7 +80,7 @@ i_rule( get_supplier_details, [
 i_rule( set_credit_note, [
 %=======================================================================
 
-    q(0,15, line)
+    q(0,25, line)
 
     , credit_note_line
 
@@ -90,8 +90,7 @@ i_rule( set_credit_note, [
 i_line_rule( credit_note_line, [
 %=======================================================================
 
-q(0,15,anything)
-
+q(0,25, anything)
 
     , `Credit`, `Note`
 
