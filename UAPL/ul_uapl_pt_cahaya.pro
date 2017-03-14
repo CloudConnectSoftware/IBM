@@ -52,8 +52,6 @@ i_rule( get_supplier_details, [
   
    sender_name(`PT CAHAYA PUNDIMAS INDONUSA`)
 
-   , supplier_vat_number(`19-9002280-G`)
-
    , set(freight_vendor)
 
    , set(reverse_punctuation_in_numbers)
