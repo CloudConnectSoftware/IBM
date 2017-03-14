@@ -186,11 +186,22 @@ q0n(line)
 i_rule( get_order_number, [
 %=======================================================================
 
-q0n(line)
+q0n(line)  
 	
     , or([
          
     generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
+
+    ,  [  set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`-`, `V2`, `)`] ]  )
+
+    , check( order_number_raw = OrdRaw ) ,trace( [ `Raw PO Number` , OrdRaw ] ) 
+
+   , check(strcat_list( [ `DO`,OrdRaw ], OrdNew ))   , trace( [ `New PO Number` , OrdNew ] ) 
+    
+	  , order_number(OrdNew)  , trace( [ `Invoice PO Now` , order_number ] ) 
+      
+      
+      , clear(regexp_allow_partial_matching) ]
 
     ,  [  set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`)`] ]  )
 

@@ -4,11 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ibm_demo_toops_express, `10/03/2017` ).
+i_version( ibm_demo_toops_express, `14/03/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y` ).
+i_date_format( _ ).
 
 i_trace_lists.
 
@@ -130,7 +130,7 @@ i_rule( get_total_net, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Net`, `Amount`, tab, `£` ], 100, total_net, s1, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Net`, `Amount`, tab, `£` ], 100, total_net, d, newline ] )
 
 ] ).
 
@@ -147,7 +147,7 @@ i_rule( get_total_vat, [
 
  qn0(line)
 
-, generic_horizontal_details( [ [ `Total`, `Tax`, `Amount`, tab, `£` ], 100, total_vat, s1, newline ] )
+, generic_horizontal_details( [ [ `Total`, `Tax`, `Amount`, tab, `£` ], 100, total_vat, d, newline ] )
   
 ] ).
 
@@ -166,21 +166,6 @@ i_rule( get_total_invoice, [
 
 , generic_horizontal_details( [ [ `Invoice`, `Total`, tab, `£` ], 100, total_invoice, d, newline ] )
   
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET CURRENCY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_currency, [
-%=======================================================================
-
-    q0n(line)
-    
-    
 ] ).
 
 
