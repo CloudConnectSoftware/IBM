@@ -49,6 +49,8 @@ i_rule( get_supplier_details, [
      
     sender_name(`HANSOL PAPER CO., LTD`)
 
+    , set(freight_vendor)
+
 
     ]).
 
