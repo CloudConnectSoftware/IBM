@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_dhl_express, `28 Feb 2016` ).
+i_version( ul_uapl_dhl_express, `14 March 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -160,7 +160,7 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
     last_line
-    
+
      , q(0,100,up)
 
    ,  or([
@@ -170,6 +170,14 @@ i_rule( get_total_invoice, [
        , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD` ] ,300, total_invoice, d, newline ] )
 
     ])
+
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
 
      
 
