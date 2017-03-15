@@ -30,7 +30,9 @@ i_rule_list( [
 
 	, get_due_date
 
-    , get_order_number
+    , get_order_number_alternative
+
+   % , get_order_number
 
     , get_total_net
 
@@ -186,35 +188,41 @@ q0n(line)
 i_rule( get_order_number, [
 %=======================================================================
 
-q0n(line)  
+    without(order_number)
+
+    , q0n(line)  
 	
     , or([
          
     generic_horizontal_details( [ [ `Reimbursement`, `Statement`, `(`],  order_number, w, `)` ] )
 
-    ,  [  set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`-`, `V2`, `)`] ]  )
-
-    , check( order_number_raw = OrdRaw ) ,trace( [ `Raw PO Number` , OrdRaw ] ) 
-
-   , check(strcat_list( [ `DO`,OrdRaw ], OrdNew ))   , trace( [ `New PO Number` , OrdNew ] ) 
-    
-	  , order_number(OrdNew)  , trace( [ `Invoice PO Now` , order_number ] ) 
-      
-      
-      , clear(regexp_allow_partial_matching) ]
-
-    ,  [  set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`)`] ]  )
-
-    , check( order_number_raw = OrdRaw ) ,trace( [ `Raw PO Number` , OrdRaw ] ) 
-
-   , check(strcat_list( [ `DO`,OrdRaw ], OrdNew ))   , trace( [ `New PO Number` , OrdNew ] ) 
-    
-	  , order_number(OrdNew)  , trace( [ `Invoice PO Now` , order_number ] ) 
-      
-      
-      , clear(regexp_allow_partial_matching) ]
+    ,  [  
         
-     
+        set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`-`, `V2`, `)`] ]  )
+
+      , check( order_number_raw = OrdRaw ) ,trace( [ `Raw PO Number` , OrdRaw ] ) 
+
+      , check(strcat_list( [ `DO`,OrdRaw ], OrdNew ))   , trace( [ `New PO Number` , OrdNew ] ) 
+    
+	  , order_number(OrdNew)  , trace( [ `Invoice PO Now` , order_number ] ) 
+      
+      , clear(regexp_allow_partial_matching) 
+      
+      ]
+
+    ,  [  
+        
+        set(regexp_allow_partial_matching) , generic_horizontal_details( [ [ `DO` ],  order_number_raw, d, [`)`] ]  )
+
+        , check( order_number_raw = OrdRaw ) ,trace( [ `Raw PO Number` , OrdRaw ] ) 
+
+        , check(strcat_list( [ `DO`,OrdRaw ], OrdNew ))   , trace( [ `New PO Number` , OrdNew ] ) 
+    
+	    , order_number(OrdNew)  , trace( [ `Invoice PO Now` , order_number ] ) 
+      
+        , clear(regexp_allow_partial_matching) 
+        
+    ]
      
     , generic_horizontal_details( [ [ `usage`, `(` ],  order_number, w, [ `-`, `V2`, `)`, newline ] ]  )
     
@@ -268,12 +276,50 @@ q0n(line)
 
     , generic_horizontal_details( [ [ `Numbering`, `(` ],  order_number, w, [ `)` , `in` ] ] )
  
-
-    ])
+    ] )
 
     
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_order_number_alternative
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number_alternative, [
+%=======================================================================
+
+    q(40,100,line)
+
+    , find_order_header_line
+
+    , q(0,5,line)
+
+    , find_order_number
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_header_line, [
+%=======================================================================
+
+    `Service` , `details` 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -286,12 +332,11 @@ q0n(line)
 i_rule( get_total_net, [  
 %=======================================================================
 
-	q0n(line)
+     with( invoice, order_number, Order_Number )
 
+    , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-    , with( invoice, order_number, Order_Number )
-
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+    , qn0(line)
 
 , or( [
 
@@ -322,11 +367,11 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	qn0(line)
-
-    , with( invoice, order_number, Order_Number )
+	   with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+    , qn0(line)
 
     , or( [
 
@@ -359,11 +404,11 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q0n(line)
-
-    , with( invoice, order_number, Order_Number )
+	   with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+    , qn0(line)
 
     , or( [
 
@@ -389,11 +434,11 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
-
-     , with( invoice, order_number, Order_Number )
+      with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+    , qn0(line)
 
     , or( [
 
@@ -440,12 +485,11 @@ i_rule( get_invoice_lines, [
 i_rule( get_total_line_net, [  
 %=======================================================================
 
-	q0n(line)
+	  with( invoice, order_number, Order_Number )
 
+    , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-    , with( invoice, order_number, Order_Number )
-
-, check( i_user_check( check_po_currency, Order_Number, Currency ) )
+    , qn0(line)
 
 , or( [
 
