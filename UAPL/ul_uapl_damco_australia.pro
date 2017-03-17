@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_damco_australia, `08/11/2016` `6:15:05` ).
+i_version( ul_uapl_damco_australia, `16/02/2017` `6:15:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,invoice_or_credit_note
 
     , get_invoice_number
 
@@ -62,6 +64,34 @@ i_rule( get_supplier_details, [
 
 	] ).
 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE OR CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( invoice_or_credit_note, [
+%=======================================================================
+
+	q(0,10,line)
+	
+	, invoice_or_credit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_or_credit_note_line, [
+%=======================================================================
+
+	`CREDIT`, `NOTE`
+	
+	, set(credit_note), set(credit)
+	
+	, trace( [ `This is a credit note` ] )
+
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -77,9 +107,11 @@ i_rule_cut( get_invoice_number, [
 
        , or([
 
-      generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], invoice_number, d, newline ] )
+      generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], invoice_number, w, newline ] )
 
      , generic_horizontal_details( [ [ `ENTRY`, `NO`, `.` ], invoice_number, w, or([ `PRINT` , newline ]) ] )
+
+     ,generic_horizontal_details( [ [ `credit`, `Note`, tab ], invoice_number, w, newline ] )
 
 
     ])
