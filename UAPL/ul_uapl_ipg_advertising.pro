@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ipg_advertising, `23/10/2016` `1:50:05` ).
+i_version( ul_uapl_ipg_advertising, `17 March 2017`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,9 +20,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    , get_Invoice_tax
-
-    , get_Invoice_tax
+     , get_Invoice_tax
 	
 	, get_invoice_number
 	
@@ -53,7 +51,7 @@ i_rule_list( [
 i_rule( get_Invoice_tax, [
 %=======================================================================
 
-    q(0, 60, line)
+    q(0, 100, line)
     
         , invoice_tax_line
 
