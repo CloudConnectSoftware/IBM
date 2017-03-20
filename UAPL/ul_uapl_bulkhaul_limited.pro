@@ -12,7 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-
+i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -162,7 +162,7 @@ i_line_rule( currency_line, [
 
     , `U`, `.`, `S`, `DOLLAR`,  newline
 
-    , currency(`SGD`)
+    , currency(`USD`)
 
 
 ] ).
