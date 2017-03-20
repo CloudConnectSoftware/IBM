@@ -24,7 +24,9 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_order_number
+     % get_order_number
+
+    ,get_order_number_alternative
 
     , get_total_net
 
@@ -107,6 +109,45 @@ i_rule_cut( get_due_date, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get_order_number_alternative
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number_alternative, [
+%=======================================================================
+
+    q(40,100,line)
+
+    , find_order_header_line
+
+    , q(0,5,line)
+
+    , find_order_number
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_header_line, [
+%=======================================================================
+
+    `Service` , `details` 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET ORDER NUMBER
@@ -120,7 +161,7 @@ i_rule( get_order_number, [
     q0n(line)
 
     , or([
-        generic_vertical_details( [ [ `Refer`, `To`, `Quotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
+        generic_vertical_details( [ [ `Refer`, `To`, `Quotation ` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
         
         ,generic_vertical_details( [ [ `Refer`, `To`, `Qtotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
 
