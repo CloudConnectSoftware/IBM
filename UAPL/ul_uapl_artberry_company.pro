@@ -120,7 +120,7 @@ i_rule_cut( get_due_date, [
 i_rule( get_order_number_alternative, [
 %=======================================================================
 
-    q(40,100,line)
+    q(10,100,line)
 
     , find_order_header_line
 
@@ -134,7 +134,7 @@ i_rule( get_order_number_alternative, [
 i_line_rule_cut( find_order_header_line, [
 %=======================================================================
 
-    `Service` , `details` 
+   `US`, `Dollar`
 
 ] ).
 
