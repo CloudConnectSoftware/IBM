@@ -86,7 +86,19 @@ i_rule( get_invoice_date, [
 
 	q(0,20,line)
 	
-	, generic_horizontal_details( [ [  `Date`, `:` , q10(tab)], invoice_date, s1 , newline ] )
+	, [generic_horizontal_details( [ [  `Date`, `:` , q10(tab)], invoice_date_raw, s1 , newline ] )
+
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice Date Raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
+
+    , trace( [ `Date Stripped Coma` , DateStrip ] )
+
+    , invoice_date(DateStrip)
+
+    , trace( [ `Invoice Date` , invoice_date ] )]
 
       
 
