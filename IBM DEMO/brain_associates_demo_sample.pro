@@ -50,7 +50,8 @@ i_rule( get_supplier_detail, [
 
 	sender_name(`Brain Associates Office Supplies`)
 
- ,supplier_vat_number(`01416326766`)
+,qn0(line)
+	,generic_horizontal_details( [ [ `VAT` , `No` , q10(tab)], supplier_vat_number, s1, newline ] )
 
 ] ).
 
