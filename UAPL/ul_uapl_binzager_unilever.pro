@@ -98,6 +98,14 @@ i_rule( get_order_number, [
 	
 	, generic_horizontal_details( [ [ `Sales`, `Order`, `:` ],  order_number, d, tab ] )
 
+	 ,  check(order_number = OrdNo)
+
+      , trace([`Order Number Capital Varaible` , OrdNo])
+
+      , line_buyers_order_number(OrdNo)
+
+      , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+
 
 ] ).
 
