@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_unilever_ascc_ag, `13/12/2016` `7:15:05` ).
+i_version( ul_uapl_unilever_uscc, `22 March 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -49,7 +49,7 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `UNILEVER ASCC AG` )
+    sender_name( `Unilever Supply Chain Company AG` )
 
     ,supplier_vat_number(`NL808663239B01`)
 
