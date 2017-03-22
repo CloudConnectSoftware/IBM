@@ -53,9 +53,7 @@ i_rule( get_supplier_details, [
 
     ,supplier_vat_number(`NL808663239B01`)
 
-      , currency( `USD` )
-
-     , set(freight_vendor)
+    , set(freight_vendor)
 
     ] ).
 
@@ -71,7 +69,7 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], 100, invoice_number, d, newline ] )
+   	, generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], invoice_number, d, tab ] )
   
 
 ] ).
@@ -104,7 +102,7 @@ i_rule( get_order_number, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `PO`, `/`, `SO`, `Number`, `:` ] , 100, order_number, d, newline ] )
+	, generic_horizontal_details( [ [ `PO`, `/`, `SO`, `Number`, `:` ] , 100, order_number, d, tab ] )
 
 ] ).
 
@@ -120,7 +118,7 @@ i_rule( get_total_net, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Net`, `Amount`, `in`, `USD`, `:` ] , 200, total_net, d, newline ] )
+	, generic_horizontal_details( [ [ `Net`, `Amount`, `in`, currency(w),q10(tab), `:` ] , 200, total_net, d, newline ] )
 
 ] ).
 
@@ -136,7 +134,7 @@ i_rule( get_total_vat, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Total`, `Sales`, `Tax`,  `:` ] , 200, total_vat, d, newline ] )
+	, generic_horizontal_details( [ [ `` ] , 200, total_vat, d, newline ] )
 
 ] ).
 
@@ -153,7 +151,7 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` `:` ], 200, total_invoice, d , newline ] )
+     , generic_horizontal_details( [ [ `Total`, `amount`, `in`, `EUR` , q10(tab),  `:` ], 200, total_invoice, d , newline ] )
 
         
 ] ).
@@ -169,9 +167,13 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` `:` ], 200, line_total_amount, d , newline ] )
+     , generic_horizontal_details( [ [ `Net`, `Amount`, `in`, currency(w),q10(tab), `:` ] , 200, line_net_amount, d, newline ] )
+
+     ,q(0,3,line)
+
+    , generic_horizontal_details( [ [ `Total`, `amount`, `in`, `EUR` , q10(tab),  `:` ], 200, line_total_amount, d , newline ] )
 
 ] ).
 
