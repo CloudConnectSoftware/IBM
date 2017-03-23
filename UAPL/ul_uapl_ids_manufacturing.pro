@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_ids_manufacturing, `11/1/2017` ).
+i_version( ul_uapl_ids_manufacturing, `23/2/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -82,12 +82,12 @@ i_rule( set_credit_note, [
 
     q(0,25, line)
 
-    , credit_note_line
+    , credit_note_line1
 
     
 ] ).
 %=======================================================================
-i_line_rule( credit_note_line, [
+i_line_rule( credit_note_line1, [
 %=======================================================================
 
 q(0,25, anything)
@@ -440,7 +440,10 @@ i_line_rule_cut( line_invoice_line, [
 
         , q10(generic_item( [line_descr_dummy , s , `:` ] ))
 	
-	    , q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_net_amount has been captured
+	  
+    , generic_item( [line_reference , d , tab] )
+
+    , q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_net_amount has been captured
 	
 		, with( 1, line_item, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
 
@@ -451,8 +454,6 @@ i_line_rule_cut( line_invoice_line, [
 		, generic_item( [ line_descr, Descr ] ) % This stores the value in line_descr for the current line
 		
 	] )
-
-    , generic_item( [line_reference , d , tab] )
 
     , generic_item( [line_date , date , tab] )
 
