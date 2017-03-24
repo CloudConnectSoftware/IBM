@@ -375,9 +375,9 @@ i_rule( get_total_vat, [
 
     , or( [
 
-     [ test( credit_note ),  check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, n, or([ `CR` , newline ]) ] ) ]
+     [ test( credit_note ),  check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, d, or([ `CR` , newline ]) ] ) ]
 
-     ,[ test( credit_note ), check( Currency == `USD` )  , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, n, or([ `CR` , newline ]) ] ) ]
+     ,[ test( credit_note ), check( Currency == `USD` )  , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, d, or([ `CR` , newline ]) ] ) ]
 
     , [ check( Currency == `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, d,  newline  ] ) ]
 
