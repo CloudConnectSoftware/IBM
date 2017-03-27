@@ -46,7 +46,7 @@ i_rule( get_supplier_details, [
 %=======================================================================
   
      
-    sender_name(`OLIVER MARKETING PTE LTD"`)
+    sender_name(`OLIVER MARKETING PTE LTD`)
 
      , supplier_vat_number(`201422784N`)
 
