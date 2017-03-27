@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - LOSCAM MALAYSIA SDN BHD
+% GRAMATICA - TAYLOR NELSON SOFRES MALAYSIA SDN BHD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_oliver_marketing_pte, `27/03/2017` `4:55:05` ).
+i_version( ul_uapl_taylor_nelson, `27/03/2017`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -46,11 +46,11 @@ i_rule( get_supplier_details, [
 %=======================================================================
   
      
-    sender_name(`OLIVER MARKETING PTE LTD"`)
+    sender_name(`TAYLOR NELSON SOFRES MALAYSIA SDN BHD`)
 
-     , supplier_vat_number(`201422784N`)
+     , supplier_vat_number(`000854540288`)
 
-     , buyer_registration_number(`3009`)
+    
    
     ]).
 
@@ -99,7 +99,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-      , generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,1), (start,20,20), invoice_number, w, newline ] )
+      , generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,1), (start,20,20), invoice_number, w, tab ] )
 
       ] ).
 
@@ -115,7 +115,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-      , generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,1), (start,20,20), invoice_date, date, newline ] )
+      , generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,1), (start,20,20), invoice_date, date, tab] )
 
       ] ).
 
@@ -134,7 +134,7 @@ i_rule( get_total_net, [
     ,or([
      
 
-      generic_horizontal_details( [ [ `subtotal` ], 100, total_net, d, newline ] )
+      generic_horizontal_details( [ [ `subtotal`, `amount` ], 150, total_net, d, tab ] )
 
     ])
 
@@ -157,7 +157,7 @@ i_rule( get_total_vat , [
     ,or([
 
                
-        generic_horizontal_details( [ [ `TOTAL`, `GST`, `@`, `7`, `%`, generic_item( [ default_vat_rate, d ] ), `%`, `*` ],100, total_vat, d, newline ] )
+        generic_horizontal_details( [ [ `MALAYSIA`, `OUTPUT`, `GST`, `(`, `SR`, `)`, `@` ,generic_item( [ default_vat_rate, d ] ), `%`],180, total_vat, d, tab ] )
 
     
     ])
@@ -178,7 +178,7 @@ i_rule( get_total_invoice, [
     ,or([
 
                
-        generic_horizontal_details( [ [`TOTAL`, generic_item( [ currency,w ] )  ],100, total_invoice, d, newline ] )
+        generic_horizontal_details( [ [`TOTAL`, `amount`, `due` ],200, total_invoice, d, tab ] )
 
     
     ])
@@ -214,7 +214,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-   `Description`, tab, `quantity`, tab ,  `unit`, `price`
+   [`MYR`, tab, `MYR`]
 
     , trace([`found the start line`])
 
@@ -226,7 +226,7 @@ i_line_rule_cut( line_end_line, [
 
 or([
 
-   `subtotal`
+   [`SUBTOTAL`, `AMOUNT`]
 
 ])
 
@@ -241,12 +241,7 @@ i_line_rule_cut( line_invoice_line, [
     
       generic_item( [ line_descr , s1 , tab ] )
 
-      , generic_item( [line_quantity , d , tab ] )
-
-      , generic_item( [line_unit_amount , d, tab ] )
-    
-      , generic_item( [line_vat_rate , d , tab ] )
-
+     
       , generic_item( [line_net_amount , d , newline ] )
 
 
