@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_demo_environment, `12:32 07 February 2017` ).
+i_version( p_ibm_demo_environment, `30/03/2017 12:49:02` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -84,3 +84,5 @@ Kindest regards<br>
 <br>
 THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND`
 .
+
+i_initialise_rule( [ ] ):- alert( `Alert for Billy`, 0, `hours` ).
