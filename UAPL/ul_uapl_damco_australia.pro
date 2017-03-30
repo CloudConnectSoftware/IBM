@@ -214,7 +214,7 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_vat, [
 %=======================================================================
   
-  q0n(line)
+  qn0(line)
 
     , generic_horizontal_details( [ [ `Standard`, `Rate`, `GST` ], 750, total_net, d, tab ] )
   
@@ -231,9 +231,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
-    , generic_horizontal_details( [ [ `Net`, `Value` ], 750, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Net`, `Value` ], 800, total_net, d, newline ] )
 
 ] ).
 
@@ -248,7 +248,7 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
         , or([
 
