@@ -354,6 +354,8 @@ i_line_rule_cut( line_end_line, [
    
          [`TI`, `NO`, `.`]
 
+         ,[`MLC`,`No`, `.`]
+
         ,[`GRAND`, `TOTAL`, tab ]
 
         , [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`, tab ]
@@ -393,7 +395,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_credit_line, [
 %=======================================================================
           
-     generic_item( [ line_quantity, d, q10(tab) ] )
+     generic_item( [ line_quantity_dummy, d, q10(tab) ] )
 
      , generic_item( [ line_descr, s1, tab ] )
 
