@@ -51,6 +51,8 @@ i_rule( get_supplier_details, [
      , currency( `MYR` )
 
      , buyer_registration_number(`MY00`)
+
+     , set(reverse_punctuation_in_numbers)
    
     ]).
 
@@ -99,7 +101,12 @@ i_rule_cut( get_invoice_number, [
     
     qn0(line)
 
-      , generic_horizontal_details( [ [ `Invoice`, `No`, `:`  ],100, invoice_number, s1, newline ] )
+      , or([
+          generic_horizontal_details( [ [ `Invoice`, `No`, `:`  ],100, invoice_number, s1, newline ] )
+
+          , generic_vertical_details( [ [`Invoice`, `No`, `:`  ], `Invoice`, q(0,1), (start, 30, 30), invoice_number, s1, tab ] )
+
+      ])
 
       ] ).
 
@@ -130,41 +137,23 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-    qn0(line)
+    q0n(line)
 
     ,or([
      
 
-     [ generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab ], total_invoice_raw, w, newline ] )
+      generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, set( regexp_cross_word_boundaries ) ],150, total_invoice, d, newline ] )
 
-     , check( total_invoice_raw = InvoiceRaw )
-
-    , trace( [ `Total Invoice raw` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, `,` ,``, InvoiceStrip ))
-
-    , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
-
-    , total_invoice(InvoiceStrip )
-
-    , trace( [ `Total Invoice` , total_invoice ] )  ]
+  
 
 
-     ,[test(credit_note), generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab ], total_invoice_raw, w, newline ] )
+     , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab, `(`, set( regexp_cross_word_boundaries ) ], total_invoice, d, newline ] )
 
-     , check( total_invoice_raw = InvoiceRaw )
-
-    , trace( [ `Total Invoice raw` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, `(` ,``, InvoiceStrip ))
-
-    , trace( [ `Total Invoice Stripped '(' `, InvoiceStrip ] )
-
-    , total_invoice(InvoiceStrip )
-
-    , trace( [ `Total Invoice` , total_invoice ] )  ]
+  
 
     ])
+
+    , clear( regexp_cross_word_boundaries )
                                   
         , check( total_invoice = TotInv )
 
@@ -193,39 +182,22 @@ i_rule( get_line_total_amount, [
     ,or([
 
                
-        [generic_horizontal_details( [ [`TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab ], line_total_amount_raw, w, newline ] )
-
-    , check( line_total_amount_raw = TotalRaw )
-
-    , trace( [ `Line Total Amount raw` , TotalRaw ] )
-
-    , check(string_string_replace( TotalRaw, `,` ,``, TotalStrip ))
-
-    , trace( [ `Line Total Amount Stripped Comma`, TotalStrip ] )
-
-    , line_total_amount(TotalStrip )
-
-    , trace( [ `Line Total Invoice` , line_total_amount ] ) ]
-
-
-    ,[ test(credit_note)
-    
-     ,generic_horizontal_details( [ [`TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab ], line_total_amount_raw, w, newline ] )
-
-    , check( line_total_amount_raw = TotalRaw )
-
-    , trace( [ `Line Total Amount raw` , TotalRaw ] )
-
-    , check(string_string_replace( TotalRaw, `(` ,``, TotalStrip ))
-
-    , trace( [ `Line Total Amount Stripped '(' `, TotalStrip ] )
-
-    , line_total_amount(TotalStrip )
-
-    , trace( [ `Line Total Invoice` , line_total_amount ] )]
+       
+      generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, set( regexp_cross_word_boundaries ) ],150, line_total_amount, d, newline ] )
 
   
+
+
+     , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab, `(`, set( regexp_cross_word_boundaries ) ], line_total_amount, d, newline ] )
+
+  
+
     ])
+
+    , clear( regexp_cross_word_boundaries )
+
+  
+   
 
     ] ).
 
