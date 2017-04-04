@@ -103,7 +103,7 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q0n(line)
+    q(0,50,line)
 
        , or([
 
@@ -129,7 +129,7 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_order_number, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
     , or([
 
@@ -161,7 +161,7 @@ i_rule_cut( get_order_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
      , or([
 
@@ -197,7 +197,7 @@ i_rule_cut( get_invoice_date, [
 i_rule_cut( get_due_date, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
     , generic_horizontal_details( [ [ `DUE`, `DATE`, `:`, tab ], due_date, date , newline ] )
 
@@ -214,7 +214,7 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_vat, [
 %=======================================================================
   
-  qn0(line)
+  q(0,50,line)
 
     , generic_horizontal_details( [ [ `Standard`, `Rate`, `GST` ], 750, total_net, d, tab ] )
   
@@ -231,7 +231,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     qn0(line)
+     q(0,50,line)
 
     , generic_horizontal_details( [ [ `Net`, `Value` ], 800, total_net, d, newline ] )
 
@@ -248,7 +248,7 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     qn0(line)
+     q(0,50,line)
 
         , or([
 
