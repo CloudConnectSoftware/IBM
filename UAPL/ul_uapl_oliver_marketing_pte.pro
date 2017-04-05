@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - LOSCAM MALAYSIA SDN BHD
+% GRAMATICA - OLIVER MARKETING PTE LTD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,12 +23,14 @@ i_rule_list( [
 	, get_invoice_number
 
  	, get_invoice_date
+
+    , get_order_number 
     
     , get_total_invoice
 
-    ,  get_total_net
+    , get_total_net
 
-    ,get_total_vat
+    , get_total_vat
 
     , get_invoice_lines
 
@@ -99,9 +101,10 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-      , generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,1), (start,20,20), invoice_number, w, newline ] )
+      , generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,1), (start,20,20), invoice_number, w, or([ tab , newline ]) ] )
 
       ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,9 +118,27 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-      , generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,1), (start,20,20), invoice_date, date, newline ] )
+      , generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,1), (start,20,20), invoice_date, date, or([ tab , newline ]) ] )
 
       ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_order_number, [
+%=======================================================================
+
+    q0n(line)
+
+      , generic_vertical_details( [ [ `Reference` ], `Reference`, q(0,1), (start,20,20), order_number, w, or([ tab , newline ]) ] )
+
+      ] ).
+     
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
