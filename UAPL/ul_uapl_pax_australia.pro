@@ -153,7 +153,7 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_vertical_details( [ [ `Total`, `Due` ], `Due`, q(0,1), (end,10,10), total_invoice, d, newline ] )
+    , generic_vertical_details( [ [ `Total`, `Due` ], `Due`, q(0,1), (start,20,20), total_invoice, d, newline ] )
 
 
 ] ).
@@ -170,7 +170,7 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_vertical_details( [ [ `Currency` , tab ], `Currency`, q(0,1), (end,20,20), currency, w, tab ] )
+    , generic_vertical_details( [ [ `Currency` , tab ], `Currency`, q(0,1), (start,20,20), currency, w, tab ] )
 
 ] ).
 
@@ -188,7 +188,7 @@ i_rule( get_total_net, [
 
      , or([
          
-         generic_vertical_details( [ [ `Total`, `Exc` , `GST` ], `Exc`, q(0,1), (start,10,10), total_net, d, tab ] )
+         generic_vertical_details( [ [ `Total`, `Exc` , `GST` ], `Exc`, q(0,1), (start,20,20), total_net, d, tab ] )
 
      ])
   
@@ -231,6 +231,8 @@ i_section( get_invoice_lines, [
 
               ,line_invoice_line
 
+              ,line_invoice_line_2
+
             , line
 
         ] )
@@ -243,7 +245,11 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `Cust` , `Item` , `No` , tab
+   or([ [`Cust` , `Item` , `No` , tab]
+
+   , [`Description`, tab, `Inv`, `Qty`]
+
+   ])
 
     , trace([`found the start line`])
 
@@ -307,6 +313,27 @@ i_line_rule_cut( line_credit_line, [
     , generic_item( [line_net_amount , d , newline ] )
 
     ,trace( [ `Creit note complete` ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+
+    
+      generic_item( [line_descr , s1 , tab ] )
+
+    , q10(generic_item( [line_quantity , d , tab ] ))
+
+    , q10(generic_item( [line_quantity_uom_code_dummy , w , tab ] ))
+
+    , generic_item( [line_gst_code , d , tab ])
+
+    
+    , generic_item( [line_net_amount , d , newline ] )
+
+    ,trace( [ `Invoice line 2 complete` ] )
 
 
 ] ).
