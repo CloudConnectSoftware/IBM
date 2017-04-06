@@ -147,7 +147,7 @@ i_rule( get_total_invoice, [
   
 
 
-     , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab, `(`, set( regexp_cross_word_boundaries ) ], total_invoice, d, newline ] )
+     , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab, `(`, set( regexp_cross_word_boundaries ) ], total_invoice, d, [ `)`,newline] ] )
 
   
 
@@ -188,7 +188,7 @@ i_rule( get_line_total_amount, [
   
 
 
-     , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab, `(`, set( regexp_cross_word_boundaries ) ], line_total_amount, d, newline ] )
+     , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `(`, `RM`, `)`, `:`, tab, `(`, set( regexp_cross_word_boundaries ) ], line_total_amount, d, [ `)` ,newline ] ] )
 
   
 
