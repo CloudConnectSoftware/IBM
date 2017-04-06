@@ -46,6 +46,8 @@ i_rule( get_supplier_details, [
 
     supplier_party(`UA Builders Corp.`)
 
+    , sender_name(`UA Builders Corp.`)
+
     , supplier_postcode(`11106`)
 
 
