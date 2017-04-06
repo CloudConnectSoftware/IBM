@@ -21,7 +21,8 @@ i_rule_list( [
 	get_supplier_details
 
     ,set_credit_note
-	
+
+   
 	, get_invoice_number
 
     , get_invoice_date
@@ -67,8 +68,12 @@ i_rule( get_supplier_details, [
 
      , currency( `MYR` )
 
+     , set(tax_invoice)
+
 
 ] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -328,7 +333,6 @@ i_line_rule( vat_rate_line, [
      
      , generic_item( [ default_vat_rate, `6` ] )
 
-     , set(tax_invoice)
 
 
 ] ).
