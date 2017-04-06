@@ -194,12 +194,12 @@ i_line_rule( import_or_elsewhere_inv_line, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     qn0(line)
+     q(0,50,line)
 
      , or( [
    
 
-         [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] ), currency(`USD`)]
+         [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab ] , total_invoice, d , newline ] ), currency(`USD`)]
 
         , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 750, total_invoice, d , tab ] ), currency(`USD`)]
         
