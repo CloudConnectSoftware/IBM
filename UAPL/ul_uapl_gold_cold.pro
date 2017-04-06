@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_gold_cold, `27/01/2017` `15:00:05` ).
+i_version( ul_uapl_gold_cold, `6/03/2017` `15:00:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -72,7 +72,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
        
-   , generic_horizontal_details( [ [`Invoice`, `No`, `.`, `:`, tab ], invoice_number, s1, newline ] )
+   , generic_horizontal_details( [ [`Invoice`, `No`, `.`, `:`, q10(tab) ], invoice_number, s1, newline ] )
 
   
 ] ).
@@ -89,7 +89,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-        , generic_horizontal_details( [ [ `DATE`, `:`, tab ],  invoice_date, s1, newline ] )
+        , generic_horizontal_details( [ [ `DATE`, `:`, q10(tab) ],  invoice_date, s1, newline ] )
 
 
 ] ).
