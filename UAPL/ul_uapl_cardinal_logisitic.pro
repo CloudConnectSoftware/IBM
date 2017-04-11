@@ -152,16 +152,24 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
 	q(0,100,line)
-	
-	, generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, total_invoice, d, newline ] )
 
-	, check( total_invoice = TotInv )
+	, or([
+	
+	  generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, total_invoice, d, newline ] )
+
+     , generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), total_invoice, d, newline ] )
+
+   ])	
+	    , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
         , trace( [ `Total net` , total_net ] )
+
+
+	
 		
 ] ).
 
@@ -188,11 +196,18 @@ i_rule( get_currency, [
 %=======================================================================
 i_rule( get_invoice_lines, [
 %=======================================================================
-q(0,100,line)
-	
-	, generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, line_total_amount, d, newline ] )
 
-	,line_descr(`Service charges`)
+q(0,100,line)
+
+, or([
+	
+	 generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, line_total_amount, d, newline ] )
+
+	, generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), line_total_amount, d, newline ] )
+
+   ])	
+
+	 , line_descr(`Service charges`)
 		
 ] ).
    
