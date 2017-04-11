@@ -163,6 +163,8 @@ i_rule_cut( get_invoice_number, [
 
 	    , generic_vertical_details( [ [ `Invoice` , `No` , `.` ,  tab  ], `Invoice`, q(0,1), (end,10,10), invoice_number, w , tab ] )
 
+	    , generic_vertical_details( [ [ `Document`, `No`, `.`, tab  ], `Document`, q(0,1), (end,10,10), invoice_number, w , tab ] )
+
 	
 	])
 	
@@ -238,6 +240,8 @@ i_rule_cut( get_invoice_totals, [
 
 	    , generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 
+		, generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
+
 	])
 	
 ] ).
@@ -281,8 +285,14 @@ i_rule_cut( get_currency, [
 %=======================================================================
 
 	q0n(line)
+	
+	, or([
 
-	, generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` , tab , [generic_item( [ total_invoice_dummy , d  ] )] ], 100 , currency , w , newline ] )
+	  generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` , tab , [generic_item( [ total_invoice_dummy , d  ] )] ], 100 , currency , w , newline ] )
+
+   , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` , tab , [generic_item( [ total_invoice_dummy , d  ] )] ], 100 , currency , w , newline ] )
+
+	])
 
 ] ).
 
