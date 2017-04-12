@@ -205,7 +205,7 @@ i_rule( get_line_buyers_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q(0,100,line)
+     q(0,200,line)
 
    , or([
 
