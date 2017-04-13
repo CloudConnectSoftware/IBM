@@ -25,9 +25,11 @@ i_rule_list( [
 
     , get_invoice_date
 
-    , import_or_elsewhere_inv
+   % , import_or_elsewhere_inv
 
-    , get_total_invoice
+    % , get_total_invoice
+
+    , get_total_invoice_alternate
 
     , get_currency
 
@@ -199,7 +201,7 @@ i_rule( get_total_invoice, [
      , or( [
    
 
-         [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab ] , total_invoice, d , newline ] ), currency(`USD`)]
+         [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab ] , total_invoice, d , newline ] ), currency(`SGD`)]
 
         , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 750, total_invoice, d , tab ] ), currency(`USD`)]
         
@@ -217,6 +219,73 @@ i_rule( get_total_invoice, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_invoice_alternate, [
+%=======================================================================
+
+     q(0,50,line)
+
+     , or( [
+   
+
+        generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab, dummy_no(d) ], 200, total_invoice, d , newline ] )
+        
+        , generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , newline] )
+
+        
+        
+         
+        ])
+        
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_currency, [
+%=======================================================================
+
+    q(0,50,line)
+
+    ,currency_line
+
+]).
+    
+    %=======================================================================
+    i_line_rule_cut( currency_line, [
+    %=======================================================================
+    
+     
+    q0n(anything)
+
+    , or([
+        [[ `Total`, `In`, `Words`, `:`, tab, `SINGAPORE`, `DOLLAR`] , currency( `SGD` ), trace( [ `Currency is SGD` ] )]
+   
+    ,  [ [`Total`, `In`, `Words`, `:`, tab, `USD`, `DOLLAR` ] , currency( `USD` ) ,trace( [ `Currency is USD` ] )]
+
+    ])
+	
+	] ).
 
 
 
