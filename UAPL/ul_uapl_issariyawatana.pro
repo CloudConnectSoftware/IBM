@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_issariyawatana, `20 Jan 2017` ).
+i_version( ul_uapl_issariyawatana, `12 April 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -293,7 +293,7 @@ i_line_rule_cut( line_header_line, [
 
         [ `PCS`, tab, `F`, `.`, `O`, `.`, `B`, `.`, `BKK`, tab, `(`, `US`, `$`, `)`,  newline  ]
 
-         ,  [`Product`, `Code`, tab, `Description`, `of`, `Goods` ]
+         ,  [`Product`, `Code`, q10(tab), `Description`, `of`, `Goods` ]
 
          , [ `Item`, tab, `Quantity`, tab, `Unit`, `price`, `(`, `US`, `$`, `)`, tab, `Amount`,  newline ]
 
@@ -309,7 +309,7 @@ i_line_rule_cut( line_end_line, [
 
     or([ 
         
-         [`TOTAL`, `:`]
+         [`TOTAL`, q10(tab) , `:`]
 
         , [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:`]
 
