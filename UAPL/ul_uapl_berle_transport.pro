@@ -101,7 +101,12 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `#`, `:`, tab ],   invoice_number, s1, newline] )
+   , or([
+       generic_horizontal_details( [ [ `Invoice`, `#`, `:`, tab ],   invoice_number, s1, newline] )
+
+       ,generic_horizontal_details( [ [ `Unilever`, `Asia`, `Private`, `Limited`,tab ], invoice_number, w ,newline ] ) 
+       
+       ])
 	
 	
 ] ).
