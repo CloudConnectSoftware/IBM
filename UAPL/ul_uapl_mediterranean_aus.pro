@@ -24,11 +24,13 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+	,get_invoice_due_date
+
 	, get_total_vat
 
 	, get_invoice_totals
 
-	, get_due_date
+	
 
 ] ).
 
@@ -83,7 +85,37 @@ i_rule_cut( get_invoice_date, [
 
 	q(0,30,line)
 
-	, generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ], 100 , invoice_date , date , newline ] )
+	,or([
+		 generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ], 100 , invoice_date , date , newline ] )
+
+		 ,generic_horizontal_details( [ [ `Original` ,`Print`, `Date` , `:` ], 100 , invoice_date , date , tab ] )
+
+	])
+
+	
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_due_date, [
+%=======================================================================
+
+	q(0,30,line)
+
+	
+		 ,or([
+			 generic_horizontal_details( [ [ `Payment` ,`due`, `Date` , `:` ], 100 , due_date , date , tab ] )
+
+			 ,  generic_horizontal_details( [ [ `Due` , `Date` , `:` ], 100 , due_date , date , newline ] )
+
+		 ])
+
+
 	
 ] ).
 
@@ -100,7 +132,7 @@ i_rule_cut( get_total_vat, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , generic_item( [ currency , w ] ) ], 100 , total_vat , d , newline ] )
+	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , generic_item( [ currency_dummy , w ] ) ], 100 , total_vat , d , newline ] )
 
 ] ).
 
@@ -117,26 +149,12 @@ i_rule_cut( get_invoice_totals, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Payable` , generic_item( [ currency_dummy , w ] ) ], 100 , total_invoice, d , newline ] )
+	, generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
 
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE DUE DATE 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule_cut( get_due_date, [
-%=======================================================================
-
-	q(0,30,line)
-
-	, generic_horizontal_details( [ [ `Due` , `Date` , `:` ], 100 , due_date , date , newline ] )
-	
-] ).
 
 
 
