@@ -17,13 +17,14 @@ i_trace_lists.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+
+     get_vendor_number
+
+	,get_supplier_details
 
     , set_Invoice_tax
 
-    ,get_vendor_number
-	
-	, get_invoice_number
+    , get_invoice_number
 	
 	, get_invoice_date
 
@@ -41,6 +42,30 @@ i_rule_list( [
 
     
        ] ).
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Vendor Number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_vendor_number, [  
+%=======================================================================
+
+    check( i_mail( subject, Email_Subject ) )
+
+, check( string_to_lower( Email_Subject, Email_Subject_L ) )
+
+, or( [
+
+     [ check( Email_Subject_L = `rental invoice` ), buyers_code_for_supplier( `50512153` ) ]
+
+     , [ check( Email_Subject_L = `ad-hoc charges` ), buyers_code_for_supplier( `539718` ) ]
+
+] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,30 +113,6 @@ q0n(anything)
 	, set(tax_invoice)
 
 	, trace( [ `Found Tax Invoice` ] )
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET Vendor Number
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_vendor_number, [  
-%=======================================================================
-
-    check( i_mail( subject, Email_Subject ) )
-
-, check( string_to_lower( Email_Subject, Email_Subject_L ) )
-
-, or( [
-
-     [ check( Email_Subject_L = `rental invoice` ), buyers_code_for_supplier( `50512153` ) ]
-
-     , [ check( Email_Subject_L = `ad-hoc charges` ), buyers_code_for_supplier( `539718` ) ]
-
-] )
 
 ] ).
 
