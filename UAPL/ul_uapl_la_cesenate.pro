@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_la_cesenate, `2/12/2016`).
+i_version( ul_uapl_la_cesenate, `20/4/2017`).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,6 +52,8 @@ i_rule( get_supplier_details, [
     , currency( `EUR` )
 
      , set(freight_vendor)
+
+     , set(reverse_punctuation_in_numbers)
 
     ] ).
 
@@ -135,23 +137,9 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), total_invoice_raw, w, tab ] )
+     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`,set( regexp_cross_word_boundaries )], `AMOUNT`, q(0,3), (start,20,20), total_invoice, d, tab ] )
 
-     , check( total_invoice_raw = InvoiceRaw )
-
-    , trace( [ `Total Invoice raw1` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, `.`, ``, InvoiceStrip ))
-
-    , trace( [ `Total Invoice Stripped Dot`, InvoiceStrip ] )
-    
-    , check(string_string_replace( InvoiceStrip, `,`, `.`, InvoiceStrip1 ))
-
-    , trace( [ `Total Invoice raw2` , InvoiceStrip1 ] )
- 
-    , total_invoice(InvoiceStrip1)
-
-    , trace( [ `Total Invoice` , total_invoice ] )
+     ,clear( regexp_cross_word_boundaries )
 
 
         , check( total_invoice = TotInv )
@@ -177,25 +165,9 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    ,  generic_vertical_details( [ [ `TOTAL` , `AMOUNT`], `AMOUNT`, q(0,3), (start,20,20), line_total_amount_raw, w, tab ] )
+     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`,set( regexp_cross_word_boundaries )], `AMOUNT`, q(0,3), (start,20,20), line_net_amount, d, tab ] )
 
-     , check( line_total_amount_raw = TotalRaw )
-
-     , trace( [ `Line Total Amount raw1` , InvoiceRaw ] )
-
-     , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
-
-     , trace( [ `Line Total Amount Stripped Dot`, TotalStrip ] )
-    
-     , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
-
-     , trace( [ ` Line Total Amount Stripped Comma` , TotalStrip1 ] )
-
-     , trace( [ `Line Total Amount raw3` , TotalStrip1] )
-
-      , line_total_amount(TotalStrip1)
-
-     , trace( [ `Line Total Amount` , line_total_amount ] )
+     ,clear( regexp_cross_word_boundaries )
 
 ] ).
 

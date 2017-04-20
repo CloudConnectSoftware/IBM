@@ -238,28 +238,10 @@ i_rule( get_total_invoice, [
 
      generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `USD` ], total_invoice, d, newline ] )
 
-     , [ 
-         generic_horizontal_details( [ [ `A`, `M`, `OU`, `N`, `T`, `D`, `U`, `E`, tab, `U`, `SD` ], total_invoice_raw, s1, newline ] )
+     , [  generic_horizontal_details( [ [ `A`, `M`, `OU`, `N`, `T`, `D`, `U`, `E`, tab, `U`, `SD`, set( regexp_cross_word_boundaries ) ], total_invoice, d, newline ] )
+         ,clear( regexp_cross_word_boundaries ) ]
 
-    , check( total_invoice_raw = TotRaw )
-
-    , trace( [ `Total amount raw` , TotRaw ] )
-
-    , check(string_string_replace( TotRaw, `,`, ``, TotStrip ))
-
-    , trace( [ `Total Stripped ,` , TotStrip ] )
-
-    , check(string_string_replace( TotStrip, ` `, ``, TotSpace ))
-
-    , trace( [ `Total without space` , TotSpace ] )
-
-    , total_invoice(TotSpace)
-
-    , trace( [ `Total invoice now is ` , total_invoice ] )
-    
-    ]
-
-    , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `SGD` ], total_invoice, d, newline ] )
+     , generic_horizontal_details( [ [ `AMOUNT`, `DUE`, tab, `SGD` ], total_invoice, d, newline ] )
 ])
 
 
