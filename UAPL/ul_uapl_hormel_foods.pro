@@ -167,30 +167,15 @@ i_rule( get_total_invoice, [
 
           , or([
               
-              generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WEIGHT`, dummy_num1(d) , tab, dummy_num2(s1), tab, dummy_num3(s1) , tab ], total_invoice_raw  , s1 , newline ] )
+              generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WEIGHT`, dummy_num1(d) , tab, dummy_num2(s1), tab, dummy_num3(s1) , tab, set( regexp_cross_word_boundaries ) ], total_invoice  , d, newline ] )
 
-              ,generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WGT`, tab, dummy_num1(d) , tab, dummy_num2(s1), tab, dummy_num3(s1) , tab ], total_invoice_raw  , s1 , newline ] )
+              ,generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WGT`, tab, dummy_num1(d) , tab, dummy_num2(s1), tab, dummy_num3(s1) , tab, set( regexp_cross_word_boundaries ) ], total_invoice  , d , newline ] )
 
           ])
           
 
-    , check( total_invoice_raw = InvoiceRaw )
-
-    , trace( [ `Total Invoice raw` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, `,`, ``, InvoiceStrip ))
-
-    , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
-
-    , trace( [ `Total invoice raw2` , InvoiceStrip] )
-
-    , check(string_string_replace( InvoiceStrip, ` `, ``, InvoiceStrip1 ))
-     
-    , trace( [ `Total Invoice Stripped Space` , InvoiceStrip1 ] )
-
-    , total_invoice(InvoiceStrip1)
-
-    , trace( [ `Total Invoice` , total_invoice] ) 
+           , clear( regexp_cross_word_boundaries )
+  
 
 
         , check( total_invoice = TotInv )
