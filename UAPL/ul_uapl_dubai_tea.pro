@@ -50,6 +50,8 @@ i_rule( get_supplier_details, [
 
     , currency( `USD` )
 
+    , set(reverse_punctuation_in_numbers)
+
     ]).
 
 
@@ -141,20 +143,10 @@ i_rule( get_total_invoice, [
 
     qn0(line)
      
-     , generic_horizontal_details( [ [ `TOTAL`, `:`, tab ],  total_invoice_raw, s1, newline ] )
+     , generic_horizontal_details( [ [ `TOTAL`, `:`],200,  total_invoice, d, newline ] )
 
 
-     , check( total_invoice_raw = InvoiceRaw )
-
-    , trace( [ `Total Invoice raw` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, `,`, ``, InvoiceStrip ))
-
-    , trace( [ `Total Invoice Stripped Comma`, InvoiceStrip ] )
-
-    , total_invoice(InvoiceStrip )
-
-    , trace( [ `Total Invoice` , total_invoice] ) 
+     
 
                                   
         , check( total_invoice = TotInv )
@@ -181,7 +173,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [`TOTAL`, `:`, tab ], line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [`TOTAL`, `:` ],200, line_total_amount, d, newline ] )
 
 
     ] ).
