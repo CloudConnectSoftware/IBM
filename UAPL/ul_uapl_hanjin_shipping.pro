@@ -173,7 +173,7 @@ i_rule( get_total_invoice, [
 
 	q0n(line)
 	
-	, generic_horizontal_details( [ [ `AMOUNT`,`PAYABLE`,tab ],total_invoice, s1, newline ] )
+	, generic_horizontal_details( [ [ `AMOUNT`,`PAYABLE`,tab ],total_invoice, d, newline ] )
 ] ).
 
 
@@ -267,7 +267,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line,[
 %=======================================================================
 	
-	`DESCRIPTION`, tab, `AMOUNT`
+	or([
+        
+       [ `DESCRIPTION`, tab, `AMOUNT`]
+
+        ,[`DDEESSCCRRIIPPTTIIOONN`, tab, `AAMMOOUUNNTT`]
+
+    ])
 
     , trace([`found the start line`])
 
@@ -291,7 +297,7 @@ i_line_rule( line_invoice_line, [
 	
      
 
-     generic_item([ line_descr , s1 , tab ])
+     generic_item([ line_descr , w , tab ])
 
 
 	 , generic_item([ line_currency , w , tab ]) 
