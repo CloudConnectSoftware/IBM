@@ -25,11 +25,11 @@ i_rule_list( [
 
     , get_invoice_date
 
-   % , import_or_elsewhere_inv
+   , import_or_elsewhere_inv
 
-    % , get_total_invoice
+    , get_total_invoice
 
-    , get_total_invoice_alternate
+    %, get_total_invoice_alternate
 
     , get_currency
 
@@ -201,9 +201,9 @@ i_rule( get_total_invoice, [
      , or( [
    
 
-         [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab ] , total_invoice, d , newline ] ), currency(`SGD`)]
+         [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )]
 
-        , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 750, total_invoice, d , tab ] ), currency(`USD`)]
+        , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , tab ] )]
         
          
         ])
@@ -234,9 +234,11 @@ i_rule( get_total_invoice_alternate, [
      , or( [
    
 
-        generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab, dummy_no(d) ], 200, total_invoice, d , newline ] )
         
-        , generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , newline] )
+        
+         generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , tab] )
+
+         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab, dummy_no(d) ], 200, total_invoice, d , tab ] )
 
         
         
