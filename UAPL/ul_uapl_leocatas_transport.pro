@@ -115,7 +115,7 @@ i_line_rule( invoice_number_line, [
 
 	])
 
-	, generic_item( [ invoice_number , d , newline ] )
+	, generic_item( [ invoice_number , w , newline ] )
 
   ] ).
 
@@ -129,9 +129,15 @@ i_line_rule( invoice_number_line, [
 i_rule( get_order_number, [
 %=======================================================================
 
-    q0n(line)
+  q0n(line)
 
-    , generic_vertical_details( [ [ `PO` , `No` ,`.` ], `PO`, q(0,3), (start,10,10), order_number, w , tab  ] )
+	, or([ 
+
+     generic_vertical_details( [ [ `PO` , `No` ,`.` ], `PO`, q(0,3), (start,10,10), order_number, w , tab  ] )
+
+	 , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `NO`, `.` ], order_number, w , newline ] )
+
+	 ])
 
 ] ).
 
@@ -353,7 +359,7 @@ i_line_rule( line_invoice_line, [
 
 	, generic_item( [ line_quantity, d, tab ] )
 
-	, generic_item( [ line_vat_rate, d, tab ] )
+	, generic_item( [ line_unit_amount, d, tab ] )
 
 	, generic_item( [ line_vat_amount, d, q10(tab) ] )
 
