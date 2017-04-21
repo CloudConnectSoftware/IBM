@@ -359,7 +359,7 @@ i_line_rule( line_invoice_line, [
 
 	, generic_item( [ line_quantity, d, tab ] )
 
-	, generic_item( [ line_unit_amount, d, tab ] )
+	, generic_item( [ line_vat_rate_dummy, d, tab ] )
 
 	, generic_item( [ line_vat_amount, d, q10(tab) ] )
 
