@@ -63,9 +63,9 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `0-820162-017` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
 
-		, [ check_text( `0-862595-009` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
+		 , [ check_text( `0-862595-009` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
 
-		 
+		 , [ check_text( `00481C` ), set( chain, `ul_uapl_damco_australia` ), trace( [ `THIS IS A DAMCO AUSTRALIA PTY LTD DOCUMENT` ] ) ]
 
 		 
 
