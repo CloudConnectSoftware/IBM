@@ -203,7 +203,7 @@ i_rule( get_total_invoice, [
 
          [ test(importinv_found), generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )]
 
-        , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , tab ] )]
+        , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
         
          
         ])
@@ -238,7 +238,7 @@ i_rule( get_total_invoice_alternate, [
         
          generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , tab] )
 
-         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab, dummy_no(d) ], 200, total_invoice, d , tab ] )
+         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab, dummy_no(d) ], 200, total_invoice, d , or([ tab , newline ]) ] )
 
         
         
