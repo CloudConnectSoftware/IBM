@@ -4,9 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ibm_unilever_uapl_reprint, `12:30 03 October 2016` ).
+i_version( ibm_unilever_uapl_reprint, `24/04/2017 12:40:55` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+i_date_format( _ ).
 
 i_op_param( extract_script_file_name, _, _, _, _, `utils.ps1` ).
 i_op_param( extract_script_function_name, _, _, _, _, `bullzip` ).
