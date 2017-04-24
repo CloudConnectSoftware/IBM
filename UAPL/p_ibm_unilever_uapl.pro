@@ -4,13 +4,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `14:14 10 March 2017` ).
+i_version( p_ibm_unilever_uapl, `14:32 24 April 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_rules_file( `d_ibm_unilever_uapl.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
-i_rules_file( `u_json_forms.pro` ).
+i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_date_validation.pro` ).
 
