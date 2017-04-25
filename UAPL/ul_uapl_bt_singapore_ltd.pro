@@ -44,6 +44,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    ,get_line_vat
+
     , get_total_line_net
 
 ] ).
@@ -306,7 +308,7 @@ i_rule( get_order_number_alternative, [
 i_line_rule_cut( find_order_header_line, [
 %=======================================================================
 
-    `Service` , `details` 
+   q10(`Service`) , q10(`details`) 
 
 ] ).
 
@@ -375,17 +377,17 @@ i_rule( get_total_vat, [
 
     , or( [
 
-     [ test( credit_note ),  check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, d, or([ `CR` , newline ]) ] ) ]
+     [ test( credit_note ),  check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `SGD`],150, total_vat, d, or([ `CR` , newline ]) ] ) ]
 
-     ,[ test( credit_note ), check( Currency == `USD` )  , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, d, or([ `CR` , newline ]) ] ) ]
+     ,[ test( credit_note ), check( Currency == `USD` )  , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `USD`],150, total_vat, d, or([ `CR` , newline ]) ] ) ]
 
-    , [ check( Currency == `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `USD`],150, total_vat, d,  newline  ] ) ]
+    , [ check( Currency == `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `USD`],150, total_vat, d,  newline  ] ) ]
 
     , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`],100, total_vat, d, or([ `CR` , newline ]) ] ) ]
 
     , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`],150, total_vat, d , newline ] ) ]
 
-    ,[ check( Currency == `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `SGD`],150, total_vat, d, newline ] ) ]
+    ,[ check( Currency == `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `SGD`],150, total_vat, d, newline ] ) ]
 
 
    ] )
@@ -509,3 +511,35 @@ i_rule( get_total_line_net, [
 
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_line_vat, [
+%=======================================================================
+
+	   with( invoice, order_number, Order_Number )
+
+    , check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+    , qn0(line)
+
+    , or( [
+
+     [ test( credit_note ),  check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `SGD`],150, line_vat_amount, d, or([ `CR` , newline ]) ] ) ]
+
+     ,[ test( credit_note ), check( Currency == `USD` )  , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `USD`],150, line_vat_amount, d, or([ `CR` , newline ]) ] ) ]
+
+    , [ check( Currency == `USD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `USD`],150, line_vat_amount, d,  newline  ] ) ]
+
+    , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`],100, line_vat_amount, d, or([ `CR` , newline ]) ] ) ]
+
+    , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `GST`, tab, `SGD`],150, line_vat_amount, d , newline ] ) ]
+
+    ,[ check( Currency == `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `SGD`],150, line_vat_amount, d, newline ] ) ]
+
+
+   ] )
+
+   ] ).
