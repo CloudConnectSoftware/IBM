@@ -140,7 +140,7 @@ i_rule( get_total_vat, [
 
 q(0,100,line) 
 
-	, generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],100, total_vat, d,  newline ] )  
+	, generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, total_vat, d,  newline ] )  
     
 
 ] ).
@@ -178,7 +178,7 @@ i_rule( get_line_total_amount, [
 
      , generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, line_net_amount, d,  newline ] ) 
 
-     , generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],100, line_vat_amount, d,  newline ] ) 
+     , generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, line_vat_amount, d,  newline ] ) 
 
      ,q(0,3,line)
 
