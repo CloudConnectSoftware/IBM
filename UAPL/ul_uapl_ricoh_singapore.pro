@@ -121,7 +121,7 @@ i_rule_cut( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q(0,100,line) 
+	qn0(line)
 
 	, generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, total_net, d,  newline ] )  
     
@@ -138,7 +138,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-q(0,100,line) 
+qn0(line)
 
 	, generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, total_vat, d,  newline ] )  
     
@@ -156,7 +156,7 @@ q(0,100,line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
     , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency, w ] ), `)`, tab, `:` ],100, total_invoice, d,  newline ] ) 
 
@@ -174,7 +174,7 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     q(0,100,line)
+     qn0(line)
 
      , generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, line_net_amount, d,  newline ] ) 
 
