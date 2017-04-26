@@ -61,7 +61,7 @@ i_rule( get_vendor_number, [
 
      [ check( Email_Subject_L = `rental invoice` ), buyers_code_for_supplier( `50512153` ) ]
 
-     , [ check( Email_Subject_L = `ad-hoc charges` ), buyers_code_for_supplier( `539718` ) ]
+     , [ check( Email_Subject_L = `ad-hoc charges` ), buyers_code_for_supplier( `539178` ) ]
 
 ] )
 
