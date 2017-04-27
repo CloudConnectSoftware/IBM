@@ -65,7 +65,11 @@ i_rule_cut( get_invoice_number, [
     
     q(0,20,line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `Number`, `:`, tab ], invoice_number , w , newline ] )
+   , generic_horizontal_details( [ [ `Invoice`, `Number`, `:`],50, invoice_number , w , newline ] )
+
+   
+
+
 	
 ] ).
 
