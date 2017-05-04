@@ -23,6 +23,8 @@ i_rule_list( [
 
     , get_credit_note
 
+    , get_Invoice_tax 
+
 	, get_invoice_number
 
     , get_invoice_date
@@ -94,6 +96,37 @@ q0n(anything)
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_Invoice_tax, [
+%=======================================================================
+
+
+    q(0, 10, line)
+    
+        , invoice_tax_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_tax_line, [
+%=======================================================================
+
+q0n(anything)
+
+	,`Tax`, `Invoice`,  newline
+
+	, set(tax_invoice)
+
+	, trace( [ `Found Tax Invoice` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,9 +190,22 @@ i_rule_cut( get_line_buyers_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  line_buyers_order_number, d, newline ] )
+     ,  or( [
 
-    
+          generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  line_buyers_order_number, d, newline ] )
+
+      ,  generic_horizontal_details( [ [ `Account`, `No`, tab, `:`, tab ], 100, line_buyers_order_number, w, newline ] )
+
+       ] )
+
+       , check(line_buyers_order_number = OrdNo)
+
+       , trace([`Order Number Capital Varaible` , OrdNo])
+
+       , order_number(OrdNo)
+
+       , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+
     ] ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
