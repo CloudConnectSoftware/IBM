@@ -158,6 +158,14 @@ i_rule( get_total_invoice, [
     , generic_horizontal_details( [ [ `total`, `factura`, `:`, tab ], total_invoice, d, newline ] )
 
      , clear( regexp_cross_word_boundaries )
+
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
     
  
 ] ).
