@@ -238,20 +238,10 @@ i_rule( get_total_net, [
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
-        , generic_horizontal_details( [ [ `Total`, `:`, tab  ] , total_net, d, newline ] )
+          , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
-         , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
-
-         ,  check(total_net = TotNet)
-
-          , trace([`Net Capital Varaible` , TotNet])
-
-          , line_net_amount(TotNet)
-
-          , trace( [ `THIS IS NOW THE LINE NET` , TotNet ]) ]
 
     ])
-
 
 ] ).
 
@@ -424,6 +414,22 @@ i_line_rule_cut( line_debit_line, [
     , generic_item( [ line_descr , s1, tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
+
+   
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_gst_line, [
+%=======================================================================
+
+   
+    read_ahead([`GST`])
+          
+     ,generic_item( [ line_descr, s1, tab ] )
+
+   
+    , generic_item( [ line_net_amount , d , newline ] )
 
    
 
