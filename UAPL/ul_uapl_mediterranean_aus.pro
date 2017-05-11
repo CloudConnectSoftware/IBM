@@ -99,7 +99,12 @@ i_rule_cut( get_invoice_number, [
 
 	q(0,30,line)
 
-	, generic_horizontal_details( [ [ `Invoice` , `Number` , `:` ], 100 , invoice_number, w , newline ] )
+	, or([
+		generic_horizontal_details( [ [ `Invoice` , `Number` , `:`, q10(tab) ],  invoice_number, w , newline ] )
+
+		,generic_horizontal_details( [ [ `Invoice` , `Number` , `:`, q10(tab) ],  invoice_number, w , tab ] )
+
+	])
 	
 ] ).
 
@@ -181,6 +186,14 @@ i_rule_cut( get_invoice_totals, [
 	qn0(line)
 
 	, generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+
+		, check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
 
 ] ).
 
