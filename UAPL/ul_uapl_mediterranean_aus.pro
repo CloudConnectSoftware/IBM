@@ -28,6 +28,8 @@ i_rule_list( [
 
 	,get_invoice_due_date
 
+	,get_total_net
+
 	, get_total_vat
 
 	, get_invoice_totals
@@ -155,6 +157,22 @@ i_rule_cut( get_invoice_due_date, [
 	
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE NET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_total_net, [
+%=======================================================================
+
+	qn0(line)
+
+	, generic_horizontal_details( [ [ `Sub` , `Total` , `AUD` ], 50 , total_net , d , newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -168,7 +186,7 @@ i_rule_cut( get_total_vat, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , generic_item( [ currency_dummy , w ] ) ], 100 , total_vat , d , newline ] )
+	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , `AUD` ],20, total_vat , n , newline ] )
 
 ] ).
 
@@ -185,7 +203,12 @@ i_rule_cut( get_invoice_totals, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+	, or([
+		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) ]
+
+		
+
+	, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
 
 		, check( total_invoice = TotInv )
 
@@ -193,7 +216,9 @@ i_rule_cut( get_invoice_totals, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+        , trace( [ `Total net` , total_net] )]
+
+		])
 
 ] ).
 
