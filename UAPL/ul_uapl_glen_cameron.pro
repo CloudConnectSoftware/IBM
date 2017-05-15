@@ -121,7 +121,7 @@ i_rule( get_line_total_amount, [
                   
      q0n(line)
 
-        , generic_horizontal_details( [ [`Total`, `this`, `Invoice`, `:`, tab, dummy_number1(d) , tab, dummy_num2(d), tab, dummy_num3(d), tab ], line_total_amount , d , newline ] )
+        , generic_horizontal_details( [ [ `Total`, `this`, `Invoice`, `:`, tab, dummy_number2(d), tab, generic_item( [ line_net_amount, d ] ), tab, generic_item( [ line_vat_amount, d ] ), tab ], get_line_total_amount, d, newline ] )
 
         
 ] ).
