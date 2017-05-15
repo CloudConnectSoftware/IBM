@@ -208,9 +208,9 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-q0n(line)
+qn0(line)
 
-,generic_vertical_details( [ [`Description`, tab, `Amount`, `before`, tab, `GST`, `(`, `SGD`, `)`, tab ], `GST`, q(22,23), (end,0,50), total_vat, d, tab ] )
+,generic_vertical_details( [ [`Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ], `GST`, q(0,1,up), (end,0,50), total_vat, d, tab ] )
 
  
 
@@ -291,7 +291,8 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
 
-    `GST`, `(`, `SGD`, `)`, tab, `of`, `GST`, `(`, `SGD`, `)`,  newline
+    [`GST`, `(`, `SGD`, `)`, tab, `of`, `GST`, `(`, `SGD`, `)`,  newline]
+    
  
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -301,9 +302,16 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   [`Total`, `Amount`, `(`, `Including`, `GST`]
+  or([ 
 
-    , trace( [ `FOUND LINE END LINE`] )
+ [`C`, `/`, `O`, `MAPLETREE`, `COMMERCIAL`, `PROPERTY`]
+
+ ,[`Total`, `Amount`, `(`, `Including`, `GST`]
+
+    
+  ])
+
+  , trace( [ `FOUND LINE END LINE`] )
 
 ] ).
 
