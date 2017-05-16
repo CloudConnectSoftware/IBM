@@ -223,7 +223,7 @@ i_rule( get_total_net, [
       ,  or( [
 
 
-          generic_horizontal_details( [ [ `Subtotal` ],250, total_net,d, newline ] )
+          generic_horizontal_details( [ [ `Subtotal` ],350, total_net,d, newline ] )
 
      
    ] )
@@ -246,7 +246,7 @@ i_rule( get_total_vat, [
 
       
 
-    generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 150, total_vat, d, newline  ] )
+    generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 250, total_vat, d, newline  ] )
 
    
 
@@ -268,7 +268,7 @@ i_rule( get_total_invoice, [
 
     , or([ 
         
-       generic_horizontal_details( [ [ `Amount`, `DUE`],250, total_invoice, d, newline] )
+       generic_horizontal_details( [ [ `Amount`, `DUE`],350, total_invoice, d, newline] )
 
     
 
