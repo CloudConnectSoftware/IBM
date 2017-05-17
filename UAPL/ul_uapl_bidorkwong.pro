@@ -78,6 +78,8 @@ i_rule_cut( get_invoice_number_date, [
         
      generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:` ], invoice_number, s1, newline ] )
 
+     ,generic_horizontal_details( [ [ `Doc`, `No`, `.`, `:` ], invoice_number, s1, newline ] )
+
     , generic_vertical_details( [ [ `Doc` , `No` , `.` ], `No`, q(0,1), (end, 10, 10), invoice_number, s , generic_item( [ invoice_date, date ] ) ])
 	
     ])
@@ -230,6 +232,8 @@ i_rule( get_total_invoice, [
      
     , generic_vertical_details( [ [ `Total` , `Payable` ], `Total`, q(0,1), (start,10,10), total_invoice , d , newline ] )
 
+    ,generic_horizontal_details( [ [ `Total`, `:`, tab, generic_item( [ total_net, d] ) , tab, generic_item( [ total_vat, d] ) ], 100, total_invoice, d, newline ] )
+
 ])
 
 ] ).
@@ -293,6 +297,8 @@ i_section( get_invoice_lines, [
 
             , line_invoice_line_2
 
+            ,[ line_invoice_line_gl , line_append_line]
+
             , line
 
         ] )
@@ -310,6 +316,8 @@ or([
     [`A`, `/`, `C`, tab, `Description`]
     
     ,[`No` , `Description` , tab , `Qty`]
+
+    ,[`G`, `/`, `L`, `CODE`, tab, `DESCRIPTION`, tab, `Amount`, `Excl`, `.`, `GST`]
 
 ])
 
@@ -397,4 +405,32 @@ i_line_rule_cut( line_invoice_line_2, [
         , generic_item( [ line_net_amount , d , newline ])
 
     
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_gl, [
+%=======================================================================
+
+     generic_item( [ line_invoice_gl , w, tab ] )
+
+    , generic_item( [ line_descr , s1 ,   tab  ])
+       
+    , generic_item( [ line_net_amount , d , tab ] )
+    
+     , generic_item( [ line_vat_amount , d , tab ])
+
+    , generic_item( [ line_total_amount , d  ])
+
+    , generic_item( [ line_vat_code_dummy , w , newline ])
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+    
+    generic_append( [ line_descr , s1 ,newline , ``, ``  ])
+       
 ] ).
