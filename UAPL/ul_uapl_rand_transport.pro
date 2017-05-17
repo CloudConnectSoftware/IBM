@@ -12,7 +12,6 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_pdf_parameter( same_line, 7 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -128,13 +127,15 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q(0,20,line)
+    q(0,30,line)
 
 , or([  generic_horizontal_details( [ [`Date` , `:` ], invoice_date, date , newline ] )
 
     , generic_horizontal_details( [ [ `tax`, `INVOICE`, `DATE`, `:` , q10(tab) ], invoice_date, date , newline ] )
 
-    
+    , generic_vertical_details( [ [ `SINGAPORE`, tab, `Date` ], `Date`, q(0,1), (end,100,100), invoice_date_raw, s1, newline ] )
+
+            
 ])
  
 	
