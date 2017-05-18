@@ -486,11 +486,12 @@ i_line_rule_cut( line_desc_line, [
 i_line_rule_cut( credit_note_line, [
 %=======================================================================
       
-      
      
-      generic_item( [line_item_dummy , d , tab ] )
+      generic_item( [line_item_dummy , w , tab ] )
 
-      , generic_item( [line_descr_dummy , s1 , tab] )
+      , generic_item( [line_descr , s1 , tab] )
+
+      , q10(generic_item( [line_exp_date , date,tab ] ))
 
       , generic_item( [line_quantity_dummy , d ] )
 
