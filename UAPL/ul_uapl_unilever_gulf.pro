@@ -49,7 +49,7 @@ i_rule( get_supplier_detail, [
 
    sender_name( `UNILEVER GULF FZE` )
 
-   ,supplier_vat_number(`NOVAT`)
+   ,supplier_vat_number(`7101`)
 
 ] ).
 
