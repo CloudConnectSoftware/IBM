@@ -162,7 +162,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-              line_invoice_line
+             [ line_invoice_line, q10(line_append_line)]
 
               , line
 
@@ -186,8 +186,12 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
+or([
   
-    [`Grand`, tab, `Total`]
+    [`sales`,`order`]
+   , [`Grand`, q10(tab), `Total`]
+
+])
 
     , trace( [ `Found End line` ] )
 
@@ -199,7 +203,7 @@ i_line_rule_cut( line_invoice_line, [
 
 generic_item( [ line_number, w ] )
 
-,generic_item( [ line_descr, s1, tab ] )
+,generic_item( [ line_item, w, tab ] )
 
 ,generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -213,3 +217,13 @@ generic_item( [ line_number, w ] )
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+generic_item( [ line_descr, s1, newline ] )
+
+]).
+
+
