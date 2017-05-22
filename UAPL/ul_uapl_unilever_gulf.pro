@@ -65,7 +65,9 @@ i_rule( get_invoice_number, [
 
     q(0,10,line)
 
-    ,generic_horizontal_details( [ [ `Invoice`, tab, `:`, tab ], 30 , invoice_number, w, newline ] )
+    ,or([generic_horizontal_details( [ [ `Invoice`, tab, `:`, q10(tab) ], invoice_number, w, newline ] )
+
+    ])
 
 ] ).
 
@@ -81,7 +83,7 @@ i_rule( get_invoice_date, [
 
     q(0,10,line)
 
-    ,generic_horizontal_details( [ [ `Invoice`, `Date`, tab, `:`, tab ], 30, invoice_date, date, newline ] )
+    ,generic_horizontal_details( [ [ `Invoice`, `Date`, tab, `:`,q10(tab) ], 30, invoice_date, date, newline ] )
 
 ] ).
 
@@ -114,7 +116,7 @@ i_rule( get_total_invoice, [
 
 q(0,30,line)
 
-,[generic_horizontal_details( [ [ `Grand`, tab, `Total`, tab, dummynum, tab ],  total_invoice, d, newline ] )
+,[generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, `24003`, tab, `14`, `,`, `401`, `.`, `800` ],200,  total_invoice, s1, newline ] )
 
    , check( total_invoice = TotInv )
 
@@ -163,6 +165,8 @@ i_section( get_invoice_lines, [
         , or( [
               
              [ line_invoice_line, q10(line_append_line)]
+
+             ,line_invoice_landscape
 
               , line
 
@@ -226,4 +230,38 @@ generic_item( [ line_descr, s1, newline ] )
 
 ]).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_landscape, [
+%=======================================================================
+
+generic_item( [ line_item, w, tab ] )
+
+, generic_item( [ line_descr, s1, tab ] )
+
+,generic_item( [ line_quantity_uom_code, w, tab ] )
+
+,generic_item( [ line_quantity, w, tab ] )
+
+,generic_item( [ line_gross, d, tab ] )
+
+,generic_item( [ line_net, d, tab ] )
+
+,generic_item( [ line_weigt_gross, d, tab ] )
+
+,generic_item( [ line_weight_net, d, tab ] )
+
+,generic_item( [ line_volume, d, tab ] )
+
+,generic_item( [ line_unit_amount_dummy, d, tab ] )
+
+,generic_item( [ line_net_amount, d, tab ] )
+
+,generic_item( [ line_hscc, d, tab ] )
+
+,generic_item( [ line_net_amount, w, newline ] )
+
+
+
+
+] ).
 

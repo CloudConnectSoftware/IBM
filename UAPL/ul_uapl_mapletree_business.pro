@@ -187,13 +187,12 @@ i_rule( get_line_buyers_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-    qn0(line)
+    q0n(line)
 
     , or([
-        generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,5,up), (end,0,300), total_net, d, tab ] )
+        generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,2,up), (end,300,500), total_net, d, tab ] )
 
-        ,generic_vertical_details( [ [`Description`, tab, `Amount`, `before`, tab ], `Amount`, q(22,23), (end,0,50), total_net, d, tab ] )
-
+        
     ])
 
 ] ).
