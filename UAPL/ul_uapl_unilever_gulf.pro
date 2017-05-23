@@ -116,7 +116,7 @@ i_rule( get_total_invoice, [
 
 q(0,30,line)
 
-,[generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, `24003`, tab, `14`, `,`, `401`, `.`, `800` ],200,  total_invoice, s1, newline ] )
+,[generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_word(w), tab, dummy_num(d) ],200,  total_invoice, s1, newline ] )
 
    , check( total_invoice = TotInv )
 
@@ -180,7 +180,11 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-[`S`, `.`, `No`, `.`, tab, `Material`]
+or([ [`S`, `.`, `No`, `.`, tab, `Material`]
+
+,[`Material`, `Description`, tab, `UM`, `Shpd`, tab, `Gross`]
+
+])
 
 , trace( [ `Found Start line` ] )
 
@@ -234,13 +238,13 @@ generic_item( [ line_descr, s1, newline ] )
 i_line_rule_cut( line_invoice_landscape, [
 %=======================================================================
 
-generic_item( [ line_item, w, tab ] )
+generic_item( [ line_item, w] )
 
 , generic_item( [ line_descr, s1, tab ] )
 
-,generic_item( [ line_quantity_uom_code, w, tab ] )
+,generic_item( [ line_quantity_uom_code, w ] )
 
-,generic_item( [ line_quantity, w, tab ] )
+,generic_item( [ line_quantity, d, tab ] )
 
 ,generic_item( [ line_gross, d, tab ] )
 
@@ -254,11 +258,11 @@ generic_item( [ line_item, w, tab ] )
 
 ,generic_item( [ line_unit_amount_dummy, d, tab ] )
 
-,generic_item( [ line_net_amount, d, tab ] )
+,generic_item( [ line_net_amount, d, q10(tab) ] )
 
 ,generic_item( [ line_hscc, d, tab ] )
 
-,generic_item( [ line_net_amount, w, newline ] )
+,generic_item( [ line_origin_dummy, s1, newline ] )
 
 
 
