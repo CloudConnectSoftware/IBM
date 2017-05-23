@@ -351,7 +351,7 @@ i_line_rule_cut( line_header_line, [
        [ test(credit_note), `DESCRIPTION` , tab , `Amount` , `(` ] 
       
         
-       , [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, tab ]
+       , [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`]
 
        , [`MATERIAL`, tab, `MATERIAL`, tab, `QTY`, tab, `UNIT`, `PRICE`, tab, `TOTAL`, `AMT`,  newline]
 
