@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,invoice_or_credit_note
+
      , get_Invoice_tax
 	
 	, get_invoice_number
@@ -56,7 +58,32 @@ i_rule( get_Invoice_tax, [
         , invoice_tax_line
 
 ] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE OR CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( invoice_or_credit_note, [
+%=======================================================================
+
+	q(0,50,line)
+	
+	, invoice_or_credit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_or_credit_note_line, [
+%=======================================================================
+
+	[`*`, `*`, `*`, `Total`, `Credited`, `To`, `Your`, `Account`, `*`, `*`, `*`]
+	
+	, set(credit_note), set(credit)
+	
+	, trace( [ `This is a credit note` ] )
+
+] ).
 %=======================================================================
 i_line_rule( invoice_tax_line, [
 %=======================================================================
@@ -102,7 +129,12 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `no`, `.`, tab, `:` ], invoice_number, d, newline ] )
+   , or([
+       generic_horizontal_details( [ [ `Invoice`, `no`, `.`, tab, `:` ], invoice_number, d, newline ] )
+
+       ,generic_horizontal_details( [ [`Credit`, `note`, `no`, `.`, tab, `:` ], invoice_number, d, newline ] )
+
+   ])
 	
 	
 ] ).
@@ -191,7 +223,18 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `total`, tab ], total_invoice, d, newline ] )
+    , or([
+        generic_horizontal_details( [ [ `Invoice`, `total`, tab ], total_invoice, d, newline ] )
+
+        ,[generic_horizontal_details( [ [ `Total`, `Credited`, `To`, `Your`, `Account`, `*`, `*`, `*` ],500, total_invoice, d, newline ] )
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )]
+    ])
 
 ] ).
 
@@ -278,7 +321,7 @@ i_line_rule_cut( line_end_line, [
 
     [ `Total`, `non`, `-`, `commissionable`, tab , dummy_num10(d)]
 
-    , [`VAT`, `7`, `%`, tab ]
+    , [`VAT`, `7`, `%`]
    
 
 ])
