@@ -227,6 +227,7 @@ i_rule( get_total_invoice, [
         generic_horizontal_details( [ [ `Invoice`, `total`, tab ], total_invoice, d, newline ] )
 
         ,[generic_horizontal_details( [ [ `Total`, `Credited`, `To`, `Your`, `Account`, `*`, `*`, `*` ],500, total_invoice, d, newline ] )
+        
         , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
