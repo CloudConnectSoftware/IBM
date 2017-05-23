@@ -196,7 +196,7 @@ i_rule( get_total_net, [
 
     , or( [
   
-[ check( Currency = `USD` ) , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,200), total_net, d, tab ] ) ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, tab ] ) ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, newline ] ) ] 
@@ -228,10 +228,10 @@ i_rule( get_total_vat, [
     , or( [
 
 
-[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,0,95), total_vat, d, newline ] ) ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,0,150), total_vat, d, newline ] ) ]
 
 
-, [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,95), total_vat, d, newline ] ) ] 
+, [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,150), total_vat, d, newline ] ) ] 
                 
   ] )
 
@@ -288,7 +288,7 @@ i_rule( get_line_total_amount, [
 
      , or( [
 
-[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,100), line_total_amount, d, tab ] )  ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), line_total_amount, d, tab ] )  ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, newline ], `AMOUNT`, q(0,3,up), (end,10,800), line_total_amount, d, newline ] )  ] 

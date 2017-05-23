@@ -228,7 +228,15 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] )
+    , [ generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] )
+
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )]
 
     
 ] ).
