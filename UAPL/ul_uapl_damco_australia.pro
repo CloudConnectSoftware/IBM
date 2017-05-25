@@ -22,6 +22,8 @@ i_rule_list( [
 
     ,invoice_or_credit_note
 
+    ,get_bank_account_no
+
     , get_invoice_number
 
     , get_order_number
@@ -89,6 +91,23 @@ i_line_rule( invoice_or_credit_note_line, [
 	, set(credit_note), set(credit)
 	
 	, trace( [ `This is a credit note` ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number, w, newline ] )
+	
 
 ] ).
 
