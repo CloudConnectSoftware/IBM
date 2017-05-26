@@ -222,7 +222,11 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Subtotal` , tab
+    or([
+        [`Subtotal` , tab]
+       , [`35`, `Koornang`, `Road`, `,`, `Scoresby`, `Victoria`, `Australia`, `3179`]
+
+    ])
 
     , trace( [ `FOUND LINE END LINE`] )
 
