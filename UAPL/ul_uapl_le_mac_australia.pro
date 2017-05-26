@@ -228,8 +228,13 @@ i_line_rule_cut( line_start_line, [
 %=======================================================================
 i_line_rule_cut( line_end_line, [
 %=======================================================================
+or([
+  [ `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust`, `to`, `the`, `Purchaser`, `shall`, `be`, `at`, `Purchaser`, `'`, `s`, `risk`, `on`, `delivery`, `to`, `the`, `Purchaser`, `or`, `into`, `the`, `Purchaser`, `'`, `s`, `custody`, tab, `Sub`, `Total`,  newline ]
+  ,[`Le`, `Mac`, `Australia`, `Trust`, tab, `ABN`, `72`, `294`, `937`, `953`,  newline ]
 
-   `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust`, `to`, `the`, `Purchaser`, `shall`, `be`, `at`, `Purchaser`, `'`, `s`, `risk`, `on`, `delivery`, `to`, `the`, `Purchaser`, `or`, `into`, `the`, `Purchaser`, `'`, `s`, `custody`, tab, `Sub`, `Total`,  newline
+  ,[`sub`, `total`]
+
+])
 
      , trace( [ `FOUND THE END LINE` ] )
 ] ).
