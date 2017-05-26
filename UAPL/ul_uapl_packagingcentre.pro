@@ -222,7 +222,14 @@ i_rule( get_total_invoice, [
 
      ,q(0,1,line)
 
-     ,   generic_horizontal_details( [ [ generic_item( [ default_vat_rate , d ] ) , `%` , `GST` , tab ],  total_vat, d, newline ] ) 
+     ,   or([
+         
+         generic_horizontal_details( [ [ generic_item( [ default_vat_rate , d ] ) , `%` , `GST` , tab ],  total_vat, d, newline ] ) 
+
+         ,generic_horizontal_details( [ [  `GST` , `amount`, q10(tab) ],  total_vat, d, newline ] ) 
+
+     ])
+
 
      ,q(0,1,line)
 
