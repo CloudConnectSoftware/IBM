@@ -202,6 +202,8 @@ i_rule( get_total_invoice, [
         , generic_vertical_details( [ [ `Account`, `&`, `Finance`, `Dept`, `.`, `Manager`,  newline ], `Manager`, q(1,2, up), (end,0,150), total_invoice, d , newline ] )
 
         , generic_vertical_details( [ [ `COUNTRY`, `OF`, `ORIGIN`, `:`, `THAILAND`,  newline ], `THAILAND`, q(0,1, up), (end,0,650), total_invoice, d , newline ] )
+
+        , , generic_vertical_details( [ [ `received`, `by`,  newline ], `by`, q(0,1, up), (end,0,100), total_invoice, d , newline ] )
     ])
         , check( total_invoice = TotInv )
 
