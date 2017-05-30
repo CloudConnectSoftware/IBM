@@ -20,6 +20,10 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_currency
+
+    ,get_bank_account_no
+
      , get_Invoice_tax
 
     , get_invoice_number
@@ -61,6 +65,35 @@ i_rule( get_supplier_details, [
      , set(freight_vendor)
 
    	] ).
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,100,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `AUD` ) , generic_horizontal_details( [ [ `BSB`, `.`, `033000`, `Account` ],  supplier_bank_account_number, w, [`(`, `AUD`, `)`] ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`BSB`, `.`, `034702`, `Account`],  supplier_bank_account_number, w, [`(`, `USD`, `)`] ] ) ] 
+                
+ ] )
+
+	
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
