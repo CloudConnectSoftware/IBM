@@ -22,6 +22,8 @@ i_rule_list( [
 
     , get_Invoice_tax
 
+    ,get_bank_account_no
+
     , get_vat_code
 	
 	, get_invoice_number
@@ -81,17 +83,33 @@ q0n(anything)
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `Jalco  Promotional  Packaging  Pty Ltd` )
+    sender_name( `Jalco  Cosmetics  Pty.  Limited` )
 
-    , supplier_vat_number(`85 084 894 708`)
+    , supplier_vat_number(`53  084  809  450`)
 
     , buyer_registration_number(`AU00`)
 
     ,currency(`AUD`)
 
-    
-
+   
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+q(0,50,line)
+
+ , generic_horizontal_details( [ [  `Account`, `No`. `:` ],  supplier_bank_account_number, w, newline ] ) 
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
