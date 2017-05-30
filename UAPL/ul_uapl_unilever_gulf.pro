@@ -118,7 +118,7 @@ q(0,30,line)
 
 ,or([generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_word(w), tab, dummy_num(d) ],200,  total_invoice, s1, newline ] )
 
-,generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_num(d), tab, dummy_num1(d), tab ,dummy_num2(d),tab, dummy_num3(d) ],200,  total_invoice, s1, newline ] )
+,generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_num(d), tab, dummy_num1(d), tab ,dummy_num2(d),q10(tab), q10(dummy_num3(d)) ],200,  total_invoice, s1, newline ] )
 
 ])
 
