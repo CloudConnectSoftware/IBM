@@ -246,7 +246,7 @@ generic_item( [ line_item, w] )
 
 , generic_item( [ line_descr, s1, tab ] )
 
-,generic_item( [ line_quantity_uom_code, w ] )
+,generic_item( [ line_quantity_uom_code, w, q10(tab) ] )
 
 ,generic_item( [ line_quantity, d, tab ] )
 
