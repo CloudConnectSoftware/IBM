@@ -12,7 +12,6 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_pdf_parameter( decompress_streams_from_offset_1, 1 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [

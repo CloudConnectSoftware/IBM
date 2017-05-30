@@ -116,7 +116,11 @@ i_rule( get_total_invoice, [
 
 q(0,30,line)
 
-,[generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_word(w), tab, dummy_num(d) ],200,  total_invoice, s1, newline ] )
+,or([generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_word(w), tab, dummy_num(d) ],200,  total_invoice, s1, newline ] )
+
+,generic_horizontal_details( [ [ `Grand`, q10(tab), `Total`, tab, dumy_num(d), tab, dummy_num1(d), tab ,dummy_num2(d),tab, dummy_num3(d) ],200,  total_invoice, s1, newline ] )
+
+])
 
    , check( total_invoice = TotInv )
 
@@ -126,7 +130,7 @@ q(0,30,line)
 
         , trace( [ `Total net` , total_net ] )
 
-        ]
+        
 
 ] ).
 
