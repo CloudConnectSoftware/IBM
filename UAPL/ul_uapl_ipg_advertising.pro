@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,get_bank_account_no
+
     ,invoice_or_credit_note
 
      , get_Invoice_tax
@@ -44,20 +46,20 @@ i_rule_list( [
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TAX INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %=======================================================================
-i_rule( get_Invoice_tax, [
+i_rule( get_bank_account_no, [
 %=======================================================================
 
-    q(0, 100, line)
-    
-        , invoice_tax_line
+q(0,100,line)
 
-] ).
+ , generic_horizontal_details( [ [  `Account`, `:` ],  supplier_bank_account_number, w, newline ] ) 
+
+]).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE OR CREDIT NOTE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,6 +114,8 @@ i_rule( get_supplier_details, [
    sender_name(`IPG ADVERTISING (THAILAND) LIMITED  `)
 
   , supplier_vat_number(`1015513004321`)
+
+  , set(tax_invoice)
 
   
 ] ).
