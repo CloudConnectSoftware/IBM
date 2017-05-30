@@ -177,7 +177,7 @@ i_rule_cut( get_invoice_totals, [
 
     ]
 	
-    , q(0,1,line)
+    , q(0,3,line)
 
      , [generic_horizontal_details( [ [`GST`, tab ], total_vat, d, newline ] )
 
