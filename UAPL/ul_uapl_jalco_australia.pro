@@ -81,7 +81,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `JALCO AUSTRALIA PTY LTD` )
 
-    , supplier_vat_number(` 53 084 809 450`)
+    , supplier_vat_number(` 45 075 091 83`)
 
     , buyer_registration_number(`AU00`)
 
@@ -126,10 +126,7 @@ i_rule( get_order_number, [
 
        q(0,75,line)
 
-    , find_order_header_line
-
-    , q(0,5,line)
-
+    
     , find_order_number
 
 ] ).

@@ -369,6 +369,8 @@ i_rule( get_total_net, [
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
+    ,trace( [ `currency`, Currency ] )
+
     , qn0(line)
 
 , or( [
