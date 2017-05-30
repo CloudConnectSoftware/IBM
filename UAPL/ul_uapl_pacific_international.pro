@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_currency
+
     ,get_bank_account_no
 
     ,set_credit_note
@@ -32,9 +34,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    % get_currency
-
-    , get_invoice_lines
+     , get_invoice_lines
 
  ] ).
 
@@ -86,8 +86,7 @@ i_rule( get_supplier_details, [
 
      , set(freight_vendor)
 
-     , currency( `USD` )
-
+     
    	] ).
 
              %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -203,15 +202,18 @@ i_rule( get_total_invoice, [
         
         generic_horizontal_details( [ [ `PAID`,`IN`, `USD`, tab ], total_invoice, d, newline ] ) 
 
-        , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`, tab, `USD`, tab ], total_invoice, d, newline ] ) 
+        , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`,currency_dummy(w), tab ], total_invoice, d, newline ] ) 
 
     ])
 
-    , check(total_invoice = TotInv) 
+    , check( total_invoice = TotInv )
 
-    , total_net(TotInv)
+        , trace( [ `Total Inv` , TotInv] )
 
+        , total_net(TotInv)
 
+        , trace( [ `Total net` , total_net] )
+   
     
 ] ).
 
@@ -227,7 +229,7 @@ i_rule( get_currency, [
 
     q0n(line)
         
-    , generic_vertical_details( [ [ `CURRENCY` ], `CURRENCY`, q(1,5), (start,20,20), currency, w, tab ] )
+    , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`], currency, w, tab] ) 
 
     
 ] ).
