@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,get_bank_accountnumber
+
     , get_Invoice_tax
 	
 	, get_invoice_number
@@ -54,6 +56,22 @@ i_rule( get_supplier_details, [
   , buyer_registration_number(`AU00`)
 
   , currency(`AUD`)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+    q(0,30,line)
+
+    ,generic_horizontal_details( [ [ `A`, `/`, `c`, `.`, `No`, `:` ],  supplier_bank_account_number, w, newline ] )
 
 ] ).
 
