@@ -209,7 +209,7 @@ i_rule( get_total_vat, [
 
 qn0(line)
 
-,generic_vertical_details( [ [`Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ], `GST`, q(0,1,up), (end,0,50), total_vat, d, tab ] )
+,generic_vertical_details( [ [`Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ], `GST`, q(0,2,up), (end,0,50), total_vat, d, tab ] )
 
  
 
@@ -228,7 +228,12 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , [ generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] )
+    
+        , or( [ 
+        
+        [ test(tax_invoice) , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] ) ]
+
+       ,  [ peek_fails(test(tml_found)) ,  [ generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] )
 
     , check( total_invoice = TotInv )
 
@@ -236,7 +241,9 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] )]
+        , trace( [ `Total net` , total_net ] ) ]]
+
+    ] )
 
     
 ] ).
