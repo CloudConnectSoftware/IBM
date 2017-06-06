@@ -23,6 +23,8 @@ i_rule_list( [
 
 	 get_supplier_details
 
+     ,get_supplier_bank_account_number
+
     , set_credit_note
    
 	, get_invoice_number
@@ -57,6 +59,23 @@ i_rule( get_supplier_details, [
     , supplier_vat_number(`0993000081137`)
 
 
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_bank_account_number, [
+%=======================================================================
+
+	qn0(line)
+	
+	, generic_horizontal_details( [ [ `A`, `/`, `C`, `NO`, `.`, `:`, q10(tab) ], supplier_bank_account_number, w, newline ] )
+
+   
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,6 +215,8 @@ i_rule( get_total_invoice, [
 	  , or([
         
         generic_horizontal_details( [ [ `Grand`,`total`, tab ], total_invoice, d, newline ] )
+
+        ,generic_horizontal_details( [ [ `Say`,`:`, dummy_sentence(s1),  tab ], total_invoice, d, newline ] )
 
         , generic_vertical_details( [ [ `AMOUNT`, newline ], `AMOUNT`, q(7,20), (end,20,20), total_invoice, d , newline ] )
 
