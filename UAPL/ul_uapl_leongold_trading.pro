@@ -271,9 +271,8 @@ i_line_rule( discount_line, [
 %=======================================================================
 
 
- read_ahead([`Less`])
 
-, generic_item( [ line_descr, s1, tab] )
+ generic_item( [ line_descr, s, tab] )
 
 , generic_item( [ line_quantity, d, [tab, `s`,`$` ]] )
 
