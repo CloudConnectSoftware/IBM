@@ -69,7 +69,7 @@ i_rule( get_supplier_bank_account_number, [
 
 	qn0(line)
 	
-	, generic_horizontal_details( [ [ `AC`, `.`, `No`, `.`, `:` ], supplier_bank_account_number, w, newline ] )
+	, generic_horizontal_details( [ [ `AC`, `.`, `No`, `.`, `:` ], supplier_bank_account_number, w, [`(`, `USD`, `)`] ] )
 
 ] ).
 
