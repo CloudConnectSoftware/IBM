@@ -28,6 +28,10 @@ i_rule_list( [
     
     , get_total_invoice
 
+    , get_currency
+
+    , get_bank_account_no
+
     , get_total_net
 
     , get_total_vat
@@ -199,11 +203,58 @@ i_rule( get_total_invoice, [
     ,or([
 
                
-        generic_horizontal_details( [ [`TOTAL`, generic_item( [ currency,w ] )  ],100, total_invoice, d, newline ] )
+        generic_horizontal_details( [ [`TOTAL`, generic_item( [ currency_dummy,w ] )  ],100, total_invoice, d, newline ] )
 
     
     ])
     ] ).
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET VAT TOTAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+     q0n(line)
+    
+       , generic_horizontal_details( [ [`TOTAL`  ], currency, w, tab ] )
+
+    
+    ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+
+        [check( Currency = `SGD` ) , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, `in`, `SGD`],  supplier_bank_account_number,s1, newline ])]
+
+        , [check( Currency = `USD` ) , generic_horizontal_details( [ [ `Bank`, `Account`, `Number`, `in`, `USD` ],  supplier_bank_account_number, s1, newline ] )]
+       
+    ])
+    
+
+] ).
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
