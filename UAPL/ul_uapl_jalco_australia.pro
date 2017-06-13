@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_jalco_australia , `29/05/2017` ).
+i_version( ul_uapl_jalco_australia , `09:15 09 June 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -106,7 +106,7 @@ i_rule( get_bank_account_no, [
 
 q(0,50,line)
 
- , generic_horizontal_details( [ [  `Account`, `No`. `:` ],  supplier_bank_account_number, w, newline ] ) 
+ , generic_horizontal_details( [ [  `Account`, `No`, `:` ],  supplier_bank_account_number, w, newline ] ) 
 
 ]).
 
