@@ -244,7 +244,7 @@ i_line_rule( line_invoice_line, [
 	
      
 
-     generic_item([ line_material , s1 , tab ])
+     q10(generic_item([ line_material , s1 , tab ]))
 
 
      , generic_item([ line_descr , s1 , tab ])
@@ -260,11 +260,13 @@ i_line_rule( line_invoice_line, [
 
 	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
 
-     , generic_item( [ line_dummy, d, tab ] )
+     , generic_item( [ line_dummy, d, q10(tab) ] )
+
+     , q10(generic_item( [ line_UOM_dummy, w, tab ] ))
 
         , generic_item([ line_net_amount , d , q10(tab) ] )
 
-        , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,tab] ] ))
+        , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,tab ] ] ))
 
         , q10(generic_item([ line_vat_dummy , d , tab ] ))
 
