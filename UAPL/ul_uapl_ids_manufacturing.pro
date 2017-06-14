@@ -121,6 +121,8 @@ i_rule_cut( get_invoice_number, [
        
        generic_vertical_details( [ [ `Invoice`, `No`, `:` ], `Invoice`, q(0,1), (start, 30,30), invoice_number, s1, newline ] )
 
+       ,generic_vertical_details( [ [ `Debit`, `Note`, `No`],  `Debit`, q(0,1), (start,30,30), invoice_number, s1, newline ] )
+
        ,generic_vertical_details( [ [ `Credit`, `NOTE` , `No`, `:` ], `Credit`, q(0,1), (start, 30,30), invoice_number, s1, newline ] )
 
        
