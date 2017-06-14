@@ -4,21 +4,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-<<<<<<< HEAD
 i_version( p_ibm_demo_environment, `14/06/2017 13:07:37` ).
-=======
-i_version( p_ibm_demo_environment, `14:32 24 April 2017` ).
->>>>>>> beffb508eee2df993d3b19a8efcc5ef3fe003868
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_rules_file( `d_ibm_demo_environment.pro` ).
-<<<<<<< HEAD
 i_rules_file( `d_ibm_demo_extra_variables.pro` ).
-i_rules_file( `u_json_forms.pro` ).
-=======
 i_rules_file( `u_json_forms_new.pro` ).
->>>>>>> beffb508eee2df993d3b19a8efcc5ef3fe003868
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` ).
 
