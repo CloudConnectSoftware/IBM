@@ -28,9 +28,13 @@ i_rule_list( [
 
 	,get_invoice_due_date
 
+	,get_total_net
+
 	, get_total_vat
 
 	, get_invoice_totals
+
+	,get_bank_account_no
 
 	
 
@@ -85,7 +89,34 @@ q0n(anything)
 
     , trace( [ `CREDIT NOTE FOUND` ] )
 
-] ).
+]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+q(0,250,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `AUD` ) , generic_horizontal_details( [ [ `AUD`, `Account`, `-`, `BSB`, `:`, `032044`, `Account`, `No`, `:` ],  supplier_bank_account_number, w, newline ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`USD`, `Account`, `-`, `BSB`, `:`, `034702`, `Account`, `No`, `:`],  supplier_bank_account_number, w, `Swift` ] ) ] 
+                
+ ] )
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,7 +130,12 @@ i_rule_cut( get_invoice_number, [
 
 	q(0,30,line)
 
-	, generic_horizontal_details( [ [ `Invoice` , `Number` , `:` ], 100 , invoice_number, w , newline ] )
+	, or([
+		generic_horizontal_details( [ [ `Invoice` , `Number` , `:`, q10(tab) ],  invoice_number, w , newline ] )
+
+		,generic_horizontal_details( [ [ `Invoice` , `Number` , `:`, q10(tab) ],  invoice_number, w , tab ] )
+
+	])
 	
 ] ).
 
@@ -150,6 +186,22 @@ i_rule_cut( get_invoice_due_date, [
 	
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE NET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_total_net, [
+%=======================================================================
+
+	qn0(line)
+
+	, generic_horizontal_details( [ [ `Sub` , `Total` , `AUD` ], 50 , total_net , d , newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,7 +215,7 @@ i_rule_cut( get_total_vat, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , generic_item( [ currency_dummy , w ] ) ], 100 , total_vat , d , newline ] )
+	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , `AUD` ],20, total_vat , n , newline ] )
 
 ] ).
 
@@ -180,7 +232,22 @@ i_rule_cut( get_invoice_totals, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+	, or([
+		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) ]
+
+		
+
+	, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+
+		, check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )]
+
+		])
 
 ] ).
 

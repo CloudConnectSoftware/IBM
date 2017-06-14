@@ -21,7 +21,11 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,get_bank_account_no
+
     , get_credit_note
+
+    , get_Invoice_tax 
 
 	, get_invoice_number
 
@@ -94,6 +98,54 @@ q0n(anything)
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,100,line)
+
+	, generic_vertical_details( [ [`Bank`, `Details`, `:`], `Details`, q(1,2), (end,50,50), supplier_bank_account_number, w, newline ] )
+	
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_Invoice_tax, [
+%=======================================================================
+
+
+    q(0, 10, line)
+    
+        , invoice_tax_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_tax_line, [
+%=======================================================================
+
+q0n(anything)
+
+	,`Tax`, `Invoice`,  newline
+
+	, set(tax_invoice)
+
+	, trace( [ `Found Tax Invoice` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,9 +209,22 @@ i_rule_cut( get_line_buyers_order_number, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  line_buyers_order_number, d, newline ] )
+     ,  or( [
 
-    
+          generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  line_buyers_order_number, d, newline ] )
+
+      ,  generic_horizontal_details( [ [ `Account`, `No`, tab, `:`, tab ], 100, line_buyers_order_number, w, newline ] )
+
+       ] )
+
+       , check(line_buyers_order_number = OrdNo)
+
+       , trace([`Order Number Capital Varaible` , OrdNo])
+
+       , order_number(OrdNo)
+
+       , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
+
     ] ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -177,7 +242,7 @@ i_rule( get_total_net, [
       ,  or( [
 
 
-          generic_horizontal_details( [ [ `Subtotal` ],250, total_net,d, newline ] )
+          generic_horizontal_details( [ [ `Subtotal` ],350, total_net,d, newline ] )
 
      
    ] )
@@ -200,7 +265,7 @@ i_rule( get_total_vat, [
 
       
 
-    generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 150, total_vat, d, newline  ] )
+    generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 250, total_vat, d, newline  ] )
 
    
 
@@ -222,7 +287,7 @@ i_rule( get_total_invoice, [
 
     , or([ 
         
-       generic_horizontal_details( [ [ `Amount`, `DUE`],250, total_invoice, d, newline] )
+       generic_horizontal_details( [ [ `Amount`, `DUE`],350, total_invoice, d, newline] )
 
     
 

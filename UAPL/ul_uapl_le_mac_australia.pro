@@ -18,6 +18,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,get_bank_account_no
 	
 	, get_invoice_number
 
@@ -59,6 +61,22 @@ i_rule( get_supplier_details, [
 ]).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+q(0,50,line)
+
+ , generic_horizontal_details( [ [  `Account`, `No` ],  supplier_bank_account_number, w, tab ] ) 
+
+]).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -228,8 +246,13 @@ i_line_rule_cut( line_start_line, [
 %=======================================================================
 i_line_rule_cut( line_end_line, [
 %=======================================================================
+or([
+  [ `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust`, `to`, `the`, `Purchaser`, `shall`, `be`, `at`, `Purchaser`, `'`, `s`, `risk`, `on`, `delivery`, `to`, `the`, `Purchaser`, `or`, `into`, `the`, `Purchaser`, `'`, `s`, `custody`, tab, `Sub`, `Total`,  newline ]
+  ,[`Le`, `Mac`, `Australia`, `Trust`, tab, `ABN`, `72`, `294`, `937`, `953`,  newline ]
 
-   `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust`, `to`, `the`, `Purchaser`, `shall`, `be`, `at`, `Purchaser`, `'`, `s`, `risk`, `on`, `delivery`, `to`, `the`, `Purchaser`, `or`, `into`, `the`, `Purchaser`, `'`, `s`, `custody`, tab, `Sub`, `Total`,  newline
+  ,[`sub`, `total`]
+
+])
 
      , trace( [ `FOUND THE END LINE` ] )
 ] ).
@@ -241,7 +264,7 @@ i_line_rule_cut( line_invoice_line, [
    
        generic_item( [ line_item_vendor, s1, tab ] )
 
-       ,generic_item( [ line_item, d , q10(tab)] )
+       ,q10(generic_item( [ line_item, d , q10(tab)] ))
 
        ,q10(generic_item( [ line_descr_dummy, s1, tab ] ) )
       

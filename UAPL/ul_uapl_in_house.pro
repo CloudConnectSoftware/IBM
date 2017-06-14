@@ -202,11 +202,8 @@ q0n(line)
 i_line_rule( currency_line, [
 %=======================================================================
 
-    q0n(anything)
-
-    , `Singapore`, `Dollars`
-
-    , currency(`SGD`)
+   
+     currency(`SGD`)
 
 ] ).
 

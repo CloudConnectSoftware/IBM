@@ -179,7 +179,10 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `PO` , `No` ,`.` ], `PO`, q(0,3), (start,10,10), order_number, w , tab  ] )
+    , or([
+        generic_vertical_details( [ [ `PO` , `No` ,`.` ], `PO`, q(0,3), (start,10,10), order_number, w , tab  ] )
+        ,generic_horizontal_details( [ [ `PO`, `:`, q10(tab) ], order_number, w, newline ] )
+    ])
 
 ] ).
 
@@ -200,25 +203,6 @@ i_rule_cut( get_invoice_date, [
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL VAT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%=======================================================================
-i_rule( get_total_vat, [
-%=======================================================================
-
-    
-
-    q0n(line)
-    
-    ,  generic_horizontal_details( [ [ generic_item( [ default_vat_rate , d ] ) , `%` , `GST` , tab ],  total_vat, d, newline ] ) 
-
-
-] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -236,7 +220,18 @@ i_rule( get_total_invoice, [
 
      , generic_horizontal_details( [ [ `EXCL` , `.` , `GST` ] , 150 , total_net, d, newline ] )
 
-     ,q(0,2,line)
+     ,q(0,1,line)
+
+     ,   or([
+         
+         generic_horizontal_details( [ [ generic_item( [ default_vat_rate , d ] ) , `%` , `GST` , tab ],  total_vat, d, newline ] ) 
+
+         ,generic_horizontal_details( [ [  `GST` , `amount`, q10(tab) ],  total_vat, d, newline ] ) 
+
+     ])
+
+
+     ,q(0,1,line)
 
         , generic_horizontal_details( [ [ `INCL` , `.` , `GST` ] , 150 , total_invoice, d, newline ] )
 
@@ -304,7 +299,9 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line , line  , q10(line_desr_line) , q10(line_material_line) ]
+            , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line   , q10(line_desr_line) , q10(line_material_line) ]
+
+            , line
 
             
 
@@ -384,7 +381,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_quantity_dummy , d , q10(tab) ] )
 
-    , generic_item( [ line_quantity_uom_code , w , tab ] )
+    , q10(generic_item( [ line_quantity_uom_code , w , tab ] ))
 
     , generic_item( [ line_unit_amount_dummy , d , tab ] )
 

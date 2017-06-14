@@ -123,7 +123,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
+    ,[ generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
 
         , check( total_invoice = TotInv )
 
@@ -131,7 +131,13 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
+        , trace( [ `Total net` , total_net] ) ]
+
+         , q10( [  check( q_sys_comp_str_le( total_invoice, `0` ) )   
+
+       , set( credit_note )     
+       
+      , trace( [ `Document Value < 0 - CREDIT NOTE SET` ] )  ] )
 
 
 ] ).

@@ -43,7 +43,7 @@ i_rule_list( [
 
     ,  get_line_item
 
-    ,  get_line_Description
+    %,  get_line_Description
 
     , get_invoice_lines
 
@@ -120,6 +120,8 @@ i_rule_cut( get_invoice_number, [
    , or([
        
        generic_vertical_details( [ [ `Invoice`, `No`, `:` ], `Invoice`, q(0,1), (start, 30,30), invoice_number, s1, newline ] )
+
+       ,generic_vertical_details( [ [ `Debit`, `Note`, `No`],  `Debit`, q(0,1), (start,30,30), invoice_number, s1, newline ] )
 
        ,generic_vertical_details( [ [ `Credit`, `NOTE` , `No`, `:` ], `Credit`, q(0,1), (start, 30,30), invoice_number, s1, newline ] )
 
@@ -393,6 +395,8 @@ i_section( get_invoice_lines, [
               
              , line_invoice_line 
 
+             ,line_invoice_newline
+
              , line
 
         ] )
@@ -484,11 +488,12 @@ i_line_rule_cut( line_desc_line, [
 i_line_rule_cut( credit_note_line, [
 %=======================================================================
       
-      
      
-      generic_item( [line_item_dummy , d , tab ] )
+      generic_item( [line_item_dummy , w , tab ] )
 
-      , generic_item( [line_descr_dummy , s1 , tab] )
+      , generic_item( [line_descr , s1 , tab] )
+
+      , q10(generic_item( [line_exp_date , date,tab ] ))
 
       , generic_item( [line_quantity_dummy , d ] )
 
@@ -511,6 +516,25 @@ i_line_rule( line_invoice_debit_credit_note, [
      , generic_item([ line_tax_code , w ,  tab  ] )
 	 
 	 , generic_item([ line_net_amount , d , [ newline, check( line_net_amount(start) > 250 ) ] ] ) 
+     
+]).
+
+%=======================================================================
+i_line_rule( line_invoice_newline, [
+%=======================================================================
+
+
+	  generic_item([ line_descr , s1 , tab ]) 
+ 
+     , generic_item([ line_exp_date , date ,  tab  ] )
+	 
+	 , generic_item( [line_quantity_dummy , d ] )
+
+      , generic_item( [line_uom_dummy , w, tab] )
+
+      , generic_item( [line_unit_amount , d , tab] )
+
+      , generic_item( [line_net_amount , d , newline] )
      
 ]).
 

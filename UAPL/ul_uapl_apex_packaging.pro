@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_pdf_parameter( decompress_streams_from_offset_1, 1 ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -305,7 +307,7 @@ i_section( get_invoice_lines, [
 		
 			 [ line_invoice_line
 
-            , line_descr_line
+            , q10(line_descr_line)
             
             , q10(line_descr_line2) ]
 
@@ -326,9 +328,7 @@ i_line_rule_cut( line_start_line, [
 
           [`ITEMNO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`, `UOM`, tab ]
 
-          
-
-          ,[`ITEM`, `NO`, `.`, tab, `DESCRIPTION`]
+        ,[`ITEM`, `NO`, `.`, tab, `DESCRIPTION`]
 
        ])
 
@@ -370,7 +370,7 @@ i_line_rule_cut( line_invoice_line, [
     
     generic_item( [ line_number_dummy, w , [ q10(tab) , check( line_number_dummy(end) < -415) ] ] )
 
-    , generic_item( [ line_item, s1, tab ] )
+    , q10(generic_item( [ line_item_dummy, w, tab ] ))
 
     , generic_item( [ line_descr, s1, tab ] )
 

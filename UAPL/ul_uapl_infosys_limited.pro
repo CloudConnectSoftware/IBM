@@ -17,6 +17,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    , get_Invoice_tax
 	
     , get_invoice_number
 	
@@ -33,6 +35,38 @@ i_rule_list( [
     , get_invoice_lines
     
     ] ).
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_Invoice_tax, [
+%=======================================================================
+
+    q(0, 50, line)
+    
+        , invoice_tax_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_tax_line, [
+%=======================================================================
+
+q0n(anything)
+
+	, `Tax`, `Invoice`, `No`, `.`
+
+	, set(tax_invoice)
+
+	, trace( [ `Found Tax Invoice` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +100,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-      , generic_horizontal_details( [ [`Tax`, `Invoice`, `No`, `.`], 10, invoice_number, s1, tab ] )
+      , generic_horizontal_details( [ [`Tax`, `Invoice`, `No`, `.`], invoice_number, s1, tab ] )
 	
 ] ).
 
@@ -82,7 +116,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-         , generic_horizontal_details( [ [ `Date`, `:` ], 10, invoice_date, date, newline ] )
+         , generic_horizontal_details( [ [ `Date`, `:` ], invoice_date, date, newline ] )
 
 ] ).
 
@@ -158,7 +192,13 @@ i_rule( get_currency, [
 
      qn0(line)
 
-      , generic_horizontal_details( [ [ `Bank`, `Currency`, `:`  ], currency, w, newline ] ) 
+     , or( [
+
+       generic_horizontal_details( [ [ `Bank`, `Currency`, `:`  ], currency, w, newline ] ) 
+
+      , generic_horizontal_details( [ [ `(`, `in` ], currency, w, `)` ] )
+
+       ] )
 
     ] ).
 

@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,get_bank_account_no
 	
 	, get_invoice_number
 
@@ -79,10 +81,28 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `INVOICE`, `NO`, tab,  `:` ],100, invoice_number, s1, newline ] )
+    , or([
+        generic_horizontal_details( [ [ `INVOICE`, `NO`, tab,  `:` ],100, invoice_number, s1, newline ] )
+
+        ,generic_horizontal_details( [ [ `Doc`, `NO`, tab,  `:` ], invoice_number, s1, newline ] )
+
+    ])
 	
 	] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`,q10(tab), `:`],  supplier_bank_account_number, w, `(` ] )
+	
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET ORDER NUMBER

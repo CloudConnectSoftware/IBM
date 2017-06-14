@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    , get_credit_note
 	
 	, get_invoice_number
 
@@ -53,6 +55,39 @@ i_rule( get_supplier_details, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_credit_note, [
+%=======================================================================
+
+    q0n(line)
+
+    , credit_note_line
+
+    
+] ).
+
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+   , `CREDIT`, `-`, `NOTE`, `:`
+
+    , set(credit_note)
+
+    , trace( [ `CREDIT NOTE FOUND` ] )
+
+] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -65,7 +100,15 @@ i_rule_cut( get_invoice_number, [
     
     q(0,20,line)
 
-   , generic_horizontal_details( [ [ `DEBIT`, `-`, `NOTE`, `:` ], 100 , invoice_number, w , tab ] )
+    , or([
+
+       generic_horizontal_details( [ [ `DEBIT`, `-`, `NOTE`, `:` ], 100 , invoice_number, w , tab ] )
+
+     , generic_horizontal_details( [ [ `CREDIT`, `-`, `NOTE`, `:` ], 100 , invoice_number, w , tab ] )
+
+
+    ] )
+
 
 ] ).
 
@@ -116,7 +159,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `DEBIT`, tab , generic_item( [ currency , w ] ) ], 100 , total_invoice, d, newline ] ) 
+     , or([
+
+      generic_horizontal_details( [ [ `TOTAL`, `DEBIT`, tab , generic_item( [ currency , w ] ) ], 100 , total_invoice, d, newline ] ) 
+
+    , generic_horizontal_details( [ [ `TOTAL`, `CREDIT`, tab , generic_item( [ currency , w ] ) ], 100 , total_invoice, d, newline ] ) 
+
+     ] )
 
     , check( total_invoice = TotInv )
 

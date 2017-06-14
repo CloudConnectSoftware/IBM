@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_jalco_cosmetics , `22/11/2016` ).
+i_version( ul_uapl_jalco_cosmetics , `14:01 01 June 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -21,6 +21,8 @@ i_rule_list( [
 	get_supplier_details
 
     , get_Invoice_tax
+
+    ,get_bank_account_no
 
     , get_vat_code
 	
@@ -81,17 +83,33 @@ q0n(anything)
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `HANJIN SHIPPING CO. LTD.` )
+    sender_name( `Jalco  Cosmetics  Pty.  Limited` )
 
-    , supplier_vat_number(`53 084 809 450`)
+    , supplier_vat_number(`53  084  809  450`)
 
     , buyer_registration_number(`AU00`)
 
     ,currency(`AUD`)
 
-    
-
+   
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+q(0,50,line)
+
+ , generic_horizontal_details( [ [  `Account`, `No`, `:` ],  supplier_bank_account_number, w, newline ] ) 
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,7 +178,7 @@ i_rule( get_total_invoice, [
 
 	q0n(line)
 	
-	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item( [ total_net, d ] ), tab,  generic_item( [ total_vat, d ] ), tab ],total_invoice, d, newline ] )
+	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item( [ total_net, d ] ), q10(tab),  q10(generic_item( [ total_vat, d ] )), tab ],total_invoice, d, newline ] )
 ] ).
 
 
@@ -226,7 +244,7 @@ i_line_rule( line_invoice_line, [
 	
      
 
-     generic_item([ line_material , s1 , tab ])
+     q10(generic_item([ line_material , s1 , tab ]))
 
 
      , generic_item([ line_descr , s1 , tab ])
@@ -240,15 +258,17 @@ i_line_rule( line_invoice_line, [
          , generic_item([ line_quantity_uom_code , w , tab ] )
 
 
-	 , generic_item([ line_unit_amount ,d,  `AUD` ] )
+	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
 
-     , generic_item([ line_dummy , s1 , tab ] )
+     , generic_item( [ line_dummy, d, q10(tab) ] )
 
-        , generic_item([ line_unit_amount_dummy , d ] )
+     , q10(generic_item( [ line_UOM_dummy, w, tab ] ))
 
-        , generic_item([ line_vat_rate_dummy, d , [ `%` ,tab] ] )
+        , generic_item([ line_net_amount , d , q10(tab) ] )
 
-        , generic_item([ line_vat_dummy , d , tab ] )
+        , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,tab ] ] ))
+
+        , q10(generic_item([ line_vat_dummy , d , tab ] ))
 
 	 , generic_item([ line_total_amount , d , newline ] ) 
      

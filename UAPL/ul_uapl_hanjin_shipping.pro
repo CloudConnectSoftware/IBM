@@ -22,6 +22,10 @@ i_rule_list( [
 
 	, get_supplier_details
 
+     , get_currency
+
+    ,get_bank_account_no
+
     , get_vat_code
 	
 	, get_invoice_number
@@ -32,9 +36,7 @@ i_rule_list( [
 
 	, get_total_invoice
 
-    , get_currency
-
-    , get_total_vat
+      , get_total_vat
 
     , get_invoice_lines
 
@@ -88,6 +90,34 @@ i_rule( get_supplier_details, [
 
 ] ).
 
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `A`, `/`, `C`, `NO`, `:`, tab ],  supplier_bank_account_number, w, [`(`, `S`, `$`, `A`, `/`, `C`, `)`] ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_vertical_details( [ [ `A`, `/`, `C`, `NO`, `:` ], `No`, q(0,1), (end,100,100), supplier_bank_account_number, w, [`(`, `US`, `$`, `A`, `/`, `C`, `)`] ] ) ] 
+                
+ ] )
+
+	
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET VAT NUMBER

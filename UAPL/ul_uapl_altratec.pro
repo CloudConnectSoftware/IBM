@@ -70,7 +70,14 @@ i_rule( get_bankdetails, [
 
 	q(10,60,line)
 
-	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
+	, or([
+        
+        generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
+
+            
+        ,generic_horizontal_details( [ [ `BANK`,  `Account`, `Number`, tab, `:`],  supplier_bank_account_number, s1, newline  ] )
+
+    ])
 	
 
 ] ).
@@ -157,7 +164,9 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [`PO`, `:` ], 50, order_number, w, newline ] )
+    , or([generic_horizontal_details( [ [`PO`, `:` ], 50, order_number, w, [`-`, `MY`] ] )
+
+    ,generic_horizontal_details( [ [`PO`, `:` ], 50, order_number, w, newline ] ) ])
 
    
 ] ).
@@ -238,20 +247,10 @@ i_rule( get_total_net, [
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
-        , generic_horizontal_details( [ [ `Total`, `:`, tab  ] , total_net, d, newline ] )
+          , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
-         , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
-
-         ,  check(total_net = TotNet)
-
-          , trace([`Net Capital Varaible` , TotNet])
-
-          , line_net_amount(TotNet)
-
-          , trace( [ `THIS IS NOW THE LINE NET` , TotNet ]) ]
 
     ])
-
 
 ] ).
 
@@ -343,9 +342,11 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_invoice_line_dummy , d , tab] )
 
-    , generic_item( [ line_item, s, [q10(tab),check(line_item(end) < -250 )]])
+    , or([generic_item( [ line_item, s, [q10(tab),check(line_item(end) < -250 )]])
 
-    , generic_item( [ line_descr , s1 , tab ] )
+    ,generic_item( [ line_item, s1, tab ]) ])
+
+    , q10(generic_item( [ line_descr , s1 , tab ] ))
 
      ,q10(  
          
@@ -424,6 +425,22 @@ i_line_rule_cut( line_debit_line, [
     , generic_item( [ line_descr , s1, tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
+
+   
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_gst_line, [
+%=======================================================================
+
+   
+    read_ahead([`GST`])
+          
+     ,generic_item( [ line_descr, s1, tab ] )
+
+   
+    , generic_item( [ line_net_amount , d , newline ] )
 
    
 

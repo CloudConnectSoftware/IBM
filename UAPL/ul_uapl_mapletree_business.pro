@@ -61,7 +61,7 @@ i_rule( get_vendor_number, [
 
      [ check( Email_Subject_L = `rental invoice` ), buyers_code_for_supplier( `50512153` ) ]
 
-     , [ check( Email_Subject_L = `ad-hoc charges` ), buyers_code_for_supplier( `539718` ) ]
+     , [ check( Email_Subject_L = `ad-hoc charges` ), buyers_code_for_supplier( `539178` ) ]
 
 ] )
 
@@ -187,13 +187,12 @@ i_rule( get_line_buyers_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-    qn0(line)
+    q0n(line)
 
     , or([
-        generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,5,up), (end,0,300), total_net, d, tab ] )
+        generic_vertical_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD` ], `SGD`, q(0,2,up), (end,300,500), total_net, d, tab ] )
 
-        ,generic_vertical_details( [ [`Description`, tab, `Amount`, `before`, tab ], `Amount`, q(22,23), (end,0,50), total_net, d, tab ] )
-
+        
     ])
 
 ] ).
@@ -208,9 +207,9 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-q0n(line)
+qn0(line)
 
-,generic_vertical_details( [ [`Description`, tab, `Amount`, `before`, tab, `GST`, `(`, `SGD`, `)`, tab ], `GST`, q(22,23), (end,0,50), total_vat, d, tab ] )
+,generic_vertical_details( [ [`Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ], `GST`, q(0,2,up), (end,0,50), total_vat, d, tab ] )
 
  
 
@@ -229,7 +228,22 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] )
+    
+        , or( [ 
+        
+        [ test(tax_invoice) , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] ) ]
+
+       ,  [ peek_fails(test(tml_found)) ,  [ generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `Including`, `GST`, `in`, `SGD`, `)`, tab ],  total_invoice, d, newline ] )
+
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] ) ]]
+
+    ] )
 
     
 ] ).
@@ -291,7 +305,8 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
 
-    `GST`, `(`, `SGD`, `)`, tab, `of`, `GST`, `(`, `SGD`, `)`,  newline
+    [`GST`, `(`, `SGD`, `)`, tab, `of`, `GST`, `(`, `SGD`, `)`,  newline]
+    
  
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -301,9 +316,16 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   [`Total`, `Amount`, `(`, `Including`, `GST`]
+  or([ 
 
-    , trace( [ `FOUND LINE END LINE`] )
+ [`C`, `/`, `O`, `MAPLETREE`, `COMMERCIAL`, `PROPERTY`]
+
+ ,[`Total`, `Amount`, `(`, `Including`, `GST`]
+
+    
+  ])
+
+  , trace( [ `FOUND LINE END LINE`] )
 
 ] ).
 

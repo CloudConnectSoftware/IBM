@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - CAPGEMINI OUTSOURCING SERVICES
+% GRAMATICA - RICOH (SINGAPORE) PTE LTD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -82,9 +82,9 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q0n(line)
+    q(0,100,line)
 
-    , generic_horizontal_details( [ [ `Invoice`,`Date`, tab ,`:`  ],  invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`,`Date`, q10(tab) ,`:`  ],  invoice_date, date, newline ] )
 	
 ] ).
 
@@ -98,9 +98,15 @@ i_rule_cut( get_invoice_date, [
 i_rule_cut( get_order_number, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
-    ,generic_vertical_details( [ [ `ref` ], `ref`, q(0,1), (end, 20,20), order_number, w, newline ] )
+    ,or([
+        
+        generic_vertical_details( [ [ `ref` ], `ref`, q(0,1), (end, 20,20), order_number, w, newline ] )
+
+        ,generic_vertical_details( [ [ `PO`, `No`, `.` ], `PO`, q(0,1), (end, 30,30), order_number, w, tab ] )
+
+    ])  
 
 ] ).
 
@@ -115,9 +121,9 @@ i_rule_cut( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q0n(line) 
+	qn0(line)
 
-	, generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency, w ] ), `)`, tab, `:` ],100, total_net, d,  newline ] )  
+	, generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, total_net, d,  newline ] )  
     
 ] ).
 
@@ -132,6 +138,9 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
+qn0(line)
+
+	, generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, total_vat, d,  newline ] )  
     
 
 ] ).
@@ -147,9 +156,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency_dummy, w ] ), `)`, tab, `:` ], total_invoice, d,  newline ] ) 
+    , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency, w ] ), `)`, tab, `:` ],100, total_invoice, d,  newline ] ) 
 
     
 
@@ -165,9 +174,15 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
-     , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency_dummy, w ] ), `)`, tab, `:` ], line_net_amount, d,  newline ] )  
+     , generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, line_net_amount, d,  newline ] ) 
+
+     , generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, line_vat_amount, d,  newline ] ) 
+
+     ,q(0,3,line)
+
+     , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency_dummy, w ] ), `)`, tab, `:`  ],100, line_total_amount, d,  newline ] )  
 
 
 ]).

@@ -31,6 +31,10 @@ i_rule( select_buyer, [
 
 		, [ q0n(line) , msc_identify_rule ]
 
+		, [ q0n(line) , ul_msc_identify_rule ]
+
+		
+
 	])
 	
 ] ).
@@ -136,3 +140,40 @@ i_line_rule( check_line_msc5, [
 	`Booking`, `No`
 
 ] ).
+
+%=======================================================================
+i_rule( ul_msc_identify_rule, [
+%=======================================================================
+
+	     ul_msc_check_line_1
+
+		, ul_msc_check_line_2
+
+	
+	    , set(chain,`ul_uapl_mediterranean`)
+
+	    , trace( [ `THIS IS A MSC DOCUMENT` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( ul_msc_check_line_1, [
+%=======================================================================
+
+
+  [ `Charge`, `Description`, tab, `Foreign`, tab, `Amount`, `in`, tab, `Amount`, `in` ]
+
+
+] ).
+
+%=======================================================================
+i_line_rule( ul_msc_check_line_2 , [
+%=======================================================================
+
+ 
+ [`BL`, `No`, `.`, tab, `Vsl`, `/`, `Voy`, `/`, `POR`, `/`, `POL`, `/`, `POD`, `/`]
+
+] ).
+
+
+
