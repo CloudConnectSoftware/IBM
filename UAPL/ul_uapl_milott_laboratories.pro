@@ -249,6 +249,16 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
+        , [ generic_vertical_details( [ [ `say`, `total` ], `total`, q(1,2,up), (end,100,900), total_invoice , d , newline ] )
+        
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
 
          ]) 
        
@@ -355,6 +365,8 @@ i_line_rule_cut( line_end_line, [
          [`TI`, `NO`, `.`]
 
          ,[`MLC`,`No`, `.`]
+
+         ,[`sAY` ,`total`]
 
         ,[`GRAND`, `TOTAL`, tab ]
 
