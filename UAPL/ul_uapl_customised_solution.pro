@@ -145,7 +145,7 @@ i_rule_cut( get_invoice_number, [
 
     , invoice_number(InvoiceNew)  , trace( [ `Invoice number Now` , invoice_number ] )]
 
-   , [ generic_horizontal_details( [ [ `Credit`, `No`, `:` ], 20, invoice_number, s1, newline ] )]
+   , [ generic_horizontal_details( [ [ `Credit`, `No`, `:` ], 100, invoice_number, s1, newline ] )]
 
    ] )
 	
