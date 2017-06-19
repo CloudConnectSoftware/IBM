@@ -151,7 +151,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `BALANCE`, `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
+    , generic_horizontal_details( [ [ q10(`BALANCE`), `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
 
     , check( total_invoice = TotInv )
 

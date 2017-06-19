@@ -25,10 +25,6 @@ i_rule_list( [
 
     , get_order_number
     
-     , get_total_net
-
-    , get_total_vat
-
     , get_total_invoice
 
     , get_currency
@@ -112,19 +108,26 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,25,line)
+q(0,100,line)
 
-,[generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:`, dummy_s(s), `ONLY`, `.`, tab ],  total_invoice, d, newline ] )
+    ,or([
 
-   , check( total_invoice = TotInv )
+    generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:`, dummy_s(s), `ONLY`, `.`, tab ],  total_invoice, d, newline ] )
 
-        , trace( [ `Total Inv` , TotInv] )
+    ,generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:` ], `words`, q(0,1,up), (end,1000,1000), total_invoice, d, newline ] )
 
-        , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] )
+    ])
 
-]
+     ,check( total_invoice = TotInv )
+
+     , trace( [ `Total Inv` , TotInv] )
+
+     , total_net(TotInv)
+
+     , trace( [ `Total net` , total_net ] )
+
+
 
 ] ).
 
@@ -188,8 +191,12 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
+or([
+    [`Quantity`, tab, `Unit`, `price`]
 
-[`Quantity`, tab, `Unit`, `price`]
+    ,[`Item`, tab, `Description`, `of`, `Goods`]
+
+])
 
 , trace( [ `Found Start line` ] )
 
