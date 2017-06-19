@@ -286,7 +286,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-   `Description`, tab, `quantity`, tab ,  `unit`, `price`
+   [`Description`, tab, `quantity`, tab ,  `unit`, `price`]
 
     , trace([`found the start line`])
 
@@ -298,7 +298,9 @@ i_line_rule_cut( line_end_line, [
 
 or([
 
-   `subtotal`
+   [`subtotal`]
+
+   , [`Subtotal`, tab ]
 
 ])
 
@@ -317,7 +319,13 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_item( [line_unit_amount , d, tab ] )
     
-      , generic_item( [line_vat_rate , d , tab ] )
+    ,or([
+        
+        generic_item( [line_vat_rate , d , tab ] )
+
+      , generic_item( [ line_dummy, s1, tab ] )
+
+    ])
 
       , generic_item( [line_net_amount , d , newline ] )
 

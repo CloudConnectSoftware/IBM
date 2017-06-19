@@ -67,7 +67,11 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ], 100, invoice_number, s, newline ] ) 
+    ,or([
+           generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ], 100, invoice_number, s, newline ] ) 
+
+         , generic_horizontal_details( [ [ `B`, `/`, `L`, `No`, `:`, `:` ], 100, invoice_number,w, tab ] ) 
+       ])    
 
 ] ).
 
@@ -83,7 +87,13 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [`INVOICE`, `DATE`, tab, `:` ],  invoice_date, date, newline ] )
+    ,or([
+
+        generic_horizontal_details( [ [`INVOICE`, `DATE`, tab, `:` ],  invoice_date, date, newline ] )
+
+        ,generic_horizontal_details( [ [`OB`, `DATE`, `:` ],  invoice_date, date, newline ] )
+
+     ])
 	
 ] ).
 
@@ -99,7 +109,14 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `(`, `$`, `)`, tab ], total_net, d, tab ] )
+    ,or([ generic_horizontal_details( [ [ `TOTAL`, `(`, `$`, `)`, tab ], total_net, d, tab ] )
+
+          ,[set(regexp_allow_partial_matching)
+          
+          ,generic_horizontal_details( [ [ `TOTAL`,tab, `cny` ], total_net, d, tab ] )
+
+          ,clear(regexp_allow_partial_matching)]
+    ])  
 
 ] ).
 
@@ -134,9 +151,12 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `GRAND`, `TTL`, `(`, `$`, `)`, tab ], total_invoice, d, tab ] )
+    , or([
+        generic_horizontal_details( [ [ `GRAND`, `TTL`, `(`, `$`, `)`, tab ], total_invoice, d, tab ] )
 
-   
+        ,[set(regexp_allow_partial_matching) ,generic_horizontal_details( [ [ `TOTAL`,tab, `cny`,net_dummy(d), tab, `CNY` ], total_invoice, d, newline ] )  ,clear(regexp_allow_partial_matching)]
+
+    ])
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -151,6 +171,29 @@ i_rule( get_currency, [
 
     q0n(line)
         
-   , generic_horizontal_details( [ [ `AMOUNT`, `(` ], 100, currency, w, `)` ] )
+   , or([
+       
+       generic_horizontal_details( [ [ `AMOUNT`, `(` ], 100, currency, w, `)` ] )
+
+       ,get_currency_number
+
+   ])
+
+
+] ).
+   
+%=======================================================================
+i_line_rule( get_currency_number, [
+%=======================================================================
+    set(regexp_allow_partial_matching)
+
+     , `TOTAL`, tab, `CNY`
+  
+    , generic_item( [ currency , `CNY` ] )
+
+   , clear(regexp_allow_partial_matching)
   
 ] ).
+
+       
+  

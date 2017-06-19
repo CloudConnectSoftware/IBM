@@ -250,7 +250,8 @@ i_rule( get_total_vat, [
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,150), total_vat, d, newline ] ) ] 
-                
+
+ , [total_vat(`0`)]               
   ] )
 
 
