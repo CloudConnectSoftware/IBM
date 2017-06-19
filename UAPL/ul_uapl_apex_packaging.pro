@@ -368,9 +368,9 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-    generic_item( [ line_number_dummy, w , [ q10(tab) , check( line_number_dummy(end) < -415) ] ] )
+    generic_item( [ line_number_dummy, w , [q10(`)`),q10(tab) , check( line_number_dummy(end) < -415) ] ] )
 
-    , q10(generic_item( [ line_item_dummy, w, tab ] ))
+    , q10(generic_item( [ line_item_dummy, s1, tab ] ))
 
     , generic_item( [ line_descr, s1, tab ] )
 
