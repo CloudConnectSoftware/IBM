@@ -151,15 +151,35 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ q10(`BALANCE`), `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
+     ,line_total_line
 
-    , check( total_invoice = TotInv )
+     ,q(0,20,line)
+
+
+]).
+%=======================================================================
+i_line_rule( find_total_line, [
+%=======================================================================
+
+     `IN`, tab, `OUR`, `FAVOUR`, tab, `HKD`, tab
+
+]).
+
+ %=======================================================================
+i_line_rule( line_total_line, [
+%=======================================================================
+
+        generic_item( [ currency, w, tab ] )
+   
+        , [generic_item( [ total_invoice, d, newline ] )
+
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
+        , trace( [ `Total net` , total_net] ) ]
 
     
 ] ).
