@@ -151,11 +151,16 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-     ,line_total_line
+     
+     ,or([ 
+         
+        [find_total_line    ,q(0,1,line)    ,line_total_line]
 
-     ,q(0,20,line)
+        , [ generic_horizontal_details( [ [ `BALANCE`, `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
 
+        , check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] ) ]
 
+     ])
 ]).
 %=======================================================================
 i_line_rule( find_total_line, [
