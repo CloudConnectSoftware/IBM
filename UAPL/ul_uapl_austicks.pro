@@ -12,8 +12,6 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,7 +92,7 @@ i_rule( get_invoice_number, [
 
     q(0,40,line)
 
-    ,generic_horizontal_details( [ [`Invoice`, `Number`, tab ],  invoice_number, s1, newline ] )
+    ,generic_horizontal_details( [ [`Invoice`, `Number`, tab ],  invoice_number,s, `|` ] )
 
 ] ).
 
@@ -111,6 +109,22 @@ i_rule( get_invoice_date, [
     q(0,10,line)
 
     ,generic_vertical_details( [ [ `Invoice`, `Date` ],  `Invoice`, q(0,5), (start,20,20), invoice_date, date, tab ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+    q(0,20,line)
+
+     ,generic_vertical_details( [ [ `Reference` ],  `Reference`, q(0,5), (start,20,20), order_number,w, newline ] )
 
 ] ).
 
