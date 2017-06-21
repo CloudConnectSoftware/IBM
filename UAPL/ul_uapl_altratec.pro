@@ -99,7 +99,13 @@ i_rule_cut( get_invoice_number, [
         
         generic_horizontal_details( [ [ `Invoice` , `No` , `.` , `:` ] , 100 , invoice_number , s1, newline ] )
 	    
-        , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
+        , [generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
+
+        , q10( [  check( q_sys_comp_str_le( invoice_number, [ begin, q(alpha("D"),1,1) , q(alpha("N"),1,1) , q(dec,5,7),q(alpha("A"),1,1) , end ] ) )   
+
+       , set( debit_note )     
+       
+      , trace( [ `Document is Debit Note` ] )  ] )]
 
         ,generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
 	

@@ -83,7 +83,13 @@ i_line_rule( credit_note_line, [
 
 q0n(anything)
 
-    , `tax`, `Invoice`, `-`, `Credit`,  newline
+,or([
+
+     `tax`, `Invoice`, `-`, `Credit`,  newline
+
+	 , `INVOICE`, `-`, `CREDIT`,  newline
+
+])
 
     , set(credit_note)
 
@@ -233,11 +239,18 @@ i_rule_cut( get_invoice_totals, [
 	qn0(line)
 
 	, or([
-		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) ]
-
+		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) 
 		
+		, check( total_invoice = TotInv )
 
-	, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )]
+
+
+		, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
 
 		, check( total_invoice = TotInv )
 
