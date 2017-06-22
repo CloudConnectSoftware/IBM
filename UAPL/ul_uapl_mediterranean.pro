@@ -29,8 +29,6 @@ i_rule_list( [
 
     , get_total_invoice
 
-    %, get_total_invoice_alternate
-
     , get_currency
 
     , get_credit_note
@@ -203,11 +201,13 @@ i_rule( import_or_elsewhere_inv, [
 i_line_rule( import_or_elsewhere_inv_line, [
 %=======================================================================
 
-	`IMPORT`, `TAX` , `INVOICE`
-	
-	, set(importinv_found)
-	
-	, trace( [ `This is an Import Invoice` ] )
+	or([
+        [[`IMPORT`, `TAX` , `INVOICE`] , set(importinv_found)  	, trace( [ `This is an Import Invoice` ] )]
+
+       ,[[`Export`, `TAX` , `INVOICE`] , set(exportinv_found)  	, trace( [ `This is an Export Invoice` ] )]
+       
+       
+       ])
 
 ] ). 
 
@@ -224,70 +224,31 @@ i_rule( get_total_invoice, [
 
      q(0,50,line)
 
-     , or( [
-   
+    ,or( [
+                         
 
-         [ test(importinv_found), 
-         
-         or([
-             
-             generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )
-         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:`  ] , 500 , total_invoice, d , newline ] )
-
-         ])
-                  
+         [ test(importinv_found),  or([ generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )
+                                        ,generic_horizontal_details( [ [ `Amount` , `Due` , `:`  ] , 500 , total_invoice, d , newline ] )
+                                      ]) 
          ]
-
-        , [ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
-        
+               
+        ,[ test(exportinv_found),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] ) ]
          
-        ])
-        
+
+         ,[ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
+
+         ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
+     
+     ])
+
         , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
-
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_invoice_alternate, [
-%=======================================================================
-
-     q(0,50,line)
-
-     , or( [
-   
-
-        
-        
-         generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , tab] )
-
-         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab, dummy_no(d) ], 200, total_invoice, d , or([ tab , newline ]) ] )
-
-        
-        
+        , trace( [ `Total net` , total_net ] )
          
-        ])
-        
-        , check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net] )
-
 
 ] ).
 
@@ -321,6 +282,8 @@ i_rule_cut( get_currency, [
     ,  [ [`Total`, `In`, `Words`, `:`, tab, `USD`, `DOLLAR` ] , currency( `USD` ) ,trace( [ `Currency is USD` ] )]
 
     ,  [ [ `US`, `DOLLAR`, dummy_amount_words(s1) ] , currency( `USD` ) ,trace( [ `Currency is USD` ] )]
+
+    ,  [ [ `Singapore`, `DOLLAR`, dummy_amount_words(s1) ] , currency( `SGD` ) ,trace( [ `Currency is SGD` ] )]
 
     ])
 
