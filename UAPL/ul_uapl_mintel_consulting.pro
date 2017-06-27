@@ -37,6 +37,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    , get_vat_rate
+
     ] ).
 
 
@@ -149,6 +151,8 @@ i_rule( get_total_vat, [
 
      , clear(regexp_allow_partial_matching) ]
 
+     ,generic_item( [ default_vat_rate, `7` ] )
+
 ] ).
 
 
@@ -187,9 +191,91 @@ i_rule( get_currency, [
 
     ,[ set(regexp_allow_partial_matching)
 
-    ,generic_horizontal_details( [ [ `Subtotal`, tab ], currency, w ] )
+    ,generic_horizontal_details( [ [ `Subtotal`, tab ], currency, wf , [ dummy_tot(d) , newline ] ] )
 
      , clear(regexp_allow_partial_matching) ]
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+             [line_invoice_line,line_append_line]
+
+              , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+
+[`Description`, tab, `Rate`, `Card` ]
+
+, trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+    [ `Subtotal`, tab ]
+
+
+  , trace( [ `Found End line` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+
+ 
+set(regexp_allow_partial_matching)
+ 
+,generic_item( [ line_descr, s1, [tab, `SGD`]] )
+
+,generic_item( [ line_unit_amount, d, tab ] )
+
+,generic_item( [ line_quantity, d, [tab, `SGD`] ] )
+
+,generic_item( [ line_net_amount, d, newline ] )
+
+,clear(regexp_allow_partial_matching)
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+    generic_append( [ line_descr, s1, newline, `_`, ``  ] )
+
 
 ] ).
 
