@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( altratec, `18 January 2017 ` ).
+i_version( altratec, `28 June 2017 ` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -18,7 +18,7 @@ i_pdf_parameter( same_line, 7 ).
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	 get_supplier_details
 
     , get_bankdetails
 	
@@ -98,21 +98,29 @@ i_rule_cut( get_invoice_number, [
     , or( [
         
         generic_horizontal_details( [ [ `Invoice` , `No` , `.` , `:` ] , 100 , invoice_number , s1, newline ] )
+
+        , find_Invoice_number
 	    
-        , [generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
+        , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
 
-        , q10( [  check( q_sys_comp_str_le( invoice_number, [ begin, q(alpha("D"),1,1) , q(alpha("N"),1,1) , q(dec,5,7),q(alpha("A"),1,1) , end ] ) )   
-
-       , set( debit_note )     
-       
-      , trace( [ `Document is Debit Note` ] )  ] )]
-
-        ,generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
+        , generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
 	
     ])
 ] ).
 
 
+%=======================================================================
+i_line_rule( find_Invoice_number, [
+%=======================================================================
+
+    q0n(anything)
+
+     , generic_item( [ invoice_number , [ begin, q(alpha("D"),1,1) , q(alpha("N"),1,1) , q(any,5,7) , end ] ] )
+
+     , set(debit_note)
+
+     ,  trace( [ `Debit Note found` ] )
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,21 +224,21 @@ i_rule( get_total_invoice, [
      qn0(line)
 	
 	, or([
-        
-        generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
 
-                     
+              [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+             , check(total_invoice = TotInv) , trace([`Total Capital Varaible` , TotInv])
+             , total_net(TotInv) , trace( [ `THIS IS NOW THE NET TOTAL` , TotInv ])]
+
+        
+             , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+     
+             
              ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
 
+
              , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
-             
-             ,  check(total_invoice = TotInv)
-
-             , trace([`Total Capital Varaible` , TotInv])
-
-             , line_total_amount(TotInv)
-
-             , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
+             ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
+             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
 
     ])
 
@@ -315,8 +323,6 @@ or([
     ,[`Product` , `Code` , tab]
 
 ])
-
-     
     , trace( [ `FOUND LINE HEADER LINE`])
 
 ] ).
@@ -350,7 +356,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , or([generic_item( [ line_item, s, [q10(tab),check(line_item(end) < -250 )]])
 
-    ,generic_item( [ line_item, s1, tab ]) ])
+    , generic_item( [ line_item, s1, tab ]) ])
 
     , q10(generic_item( [ line_descr , s1 , tab ] ))
 
@@ -370,14 +376,11 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_net_amount, d , newline ] )
 
-   
-
 ] ).
 
 %=======================================================================
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
-
    
     generic_append( [ line_descr, s1 , newline, ` `, ` `  ] )
 
@@ -396,7 +399,6 @@ i_line_rule_cut( line_po_line, [
             , generic_item( [ line_buyers_order_number , w , newline ] )
 
     ])
-
 
 ] ).
 
@@ -431,9 +433,7 @@ i_line_rule_cut( line_debit_line, [
     , generic_item( [ line_descr , s1, tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
-
-   
-
+ 
 ] ).
 
 %=======================================================================
@@ -444,10 +444,8 @@ i_line_rule_cut( line_gst_line, [
     read_ahead([`GST`])
           
      ,generic_item( [ line_descr, s1, tab ] )
-
    
     , generic_item( [ line_net_amount , d , newline ] )
-
    
 
 ] ).

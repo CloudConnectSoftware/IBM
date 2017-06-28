@@ -231,7 +231,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-  `Description` , tab
+  `Description`, tab, `Quantity`, tab, `Unit`, `Price`
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -243,7 +243,10 @@ i_line_rule_cut( line_end_line, [
 
     or([
         [`Subtotal` , tab]
-       , [`35`, `Koornang`, `Road`, `,`, `Scoresby`, `Victoria`, `Australia`, `3179`]
+
+       , [`Description`, tab, `Quantity`, tab, `Unit`, `Price`]
+
+       ,[`35`, `Koornang`, `Road`, `,`, `Scoresby`, `Victoria`, `Australia`, `3179`]
 
     ])
 
