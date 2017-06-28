@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( altratec, `18 January 2017 ` ).
+i_version( altratec, `28 June 2017 ` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -98,21 +98,29 @@ i_rule_cut( get_invoice_number, [
     , or( [
         
         generic_horizontal_details( [ [ `Invoice` , `No` , `.` , `:` ] , 100 , invoice_number , s1, newline ] )
+
+        , find_Invoice_number
 	    
-        , [generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
+        , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
 
-        , q10( [  check( q_sys_comp_str_le( invoice_number, [ begin, q(alpha("D"),1,1) , q(alpha("N"),1,1) , q(dec,5,7),q(alpha("A"),1,1) , end ] ) )   
-
-       , set( debit_note )     
-       
-      , trace( [ `Document is Debit Note` ] )  ] )]
-
-        ,generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
+        , generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
 	
     ])
 ] ).
 
 
+%=======================================================================
+i_line_rule( find_Invoice_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ invoice_number , [ begin, q(alpha("D"),1,1) , q(alpha("N"),1,1) , q(any,5,7) , end ] ] )
+
+   ,set(debit_note)
+
+   ,trace( [ `Debit Note found` ] )
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,21 +224,24 @@ i_rule( get_total_invoice, [
      qn0(line)
 	
 	, or([
-        
-        generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
 
-                     
+               [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+
+             ,  check(total_invoice = TotInv) , trace([`Total Capital Varaible` , TotInv])
+
+             , total_net(TotInv) , trace( [ `THIS IS NOW THE NET TOTAL` , TotInv ])]
+
+        
+             , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+     
              ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+
 
              , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
              
-             ,  check(total_invoice = TotInv)
+             ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
 
-             , trace([`Total Capital Varaible` , TotInv])
-
-             , line_total_amount(TotInv)
-
-             , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
+             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
 
     ])
 
