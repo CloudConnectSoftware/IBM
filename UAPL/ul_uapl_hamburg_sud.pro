@@ -100,7 +100,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_vertical_details( [ [ `NUMBER` ], `NUMBER`, q(0,3), (start,10,210), invoice_number, d, newline ] )
+    , generic_vertical_details( [ [ `NUMBER` ], `NUMBER`, q(0,3), (start,10,210), invoice_number, w, newline ] )
 	
 	] ).
 
