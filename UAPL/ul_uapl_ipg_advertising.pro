@@ -289,7 +289,7 @@ i_section( get_invoice_lines, [
 
             line_invoice_line_2
 
-            , [line_descr_line, line_append_line , line_append_line, line_invoice_line ]
+            , [line_descr_line, line_append_line, line_append_line, line_invoice_line]
 
 			   
             , line		
@@ -325,6 +325,8 @@ i_line_rule_cut( line_end_line, [
  or([
 
     [ `Total`, `non`, `-`, `commissionable`, tab , dummy_num10(d)]
+
+    ,[`VAT`, `0`, `%` ]
 
     , [`VAT`, `7`, `%`]
    
