@@ -236,6 +236,7 @@ i_rule( get_total_invoice, [
                
         ,[ test(exportinv_found),  or([generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] ) 
                                         ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ], 200, total_invoice,d, newline ] )
+                                        ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ], 200, total_invoice,d, tab ] )
             ] )
 
         ]
