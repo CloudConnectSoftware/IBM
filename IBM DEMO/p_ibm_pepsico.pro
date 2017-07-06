@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `09:41 04 July 2017` ).
+i_version( p_ibm_pepsico, `11:28 06 July 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -132,7 +132,7 @@ i_final_rule( [
 	, remove( process_name ), process_name( `PEPC_InvoiceProcess` )
 	, remove( process_priority ), process_priority( `100` )
 	, remove( mime_type ), mime_type( `application/pdf` )
-	, remove( item_type ), item_type( `PEPC_Invoice` )
+	, remove( item_type ), item_type( `PEPC_Invoices` )
 	, remove( capture_type ), capture_type( `CLOUDTRADE` )
 	, remove( invoice_type ), invoice_type( `INVOICE` )
 	, remove( payment_terms ), payment_terms( `30` )
@@ -157,6 +157,8 @@ i_final_rule( [
 	remove( zip_file_name ), zip_file_name( Zip_File_Name )
 	
 	, remove( batch_name ), batch_name( Zip_File_Name )
+	
+	, remove( file_name ), file_name( PDF_File_Name )
 
 ] )
 :-
@@ -166,7 +168,8 @@ i_final_rule( [
 	i_mail( unique_id, ID ),
 	sys_string_number( IDS, ID ),
 	string_pad_left( IDS, 8, `0`, IDPad ),
-	strcat_list( [ `PEPC_CT_`, Timestamp_Final, `_`, IDPad, `.zip` ], Zip_File_Name )
+	strcat_list( [ `PEPC_CT_`, Timestamp_Final, `_`, IDPad, `.zip` ], Zip_File_Name ),
+	strcat_list( [ `PEPC_CT_`, Timestamp_Final, `_`, IDPad, `.pdf` ], PDF_File_Name )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,25 +186,14 @@ i_final_rule( [
 
 	remove( timestamp ), timestamp( Timestamp_Stripped )
 	
-	, remove( ct_capture_time ), ct_capture_time( Timestamp )
+	, remove( ct_capture_time ), ct_capture_time( Timestamp_Replaced )
 
-] ):- i_mail( time_stamp, Timestamp ), strip_string2_from_string1( Timestamp, `.`, Timestamp_Stripped ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% ATTACHMENT
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_final_rule( [
-%=======================================================================
-
-	remove( file_name ), file_name( Attachment )
-
-] ):- i_mail( attachment, Attachment ).
+] )
+:-
+	i_mail( time_stamp, Timestamp ),
+	strip_string2_from_string1( Timestamp, `.`, Timestamp_Stripped ),
+	string_string_replace( Timestamp, `.`, `-`, Timestamp_Replaced )
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
