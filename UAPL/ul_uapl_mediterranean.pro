@@ -232,9 +232,11 @@ i_rule( get_total_invoice, [
                                       ]) 
          ]
                
-        ,[ test(exportinv_found),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] ) ]
-         
+        ,[ test(exportinv_found),  or([generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] ) 
+                                        ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ], 200, total_invoice,d, newline ] )
+            ] )
 
+        ]
          ,[ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
 
          ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
