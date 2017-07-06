@@ -54,7 +54,7 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-   sender_name( `RS COMPONENTS LTD` )
+    sender_name( `RS COMPONENTS LTD` )
 
    ,supplier_vat_number(`GB243164091`)
 
@@ -77,19 +77,19 @@ i_rule( get_supplier_address, [
 
    , line_add_line
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
    , line_add_line_2
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
    , line_add_line_3
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
    , line_add_line_4
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
    , line_add_line_5
 
@@ -100,9 +100,9 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-    read_ahead(`RS`)
+      read_ahead(`RS`)
 
-    ,trace( [ `Found address`] )
+    , trace( [ `Found address`] )
 
     , generic_item( [ supplier_party, s, tab ] )
 
