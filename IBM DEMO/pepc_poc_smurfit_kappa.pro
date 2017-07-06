@@ -74,7 +74,7 @@ i_rule( get_supplier_detail, [
 i_rule( get_supplier_address, [
 %=======================================================================
 
-   q(0,5,line)
+     q(0,5,line)
 
    , line_add_line
 
@@ -92,7 +92,7 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-    read_ahead(`Bremheidelaan`)
+      read_ahead(`Bremheidelaan`)
 
     , generic_item( [ supplier_address_line, s1, newline ] )
 
@@ -154,7 +154,7 @@ i_rule( get_invoice_number, [
    q(0,20,line)
 
 
-,generic_vertical_details( [ [ `INVOICE` ], `INVOICE`, q(0,1), (start,100,300), invoice_number, w, [`No`, `.`] ] )
+  ,generic_vertical_details( [ [ `INVOICE` ], `INVOICE`, q(0,1), (start,100,300), invoice_number, w, [`No`, `.`] ] )
 
 ] ).
 
@@ -171,7 +171,7 @@ i_rule( get_invoice_date, [
 
    q(0,20,line)
 
-,generic_horizontal_details( [ [ `DATE`, tab ],  invoice_date, date, `VAT` ] )
+  ,generic_horizontal_details( [ [ `DATE`, tab ],  invoice_date, date, `VAT` ] )
 
 
 ] ).
@@ -188,7 +188,7 @@ i_rule( get_due_date, [
 
    q(0,150,line)
 
-,generic_horizontal_details( [ [ `EXP`, `.`, `DATE`, tab ],  due_date, date, tab ] )
+ ,generic_horizontal_details( [ [ `EXP`, `.`, `DATE`, tab ],  due_date, date, tab ] )
 
 
 ] ).
@@ -205,7 +205,7 @@ i_rule( get_order_number, [
 
    q(0,25,line)
 
-,generic_horizontal_details( [ [ `Your`, `order`, `:` ],  order_number, w, newline ] )
+  ,generic_horizontal_details( [ [ `Your`, `order`, `:` ],  order_number, w, newline ] )
 
 ] ).
 
@@ -222,11 +222,11 @@ i_rule(get_total_net, [
 
    q(0,150,line)
 
-, set(regexp_cross_word_boundaries)
+  , set(regexp_cross_word_boundaries)
 
-,generic_horizontal_details( [ [`NET`, `TOTAL`, `:`, tab ],  total_net, d, newline ] )
+  , generic_horizontal_details( [ [`NET`, `TOTAL`, `:`, tab ],  total_net, d, newline ] )
 
-, clear(regexp_cross_word_boundaries)
+  , clear(regexp_cross_word_boundaries)
 
 
 ] ).
@@ -244,13 +244,13 @@ i_rule(get_total_vat, [
 
    q(0,150,line)
 
-, set(regexp_cross_word_boundaries)
+  , set(regexp_cross_word_boundaries)
 
-,generic_horizontal_details( [ [`VAT`, `:`, tab ],  total_vat, d, newline ] )
+  , generic_horizontal_details( [ [`VAT`, `:`, tab ],  total_vat, d, newline ] )
 
-, clear(regexp_cross_word_boundaries)
+  , clear(regexp_cross_word_boundaries)
 
-,generic_item( [ default_vat_rate, `21` ] )
+  ,generic_item( [ default_vat_rate, `21` ] )
 
 
 ] ).
@@ -268,11 +268,11 @@ i_rule(get_total_invoice, [
 
    q(0,150,line)
 
-, set(regexp_cross_word_boundaries)
+  , set(regexp_cross_word_boundaries)
 
-,generic_horizontal_details( [ [`TOTAL`, `EUR`, `:`, tab ],  total_invoice, d, newline ] )
+  ,generic_horizontal_details( [ [`TOTAL`, `EUR`, `:`, tab ],  total_invoice, d, newline ] )
 
-, clear(regexp_cross_word_boundaries)
+  , clear(regexp_cross_word_boundaries)
 
 
 ] ).
@@ -289,7 +289,7 @@ i_rule( get_currency, [
 
      q(0,150,line)
 
-,generic_horizontal_details( [ [`TOTAL`],  currency, w, [`:`, tab ] ] )
+   ,generic_horizontal_details( [ [`TOTAL`],  currency, w, [`:`, tab ] ] )
 
 
 ] ).
@@ -356,20 +356,20 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-generic_item( [ line_item, w ] )
+  generic_item( [ line_item, w ] )
 
-,generic_item( [ line_descr, s1, tab ] )
+, generic_item( [ line_descr, s1, tab ] )
 
 
-,generic_item( [ line_delivery_note_number, w, tab ] )
+, generic_item( [ line_delivery_note_number, w, tab ] )
 
-,generic_item( [ line_quantity_dummy, w, tab ] )
+, generic_item( [ line_quantity_dummy, w, tab ] )
 
 , set(regexp_cross_word_boundaries)
 
-,generic_item( [ line_unit_amount, d, tab ] )
+, generic_item( [ line_unit_amount, d, tab ] )
 
-,generic_item( [ line_net_amount, d, newline ] )
+, generic_item( [ line_net_amount, d, newline ] )
 
 , clear(regexp_cross_word_boundaries)
 
@@ -379,7 +379,7 @@ generic_item( [ line_item, w ] )
 i_line_rule_cut( line_desc_line, [
 %=======================================================================
 
-    generic_append( [ line_descr, s1, tab, `_`, ``  ] )
+     generic_append( [ line_descr, s1, tab, `_`, ``  ] )
 
     ,generic_item( [ line_delivery_date, date, newline ] )  
 
@@ -391,7 +391,7 @@ i_line_rule_cut( line_desc_line, [
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-  generic_append( [ line_descr, s1, newline, `_`, ``  ] )
+   generic_append( [ line_descr, s1, newline, `_`, ``  ] )
 
 
 ] ).
@@ -410,7 +410,7 @@ i_line_rule_cut( line_po_line, [
 i_line_rule_cut( line_append_last_line, [
 %=======================================================================
 
-  generic_append( [ line_descr, s1, tab, `_`, ``  ] )
+   generic_append( [ line_descr, s1, tab, `_`, ``  ] )
 
   ,generic_append( [ line_descr, s1, tab, `_`, ``  ] )
 

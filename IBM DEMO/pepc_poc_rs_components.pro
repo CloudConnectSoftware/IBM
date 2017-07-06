@@ -118,36 +118,37 @@ i_line_rule( line_add_line_2, [
 
      generic_item( [ supplier_address_line, s1 , newline ] )
 
-     ] ).      
+] ).     
+
 %=======================================================================
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
       generic_append( [ supplier_address_line, s1, tab,  `  `, ``  ] )
 
-      , generic_item( [ supplier_dummy1, s1 , tab ] )
+    , generic_item( [ supplier_dummy1, s1 , tab ] )
 
-      , generic_item( [ supplier_dummy3, s1 , newline ] )
+    , generic_item( [ supplier_dummy3, s1 , newline ] )
 
-      ] ).
+] ).
 
-  %=======================================================================
+%=======================================================================
 i_line_rule( line_add_line_4, [
 %=======================================================================
 
-      generic_append( [ supplier_address_line, s1, tab,  `  `, ``  ] )
+        generic_append( [ supplier_address_line, s1, tab,  `  `, ``  ] )
 
       , generic_item( [ supplier_dummy4, s1 , tab ] )
 
       , generic_item( [ supplier_dummy5, s1 , newline ] )
 
-      ] ).
+] ).
 
  %=======================================================================
 i_line_rule( line_add_line_5, [
 %=======================================================================
 
-      generic_append( [ supplier_address_line, s1, tab,  `  `, ``  ] )
+        generic_append( [ supplier_address_line, s1, tab,  `  `, ``  ] )
 
       , generic_item( [ supplier_dummy6, s1 , tab ] )
 
@@ -166,7 +167,7 @@ i_line_rule( line_add_line_5, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-    q(0,60,line)
+     q(0,60,line)
 
     ,generic_horizontal_details( [ [ `Account`, `Number`, `:` ], supplier_bank_account_number, w, newline ] )
 
@@ -184,7 +185,7 @@ i_rule( get_bank_accountnumber, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-   q(0,20,line)
+     q(0,20,line)
 
     ,generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ],  invoice_number, w, newline ] )
 
@@ -201,9 +202,9 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-   q(0,20,line)
+     q(0,20,line)
 
-,generic_horizontal_details( [ [ `Date`, `of`, `Invoice`, tab],  invoice_date, date, newline ] )
+    ,generic_horizontal_details( [ [ `Date`, `of`, `Invoice`, tab],  invoice_date, date, newline ] )
 
 
 ] ).
@@ -228,7 +229,7 @@ i_rule( get_delivery_note, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% OORDER NUMBER
+% ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -238,8 +239,7 @@ i_rule( get_order_number, [
 
    q(0,25,line)
 
-
-,generic_vertical_details( [ [ `Customer`, `Purchase`, `Order` ], `Customer`, q(0,1), (start,400,500),order_number, w, tab ] )
+   ,generic_vertical_details( [ [ `Customer`, `Purchase`, `Order` ], `Customer`, q(0,1), (start,400,500),order_number, w, tab ] )
 
 ] ).
 
@@ -256,7 +256,7 @@ i_rule(get_total_net, [
 
    q(0,50,line)
 
-,generic_horizontal_details( [ [`Nett`, `Total`, tab],  total_net, d, newline ] )
+  ,generic_horizontal_details( [ [`Nett`, `Total`, tab],  total_net, d, newline ] )
 
 
 ] ).
@@ -273,9 +273,9 @@ i_rule(get_total_vat, [
 
    q(0,50,line)
 
-,generic_horizontal_details( [ [`V`, `.`, `A`, `.`, `T`, `.`, tab ],  total_vat, d, newline ] )
+  ,generic_horizontal_details( [ [`V`, `.`, `A`, `.`, `T`, `.`, tab ],  total_vat, d, newline ] )
 
-,generic_item( [ default_vat_rate, `20` ] )
+  ,generic_item( [ default_vat_rate, `20` ] )
 
 
 ] ).
@@ -293,7 +293,7 @@ i_rule(get_total_invoice, [
 
    q(0,50,line)
 
-,generic_horizontal_details( [ [`Total`, `-`, `GBP`, tab ],  total_invoice, d, newline ] )
+   ,generic_horizontal_details( [ [`Total`, `-`, `GBP`, tab ],  total_invoice, d, newline ] )
 
 
 ] ).
@@ -310,7 +310,7 @@ i_rule( get_currency, [
 
      q(0,50,line)
 
-,generic_horizontal_details( [ [`Total`, `-`],  currency, w, tab ] )
+     ,generic_horizontal_details( [ [`Total`, `-`],  currency, w, tab ] )
 
 
 ] ).
