@@ -17,7 +17,9 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 
-    get_supplier_details
+        get_supplier_details
+
+      , get_bank_accountnumber
 
       , get_vat_code
 
@@ -37,6 +39,8 @@ i_rule_list( [
 
       , get_invoice_lines
 
+      
+
 
     ] ).
 
@@ -53,6 +57,31 @@ i_rule( get_supplier_details, [
    sender_name(`LEONGOLD TRADING CO PTE LTD`)
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+    q(0,30,line)
+    
+    , generic_horizontal_details( [ [ `Account`, `No`, `:`], supplier_bank_account_number_raw, w, newline ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+
+   
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,7 +195,7 @@ i_rule( get_total_vat, [
 
  q0n(line)
 
-   , generic_horizontal_details( [ [`of`, `GST`, `:`, tab, `S`, `$` ], 100, total_vat, d, newline ] )
+   , generic_horizontal_details( [ [`GST`, `:`, tab, `S`, `$` ], 100, total_vat, d, newline ] )
  
    , generic_item( [ default_vat_rate, `7` ] )
 
@@ -271,9 +300,8 @@ i_line_rule( discount_line, [
 %=======================================================================
 
 
- read_ahead([`Less`])
 
-, generic_item( [ line_descr, s1, tab] )
+ generic_item( [ line_descr, s, tab] )
 
 , generic_item( [ line_quantity, d, [tab, `s`,`$` ]] )
 

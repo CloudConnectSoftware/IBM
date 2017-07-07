@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_chabba_bangkok , `13/01/2017` ).
+i_version( ul_uapl_chabba_bangkok , `12:03 01 June 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -22,6 +22,8 @@ i_rule_list( [
 
 
 	 get_supplier_details
+
+     ,get_supplier_bank_account_number
 
     , set_credit_note
    
@@ -57,6 +59,29 @@ i_rule( get_supplier_details, [
     , supplier_vat_number(`0993000081137`)
 
 
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_bank_account_number, [
+%=======================================================================
+
+	qn0(line)
+	
+	, generic_horizontal_details( [ [ `A`, `/`, `C`, `NO`, `.`, `:`, q10(tab) ], supplier_bank_account_number_raw, w, newline ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+
+   
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -197,11 +222,15 @@ i_rule( get_total_invoice, [
         
         generic_horizontal_details( [ [ `Grand`,`total`, tab ], total_invoice, d, newline ] )
 
+        ,generic_horizontal_details( [ [ `Say`,`:`, dummy_sentence(s1),  tab ], total_invoice, d, newline ] )
+
         , generic_vertical_details( [ [ `AMOUNT`, newline ], `AMOUNT`, q(7,20), (end,20,20), total_invoice, d , newline ] )
 
         , generic_vertical_details( [ [ `Account`, `&`, `Finance`, `Dept`, `.`, `Manager`,  newline ], `Manager`, q(1,2, up), (end,0,150), total_invoice, d , newline ] )
 
         , generic_vertical_details( [ [ `COUNTRY`, `OF`, `ORIGIN`, `:`, `THAILAND`,  newline ], `THAILAND`, q(0,1, up), (end,0,650), total_invoice, d , newline ] )
+
+        , generic_vertical_details( [ [ `received`, `by`,  newline ], `by`, q(0,1, up), (end,0,100), total_invoice, d , newline ] )
     ])
         , check( total_invoice = TotInv )
 

@@ -19,6 +19,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    , get_bank_accountnumber
 	
 	, get_invoice_number
 	
@@ -52,10 +54,26 @@ i_rule( get_supplier_details, [
 
    , supplier_vat_number(`0014166A`)
 
-    , set(freight_vendor)
-
-  
+      
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+    q(0, 50,line)
+
+    ,generic_horizontal_details( [ [ `Account`, `number`, `:`, tab ],  supplier_bank_account_number, w, newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,7 +145,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_vertical_details( [ [ `For`, `:`, `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+    , generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
 
     , check( total_invoice = TotInv )
 
@@ -169,7 +187,7 @@ i_rule( get_line_total_amount, [
 
       q0n(line)
 
-    , generic_vertical_details( [ [ `For`, `:`, `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), line_total_amount, d,newline ] )
+    , generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), line_total_amount, d,newline ] )
       
    ] ).
 

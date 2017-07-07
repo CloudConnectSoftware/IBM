@@ -22,6 +22,8 @@ i_rule_list( [
 
     ,invoice_or_credit_note
 
+    ,get_bank_account_no
+
     , get_invoice_number
 
     , get_order_number
@@ -89,6 +91,23 @@ i_line_rule( invoice_or_credit_note_line, [
 	, set(credit_note), set(credit)
 	
 	, trace( [ `This is a credit note` ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number, w, newline ] )
+	
 
 ] ).
 
@@ -214,7 +233,7 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_vat, [
 %=======================================================================
   
-  q(0,50,line)
+  q(0,250,line)
 
     , generic_horizontal_details( [ [ `Standard`, `Rate`, `GST` ], 750, total_net, d, tab ] )
   
@@ -231,7 +250,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     q(0,50,line)
+     q(0,250,line)
 
     , generic_horizontal_details( [ [ `Net`, `Value` ], 800, total_net, d, newline ] )
 
@@ -248,7 +267,7 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q(0,50,line)
+     q(0,250,line)
 
         , or([
 

@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_accountnumber
+
     , get_invoice_lines
 
 ] ).
@@ -67,7 +69,11 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ], 100, invoice_number, s, newline ] ) 
+    ,or([
+           generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab, `:` ], 100, invoice_number, s, newline ] ) 
+
+         , generic_horizontal_details( [ [ `B`, `/`, `L`, `No`, `:`, `:` ], 100, invoice_number,w, tab ] ) 
+       ])    
 
 ] ).
 
@@ -83,7 +89,13 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
-    , generic_horizontal_details( [ [`INVOICE`, `DATE`, tab, `:` ],  invoice_date, date, newline ] )
+    ,or([
+
+        generic_horizontal_details( [ [`INVOICE`, `DATE`, tab, `:` ],  invoice_date, date, newline ] )
+
+        ,generic_horizontal_details( [ [`OB`, `DATE`, `:` ],  invoice_date, date, newline ] )
+
+     ])
 	
 ] ).
 
@@ -99,7 +111,14 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `(`, `$`, `)`, tab ], total_net, d, tab ] )
+    ,or([ generic_horizontal_details( [ [ `TOTAL`, `(`, `$`, `)`, tab ], total_net, d, tab ] )
+
+          ,[set(regexp_allow_partial_matching)
+          
+          ,generic_horizontal_details( [ [ `TOTAL`,tab, `cny` ], total_net, d, tab ] )
+
+          ,clear(regexp_allow_partial_matching)]
+    ])  
 
 ] ).
 
@@ -134,9 +153,12 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `GRAND`, `TTL`, `(`, `$`, `)`, tab ], total_invoice, d, tab ] )
+    , or([
+        generic_horizontal_details( [ [ `GRAND`, `TTL`, `(`, `$`, `)`, tab ], total_invoice, d, tab ] )
 
-   
+        ,[set(regexp_allow_partial_matching) ,generic_horizontal_details( [ [ `TOTAL`,tab, `cny`,net_dummy(d), tab, `CNY` ], total_invoice, d, newline ] )  ,clear(regexp_allow_partial_matching)]
+
+    ])
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -151,6 +173,50 @@ i_rule( get_currency, [
 
     q0n(line)
         
-   , generic_horizontal_details( [ [ `AMOUNT`, `(` ], 100, currency, w, `)` ] )
-  
+        
+    ,generic_horizontal_details( [ [ `AMOUNT`, `(`,q10(tab) ], currency, w, [`)`,tab ] ])
+
+
 ] ).
+
+       
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+        [check( Currency = `USD` ) ,generic_horizontal_details( [ [`Swift`, `Code`, `:`, `CITISGSG`, tab ], supplier_bank_account_number_raw, w, [`(`, `USD`, `)`] ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
+
+    , [check( Currency = `SGD` ) ,generic_horizontal_details( [ [`Citibank`, `N`, `.`, `A`, `.`, `Singapore`, tab ], supplier_bank_account_number_raw, w, [`(`, `SGD`, `)`] ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
+
+    ])
+    
+
+] ).
+

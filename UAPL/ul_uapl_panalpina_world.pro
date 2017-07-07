@@ -18,6 +18,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_bank_accountnumber
+
     , get_invoice_number
 
     , get_order_number
@@ -58,6 +60,23 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+    q(0,400,line)
+
+    ,generic_horizontal_details( [ [ `Account`, `No`, `.`, `:`],  supplier_bank_account_number, w, `(` ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,7 +88,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`,  tab ], invoice_number, d, newline ] )
+    ,or([
+
+    generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`,  tab ], invoice_number, d, newline ] )
+
+    ,generic_horizontal_details( [ [ `Tax`, `Invoice` ],  invoice_number, w, newline ] )
+
+    ])
 	
 	] ).
 
@@ -86,7 +111,9 @@ i_rule_cut( get_order_number, [
 
     q0n(line)
 
+     
      , generic_horizontal_details( [ [ `YOUR`,`REF`, `.`, tab, `PO` ], 20, order_number, d, newline ] )
+     
     
      , check(order_number = OrdNo)
 

@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_accountnumber
+
     , get_invoice_lines
     
     ] ).
@@ -201,6 +203,36 @@ i_rule( get_currency, [
        ] )
 
     ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+        [check( Currency = `EUR` ) , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
+
+        , [check( Currency = `EUR` ) , generic_horizontal_details( [ [`SGD`,`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
+       
+    ])
+    
+
+] ).
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

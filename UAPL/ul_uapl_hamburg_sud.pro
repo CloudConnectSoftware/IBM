@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_accountnumber
+
     , get_invoice_lines
 
  ] ).
@@ -100,7 +102,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_vertical_details( [ [ `NUMBER` ], `NUMBER`, q(0,3), (start,10,210), invoice_number, d, newline ] )
+    , generic_vertical_details( [ [ `NUMBER` ], `NUMBER`, q(0,2), (start,10,210), invoice_number, d, newline ] )
 	
 	] ).
 
@@ -151,15 +153,42 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `BALANCE`, `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
+     
+     ,or([ 
+         
+         [find_total_line    ,q(0,1,line)    ,line_total_line]
 
-    , check( total_invoice = TotInv )
+        , [ generic_horizontal_details( [ [ `BALANCE`, `IN`, `OUR`, `FAVOUR`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `:`, tab ], total_invoice, d, newline ] ) 
+        , check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] ) ]
+
+        ,  [generic_horizontal_details( [ [`IN`, tab, `OUR`, `FAVOUR` ],500, total_invoice, d, newline ] ) 
+        ,  check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
+
+     ])
+]).
+%=======================================================================
+i_line_rule( find_total_line, [
+%=======================================================================
+
+     `IN`, tab, `OUR`, `FAVOUR`, tab, `HKD`, tab
+
+]).
+
+ %=======================================================================
+i_line_rule( line_total_line, [
+%=======================================================================
+
+        generic_item( [ currency, w, tab ] )
+   
+        , [generic_item( [ total_invoice, d, newline ] )
+
+        , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
+        , trace( [ `Total net` , total_net] ) ]
 
     
 ] ).
@@ -179,4 +208,32 @@ i_rule( get_currency, [
     , currency( `USD` )
     
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+        [check( Currency = `HKD` ) , generic_horizontal_details( [ [`HKD`, `A`, `/`, `C`, `no`, `#` ],  supplier_bank_account_number, w, newline ] )]
+
+        , [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `no`, `#` ],  supplier_bank_account_number, w, newline ] )]
+       
+    ])
+    
+
+] ).
+
 

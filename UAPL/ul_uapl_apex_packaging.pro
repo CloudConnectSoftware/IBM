@@ -21,6 +21,8 @@ i_rule_list( [
     set_Invoice_tax
 
 	,get_supplier_details
+
+    ,get_supplier_bank_account_number
 	
 	, invoice_or_credit_note
 	
@@ -44,6 +46,23 @@ i_rule_list( [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_bank_account_number, [
+%=======================================================================
+
+	qn0(line)
+	
+	, generic_horizontal_details( [ [ `BANK`, `ACCOUNT`, `NUMBER`, `:` ], supplier_bank_account_number, w, newline ] )
+
+   
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SET TAX INVOICE
@@ -368,9 +387,9 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-    generic_item( [ line_number_dummy, w , [ q10(tab) , check( line_number_dummy(end) < -415) ] ] )
+    generic_item( [ line_number_dummy, w , [q10(`)`),q10(tab) , check( line_number_dummy(end) < -415) ] ] )
 
-    , q10(generic_item( [ line_item_dummy, w, tab ] ))
+    , q10(generic_item( [ line_item_dummy, s1, tab ] ))
 
     , generic_item( [ line_descr, s1, tab ] )
 

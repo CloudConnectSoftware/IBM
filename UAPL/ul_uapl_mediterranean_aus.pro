@@ -34,6 +34,8 @@ i_rule_list( [
 
 	, get_invoice_totals
 
+	,get_bank_account_no
+
 	
 
 ] ).
@@ -81,13 +83,46 @@ i_line_rule( credit_note_line, [
 
 q0n(anything)
 
-    , `tax`, `Invoice`, `-`, `Credit`,  newline
+,or([
+
+     `tax`, `Invoice`, `-`, `Credit`,  newline
+
+	 , `INVOICE`, `-`, `CREDIT`,  newline
+
+])
 
     , set(credit_note)
 
     , trace( [ `CREDIT NOTE FOUND` ] )
 
-] ).
+]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+q(0,250,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `AUD` ) , generic_horizontal_details( [ [ `AUD`, `Account`, `-`, `BSB`, `:`, `032044`, `Account`, `No`, `:` ],  supplier_bank_account_number, w, newline ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`USD`, `Account`, `-`, `BSB`, `:`, `034702`, `Account`, `No`, `:`],  supplier_bank_account_number, w, `Swift` ] ) ] 
+                
+ ] )
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,11 +239,18 @@ i_rule_cut( get_invoice_totals, [
 	qn0(line)
 
 	, or([
-		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) ]
-
+		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) 
 		
+		, check( total_invoice = TotInv )
 
-	, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )]
+
+
+		, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
 
 		, check( total_invoice = TotInv )
 

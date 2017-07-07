@@ -34,6 +34,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_accountnumber
+
     , get_invoice_lines
 
     ] ).
@@ -191,11 +193,41 @@ i_rule( get_line_total_amount, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q0n(line)
+    q(0,50,line)
 
-    , currency( `USD` )
+    ,generic_horizontal_details( [ [ `AE06`, `0260`, `0010`, `1236`, `4798`, `108`, tab ], currency, w, tab ] )
     
 ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+        [check( Currency = `AED` ) , generic_horizontal_details( [ [`AED`, `A`, `/`, `C`, `#`, `:` ],  supplier_bank_account_number, s, `-` ] )]
+
+        , [check( Currency = `US` ) , generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `#`, `:` ],  supplier_bank_account_number, s, `-` ] )]
+       
+    ])
+    
+
+] ).
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -21,6 +21,10 @@ i_rule_list( [
 	get_supplier_details
 
     , set_credit_note
+
+    , get_currency
+
+    , get_bank_account_no
 	
 	, get_invoice_number
 
@@ -36,8 +40,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
-
+    
     , get_invoice_lines
 
 ] ).
@@ -72,6 +75,39 @@ q0n(anything)
     , trace( [ `Credit Note Found` ] )
 
 ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+        [ check( Currency = `SGD` ) , generic_horizontal_details( [ [  `SGD`,`Bank`,`account`,`number`, `:`],  supplier_bank_account_number_raw, w, newline ] ) ]
+
+     , [ check( Currency = `USD` ), generic_horizontal_details( [ [  `USD`,`Bank`,`account`,`number`, `:`],  supplier_bank_account_number_raw, w, newline ] ) ] 
+                
+      ] )
+
+	, check( supplier_bank_account_number_raw = BankRaw ) , trace( [ `Bank account raw` , BankRaw ] )
+
+    , check(strip_string2_from_string1( BankRaw, `-`, Bank_Final )) , supplier_bank_account_number(Bank_Final)
+
+    , trace( [ `Final Bank account #` , supplier_bank_account_number ] )
+
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

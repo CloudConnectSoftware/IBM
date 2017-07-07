@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `14:32 24 April 2017` ).
+i_version( p_ibm_unilever_uapl, `13:07 05 July 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -33,6 +33,7 @@ i_user_field( invoice, total_local_vat, `Total Local VAT` ).
 i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, customer_id, `Customer ID` ).
+i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
 
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
 i_user_field( line, line_gl, `Line GL` ).
@@ -249,6 +250,42 @@ remaining_forward_text( Text )
 
 	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don�t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
 .
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PRESERVE TAX INVOICE FLAG
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	test( tax_invoice ), tax_invoice_flag( `true` )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PRESERVE TAX INVOICE FLAG
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	with( invoice, tax_invoice_flag, Flag )
+	
+	, check( Flag = `true` )
+	
+	, set( tax_invoice )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

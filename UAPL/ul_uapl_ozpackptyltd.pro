@@ -17,6 +17,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	get_supplier_details
+
+    ,get_bank_accountnumber
 	
 	, get_invoice_number
 
@@ -52,6 +54,23 @@ i_rule( get_supplier_details, [
   , supplier_vat_number(`16 101 942 312`)
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+    q(0,40,line)
+
+    ,generic_horizontal_details( [ [ `Account`, `:` ],  supplier_bank_account_number, w, newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -212,7 +231,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-  `Description` , tab
+  `Description`, tab, `Quantity`, tab, `Unit`, `Price`
     
     , trace( [ `FOUND LINE HEADER LINE`])
 
@@ -222,7 +241,14 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Subtotal` , tab
+    or([
+        [`Subtotal` , tab]
+
+       , [`Description`, tab, `Quantity`, tab, `Unit`, `Price`]
+
+       ,[`35`, `Koornang`, `Road`, `,`, `Scoresby`, `Victoria`, `Australia`, `3179`]
+
+    ])
 
     , trace( [ `FOUND LINE END LINE`] )
 

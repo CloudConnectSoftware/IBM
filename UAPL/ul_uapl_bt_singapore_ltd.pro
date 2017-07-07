@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_bt_singapore_ltd , `15/03/2017` ).
+i_version( ul_uapl_bt_singapore_ltd , `29/05/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -40,6 +40,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    ,get_bank_account_no
+
     , get_line_total_amount
 
     , get_invoice_lines
@@ -68,6 +70,35 @@ i_rule( get_supplier_details, [
     , set(freight_vendor)
 
     ] ).
+
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `SGD`, `A`, `/`, `C`, `No`, `:`, tab ],  supplier_bank_account_number, w, newline ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `No`, `:`, tab],  supplier_bank_account_number, w, newline ] ) ] 
+                
+ ] )
+
+	
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -338,6 +369,8 @@ i_rule( get_total_net, [
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
+    ,trace( [ `currency`, Currency ] )
+
     , qn0(line)
 
 , or( [
@@ -346,16 +379,27 @@ i_rule( get_total_net, [
 
 , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
 
-,[ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, total_net, d, newline ] ) ]
+,[ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
 
-, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,total_net, d, newline ] ) ]
+, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,total_net, d, or([ `CR` , newline ]) ] ) ]
 
  , [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD` ],150, total_net, d, newline ] ) ]
 
+ , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,total_net, d, `cr` ] ) ]
 
+ 
 ] )
 
 , currency( Currency )
+
+, q10( [  
+         check( q_sys_comp_str_le( total_net, `0` ) )   
+
+       , set( credit_note )     
+       
+      , trace( [ `Document Value < 0 - CREDIT NOTE SET` ] )  
+      ] )
+  
 
 ] ).
 
@@ -412,6 +456,8 @@ i_rule( get_total_invoice, [
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
+     ,trace( [ `currency`, Currency ] )
+
     , qn0(line)
 
     , or( [
@@ -424,6 +470,8 @@ i_rule( get_total_invoice, [
      ] )
 
      , currency( Currency )
+
+     
   
 ] ).
 

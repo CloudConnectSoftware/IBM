@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_customised_solution, `5/12/2016` `4:30:05` ).
+i_version( ul_uapl_customised_solution, `11:56 01 June 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -65,6 +65,24 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+
+     ,  generic_horizontal_details( [ [ `ACCOUNT`,`:`, q10(tab) ],  supplier_bank_account_number, w, newline ] )
+
+
+ ] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET CREDIT NOTE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,7 +104,13 @@ i_line_rule( credit_note_line, [
 
 q0n(anything)
 
-    , `CREDIT`, `NOTE`, `REQUEST`, `FORM`,  newline
+    ,or([
+    
+    [`CREDIT`, `NOTE`, `REQUEST`, `FORM`,  newline]
+
+    ,[`ADJUSTMENT`,`NOTE`]
+
+    ])
 
     , set(credit_note)
 
@@ -121,7 +145,7 @@ i_rule_cut( get_invoice_number, [
 
     , invoice_number(InvoiceNew)  , trace( [ `Invoice number Now` , invoice_number ] )]
 
-   , [ generic_horizontal_details( [ [ `Credit`, `No`, `:` ], 20, invoice_number, s1, newline ] )]
+   , [ generic_horizontal_details( [ [ `Credit`, `No`, `:` ], 100, invoice_number, s1, newline ] )]
 
    ] )
 	
@@ -145,7 +169,9 @@ i_rule_cut( get_invoice_date, [
 
       generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab ], 100, invoice_date, date, newline ] )
 
-    ,  generic_horizontal_details( [ [ `Credit`, `Date`, `:` ], 10, invoice_date, date, newline ] )  
+    , generic_horizontal_details( [ [ `Credit`, `Date`, `:` ], 10, invoice_date, date, newline ] )  
+
+    ,  generic_horizontal_details( [ [`Date`, `:`, tab  ], invoice_date, date, newline ] )  
 
      ] )
     	

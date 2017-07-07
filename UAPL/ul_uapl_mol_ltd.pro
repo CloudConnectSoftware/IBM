@@ -4,21 +4,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_mol_ltd, `13/10/2016` ).
-
+i_version( ul_uapl_mol_ltd, `29/5/2017` ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
-
 i_trace_lists.
-
-i_include_partner_attachments_image_only.
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -33,6 +26,37 @@ i_rule_list( [
     , get_total_invoice
 
     , get_currency
+
+    ,get_bank_account_no
+
+] ).
+
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+	q(0,250,line)
+
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `No`, `.`, `SGD`, tab, `:`, tab],  supplier_bank_account_number, w, newline ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`Account`, `No`, `.`, `USD`, tab, `:`, tab],  supplier_bank_account_number, w, newline ] ) ] 
+                
+ ] )
+
+	
 
 ] ).
 
@@ -72,7 +96,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `No`, `.`] ,  invoice_number, w , newline ] )
+    ,or([
+
+     generic_horizontal_details( [ [ `Invoice`, `No`, `.`] ,  invoice_number, w , newline ] )
+
+    , generic_horizontal_details( [ [ `Invoice`, `Number`, `:`] ,  invoice_number, w , newline ] )
+
+    ])
 	
 	] ).
 
@@ -110,6 +140,8 @@ i_rule( get_total_invoice, [
     , or([
 
         generic_horizontal_details( [ [ `Total`, `:`, `USD`], 150, total_invoice, d , tab ] )
+
+        ,generic_horizontal_details( [ [`Total`, `:`, `USD`, tab ],  total_invoice, d , newline ] )
 
         , generic_horizontal_details( [ [ `Total`, `:`, `SGD`, tab, dummy1(d), tab, `USD`, tab],  total_invoice, d , newline ] )
 

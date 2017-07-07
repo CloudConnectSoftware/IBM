@@ -18,7 +18,9 @@ i_rule_list( [
 
 	get_supplier_details
 	
-	, get_invoice_number
+	, get_supplier_bank_account_number
+    
+    , get_invoice_number
 	
 	, get_invoice_date
 
@@ -34,7 +36,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_line_total_amount
+     , get_line_total_amount
 
     , get_invoice_lines
     
@@ -59,6 +61,22 @@ i_rule( get_supplier_details, [
    , set(freight_vendor)
 
   
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_bank_account_number, [
+%=======================================================================
+
+	qn0(line)
+	
+	, generic_horizontal_details( [ [ `Account`, `No`, `.`, `:` ], supplier_bank_account_number, w, tab ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,7 +250,8 @@ i_rule( get_total_vat, [
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [ `VALUE`, `ADDED`, `TAX`, newline ], `TAX`, q(0,3,up), (end,95,150), total_vat, d, newline ] ) ] 
-                
+
+ , [total_vat(`0`)]               
   ] )
 
 

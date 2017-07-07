@@ -1,0 +1,350 @@
+
+i_version( output_ibm_rapid_xml, `10:34 06 July 2017` ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_output( VAT_totals, Version )
+%-------------------------------------------------------------------------------
+:- d1( write_output___( VAT_totals, Version ) ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_output___( VAT_totals, Version )
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_start_element( `rapid` ),
+
+		write_start_element( `import` ),
+
+			write_start_element( `controlfile` ),
+
+				write_control_file_preamble,
+
+				write_start_element( `batchinfo` ),
+
+					write_batchinfo_preamble,
+
+					write_start_element( `documents` ),
+
+						write_start_element( `document` ),
+
+							write_document,
+
+						write_end_element,
+
+					write_end_element,
+
+				write_end_element,
+
+			write_end_element,
+
+		write_end_element,
+
+	write_end_element
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_control_file_preamble
+%-------------------------------------------------------------------------------
+:- d1( write_control_file_preamble___ ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_control_file_preamble___
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_variable_as_tag( invoice, vendor_id, `vendorid` ),
+
+	write_variable_as_tag( invoice, zip_file_name, `zipfilename` ),
+
+	write_variable_as_tag( invoice, batch_name, `batchname` ),
+	
+	write_variable_as_tag( invoice, timestamp, `timestamp` ),
+
+	write_start_element( `options` ),
+		
+		write_option( `processatbatchlevel`, `true` ),
+
+		write_option( `maxnumdocs`, `20` ),
+
+	write_end_element
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_option( Name, Value )
+%-------------------------------------------------------------------------------
+:- d1( write_option___( Name, Value ) ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_option___( Name, Value )
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_start_element( `option` ),
+
+		write_attribute_string( `name`, Name ),
+
+		write_string( Value ),
+
+	write_end_element
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_batchinfo_preamble
+%-------------------------------------------------------------------------------
+:- d1( write_batchinfo_preamble___ ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_batchinfo_preamble___
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_variable_as_tag( invoice, client_code, `clientcode` ),
+
+	write_variable_as_tag( invoice, number_of_docs, `numdocs` ),
+
+	write_start_element( `process` ),
+	
+		write_variable_as_tag( invoice, process_name, `name` ),
+		
+		write_variable_as_tag( invoice, process_priority, `priority` ),
+		
+	write_end_element
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_document
+%-------------------------------------------------------------------------------
+:- d1( write_document___ ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_document___
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_variable_as_tag( invoice, file_name, `filename` ),
+
+	write_variable_as_tag( invoice, mime_type, `mimetype` ),
+
+	write_variable_as_tag( invoice, item_type, `itemtype` ),
+
+	write_start_element( `fields` ),
+
+		write_invoice_fields,
+
+	write_end_element,
+
+	write_start_element( `childcomponents` ),
+
+		write_lines( write_line ),
+
+	write_end_element
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_invoice_fields
+%-------------------------------------------------------------------------------
+:- d1( write_invoice_fields___ ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_invoice_fields___
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_field( `D_CaptureType`, invoice, capture_type ),
+	
+	write_field( `D_BusinessUnit`, invoice, buyer_dept ),
+	
+	write_field( `D_CompanyCode`, invoice, buyer_registration_number ),
+	
+	write_field( `C_CTID`, invoice, ct_id ),
+	
+	write_field( `C_CTCaptureTime`, invoice, ct_capture_time ),
+	
+	write_field( `C_CTEmailTo`, invoice, ct_email_to ),
+	
+	write_field( `C_CTEmailFrom`, invoice, ct_email_from ),
+	
+	write_field( `C_CTEmailSubject`, invoice, ct_email_subject ),
+	
+	write_field( `C_CTPages`, invoice, ct_pages ),
+	
+	write_field( `I_VendorName`, invoice, supplier_party ),
+	
+	write_field( `I_VendorAddress`, invoice, supplier_address_line ),
+	
+	write_field( `I_VendorTax`, invoice, supplier_vat_number ),
+	
+	write_field( `I_VendorBankAcc`, invoice, supplier_bank_account_number ),
+	
+	write_field( `I_VendorBankCode`, invoice, supplier_bank_code ),
+	
+	write_field( `I_VendorIBAN`, invoice, supplier_iban ),
+	
+	write_field( `I_VendorSwift`, invoice, supplier_swift_code ),
+	
+	write_field( `I_InvType`, invoice, invoice_type ),
+	
+	write_field( `I_InvDate`, invoice, date ),
+	
+	write_field( `I_InvDueDate`, invoice, processed_due_date ),
+	
+	write_field( `I_InvPayterms`, invoice, payment_terms ),
+
+	write_field( `I_InvNumber`, invoice, invoice_number ),
+
+	write_field( `I_InvTotal`, invoice, total_invoice ),
+
+	write_field( `I_InvTax`, invoice, total_vat ),
+
+	write_field( `I_Currency`, invoice, currency ),
+	
+	write_field( `I_Requestor`, invoice, requestor ),
+	
+	write_field( `I_PONumber`, invoice, order_number ),
+	
+	write_field( `I_DevNote`, invoice, delivery_note_number ),
+
+	write_field( `I_VendorNumber`, invoice, buyers_code_for_supplier ),
+
+	write_field( `I_VendorTerms`, invoice, vendor_terms )
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_line( LID )
+%-------------------------------------------------------------------------------
+:- d1( write_line___( LID ) ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_line___( LID )
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	write_start_element( `childcomponent` ),
+
+		(	result( _, invoice, client_code, Client_Code )
+
+			;	Client_Code = ``
+
+		),
+		
+		strcat_list( [ Client_Code, `_`, `L_Line` ], LineType ),
+		
+		write_attribute_string( `type`, LineType ),
+
+		write_start_element( `fields` ),
+
+			sys_string_number( LIDS, LID ),
+
+			write_field( `L_LineNumber`, LIDS ),
+
+			write_field( `L_Description`, LID, line_descr ),
+
+			write_field( `L_Amount`, LID, line_total_amount ),
+			
+			write_field( `L_TaxPercent`, LID, line_vat_rate ),
+			
+			write_field( `L_TaxAmount`, LID, line_vat_amount ),
+			
+			write_field( `L_PONumber`, LID, line_buyers_order_number ),
+			
+			write_field( `L_UnitPrice`, LID, line_unit_amount ),
+			
+			write_field( `L_Quantity`, LID, line_quantity ),
+			
+			write_field( `L_PartNumber`, LID, line_item ),
+
+		write_end_element,
+		
+	write_end_element
+.	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_field( Name, Type, Var )
+%-------------------------------------------------------------------------------
+:- d1( write_field___( Name, Type, Var ) ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_field___( Name, Type, Var )
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	(	result( _, Type, Var, Val )
+
+		->	( input_field_is_date( Type, _, Var ) % assume it's the processed Var not the raw Var
+			
+				->	string_date( Val_date_s, Val ),
+	
+					write_field( Name, Val_date_s )
+	
+				;	write_field( Name, Val )
+
+			)
+
+		;	write_field( Name, `` )
+
+	)
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+write_field( Name, Val )
+%-------------------------------------------------------------------------------
+:- d1( write_field___( Name, Val ) ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%===============================================================================
+write_field___( Name, Val )
+%-------------------------------------------------------------------------------
+:-
+%===============================================================================
+
+	(	result( _, invoice, client_code, Client_Code )
+
+		;	Client_Code = ``
+
+	),
+	
+	strcat_list( [ Client_Code, `_`, Name ], Field_Name ),
+	
+	write_start_element( `field` ),
+
+		write_element_string( `name`, Field_Name ),
+
+		write_element_string( `value`, Val ),
+
+	write_end_element
+.
+

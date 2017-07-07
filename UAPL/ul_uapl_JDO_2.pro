@@ -18,6 +18,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,get_supplier_bank_account_number
+
     , get_vat_code
 	
 	, get_invoice_number
@@ -50,6 +52,22 @@ i_rule( get_supplier_details, [
 
     
     sender_name(`JDO2 Limited`)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_bank_account_number, [
+%=======================================================================
+
+	qn0(line)
+	
+	, generic_horizontal_details( [ [ `Account`, `No`, `:` ], supplier_bank_account_number, w, newline ] )
 
 ] ).
 
