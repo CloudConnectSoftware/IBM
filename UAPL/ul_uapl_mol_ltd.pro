@@ -7,18 +7,11 @@
 i_version( ul_uapl_mol_ltd, `29/5/2017` ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
-
 i_trace_lists.
-
-i_include_partner_attachments_image_only.
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
