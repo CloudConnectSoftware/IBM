@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `11:28 06 July 2017` ).
+i_version( p_ibm_pepsico, `09:20 07 July 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -186,13 +186,16 @@ i_final_rule( [
 
 	remove( timestamp ), timestamp( Timestamp_Stripped )
 	
-	, remove( ct_capture_time ), ct_capture_time( Timestamp_Replaced )
+	, remove( ct_capture_time ), ct_capture_time( Timestamp_Formatted )
 
 ] )
 :-
 	i_mail( time_stamp, Timestamp ),
 	strip_string2_from_string1( Timestamp, `.`, Timestamp_Stripped ),
-	string_string_replace( Timestamp, `.`, `-`, Timestamp_Replaced )
+	q_sys_sub_string( Timestamp, 1, 13, Timestamp_Beginning ),
+	string_string_replace( Timestamp_Beginning, `.`, `-`, Timestamp_Replaced ),
+	q_sys_sub_string( Timestamp, 14, 6, Timestamp_End ),
+	strcat_list( [ Timestamp_Replaced, Timestamp_End ], Timestamp_Formatted )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
