@@ -60,6 +60,10 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`GB243164091`)
 
+   ,buyer_dept(`PCIL`)
+
+   ,buyer_registration_number(`PCIL`)
+
 
 ] ).
 
