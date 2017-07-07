@@ -62,6 +62,10 @@ i_rule( get_supplier_detail, [
 
    ,set(reverse_punctuation_in_numbers)
 
+   ,buyer_dept(`PCIL`)
+
+   ,buyer_registration_number(`PCIL`)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

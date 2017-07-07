@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_accountnumber
+
     , get_invoice_lines
 
 ] ).
@@ -171,29 +173,50 @@ i_rule( get_currency, [
 
     q0n(line)
         
-   , or([
-       
-       generic_horizontal_details( [ [ `AMOUNT`, `(` ], 100, currency, w, `)` ] )
-
-       ,get_currency_number
-
-   ])
+        
+    ,generic_horizontal_details( [ [ `AMOUNT`, `(`,q10(tab) ], currency, w, [`)`,tab ] ])
 
 
-] ).
-   
-%=======================================================================
-i_line_rule( get_currency_number, [
-%=======================================================================
-    set(regexp_allow_partial_matching)
-
-     , `TOTAL`, tab, `CNY`
-  
-    , generic_item( [ currency , `CNY` ] )
-
-   , clear(regexp_allow_partial_matching)
-  
 ] ).
 
        
   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+        [check( Currency = `USD` ) ,generic_horizontal_details( [ [`Swift`, `Code`, `:`, `CITISGSG`, tab ], supplier_bank_account_number_raw, w, [`(`, `USD`, `)`] ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
+
+    , [check( Currency = `SGD` ) ,generic_horizontal_details( [ [`Citibank`, `N`, `.`, `A`, `.`, `Singapore`, tab ], supplier_bank_account_number_raw, w, [`(`, `SGD`, `)`] ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
+
+    ])
+    
+
+] ).
+
