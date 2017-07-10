@@ -68,19 +68,22 @@ i_rule( get_supplier_details, [
 i_rule( get_bankdetails, [
 %=======================================================================
 
-	q(10,60,line)
+	q(0,50,line)
 
-	, or([
-        
-        generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
 
-            
-        ,generic_horizontal_details( [ [ `BANK`,  `Account`, `Number`, tab, `:`],  supplier_bank_account_number, s1, newline  ] )
 
-    ])
-	
+     , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, tab, `:` ],100, supplier_bank_account_number_raw, w, newline ] )
 
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number ] )
+
+
+    
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
