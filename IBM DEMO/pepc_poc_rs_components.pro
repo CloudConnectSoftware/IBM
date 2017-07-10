@@ -69,7 +69,7 @@ i_rule( get_supplier_detail, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER DETAILS
+% SUPPLIER ADDRESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -245,7 +245,7 @@ i_rule( get_delivery_note, [
 
    q(0,40,line)
 
-,generic_vertical_details( [ [ `Delivery`, `No`, `.`, tab ], `Delivery`, q(0,1), (start,400,500),line_delivery_note_number, w, tab ] )
+,generic_vertical_details( [ [ `Delivery`, `No`, `.`, tab ], `Delivery`, q(0,1), (start,400,500),delivery_note_number, w, tab ] )
 
 
 ] ).
