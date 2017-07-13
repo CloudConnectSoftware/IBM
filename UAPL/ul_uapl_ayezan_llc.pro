@@ -193,9 +193,12 @@ i_rule( get_line_total_amount, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q(0,50,line)
+    q0n(anything)
 
-    ,generic_horizontal_details( [ [ `AE06`, `0260`, `0010`, `1236`, `4798`, `108`, tab ], currency, w, tab ] )
+    ,currency( `USD` ) 
+
+    ,trace( [ `currency found`] )
+
     
 ]).
 
@@ -218,7 +221,7 @@ i_rule(get_bank_accountnumber, [
     , or([
         [check( Currency = `AED` ) , generic_horizontal_details( [ [`AED`, `A`, `/`, `C`, `#`, `:` ],  supplier_bank_account_number, s, `-` ] )]
 
-        , [check( Currency = `US` ) , generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `#`, `:` ],  supplier_bank_account_number, s, `-` ] )]
+        , [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `#`, `:` ],  supplier_bank_account_number, s, `-` ] )]
        
     ])
     
