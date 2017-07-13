@@ -159,7 +159,7 @@ i_line_rule( invoice_tax_line, [
 
 q0n(anything)
 
-	,`Tax`, `Invoice`,  newline
+	,`Tax`, `Invoice`
 
 	, set(tax_invoice)
 
