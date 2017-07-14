@@ -71,7 +71,10 @@ i_rule( get_bank_account_no, [
     , with( invoice, currency, Currency )
 
 	, or([
-        [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`, `:`, q10(tab)],  supplier_bank_account_number, w, [`(`, `SGD`] ] )]
+
+        [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`, `:`, q10(tab)],  supplier_bank_account_number_inv, w, [`(`, `SGD`] ] )
+
+        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`141-055848-001` )  , supplier_bank_account_number(`141055848001`) ]
 
         ,[check( Currency = `USD` ) ,generic_vertical_details( [ [ `Account`, `NO`, `:` ], `No`, q(0,1), (end,10,30), supplier_bank_account_number, w,  [`(`, `USD`]  ] )]
 
