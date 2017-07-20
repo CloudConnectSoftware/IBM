@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `09:20 07 July 2017` ).
+i_version( p_ibm_pepsico, `09:18 20 July 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -135,7 +135,6 @@ i_final_rule( [
 	, remove( item_type ), item_type( `PEPC_Invoices` )
 	, remove( capture_type ), capture_type( `CLOUDTRADE` )
 	, remove( invoice_type ), invoice_type( `INVOICE` )
-	, remove( payment_terms ), payment_terms( `30` )
 	, remove( requestor ), requestor( `Bill King` )
 	, remove( buyers_code_for_supplier ), buyers_code_for_supplier( `S12345678` )
 	, remove( vendor_terms ), vendor_terms( `30` )
@@ -249,3 +248,47 @@ i_final_rule( [
 	remove( ct_pages ), ct_pages( Number_of_Pages )
 
 ] ):- i_working_pages( Page_List, _ ), sys_reverse( Page_List, [ page( _, Number_of_Pages ) | _ ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% POPULATE DUE DATE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_due_date___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_due_date___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, invoice_date, Invoice_Date ),
+	
+	result( _, invoice, payment_terms, Payment_Terms ),
+	
+	(
+		i_date_format( Date_Format )
+		
+		;
+		
+		true
+		
+	),
+	
+	!,
+
+	date_string( Date_Invoice, Date_Format, Invoice_Date ),
+	sys_date_1900_days( Date_Invoice, Invoice_Date_Count ),
+	
+	sys_string_number( Payment_Terms, Payment_Terms_Number ),
+	
+	sys_calculate( Due_Date_Count, Invoice_Date_Count + Payment_Terms_Number ),
+	
+	sys_date_1900_days( Date_Due, Due_Date_Count ),
+	date_string( Date_Due, Date_Format, Due_Date ),
+	
+	assertz_derived_data( invoice, due_date, Due_Date, i_analyse_due_date ),
+	
+	!
+.
