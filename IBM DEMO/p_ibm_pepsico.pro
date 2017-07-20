@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `09:18 20 July 2017` ).
+i_version( p_ibm_pepsico, `12:06 20 July 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -136,7 +136,6 @@ i_final_rule( [
 	, remove( capture_type ), capture_type( `CLOUDTRADE` )
 	, remove( invoice_type ), invoice_type( `INVOICE` )
 	, remove( requestor ), requestor( `Bill King` )
-	, remove( buyers_code_for_supplier ), buyers_code_for_supplier( `S12345678` )
 	, remove( vendor_terms ), vendor_terms( `30` )
 
 ] ).
