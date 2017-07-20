@@ -77,7 +77,7 @@ i_rule( get_supplier_detail, [
 i_rule( get_supplier_address, [
 %=======================================================================
 
-   q(0,10,line)
+   q(0,1,line)
 
    , line_add_line
 
@@ -89,14 +89,7 @@ i_rule( get_supplier_address, [
 
    , line_add_line_3
 
-   , q(0,1,line)
-
-   , line_add_line_4
-
-   , q(0,1,line)
-
-   , line_add_line_5
-
+   
 ] ).
 
 %=======================================================================
@@ -109,7 +102,9 @@ i_line_rule( line_add_line, [
 
    , generic_item( [ supplier_party, s1,tab ] )
 
-   , generic_item( [ supplier_address_line, s1, newline ] )
+   , generic_item( [ supplier_dummy, s1, newline ] )
+
+   
 
     
 ] ).
@@ -117,9 +112,10 @@ i_line_rule( line_add_line, [
 %=======================================================================
 i_line_rule( line_add_line_2, [
 %=======================================================================
+ 
+    
 
-
-      generic_append( [ supplier_address_line, s1, tab,  ` ` , ` `  ] )
+     generic_item( [ supplier_address_line, s1, tab ] )
 
       , generic_item( [ supplier_dummy1, s1 , newline  ] )
 
@@ -137,6 +133,26 @@ i_line_rule( line_add_line_3, [
 
 ] ).
     
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+     q(0,10,line)
+
+   , generic_horizontal_details( [ [ `IBAN` ],  supplier_iban, s1, newline ] )
+
+    ,  generic_horizontal_details( [ [ `Swift` ], supplier_swift_code, w, newline ] )
+    
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,6 +248,9 @@ i_rule(get_total_vat, [
 
   ,generic_vertical_details( [ [ `BTW`, `Bedrag` ], `Bedrag`, q(0,1), (end,100,300), total_vat, d, newline ] )
 
+  ,generic_item( [ default_vat_rate, `21` ] )
+
+
    , clear(regexp_cross_word_boundaries)
 
   , clear(reverse_punctuation_in_numbers)
@@ -281,4 +300,87 @@ i_rule( get_currency, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+              [line_invoice_line , q10(line_append_line)]
+
+              , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+[`Artikelnr`, `.`, tab, `Omschrijving`]
+
+, trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+ 
+    [`BTW`, `%`, tab, `BTW` ]
+
+  , trace( [ `Found End line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+
+
+ generic_item( [ line_item, w, tab ] )
+
+,generic_item( [ line_descr, s1, tab ] )
+
+, set(reverse_punctuation_in_numbers)
+
+, set(regexp_cross_word_boundaries)
+
+,generic_item( [ line_quantity, d ] )
+
+,generic_item( [ line_quantity_uom_code, w, tab ] )
+
+,generic_item( [ line_unit_amount, d, tab ] )
+
+,generic_item( [ line_net_amount, d, newline ] )
+
+ , clear(regexp_cross_word_boundaries)
+
+  , clear(reverse_punctuation_in_numbers)
+
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+generic_append( [ line_descr, s1, newline, ` ` , ``  ] )
+
+] ).

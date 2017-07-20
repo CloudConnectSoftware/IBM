@@ -133,9 +133,10 @@ i_rule( get_bank_accountnumber, [
 
      q(0,15,line)
 
-     , generic_horizontal_details( [ [`Account`, `no`, `.` ], supplier_bank_account_number, w, tab ] )
+     , generic_horizontal_details( [ [`Account`, `no`, `.` ], supplier_bank_account_number, s1, tab ] )
 
- 
+     , generic_horizontal_details( [ [ `IBAN`, `:`, generic_item( [ supplier_iban, s1, tab ] ) ], supplier_swift_code, s1, newline ] )
+
    
 ] ).
 
@@ -314,7 +315,7 @@ i_line_rule_cut( line_invoice_line, [
 
 ,generic_item( [ line_part_number, w, tab ] )
 
-,q10(generic_item( [ line_alternative_dummy, w, tab ] ))
+,q10(generic_item( [ line_alternative_dummy, s1, tab ] ))
 
 ,generic_item( [ line_descr, s1, tab ] )
 
