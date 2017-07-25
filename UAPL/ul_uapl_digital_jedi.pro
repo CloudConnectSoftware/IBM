@@ -56,7 +56,7 @@ i_rule( get_supplier_detail, [
   
    sender_name(`Digital Jedi`)
 
-  , supplier_vat_number(` `)
+  , supplier_vat_number(`201608733H`)
 
   , buyer_registration_number(`3009`) 
 
