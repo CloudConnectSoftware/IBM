@@ -123,8 +123,11 @@ i_rule( get_total_net, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, total_net, d,  newline ] )  
+
+	, generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],150, total_net, d,  newline ] )  
     
+
+
 ] ).
 
 
@@ -140,7 +143,7 @@ i_rule( get_total_vat, [
 
 qn0(line)
 
-	, generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, total_vat, d,  newline ] )  
+	, generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],150, total_vat, d,  newline ] )  
     
 
 ] ).
@@ -176,13 +179,13 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-     , generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],100, line_net_amount, d,  newline ] ) 
+     , generic_horizontal_details( [ [ `SUBTOTAL` ,tab, `:` ],150, line_net_amount, d,  newline ] ) 
 
-     , generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],120, line_vat_amount, d,  newline ] ) 
+     , generic_horizontal_details( [ [ `7`, `%`, `GST`, tab, `:` ],150, line_vat_amount, d,  newline ] ) 
 
      ,q(0,3,line)
 
-     , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency_dummy, w ] ), `)`, tab, `:`  ],100, line_total_amount, d,  newline ] )  
+     , generic_horizontal_details( [ [ `Total`, `Due`, `(`, generic_item( [ currency_dummy, w ] ), `)`, tab, `:`  ],150, line_total_amount, d,  newline ] )  
 
 
 ]).
