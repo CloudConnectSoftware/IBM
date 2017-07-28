@@ -354,7 +354,9 @@ i_section( get_invoice_lines, [
                
                , line_desr_line2 ]
 
-               , [line_credit_line]              
+               , [line_credit_line]    
+
+               , [line_credit_line2]          
                
                , line
 
@@ -371,6 +373,8 @@ i_line_rule_cut( line_header_line, [
     or( [ 
     
        [ test(credit_note), `DESCRIPTION` , tab , `Amount` , `(` ] 
+
+       ,[`DESCRIPTION`, tab, `QTY`, tab ]
       
         
        , [`ITEM`, `NO`, `.`, tab, `DESCRIPTION`, tab, `QUANTITY`]
@@ -533,6 +537,26 @@ i_line_rule_cut( line_credit_line, [
         
         
 ).
+
+
+%=======================================================================
+i_line_rule_cut( line_credit_line2, [
+%=======================================================================
+
+        test(credit_note)
+
+        , generic_item( [ line_item, w, tab ] )
+
+        ,generic_item( [ line_descr, s1 , tab ] )        
+
+        , generic_item( [ line_quantity, d, tab ] )
+
+        , generic_item( [ line_unit_amount, d, tab ] )
+        
+        , generic_item( [ line_total_amount, d, newline ] )
+        
+        
+]).   
 
 
 
