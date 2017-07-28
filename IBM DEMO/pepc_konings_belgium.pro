@@ -259,9 +259,7 @@ i_rule(get_total_vat, [
 
   ,generic_vertical_details( [ [`btw`, tab ], `btw`, q(0,1), (end,200,250), total_vat, d, tab ] )
 
-   ,generic_item( [ default_vat_rate, `6` ] )
-
-   , clear(regexp_cross_word_boundaries)
+  , clear(regexp_cross_word_boundaries)
 
   , clear(reverse_punctuation_in_numbers)
 
@@ -313,9 +311,6 @@ i_section( get_invoice_lines, [
               
               line_invoice_line
 
-             ,tax_amount_line
-
-
               , line
 
         ] )
@@ -328,7 +323,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-[`code`, tab, `colli`]
+or([
+  
+  [`code`, tab, `colli`]
+
+,[`ORDER`, `:`, `WEEK`, `13`, tab, `verpak`]
+
+])
 
 , trace( [ `Found Start line` ] )
 
@@ -346,6 +347,8 @@ i_line_rule_cut( line_end_line, [
 
     , [`totaal`, `bedrag` ]
 
+    ,[`waarborg`]
+
   
 
 
@@ -358,26 +361,13 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
+   generic_item( [ line_number, d, tab ] )
 
-   q10(generic_item( [ line_code, w, tab ] ))
-
-   , q10(generic_item( [ line_packages_dummy, w, tab ] ))
-
-   , generic_item( [ line_number, d, tab ] )
-
-   , generic_item( [ line_content, w ] )
+   , generic_item( [ line_content, w, q10(tab) ] )
 
    , generic_item( [ line_descr, s1, tab ] )
 
-   ,  q10(generic_item( [ line_reference_dummy, w, tab ] ))
-
-   ,  q10(generic_item( [ line_basic_price_dummy, w, tab ] ))
-
-   ,  q10(generic_item( [ line_packed_levy_dummy, w, tab ] ))
-
-   ,  q10(generic_item( [ line_excise_duty_dummy, w, tab ] ))
-
-    , set(reverse_punctuation_in_numbers)
+   , set(reverse_punctuation_in_numbers)
 
     , set(regexp_cross_word_boundaries)
 
@@ -389,28 +379,7 @@ i_line_rule_cut( line_invoice_line, [
 
   , clear(reverse_punctuation_in_numbers)
 
-  , generic_item( [ line_vat_code_dummy, w, newline ] )
-
-
-] ).
-
-%=======================================================================
-i_line_rule( tax_amount_line, [
-%=======================================================================
-
-
-   , read_ahead([`Less`])
-
-    , set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
-
-  ,generic_vertical_details( [ [`verpak`, `.`, `heffing`], `verpak`, q(0,1), (end,200,400), line_tax_amount, d, tab] )
-
-  
-   , clear(regexp_cross_word_boundaries)
-
-  , clear(reverse_punctuation_in_numbers)
+  , generic_item( [ line_vat_rate, d, newline ] )
 
 
 ] ).
