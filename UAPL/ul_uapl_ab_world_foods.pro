@@ -171,9 +171,9 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Invoice`, `Value`], 600, line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Invoice`, `Value`, tab ], line_total_amount, d, newline ] )
 
 ] ).
 
@@ -190,6 +190,6 @@ i_rule( get_invoice_lines, [
    
    q0n(line)
     
-    , line_descr( `Line Charges` )
+    , line_descr( `line Charges` )
 
 ]).
