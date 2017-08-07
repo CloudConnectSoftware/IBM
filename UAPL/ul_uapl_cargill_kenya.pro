@@ -145,15 +145,23 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+    , or([
 
+     generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+
+    , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,600), total_invoice, d,newline ] )
+
+     ])
+     
     , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+        , trace( [ `Total net` , total_net ] )
+
+        
 
 
 ] ).
@@ -186,9 +194,15 @@ i_rule( get_line_total_amount, [
 %=======================================================================
 
       q0n(line)
+    
+    , or([
 
-    , generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), line_total_amount, d,newline ] )
-      
+     generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), line_total_amount, d,newline ] )
+
+    , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,600), line_total_amount, d,newline ] )
+
+     ])
+
    ] ).
 
 
