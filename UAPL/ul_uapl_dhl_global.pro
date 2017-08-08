@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_dhl_global, `14/10/2016` `4:00:05` ).
+i_version( ul_uapl_dhl_global, `8/8/2016` `4:00:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,7 +92,9 @@ i_rule_cut( get_invoice_date, [
 
      generic_horizontal_details( [ [`Date`, tab ],  invoice_date, date, newline ] )
 
-     , generic_vertical_details( [ [`Invoice`], `Invoice`, q(0,1), (start,100,100), invoice_date, date, newline ] )
+     , generic_vertical_details( [ [`Invoice`], `Invoice`, q(0,1), (start,200,200), invoice_date, date, newline ] )
+
+     
      
         ])
 	
@@ -129,7 +131,19 @@ i_line_rule( before_date_line, [
 i_line_rule( capture_date_line, [
 %=======================================================================
 
-   generic_item( [ invoice_date, date, newline ] )
+   generic_item( [ invoice_date_raw, w, newline ] )
+
+   , check( invoice_date_raw = DateRaw )    , trace( [ `Date raw` , DateRaw ] )
+
+    , check(q_sys_sub_string( DateRaw, 1,2 , Substring1 ))    , trace( [ `Date raw1` , Substring1 ] )
+
+    , check(q_sys_sub_string( DateRaw, 3,3 , Substring2 ))    , trace( [ `Date raw2` , Substring2 ] )
+
+    , check(q_sys_sub_string( DateRaw, 6, 2 , Substring3 ))   , trace( [ `Date raw3` , Substring3 ] )
+
+    , check(strcat_list( [ Substring1,` ` , Substring2,` `, Substring3 ], DateNew ))   , trace( [ `New Date Format` , DateNew ] ) 
+    
+	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
 
 ] ).
 
