@@ -154,6 +154,8 @@ i_rule_cut( get_order_number, [
 
        generic_horizontal_details( [ [ `PO`,`#` ], 20, order_number, d, `,` ] )
 
+       , generic_horizontal_details( [ [ `PO`, `#` ], order_number, w, newline ] )
+
       , generic_horizontal_details( [ [ `O`, `/`, `REF`, tab, `:` ],  order_number, d, tab ] )
 
        ])
