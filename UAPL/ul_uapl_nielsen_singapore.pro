@@ -235,6 +235,8 @@ i_rule( get_total_net, [
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
+    ,trace( [ `Currency`, Currency ] )
+
     , or( [
   
     [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Sub`, `Total`, `in`, `USD` ], 250, total_net, d, newline ] ) ]
@@ -261,12 +263,16 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
   
-  q0n(line)
+  
 
 
-     , with( invoice, order_number, Order_Number )
+     with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
+
+    ,trace( [ `Currency`, Currency ] )
+
+    ,qn0(line)
 
     , or( [
   
@@ -293,18 +299,22 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
-
-     , with( invoice, order_number, Order_Number )
+      with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
+    ,trace( [ `Currency`, Currency ] )
+
+    ,qn0(line)
+
     , or( [
   
-[ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`  ], 250 , total_invoice, d, newline ] ) ]
+[ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`  ], 250 , total_invoice, d, newline ] ) ]
 
 
-, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `in`, `SGD`  ], 250, total_invoice, d, newline ] ) ]
+, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `in`, `SGD`  ], 250, total_invoice, d, newline ] ) ]
+
+
                 
  ] )
 
