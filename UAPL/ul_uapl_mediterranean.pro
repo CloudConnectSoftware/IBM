@@ -191,7 +191,7 @@ i_rule_cut( get_invoice_date, [
 i_rule( import_or_elsewhere_inv, [
 %=======================================================================
 
-	q(0,10,line)
+	q(0,20,line)
 	
 	, import_or_elsewhere_inv_line
 
@@ -227,10 +227,9 @@ i_rule( get_total_invoice, [
     ,or( [
                          
 
-         [ test(importinv_found),  or([ generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )
+         [ test(importinv_found),  or([ generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 300 , total_invoice, d , newline ] )
                                         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:`  ] , 500 , total_invoice, d , newline ] )
-                                        ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ], 500, total_invoice,d, tab ] )
-                                        ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ] , 500 , total_invoice, d , newline ] )
+                                       
                                       ]) 
          ]
                
