@@ -130,8 +130,10 @@ i_line_rule( before_date_line, [
 %=======================================================================
 i_line_rule( capture_date_line, [
 %=======================================================================
+    
+    q10(generic_item( [ date_raw, w, tab ] ))
 
-   generic_item( [ invoice_date_raw, w, newline ] )
+   ,generic_item( [ invoice_date_raw, w,  newline ] )
 
    , check( invoice_date_raw = DateRaw )    , trace( [ `Date raw` , DateRaw ] )
 
@@ -151,7 +153,7 @@ i_line_rule( capture_date_line, [
 i_line_rule( after_date_line, [
 %=======================================================================
 
-   `Date`,  newline
+  q10( `Date`),  q10(newline)
 
 ] ).
 
