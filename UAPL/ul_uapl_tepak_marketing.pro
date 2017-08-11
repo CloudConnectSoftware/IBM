@@ -478,7 +478,7 @@ i_line_rule_cut( line_invoice_oneline, [
 
     , generic_item( [ line_quantity , d , tab ] )
 
-    , generic_item( [ line_unit_price, d, tab ] )
+    , generic_item( [ line_unit_amount, d, tab ] )
 
     , generic_item( [ line_net_amount, d, newline ] )
 
@@ -507,7 +507,7 @@ i_line_rule_cut( line_invoice_twoline, [
 
     , generic_item( [ line_quantity , d , tab ] )
 
-    , generic_item( [ line_unit_price, d, tab ] )
+    , generic_item( [ line_unit_amount, d, tab ] )
 
     , generic_item( [ line_net_amount, d, newline ] )
 
