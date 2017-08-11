@@ -379,11 +379,11 @@ i_line_rule_cut( line_invoice_line, [
 
     , q10(generic_item( [ line_buyers_order_number , w , tab ] ))
 
-    , generic_item( [ line_quantity_dummy , d , q10(tab) ] )
+    , generic_item( [ line_quantity , d , q10(tab) ] )
 
     , q10(generic_item( [ line_quantity_uom_code , w , tab ] ))
 
-    , generic_item( [ line_unit_amount_dummy , d , tab ] )
+    , generic_item( [ line_unit_amount , d , tab ] )
 
     , q10( generic_item( [ line_vat_amount , d ,tab ] ) )
 
