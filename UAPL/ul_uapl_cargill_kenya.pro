@@ -68,7 +68,7 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-    q(0, 50,line)
+    q(0, 100,line)
 
     ,generic_horizontal_details( [ [ `Account`, `number`, `:`, tab ],  supplier_bank_account_number, w, newline ] )
 
@@ -183,27 +183,7 @@ q0n(line)
 ]).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET LINE TOTAL AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_rule( get_line_total_amount, [
-%=======================================================================
-
-      q0n(line)
-    
-    , or([
-
-     generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), line_total_amount, d,newline ] )
-
-    , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,600), line_total_amount, d,newline ] )
-
-     ])
-
-   ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -213,11 +193,58 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_lines, [
+i_section( get_invoice_lines, [
 %=======================================================================
-   
-    q0n(line)
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+
+            line_invoice_line
+
+            , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+    [`Garden`, `Mark`, tab, `Grade`, tab, `Chop`, `Number`]
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+    [`Please`, `remit`, `to` , `below` , `bank acccount`]
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
+
+     ,generic_append( [ line_descr, w, tab, ` - `, ` `  ] )
     
-    , line_descr(`Line Charges`)
+     ,generic_append( [ line_descr, s1, tab, ` - `, ` `  ] )   
+
+    , generic_item( [line_packages_dummy , d , tab  ] )
+
+    , generic_item( [line_kg_net ,d, tab ] )
+
+    , generic_item( [line_unit_amount , d , tab ] )
+
+    , generic_item( [line_net_amount , d , newline ] )
 
 ]).
