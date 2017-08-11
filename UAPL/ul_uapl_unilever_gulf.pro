@@ -260,7 +260,7 @@ generic_item( [ line_item, w] )
 
 ,generic_item( [ line_volume, d, tab ] )
 
-,generic_item( [ line_unit_amount_dummy, d, tab ] )
+,generic_item( [ line_unit_amount, d, tab ] )
 
 ,generic_item( [ line_net_amount, d, q10(tab) ] )
 

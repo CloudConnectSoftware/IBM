@@ -417,11 +417,11 @@ i_line_rule( line_invoice_line2, [
  
      , generic_item([ line_quantity , d , tab  ] )
 
-     , generic_item([ line_quantity_dummy , d , tab ] )
+     , generic_item([ line_quantity , d , tab ] )
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount , d , tab] )
 
 	 , generic_item([ line_net_amount , d , newline ] ) 
      
@@ -440,7 +440,7 @@ i_line_rule( line_debitnote_line, [
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount , d , tab] )
 
 	 , generic_item([ line_net_amount , d , newline ] ) 
      
@@ -460,7 +460,7 @@ i_line_rule( line_invoice_new_line, [
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount , d , tab] )
 
 	 , generic_item([ line_net_amount , d , newline ] ) 
      
