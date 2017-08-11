@@ -250,7 +250,7 @@ q10(generic_item([ line_description_dummy , w , tab ]))
 
      , q10(generic_item([ line_quantity_uom_cod , w , tab ] ))
 
-	 , generic_item([ line_unit_amount , d , [`/`, tab ] ] )
+	 , generic_item([ line_unit_amount_dumy , d , [`/`, tab ] ] )
 
      , q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_total_amount has been captured
 	
