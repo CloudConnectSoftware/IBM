@@ -504,7 +504,7 @@ i_line_rule_cut( credit_note_line, [
 
       , q10(generic_item( [line_exp_date , date,tab ] ))
 
-      , generic_item( [line_quantity_dummy , d ] )
+      , generic_item( [line_quantity , d ] )
 
       , generic_item( [line_uom_dummy , w, tab] )
 
@@ -537,7 +537,7 @@ i_line_rule( line_invoice_newline, [
  
      , generic_item([ line_exp_date , date ,  tab  ] )
 	 
-	 , generic_item( [line_quantity_dummy , d ] )
+	 , generic_item( [line_quantity , d ] )
 
       , generic_item( [line_uom_dummy , w, tab] )
 
