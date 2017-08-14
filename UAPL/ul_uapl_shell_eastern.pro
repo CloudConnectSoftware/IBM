@@ -73,8 +73,9 @@ i_rule( get_supplier_details, [
 %=======================================================================
 i_rule( get_supplier_bank_account_number, [
 %=======================================================================
+    last_line
 
-	qn0(line)
+	,q(0,50,up,line)
 	
 	, generic_horizontal_details( [ [ `USD`, `A`, `/`, `C` ], supplier_bank_account_number, w, newline ] )
 
@@ -142,8 +143,10 @@ i_rule_cut( get_invoice_date, [
 %=======================================================================
 i_rule_cut( get_due_date, [
 %=======================================================================
+    
+    last_line
 
-    q0n(line)
+	,q(0,200,up)
 
     , generic_horizontal_details( [ [ `Due`, `Date`, tab ],  due_date, date, newline ] )
 	
@@ -175,8 +178,9 @@ i_rule_cut( get_line_buyers_order_number, [
 %=======================================================================
 i_rule( get_total_net, [
 %=======================================================================
+    last_line
 
-	qn0(line) 
+	,q(0,200,up)
 
 	, or([
 
@@ -199,7 +203,9 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
     
-     qn0(line) 
+     last_line
+
+	,q(0,200,up)
 
 	, or([
 
@@ -225,7 +231,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     qn0(line)
+     last_line
+
+	,q(0,200,up)
 
     , generic_horizontal_details( [ [ `Invoice`, `Amount`, tab, `USD`, tab ],  total_invoice, d, newline ] )  
 
@@ -285,7 +293,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    [`Item`, tab, `Description`, tab, `Measure`, tab, `Amount`]
+    [dummy1_num(d), tab, `Customer`, `Order`, `Number` ]
 
 ] ).
 
@@ -295,9 +303,9 @@ i_line_rule_cut( line_end_line, [
 
     or([
         
-        [`Tax`, `Invoice` ]
+       [ `Invoice`, `Amount`, tab, `USD`, tab ]
 
-        ,[ `Invoice`, `Amount`, tab, `USD`, tab ]
+        ,[`Item`, `Total`, tab, `USD`, tab]
 
     ])
 
