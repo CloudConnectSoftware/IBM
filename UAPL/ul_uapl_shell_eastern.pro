@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_shell_eastern, `14/08/2017` ).
+i_version( ul_uapl_shell_eastern, `14/08/2017 12:07:17` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -184,9 +184,9 @@ i_rule( get_total_net, [
 
 	, or([
 
-         generic_horizontal_details( [ [`Nett`, `Total`, tab, `USD`, tab ],  total_net, d, newline ] )
+         generic_horizontal_details( [ [ at_start, `Nett`, `Total`, tab, `USD`, tab ],  total_net, d, newline ] )
 
-        , generic_horizontal_details( [ [`Price`, tab, `Price`, tab, dummy_num1(d), tab, `USD`, tab, dummy_num2(d), tab, `TO`, tab ],  total_net, d, newline ] )
+        , generic_horizontal_details( [ [ at_start, `Price`, tab, `Price`, tab, dummy_num1(d), tab, `USD`, tab, dummy_num2(d), tab, `TO`, tab ],  total_net, d, newline ] )
 
     ])
 	
@@ -209,9 +209,9 @@ i_rule( get_total_vat, [
 
 	, or([
 
-         generic_horizontal_details( [ [`Tax`, `Total`, tab, `USD`, tab ],  total_vat, d, newline ] )
+         generic_horizontal_details( [ [ at_start, `Tax`, `Total`, tab, `USD`, tab ],  total_vat, d, newline ] )
 
-        , generic_horizontal_details( [ [`GST`, `(`, `SG`, `)`, tab, dummy_num3(d), tab, `%`, tab, `of`, tab, dummy_num4(d), tab, `USD`, tab ],  total_vat, d, newline ] )
+        , generic_horizontal_details( [ [ at_start, `GST`, `(`, `SG`, `)`, tab, dummy_num3(d), tab, `%`, tab, `of`, tab, dummy_num4(d), tab, `USD`, tab ],  total_vat, d, newline ] )
 
     ])
 
@@ -235,7 +235,7 @@ i_rule( get_total_invoice, [
 
 	,q(0,200,up)
 
-    , generic_horizontal_details( [ [ `Invoice`, `Amount`, tab, `USD`, tab ],  total_invoice, d, newline ] )  
+    , generic_horizontal_details( [ [ at_start, `Invoice`, `Amount`, tab, `USD`, tab ],  total_invoice, d, newline ] )  
 
 
 ] ).
@@ -343,11 +343,11 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_unit_amount, d, tab ] ) 
 
-     ,generic_item( [ line_currency_dummy, w, tab ] ) 
+    ,generic_item( [ line_currency_dummy, w, tab ] ) 
 
-     ,generic_item( [ line_no_dummy, d, [tab, `TO`] ] ) 
+    , generic_item( [ line_no_dummy, d, [ tab, `TO`, tab ] ] ) 
 
-     , generic_item( [ line_net_amount, d, newline ] )
+    , generic_item( [ line_net_amount, d, newline ] )
 
 ]).
 
