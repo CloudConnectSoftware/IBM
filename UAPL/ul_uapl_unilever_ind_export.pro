@@ -236,14 +236,14 @@ i_line_rule( line_invoice_line, [
      
 q10(generic_item([ line_description_dummy , w , tab ]))
      
-     , generic_item([ line_quantity_dummy , d , tab ])
+     , generic_item([ line_quantity , d , tab ])
 
 	 , generic_item([ line_description_dummy1 , s1 , tab ]) 
  
      , or([
-          generic_item([ line_quantity , d, tab ] )
+          generic_item([ line_quantity_dummy , d, tab ] )
 
-         , generic_item([ line_quantity , d ] )
+         , generic_item([ line_quantity_dummy , d ] )
      ])
 
 
