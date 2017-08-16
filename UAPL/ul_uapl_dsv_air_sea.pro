@@ -59,7 +59,7 @@ i_rule( get_supplier_detail, [
 
   , supplier_vat_number(`M2-0093330-3`)
 
-  , buyer_registration_number(`   `) 
+  , buyer_registration_number(`3009`) 
 
   , set(freight_vendor)
 
