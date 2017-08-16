@@ -220,7 +220,7 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [  `TOTAL`],  line_total_amount, d, newline ] )
+    , generic_horizontal_details( [ [  `TOTAL`],  line_total_amount, d, tab ] )
 
 ] ).
 
