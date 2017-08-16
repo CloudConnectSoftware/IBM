@@ -236,21 +236,21 @@ i_line_rule( line_invoice_line, [
      
 q10(generic_item([ line_description_dummy , w , tab ]))
      
-     , generic_item([ line_quantity_dummy , d , tab ])
+     , generic_item([ line_quantity , d , tab ])
 
 	 , generic_item([ line_description_dummy1 , s1 , tab ]) 
  
      , or([
-          generic_item([ line_quantity_dummy2 , d, tab ] )
+          generic_item([ line_quantity_dummy , d, tab ] )
 
-         , generic_item([ line_quantity_dummy2 , d ] )
+         , generic_item([ line_quantity_dummy , d ] )
      ])
 
 
 
      , q10(generic_item([ line_quantity_uom_cod , w , tab ] ))
 
-	 , generic_item([ line_unit_amount_dummy , d , [`/`, tab ] ] )
+	 , generic_item([ line_unit_amount_dumy , d , [`/`, tab ] ] )
 
      , q10( [ with( 1, line_net_amount, _ ) % This q10 will only run if the first line_total_amount has been captured
 	
