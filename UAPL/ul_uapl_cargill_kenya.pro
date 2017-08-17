@@ -231,7 +231,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    [`Please`, `remit`, `to` , `below` , `bank acccount`]
+    or( [
+        
+    [`Cargill`, `Kenya`, `Limited`]
+
+    ,[`Please`, `remit`, `to` , `below` , `bank acccount`]
+
+    ] )
 
 ] ).
 
