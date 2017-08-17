@@ -216,7 +216,14 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
+
+    or( [
+
     [`Garden`, `Mark`, tab, `Grade`, tab, `Chop`, `Number`]
+
+    ,[ `Garden`, `Mark`]
+
+      ] )
 
 ] ).
 
