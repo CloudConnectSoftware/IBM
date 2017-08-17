@@ -72,6 +72,8 @@ i_rule_cut( get_invoice_number, [
 
       , generic_vertical_details( [ [ `Please`, `Quote` ], `Quote`, q(0,2), (start,10,10), invoice_number, s1, newline ] )
 
+      , generic_horizontal_details( [ [ `TAX`, `INVOICE` ], invoice_number, s1, tab ] ) 
+
         ])
 
     ] ).
@@ -91,6 +93,8 @@ i_rule_cut( get_invoice_date, [
  , or([
 
      generic_horizontal_details( [ [`Date`, tab ],  invoice_date, date, newline ] )
+
+     , generic_horizontal_details( [ [`DATE` ],  invoice_date, date, newline ] )
 
      , generic_vertical_details( [ [`Invoice`], `Invoice`, q(0,1), (start,200,200), invoice_date, date, newline ] )
 
@@ -199,7 +203,11 @@ i_rule( get_total_invoice, [
 
        generic_horizontal_details( [ [ `AMOUNT`, `DUE`, `TO`, `US`, tab, `DEBIT`, tab, or([ `USD`, `SGD` ]), tab  ],  total_invoice, d, newline ] )
 
-       , generic_horizontal_details( [ [ `TOTAL`, `DUE`, tab ], total_invoice, d, tab ] )
+       , generic_horizontal_details( [ [`TOTAL`, `DUE`, tab,dummy_num1(d), tab ], total_invoice, d, [tab, `USD`,  newline ] ] )
+
+        , generic_horizontal_details( [ [ `TOTAL`, dummy_num(d), tab ], total_invoice, d, newline ] )
+
+        , generic_horizontal_details( [ [ `TOTAL`, `DUE`, tab ], total_invoice, d, tab ] )
 
         ])
 
@@ -231,6 +239,8 @@ i_rule( get_currency, [
        generic_horizontal_details( [ [`AMOUNT`, `DUE`, `TO`, `US`, tab, `DEBIT`, tab], currency, w, tab ] )
 
        , generic_horizontal_details( [ [ `TOTAL`, `DUE`, tab, dummy(d), tab ], currency, w, newline ] )
+
+        , generic_horizontal_details( [ [ `TOTAL` ], currency, w, tab ] )
 
 
          ])

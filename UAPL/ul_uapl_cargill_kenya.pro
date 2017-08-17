@@ -28,13 +28,11 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_total_invoice
-
-    , get_line_total_amount
-
-    , get_currency
+     , get_currency
 
     , get_invoice_lines
+
+     , get_total_invoice
     
         
        ] ).
@@ -133,38 +131,6 @@ i_rule( get_order_number, [
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL INVOICE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-%=======================================================================
-i_rule( get_total_invoice, [
-%=======================================================================
-
-     q0n(line)
-
-    , or([
-
-     generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
-
-    , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,800), total_invoice, d,newline ] )
-
-     ])
-     
-    , check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net ] )
-
-        
-
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,7 +198,7 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
     or( [
-        
+
     [`Cargill`, `Kenya`, `Limited`]
 
     ,[`Please`, `remit`, `to` , `below` , `bank acccount`]
@@ -261,3 +227,39 @@ i_line_rule_cut( line_invoice_line, [
     , generic_item( [line_net_amount , d , newline ] )
 
 ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%=======================================================================
+i_rule( get_total_invoice, [
+%=======================================================================
+
+     q0n(line)
+
+    , or([
+
+     generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+
+    , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,800), total_invoice, d,newline ] )
+
+     ])
+     
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )
+
+        
+
+
+] ).
+    
+    
+
