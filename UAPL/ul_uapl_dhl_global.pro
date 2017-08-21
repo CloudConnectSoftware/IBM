@@ -207,6 +207,8 @@ i_rule( get_total_invoice, [
 
         , generic_horizontal_details( [ [ `TOTAL`, dummy_num(d), tab ], total_invoice, d, newline ] )
 
+        , generic_horizontal_details( [ [ `TOTAL`, dummy_num(w), tab ], total_invoice, d, newline ] )
+
         , generic_horizontal_details( [ [ `TOTAL`, `DUE`, tab ], total_invoice, d, tab ] )
 
         ])
@@ -217,7 +219,7 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] )
+        , trace( [ `Total net` , total_net ] )
 
 ] ).
 
