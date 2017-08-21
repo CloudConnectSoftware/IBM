@@ -53,7 +53,6 @@ i_rule( get_supplier_details, [
 
 	   , set(freight_vendor)
 
-       , currency( `USD` )
 
            ] ).
 
@@ -187,9 +186,9 @@ i_rule( get_total_invoice, [
 
     , or([
 
-        generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `AMOUNT`, `IN`,  `USD` ], 800, total_invoice, d, newline ] )
+        generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `AMOUNT`, `IN`,  generic_item( [ currency, w ] ) ], 800, total_invoice, d, newline ] )
 
-        , generic_horizontal_details( [ [ `B`, `/`, `L`, `SUB`, `-`, `TOTAL`, `:`, tab ], total_invoice, d, newline ] )
+        
 
     ])
 
