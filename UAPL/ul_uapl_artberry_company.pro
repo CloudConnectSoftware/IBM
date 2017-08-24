@@ -162,7 +162,22 @@ i_line_rule_cut( find_order_number, [
 
     q0n(anything)
 
-    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+    , or([
+        generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) ,q(dec,5,15) , end ] ] )
+
+        ,[generic_item( [ po_number, w ] ) , generic_item( [ po_number2, w, [tab, `Total`, `Amount`, tab ] ] )
+        
+        , generic_item( [ total_value_dummy, d, [`USD`,  newline ] ] ) 
+        
+         , check( po_number = Poraw1 )  , check( po_number2 = Poraw2 )
+
+        , check(strcat_list( [ Poraw1,Poraw2 ], PoNew ))   , trace( [ `New Date Format` , PoNew ] )
+
+        ,order_number(PoNew)   , trace( [ `New Date Format` , order_number ] )
+
+         ]
+
+    ])
 
 ] ).
 
@@ -179,7 +194,7 @@ i_rule( get_order_number, [
     q0n(line)
 
     , or([
-        generic_vertical_details( [ [ `Refer`, `To`, `Quotation ` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
+        generic_vertical_details( [ [ `Refer`, `To`, `Quotation ` ], `Refer`, q(0,1,up), (start,100,100), order_number, w, q10(tab) ] )
         
         ,generic_vertical_details( [ [ `Refer`, `To`, `Qtotation` ], `Refer`, q(0,1,up), (start,30,30), order_number, w, q10(tab) ] )
 
@@ -214,7 +229,7 @@ i_rule( get_total_net, [
 
     , or( [
   
-[ check( Currency = `USD` ) , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, tab ] ) ]
+[ check( Currency = `USD` ) , generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,50,800), total_net, d, tab ] ) ]
 
 
 , [ check( Currency = `THB` ), generic_vertical_details( [ [`TOTAL`, `PRICE`, newline], `PRICE`, q(0,3,up), (end,95,800), total_net, d, newline ] ) ] 
