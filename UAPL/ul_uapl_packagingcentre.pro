@@ -299,9 +299,9 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line   , q10(line_desr_line) , q10(line_material_line) ]
-
             ,line_invoice_line2
+
+            , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line   , q10(line_desr_line) , q10(line_material_line) ]
 
             , line
 
