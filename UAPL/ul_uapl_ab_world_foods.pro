@@ -179,9 +179,14 @@ i_section( get_invoice_lines, [
 
             [line_descr_line, q10(line_descr_line_2), line_invoice_line , q10(line_item_line), line_net_line]
 
-            ,[line_descr_line, q10(line_descr_line_2), line_invoice_line ]
-            
-            , [   q10(line_item_line), line_net_line]
+           ,[line_descr_line, q10(line_descr_line_2), line_invoice_line ]
+
+                    
+            , [ line_item_line, line_net_line]
+
+            , [line_descr_line, line_descr_line_2]
+
+            , [line_invoice_line , line_item_line, line_net_line]
 
             , line
 
