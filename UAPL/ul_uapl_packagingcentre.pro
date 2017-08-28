@@ -299,7 +299,7 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
-            , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line2   , q10(line_desr_line) , q10(line_material_line) ]
+            , [ line_invoice_line2   , q10(line_desr_line) , q10(line_material_line) ]
 
             , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line   , q10(line_desr_line) , q10(line_material_line) ]
 
@@ -440,11 +440,8 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_material_line, [
 %=======================================================================
      
- or([  [`PRODUCT`, `CODE`, `:`]
+ `PRODUCT`, `CODE`, `:`
 
- , [`SKU`, `#`]
-
- ])
-     , generic_item([line_item , s1, newline ])
+  , generic_item([line_item , s1, newline ])
 
 ] ).
