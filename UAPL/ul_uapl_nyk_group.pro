@@ -192,7 +192,7 @@ i_rule( get_total_invoice, [
 
     ])
 
-        , check( total_invoice = TotInv )
+        , [check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv ] )
 
@@ -200,7 +200,13 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net ] )
 
-        , total_vat(`0`)
+        , total_vat(`0`)]
+
+        ,[q10( [  check( q_sys_comp_str_le( total_invoice, `0` ) )   
+
+       , set( credit_note )     
+       
+      , trace( [ `Document Value < 0 - CREDIT NOTE SET` ] )  ] )]
 
 ] ).
 
