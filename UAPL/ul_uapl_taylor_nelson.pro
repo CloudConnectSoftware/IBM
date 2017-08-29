@@ -281,7 +281,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-             line_invoice_line
+           [ line_descrip2_line,line_descr_line, line_invoice_line]
             
             , line
 
@@ -305,11 +305,9 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-or([
+   [`Full`, `payment`, `due` ]
 
-   [`SUBTOTAL`, `AMOUNT`]
 
-])
 
      , trace([`found the end line`])
 
@@ -320,10 +318,31 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      generic_item( [ line_descr , s1 , tab ] )
+      
 
+      generic_append( [ line_descr, s1, tab, ` `, `` ] )
      
+      , q10(generic_item( [line_net_amount_dummy , d , tab ] ))
+
       , generic_item( [line_net_amount , d , newline ] )
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+    
+      generic_append( [ line_descr, s1, newline, ` `, `` ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_descrip2_line, [
+%=======================================================================
+
+generic_item( [ line_descr , s1 , tab ] )
+      
+
+]).
