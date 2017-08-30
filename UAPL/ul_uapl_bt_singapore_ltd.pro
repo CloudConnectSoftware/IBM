@@ -371,17 +371,29 @@ i_rule( get_total_net, [
 
     ,trace( [ `currency`, Currency ] )
 
-    , qn0(line)
+    , q0n(line)
 
 , or( [
 
-  [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD` ], 150,total_net, d, or([ `CR` , newline ])  ] ) ]
+    [ 
+      check( Currency == `USD` ) , generic_horizontal_details( [ [`Total`, `Usage`, `Charges`, tab, `USD` ], 150,total_net_raw1, d, newline  ] ) 
 
-, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
+    , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, total_net_raw2, d,  newline  ] ) 
 
-,[ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
+    , check( total_net_raw1= TotNet1 ) , trace( [ `Total net Raw 1` ,TotNet1 ] )  
+    
+    , check( total_net_raw2= TotNet2 ) , trace( [ `Total net Raw 2` ,TotNet2 ] )
 
-, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,total_net, d, or([ `CR` , newline ]) ] ) ]
+    , check(sys_calculate_str_add( TotNet1, TotNet2, TotNetNew))  ,total_net(TotNetNew) , trace( [ `Total net` , total_net ] )
+  ]
+
+  , [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD` ], 150,total_net, d, or([ `CR` , newline ])  ] ) ]
+
+  , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
+
+  , [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, total_net, d, or([ `CR` , newline ]) ] ) ]
+
+  , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,total_net, d, or([ `CR` , newline ]) ] ) ]
 
  , [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD` ],150, total_net, d, newline ] ) ]
 
@@ -482,6 +494,8 @@ i_rule( get_total_invoice, [
   
 ] ).
 
+
+
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -548,11 +562,23 @@ i_rule( get_total_line_net, [
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-    , qn0(line)
+    , q0n(line)
 
 , or( [
 
-  [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD` ], 150,line_net_amount, d, or([ `CR` , newline ])  ] ) ]
+     [ 
+      check( Currency == `USD` ) , generic_horizontal_details( [ [`Total`, `Usage`, `Charges`, tab, `USD` ], 150,line_net_raw1, d, newline  ] ) 
+
+    , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `USD`],150, line_net_raw2, d,  newline  ] ) 
+
+    , check( line_net_raw1= LineNet1 ) , trace( [ `Total net Raw 1` ,LineNet1 ] )  
+    
+    , check( line_net_raw2= LineNet2 ) , trace( [ `Total net Raw 2` ,LineNet2 ] )
+
+    , check(sys_calculate_str_add( LineNet1, LineNet2, LineNetNew))  ,line_net_amount(LineNetNew) , trace( [ `Total Line net` , line_net_amount ] )
+  ]
+
+ , [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Recurring`, `Charges`, tab, `USD` ], 150,line_net_amount, d, or([ `CR` , newline ])  ] ) ]
 
 , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `Charges`, tab, `SGD`],150, line_net_amount, d, or([ `CR` , newline ]) ] ) ]
 
