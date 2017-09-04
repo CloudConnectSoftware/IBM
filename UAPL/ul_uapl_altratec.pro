@@ -228,9 +228,8 @@ i_rule( get_total_invoice, [
 	
 	, or([
 
-              [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
-             , check(total_invoice = TotInv) , trace([`Total Capital Varaible` , TotInv])
-             , total_net(TotInv) , trace( [ `THIS IS NOW THE NET TOTAL` , TotInv ])]
+              [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
+          
 
         
              , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
