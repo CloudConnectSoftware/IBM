@@ -197,13 +197,24 @@ i_rule( get_total_invoice, [
         ,  [generic_horizontal_details( [ [`IN`, tab, `OUR`, `FAVOUR` ],500, total_invoice, d, newline ] ) 
         ,  check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
 
+         ,  [generic_horizontal_details( [ [`CREDIT`, `-`, `IN`, `YOUR`, `FAVOUR`, tab ], total_invoice, d, newline ] ) 
+
+          ,  check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
+
+
      ])
 ]).
 %=======================================================================
 i_line_rule( find_total_line, [
 %=======================================================================
 
-     `IN`, tab, `OUR`, `FAVOUR`, tab, `HKD`, tab
+     or([ 
+
+     [ `IN`, tab, `OUR`, `FAVOUR`, tab, `HKD`, tab ]
+
+    , [ `CREDIT`, `-`, `IN`, `YOUR`, `FAVOUR`, tab ]
+
+     ])
 
 ]).
 
@@ -221,7 +232,7 @@ i_line_rule( line_total_line, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
+        , trace( [ `Total net` , total_net ] ) ]
 
     
 ] ).
