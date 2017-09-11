@@ -301,7 +301,9 @@ i_section( get_invoice_lines, [
         , or( [
 
            [ line_descrip2_line,line_descr_line, line_invoice_line]
-            
+
+           ,  [ line_descr_line,line_descrip2_line, line_invoice_line]
+
             , line
 
         ] )
@@ -314,9 +316,14 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-   [`MYR`, tab, `MYR`]
+
+
+    [`MYR`, tab, `MYR`]
+
 
     , trace([`found the start line`])
+
+  
 
 ] ).
 
@@ -324,11 +331,17 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-   [`Full`, `payment`, `due` ]
+        or( [
+   
+    [`Full`, `payment`, `due` ]
 
 
+   , [`SUBTOTAL`, `AMOUNT`, tab ]
 
      , trace([`found the end line`])
+
+       
+   ] )
 
 ] ).
 
@@ -339,8 +352,8 @@ i_line_rule_cut( line_invoice_line, [
     
       
 
-      generic_append( [ line_descr, s1, tab, ` `, `` ] )
-     
+     generic_append( [ line_descr, s1, tab, ` `, `` ] )
+
       , q10(generic_item( [line_net_amount_dummy , d , tab ] ))
 
       , generic_item( [line_net_amount , d , newline ] )
