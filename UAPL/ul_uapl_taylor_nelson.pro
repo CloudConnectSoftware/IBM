@@ -221,6 +221,23 @@ i_rule_cut( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_order_number, [
+%=======================================================================
+
+    q0n(line)
+
+      , generic_vertical_details( [ [ `P`, `.`, `O`, `.`, `Number` ], `P` , q(0,1), (start,50,150), order_number,w, tab ] )
+
+      ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL INVOICE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -300,9 +317,8 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ line_descrip2_line,line_descr_line, line_invoice_line]
+           [line_descr_line, line_invoice_line]
 
-           ,  [ line_descr_line,line_descrip2_line, line_invoice_line]
 
             , line
 
@@ -331,17 +347,11 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-        or( [
-   
-    [`Full`, `payment`, `due` ]
 
-
-   , [`SUBTOTAL`, `AMOUNT`, tab ]
+    [`SUBTOTAL`, `AMOUNT`, tab ]
 
      , trace([`found the end line`])
 
-       
-   ] )
 
 ] ).
 
@@ -351,8 +361,8 @@ i_line_rule_cut( line_invoice_line, [
 
     
       
-
-     generic_append( [ line_descr, s1, tab, ` `, `` ] )
+    generic_append( [ line_descr, s1, tab, ` `, `` ] )
+         
 
       , q10(generic_item( [line_net_amount_dummy , d , tab ] ))
 
@@ -366,15 +376,8 @@ i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
     
-      generic_append( [ line_descr, s1, newline, ` `, `` ] )
+    generic_item( [ line_descr , s1 , newline ] )
+     
 
 ]).
 
-%=======================================================================
-i_line_rule_cut( line_descrip2_line, [
-%=======================================================================
-
-generic_item( [ line_descr , s1 , tab ] )
-      
-
-]).
