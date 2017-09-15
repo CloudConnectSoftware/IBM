@@ -132,6 +132,8 @@ i_rule_cut( get_invoice_number, [
 
         , generic_vertical_details( [ [ `Date` ], 'Date', q(0,1,up), (start,10,10), invoice_number , s1 , newline ] )
 
+       ,  generic_horizontal_details( [ [ `Debit`, `Note`, `No`, tab, `:` ], invoice_number , s1 , newline ] ) 
+
     ])
 	
 ] ).
@@ -541,6 +543,26 @@ i_line_rule_cut( line_credit_line, [
 
 %=======================================================================
 i_line_rule_cut( line_credit_line2, [
+%=======================================================================
+
+        test(credit_note)
+
+        , generic_item( [ line_item, w, tab ] )
+
+        ,generic_item( [ line_descr, s1 , tab ] )        
+
+        , generic_item( [ line_quantity, d, tab ] )
+
+        , generic_item( [ line_unit_amount, d, tab ] )
+        
+        , generic_item( [ line_total_amount, d, newline ] )
+        
+        
+]).   
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
         test(credit_note)

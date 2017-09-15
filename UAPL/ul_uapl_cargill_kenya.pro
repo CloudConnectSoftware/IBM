@@ -170,6 +170,8 @@ i_section( get_invoice_lines, [
 
             line_invoice_line
 
+            , line_invoice_line2
+
             , line
 
         ] )
@@ -189,6 +191,8 @@ i_line_rule_cut( line_header_line, [
 
     ,[ `Garden`, `Mark`]
 
+    , [`Description`, tab, `Value`]
+
       ] )
 
 ] ).
@@ -202,6 +206,8 @@ i_line_rule_cut( line_end_line, [
     [`Cargill`, `Kenya`, `Limited`]
 
     ,[`Please`, `remit`, `to` , `below` , `bank acccount`]
+
+    ,[ `VAT`, `@`]
 
     ] )
 
@@ -223,6 +229,16 @@ i_line_rule_cut( line_invoice_line, [
     , generic_item( [line_kg_net ,d, tab ] )
 
     , generic_item( [line_unit_amount , d , tab ] )
+
+    , generic_item( [line_net_amount , d , newline ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
 
     , generic_item( [line_net_amount , d , newline ] )
 
