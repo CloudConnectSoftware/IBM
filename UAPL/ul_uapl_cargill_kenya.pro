@@ -168,9 +168,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_invoice_line
+            [line_invoice_line, line_invoice_line2]
 
-            , line_invoice_line2
+            , line_invoice_line3
 
             , line
 
@@ -192,6 +192,12 @@ i_line_rule_cut( line_header_line, [
     ,[ `Garden`, `Mark`]
 
     , [`Description`, tab, `Value`]
+
+    ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
+
+     , [`Cargill`, `Kenya`, `Limited`]
+
+
     
 
       ] )
@@ -242,6 +248,32 @@ i_line_rule_cut( line_invoice_line2, [
      generic_item( [ line_descr, s1, tab ] )
 
     , generic_item( [line_net_amount , d , newline ] )
+
+]).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+       generic_item( [ line_descr, s1, tab ] )
+
+     ,generic_item( [ line_descr_1, s1, tab ] )
+    
+     ,generic_item( [ line_descr_2, s1, tab ] )
+
+     , generic_item( [ line_amount_dummy, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
 
 ]).
 
