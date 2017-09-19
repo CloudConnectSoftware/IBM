@@ -92,7 +92,11 @@ i_rule(  get_invoice_date, [
 
     q(0,20,line)
 
-    ,generic_horizontal_details( [ [ `Date`, `:`, tab ], invoice_date, date, newline ] )
+    ,or([
+        generic_horizontal_details( [ [ `Date`, `:`, tab ], invoice_date, date, newline ] )
+        ,generic_horizontal_details( [ [ `D`, tab ], invoice_date, date, newline ] )
+
+    ])
 
 ] ).
 
