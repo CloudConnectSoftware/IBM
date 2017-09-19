@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_cargill_kenya, `16/05/2017` `12:21:00` ).
+i_version( ul_uapl_cargill_kenya, `19/09/2017` `12:21:00` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -168,7 +168,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            [line_invoice_line, line_invoice_line2]
+            [line_invoice_line, q10(line_invoice_line2)]
 
             , line_invoice_line3
 
@@ -187,18 +187,13 @@ i_line_rule_cut( line_header_line, [
 
     or( [
 
-    [`Garden`, `Mark`, tab, `Grade`, tab, `Chop`, `Number`]
+    
 
-    ,[ `Garden`, `Mark`]
-
-    , [`Description`, tab, `Value`]
+    [ `Garden`, `Mark`]
 
     ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
-     , [`Cargill`, `Kenya`, `Limited`]
-
-
-    
+        
 
       ] )
 
