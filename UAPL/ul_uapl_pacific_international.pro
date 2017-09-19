@@ -135,7 +135,7 @@ i_rule_cut( get_invoice_number, [
         
         generic_horizontal_details( [ [`INVOICE`, `NO`, `:`, tab ],  invoice_number, s1, newline ] )
 
-       , generic_horizontal_details( [ [`Credit`, `NOTE`, `NO`, `.`, `:`, tab ],  invoice_number, s1, newline ] )
+       , generic_horizontal_details( [ [`Credit`, `NOTE`, `NO`, q10(`.`), `:`, tab ],  invoice_number, s1, newline ] )
 
     ])
 	
@@ -204,6 +204,8 @@ i_rule( get_total_invoice, [
 
         , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`,currency_dummy(w), tab ], total_invoice, d, newline ] ) 
 
+         , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `credited`, `IN`,currency_dummy(w), tab ], total_invoice, d, newline ] ) 
+
     ])
 
     , check( total_invoice = TotInv )
@@ -229,8 +231,13 @@ i_rule( get_currency, [
 
     q0n(line)
         
-    , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`], currency, w, tab] ) 
+    , or([
+        
+        generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`], currency, w, tab] ) 
 
+        ,generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `credited`, `IN`], currency, w, tab] ) 
+
+    ])
     
 ] ).
 
