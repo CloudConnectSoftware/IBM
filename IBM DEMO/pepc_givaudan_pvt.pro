@@ -19,8 +19,6 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , %get_supplier_address
-
     , get_bank_accountnumber
                      
     , get_invoice_number
