@@ -139,8 +139,13 @@ i_rule_cut( get_invoice_date, [
 
  q0n(line)
 
- , generic_vertical_details( [ [ `INVOICE`, `NO` ], `INVOICE`, q(1,3,up),(endword,10,10), invoice_date, date, [ check( invoice_date(end) > 95 ) , newline ] ] )
+ ,or([
 
+  generic_vertical_details( [ [ `INVOICE`, `NO` ], `INVOICE`, q(1,3,up),(endword,10,10), invoice_date, date, [ check( invoice_date(end) > 95 ) , newline ] ] )
+
+, generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(3,5), (start,50,50), invoice_date, date, tab ] )
+
+])
 
 ] ).
 
@@ -173,7 +178,13 @@ i_rule( get_total_net, [
   
   qn0(line)
 
-   , generic_vertical_details( [ [ `ORIGIN`, `FEE` ], `FEE`, q(1,5), (end,550,550),total_net, d, newline ] )
+  ,or([
+
+    generic_vertical_details( [ [ `ORIGIN`, `FEE` ], `FEE`, q(1,5), (end,550,550),total_net, d, newline ] )
+
+    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `net`, `)`, tab, `USD`, tab ], total_net, d, newline ] )
+
+] )
   
 ] ).
 
@@ -190,7 +201,13 @@ i_rule( get_total_vat, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, `USD`, tab ],total_vat, d, newline ] )
+     ,or([
+
+     generic_horizontal_details( [ [ `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, `USD`, tab ],total_vat, d, newline ] )
+
+    , generic_horizontal_details( [ [ `VAT`, `0`, `%`, `of`, dummy_num(d), tab, `USD`, tab ], total_vat, d, newline ] )
+
+] )
 
 ] ).
 
@@ -207,7 +224,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TO`, `YOUR`, `DEBIT`, tab, `USD`, tab ], total_invoice, d, newline ] )  
+      ,or([
+
+    generic_horizontal_details( [ [ `TO`, `YOUR`, `DEBIT`, tab, generic_item( [ currency, w ] ), tab ], total_invoice, d, newline ] )  
+
+    , generic_horizontal_details( [ [ `Total`, `invoice`, `amount`, tab, generic_item( [ currency, w ] ), tab ], total_invoice, d, newline ] )
+
+] )
 
 
 ] ).
