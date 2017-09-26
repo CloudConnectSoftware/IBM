@@ -73,6 +73,8 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `00481C` ), set( chain, `ul_uapl_damco_australia` ), trace( [ `THIS IS A DAMCO AUSTRALIA PTY LTD DOCUMENT` ] ) ]
 
+		 , [ check_text( `19-9907099-D` ), set( chain, `ul_uapl_yang_ming_singapore` ), trace( [ `THIS is a YANG MING (SINGAPORE) PTE Reprint. LTD.` ] )  ]
+
 		 
 
 		% [ check_text( `` ), set( chain, `` ), trace( [ `` ] ) ]

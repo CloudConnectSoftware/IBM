@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_buyer_reg_no
+
     , get_Invoice_tax
 
     , get_bankdetails
@@ -74,10 +76,72 @@ i_rule( get_bankdetails, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `BANK`, `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number, s, `with`  ] )
+	, generic_horizontal_details( [ [ `BANK`, `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number_raw, s, `with`  ] )
+
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BUYER REG DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_reg_no, [
+%=======================================================================
+
+q(0,100,line)
+
+    , bill_to_line1
+
+    ,q(0,1,line)
+
+    , bill_to_line2
+
+    
+
+]).
+
+
+%=======================================================================
+i_line_rule( bill_to_line1, [
+%=======================================================================
+
+    q0n(anything)
+
+   ,or([
+
+       [`Kuala`,`Lumpur`,`,`,`59200`]
+       ,[`SINGAPORE`,`,`,`117439` ]
+
+   ])
+
+] ).
+
+%=======================================================================
+i_line_rule( bill_to_line2, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+    
+    [[`Kuala`,`Lumpur`]  ,buyer_registration_number(`MY00`)]
+
+    ,[[`SINGAPORE`],buyer_registration_number(`3009`) ]
+
+    ])
+   
+    ,trace( [ `Company code set to`, buyer_registration_number ] )
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

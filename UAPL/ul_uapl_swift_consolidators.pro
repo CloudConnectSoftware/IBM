@@ -131,7 +131,14 @@ i_rule( get_bank_account_no, [
 
 	q(0,250,line)
 
-	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`,q10(tab), `:`],  supplier_bank_account_number, w, `(` ] )
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`,q10(tab), `:`],  supplier_bank_account_number_raw, w, `(` ] )
+
+    
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).

@@ -20,6 +20,8 @@ i_rule_list( [
 
 	 get_supplier_details
 
+     ,get_buyer_reg_no
+
     , get_bankdetails
 	
 	, get_invoice_number
@@ -54,8 +56,7 @@ i_rule( get_supplier_details, [
 
     , supplier_vat_number(`001668337664`)
 
-    , buyer_registration_number(`MY00`)
-
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,6 +85,65 @@ i_rule( get_bankdetails, [
     
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BUYER REG DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_reg_no, [
+%=======================================================================
+
+q(0,100,line)
+
+    , bill_to_line1
+
+    ,q(0,1,line)
+
+    , bill_to_line2
+
+    
+
+]).
+
+
+%=======================================================================
+i_line_rule( bill_to_line1, [
+%=======================================================================
+
+    q0n(anything)
+
+   ,or([
+
+       [`BUSINESS`, `CITY`]
+       ,[`-`, `35`, `MENARA`, `TM`, `,`, `JLN`, `PANTAI`, `BARU` ]
+
+   ])
+
+] ).
+
+%=======================================================================
+i_line_rule( bill_to_line2, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+    
+    [[q10(`,`), `117439`]  ,buyer_registration_number(`3009`)]
+
+    ,[[q10(`,`), `59200`],buyer_registration_number(`MY00`) ]
+
+    ])
+   
+    ,trace( [ `Company code set to`, buyer_registration_number ] )
+] ).
+
+
+
+    
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -107,6 +167,8 @@ i_rule_cut( get_invoice_number, [
         , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
 
         , generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
+
+         , generic_horizontal_details( [ [ `Invoice` , `No` ,tab ] , invoice_number , s1, newline ] )
 	
     ])
 ] ).

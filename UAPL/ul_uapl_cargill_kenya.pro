@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_cargill_kenya, `16/05/2017` `12:21:00` ).
+i_version( ul_uapl_cargill_kenya, `19/09/2017` `12:21:00` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -168,7 +168,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_invoice_line
+            [line_invoice_line, q10(line_invoice_line2)]
+
+            , line_invoice_line3
 
             , line
 
@@ -185,9 +187,13 @@ i_line_rule_cut( line_header_line, [
 
     or( [
 
-    [`Garden`, `Mark`, tab, `Grade`, tab, `Chop`, `Number`]
+    
 
-    ,[ `Garden`, `Mark`]
+    [ `Garden`, `Mark`]
+
+    ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
+
+        
 
       ] )
 
@@ -202,6 +208,8 @@ i_line_rule_cut( line_end_line, [
     [`Cargill`, `Kenya`, `Limited`]
 
     ,[`Please`, `remit`, `to` , `below` , `bank acccount`]
+
+    ,[ `VAT`, `@`]
 
     ] )
 
@@ -218,13 +226,49 @@ i_line_rule_cut( line_invoice_line, [
     
      ,generic_append( [ line_descr, s1, tab, ` - `, ` `  ] )   
 
-    , generic_item( [line_packages_dummy , d , tab  ] )
+    , generic_item( [line_quantity , d , tab  ] )
 
     , generic_item( [line_kg_net ,d, tab ] )
 
-    , generic_item( [line_unit_amount , d , tab ] )
+    , generic_item( [line_unit_amount_dummy , d , tab ] )
 
     , generic_item( [line_net_amount , d , newline ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [line_net_amount , d , newline ] )
+
+]).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+       generic_item( [ line_descr, s1, tab ] )
+
+     ,generic_item( [ line_descr_1, s1, tab ] )
+    
+     ,generic_item( [ line_descr_2, s1, tab ] )
+
+     , generic_item( [ line_amount_dummy, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
 
 ]).
 
