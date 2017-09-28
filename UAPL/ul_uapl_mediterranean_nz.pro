@@ -133,7 +133,11 @@ i_rule_cut( get_invoice_totals, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Payable` , generic_item( [ currency_dummy , w ] ) ], 100 , total_invoice, d , newline ] )
+	, or([
+		generic_horizontal_details( [ [ `Total` , `Payable` , generic_item( [ currency_dummy , w ] ) ], 100 , total_invoice, d , newline ] )
+		, generic_horizontal_details( [ [ `Total` , `Payable` , tab, generic_item( [ currency_dummy , w ] ) ],100, total_invoice, d , newline ] )
+
+	])
 
 ] ).
 
