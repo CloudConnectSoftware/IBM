@@ -24,7 +24,7 @@ i_rule_list( [
 
  	, get_invoice_date
 
-    , get_invoice_date_alternative
+    %, get_invoice_date_alternative
 
     , get_order_number
 
@@ -96,7 +96,7 @@ i_rule_cut( get_invoice_date, [
 
      , generic_horizontal_details( [ [`DATE` ],  invoice_date, date, newline ] )
 
-     , generic_vertical_details( [ [`Invoice`], `Invoice`, q(0,1), (start,200,200), invoice_date, date, newline ] )
+     , generic_vertical_details( [ [`Invoice`], `Invoice`, q(0,1), (start,100,500), invoice_date, date, newline ] )
 
      
      
