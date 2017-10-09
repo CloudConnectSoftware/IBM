@@ -155,7 +155,12 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`,set( regexp_cross_word_boundaries )], `AMOUNT`, q(0,3), (start,20,20), total_invoice, d, tab ] )
+     , or([
+         generic_vertical_details( [ [ `TOTAL` , `AMOUNT`,set( regexp_cross_word_boundaries )], `AMOUNT`, q(0,3), (start,20,20), total_invoice, d, tab ] )
+
+        ,generic_horizontal_details( [ [ `N`, `.`, `I`, `.`, `art`, `.`, `8`, `,`,tab, generic_item( [ total_net_dummy, d ] ) ], 375, total_invoice, d, newline ] )
+
+        ])
 
      ,clear( regexp_cross_word_boundaries )
 
@@ -183,7 +188,11 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-     , generic_vertical_details( [ [ `TOTAL` , `AMOUNT`,set( regexp_cross_word_boundaries )], `AMOUNT`, q(0,3), (start,20,20), line_net_amount, d, tab ] )
+     , or([
+         generic_vertical_details( [ [ `TOTAL` , `AMOUNT`,set( regexp_cross_word_boundaries )], `AMOUNT`, q(0,3), (start,20,20), line_net_amount, d, tab ] )
+         ,generic_horizontal_details( [ [ `N`, `.`, `I`, `.`, `art`, `.`, `8`, `,`,tab, generic_item( [ line_total_net_dummy, d ] ) ], 375, line_net_amount, d, newline ] )
+
+     ])
 
      ,clear( regexp_cross_word_boundaries )
 
