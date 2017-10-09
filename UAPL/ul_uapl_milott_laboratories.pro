@@ -168,7 +168,7 @@ i_rule( get_total_vat, [
 %=======================================================================
 
 
-q0n(line)
+qn0(line)
 
 , [generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] )
 
@@ -188,7 +188,7 @@ q0n(line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
      , or([ 
 
