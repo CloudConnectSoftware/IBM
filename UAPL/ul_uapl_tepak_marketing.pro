@@ -467,6 +467,8 @@ i_line_rule_cut( line_header_line, [
 
        , [`DESCRIPTION`, tab, `Amount`]
 
+       ,[`BALANCE`, `B`, `/`, `F`]
+
     ])
  
     , trace( [ `FOUND LINE HEADER LINE`])
@@ -483,13 +485,17 @@ i_line_rule_cut( line_end_line, [
 
       ,`TOTAL` 
      
-     , [`RINGGIT`, `MALAYSIA`, `:`]
+     , [`RINGGIT`, `MALAYSIA`]
      
      , [ `GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`]
+
+     ,[`GST`, `Summary`, tab, `Amount`, tab, `GST`, `Amt`]
 
      , [`GRAND` , `TOTAL`]
 
      , [`TOTAL`, tab ]
+
+     ,[`BALANCE`, `B`, `/`, `F`]
 
      ])
 
