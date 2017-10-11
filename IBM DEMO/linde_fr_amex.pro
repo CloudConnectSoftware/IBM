@@ -18,9 +18,6 @@ i_rule_list( [
 
     
       get_supplier_detail
-
-    , get_supplier_address
-
   
     , get_bank_accountnumber
                      
@@ -64,113 +61,6 @@ i_rule( get_supplier_detail, [
    ,buyer_registration_number(`FR10`)
    
 
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER ADDRESS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_supplier_address, [
-%=======================================================================
-
-     q(0,5,line)
-
-   , line_add_line
-
-   , q(0,1,line)
-
-   , line_add_line_2
-
-   , q(0,1,line)
-
-   , line_add_line_3
-
-   , q(0,1,line)
-
-   , line_add_line_4
-
-   , q(0,1,line)
-
-   , line_add_line_5
-
-   , q(0,1,line)
-
-   , line_add_line_6
-
-   , q(0,1,line)
-
-   , line_add_line_7
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line, [
-%=======================================================================
-
-      read_ahead(`Agence`)
-
-    , trace( [ `Found address`] )
-
-    ,generic_item( [ supplier_dummy_agency, s1, tab ] )
-
-    , generic_item( [ supplier_dummy1, s1, tab ] )
-
-    , generic_item( [ supplier_dummy1, s1, newline ] )
-
-
-    , generic_item( [ supplier_party, `American Express Carte France` ] )
-
-] ).
-
-
-%=======================================================================
-i_line_rule( line_add_line_2, [
-%=======================================================================
-
-    generic_item( [ supplier_address_line, s1, tab ] )
-    
-    ,generic_item( [ supplier_dummy1, s1, newline ] )     
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line_3, [
-%=======================================================================
-      
-      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
-      
-      , generic_item( [ supplier_ad_dummy2, s1, newline ] )  
-   
-] ).
-
-
-%=======================================================================
-i_line_rule( line_add_line_4, [
-%=======================================================================
-
-        generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
-      
-      , generic_item( [ supplier_ad_dummy3, s1, newline ] )  
-
-] ).
-
-
-%=======================================================================
-i_line_rule( line_add_line_5, [
-%=======================================================================
-      
-        generic_append( [ supplier_address_line, s1, newline, ` `, ` `  ] )
-           
-] ).
-%=======================================================================
-i_line_rule( line_add_line_6, [
-%=======================================================================
-
-      generic_append( [ supplier_address_line, w, newline, ` `, ` `  ] )
- 
 ] ).
 
 
