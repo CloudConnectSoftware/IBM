@@ -52,7 +52,7 @@ i_rule( get_supplier_details, [
 
     sender_name( `Unilever India Export` )
 
-    , supplier_vat_number(`0390003034`)
+    , supplier_vat_number(`24AAACI0991D1ZY`)
 
     ] ).
 
@@ -70,10 +70,13 @@ i_rule( get_invoice_number, [
 
 q0n(line)
 	
-   
+    , or( [
+
+        generic_horizontal_details( [ [ `Inv`, `No`, `.`, tab ], invoice_number, w, tab ] )
+
 	, generic_vertical_details( [ [ `Invoice`, `No`], `Invoice`, q(0,1),(end,20,20), invoice_number, d ] )
 
-    
+ ])
 
 ] ).
 
@@ -96,6 +99,8 @@ q0n(line)
        generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), order_number, d,[`,`, check(order_number(end) < 56)] ] )
 
 	  , generic_vertical_details( [ [`Buyer`, `'`, `s`, `Order`, `No`], `buyer`, q(0,1),(end,10,10), order_number, d,  newline  ] )
+
+    , generic_horizontal_details( [ [`Customer`, tab ], order_number, w, [`,`, dummy_num(w), tab ] ] )
 
    ])
 
@@ -121,8 +126,15 @@ i_rule( get_invoice_date, [
 %=======================================================================
 
     q0n(line)
+
+     , or( [
 	
-   	,    generic_horizontal_details( [ [ `Dt`, `.` ],  invoice_date, date, tab ] )
+   	    generic_horizontal_details( [ [ `Dt`, `.` ],  invoice_date, date, tab ] )
+
+       
+      , generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+
+       ])
 
 ] ).
 
@@ -143,6 +155,8 @@ i_rule( get_total_invoice, [
         generic_vertical_details( [ [ `For`, `Unilever`, `India`, `Exports`, `Ltd` ], `Ltd`, q(0,10,up), (end,10,100), total_invoice,  d , newline ] )
 
         ,generic_vertical_details( [ [ `Authorised`, `Signatory` ], `signatory`, q(0,15,up), (end,250,250), total_invoice,  d , newline ] )
+
+        , generic_horizontal_details( [ [ `Total`, `Amount`, `:`, tab ], total_invoice, d, [ `USD`,  newline ] ] )
 
     ])
 
@@ -188,6 +202,8 @@ i_section( get_invoice_lines, [
 		, or( [
 		
 			[line_invoice_line , q10(description_line)     , q10(description_line_append) ]
+
+            , line_invoice_line1
          
 			, line
 
@@ -204,8 +220,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line,[
 %=======================================================================
 	
-	
-`Exporter`, `'`, `s`, `ref`
+	 or([ 
+
+         [`Item`, tab, `Description`, tab, `Quantity`]
+
+        , [`Exporter`, `'`, `s`, `ref`]
+
+])
 
     , trace([`found the start line`])
 
@@ -220,6 +241,8 @@ i_line_rule_cut( line_end_line,[
         [`Commercial`, `Invoice`, tab, `Page`, `2`, `of`, `2`]
          
          , [`Amount`, `Chargeable`, `(`, `in`, `words`, `)`]
+
+         , [`Amount`, `in`, tab, `USD`]
 
         
 
@@ -294,3 +317,52 @@ generic_append( [ line_descr, s1, newline, ` `, ` ` ] )
  
 
 ] ).
+
+
+%========================================================
+i_line_rule( line_invoice_line1, [
+%=======================================================================
+
+   generic_item( [ line_number , w , tab ])
+
+   ,generic_item( [ line_descr , s1 , tab ])
+
+   ,generic_item( [ line_quantity , d  ])
+
+   ,generic_item( [ line_quantity_uom_code , w , tab ])
+
+   ,generic_item( [ line_unit_amount , d , tab ])
+
+    ,generic_item( [ line_currency , w , tab ])
+
+    ,generic_item( [ line_net_amount , d , tab ])
+
+   ,generic_item( [ line_vat , d , tab ])
+
+      ,generic_item( [ line_vat_amount , d , tab ])
+
+       ,generic_item( [ line_total_amount , d , newline ])
+
+
+
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - 13 Oct 2017
+% Updated by   - Rohini
+% Changes made - New format Invoice received, mapped for new format
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
