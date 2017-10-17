@@ -325,6 +325,8 @@ i_rule( get_total_net, [
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
+          ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] )
+
           , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
 
@@ -364,9 +366,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           [ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
-           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
            ,line_debit_line
 
@@ -514,3 +516,21 @@ i_line_rule_cut( line_gst_line, [
 
 ] ).
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 17, 2017
+% Updated by   - Rohini
+% Changes made - Invoice net amount updated
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
