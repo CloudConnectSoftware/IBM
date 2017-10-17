@@ -184,7 +184,7 @@ i_rule( get_total_net, [
 
     generic_vertical_details( [ [ `ORIGIN`, `FEE` ], `FEE`, q(1,5), (end,550,550),total_net, d, newline ] )
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `net`, `)`, tab, `USD`, tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `net`, `)`, tab, dummy_num(w), tab ], total_net, d, newline ] )
 
 ] )
   
@@ -205,9 +205,9 @@ i_rule( get_total_vat, [
 
      ,or([
 
-     generic_horizontal_details( [ [ `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, `USD`, tab ],total_vat, d, newline ] )
+     generic_horizontal_details( [ [ `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, dummy_num1(w), tab ],total_vat, d, newline ] )
 
-    , generic_horizontal_details( [ [ `VAT`, `0`, `%`, `of`, dummy_num(d), tab, `USD`, tab ], total_vat, d, newline ] )
+    , generic_horizontal_details( [ [ `VAT`, `0`, `%`, `of`, dummy_num2(d), tab, dummy_num3(w) , tab ], total_vat, d, newline ] )
 
 ] )
 
