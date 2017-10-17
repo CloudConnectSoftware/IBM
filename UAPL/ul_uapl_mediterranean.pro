@@ -15,6 +15,9 @@ i_trace_lists.
 i_include_partner_attachments_image_only.
 
 
+ i_pdf_parameter( dont_tokenise_on_font_change, 1 ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -152,6 +155,8 @@ i_rule_cut( get_invoice_date, [
         , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `Box`, `:`, tab, `1`, tab, `:` ], invoice_date_raw, s1 , newline ] )
 
         , generic_horizontal_details( [ [ `UNILEVER`, `ASIA`, `PTE`, `LTD`, tab, `:` ], invoice_date_raw , s1 , newline ] )
+
+        , generic_horizontal_details( [ [ `UNILEVER`, `ASIA`, `PRIVATE`, `LIMITED`, tab, `:` ], invoice_date_raw , s1 , newline ] )
 
 
         ] )
@@ -296,6 +301,21 @@ i_rule_cut( get_currency, [
 	] ).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 17, 2017
+% Updated by   - Thejaswi K
+% Changes made - Invoice date
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
