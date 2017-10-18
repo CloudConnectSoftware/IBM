@@ -57,6 +57,10 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`27AAACH1458C1ZZ`)
 
+   ,buyer_dept(`KCM10`)
+
+   ,buyer_registration_number(`KCM10`)
+
   
 ] ).
 
