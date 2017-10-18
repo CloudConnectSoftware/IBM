@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Hathway Cable & Datacom Ltd
+% TATA TELESERVICES(MAHARASHTRA) LIMITED
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(cover_more_in_hathway, `18 Oct 2017` ).
+i_version(cover_more_in_tata_telecom, `18 Oct 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -53,9 +53,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Hathway Cable & Datacom Ltd` )
+    sender_name( `TATA TELESERVICES(MAHARASHTRA) LIMITED` )
 
-   ,supplier_vat_number(`27AAACC6814B1Z4`)
+   ,supplier_vat_number(`27AAACH1458C1ZZ`)
 
   
 ] ).
@@ -70,9 +70,8 @@ i_rule( get_supplier_detail, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-     q(0,100,line)
 
-    , generic_horizontal_details( [ [`ACCOUNT`, `NO`, `.`, tab, `:`, tab],  supplier_bank_account_number, d, newline ] )
+     generic_horizontal_details( [ [`ACCOUNT`, `NO`, `.`, tab, `:`, tab],  supplier_bank_account_number, d, newline ] )
 
 
 ] ).
@@ -91,7 +90,8 @@ i_rule( get_invoice_number, [
 
      q(0,30,line)
 
-    , generic_horizontal_details( [ [`BILL`, `NO`, tab],  invoice_number, w, newline ] )
+ 
+    ,generic_vertical_details( [ [ `BILL`, `Number` ], `Number`, q(0,1), (start, 200,200), invoice_number, d, newline ] )
 
 
 ] ).
@@ -108,7 +108,7 @@ i_rule( get_invoice_date, [
 
      q(0,30,line)
 
-    , generic_horizontal_details( [ [`BILL`, `DATE`, tab, `:`, tab],  invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [`BILL`, `DATE`, tab],  invoice_date, date, newline ] )
 
 
 
@@ -126,7 +126,7 @@ i_rule( get_due_date, [
 
      q(0,50,line)
 
-     , generic_horizontal_details( [ [`Due`, `DATE`, tab, `:`, q10(tab) ],  due_date, date, newline ] )
+     ,generic_vertical_details( [ [ `Due`, `Date` ], `Date`, q(0,1), (end, 200,200), due_date, date, tab ] )
 
 
 ] ).
@@ -156,8 +156,7 @@ i_rule(get_total_net, [
 
    q(0,150,line)
 
-    ,generic_vertical_details( [ [ `Taxable` ], `Taxable`, q(1,2), (end, 20,20), total_net, d, tab ] )
-
+    ,generic_horizontal_details( [ [`SUB`, `TOTAL` ],300,  total_net, d, newline ] )
 ] ).
 
 
@@ -172,6 +171,9 @@ i_rule(get_total_vat, [
 %=======================================================================
 
 
+   q(0,150,line)
+
+    ,generic_horizontal_details( [ [`Goods`, `and`, `Services`, `Tax` ],300,  total_vat, d, newline ] )
   
 ] ).
 
@@ -188,7 +190,7 @@ i_rule(get_total_invoice, [
    q(0,100,line)
 
 
-   ,generic_horizontal_details( [ [`Total`, `Current`, `Charges`, `in`, `figures` ],750,  total_invoice, d, newline ] )
+   ,generic_horizontal_details( [ [`TOTAL`, `CURRENT`, `CHARGES`],300,  total_invoice, d, newline ] )
 
 ] ).
 
@@ -214,7 +216,7 @@ i_line_rule( currency_line, [
 
     q0n(anything)
 
-   , [`Total`, `Current`, `Charges`, `in`, `Words`, tab, `Rupees`]
+   , [`Summary`, `of`, `Current`, `Charges`, tab, `(`, `Rs`, `.`, `)`]
 
     , currency(`INR`)
 
@@ -237,7 +239,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-             line_invoice_line, line_total_line
+             line_invoice_line
 
               , line
 
@@ -252,7 +254,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 
- [`Amount`, tab, `Rate`, tab, `Amount`, tab, `Rate`, tab, `Amount`, tab, `Rate`, tab, `Amount`,  newline ]
+ [`No`, tab, `(`, `Rs`, `.`, `)`, tab, `VAS`, `Charges`, `(`, `Rs`, `.`, `)` ]
 
 , trace( [ `Found Start line` ] )
 
@@ -264,7 +266,7 @@ i_line_rule_cut( line_end_line, [
  
     or( [
 
-[`Total`, `Current`, `Charges`, `in`, `Words`, tab, `Rupees`]
+[`Total`, `charges`]
 
      ] )
 
@@ -278,38 +280,27 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule( line_invoice_line, [
 %=======================================================================
-
-
-    generic_item( [ line_sr_number, w, tab ] )
-    
- ,  generic_item( [ line_descr, s1, tab ] )
-  
- , generic_item( [ line_hsn, w, tab ]  )
-
- , generic_item( [ line_net_amount, d,tab ] )
  
- , generic_item( [ line_vat_rate_CGST, d, tab ] )
+    
+ generic_item( [ line_descr, d, tab ] )
 
- , generic_item( [ line_vat_amount_CGST, d, tab ] )
+ , generic_item( [ line_net_amount_dummy, d,tab ] )
 
- , generic_item( [ line_vat_rate_SGST, d, tab ] )
+ , generic_item( [ line_add_on, d,tab ] )
 
- , generic_item( [ line_vat_amount_SGST, d, newline ] )
+ , generic_item( [ line_data_usage, d,tab ] )
+ 
+ , generic_item( [ line_amount_discount, d, tab ] )
 
-  
+ , generic_item( [ line_vat_amount, d, tab ] )
 
-] ).
+ , generic_item( [ line_total_amount, d, newline ] )
 
-%=======================================================================
-i_line_rule( line_total_line, [
-%=======================================================================
-
-
-     generic_item( [ line_descr_dummy, s1, tab ] )
-
-     ,generic_item( [ line_total_amount, d, newline ] )
+  , generic_append( [ line_descr, `CURRENT CHARGES`, `-`, `` ] )
 
 ] ).
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
