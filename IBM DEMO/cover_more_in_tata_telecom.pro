@@ -57,6 +57,10 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`27AAACH1458C1ZZ`)
 
+   ,buyer_dept(`COVER1`)
+
+   ,buyer_registration_number(`COVER1`)
+
   
 ] ).
 
