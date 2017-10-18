@@ -425,6 +425,8 @@ i_section( get_invoice_lines, [
 
         , or( [
 
+              
+
                [ line_invoice_line
 
                 , q01(line_desr_line) ]
@@ -442,6 +444,8 @@ i_section( get_invoice_lines, [
                , [line_credit_line2]       
 
                ,[line_invoice_line2 ] 
+
+              ,   [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
                
                , line
 
@@ -687,8 +691,55 @@ i_line_rule_cut( line_invoice_line2, [
 
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+          generic_item( [ line_number, w, tab ] )
+
+        , generic_item( [ line_item, w, tab ] )
+
+        ,generic_item( [ line_descr, s1 , tab ] )        
+    
+        , generic_item( [ line_total_amount, d, newline ] )
+        
+        
+]).   
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+
+         generic_item( [ line_buyers_order_number, d, tab ] )
+
+        ,q10(generic_item( [ line_do, d, tab ] ))
+
+        , generic_item( [ line_quantity, d, tab ] )
+
+        , generic_item( [ line_unit_amount, d, newline ] )
+        
+]).   
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 17, 2017
+% Updated by   - Rohini
+% Changes made - New line format added [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
