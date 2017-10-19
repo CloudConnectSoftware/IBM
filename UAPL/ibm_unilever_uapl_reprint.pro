@@ -33,6 +33,8 @@ i_rule( select_buyer, [
 
 		, [ q0n(line) , ul_msc_identify_rule ]
 
+		, [ q0n(line) , msc_identify_rule2 ]
+
 		
 
 	])
@@ -72,6 +74,8 @@ i_line_rule( check_text_id_line, [
 		 , [ check_text( `0-862595-009` ), set( chain, `ul_uapl_mediterranean` ), trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] ) ]
 
 		 , [ check_text( `00481C` ), set( chain, `ul_uapl_damco_australia` ), trace( [ `THIS IS A DAMCO AUSTRALIA PTY LTD DOCUMENT` ] ) ]
+
+		 , [ check_text( `19-9907099-D` ), set( chain, `ul_uapl_yang_ming_singapore` ), trace( [ `THIS is a YANG MING (SINGAPORE) PTE Reprint. LTD.` ] )  ]
 
 		 
 
@@ -172,8 +176,41 @@ i_line_rule( ul_msc_check_line_2 , [
 
  
  [`BL`, `No`, `.`, tab, `Vsl`, `/`, `Voy`, `/`, `POR`, `/`, `POL`, `/`, `POD`, `/`]
+ 
 
 ] ).
+
+
+%=======================================================================
+i_rule( msc_identify_rule2, [
+%=======================================================================
+
+    check_line_msc1
+
+    , check_line_msc2
+
+    , check_line_msc3
+
+    , check_line_msc4
+
+    , check_line_msc5
+
+    , set(chain,`ul_uapl_mediterranean`)
+
+    , trace( [ `THIS IS A MEDITERRANEAN DOCUMENT` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( check_line_msc1, [ check_text( `FrdVsl`) ]).
+%=======================================================================
+i_line_rule( check_line_msc2, [check_text(`POD`)] ).
+%=======================================================================
+i_line_rule( check_line_msc3, [check_text(`POL`) ]).
+%=======================================================================
+i_line_rule( check_line_msc4, [check_text(`B/L`) ]).
+%=======================================================================
+i_line_rule( check_line_msc5, [check_text(`Booking`) ]).
 
 
 

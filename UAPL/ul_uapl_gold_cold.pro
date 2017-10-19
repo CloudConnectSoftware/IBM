@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , set_credit_note
+
 	, get_invoice_number
 	
 	, get_invoice_date
@@ -58,6 +60,35 @@ i_rule( get_supplier_details, [
 
   ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Credit Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,30,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+    ,  `CREDIT`, `NOTE`
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,9 +102,16 @@ i_rule_cut( get_invoice_number, [
 
     
     q0n(line)
-       
-   , generic_horizontal_details( [ [`Invoice`, `No`, `.`, `:`, q10(tab) ], invoice_number, s1, newline ] )
 
+    ,or([
+       
+    generic_horizontal_details( [ [`Invoice`, `No`, `.`, `:`, q10(tab) ], invoice_number, w, newline ] )
+
+   , generic_horizontal_details( [ [ `Credit`, `Note`, `No`, `.`, `:` ], invoice_number, w, newline ] )
+
+   , generic_horizontal_details( [ [ `Debit`, `Note`,  `:` ], invoice_number, w, newline ] )
+
+    ])
   
 ] ).
 

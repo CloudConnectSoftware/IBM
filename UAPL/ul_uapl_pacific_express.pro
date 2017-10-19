@@ -118,7 +118,13 @@ i_line_rule( invoice_tax_line, [
 
 q0n(anything)
 
-	, `EXPORT`, `DETENTION`, `TAX`, `INVOICE`,  newline
+ , or( [
+
+     [`D`, `E`, `M`, `U`, `R`, `R`, `A`, `G`, `E`, tab, `T`, `A`, `X`, tab, `I`, `N`, `V`, `O`, `I`, `C`, `E`]
+
+	, [`EXPORT`, `DETENTION`, `TAX`, `INVOICE`,  newline]
+
+    ] )
 
 	, set(tax_invoice)
 
@@ -248,3 +254,24 @@ i_rule( get_total_invoice, [
 
 ] ).
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - October 18 , 2017
+% Updated by   - Rohini
+% Changes made - Set Tax Invoice 
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

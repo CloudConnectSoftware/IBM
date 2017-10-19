@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , set_credit_note
+
     , get_supporting
 
     , get_invoice_number
@@ -53,6 +55,37 @@ i_rule( get_supplier_details, [
       , set(freight_vendor)
 
    	] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Credit Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+        qn0(line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+    , [`CREDIT`, `-`, `IN`, `YOUR`, `FAVOUR`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,13 +197,24 @@ i_rule( get_total_invoice, [
         ,  [generic_horizontal_details( [ [`IN`, tab, `OUR`, `FAVOUR` ],500, total_invoice, d, newline ] ) 
         ,  check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
 
+         ,  [generic_horizontal_details( [ [`CREDIT`, `-`, `IN`, `YOUR`, `FAVOUR`, tab ], total_invoice, d, newline ] ) 
+
+          ,  check( total_invoice = TotInv )   , trace( [ `Total Inv` , TotInv] )   , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
+
+
      ])
 ]).
 %=======================================================================
 i_line_rule( find_total_line, [
 %=======================================================================
 
-     `IN`, tab, `OUR`, `FAVOUR`, tab, `HKD`, tab
+     or([ 
+
+     [ `IN`, tab, `OUR`, `FAVOUR`, tab, `HKD`, tab ]
+
+    , [ `CREDIT`, `-`, `IN`, `YOUR`, `FAVOUR`, tab ]
+
+     ])
 
 ]).
 
@@ -188,7 +232,7 @@ i_line_rule( line_total_line, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
+        , trace( [ `Total net` , total_net ] ) ]
 
     
 ] ).

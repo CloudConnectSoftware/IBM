@@ -192,7 +192,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , q10( [ 
         
-        read_ahead( [ 
+        or([[read_ahead( [ 
             
                 q(0,5,word) 
                 
@@ -210,7 +210,29 @@ i_line_rule_cut( line_invoice_line, [
 
                 , `SGD`
 
-                ] )
+                ] )]
+
+                ,[read_ahead( [ 
+            
+                q(0,5,word) 
+                
+                , `TML` 
+                
+                , `HANDLING`
+
+                , q10(`-`)
+
+                ,q10(tab)
+
+                , generic_item( [ size_dummy , s1 , tab ] )
+
+                , generic_item( [ line_qty_dummy , d , q10(tab) ] )
+
+                , `VND`
+
+                ] )]
+
+        ])
 
             , set(tml_found)
 

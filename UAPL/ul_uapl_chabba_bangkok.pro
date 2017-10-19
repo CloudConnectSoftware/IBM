@@ -330,8 +330,11 @@ i_section( get_invoice_lines, [
             ,line_invoice_line2
 
             ,line_debitnote_line
-        
+
             , [line_invoice_new_line, line_append_line, line_append_line2 ]
+
+            
+            , [line_invoice_line3,line_append_line, line_append_line2]
 
                         
 			, line
@@ -372,6 +375,8 @@ i_line_rule_cut( line_end_line,[
 	  or([
 
            [`(`, `THB`, dummy_num(d), `/`, `Exchange`, `rate`, dummy_num2(d), `)`,  newline ]
+
+           ,[ `(`, `THB`, dummy_num1(d), `)`, `/`, `Exchange`, `rate`, dummy_num3(d), `)`,  newline ]
 
          , [`Sub`, `Total`]
 
@@ -417,11 +422,11 @@ i_line_rule( line_invoice_line2, [
  
      , generic_item([ line_quantity , d , tab  ] )
 
-     , generic_item([ line_quantity_dummy , d , tab ] )
+     , generic_item([ line_quantity_dummy , d , q10(tab) ] )
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount , d , tab] )
 
 	 , generic_item([ line_net_amount , d , newline ] ) 
      
@@ -440,7 +445,7 @@ i_line_rule( line_debitnote_line, [
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount , d , tab] )
 
 	 , generic_item([ line_net_amount , d , newline ] ) 
      
@@ -460,7 +465,7 @@ i_line_rule( line_invoice_new_line, [
 	 
 	 , q10(generic_item([ line_quantity_uom_code_dummy , w , tab ] ))
 
-     , generic_item([ line_unit_amount_dummy , d , tab] )
+     , generic_item([ line_unit_amount , d , tab] )
 
 	 , generic_item([ line_net_amount , d , newline ] ) 
      
@@ -497,3 +502,23 @@ i_line_rule( line_debitnote_line, [
      
 ]).
 
+%=======================================================================
+i_line_rule( line_invoice_line3, [
+%=======================================================================
+
+
+     generic_item([ line_number , w, tab  ])
+
+     , generic_item([ line_dummy , w , tab  ])
+
+	 , generic_item([ line_descr , s1 , tab ]) 
+ 
+     , generic_item([ line_quantity , d , tab  ] )
+	 
+	 , q10(generic_item([ line_quantity_uom_code_dummy , s1 , tab ] ))
+
+     , generic_item([ line_unit_amount , d , tab ] )
+
+	 , generic_item([ line_net_amount , d , newline ] ) 
+     
+]).

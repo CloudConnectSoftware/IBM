@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_bidorkwong, `23/09/2016` ).
+i_version( ul_uapl_bidorkwong, `26/09/2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -260,19 +260,24 @@ i_line_rule_cut( line_currency_line, [
 
     q0n(anything)
 
-    , `Total`
 
-    , `Payable`
+    , `RINGGIT`,`MALAYSIA`
+    
+    , currency( `MYR` )
 
-    , `(`
+   % , `Total`
 
-    , or( [ 
+   % , `Payable`
 
-        [ `RM` , currency( `MYR` )]
+    %, `(`
 
-        , generic_item( [ currency, s1 , `)` ] )
+   % , or( [ 
 
-        ])
+    %    [ `RM` , currency( `MYR` )]
+
+     %   , generic_item( [ currency, s1 , `)` ] )
+
+     %   ])
 
 ] ).
 

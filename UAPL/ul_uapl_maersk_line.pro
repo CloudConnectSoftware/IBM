@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( maersk_lineltd, `27/09/2016` `4:15:05` ).
+i_version( maersk_lineltd, `14/09/2017` `4:15:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -94,18 +94,19 @@ i_rule( get_bank_account_no, [
 
      , or( [
   
-        [ check( Currency = `SGD` ) , generic_horizontal_details( [ [  `SGD`,`Bank`,`account`,`number`, `:`],  supplier_bank_account_number_raw, w, newline ] ) ]
+        [ set(regexp_allow_partial_matching),check( Currency = `SGD` ) , generic_horizontal_details( [ [  `SGD`,`Bank`,`account`,`number`, `:`, `052`, `-`],  supplier_bank_account_number_raw, w, newline ] ),clear(regexp_allow_partial_matching) ]
+        
+     , [ set(regexp_allow_partial_matching),check( Currency = `USD` ), generic_horizontal_details( [ [  `USD`,`Bank`,`account`,`number`, `:`, `260` , `-`],  supplier_bank_account_number_raw, w, newline ] ), clear(regexp_allow_partial_matching) ] 
+              
+      ])
 
-     , [ check( Currency = `USD` ), generic_horizontal_details( [ [  `USD`,`Bank`,`account`,`number`, `:`],  supplier_bank_account_number_raw, w, newline ] ) ] 
-                
-      ] )
-
-	, check( supplier_bank_account_number_raw = BankRaw ) , trace( [ `Bank account raw` , BankRaw ] )
+	, [check( supplier_bank_account_number_raw = BankRaw ) , trace( [ `Bank account raw` , BankRaw ] )
 
     , check(strip_string2_from_string1( BankRaw, `-`, Bank_Final )) , supplier_bank_account_number(Bank_Final)
 
-    , trace( [ `Final Bank account #` , supplier_bank_account_number ] )
+    , trace( [ `Final Bank account #` , supplier_bank_account_number ] )]
 
+    
 
 ] ).
 

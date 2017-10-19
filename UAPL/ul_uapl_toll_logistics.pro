@@ -110,8 +110,29 @@ i_rule( get_bank_account_no, [
 
 	q(0,100,line)
 
-	, generic_vertical_details( [ [`Bank`, `Details`, `:`], `Details`, q(1,2), (end,50,50), supplier_bank_account_number, w, newline ] )
+    ,  or( [
+
+    [generic_horizontal_details( [ [ `Account`], supplier_bank_account_number_raw, s1, tab ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number ] )]
+
+
+	, [generic_vertical_details( [ [`Bank`, `Details`, `:`], `Details`, q(1,2), (end,50,50),supplier_bank_account_number_raw, w, newline ] )
 	
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
+
+
+
+
+] )
 
 ] ).
 
@@ -138,7 +159,7 @@ i_line_rule( invoice_tax_line, [
 
 q0n(anything)
 
-	,`Tax`, `Invoice`,  newline
+	,`Tax`, `Invoice`
 
 	, set(tax_invoice)
 
@@ -167,6 +188,8 @@ i_rule_cut( get_invoice_number, [
 
      ,generic_horizontal_details( [ [ `Credit`,`Note` ,`Number`, `:` , tab ], invoice_number , w, newline ] )
 
+     ,generic_horizontal_details( [ [ `TAX`, `INVOICE` ],  invoice_number, w, tab ] )
+
    
 
    ] )
@@ -192,6 +215,8 @@ i_rule_cut( get_invoice_date, [
       generic_horizontal_details( [ [ q10(`Invoice`), `Date`,tab, `:`, tab ],  invoice_date, date, newline ] )
 
     ,  generic_horizontal_details( [ [ q10(`Credit`), `Date`,tab, `:` ], 100, invoice_date, date, newline ] )  
+
+    , generic_horizontal_details( [ [ `INVOICE`, `DATE` ],  invoice_date,date , newline ] )
 
      ] )
     	
@@ -266,6 +291,8 @@ i_rule( get_total_vat, [
       
 
     generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 250, total_vat, d, newline  ] )
+
+    ,generic_horizontal_details( [ [ `ADD`, `GST`, tab ],  total_vat, d, newline ] )
 
    
 

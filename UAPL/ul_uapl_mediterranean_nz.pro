@@ -116,7 +116,10 @@ i_rule_cut( get_total_vat, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , generic_item( [ currency , w ] ) ], 100 , total_vat , d , newline ] )
+	, or([generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , generic_item( [ currency , w ] ) ], 100 , total_vat , d , newline ] )
+
+	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` ,tab, generic_item( [ currency , w ] ) ], 100 , total_vat , d , tab ] )
+	])
 
 ] ).
 
@@ -133,7 +136,11 @@ i_rule_cut( get_invoice_totals, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Total` , `Payable` , generic_item( [ currency_dummy , w ] ) ], 100 , total_invoice, d , newline ] )
+	, or([
+		generic_horizontal_details( [ [ `Total` , `Payable` , generic_item( [ currency_dummy , w ] ) ], 100 , total_invoice, d , newline ] )
+		, generic_horizontal_details( [ [ `Total` , `Payable` , tab, generic_item( [ currency_dummy , w ] ) ],100, total_invoice, d , newline ] )
+
+	])
 
 ] ).
 

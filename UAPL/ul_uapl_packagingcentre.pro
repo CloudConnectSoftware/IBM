@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_buyer_reg_no
+
     , get_Invoice_tax
 
     , get_bankdetails
@@ -74,10 +76,72 @@ i_rule( get_bankdetails, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `BANK`, `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number, s, `with`  ] )
+	, generic_horizontal_details( [ [ `BANK`, `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number_raw, s, `with`  ] )
+
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BUYER REG DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_reg_no, [
+%=======================================================================
+
+q(0,100,line)
+
+    , bill_to_line1
+
+    ,q(0,1,line)
+
+    , bill_to_line2
+
+    
+
+]).
+
+
+%=======================================================================
+i_line_rule( bill_to_line1, [
+%=======================================================================
+
+    q0n(anything)
+
+   ,or([
+
+       [`Kuala`,`Lumpur`,`,`,`59200`]
+       ,[`SINGAPORE`,`,`,`117439` ]
+
+   ])
+
+] ).
+
+%=======================================================================
+i_line_rule( bill_to_line2, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+    
+    [[`Kuala`,`Lumpur`]  ,buyer_registration_number(`MY00`)]
+
+    ,[[`SINGAPORE`],buyer_registration_number(`3009`) ]
+
+    ])
+   
+    ,trace( [ `Company code set to`, buyer_registration_number ] )
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -299,6 +363,8 @@ i_section( get_invoice_lines, [
 
             line_delivery_note_line
 
+            , [ line_invoice_line2   , q10(line_desr_line) , q10(line_material_line) ]
+
             , [ q10(line_dummy), q10(line_dummy2) , line_invoice_line   , q10(line_desr_line) , q10(line_material_line) ]
 
             , line
@@ -373,17 +439,48 @@ i_line_rule_cut( line_invoice_line, [
 
     q10(generic_item( [ line_invoice_line_dummy , d , tab ] ))
 
+    , or([ 
+
+     generic_item( [ line_descr , s  ] )
+     
+     ,generic_item( [ line_descr , s1, tab  ] )
+      ])
+
+    , generic_item( [ line_buyers_order_number , w , q10(tab) ] )
+
+    , or([
+        generic_item( [ line_quantity , d , tab ] )
+
+        , generic_item( [ line_quantity , d  ] )
+
+    ])
+
+    , generic_item( [ line_quantity_uom_code , w , tab ] )
+
+    , generic_item( [ line_unit_amount , d , tab ] )
+
+    ,  q10(generic_item( [ line_vat_amount , d ,tab ] ) )
+
+    , generic_item( [ line_net_amount , d , tab ] )
+
+    , generic_item( [ line_vat_code_dummy , w , newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+    q10(generic_item( [ line_invoice_line_dummy , d , tab ] ))
+
     , or([ generic_item( [ line_descr , s1, tab  ] )
 
-    , generic_item( [ line_descr , s  ] ) ])
+    , generic_item( [ line_descr , s, tab  ] ) ])
 
-    , q10(generic_item( [ line_buyers_order_number , w , tab ] ))
+    , generic_item( [ line_quantity , d , tab ] )
 
-    , generic_item( [ line_quantity_dummy , d , q10(tab) ] )
-
-    , q10(generic_item( [ line_quantity_uom_code , w , tab ] ))
-
-    , generic_item( [ line_unit_amount_dummy , d , tab ] )
+    , generic_item( [ line_unit_amount , d , tab ] )
 
     , q10( generic_item( [ line_vat_amount , d ,tab ] ) )
 
@@ -407,11 +504,8 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_material_line, [
 %=======================================================================
      
- or([  [`PRODUCT`, `CODE`, `:`]
+ `PRODUCT`, `CODE`, `:`
 
- , [`SKU`, `#`]
-
- ])
-     , generic_item([line_item , s1, newline ])
+  , generic_item([line_item , s1, newline ])
 
 ] ).

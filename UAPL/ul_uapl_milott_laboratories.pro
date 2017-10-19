@@ -168,7 +168,7 @@ i_rule( get_total_vat, [
 %=======================================================================
 
 
-q0n(line)
+qn0(line)
 
 , [generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] )
 
@@ -188,7 +188,7 @@ q0n(line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
      , or([ 
 
@@ -209,7 +209,7 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
-        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `BANGKOK`], 400, total_invoice, d, newline ] ) 
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, q10(`.`), `BANGKOK`], 400, total_invoice, d, newline ] ) 
 
         , check( total_invoice = TotInv )
 
@@ -239,25 +239,35 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
+        , [generic_horizontal_details( [ [`TOTAL`, `EX`, `-`, `FACTORY`], 500, total_invoice, d, newline ] ) 
+
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
         , [ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
         
         , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+        , trace( [ `Total Inv v` , TotInv] )
 
         , total_net(TotInv)
 
         , trace( [ `Total net` , total_net] ) ]
 
-        , [ generic_vertical_details( [ [ `say`, `total` ], `total`, q(1,2,up), (end,100,900), total_invoice , d , newline ] )
+       % , [ generic_vertical_details( [ [ `say`, `total` ], `total`, q(1,2,up), (end,100,900), total_invoice , d , newline ] )
         
-        , check( total_invoice = TotInv )
+      %  , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+       % , trace( [ `Total Inv Say` , TotInv] )
 
-        , total_net(TotInv)
+       % , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
+       % , trace( [ `Total net` , total_net] ) ]
 
 
          ]) 

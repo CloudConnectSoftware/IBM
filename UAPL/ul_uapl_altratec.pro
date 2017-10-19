@@ -20,6 +20,8 @@ i_rule_list( [
 
 	 get_supplier_details
 
+     ,get_buyer_reg_no
+
     , get_bankdetails
 	
 	, get_invoice_number
@@ -54,8 +56,7 @@ i_rule( get_supplier_details, [
 
     , supplier_vat_number(`001668337664`)
 
-    , buyer_registration_number(`MY00`)
-
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,19 +69,81 @@ i_rule( get_supplier_details, [
 i_rule( get_bankdetails, [
 %=======================================================================
 
-	q(10,60,line)
+	q(0,50,line)
 
-	, or([
-        
-        generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
 
-            
-        ,generic_horizontal_details( [ [ `BANK`,  `Account`, `Number`, tab, `:`],  supplier_bank_account_number, s1, newline  ] )
 
-    ])
-	
+     , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, tab, `:` ],100, supplier_bank_account_number_raw, w, newline ] )
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number ] )
+
+
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BUYER REG DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_reg_no, [
+%=======================================================================
+
+q(0,100,line)
+
+    , bill_to_line1
+
+    ,q(0,1,line)
+
+    , bill_to_line2
+
+    
+
+]).
+
+
+%=======================================================================
+i_line_rule( bill_to_line1, [
+%=======================================================================
+
+    q0n(anything)
+
+   ,or([
+
+       [`BUSINESS`, `CITY`]
+       ,[`-`, `35`, `MENARA`, `TM`, `,`, `JLN`, `PANTAI`, `BARU` ]
+
+   ])
 
 ] ).
+
+%=======================================================================
+i_line_rule( bill_to_line2, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+    
+    [[q10(`,`), `117439`]  ,buyer_registration_number(`3009`)]
+
+    ,[[q10(`,`), `59200`],buyer_registration_number(`MY00`) ]
+
+    ])
+   
+    ,trace( [ `Company code set to`, buyer_registration_number ] )
+] ).
+
+
+
+    
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,6 +167,8 @@ i_rule_cut( get_invoice_number, [
         , generic_horizontal_details( [ [  `No`,`:`, tab ] , invoice_number , s1, newline ] )
 
         , generic_horizontal_details( [ [ `Invoice` , `No` ,tab,  `:` ] , 100 , invoice_number , s1, newline ] )
+
+         , generic_horizontal_details( [ [ `Invoice` , `No` ,tab ] , invoice_number , s1, newline ] )
 	
     ])
 ] ).
@@ -225,9 +290,8 @@ i_rule( get_total_invoice, [
 	
 	, or([
 
-              [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
-             , check(total_invoice = TotInv) , trace([`Total Capital Varaible` , TotInv])
-             , total_net(TotInv) , trace( [ `THIS IS NOW THE NET TOTAL` , TotInv ])]
+              [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
+          
 
         
              , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
@@ -260,6 +324,8 @@ i_rule( get_total_net, [
     , or([
         
         generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
+
+          ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] )
 
           , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
@@ -300,9 +366,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           [ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           [ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
-           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_descr_line)  , q10(line_po_line) ]
+           ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
            ,line_debit_line
 
@@ -372,7 +438,7 @@ i_line_rule_cut( line_invoice_line, [
     
     )
 
-    , generic_item( [ line_unit_amount_dummy , d , tab ] )
+    , generic_item( [ line_unit_amount , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
 
@@ -450,3 +516,21 @@ i_line_rule_cut( line_gst_line, [
 
 ] ).
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 17, 2017
+% Updated by   - Rohini
+% Changes made - Invoice net amount updated
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

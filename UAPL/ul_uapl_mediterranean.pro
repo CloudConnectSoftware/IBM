@@ -15,6 +15,9 @@ i_trace_lists.
 i_include_partner_attachments_image_only.
 
 
+ i_pdf_parameter( dont_tokenise_on_font_change, 1 ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,6 +156,8 @@ i_rule_cut( get_invoice_date, [
 
         , generic_horizontal_details( [ [ `UNILEVER`, `ASIA`, `PTE`, `LTD`, tab, `:` ], invoice_date_raw , s1 , newline ] )
 
+        , generic_horizontal_details( [ [ `UNILEVER`, `ASIA`, `PRIVATE`, `LIMITED`, tab, `:` ], invoice_date_raw , s1 , newline ] )
+
 
         ] )
 
@@ -191,7 +196,7 @@ i_rule_cut( get_invoice_date, [
 i_rule( import_or_elsewhere_inv, [
 %=======================================================================
 
-	q(0,10,line)
+	q(0,20,line)
 	
 	, import_or_elsewhere_inv_line
 
@@ -227,10 +232,9 @@ i_rule( get_total_invoice, [
     ,or( [
                          
 
-         [ test(importinv_found),  or([ generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 200 , total_invoice, d , newline ] )
+         [ test(importinv_found),  or([ generic_horizontal_details( [ [ `Amount` , `Due` , `:` , tab , dummy_number(d) ] , 300 , total_invoice, d , newline ] )
                                         ,generic_horizontal_details( [ [ `Amount` , `Due` , `:`  ] , 500 , total_invoice, d , newline ] )
-                                        ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ], 500, total_invoice,d, tab ] )
-                                        ,generic_horizontal_details( [ [ `Total`, `Amount`, `:`  ] , 500 , total_invoice, d , newline ] )
+                                       
                                       ]) 
          ]
                
@@ -297,6 +301,21 @@ i_rule_cut( get_currency, [
 	] ).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 17, 2017
+% Updated by   - Thejaswi K
+% Changes made - Invoice date
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 

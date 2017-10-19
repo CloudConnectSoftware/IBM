@@ -27,6 +27,8 @@ i_rule_list( [
     
     , get_invoice_date
 
+    , get_payment_terms
+
     , get_due_date
 
     , get_delivery_note
@@ -69,7 +71,7 @@ i_rule( get_supplier_detail, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER DETAILS
+% SUPPLIER ADDRESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -213,22 +215,6 @@ i_rule( get_invoice_date, [
     ,generic_horizontal_details( [ [ `Date`, `of`, `Invoice`, tab],  invoice_date, date, newline ] )
 
 
-] ).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE DUE DATE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_due_date, [
-%=======================================================================
-
-      q(0,60,line)
-
-    ,generic_horizontal_details( [ [ `Up`, `to` ],  due_date, date, `without` ] )
 
 ] ).
 
@@ -245,7 +231,7 @@ i_rule( get_delivery_note, [
 
    q(0,40,line)
 
-,generic_vertical_details( [ [ `Delivery`, `No`, `.`, tab ], `Delivery`, q(0,1), (start,400,500),line_delivery_note_number, w, tab ] )
+,generic_vertical_details( [ [ `Delivery`, `No`, `.`, tab ], `Delivery`, q(0,1), (start,400,500),delivery_note_number, w, tab ] )
 
 
 ] ).

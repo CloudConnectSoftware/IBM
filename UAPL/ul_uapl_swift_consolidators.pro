@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,invoice_or_credit_note
+
     ,get_bank_account_no
 	
 	, get_invoice_number
@@ -70,6 +72,34 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE OR CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( invoice_or_credit_note, [
+%=======================================================================
+   q(0,50)
+	
+	, invoice_or_credit_note_line
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_or_credit_note_line, [
+%=======================================================================
+q0n(anything)
+	, `Credit`,`Note`
+	
+	, set(credit_note)
+	
+	, trace( [ `This is a credit note` ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,6 +116,8 @@ i_rule_cut( get_invoice_number, [
 
         ,generic_horizontal_details( [ [ `Doc`, `NO`, tab,  `:` ], invoice_number, s1, newline ] )
 
+        ,generic_horizontal_details( [ [ `Credit`,`Note`, `NO`, tab,  `:` ],100, invoice_number, s1, newline ] )
+
     ])
 	
 	] ).
@@ -99,7 +131,14 @@ i_rule( get_bank_account_no, [
 
 	q(0,250,line)
 
-	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`,q10(tab), `:`],  supplier_bank_account_number, w, `(` ] )
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`,q10(tab), `:`],  supplier_bank_account_number_raw, w, `(` ] )
+
+    
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).

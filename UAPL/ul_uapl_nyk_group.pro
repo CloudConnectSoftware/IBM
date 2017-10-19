@@ -53,7 +53,6 @@ i_rule( get_supplier_details, [
 
 	   , set(freight_vendor)
 
-       , currency( `USD` )
 
            ] ).
 
@@ -187,13 +186,13 @@ i_rule( get_total_invoice, [
 
     , or([
 
-        generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `AMOUNT`, `IN`,  `USD` ], 800, total_invoice, d, newline ] )
+        generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `AMOUNT`, `IN`,  generic_item( [ currency, w ] ) ], 800, total_invoice, d, newline ] )
 
-        , generic_horizontal_details( [ [ `B`, `/`, `L`, `SUB`, `-`, `TOTAL`, `:`, tab ], total_invoice, d, newline ] )
+        
 
     ])
 
-        , check( total_invoice = TotInv )
+        , [check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv ] )
 
@@ -201,7 +200,13 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net ] )
 
-        , total_vat(`0`)
+        , total_vat(`0`)]
+
+        ,[q10( [  check( q_sys_comp_str_le( total_invoice, `0` ) )   
+
+       , set( credit_note )     
+       
+      , trace( [ `Document Value < 0 - CREDIT NOTE SET` ] )  ] )]
 
 ] ).
 

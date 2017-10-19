@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_buyer_reg_no
+
     ,set_credit_note
 
    
@@ -74,6 +76,62 @@ i_rule( get_supplier_details, [
 ] ).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  BUYER REG DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_reg_no, [
+%=======================================================================
+
+q(0,100,line)
+
+    , bill_to_line1
+
+    ,q(0,1,line)
+
+    , bill_to_line2
+
+    
+
+]).
+
+%=======================================================================
+i_line_rule( bill_to_line1, [
+%=======================================================================
+
+    q0n(anything)
+
+   ,or([
+
+       [`C`, `/`, `O`, `UNILEVER`]
+       ,[`20`, `(`, `EAST`, `)` ]
+
+   ])
+
+] ).
+
+%=======================================================================
+i_line_rule( bill_to_line2, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+    
+    [[q10(`,`), `117439`]  ,buyer_registration_number(`3009`)]
+
+    ,[[q10(`,`), `59200`],buyer_registration_number(`MY00`) ]
+
+    ])
+   
+    ,trace( [ `Company code set to`, buyer_registration_number ] )
+] ).
+
+
+    
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -504,7 +562,7 @@ i_line_rule_cut( credit_note_line, [
 
       , q10(generic_item( [line_exp_date , date,tab ] ))
 
-      , generic_item( [line_quantity_dummy , d ] )
+      , generic_item( [line_quantity , d ] )
 
       , generic_item( [line_uom_dummy , w, tab] )
 
@@ -537,7 +595,7 @@ i_line_rule( line_invoice_newline, [
  
      , generic_item([ line_exp_date , date ,  tab  ] )
 	 
-	 , generic_item( [line_quantity_dummy , d ] )
+	 , generic_item( [line_quantity , d ] )
 
       , generic_item( [line_uom_dummy , w, tab] )
 

@@ -303,6 +303,8 @@ i_rule_cut( get_order_number, [
 
         ,generic_horizontal_details( [ [ `PONO`, `.` ], 100 , order_number, d , newline ] )
 
+        ,generic_horizontal_details( [ [ `PONO`, `.`, tab ], order_number, w , newline ] )
+
     ])
 	
 ] ).

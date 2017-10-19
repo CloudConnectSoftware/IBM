@@ -104,9 +104,20 @@ i_line_rule( invoice_or_credit_note_line, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-	q(0,250,line)
+		q(0,250,line)
 
-	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `:`],  supplier_bank_account_number, w, newline ] )
+
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+[ check( Currency = `AUD` ) , generic_horizontal_details( [ [ `Payment`, `in`, `AUD`, `:`, `Bank`, `Name`, `:`, `Citibank`, `,`, `Branch`, `:`, `242`, `-`, `000`, `,`, `Account`, `No`, `:` ],  supplier_bank_account_number, w, newline ] ) ]
+
+
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`Payment`, `in`, `USD`, `:`, `Bank`, `Name`, `:`, `Citibank`, `,`, `Branch`, `:`, `242`, `-`, `000`, `,`, `Account`, `No`, `:`],  supplier_bank_account_number, w, [`,`, `Swift`, `:`, `CITIAU2X`,  newline] ] ) ] 
+                
+ ] )
+
 	
 
 ] ).
@@ -153,6 +164,8 @@ i_rule_cut( get_order_number, [
     , or([
 
        generic_horizontal_details( [ [ `PO`,`#` ], 20, order_number, d, `,` ] )
+
+       , generic_horizontal_details( [ [ `PO`, `#` ], order_number, w, newline ] )
 
       , generic_horizontal_details( [ [ `O`, `/`, `REF`, tab, `:` ],  order_number, d, tab ] )
 
