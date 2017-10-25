@@ -135,8 +135,11 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_vertical_details( [ [ `NUMBER` ], `NUMBER`, q(0,2), (start,10,210), invoice_number, d, newline ] )
-	
+    ,or([
+          generic_vertical_details( [ [ `Page`, `No`, `.`, tab, `NUMBER` ], `NUMBER`, q(1,2), (start,10,210), invoice_number, w, `*` ] )
+        , generic_vertical_details( [ [ `Page`, `No`, `.`, tab, `NUMBER` ], `NUMBER`, q(1,2), (start,10,210), invoice_number, w, newline ] )
+    ])
+   	
 	] ).
 
 
