@@ -261,7 +261,7 @@ i_line_rule( line_invoice_line, [
 
          , generic_item([ line_quantity_uom_code , w , tab ] )
 
-	 , generic_item([ line_unit_amount ,d, [`AUD`, `/`] ] )
+	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
 
      , generic_item( [ line_dummy, d, q10(tab) ] )
 
