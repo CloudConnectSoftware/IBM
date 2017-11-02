@@ -152,9 +152,9 @@ i_rule( get_total_net, [
 
  ,generic_horizontal_details( [ [`GST`, `7`, `%`, tab, `$`, dummy_num1, tab, dummy_num2],total_vat, d, newline ] )
 
- , generic_item( [ default_vat_rate, `7` ] )
-    
+     
 ] ).
+
 
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
