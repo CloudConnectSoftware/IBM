@@ -407,6 +407,8 @@ i_line_rule_cut( line_end_line, [
 
         ,[`Place`, `Of`, `Delivery`]
 
+        , [`E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`, `.`]
+
     ])
 
     ,trace( [ `FOUND LINE END LINE`] )

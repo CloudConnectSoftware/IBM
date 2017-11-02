@@ -94,9 +94,15 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], 100, invoice_number, d, newline ] )
+    ,or([
+
+     generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], 100, invoice_number, d, newline ] )
+
+    , generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], invoice_number, s1, newline ] )
+
+    	] )
 	
-	] ).
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -217,3 +223,23 @@ i_rule( get_total_invoice, [
 
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - October 31, 2017
+% Updated by   - Rohini 
+% Changes made - Invoice number updated
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
