@@ -192,9 +192,9 @@ i_section( get_invoice_lines, [
               
               [q10(line_descr_append),q10(line_descr_account_dummy),q10(line_append_line),line_invoice_line,q10(line_append_line1),q10(line_descr_account_dummy),q10(line_append_line1)]
             
-              ,  [q10(line_descr_append),q10(line_descr_account_dummy),q10(line_append_line),q10(line_append_line),q10(line_append_line),line_invoice_line1,q10(line_append_line), q10(line_append_line3),q10(line_descr_account_dummy),q10(line_append_line)]
+              ,  [q10(line_descr_append),q10(line_descr_account_dummy),q10(line_append_line),q10(line_append_line),q10(line_append_line),line_invoice_line1,q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_append_line3),q10(line_descr_account_dummy),q10(line_append_line)]
             
-              ,  [q10(line_descr_append2),q10(line_append_line2), q10(line_append_line2), line_invoice_line3,q10(line_append_line1),q10(line_append_line1)]
+              ,  [q10(line_descr_append2),q10(line_append_line2), q10(line_append_line2), line_invoice_line3,q10(line_append_line1),q10(line_append_line1),q10(line_append_line1),q10(line_append_line1)]
 
               , line
 
