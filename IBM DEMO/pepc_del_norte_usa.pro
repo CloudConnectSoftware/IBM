@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Insights in Marketing, L.L.C.
+% Del Norte Distribution
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pepc_insight_marketing_usa, `07 November 2017` ).
+i_version( pepc_del_norte_usa, `07 November 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -58,11 +58,11 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Insights in Marketing, L.L.C.` )
+    sender_name( `Del Norte Distribution` )
 
-   ,supplier_party(`Insights in Marketing, L.L.C. `)
+   ,supplier_party(`Del Norte Distribution `)
 
-   ,supplier_vat_number(`ABA_071006486`)
+   ,supplier_vat_number(`NO_GST_INVOICE`)
 
    ,buyer_dept(`PCIL`)
 
@@ -83,8 +83,6 @@ i_rule( get_bank_accountnumber, [
 
     q(0,100,line)
 
-    , generic_horizontal_details( [ [ `account`, `number` ],  supplier_bank_account_number, w,   newline ] )
-
 ] ).
 
 
@@ -99,7 +97,7 @@ i_rule( get_invoice_number, [
 %=======================================================================
     q(0,20,line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `#` ],  invoice_number, d, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ],  invoice_number, w, newline ] )
 ] ).
 
 
@@ -115,7 +113,7 @@ i_rule( get_invoice_date, [
 
    q(0,50,line)
 
-    , generic_horizontal_details( [ [ `DATE`, tab ],  invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`, `Date`, `:`],  invoice_date, date, newline ] )
 
 ] ).
 
@@ -149,7 +147,7 @@ i_rule(get_total_net, [
 
    q(0,100,line)
 
-  , generic_horizontal_details( [ [`Balance`, `DUE` ],200, total_net, d, newline ] )
+  , generic_horizontal_details( [ [ `Invoice`, `Total`, `(`, generic_item( [ currency, w ] ), `)`, tab, `$` ], total_net, d, newline ] )
 
 ] ).
 
@@ -182,7 +180,7 @@ i_rule(get_total_invoice, [
 
 
 
-  ,generic_horizontal_details( [ [`Balance`, `DUE` ],200,  total_invoice, d, newline ] )
+  ,generic_horizontal_details( [ [`Invoice`, `Total`, `(`, generic_item( [ currency_dummy, w ] ), `)`, tab, `$` ],  total_invoice, d, newline ] )
 
 
 
@@ -207,7 +205,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-              [line_invoice_line, line_descr_append_line]
+              line_invoice_line
 
               , line
 
@@ -222,7 +220,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 
-[`Project`, `Description`, tab, `AMOUNT`,  newline]
+[`Description`, `of`, `Services`, tab, `Charge`]
 
 , trace( [ `Found Start line` ] )
 
@@ -234,7 +232,7 @@ i_line_rule_cut( line_end_line, [
 
   or([
   
-  [`Balance`, `DUE`]
+  [`THANK`, `YOU`, `FOR`, `YOUR`, `BUSINESS`, tab, `Invoice`, `Total`, `(`, `USD`, `)`]
 
   ])
 
@@ -247,19 +245,13 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-  generic_item( [ line_descr, s1,tab ] ) 
+  generic_item( [ line_descr, s1,[tab, `$`] ] ) 
 
 , generic_item( [ line_net_amount, d, newline ] )
 
 ] ).
 
-%=======================================================================
-i_line_rule_cut( line_descr_append_line, [
-%=======================================================================
 
-  generic_append( [ line_descr, s1, newline, ` `, `` ] )
-
-] ).
 
 
 
