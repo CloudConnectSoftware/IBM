@@ -43,6 +43,8 @@ i_rule_list( [
 
     , get_currency
 
+    ,get_sale_subtotal
+
     , get_invoice_lines
 
 ] ).
@@ -126,6 +128,22 @@ i_rule( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SALE SUBTOTAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_sale_subtotal, [
+%=======================================================================
+
+   q(0,50,line)
+
+  ,generic_horizontal_details( [ [ `Sale`, `subtotal`, `:`, tab ], sale_sub_total, d, newline ] )
+
+
+] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -147,7 +165,7 @@ i_rule( get_delivery_lines, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Delivery`,`Flat`,`Fee` ] , 500 , line_net_amount , d , newline ] )
+	, generic_horizontal_details( [ [ `Delivery`,`Flat`,`Fee` ] , 600 , line_net_amount , d , newline ] )
 
 	, generic_item( [ line_descr , `Delivery Flat Fee` ] )
 
@@ -187,9 +205,7 @@ i_rule( get_hazmat_charge_lines, [
 i_rule(get_total_net, [
 %=======================================================================
 
-   q(0,100,line)
-
-  , generic_horizontal_details( [ [`Sale`, `subtotal`, `:`], 100, total_net, d, newline ] )
+  
 
 ] ).
 
@@ -305,13 +321,23 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_quantity_dummy3, d, tab ] )
 
-, generic_item( [ line_unit_amount, d ] )
+, generic_item( [ line_unit_amount, d,tab ] )
 
 , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
 , generic_item( [ line_net_amount, d ] )
 
 , generic_item( [ line_word_dummy, w, newline ] )
+
+, q10( [ 
+		
+		with( invoice , total_vat , VAT )
+             , with( invoice , sale_sub_total , TOTAL )
+		        , check(sys_calculate_str_divide( VAT, TOTAL, VAT_RATE))
+             , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+              , generic_item( [ default_vat_rate , VAT_PERCENT ] )  
+])
 
 
 ] ).
