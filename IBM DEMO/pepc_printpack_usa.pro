@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SMURFIT KAPPA
+% Printpack,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pepc_poc_arigas_usa, `07 November 2017` ).
+i_version( pepc_printpack_usa, `07 November 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -58,11 +58,11 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `AIRGAS USA, LLC` )
+    sender_name( `Printpack,` )
 
-   ,supplier_party(`AIRGAS USA, LLC `)
+   ,supplier_party(`Printpack, `)
 
-   ,supplier_vat_number(`0437 837 016`)
+   ,supplier_vat_number(`CUSTNO_6107136`)
 
    ,buyer_dept(`PCIL`)
 
