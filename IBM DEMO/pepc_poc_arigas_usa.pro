@@ -136,10 +136,7 @@ i_rule( get_invoice_date, [
 i_rule( get_sale_subtotal, [
 %=======================================================================
 
-   q(0,50,line)
-
-  ,generic_horizontal_details( [ [ `Sale`, `subtotal`, `:`, tab ], sale_sub_total, d, newline ] )
-
+   
 
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -169,6 +166,8 @@ i_rule( get_delivery_lines, [
 
 	, generic_item( [ line_descr , `Delivery Flat Fee` ] )
 
+  , generic_item( [ line_vat_rate , `0` ] )
+
 ] ).
 
 %=======================================================================
@@ -180,6 +179,8 @@ i_rule( get_fuel_surcharge_lines, [
 	, generic_horizontal_details( [ [ `Fuel`, `Surcharge`, `Flat` ] , 550, line_net_amount , d , newline ] )
 
 	, generic_item( [ line_descr , `Fuel Surcharge Flat` ] )
+
+  , generic_item( [ line_vat_rate , `0` ] )
 
 ] ).
 
@@ -193,6 +194,8 @@ i_rule( get_hazmat_charge_lines, [
 
 	, generic_item( [ line_descr , `Airgas Hazmat Charge` ] )
 
+  , generic_item( [ line_vat_rate , `0` ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,8 +208,11 @@ i_rule( get_hazmat_charge_lines, [
 i_rule(get_total_net, [
 %=======================================================================
 
-  
+  q(0,50,line)
 
+  ,generic_horizontal_details( [ [ `Sale`, `subtotal`, `:`, tab ], total_weight, d, newline ] )
+
+  
 ] ).
 
 
@@ -311,7 +317,7 @@ i_line_rule_cut( line_invoice_line, [
 
   ,generic_item( [ line_item, s1, tab ] )
 
-, generic_item( [ line_quantity, d ] ) 
+, generic_item( [ line_quantity_dummy, d ] ) 
 
 , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -329,15 +335,22 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_word_dummy, w, newline ] )
 
-, q10( [ 
-		
-		with( invoice , total_vat , VAT )
-             , with( invoice , sale_sub_total , TOTAL )
+, 	
+	q10([	with( invoice , total_vat , VAT )
+
+    ,with( invoice , total_weight , TOTAL )
+    
+
+    , trace( [ `vat tot`, VAT ] )
+
+             , trace( [ `sub total`, TOTAL ] )
+
 		        , check(sys_calculate_str_divide( VAT, TOTAL, VAT_RATE))
+            , trace( [ `VAT Rate`, VAT_RATE ] )
              , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
 
-              , generic_item( [ default_vat_rate , VAT_PERCENT ] )  
-])
+              , generic_item( [ line_vat_rate , VAT_PERCENT ] ) ] )
+
 
 
 ] ).
