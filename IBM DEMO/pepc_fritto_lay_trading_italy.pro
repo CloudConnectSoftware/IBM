@@ -225,7 +225,7 @@ i_rule(get_total_invoice, [
 
    q(0,100,line)
 
-  ,generic_horizontal_details( [ [`Total`, `Amount`, `EUR`, `:`],500,  total_invoice, d, tab ] )
+  ,generic_horizontal_details( [ [`Total`, `Amount`, generic_item( [ currency, w ] ), `:`],500,  total_invoice, d, newline ] )
 
 ] ).
 
@@ -248,7 +248,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-              line_invoice_line, line_descr_append_line
+              [line_invoice_line, q10(line_descr_append_line) , q10(line_descr_append_line), q10(line_descr_append_line), q10(line_descr_append_line)]
 
               , line
 
@@ -277,6 +277,8 @@ i_line_rule_cut( line_end_line, [
   
   [`Net`, `Weight`, `(`, `Kg`, `)`, `:`]
 
+  ,[`Frito`, `-`, `Lay`, `Trading`, `Co`, `.`, `(`, `Europe`, `)`, `GmbH`, `-`, `FLTCE`]
+
   ])
 
   , trace( [ `Found End line` ] )
@@ -300,8 +302,7 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_item( [ line_vat_rate, d, newline ] )
 
-      , clear(reverse_punctuation_in_numbers)
-
+      
    ,clear(regexp_cross_word_boundaries)
 
 
