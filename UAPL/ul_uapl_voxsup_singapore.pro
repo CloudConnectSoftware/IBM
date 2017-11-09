@@ -122,6 +122,46 @@ i_rule( get_invoice_date, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+	
+    q(1,50,line)
+
+    , find_order_header_line
+
+    , q(0,5,line)
+
+    , find_order_number
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_header_line, [
+%=======================================================================
+
+   [`PO`, `Number`]
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+	
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE NET AMOUNT
@@ -197,7 +237,10 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-               [line_invoice_line5, q10(line_append_line1), q10(line_append_line1)]
+
+              [line_invoice_line1, line_append_line, q10(line_append_line3)]
+
+            ,  [line_invoice_line5, q10(line_append_line1), q10(line_append_line1)]
 
             ,  [q10(line_append_line),q10(line_append_line),q10(line_append_line5),line_invoice_line4, q10(line_append_line5), q10(line_append_line5)]
 
@@ -269,7 +312,7 @@ i_line_rule_cut( line_invoice_line1, [
 
  generic_item( [ line_item,s1, tab ] )
 
-,generic_item( [ line_descr_dummy, s1, tab ] )
+,q10(generic_item( [ line_descr_dummy, s1, tab ] ))
 
 ,generic_item( [ line_descr, s1, tab ] )
 
@@ -455,6 +498,10 @@ i_line_rule_cut( line_descr_account_dummy, [
 
 
 % Updated on   - November 2, 2017
+% Updated by   - Rohini 
+% Changes made - Line details updated for new format
+
+% Updated on   - November 9, 2017
 % Updated by   - Rohini 
 % Changes made - Line details updated for new format
 
