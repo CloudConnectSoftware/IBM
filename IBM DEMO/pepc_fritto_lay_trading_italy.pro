@@ -60,7 +60,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party(`Frito-Lay Trading Co.(Europe) GmbH-FLTCE `)
 
-   ,supplier_vat_number(`NO_GST_INVOICE`)
+   ,supplier_vat_number(`BE0466866542`)
 
    ,buyer_dept(`PCIL`)
 
