@@ -30,10 +30,14 @@ i_rule_list( [
 
     , get_order_number
 
+    ,get_freight_flag
+
     , get_total_net
 
 	, get_total_vat
 
+    , get_freight_line
+    
     , get_total_invoice
 
     , get_currency
@@ -249,6 +253,61 @@ i_rule( get_order_number, [
 
    
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET FREIGHT FLAG
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_freight_flag, [
+%=======================================================================
+q(0,100,line)
+
+,set_line_freight
+
+   
+] ).
+
+%=======================================================================
+i_line_rule( set_line_freight, [
+%=======================================================================
+q0n(anything)
+
+,`FREIGHT`, `CHARGES`, tab, freight_dummy(d),  newline
+
+,set(freight_total)
+
+, trace( [ `Found Freight Total` ] )
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET  Line Freight
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_freight_line, [
+%=======================================================================
+
+    q(0,100,line)
+   
+    
+    , or([ 
+        
+          generic_horizontal_details( [ [ `FREIGHT`, `CHARGES` ],200,  line_net_amount , d, newline ] )
+     
+    ])
+
+    , generic_item( [ line_descr, `FREIGHT CHARGES` ] )
+    
+]).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL VAT
@@ -290,19 +349,31 @@ i_rule( get_total_invoice, [
 	
 	, or([
 
-              [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
+              [test(debit_note), generic_horizontal_details( [ [ `Total`, tab ] , total_invoice, d, newline ] )]
           
+               ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
 
+                 , check( total_invoice = TotInv )
+
+                 , trace( [ `Total Inv` , TotInv] )
+
+                  , total_net(TotInv)
+
+                  , trace( [ `Freight Total net` , total_net] )     ]
         
-             , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+                , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
      
              
              ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
 
 
              , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+
              ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
+
              , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
+
+             
 
     ])
 
@@ -319,11 +390,13 @@ i_rule( get_total_invoice, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     q0n(line)
+     qn0(line)
 
     , or([
         
-        generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
+        [ test(freight_total), generic_horizontal_details( [ [ `Total`, tab ] ,total_net, d, newline ] )]
+
+        ,generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
           ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] )
 
