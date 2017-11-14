@@ -213,14 +213,16 @@ i_section( get_invoice_lines, [
 		
 			[line_invoice_descr1, line_invoice_line, q10(line_invoice_descr) , q10(line_invoice_descr2), q10(line_invoice_descr2),  
 
-            line_invoice_discount_line, q10(line_invoice_descr2) ]
+            line_invoice_discount_line, line_net_line ]
 
             ,[line_invoice_descr1, line_invoice_line, q10(line_invoice_descr) , q10(line_invoice_descr2), q10(line_invoice_descr3), q10(line_invoice_descr2),q10(line_invoice_descr2),q10(line_invoice_descr),  
 
-            line_invoice_discount_line, q10(line_invoice_descr2) ]
-            
+            line_invoice_discount_line, line_net_line ]
 
-           
+            ,[ line_invoice_line2, q10(line_invoice_descr) , q10(line_invoice_descr2), q10(line_invoice_descr2),  q10(line_invoice_descr2),
+
+            line_invoice_discount_line, line_net_line ]
+            
 			, line
 
 			
@@ -265,6 +267,30 @@ i_line_rule_cut( line_invoice_line, [
         generic_item_cut([ line_item , w , tab ])
 
         ,generic_append( [ line_descr, s1, tab, ` `, ``  ] )
+
+        ,generic_item_cut([ line_part_no , w , tab ])
+
+        ,set(regexp_cross_word_boundaries)
+      
+      , generic_item_cut([ line_quantity , d ] )
+
+      , generic_item_cut([ line_quantity_uom_code , w , tab ] )
+
+         , generic_item_cut([ line_unit_amount_dummy ,d, tab ] )
+
+      , generic_item_cut([ line_net_amount_dummy , d ,  newline ] ) 
+     
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+	
+     
+        generic_item_cut([ line_item , w , tab ])
+
+        ,generic_item_cut([ line_descr , s1 , tab ])
 
         ,generic_item_cut([ line_part_no , w , tab ])
 
@@ -339,10 +365,19 @@ i_line_rule( line_invoice_discount_line, [
 
         ,set(regexp_cross_word_boundaries)
       
-      , generic_item_cut([ line_percent_discount , d, [`%`, tab ] ] )
+      , generic_item_cut([ line_percent_discount_dummy , d, [`%`, tab ] ] )
 
-           , generic_item_cut([ line_net_amount ,d, [ tab, `-`] ] )
+           , generic_item_cut([ line_net_amount_dummy ,d, [ tab, `-`] ] )
 
-      , generic_item_cut([ line_amount_discount , d ,  newline ] )    
+      , generic_item_cut([ line_amount_discount_dummy , d ,  newline ] )    
     
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_net_line, [
+%=======================================================================
+	
+     generic_append( [ line_descr_dummy, s1, tab, ` `, ``  ] ) 
+
+     , generic_item_cut([ line_net_amount ,d, newline ] )   
+]).
