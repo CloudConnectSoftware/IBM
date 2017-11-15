@@ -277,7 +277,7 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_descr , s1 , tab ])
 
-     , generic_item([ line_unit_amount_dummy ,d, [`/`, `E`, tab] ] )
+     , generic_item([ line_unit_amount_dummy ,d, [`/`, dummy_word(w), tab] ] )
 
       , generic_item([ line_net_amount , d ,  newline ] ) 
      
