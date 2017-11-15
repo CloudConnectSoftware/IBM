@@ -120,7 +120,7 @@ q(0,50,line)
 i_rule( get_invoice_number, [
 %=======================================================================
 
-q0n(line)
+q(0,50,line)
 	
    ,  or([
        
@@ -178,7 +178,7 @@ i_line_rule_cut( find_order_number, [
 %=======================================================================
 i_rule( get_invoice_date, [
 %=======================================================================
-q0n(line)
+q(0,50,line)
 	
 	, generic_horizontal_details( [ [ `Date`,`:`], 100, invoice_date, date, newline ] )
 ] ).
@@ -195,7 +195,7 @@ q0n(line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q0n(line)
+	q(0,100,line)
 	
 	, or([
         [generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab, `(` ,generic_item( [ total_net, d ] ), `)`, tab , `(`,  generic_item( [ total_vat, d ] ), `)`, tab, `(` ],total_invoice, d, [`)`,newline] ] ), set(credit_note), trace( [ `This is a credit note` ] )]
@@ -216,7 +216,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-   q0n(line)
+   q(0,100,line)
    
     , generic_horizontal_details( [ [ `Total`, `:`, `(`  ],  currency, w, `)` ] )
 
@@ -233,11 +233,11 @@ i_rule( get_currency, [
 i_rule( get_line_total_amount, [
 %=======================================================================
    
-   q0n(line)
+  q(0,100,line)
   
         , or([
             generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , `(` ,  dummy_number1(d) ,`)`, tab , `(`, dummy_num2(d),`)`, tab , `(` ],line_total_amount, d, [`)`,newline ] ] )
-            ,generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , dummy_number1(d) , tab, dummy_num2(d), tab ],line_totalamount, d, newline ] )    
+            ,generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , dummy_number1(d) , tab, dummy_num2(d), tab ],line_total_amount, d, newline ] )    
         ])
 
      ] ).
@@ -253,7 +253,7 @@ i_rule( get_line_total_amount, [
 i_section( get_invoice_lines, [
 %=======================================================================
    
-   q0n(line)
+   q(0,100,line)
     
     , invoice_lines( `Service Charges` )
 

@@ -200,7 +200,9 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr)]
+			line_invoice_line
+
+            ,line_invoice_line2
 
                       
 			, line
@@ -249,7 +251,7 @@ i_line_rule( line_invoice_line, [
      q10(generic_item([ line_material , w , tab ]))
 
 
-     , generic_item([ line_descr , s1 , [ q10(tab), check( line_descr(end) < -209 ) ] ])
+     , generic_item([ line_descr , s1 , [ q10(tab), check( line_descr(end) < -205 ) ] ])
 
      , q10(generic_item([ line_customer_dummy , w , [ q10(tab), check( line_customer_dummy(end) < -142 ) ] ]))
 
@@ -259,7 +261,7 @@ i_line_rule( line_invoice_line, [
 
         , generic_item([ line_quantity , d ] )
 
-         , generic_item([ line_quantity_uom_code , w , tab ] )
+         , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
 
 	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
 
@@ -277,8 +279,41 @@ i_line_rule( line_invoice_line, [
      
     
 ] ).
+    
+
+%=======================================================================
+i_line_rule( line_invoice_line2, [
+%=======================================================================
+	
+     
+
+     q10(generic_item([ line_material , w , tab ]))
 
 
+     , generic_item([ line_descr , s1 , tab ])
+
+     	    , generic_item([ line_buyers_order_number_dummy , s1, tab ]) 
+
+                 , generic_item([ line_quantity , d ] )
+
+         , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
+
+	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
+
+     , generic_item( [ line_dummy, d, q10(tab) ] )
+
+     , q10(generic_item( [ line_UOM_dummy, w, tab ] ))
+
+        , generic_item([ line_net_amount , d , q10(tab) ] )
+
+        , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,tab ] ] ))
+
+        , q10(generic_item([ line_vat_dummy , d , tab ] ))
+
+	 , generic_item([ line_total_amount , d , newline ] ) 
+     
+    
+] ).
 
 
 %=======================================================================
