@@ -257,9 +257,10 @@ i_line_rule_cut( line_invoice_line, [
 
    generic_item( [ line_descr, s1, tab ] )
 
-   , generic_item( [ line_net_amount,   fd([ begin , q( [dec,  other_skip(",")], 1,10),q(other(".") , 1 , 1 ) ,end
-                                                , q( dec ,1,1 ), begin, q( [ dec , other_skip(",") ] , 1 , 2 ),  end ])
+   , generic_item( [ line_net_amount,   [ begin , q( [dec,  other_skip(",")], 1,10),q(other(".") , 1 , 1 ) ,end
+                                                , q( dec ,1,1 ), begin, q( [ dec , other_skip(",") ] , 1 , 2 ), end , q( [ dec , other_skip(",") ] , 1 , 10 ) ]
         		          ] ) 
+ 
 
 
 ] ).
