@@ -36,6 +36,8 @@ i_rule_list( [
 
     , get_line_total_amount
 
+    ,get_total_line
+
     , get_invoice_lines
 
 ] ).
@@ -240,21 +242,25 @@ i_rule( get_line_total_amount, [
             ,generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , dummy_number1(d) , tab, dummy_num2(d), tab ],line_total_amount, d, newline ] )    
         ])
 
+, invoice_lines( `Service Charges` )
+
      ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE LINES
+% GET TOTALS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_section( get_invoice_lines, [
+i_rule( get_total_line, [
 %=======================================================================
-   
-   q(0,100,line)
+
+	q(0,100,line)
+	
+	, or([
+        [generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab, `(` ,generic_item( [ line_net_amount, d ] ), `)`, tab , `(`,  generic_item( [ line_vat_amount, d ] ), `)`, tab, `(` ],line_total_amount, d, [`)`,newline] ] ), set(credit_note), trace( [ `This is a credit note` ] )]
+        ,generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item( [ line_net_amount, d ] ), tab,  generic_item( [ line_vat_amount, d ] ), tab ],line_total_amount, d, newline ] )
+    ])
     
-    , invoice_lines( `Service Charges` )
-
-]).
+] ).
