@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_pdf_parameter( ignore_white_writing, 1 ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -221,7 +223,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
+    or([
+    
 [`No`, `/`, `Type`, `Packages`]
+
+,[`Arrival`, `Date`]
+
+    ])
 
 , trace( [ `Found Start line` ] )
 
@@ -232,7 +240,12 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
  
  
-    [ `GBP`, `VAT`, `@`, `20` ]
+   or([ 
+       [ `GBP`, `VAT`, `@`, `20` ]
+
+    ,[`Kg`, `/`, `Cbm`, `/`, `Ldm`]
+
+])
 
   , trace( [ `Found End line` ] )
 
@@ -244,7 +257,9 @@ i_line_rule_cut( line_invoice_line, [
 
    generic_item( [ line_descr, s1, tab ] )
 
-   , generic_item( [ line_net_amount, d, [`.`, dummy_num(s1),  newline ] ]  )
+   , generic_item( [ line_net_amount,   fd([ begin , q( [dec,  other_skip(",")], 1,10),q(other(".") , 1 , 1 ) ,end
+                                                , q( dec ,1,1 ), begin, q( [ dec , other_skip(",") ] , 1 , 2 ),  end ])
+        		          ] ) 
 
 
 ] ).
