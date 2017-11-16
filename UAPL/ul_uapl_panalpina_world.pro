@@ -147,6 +147,8 @@ i_rule_cut( get_invoice_date, [
 
 , generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(3,5), (start,50,50), invoice_date, date, tab ] )
 
+, generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,5), (start,50,50), invoice_date, date, newline ] )
+
 ])
 
 ] ).
@@ -245,6 +247,11 @@ i_rule( get_total_invoice, [
 % Updated on   - October 17, 2017
 % Updated by   - Rohini
 % Changes made - Net amount, VAT amount and Invoice total amount updated
+
+
+% Updated on   - November 16, 2017
+% Updated by   - Rohini
+% Changes made - Invoice date 
 
 % Updated on   - 
 % Updated by   -
