@@ -273,7 +273,7 @@ i_line_rule_cut( line_invoice_line, [
 
         , q10(generic_item_cut([ line_vat_rate_dummy, d , [ `%` ,tab ] ] ))
 
-        , q10(generic_item_cut([ line_vat_dummy , d , tab ] ))
+        , q10(generic_item_cut([ line_vat_amount , d , tab ] ))
 
 	 , generic_item_cut([ line_total_amount , d , newline ] ) 
      
@@ -307,7 +307,7 @@ i_line_rule_cut( line_invoice_line2, [
 
         , q10(generic_item_cut([ line_vat_rate_dummy, w , q10(tab) ] ))
 
-        , q10(generic_item_cut([ line_vat_amount_dummy , d , tab ] ))
+        , q10(generic_item_cut([ line_vat_amount , d , tab ] ))
 
 	 , generic_item_cut([ line_total_amount , d , newline ] ) 
      
