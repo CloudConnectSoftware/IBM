@@ -270,9 +270,9 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-   q10(generic_append( [ line_descr, s1,tab, `   `, ` ` ] ))
+   q10(generic_append( [ line_descr, s1,tab, `   `, `  ` ] ))
 
-   ,generic_append( [ line_descr, s1,newline, ` / `, ` ` ] )
+   ,generic_append( [ line_descr, s1,newline, `  `, `  ` ] )
 
 
 ]).
