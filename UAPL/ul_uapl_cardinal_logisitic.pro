@@ -21,6 +21,8 @@ i_rule_list( [
 	 get_supplier_detail
 	          		
 	, get_supplier_bank_account_number
+
+	, set_credit_note
 		
 	, get_invoice_number
 	
@@ -74,6 +76,37 @@ i_rule( get_supplier_bank_account_number, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,10,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`Credit`, `Note`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,8 +119,14 @@ i_rule( get_invoice_number, [
 %=======================================================================
 
 	q(0,20,line)
+
+	, or([
+
+      generic_horizontal_details( [ [ `Credit`, `Note`, `:`, tab ], invoice_number, s1, newline ] )
 	
 	, generic_horizontal_details( [ [ `Tax`, `Invoice`, `:`, q10(tab) ], invoice_number, w , newline  ] )
+
+] )
 
 ] ).
 
@@ -102,8 +141,14 @@ i_rule( get_invoice_date, [
 %=======================================================================
 
 	q(0,20,line)
+
+	, or([
+
+	generic_horizontal_details( [ [ `Credit`, `Date`, `:`, tab ], invoice_date, date, newline ] )
 	
 	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, q10(tab) ], invoice_date, date , newline ] )
+
+	] )
 
 ] ).
 
@@ -118,8 +163,14 @@ i_rule( get_total_net, [
 %=======================================================================
 
 	q(0,100,line)
+
+	, or([
+
+	 generic_horizontal_details( [ [ `Total`, `Net`, tab ],  total_net, d, newline ] )
 	
 	, generic_horizontal_details( [ [ `Total`, `Net` ], 225, total_net, d, newline ] )
+
+	] )
 	
 ] ).
 
@@ -134,10 +185,10 @@ i_rule( get_total_vat, [
 %=======================================================================
 
 	q(0,100,line)
-	
-    , generic_horizontal_details( [ [ `Plus`, `GST` ],225, total_vat, d, newline ] )
 
-	,generic_item( [ default_vat_rate, `15` ] )
+    ,  generic_horizontal_details( [ [  `Plus`, `GST`, tab ] , total_vat, d, newline ] )
+
+	, generic_item( [ default_vat_rate, `15` ] )
 	
 ] ).
 
@@ -154,8 +205,12 @@ i_rule( get_total_invoice, [
 	q(0,100,line)
 
 	, or([
+
+    
 	
 	  generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, total_invoice, d, newline ] )
+
+	 , generic_horizontal_details( [ [ `Total`, `Credit`, `Incl`, `.`, `GST`, tab ], total_invoice, d, newline ] )
 
      , generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), total_invoice, d, newline ] )
 
@@ -204,11 +259,29 @@ q(0,100,line)
 	 generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, line_total_amount, d, newline ] )
 
 	, generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), line_total_amount, d, newline ] )
+ 
+   , generic_horizontal_details( [ [ `Total`, `Credit`, `Incl`, `.`, `GST`, tab ], line_total_amount, d, newline ] )
 
    ])	
 
 	 , line_descr(`Service charges`)
 		
 ] ).
-   
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - November 20, 2017
+% Updated by   - Rohini
+% Changes made - Credit note mapped
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
