@@ -34,9 +34,9 @@ i_rule_list( [
 
     ,get_freight_flag
 
-    , get_total_net
+    , get_total_vat
 
-	, get_total_vat
+    , get_total_net
 
     , get_freight_line
     
@@ -358,9 +358,9 @@ i_rule( get_total_vat, [
     , or([ 
         
         generic_horizontal_details( [ [  `Add` , `GST` , `@` , generic_item( [ default_vat_rate, d ] ) , `%` ], 150 , total_vat , d, newline ] )
-
-    , generic_horizontal_details( [ [  `GST` , generic_item( [ default_vat_rate, d ] ) , `%` , tab ],  total_vat , d, newline ] )
-
+        
+    , [generic_horizontal_details( [ [  `GST` , generic_item( [ default_vat_rate, d ] ) , `%` , tab ],  total_vat , d, newline ] )
+    , set(tot_debit_vat)]
      
     ])
 
@@ -429,13 +429,15 @@ i_rule( get_total_net, [
 
     , or([
         
-        [ test(freight_total), generic_horizontal_details( [ [ `Total`, tab ] ,total_net, d, newline ] )]
+        [ test(freight_total), generic_horizontal_details( [ [ `Total`, tab ] ,total_net, d, newline ] )
+        
+         ]
 
-        ,[test(credit_note), generic_horizontal_details( [ [  `sub`, `Total`] ,200, total_invoice, d, newline ] )]
+        ,[test(credit_note), generic_horizontal_details( [ [  `sub`, `Total`] ,200, total_net, d, newline ] )]
 
         ,generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
 
-          , [test(debit_note), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] )]
+          ,[ [test(tot_debit_vat),trace( [ `VAT FOUND` ] )],  [ peek_fails(test(tot_debit_vat)) ,generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] ) ,trace( [ `2` ] )]]
 
           , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
