@@ -202,7 +202,9 @@ i_section( get_invoice_lines, [
              
             [ line_desr_line , q10(line_append_line)  , line_invoice_line ] 
 
-            , [line_invoice_line_2 ,line_append_line]
+            , line_invoice_line_2
+
+            , [line_invoice_line_2 ,q10(line_append_line)]
 
              , line
 
@@ -259,7 +261,9 @@ i_line_rule_cut( line_append_line, [
 i_line_rule_cut( line_invoice_line, [
 %=====================================  ==================================
 
-    generic_append( [ line_descr, s1, tab , ` ` , `` ] )
+     
+
+      generic_append( [ line_descr, s1, tab , ` ` , `` ] )
 
     , generic_item( [ line_quantity , d , tab ] )
 
@@ -279,8 +283,10 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line_2, [
 %=====================================  ==================================
 
-    
-    generic_item( [ line_descr , s1 , tab ] )
+    q10( generic_item( [ line_item , d , tab ] ))
+
+   , generic_item( [ line_descr , s1 , tab ] )
+
     , generic_item( [ line_quantity , d , tab ] )
 
     , generic_item( [ line_price_uom , s1 , tab ] )
@@ -296,3 +302,19 @@ i_line_rule_cut( line_invoice_line_2, [
 ] ).
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - November 20, 2017
+% Updated by   - Rohini
+% Changes made - Invoice line
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
