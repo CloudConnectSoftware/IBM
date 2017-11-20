@@ -206,6 +206,8 @@ i_rule( get_total_invoice, [
 
          , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `credited`, `IN`,currency_dummy(w), tab ], total_invoice, d, newline ] ) 
 
+        , generic_horizontal_details( [ [ `GRAND`, `TOTAL`, `TO`, `BE`, `PAID`, `IN`, tab, dummy_num(w), tab ], total_invoice, d, newline ] ) 
+
     ])
 
     , check( total_invoice = TotInv )
@@ -241,3 +243,20 @@ i_rule( get_currency, [
     
 ] ).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - November 20, 2017
+% Updated by   - Rohini
+% Changes made - Invoice total
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
