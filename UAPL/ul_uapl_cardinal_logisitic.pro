@@ -30,9 +30,9 @@ i_rule_list( [
 	
 	, get_invoice_date
 
-    % , get_total_net ( Removed as per email from Delivery team )
+    , get_total_net 
 
-	% , get_total_vat ( Removed as per email from Delivery team )
+	, get_total_vat 
 
     , get_total_invoice
 
@@ -215,14 +215,6 @@ i_rule( get_total_invoice, [
      , generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), total_invoice, d, newline ] )
 
    ])	
-	    , check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net ] )
-
 
 	
 		
