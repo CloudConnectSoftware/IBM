@@ -98,7 +98,9 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [`YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(0,2), (start,20,20), order_number_raw, s1, tab ] )
+    ,or( [
+
+     [generic_vertical_details( [ [`YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(0,2), (start,20,20), order_number_raw, s1, tab ] )
 
     , check( order_number_raw = OrdRaw )
 
@@ -121,10 +123,11 @@ i_rule( get_order_number, [
 
     , order_number(OrdNo)
 
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ]) ]
+    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ]) ]]
 
+, generic_vertical_details( [ [`YOUR`, `P`, `.`, `O`, `.`, `NO`, `.` ], `YOUR`, q(0,2), (start,20,20), order_number, s1, tab ] )
 
-
+] )
 
 ] ).
 

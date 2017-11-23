@@ -1,50 +1,54 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - Cardinal Logistics Ltd
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frito-Lay Trading Co.(Europe) GmbH-FLTCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%a%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_cardinal_logisitic ).
+i_version( pepc_fritto_lay_trading_italy, `08 November 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `m/d/y`).
 
 i_trace_lists.
 
+i_pdf_parameter( x_tolerance_100, 100 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	
-	 get_supplier_detail
-	          		
-	, get_supplier_bank_account_number
+    
+      get_supplier_detail
 
-	, set_credit_note
-		
-	, get_invoice_number
-	
-	, get_invoice_date
-	
-	, get_invoice_date
+     , get_bank_accountnumber
+                     
+    , get_invoice_number
+    
+    , get_invoice_date
 
-    , get_total_net 
+    , get_due_date
 
-	, get_total_vat 
+    , get_order_number
+    
+    , get_total_net
+
+    , get_total_vat
 
     , get_total_invoice
 
-	, get_currency
+    , get_delivery_lines
+
+    , get_currency
 
     , get_invoice_lines
-	
+
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET SUPPLIER PARTY
+% SUPPLIER DETAILS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,65 +56,40 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-	sender_name(`Cardinal Logistics Ltd`)
+    sender_name( `Frito-Lay Trading Co.(Europe) GmbH-FLTCE` )
 
-	,supplier_vat_number(`059512706`)
+   ,supplier_party(`Frito-Lay Trading Co.(Europe) GmbH-FLTCE `)
 
-	,buyer_registration_number(`NZ00`)
+   ,supplier_vat_number(`BE0466866542`)
 
-] ).
+   ,buyer_dept(`PCIL`)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET SUPPLIER BANK ACCOUNT NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ,buyer_registration_number(`PCIL`)
 
-%=======================================================================
-i_rule( get_supplier_bank_account_number, [
-%=======================================================================
+  , set(reverse_punctuation_in_numbers)
 
-	q(0,50,line)
-	
-	, generic_horizontal_details( [ [ `Internet`, `Payments`, `to`, `Bank`, `Account`, q10(tab) ], supplier_bank_account_number, s1, tab ] )
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SET CREDIT NOTE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( set_credit_note, [
-%=======================================================================
-
-    q(0,10,line)
-
-    , credit_note_line
-
-    
-] ).
-%=======================================================================
-i_line_rule( credit_note_line, [
-%=======================================================================
-
-q0n(anything)
-
-
-    , [`Credit`, `Note`]
-
-    , set(credit_note)
-
-    , trace( [ `Credit Note Found` ] )
+   
 
 ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE NUMBER
+% SUPPLIER BANK ACCOUNT DETAILS & DUE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+    q(0,100,line)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -118,21 +97,17 @@ q0n(anything)
 i_rule( get_invoice_number, [
 %=======================================================================
 
-	q(0,20,line)
+   q(0,50,line)
 
-	, or([
 
-      generic_horizontal_details( [ [ `Credit`, `Note`, `:`, tab ], invoice_number, s1, newline ] )
-	
-	, generic_horizontal_details( [ [ `Tax`, `Invoice`, `:`, q10(tab) ], invoice_number, w , newline  ] )
-
-] )
+  ,generic_horizontal_details( [ [ `Invoice`,`no`,`:`,tab ], invoice_number, d, newline ] )
 
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE DATE
+% INVOICE DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -140,99 +115,123 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-	q(0,20,line)
+   q(0,50,line)
 
-	, or([
+  ,generic_horizontal_details( [ [ `Invoice`,`Date`,`:`,tab ], invoice_date, date, newline ] )
 
-	generic_horizontal_details( [ [ `Credit`, `Date`, `:`, tab ], invoice_date, date, newline ] )
-	
-	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, q10(tab) ], invoice_date, date , newline ] )
 
-	] )
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DUE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_due_date, [
+%=======================================================================
+
+   q(0,50,line)
+
+  
+    ,generic_horizontal_details( [ [`due`,`date`, q10(tab) ], vendor_terms, date, newline ] )
+
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PO Number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+   q(0,50,line)
+
+  ,generic_horizontal_details( [ [ `PO`,`NO`, `:`,tab ],  order_number, w, newline ] )
+
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL NET
+% PO Number
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_net, [
+i_rule( get_delivery_lines, [
 %=======================================================================
 
-	q(0,100,line)
+   q(0,50,line)
 
-	, or([
+  ,generic_horizontal_details( [ [ `Delivery`,`NO`, `:`,tab ],  delivery_note_number, w, newline ] )
 
-	 generic_horizontal_details( [ [ `Total`, `Net`, tab ],  total_net, d, newline ] )
-	
-	, generic_horizontal_details( [ [ `Total`, `Net` ], 225, total_net, d, newline ] )
+  ,q(0,3,line)
 
-	] )
-	
+  ,generic_horizontal_details( [ [ `Delivery`,`date`, `:`,tab ],  delivery_date, date, newline ] )
+
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL VAT
+% TOTAL NET AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_vat, [
+i_rule(get_total_net, [
 %=======================================================================
 
-	q(0,100,line)
+    set(regexp_cross_word_boundaries)
 
-    ,  generic_horizontal_details( [ [  `Plus`, `GST`, tab ] , total_vat, d, newline ] )
+  , q(0,100,line)
 
-	, generic_item( [ default_vat_rate, `15` ] )
-	
+  , generic_horizontal_details( [ [ `Total`, `Net`, `Tax`, `Excl`, `:` ],500, total_net, d, tab ] )
+
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE TOTALS
+% TOTAL VAT AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_invoice, [
+i_rule(get_total_vat, [
 %=======================================================================
 
-	q(0,100,line)
+q(0,100,line)
 
-	, or([
-
-    
-	
-	  generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, total_invoice, d, newline ] )
-
-	 , generic_horizontal_details( [ [ `Total`, `Credit`, `Incl`, `.`, `GST`, tab ], total_invoice, d, newline ] )
-
-     , generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), total_invoice, d, newline ] )
-
-   ])	
-
-	
-		
+  , generic_horizontal_details( [ [ `VAT`, `EUR`, `:` ],500, total_vat, d, newline ] )
+   
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET CURRENCY
+% TOTAL INVOICE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_currency, [
+i_rule(get_total_invoice, [
 %=======================================================================
 
-	currency( `NZD` )
+   q(0,100,line)
+
+  ,generic_horizontal_details( [ [`Total`, `Amount`, generic_item( [ currency, w ] ), `:`],500,  total_invoice, d, newline ] )
 
 ] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,39 +240,86 @@ i_rule( get_currency, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_lines, [
+i_section( get_invoice_lines, [
 %=======================================================================
 
-q(0,100,line)
 
-, or([
-	
-	 generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, line_total_amount, d, newline ] )
+    line_header_line
 
-	, generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), line_total_amount, d, newline ] )
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+              [line_invoice_line, q10(line_descr_append_line) , q10(line_descr_append_line), q10(line_descr_append_line), q10(line_descr_append_line)]
+
+              , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+
+[`Product`, `Code`, `/`, `EAN`]
+
+, trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+  or([
+  
+  [`Net`, `Weight`, `(`, `Kg`, `)`, `:`]
+
+  ,[`Frito`, `-`, `Lay`, `Trading`, `Co`, `.`, `(`, `Europe`, `)`, `GmbH`, `-`, `FLTCE`]
+
+  ])
+
+  , trace( [ `Found End line` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+  generic_item( [ line_descr, s1, q10(tab) ] ) 
+
+  ,generic_item( [ line_unit_amount_dummy, d,tab ] ) 
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_quantity, d, tab ] )
+
+      , generic_item( [ line_net_amount, d, tab ] )
+
+      , generic_item( [ line_vat_rate, d, newline ] )
+
+      
+   ,clear(regexp_cross_word_boundaries)
+
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_append_line, [
+%=======================================================================
  
-   , generic_horizontal_details( [ [ `Total`, `Credit`, `Incl`, `.`, `GST`, tab ], line_total_amount, d, newline ] )
+ generic_append( [ line_descr, s1,newline, ` `, ` ` ] )
 
-   ])	
-
-	 , line_descr(`Service charges`)
-		
 ] ).
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% MAPPING AUDIT TRAIL
 
-% Updated on   - November 20, 2017
-% Updated by   - Rohini
-% Changes made - Credit note mapped
-
-% Updated on   - 
-% Updated by   -
-% Changes made - 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -237,7 +237,7 @@ i_rule(get_total_invoice, [
 
    ,set(regexp_cross_word_boundaries)
 
-   , generic_vertical_details( [ [ `MONTANT`, `T`, `.`, `T`, `.`, `C`],  `MONTANT`, q(0,1), (start,100,400), total_invoice, d, [`€`,  newline ]  ] )
+   , generic_vertical_details( [ [ `MONTANT`, `T`, `.`, `T`, `.`, `C`],  `MONTANT`, q(0,1), (start,100,400), total_invoice, d, tab  ] )
 
     ,clear(regexp_cross_word_boundaries)
 
