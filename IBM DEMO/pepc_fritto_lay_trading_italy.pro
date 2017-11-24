@@ -135,7 +135,7 @@ i_rule( get_due_date, [
    q(0,50,line)
 
   
-    ,generic_horizontal_details( [ [`due`,`date`, q10(tab) ], vendor_terms, date, newline ] )
+    ,generic_horizontal_details( [ [`due`,`date`, q10(tab) ], due_date, date, newline ] )
 
 
 ] ).
