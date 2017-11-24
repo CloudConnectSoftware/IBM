@@ -8,7 +8,7 @@ i_version( pepc_fritto_lay_trading_italy, `08 November 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-date_format( _ ).
+i_date_format( _ ).
 
 i_trace_lists.
 
@@ -151,9 +151,14 @@ i_rule( get_due_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-   q(0,50,line)
+   q(0,100,line)
 
-  ,generic_horizontal_details( [ [ `PO`,`NO`, `:`,tab ],  order_number, w, newline ] )
+  ,or([
+    
+    generic_horizontal_details( [ [ `PO`,`NO`, `:`,tab ],  order_number, s1, newline ] )
+
+    
+  ])
 
 
 ] ).
@@ -250,7 +255,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-              [line_invoice_line, q10(line_descr_append_line) , q10(line_descr_append_line), q10(line_descr_append_line), q10(line_descr_append_line)]
+              [line_invoice_line, q10(line_descr_append_line) , q10(line_descr_append_line2), q10(line_descr_append_line), q10(line_descr_append_line)]
 
               , line
 
@@ -309,6 +314,16 @@ i_line_rule_cut( line_invoice_line, [
 
 
 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_append_line2, [
+%=======================================================================
+ 
+ generic_append( [ line_item, d,`/`, ` `, ` ` ] )
+
+,generic_append( [ line_descr, w,newline, ` `, ` ` ] )
 
 ] ).
 
