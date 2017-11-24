@@ -31,6 +31,8 @@ i_rule_list( [
     , get_due_date
 
     , get_order_number
+
+    , get_delivery_note
     
     , get_total_net
 
