@@ -8,7 +8,7 @@ i_version( pepc_fritto_lay_trading_italy, `08 November 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y`).
+date_format( _ ).
 
 i_trace_lists.
 
