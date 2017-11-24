@@ -56,6 +56,8 @@ i_rule( get_supplier_detail, [
 
     sender_name( `SHI UK` )
 
+   ,supplier_party( `SHI UK` )
+
    ,supplier_vat_number(`GB706459623`)
 
    ,buyer_dept(`PCIL`)
@@ -335,9 +337,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - November 7, 2017
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - November 24, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Party
 
 % Updated on   - 
 % Updated by   -
