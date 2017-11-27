@@ -144,7 +144,7 @@ i_rule( get_order_number, [
 
    q(0,25,line)
 
-  ,generic_horizontal_details( [ [ `Your`, `order`, `:` ],  order_number, w, newline ] )
+  ,generic_horizontal_details( [ [  `order`, `number` ],  order_number, w, newline ] )
 
 ] ).
 
