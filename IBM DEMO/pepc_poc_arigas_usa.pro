@@ -124,7 +124,35 @@ i_rule( get_invoice_date, [
 
 
 ] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL INVOICE Currency
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+q(0,20,line)
+
+    , currency_line
+
+]).
+
+%=======================================================================
+i_line_rule( currency_line, [
+%=======================================================================
+
+    q0n(anything)
+
+   , `$`
+
+    , currency(`USD`)
+
+    ,trace( [ `USD Found` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,10 +161,14 @@ i_rule( get_invoice_date, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_sale_subtotal, [
+i_rule( get_due_date, [
 %=======================================================================
 
+  q(0,100,line)
    
+   
+
+   ,generic_vertical_details( [ [ `DUE`, `DATE` ], `DUE`, q(0,1), (start,10,10),due_date, date, tab ] )
 
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -151,7 +183,7 @@ i_rule( get_order_number, [
 
    q(0,50,line)
 
-  ,generic_vertical_details( [ [ `order`, `No` ], `No`, q(0,1), (start,10,10),order_number, w, tab ] )
+  ,generic_vertical_details( [ [ `PO`, `/`, `RELEASE`], `PO`, q(0,1), (start,10,10),order_number, w, tab ] )
 
 
 ] ).
@@ -163,6 +195,8 @@ i_rule( get_delivery_lines, [
 	qn0(line)
 
 	, generic_horizontal_details( [ [ `Delivery`,`Flat`,`Fee` ] , 600 , line_net_amount , d , newline ] )
+
+  , generic_item( [ line_quantity , `1` ] )
 
 	, generic_item( [ line_descr , `Delivery Flat Fee` ] )
 
@@ -313,11 +347,11 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-  generic_item( [ line_delivery_note_number, d, tab ] )
+  generic_item( [ delivery_note_number, d, tab ] )
 
   ,generic_item( [ line_item, s1, tab ] )
 
-, generic_item( [ line_quantity_dummy, d ] ) 
+, generic_item( [ line_quantity, d ] ) 
 
 , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -327,7 +361,7 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_quantity_dummy3, d, tab ] )
 
-, generic_item( [ line_unit_amount, d,tab ] )
+, generic_item( [ line_unit_amount_dummy, d,tab ] )
 
 , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 

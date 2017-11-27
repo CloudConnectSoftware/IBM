@@ -220,7 +220,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 
-[`Description`, `of`, `Services`, tab, `Charge`]
+[`Date`, tab,  `Commodity`]
 
 , trace( [ `Found Start line` ] )
 
@@ -232,7 +232,7 @@ i_line_rule_cut( line_end_line, [
 
   or([
   
-  [`THANK`, `YOU`, `FOR`, `YOUR`, `BUSINESS`, tab, `Invoice`, `Total`, `(`, `USD`, `)`]
+  [`Invoice`]
 
   ])
 
@@ -245,7 +245,13 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-  generic_item( [ line_descr, s1,[tab, `$`] ] ) 
+ generic_item( [ line_delivery_date, date, tab ] ) 
+  
+,generic_item( [ line_descr, s1,tab ] ) 
+
+,generic_item( [ line_quantity, d,tab ] ) 
+
+,generic_item( [ line_unit_amount, d,tab ] ) 
 
 , generic_item( [ line_net_amount, d, newline ] )
 

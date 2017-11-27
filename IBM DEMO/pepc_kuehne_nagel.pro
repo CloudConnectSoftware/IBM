@@ -12,7 +12,6 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_pdf_parameter( ignore_white_writing, 1 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -32,6 +31,8 @@ i_rule_list( [
     , get_due_date
 
     , get_order_number
+
+    , get_delivery_note
     
     , get_total_net
 
@@ -57,6 +58,8 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 
     sender_name( `Kuehne + Nagel Ltd` )
+
+   ,supplier_party( `Kuehne + Nagel Ltd` )
 
    ,supplier_vat_number(`GB864440910`)
 
@@ -131,10 +134,32 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
- ,generic_horizontal_details( [ [ `PO`, `:` ],  order_number, w, newline ] )
+      , or( [
+
+    generic_horizontal_details( [ [ `Customer`, `Reference`, `:`, tab,`PO`, `:` ],  order_number, d, newline ] )
+
+    ,  generic_horizontal_details( [ [`Customer`, `Reference`, `:`, tab, `PO`],  order_number, d, newline ] )
+] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DELIVERY NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_note, [
+%=======================================================================
+
+     q(0,50,line)
+
+  ,generic_horizontal_details( [ [`Waybill`, `Ref`, `:`, tab ],  delivery_note_number, d, newline ] )
 
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -273,9 +298,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - November 7, 2017
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - November 24, 2017
+% Updated by   - Rohini
+% Changes made - Supplier party and Delivery note mapped
 
 % Updated on   - 
 % Updated by   -
