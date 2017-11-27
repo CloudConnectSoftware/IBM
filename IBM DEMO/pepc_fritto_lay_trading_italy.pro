@@ -231,7 +231,13 @@ i_rule(get_total_net, [
 
   , q(0,100,line)
 
+  ,or([
+
+    [test(credit_note), generic_horizontal_details( [ [ `Total`, `Net`, `Tax`, `Excl`, `:` ],500, total_net, n, tab ] )]
+
   , generic_horizontal_details( [ [ `Total`, `Net`, `Tax`, `Excl`, `:` ],500, total_net, d, tab ] )
+
+  ])
 
 ] ).
 
@@ -248,8 +254,13 @@ i_rule(get_total_vat, [
 
 q(0,100,line)
 
+,or([
+
+  [test(credit_note), generic_horizontal_details( [ [ `VAT`, `EUR`, `:` ],500, total_vat, n, newline ] )]
   , generic_horizontal_details( [ [ `VAT`, `EUR`, `:` ],500, total_vat, d, newline ] )
    
+])
+
 ] ).
 
 
@@ -265,7 +276,13 @@ i_rule(get_total_invoice, [
 
    q(0,100,line)
 
-  ,generic_horizontal_details( [ [`Total`, `Amount`, generic_item( [ currency, w ] ), `:`],500,  total_invoice, d, newline ] )
+  ,or([
+
+    [test(credit_note), generic_horizontal_details( [ [`Total`, `Amount`, generic_item( [ currency, w ] ), `:`],500,  total_invoice, n, newline ] )]
+    
+    ,generic_horizontal_details( [ [`Total`, `Amount`, generic_item( [ currency, w ] ), `:`],500,  total_invoice, d, newline ] )
+
+  ])
 
 ] ).
 
@@ -334,7 +351,7 @@ i_line_rule_cut( line_invoice_line, [
 
   ,generic_item( [ line_unit_amount_dummy, d,tab ] ) 
 
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
     , generic_item( [ line_quantity, d, tab ] )
 
