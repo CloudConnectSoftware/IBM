@@ -196,6 +196,8 @@ i_rule( get_delivery_lines, [
 
 	, generic_horizontal_details( [ [ `Delivery`,`Flat`,`Fee` ] , 600 , line_net_amount , d , newline ] )
 
+  , generic_item( [ line_quantity , `1` ] )
+
 	, generic_item( [ line_descr , `Delivery Flat Fee` ] )
 
   , generic_item( [ line_vat_rate , `0` ] )
@@ -345,11 +347,11 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-  generic_item( [ line_delivery_note_number, d, tab ] )
+  generic_item( [ delivery_note_number, d, tab ] )
 
   ,generic_item( [ line_item, s1, tab ] )
 
-, generic_item( [ line_quantity_dummy, d ] ) 
+, generic_item( [ line_quantity, d ] ) 
 
 , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -359,7 +361,7 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_quantity_dummy3, d, tab ] )
 
-, generic_item( [ line_unit_amount, d,tab ] )
+, generic_item( [ line_unit_amount_dummy, d,tab ] )
 
 , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
