@@ -21,6 +21,8 @@ i_rule_list( [
     
       get_supplier_detail
 
+    , get_supplier_address
+
      , get_bank_accountnumber
                      
     , get_invoice_number
@@ -64,14 +66,78 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Chameleon Studios, Inc.` )
 
-   ,supplier_party(`Chameleon Studios, Inc. `)
-
    ,supplier_vat_number(`NO_GST_INVOICE`)
 
    ,buyer_dept(`PCIL`)
 
    ,buyer_registration_number(`PCIL`)
 
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,2,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+   , q(0,1,line)
+
+   , line_add_line_4
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead(`Chameleon`)
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_item( [ supplier_address_line, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+ 
+      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
+
+     , generic_item( [ supplier_dummy5, s1, tab ] )
+
+     , generic_item( [ supplier_dummy4, s1, newline ] )
+
+
+    
 ] ).
 
 
@@ -298,3 +364,23 @@ i_line_rule_cut( line_descr_append_line, [
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on - November 8, 2017
+% Mapped by - Thejas 
+
+% Updated on   - November 28, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
