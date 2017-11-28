@@ -56,8 +56,6 @@ i_rule( get_supplier_detail, [
 
     sender_name( `SHI UK` )
 
-   ,supplier_party( `SHI UK` )
-
    ,supplier_vat_number(`GB706459623`)
 
    ,buyer_dept(`PCIL`)
@@ -65,6 +63,96 @@ i_rule( get_supplier_detail, [
    ,buyer_registration_number(`PCIL`)
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+   , q(0,1,line)
+
+   , line_add_line_4
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead(`SHI`)
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, tab ] )
+
+     , generic_item( [ supplier_dummy, s1, tab ] )
+
+     , generic_item( [ supplier_dummy1, s1, tab ] )
+
+     , generic_item( [ supplier_dummy2, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_item( [ supplier_address_line, s1, tab ] )
+
+     , generic_item( [ supplier_dummy3, s1, newline ] )
+
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+ 
+      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
+
+     , generic_item( [ supplier_dummy5, s1, tab ] )
+
+     , generic_item( [ supplier_dummy4, s1, newline ] )
+
+
+    
+] ).
+
+
+
+%=======================================================================
+i_line_rule( line_add_line_4, [
+%=======================================================================
+ 
+      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
+
+     , generic_item( [ supplier_dummy6, s1, newline ] )
+
+    
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,6 +428,11 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - November 24, 2017
 % Updated by   - Rohini
 % Changes made - Supplier Party
+
+% Updated on   - November 28, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address
+
 
 % Updated on   - 
 % Updated by   -
