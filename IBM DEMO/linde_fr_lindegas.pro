@@ -148,10 +148,11 @@ i_rule( get_order_number, [
      q(0,100,line)
 
     ,or([
-        generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, d, `vom` ] )
+        generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, d, newline ] )
 
         ,generic_horizontal_details( [ [`Your`, `Purchase`, `Order`, `:`, tab ], order_number, d, tab ] )
 
+ 
     ])
 
 
@@ -268,7 +269,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-            [line_invoice_line, q10(line_append_line), q10(line_append_line),q10(line_append_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),q10(line_po_line)]
+            [line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_po_line),q10(line_append_line),q10(line_po_line)]
 
               , line
 
@@ -361,7 +362,7 @@ i_line_rule( line_append_line, [
 i_line_rule_cut( line_po_line, [
 %=======================================================================
 
-     generic_item( [ line_ref_dummy, s1, tab ] )
+     `Your`, `Purchase`, `Order`, `:`, tab
 
      , generic_item( [ line_buyers_order_number , w , tab ] )
 

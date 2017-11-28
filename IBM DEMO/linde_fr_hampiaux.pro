@@ -36,6 +36,8 @@ i_rule_list( [
 
     , get_total_vat
 
+    , get_line_vat_rate
+    
     , get_total_invoice
 
     , get_currency
@@ -215,12 +217,28 @@ i_rule(get_total_vat, [
 
    ,  generic_vertical_details( [ [ `MONTANT`, `T`, `.`, `V`, `.`, `A`],  `MONTANT`, q(0,1), (start,100,200), total_vat, d, tab  ] )
 
-   , generic_item( [ default_vat_rate, `20 ` ] )
-
-    ,clear(regexp_cross_word_boundaries)
+       ,clear(regexp_cross_word_boundaries)
 
       , clear(reverse_punctuation_in_numbers)
   
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL VAT rate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_line_vat_rate, [
+%=======================================================================
+
+
+   q(0,100,line)
+
+   , generic_vertical_details( [ [ `TAUX`, `T`, `.`, `V`, `.`, `A`],`TAUX`, q(0,1), (start,300,300), default_vat_rate, d, [`%`, tab ] ] )
+                                    
+   
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
