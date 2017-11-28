@@ -29,6 +29,8 @@ i_rule_list( [
     , get_due_date
 
     , get_order_number
+
+    ,get_delivery_note_number
     
     , get_total_net
 
@@ -143,9 +145,32 @@ i_rule( get_due_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-     q(0,20,line)
+     q(0,100,line)
 
-    ,generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, w, newline ] )
+    ,or([
+        generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, d, `vom` ] )
+
+        ,generic_horizontal_details( [ [`Your`, `Purchase`, `Order`, `:`, tab ], order_number, d, tab ] )
+
+    ])
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% delivery Note Number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_note_number, [
+%=======================================================================
+
+     q(0,100,line)
+
+    ,generic_horizontal_details( [ [`Delivery`, `Note`, `No`, `.`, `:` ], delivery_note_number, d, dummy_word(w) ] )
+
 
 
 ] ).
@@ -352,8 +377,8 @@ i_line_rule_cut( line_po_line, [
 % Mapped on - October 11, 2017
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   -
+% Updated on   - November 28, 2017
+% Updated by   - Thejaswi
 % Changes made - 
 
 % Updated on   - 
