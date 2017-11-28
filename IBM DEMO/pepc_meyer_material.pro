@@ -67,6 +67,70 @@ i_rule( get_supplier_detail, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead(`MEYER`)
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, tab ] )
+
+     , generic_item( [ supplier_dummy1, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_item( [ supplier_address_line, s1, tab ] )
+
+     , generic_item( [ supplier_dummy3, s1, newline ] )
+
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+ 
+      generic_append( [ supplier_address_line, s1, newline, ` `, ` `  ] )
+
+    
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -227,7 +291,7 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_quantity, d, tab ] )
 
-, generic_item( [ line_order_dummy, d, tab ] )
+, generic_item( [ line_order_dummy, d, [ tab, `/`] ] )
 
 , generic_item( [ line_descr, s1, tab ] )
 
@@ -256,9 +320,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - November 22, 2017
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - November 28, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address
 
 % Updated on   - 
 % Updated by   -
