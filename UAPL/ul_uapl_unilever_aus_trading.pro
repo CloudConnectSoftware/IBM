@@ -190,7 +190,7 @@ i_line_rule_cut( currency_line, [
 %=======================================================================
     q0n(anything)
 
-    ,   `$`, `A`, tab
+    , [`$`, `A`]
 
     , generic_item( [ currency, `AUD` ] )
 
@@ -218,6 +218,8 @@ i_section( get_invoice_lines, [
             line_invoice_line
 
             ,line_invoice_foramt2
+
+            , line_invoice_line2
 
               
             , line
@@ -321,3 +323,52 @@ i_line_rule_cut( line_invoice_foramt2, [
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+      generic_item( [ line_number, d ] )
+
+    , generic_item( [ line_item, s1, tab ] )
+
+    , generic_item( [ line_customer_code, d ] )
+
+    , generic_item( [ line_descr, s1, tab ] )
+
+    , q10(generic_item( [ line_quantity, d ] ))
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_discount, d, tab ] )
+
+    , generic_item( [ line_other_dedu, d ] )
+
+    , generic_item( [ line_vat_rate, d, [`%`,tab ] ] )
+
+    , generic_item( [ line_net_amount, d, tab ] )
+
+    , generic_item( [ line_vat_amount, d ] )
+
+    , generic_item( [ line_total_amount, d, newline ] )
+
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - November 29, 2017
+% Updated by   - Rohini
+% Changes made - Invoice line format mapped
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
