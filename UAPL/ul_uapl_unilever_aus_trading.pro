@@ -344,11 +344,11 @@ i_line_rule_cut( line_invoice_line2, [
 
     , generic_item( [ line_other_dedu, d ] )
 
-    , generic_item( [ line_vat_rate, d, [`%`,tab ] ] )
+    , generic_item( [ line_vat_rate, d, [`%`,q10(tab) ] ] )
 
     , generic_item( [ line_net_amount, d, tab ] )
 
-    , generic_item( [ line_vat_amount, d ] )
+    , generic_item( [ line_vat_amount, d, q10(tab) ] )
 
     , generic_item( [ line_total_amount, d, newline ] )
 
