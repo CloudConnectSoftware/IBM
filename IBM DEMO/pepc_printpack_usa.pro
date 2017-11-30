@@ -118,7 +118,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
+      generic_append( [ supplier_address_line, s1, tab, `, `, ` `  ] )
 
      , generic_item( [ supplier_dummy3, s1, tab ] )
 
@@ -319,7 +319,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-              line_invoice_line
+              [line_invoice_line,line_dummy_line,line_dummy_line1, line_descr_line]
 
               , line
 
@@ -361,7 +361,7 @@ i_line_rule_cut( line_invoice_line, [
 
   generic_item( [ line_item, w, tab ] )
 
-, generic_item( [ line_descr, s1,tab ] ) 
+, generic_item( [ line_po_dummy, s1,tab ] ) 
 
 , generic_item( [ line_quantity_dummy, d, tab ] )
 
@@ -374,4 +374,55 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_dummy_line, [
+%=======================================================================
 
+    generic_item( [ line_descr_dummy, s1, tab ] )
+
+  , generic_item( [ line_descr_dummy1, s1, tab ] )
+
+  , generic_item( [ line_descr_dummy2, s1, newline ] )
+
+] ).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_dummy_line1, [
+%=======================================================================
+
+   generic_item( [ line_descr_dummy3, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+  generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on - November 07, 2017
+% Mapped by - Thejas 
+
+% Updated on   - November 30, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address and Line description
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
