@@ -54,13 +54,13 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `MEYER MATERIAL HANDLING PRODUCTS` )
+     sender_name( `MEYER MATERIAL HANDLING PRODUCTS` )
 
-   ,supplier_vat_number(`Not on Invoice`)
+   , supplier_vat_number(`Not on Invoice`)
 
-   ,buyer_dept(`PCIL`)
+   , buyer_dept(`PCIL`)
 
-   ,buyer_registration_number(`PCIL`)
+   , buyer_registration_number(`PCIL`)
 
 ] ).
 
@@ -75,7 +75,7 @@ i_rule( get_supplier_detail, [
 i_rule( get_supplier_address, [
 %=======================================================================
   
-  q(0,10,line)
+     q(0,10,line)
 
    , line_add_line
 
@@ -94,9 +94,9 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-      read_ahead(`MEYER`)
+       read_ahead(`MEYER`)
 
-    , trace( [ `Found address`] )
+     , trace( [ `Found address`] )
 
      , generic_item( [ supplier_party, s1, tab ] )
 
@@ -110,7 +110,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-      generic_item( [ supplier_address_line, s1, tab ] )
+       generic_item( [ supplier_address_line, s1, tab ] )
 
      , generic_item( [ supplier_dummy3, s1, newline ] )
 
@@ -123,7 +123,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-      generic_append( [ supplier_address_line, s1, newline, ` `, ` `  ] )
+       generic_append( [ supplier_address_line, s1, newline, `, `, ` `  ] )
 
     
 ] ).
@@ -139,9 +139,9 @@ i_line_rule( line_add_line_3, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-     q(0,10,line)
+      q(0,10,line)
 
-    ,generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `:` ], invoice_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `:` ], invoice_number, s1, newline ] )
 
 
 ] ).
@@ -158,9 +158,9 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-     q(0,10,line)
+      q(0,10,line)
 
-    ,generic_horizontal_details( [ [`INVOICE`, `DATE`, `:` ],  invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [`INVOICE`, `DATE`, `:` ],  invoice_date, date, newline ] )
 
 
 ] ).
@@ -176,9 +176,9 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-     q(0,20,line)
+      q(0,20,line)
 
-    ,generic_vertical_details( [ [ `Customer`, `P`, `.`, `O`, `.` ], `Customer`, q(0,1), (start,10,10), order_number, d, tab ] )
+    , generic_vertical_details( [ [ `Customer`, `P`, `.`, `O`, `.` ], `Customer`, q(0,1), (start,10,10), order_number, d, tab ] )
 
 
 ] ).
@@ -193,9 +193,9 @@ i_rule( get_order_number, [
 i_rule(get_total_net, [
 %=======================================================================
 
-   q(0,50,line)
+      q(0,50,line)
 
-  , generic_horizontal_details( [ [`Net`, `Invoice`, `:`, tab ],  total_net, d, newline ] )
+    , generic_horizontal_details( [ [`Net`, `Invoice`, `:`, tab ],  total_net, d, newline ] )
 
 
 
@@ -210,9 +210,9 @@ i_rule(get_total_net, [
 i_rule(get_total_vat, [
 %=======================================================================
 
-   q(0,60,line)
+     q(0,60,line)
 
-  ,generic_horizontal_details( [ [`Sales`, `Tax`, `:`, tab ],  total_vat, d, newline ] )
+   , generic_horizontal_details( [ [`Sales`, `Tax`, `:`, tab ],  total_vat, d, newline ] )
 
  
 
@@ -228,9 +228,9 @@ i_rule(get_total_vat, [
 i_rule(get_total_invoice, [
 %=======================================================================
 
-   q(0,60,line)
+     q(0,60,line)
 
-   ,generic_horizontal_details( [ [`Invoice`, `Total`, `:`, tab ],  total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Invoice`, `Total`, `:`, tab ],  total_invoice, d, newline ] )
 
 
 ] ).
@@ -251,7 +251,7 @@ i_section( get_invoice_lines, [
 
     , qn0( [ peek_fails(line_end_line)
 
-        , or( [
+    , or( [
               
               [line_invoice_line , q10(line_append_line), q10(line_append_line)]
 
@@ -263,15 +263,17 @@ i_section( get_invoice_lines, [
 
 ] ).
 
+
 %=======================================================================
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-[`Ordered`, tab, `Shipped`, tab, `Back`]
+   [`Ordered`, tab, `Shipped`, tab, `Back`]
 
-, trace( [ `Found Start line` ] )
+   , trace( [ `Found Start line` ] )
 
 ] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_end_line, [
@@ -279,15 +281,16 @@ i_line_rule_cut( line_end_line, [
  
     [`Net`, `Invoice`, `:`, tab ]
 
-  , trace( [ `Found End line` ] )
+    , trace( [ `Found End line` ] )
 
 ] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
- generic_item( [ line_quantity_dummy, d, tab ] )
+  generic_item( [ line_quantity_dummy, d, tab ] )
 
 , generic_item( [ line_quantity, d, tab ] )
 
@@ -307,10 +310,13 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
- generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+ generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
 
 ] ).
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -323,6 +329,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - November 28, 2017
 % Updated by   - Rohini
 % Changes made - Supplier Address
+
+% Updated on   - November 30, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address separation
 
 % Updated on   - 
 % Updated by   -
