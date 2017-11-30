@@ -57,6 +57,8 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Linde AG, Linde Gas Division` )
 
+     ,supplier_party( `Linde AG, Linde Gas Division` )
+
    ,supplier_vat_number(`DE 113 822 613`)
 
    , set(reverse_punctuation_in_numbers)
