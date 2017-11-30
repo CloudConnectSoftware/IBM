@@ -286,7 +286,7 @@ i_section( get_invoice_lines, [
               
           [line_invoice_line2]
 
-         , [q10(line_descr_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),line_invoice_line,q10(line_append_line)]
+         , [q10(line_delivery_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),line_invoice_line,q10(line_append_line)]
 
 
               , line
@@ -388,10 +388,19 @@ i_line_rule_cut( line_invoice_line, [
 
 
 %=======================================================================
-i_line_rule_cut( line_descr_line, [
+i_line_rule_cut( line_delivery_line, [
 %=======================================================================
 
-    generic_item( [ line_descr, s1, newline ] )
+    generic_item( [ line_descr,s  ] )
+
+    , [
+        generic_item( [line_delivery_raw,d, newline ] ), 
+    
+      check(line_delivery_raw=Line_deliveryRaw), line_delivery_note_number(Line_deliveryRaw),
+      
+      generic_append( [line_descr,Line_deliveryRaw, ` - `, ` `    ] ) 
+      
+      ]
 
 ] ).
 
@@ -400,7 +409,7 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-  generic_append( [line_descr,s1, newline, ` `, ` `    ] )
+  generic_append( [line_descr,s1, newline, ` -  `, ` `    ] )
 
 ] ).
 
