@@ -113,7 +113,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-      generic_append( [ supplier_address_line, s1, newline, ` `, ` `  ] )
+      generic_append( [ supplier_address_line, s1, newline, `, `, ` `  ] )
 
 ] ).
 
