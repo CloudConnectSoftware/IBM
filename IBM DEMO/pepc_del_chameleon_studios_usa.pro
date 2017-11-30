@@ -130,7 +130,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
+      generic_append( [ supplier_address_line, s1, tab, `, `, ` `  ] )
 
      , generic_item( [ supplier_dummy5, s1, tab ] )
 
@@ -347,7 +347,7 @@ i_line_rule_cut( line_invoice_line, [
 
   ,generic_item( [ line_descr, s1,tab ] ) 
 
-  ,q10(generic_append( [ line_descr, s1,tab, ` `, ` ` ] ))
+  ,q10(generic_append( [ line_descr, s1,tab, `, `, ` ` ] ))
 
 , generic_item( [ line_net_amount, d, newline ] )
 
@@ -357,7 +357,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_append_line, [
 %=======================================================================
  
- generic_append( [ line_descr, s1,newline, ` `, ` ` ] )
+ generic_append( [ line_descr, s1,newline, `, `, ` ` ] )
 
 ] ).
 
