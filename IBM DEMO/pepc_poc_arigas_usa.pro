@@ -139,7 +139,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-      generic_append( [ supplier_address_line, s1, tab, ` `, ` `  ] )
+      generic_append( [ supplier_address_line, s1, tab, `, `, ` `  ] )
 
      , generic_item( [ supplier_dummy5, s1, tab ] )
 
