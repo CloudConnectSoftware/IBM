@@ -81,9 +81,17 @@ i_rule( get_bank_accountnumber, [
 
      q(0,50,line)
 
-    , generic_horizontal_details( [ [ `BANQUE`, `CIC`, `EST`, `IBAN`, `:` ],  supplier_iban, s, [`-`, `BIC`, `:`, generic_item( [ supplier_swift_code, w ] ) , newline] ] )
+    , generic_horizontal_details( [ [ `BANQUE`, `CIC`, `EST`, `IBAN`, `:` ],  supplier_iban_no, s, [`-`, `BIC`, `:`, generic_item( [ supplier_swift_code, w ] ) , newline] ] )
 
-    
+    , check(supplier_iban_no = Iban) ,trace( [ `IBAN`, Iban] )
+
+    , check(strip_string2_from_string1( Iban, ` `, IbanNew ))
+
+    ,supplier_iban(IbanNew)
+
+    ,trace( [ `IBAN`, supplier_iban ] )
+
+
 ] ).
 
 
