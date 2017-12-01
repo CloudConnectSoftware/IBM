@@ -78,6 +78,8 @@ i_rule_cut( get_invoice_number, [
 
    , generic_horizontal_details( [ [ `Invoice`, `Reprinted`, `On`, tab ], invoice_number_raw, s1, newline ] )
 
+   , generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,3), (start,100,400), invoice_number_raw, d, newline ] )
+
 
    ])
 
@@ -250,3 +252,19 @@ i_rule( get_invoice_lines, [
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - December 1, 2017
+% Updated by   - Rohini 
+% Changes made - Invoice number
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
