@@ -105,7 +105,7 @@ i_rule_cut( get_invoice_number, [
        
        generic_horizontal_details( [ [ gen_beof, `Invoice` ], invoice_number, s1, newline ] )
 
-      , generic_horizontal_details( [ [ `Invoice` ,`Number`, tab ,`:` ], invoice_number, s1, newline ] )
+      , generic_horizontal_details( [ [ `Invoice` ,`Number`, q10(tab) ,`:`,q10(tab) ], invoice_number, s1, newline ] )
 
    ])
 	
@@ -127,7 +127,7 @@ i_rule_cut( get_invoice_date, [
         
            generic_horizontal_details( [ [ gen_beof, `Date` ], invoice_date, date, newline ] )
 
-         , generic_horizontal_details( [ [ `Date`, tab ,`:` ], invoice_date, date, newline ] )
+         , generic_horizontal_details( [ [ `Date`, q10(tab) ,`:`,q10(tab) ], invoice_date, date, newline ] )
 
    ])
 	
@@ -145,7 +145,7 @@ i_rule_cut( get_due_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Due`, `Date` ], due_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Due`, `Date` ], due_date, date, or([tab,newline]) ] )
 	
 ] ).
 
@@ -167,7 +167,9 @@ i_rule( get_total_invoice, [
 
         generic_horizontal_details( [ [gen_beof, `Grand`, `Total`, `SGD` ], 300, total_invoice, d, newline ] ) 
 
-       , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD` ] ,300, total_invoice, d, newline ] )
+       , generic_horizontal_details( [ [gen_beof, `Please`, `Pay`, `This`, `Amount`, `:`, `SGD` ] ,300, total_invoice, d, newline ] )
+
+       , generic_horizontal_details( [ [gen_beof, `Total`, `Amount`, `(`, `SGD`, `)`, tab ] , total_invoice, d, newline ] )
 
     ])
 
@@ -204,7 +206,9 @@ i_rule( get_currency, [
 
       , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:` ], currency, w, tab ] ) 
 
-    ])
+      , generic_horizontal_details( [ [ gen_beof,`Total`, `Amount`, `(` ], currency, w, `)` ] ) 
+
+        ])
 
     ] ).
 
