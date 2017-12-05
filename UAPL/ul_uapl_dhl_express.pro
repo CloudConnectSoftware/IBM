@@ -232,6 +232,8 @@ last_line
 
        , generic_horizontal_details( [ [ `Please`, `Pay`, `This`, `Amount`, `:`, `SGD` ] ,300, line_total_amount, d, newline ] )
 
+       , generic_horizontal_details( [ [gen_beof, `Total`, `Amount`, `(`, `SGD`, `)`, tab ] , line_total_amount, d, newline ] )
+
     ])
  
   , line_descr( `Courier Charges` )
