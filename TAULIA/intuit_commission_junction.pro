@@ -29,7 +29,7 @@ i_rule_list( [
     
     , get_invoice_date
 
-    , get_due_date
+    , get_delivery_date
 
     , get_order_number
   
@@ -60,70 +60,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
  
-   ,buyer_dept(`N/A`)
-
-   ,buyer_registration_number(`N/A`)
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER Address
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_supplier_address, [
-%=======================================================================
-   
-     q(0,3,line)
-
-   , line_add_line
-
-   , q(0,1,line)
-
-   , line_add_line_2
-
-   , q(0,1,line)
-
-   , line_add_line_3
-
-   , q(0,1,line)
-  
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line, [
-%=======================================================================
-      q0n(anything)
-
-      ,read_ahead(`Chevron`)
-
-    , trace( [ `Found address`] )
-
-    , generic_item( [ supplier_party, s1, newline ] )
-
-] ).
-
-
-%=======================================================================
-i_line_rule( line_add_line_2, [
-%=======================================================================
-
-    generic_item( [ supplier_dummy1, s1, tab ] ) 
-
-    ,generic_item( [ supplier_address_line, s1, newline ] )    
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line_3, [
-%=======================================================================
-      
-      generic_append( [ supplier_address_line, s1, newline, ` `, ` `  ] ) 
-   
-] ).
-
+   ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,15 +74,15 @@ i_rule( get_bank_accountnumber, [
    
    q(0,100,line)
 
-	, generic_horizontal_details( [ [  `Routing`, `#`],  custom_variable_3, d, newline  ] )
+	, generic_horizontal_details( [ [  `Routing`, `#`],  custom_variable_5, d, newline  ] )
 
   , q(0,1,line)
 
-	, generic_horizontal_details( [ [ `Account`, `#`],  supplier_bank_account_number, d, newline  ] )
+	, generic_horizontal_details( [ [ `Account`, `#`],  custom_variable_3, d, newline  ] )
 
   , q(0,1,line)
 
-	, generic_horizontal_details( [ [  `BIC`],  supplier_swift_code, w, newline  ] )
+	, generic_horizontal_details( [ [  `BIC`],  custom_variable_4, w, newline  ] )
 
 
 ] ).
@@ -171,6 +108,8 @@ i_rule( get_invoice_number, [
 
 ] ).
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE DATE
@@ -194,12 +133,12 @@ q(0,20,line)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_due_date, [
+i_rule( get_delivery_date, [
 %=======================================================================
 
 q(0,25,line)
 
-  ,generic_horizontal_details([ [ `Due`, `Date`, `:`, tab ], due_date, date,  newline  ])
+  ,generic_horizontal_details([ [ `Invoice`, `Date`, `:`, tab ], delivery_date, date,  newline  ])
 
 ] ).
 
@@ -216,7 +155,7 @@ i_rule( get_order_number, [
 q(0,25,line)
 
 
-  ,generic_vertical_details( [ [ `CUSTOMER`, `PO`, `NUMBER` ], `PO`, q(0,1), (start,10,10), order_number, d, tab ] )
+  ,generic_vertical_details( [ [ `CUSTOMER`, `PO`, `NUMBER` ], `PO`, q(0,1), (start,10,10), order_id, d, tab ] )
 
 ] ).
 
