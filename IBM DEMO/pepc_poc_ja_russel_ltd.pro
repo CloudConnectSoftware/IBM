@@ -311,7 +311,7 @@ q10(generic_item( [ line_item, d,tab ] ))
 
 , generic_item( [ line_amount_discount, d, tab ] )
 
-, generic_item( [ line_unit_amount, d, tab ] )
+, generic_item( [ line_unit_amount_dummy, d, tab ] )
 
 , generic_item( [ line_net_amount, d, newline ] )
   
