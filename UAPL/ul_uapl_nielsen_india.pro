@@ -91,7 +91,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, tab ], invoice_number, d, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`, tab ], invoice_number,s1, newline ] )
 	
 	] ).
 
@@ -240,7 +240,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-     , generic_horizontal_details( [ [ `Total`, `Amount`,`in`,  tab ], total_invoice, d, newline ] )  
+     , generic_horizontal_details( [ [`Total`, `Amount`, `in`, `USD`, tab ], total_invoice, d, newline ] )  
 
         , check( total_invoice = TotInv )
 
@@ -285,3 +285,22 @@ i_rule( get_invoice_lines, [
     , line_descr( `Goods Services` )
 
 ]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - December 4, 2017
+% Updated by   - Rohini 
+% Changes made - Invoice number and Invoice amount
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 

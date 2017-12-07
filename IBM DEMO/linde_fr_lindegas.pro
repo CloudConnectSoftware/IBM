@@ -20,6 +20,8 @@ i_rule_list( [
     
       get_supplier_detail
 
+      ,get_supplier_address
+
     , get_bank_accountnumber
                      
     , get_invoice_number
@@ -68,6 +70,23 @@ i_rule( get_supplier_detail, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+    qn0(line)
+
+    ,generic_horizontal_details( [ [ `Linde`, `AG`, `,` ],  supplier_address_line, s, [`,`, `www`] ] )
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -78,9 +97,15 @@ i_rule( get_bank_accountnumber, [
 
      q(0,150,line)
 
-    , generic_horizontal_details( [ [`Bank`, `Code`, generic_item( [ supplier_bank_code, s ] ), `Account` ],  supplier_bank_account_number, s1, newline ] )
+    , generic_horizontal_details( [ [`Bank`, `Code`, generic_item( [ supplier_bank_cod, s ] ), `Account` ],  supplier_bank_account_no, s1, newline ] )
 
+    , [check(supplier_bank_cod = Scode)  , check(strip_string2_from_string1( Scode, ` `, ScodeNew ))
 
+    , supplier_bank_code(ScodeNew) , trace( [ `IBAN new FORMAT`, supplier_bank_code ] )]
+
+    , [check(supplier_bank_account_no = Sban)  , check(strip_string2_from_string1( Sban, ` `, SbanNew ))
+
+    , supplier_bank_account_number(SbanNew)    , trace( [ `Bank account new FORMAT`, supplier_bank_account_number ] )]
 ] ).
 
 
