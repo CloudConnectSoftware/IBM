@@ -409,52 +409,6 @@ i_rule( get_line_delivery_note_number, [
 
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET INVOICE LINES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_section( get_invoice_lines, [
-%=======================================================================
-
-    line_header_line
-
-    , qn0( [ peek_fails(line_end_line)
-
-        , or( [
-
-              
-
-               [ line_invoice_line
-
-                , q01(line_desr_line) ]
-
-               , [ line_invoice_oneline , q10(line_desr_line2) ]
-
-               , [ q10(line_desr_firstline)  
-                   
-               , line_invoice_twoline
-               
-               , line_desr_line2 ]
-
-               , [line_credit_line]    
-
-               , [line_credit_line2]       
-
-               ,[line_invoice_line2 ] 
-
-              ,   [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
-               
-               , line
-
-        ] )
-
-    ] )
-
-] ).
-    
 %=======================================================================
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
@@ -560,7 +514,6 @@ i_line_rule_cut( line_desr_line, [
 
 ] ).
 
-
 %=======================================================================
 i_line_rule_cut( line_invoice_oneline, [
 %=======================================================================
@@ -591,7 +544,6 @@ i_line_rule_cut( line_desr_firstline, [
 
 ] ).
 
-
 %=======================================================================
 i_line_rule_cut( line_invoice_twoline, [
 %=======================================================================
@@ -612,7 +564,6 @@ i_line_rule_cut( line_invoice_twoline, [
 
 ] ).
 
-
 %=======================================================================
 i_line_rule_cut( line_desr_line2, [
 %=======================================================================
@@ -622,7 +573,6 @@ i_line_rule_cut( line_desr_line2, [
     , trace( [`Appended Line Description`])
 
 ]).   
-
 
 %=======================================================================
 i_line_rule_cut( line_credit_line, [
@@ -636,7 +586,6 @@ i_line_rule_cut( line_credit_line, [
         
         
 ).
-
 
 %=======================================================================
 i_line_rule_cut( line_credit_line2, [
@@ -656,7 +605,6 @@ i_line_rule_cut( line_credit_line2, [
         
         
 ]).   
-
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line1, [
@@ -681,14 +629,12 @@ i_line_rule_cut( line_invoice_line1, [
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
-
          generic_item( [ line_descr, s1 , tab ] )        
         
         , generic_item( [ line_net_amount, d, newline ] )
         
         
 ]).   
-
 
 
 %=======================================================================
@@ -706,7 +652,6 @@ i_line_rule_cut( line_invoice_line3, [
         
 ]).   
 
-
 %=======================================================================
 i_line_rule_cut( line_invoice_line4, [
 %=======================================================================
@@ -721,7 +666,31 @@ i_line_rule_cut( line_invoice_line4, [
         
 ]).   
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line5, [
+%=======================================================================
 
+          generic_item( [ line_number, w  ] )
+
+        , generic_item( [ line_item, d, tab ] )
+
+        ,generic_item( [ line_descr, s1 ] )       
+
+         ,generic_item( [ line_quantity, d  ] ) 
+
+       ,generic_item( [ line_quantity_uom_code, w, tab  ] ) 
+
+      , generic_item( [ line_unit_amount, d, tab ] )
+
+       , generic_item( [ line_net_amount, d, tab ] )
+    
+        , generic_item( [ line_total_amount, d, tab ] )
+
+         , generic_item( [ line_vat_code, w, newline ] )
+    
+        
+        
+]).   
 
 
 
@@ -737,9 +706,6 @@ i_line_rule_cut( line_invoice_line4, [
 % Updated by   -
 % Changes made - 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
