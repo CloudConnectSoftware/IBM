@@ -278,7 +278,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
-     , generic_item( [ line_unit_amount, d, tab ] )
+     , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
      , generic_item( [ line_allowance_dummy, w, tab ] )
 
@@ -307,7 +307,7 @@ i_line_rule_cut( line_invoice_foramt2, [
 
     , generic_item( [ line_quantity, d ] )
 
-     , generic_item( [ line_unit_amount, d, tab ] )
+     , generic_item( [ line_unit_amount_dummy2, d, tab ] )
 
      , generic_item( [ line_discount, d, tab ] )
 
@@ -338,7 +338,7 @@ i_line_rule_cut( line_invoice_line2, [
 
     , q10(generic_item( [ line_quantity, d,  [q10(tab),check(line_quantity(end)< -129)] ] ))
 
-    , generic_item( [ line_unit_amount, d, tab ] )
+    , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
     , generic_item( [ line_discount, d, tab ] )
 
