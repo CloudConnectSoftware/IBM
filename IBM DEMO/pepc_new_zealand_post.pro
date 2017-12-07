@@ -229,9 +229,9 @@ i_line_rule( currency_line, [
 
    ,`Total`, `:`, tab, `$`
 
-    , currency(`USD`)
+    , currency(`NZD`)
 
-    ,trace( [ `USD Found` ] )
+    ,trace( [ `NZD Found` ] )
 
 ] ).
 
