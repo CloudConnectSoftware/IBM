@@ -27,6 +27,8 @@ i_rule_list( [
                      
     , get_invoice_number_date
 
+    ,get_due_date
+
     , get_order_number
   
     , get_total_net
@@ -64,6 +66,8 @@ i_rule( get_supplier_detail, [
 
    ,buyer_registration_number(`PCIL`)
 
+   ,currency( `NZD` )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -87,7 +91,7 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_find_line, [
 %=======================================================================
 
-      read_ahead([`Private`, `Macbag`])
+      read_ahead([`Private`, `bag`])
 
       ,generic_item( [ supplier_address_line, s1, tab  ] )
 
@@ -147,25 +151,51 @@ i_rule( get_invoice_number_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICEDUE DATE
+% GET DUE DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_due_date, [
+i_rule_cut( get_due_date, [
 %=======================================================================
-  
-   last_line
-
-   ,q(0,20,up)
-
-   , or([
-
-        generic_vertical_details( [ [ `Due`, `Date` ],`Due`, q(0,1), (end,100,100), due_date, date, tab ] )
-      
-       ]) 
+    
+    with( invoice, invoice_date, Date )
+        
+    , check( i_user_check( convert_to_day_of_next_month, Date, `20`, Due_Date ) )
+    
+    , generic_item( [ due_date, Due_Date ] )
 
 ] ).
+
+%-----------------------------------------------------------------------
+i_user_check( convert_to_day_of_next_month, Date_In, Day, Date_Out )
+%-----------------------------------------------------------------------
+:-
+    i_date_format( Format ),
+    
+    date_string( date( Y, M, D ), Format, Date_In ),
+    
+    (
+       M = 12,
+
+       sys_calculate( Y_New, Y + 1 ),
+
+       M_New = 1
+
+       ;
+
+       M \= 12,
+
+       sys_calculate( M_New, M + 1 ),
+
+       Y_New = Y
+
+    ),
+
+    sys_string_number( Day, D_New ),
+    
+    date_string( date( Y_New, M_New, D_New ), Format, Date_Out )
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
