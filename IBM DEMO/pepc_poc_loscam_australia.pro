@@ -23,7 +23,7 @@ i_rule_list( [
 
     , get_supplier_address
 
-   % , get_bank_accountnumber
+   , get_bank_accountnumber
                      
     , get_invoice_number_date
 
@@ -56,9 +56,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Chandler Macleod Group Limited` )
+    sender_name( `Loscam Australia PTY LTD` )
 
-   ,supplier_party(`Chandler Macleod Group Limited`)
+   ,supplier_party(`Loscam Australia PTY LTD`)
 
    ,supplier_vat_number(`33 090 555 052`)
 
@@ -114,7 +114,14 @@ i_line_rule( line_add_address_line1, [
 %=======================================================================
 i_rule( get_bank_accountnumber, [
 %=======================================================================
-   
+   last_line
+
+   , q(0,50,up)
+
+  
+
+   , generic_horizontal_details( [ [  `NAB`, `(`, `BSB`, `-` ], supplier_bank_code, w, [`A`, `/`, `c`, `-`, generic_item( [ supplier_bank_account_number, d ] ), `)`] ] )
+
 
 ] ).
 
