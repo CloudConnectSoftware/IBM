@@ -409,6 +409,47 @@ i_rule( get_line_delivery_note_number, [
 
 ] ).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+              [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
+
+              ,[line_desr_firstline,line_invoice_oneline,q10(line_desr_line2)]
+
+              , line_credit_line
+
+              , line_credit_line2
+   
+              , [ line_invoice_line3]
+              
+              , [line_desr_firstline,q10(line_desr_line2),line_invoice_line, line_invoice_line1]
+
+              , line_invoice_line5
+
+              , line
+
+        ] )
+
+    ] )
+
+] ).
+
+
 %=======================================================================
 i_line_rule_cut( line_header_line, [    
 %=======================================================================
@@ -670,7 +711,8 @@ i_line_rule_cut( line_invoice_line4, [
 i_line_rule_cut( line_invoice_line5, [
 %=======================================================================
 
-          generic_item( [ line_number, w  ] )
+ 
+          generic_item( [line_number , s ] )
 
         , generic_item( [ line_item, d, tab ] )
 
