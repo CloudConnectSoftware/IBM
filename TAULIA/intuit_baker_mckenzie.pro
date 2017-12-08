@@ -127,7 +127,7 @@ i_rule( get_invoice_date, [
 
      q(0,20,line)
 
-   , generic_vertical_details( [ [`www`, `.`, `bakermckenzie` ], `bakermckenzie`, q(0,1), (start,0,500), invoice_date_raw, s1, newline ] )
+   , generic_vertical_details( [ [`Client`, `:` ], `Client`, q(0,1,up), (start,700,0), invoice_date, date, newline ] )
 
 
 ] ).
