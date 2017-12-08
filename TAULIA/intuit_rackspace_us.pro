@@ -81,7 +81,7 @@ i_rule( get_supplier_bank_account_number, [
 
 	q(0,50,line)
 	
-	, generic_horizontal_details( [ [`Account`, `#`, `:`, tab ], custom_variable_3, d, tab ] )
+	, generic_horizontal_details( [ [`Account`, `#`, `:`, tab ], bank_account_number, d, tab ] )
 
 
 
@@ -118,7 +118,7 @@ i_rule( get_invoice_date, [
 
   q(0,30,line)
 
-  ,generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab  ], invoice_date_raw, date, newline ] )
+  ,generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab  ], invoice_date_raw, s1, newline ] )
 
   , check( invoice_date_raw = DateRaw )
 
@@ -149,6 +149,16 @@ i_rule( get_order_number, [
      q(0,20,line)
 
   , generic_horizontal_details( [ [ `PO`, `Number`, `:`, tab ], order_id, d, newline ] )
+
+        
+      , check( order_id = POnumber )
+
+        , trace( [ `PO Number` , POnumber] )
+
+        , po_number(POnumber)
+
+        , trace( [ `POnumber` , po_number] )
+  
 
 
 ] ).
