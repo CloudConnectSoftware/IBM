@@ -140,12 +140,16 @@ i_line_rule( line_add_line_3, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_supplier_bank_account_number, [
+i_rule( get_bank_accountnumber, [
 %=======================================================================
 
   q(0,50,line)
   
-  , generic_horizontal_details( [ [ `Account`, `:`, tab ], custom_variable_3, d, tab ] )
+  , generic_horizontal_details( [ [`Routing`, `Number`, `:` ], bank_number, d, newline ] )
+
+  , q(0,1,line)
+  
+  , generic_horizontal_details( [ [ `Account`, `:`, tab ], bank_account_number, d, tab ] )
 
 ] ).
 
@@ -263,6 +267,16 @@ i_rule( get_order_number, [
      q(0,20,line)
 
   , generic_horizontal_details( [ [`Purchase`, `Order`, `Number`, `:`], order_id, d, newline ] )
+
+  
+      , check( order_id = POnumber )
+
+        , trace( [ `PO Number` , POnumber] )
+
+        , po_number(POnumber)
+
+        , trace( [ `POnumber` , po_number] )
+  
 
 ] ).
 
