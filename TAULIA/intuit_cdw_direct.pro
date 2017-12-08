@@ -21,7 +21,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_supplier_address
+    , get_shipping_address
 
     , get_bank_accountnumber
                      
@@ -86,8 +86,71 @@ i_rule( get_bank_accountnumber, [
 
     , q(0,2,line)
 
-	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `.`, `:`],  custom_variable_3, d, newline  ] )
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `.`, `:`],  bank_number, d, newline  ] )
 
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIPPING ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_shipping_address, [
+%=======================================================================
+   
+    
+     q(0,5,line)
+
+   , line_ship_to_name
+
+   , q(1,2,line)
+
+   , line_ship_to_street
+
+   , q(0,1,line)
+
+   , line_ship_to_city
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_name, [
+%=======================================================================
+
+      read_ahead([`BRENT`, `GEORGI`])
+
+    , generic_item( [ supplier_address_line_dummy, s1, tab ] )
+
+    , generic_item( [ delivery_city, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_street, [
+%=======================================================================
+
+       generic_item( [ supplier_address_line_dummy2, s1, tab ] )
+
+       ,generic_item( [delivery_street, s1, newline ] )
+    
+  ] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_city, [
+%=======================================================================
+
+      
+      generic_item( [ delivery_city, s ] )
+
+       ,generic_item( [delivery_state, w ] )
+
+       ,generic_item( [delivery_postcode, s1, [tab, `$`] ] )
+
+       ,generic_item( [delivery_dummy2, s1, tab ] )
+       
+       ,generic_item( [delivery_dummy2, d, newline ] )
 ] ).
 
 
@@ -175,7 +238,9 @@ i_rule(get_line_total_net, [
 %=======================================================================
     q(0,100,line)
 
-  , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], line_net_amount, d, newline ] )
+  , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], line_net_amount_extra, d, newline ] )
+
+  , generic_item( [ line_descr_extra, `Shipping Charges` ] )
 
 ] ).
 
