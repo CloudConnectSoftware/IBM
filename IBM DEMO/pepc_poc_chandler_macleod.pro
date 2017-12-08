@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Loscam Australia PTY LTD
+% Chandler Macleod Group Limited
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,9 +23,11 @@ i_rule_list( [
 
     , get_supplier_address
 
-   , get_bank_accountnumber
+    , get_bank_accountnumber
                      
     , get_invoice_number_date
+
+    , get_due_date
 
     , get_order_number
   
@@ -54,15 +56,17 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Loscam Australia PTY LTD` )
+    sender_name( `Chandler Macleod Group Limited` )
 
-   ,supplier_party(`Loscam Australia PTY LTD`)
+   ,supplier_party(`Chandler Macleod Group Limited`)
 
    ,supplier_vat_number(`33 090 555 052`)
 
    ,buyer_dept(`PCIL`)
 
    ,buyer_registration_number(`PCIL`)
+
+   ,currency( `AUD` )
 
 ] ).
 
@@ -179,7 +183,7 @@ i_rule( get_due_date, [
 
    , or([
 
-      generic_vertical_details( [ [ `Due`, `Date` ],`Due`, q(0,1), (end,100,100), due_date, date, tab ] )
+      generic_vertical_details( [ [ `Due`, `Date` ],`Due`, q(0,1), (end,200,200), due_date, date, tab ] )
       
        ]) 
 
@@ -198,7 +202,13 @@ i_rule( get_order_number, [
 q(0,50,line)
 
 
-  ,generic_horizontal_details( [ [ `PO` ], order_number, d, `)` ] )
+  ,or([
+      
+      generic_horizontal_details( [ [ `PO` ], order_number, d, `)` ] )
+      
+      ,generic_vertical_details( [ [ `ORDER`, `NO` ], `ORDER`, q(0,1), (start,20,20), order_number, d, tab ] )
+
+  ])
 
 ] ).
 
@@ -240,7 +250,7 @@ i_rule(get_total_vat, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% VAT RATE
+% Invoice total
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -252,10 +262,11 @@ i_rule(get_total_invoice, [
    
    ,q(0,15,up) 
 
-   , generic_horizontal_details( [ [ `invoice`, `Total`,`:`, tab, `$`], total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [ `invoice`, `Total`,`:`, tab], total_invoice, d, newline ] )
 
   
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
