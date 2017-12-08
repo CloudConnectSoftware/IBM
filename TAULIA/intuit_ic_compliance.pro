@@ -129,6 +129,16 @@ i_rule( get_order_number, [
 
   ,  generic_vertical_details( [ [`PO`, `#`, tab ], `PO`, q(0,2), (start,100,300), order_id, w, tab ] )
 
+  
+      , check( order_id = POnumber )
+
+        , trace( [ `PO Number` , POnumber] )
+
+        , po_number(POnumber)
+
+        , trace( [ `POnumber` , po_number] )
+  
+
 
 ] ).
 
