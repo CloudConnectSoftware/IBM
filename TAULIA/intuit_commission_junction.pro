@@ -74,15 +74,15 @@ i_rule( get_bank_accountnumber, [
    
    q(0,100,line)
 
-	, generic_horizontal_details( [ [  `Routing`, `#`],  custom_variable_5, d, newline  ] )
+	, generic_horizontal_details( [ [  `Routing`, `#`],  swift_bic_number, d, newline  ] )
 
   , q(0,1,line)
 
-	, generic_horizontal_details( [ [ `Account`, `#`],  custom_variable_3, d, newline  ] )
+	, generic_horizontal_details( [ [ `Account`, `#`],  bank_account_number, d, newline  ] )
 
   , q(0,1,line)
 
-	, generic_horizontal_details( [ [  `BIC`],  custom_variable_4, w, newline  ] )
+	, generic_horizontal_details( [ [  `BIC`],  bank_number, w, newline  ] )
 
 
 ] ).
@@ -156,6 +156,12 @@ q(0,25,line)
 
 
   ,generic_vertical_details( [ [ `CUSTOMER`, `PO`, `NUMBER` ], `PO`, q(0,1), (start,10,10), order_id, d, tab ] )
+
+  ,check(order_id= OrdId)
+
+  ,po_number(OrdId)
+
+  ,trace( [ `po_number`, po_number ] )
 
 ] ).
 
