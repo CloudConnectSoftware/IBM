@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( heineken_demo_coca-colahbc schweiz, `11 Dec 2017` ).
+i_version( heineken_cocacolahbc_schweiz, `11 Dec 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -21,7 +21,7 @@ i_rule_list( [
 
       ,set_credit_note
 
-    , get_supplier_address
+   % , get_supplier_address
 
     , get_bank_accountnumber
                      
@@ -93,7 +93,7 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_find_line, [
 %=======================================================================
 
-      read_ahead([`Coca`, `-`,`Cola`,])
+      read_ahead([`Coca`, `-`,`Cola`])
 
       ,generic_item( [ swiss_supplier_address, s1, newline  ] )
 
@@ -123,9 +123,9 @@ i_rule( get_bank_accountnumber, [
 
    , or([
        
-       [check( Currency = `CHF` ),generic_horizontal_details( [ [  `IBAN`, ], supplier_iban, w, [`(`, `CHF`, `)`, newline ] ] )]
+       [check( Currency = `CHF` ),generic_horizontal_details( [ [  `IBAN` ], supplier_iban, w, [`(`, `CHF`, `)`, newline ] ] )]
 
-       ,[check( Currency = `EUR` ),generic_horizontal_details( [ [  `IBAN`, ], supplier_iban, w, [`(`, `EUR`, `)`, newline ] ] )]
+       ,[check( Currency = `EUR` ),generic_horizontal_details( [ [  `IBAN` ], supplier_iban, w, [`(`, `EUR`, `)`, newline ] ] )]
 
    ])
 
@@ -249,7 +249,7 @@ i_rule( get_order_number, [
 q(0,30,line)
 
 
-  ,generic_horizontal_details( [ [ `PO`,`Nbr`, `.` ], order_number, d, newline ] )
+  ,generic_horizontal_details( [ [ `PO`, `Nbr`, `.`, tab ], order_number, d, newline ] )
 
 ] ).
 
@@ -284,7 +284,7 @@ i_rule(get_total_vat, [
    
    ,q(0,20,up)
 
-  , generic_horizontal_details( [ [ `MWST`, generic_item( [ default_vat_rate, d  ] ) , `%`,tab, dummy_word(w),tab, dummy_word2(w), tab dummy_number(d) ],200, total_vat, d, newline ] )
+  , generic_horizontal_details( [ [ `MWST`, generic_item( [ default_vat_rate, d  ] ) , `%`,tab, dummy_word(w),tab, dummy_word2(w), tab, dummy_number(d) ],200, total_vat, d, newline ] )
 
    
 ] ).
@@ -341,7 +341,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 
-`Nr`,`.`tab ,`Artikelbeschreibung`
+`Nr`,`.`,tab ,`Artikelbeschreibung`
 
 , trace( [ `Found Start line` ] )
 
@@ -373,94 +373,14 @@ generic_item_cut( [ line_item, d,tab ] )
 
 , generic_item_cut( [ line_quantity, d, tab ] )
 
-, q10(q10(generic_item_cut( [ line_quantity_dummy, d, tab ] )))
+, q10(generic_item_cut( [ line_quantity_dummy, d, tab ] ))
        
 , generic_item_cut( [ line_net_amount, d, tab ] )
 
-, q10(generic_item_cut( line_unit_amount, d, tab ] ))
+, q10(generic_item_cut([ line_unit_amount, d, tab ] ))
 
 , generic_item_cut( [ line_vat_code_dummy, d, newline ] )
 
- 
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line2, [
-%=======================================================================
-
-
-generic_item_cut( [ line_descr, date, tab ] )
-
-,generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] )
-
-, generic_item( [ line_quantity, d, tab ] )
-
-, q10(generic_item( [ line_no_days_dummy, d, tab ] ))
-
-, generic_item( [ line_net_amount, d, newline ] )
-
-,   or([
-    check( q_sys_comp_str_gt( line_net_amount, `0` )  )
-    ,check( q_sys_comp_str_lt(line_net_amount, `0` ) )
-
-      ]) 
-  
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_extra, [
-%=======================================================================
-
-
-generic_item_cut( [ line_descr, s1,tab ] )
-
-,q10(generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] ))
-
-, generic_item( [ line_reference, w, tab ] )
-     
-, q10(generic_item_cut( [ line_delay_dummy, d, tab ] ))
-
-
-, generic_item_cut( [ line_quantity, d, tab ] )
-
-, q10(generic_item_cut( [ line_no_days_dummy, d, tab ] ))
-
-, generic_item_cut( [ line_net_amount, d, newline ] )
-
-,   or([
-    check( q_sys_comp_str_gt( line_net_amount, `0` )  )
-    ,check( q_sys_comp_str_lt(line_net_amount, `0` ) )
-
-      ]) 
-  
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_extra2, [
-%=======================================================================
-
-
- generic_item_cut( [ line_descr, s1,tab ] )
-
-,q10(generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] ))
-
-, generic_item( [ line_reference, w, tab ] )
-     
-, q10(generic_item_cut( [ line_delay_dummy, d, tab ] ))
-
-, q10(generic_item_cut( [ line_quantity, d, tab ] ))
-
-, q10(generic_item_cut( [ line_no_days_dummy, d, tab ] ))
-
-, generic_item_cut( [ line_net_amount, d, newline ] )
-
-,   q10([or([
-    check( q_sys_comp_str_gt( line_net_amount, `0` )  )
-    ,check( q_sys_comp_str_lt(line_net_amount, `0` ) )
-
-      ]) ])
   
 
 ] ).
