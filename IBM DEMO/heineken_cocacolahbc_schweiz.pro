@@ -253,7 +253,7 @@ i_rule( get_delivery_note, [
 
    , or([
 
-      generic_horizontal_details( [ [ `Delivery`, `Note`, tab ], delivery_date, date, newline ] )
+      generic_horizontal_details( [ [ `Delivery`, `Note`, tab ], delivery_note_number, d, newline ] )
 
        ]) 
 
@@ -306,7 +306,7 @@ i_rule(get_total_vat, [
    
    ,q(0,20,up)
 
-  , generic_horizontal_details( [ [ `MWST`, generic_item( [ default_vat_rate, d  ] ) , `%`,tab, dummy_word(w),tab, dummy_word2(w), tab, dummy_number(d) ],200, total_vat, d, newline ] )
+  , generic_horizontal_details( [ [ `MWST`, generic_item( [ default_vat_rate, d  ] ) , `%`,tab, dummy_word(w),tab, dummy_word2(w), tab, dummy_number(d) ],250, total_vat, d, newline ] )
 
    
 ] ).
