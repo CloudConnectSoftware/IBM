@@ -107,6 +107,26 @@ i_line_rule( line_add_address_line1, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE Currency
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+  
+   q(0,50,line)
+
+   , or([
+
+      generic_horizontal_details( [ [ `Lieferdatum` ], delivery_date, date, newline ] )
+
+       ]) 
+
+]).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -197,6 +217,8 @@ i_rule( get_invoice_date, [
     ,generic_horizontal_details( [ [ `Rechnungsdatum`, tab ], invoice_date, date, newline ] )   
 
 ] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE DUE DATE
@@ -231,7 +253,7 @@ i_rule( get_delivery_note, [
 
    , or([
 
-      generic_horizontal_details( [ [ `Lieferdatum` ], delivery_date, date, newline ] )
+      generic_horizontal_details( [ [ `Delivery`, `Note`, tab ], delivery_date, date, newline ] )
 
        ]) 
 
@@ -264,9 +286,9 @@ i_rule(get_total_net, [
 %=======================================================================
     last_line
    
-   ,q(0,20,up)
+   ,q(0,30,up)
 
-  , generic_horizontal_details( [ [ `Total`,`Leergut` ],200, total_net, d, newline ] )
+  , generic_horizontal_details( [ [ `Total`, `Leergut` ],700, total_net, d, newline ] )
 
    
 ] ).
@@ -302,9 +324,9 @@ i_rule(get_total_invoice, [
 
    last_line
    
-   ,q(0,15,up) 
+   ,q(0,30,up) 
 
-   , generic_horizontal_details( [ [`Totalbetrag `, `CHF`],500, total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Totalbetrag`, `CHF`],800, total_invoice, d, newline ] )
 
   
 ] ).
