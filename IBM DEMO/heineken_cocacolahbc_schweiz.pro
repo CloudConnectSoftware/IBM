@@ -97,7 +97,11 @@ i_line_rule( line_add_find_line, [
 
       read_ahead([`Coca`, `-`,`Cola`])
 
-      ,generic_item( [ swiss_supplier_address, s1, newline  ] )
+      ,generic_item( [ swiss_supplier_address_1, s1, tab  ] )
+
+      ,generic_item( [ swiss_supplier_address_1_dummy, s1, tab  ] )
+
+      ,generic_item( [ swiss_supplier_address_1_dummy2, s1, newline  ] )
 
       ] ).
 
@@ -105,9 +109,28 @@ i_line_rule( line_add_find_line, [
 i_line_rule( line_add_address_line1, [
 %=======================================================================
   
-     
+      generic_item( [ swiss_supplier_address_2, s1, tab  ] )
 
-] ).
+      ,generic_item( [ swiss_supplier_address_2_dummy, s1, tab  ] )
+
+      ,generic_item( [ swiss_supplier_address_2_dummy1, s1, tab  ] )
+
+      ,generic_item( [ swiss_supplier_address_1_dummy2, s1, newline  ] )
+
+      ] ).
+
+      %=======================================================================
+i_line_rule( line_add_address_line1, [
+%=======================================================================
+  
+      generic_item( [ swiss_supplier_address_3, s1, tab  ] )
+
+    
+      ,generic_item( [ swiss_supplier_address_3_dummy1, s1, tab  ] )
+
+      ,generic_item( [ swiss_supplier_address_3_dummy2, s1, newline  ] )
+
+      ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

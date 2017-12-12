@@ -321,7 +321,7 @@ i_rule( get_rounding_amount, [
 
      qn0(line)
 
-     , generic_horizontal_details( [ [ `ROUNDING` , `ADJUSTMENT`], 200 , rounding_amount , d , newline ] )
+     , generic_horizontal_details( [ [ `ROUNDING` , `ADJUSTMENT`],200, rounding_amount , d , newline ] )
 
 ] ).
 
