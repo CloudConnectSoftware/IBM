@@ -58,6 +58,8 @@ i_rule( get_supplier_details, [
 
     sender_name( `KSB AKTIENGESELLSCHAFT` )
 
+    ,supplier_party( `KSB AKTIENGESELLSCHAFT` )
+
     , supplier_vat_number(`DE 148 416 758`)
 
     , buyer_registration_number(`KSB001`)

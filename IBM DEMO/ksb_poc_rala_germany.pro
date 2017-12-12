@@ -58,6 +58,8 @@ i_rule( get_supplier_details, [
 
     sender_name( `Rala GmbH & Co.` )
 
+    ,supplier_party( `Rala GmbH & Co.` )
+
     , supplier_vat_number(`DE149115930`)
 
     , buyer_registration_number(`KSB001`)
@@ -275,7 +277,14 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_quantity_uom_code , w , tab ] )
 
-      , generic_item([ line_descr , s1 , tab ])
+      , [
+        generic_item( [line_item_raw,d, tab ] ), 
+
+      check(line_item_raw=Line_Item), line_item(Line_Item),
+
+      generic_item( [line_descr,Line_Item ] ) 
+
+      ]
 
      , generic_item([ line_unit_amount_dummy ,d, [`/`, dummy_word(w), tab] ] )
 

@@ -30,6 +30,8 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+    ,get_delivery_note_number
+
 	, get_total_invoice
 
     , get_currency
@@ -57,6 +59,8 @@ i_rule( get_supplier_details, [
 %=======================================================================
 
     sender_name( `C. Otto Gehrckens GmbH & Co. KG` )
+
+    ,supplier_party( `C. Otto Gehrckens GmbH & Co. KG` )
 
     , supplier_vat_number(`DE 134525733`)
 
@@ -137,6 +141,20 @@ i_rule( get_invoice_date, [
 q(0,50,line)
 	
 	, generic_horizontal_details( [ [ `Datum`, tab], invoice_date, date, newline ] )
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_note_number, [
+%=======================================================================
+q(0,50,line)
+	
+	, generic_horizontal_details( [ [ `Lieferscheinnummer`, tab, `:`], delivery_note_number, d, tab ] )
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,9 +292,16 @@ i_line_rule( line_invoice_line, [
 	
      
 
-      generic_item([ line_item , w ])
+      generic_item([ line_item_dummy , w ])
 
-      , generic_item([ line_descr , s1 , tab ])
+      , [
+        generic_item( [line_item_raw,w, tab ] ), 
+
+      check(line_item_raw=Line_Item), line_item(Line_Item),
+
+      generic_item( [line_descr,Line_Item ] ) 
+
+      ]
 
       , q10(generic_item([ line_quantity , d ] ))
 
