@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_pdf_parameter( space, 2 ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -326,7 +328,7 @@ i_rule(get_total_invoice, [
    
    ,q(0,30,up) 
 
-   , generic_horizontal_details( [ [`Totalbetrag`, `CHF`],800, total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Totalbetrag`, `CHF`],800, total_invoice, n, newline ] )
 
   
 ] ).
@@ -348,7 +350,7 @@ i_section( get_invoice_lines, [
 
         , or( [
     
-              line_invoice_line 
+              [line_invoice_line , q10( line_descr_line)]
 
               , line
 
@@ -387,21 +389,31 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
 
-generic_item_cut( [ line_item, d,tab ] )
+generic_item( [ line_item, d,tab ] )
 
-, generic_item_cut( [ line_descr, s1,tab ] )
+, generic_item( [ line_descr, s1,tab ] )
 
-,q10(generic_item_cut( [ line_delivered, d,tab ] ))
+,q10(generic_item( [ line_delivered, d,tab ] ))
 
-, generic_item_cut( [ line_quantity, d, tab ] )
+, generic_item( [ line_quantity_dummy, s1, tab ] )
 
-, q10(generic_item_cut( [ line_quantity_dummy, d, tab ] ))
+, generic_item( [ line_quantity_dummy, s1, tab ] )
        
-, generic_item_cut( [ line_net_amount, d, tab ] )
+, generic_item( [ line_net_amount, d, tab ] )
 
-, q10(generic_item_cut([ line_unit_amount, d, tab ] ))
+, generic_item([ line_unit_amount, d, tab ] )
 
-, generic_item_cut( [ line_vat_code_dummy, d, newline ] )
+, generic_item( [ line_vat_code_dummy, s1, newline ] )
+
+  
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+ generic_append( [ line_descr, s1, newline, ` ,`, ` ` ] )
 
   
 
