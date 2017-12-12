@@ -312,7 +312,7 @@ i_rule( get_total_invoice, [
 [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`  ], 250 , total_invoice, d, newline ] ) ]
 
 
-, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `in`, `SGD`  ], 250, total_invoice, d, newline ] ) ]
+, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [`Total`, `Amount`, `in`, `SGD`, tab ], total_invoice, d, newline ] ) ]
 
 
                 
@@ -344,7 +344,7 @@ i_rule( get_line_total_amount, [
 [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`  ], 250 , line_total_amount, d, newline ] ) ]
 
 
-, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `in`, `SGD`  ], 250, line_total_amount, d, newline ] ) ]
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `SGD`, tab ], line_total_amount, d, newline ] ) ]
                 
  ] )
 
@@ -429,3 +429,22 @@ i_rule( get_line_vat, [
  
 
 ] ). 
+
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - December 12, 2017
+% Updated by   - Rohini
+% Changes made - Invoice total updated
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
