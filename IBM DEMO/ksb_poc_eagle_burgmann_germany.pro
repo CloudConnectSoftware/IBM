@@ -206,7 +206,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),
+			[line_invoice_line, q10(line_invoice_material), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),
              q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),
              q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr) ]
                       
@@ -250,7 +250,7 @@ i_line_rule( line_invoice_line, [
 	
      
 
-      generic_item([ line_item , d , tab ])
+      generic_item([ line_reference , d , tab ])
 
       , q10(generic_item([ line_quantity , d ] ))
 
@@ -274,7 +274,23 @@ i_line_rule( line_invoice_descr, [
 	
      generic_append( [ line_descr, s1, newline, ` `, ``  ] )
 
+    
+    
+] ).
 
+%=======================================================================
+i_line_rule( line_invoice_material, [
+%=======================================================================
+	
+     generic_append( [ line_descr, s, `:`, ` `, ``  ] )
+ , [
+        generic_item( [line_item_raw,d, newline ] ), 
+
+      check(line_item_raw=Line_Item), line_item(Line_Item),
+
+      generic_append( [line_descr,Line_Item, ` - `, ` `    ] ) 
+
+      ]
      
     
 ] ).
