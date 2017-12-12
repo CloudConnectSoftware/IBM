@@ -263,9 +263,7 @@ i_section( get_invoice_lines, [
 
               ,line_invoice_line2
 
-              ,line_invoice_line_extra
-
-              ,line_invoice_line_extra2
+              %,line_invoice_line_extra
 
               , line
 
@@ -308,11 +306,11 @@ i_line_rule_cut( line_invoice_line, [
 
 generic_item_cut( [ line_descr, s1,tab ] )
 
-,generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] )
-
 ,q10(generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] ))
 
-,generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] )
+,q10(generic_append( [ line_descr, w, tab, ` - ` ,  ` `  ] ))
+
+,q10(generic_append( [ line_descr, s1, tab, ` - ` ,  ` `  ] ))
 
 , generic_item_cut( [ line_reference, w,tab ] )
        
