@@ -229,7 +229,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr) ]
+			[line_invoice_line, q10(line_invoice_descr),  q10(line_invoice_descr),q10(line_invoice_descr), q10(line_invoice_item) ]
                       
 			, line
 
@@ -277,14 +277,7 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_quantity_uom_code , w , tab ] )
 
-      , [
-        generic_item( [line_item_raw,d, tab ] ), 
-
-      check(line_item_raw=Line_Item), line_item(Line_Item),
-
-      generic_item( [line_descr,Line_Item ] ) 
-
-      ]
+      , generic_item([ line_descr , s1, tab ] )
 
      , generic_item([ line_unit_amount_dummy ,d, [`/`, dummy_word(w), tab] ] )
 
@@ -294,15 +287,28 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 
-
-
 %=======================================================================
 i_line_rule( line_invoice_descr, [
 %=======================================================================
 	
      generic_append( [ line_descr, s1, newline, ` `, ``  ] )
 
+     ] ).
 
-     
+%=======================================================================
+i_line_rule( line_invoice_item, [
+%=======================================================================
+	    
+     generic_append( [ line_descr, s1, tab, ` `, ``  ] )
+     , [
+      generic_item( [line_item_raw,w, newline ] ), 
+
+      check(line_item_raw=Line_Item), line_item(Line_Item),
+
+      generic_append( [ line_descr,Line_Item, ` `, ``  ] )
+ 
+      ]
+    
     
 ] ).
+
