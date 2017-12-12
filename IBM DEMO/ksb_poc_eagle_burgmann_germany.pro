@@ -30,6 +30,8 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+    , get_delivery_note_nr
+
 	, get_total_invoice
 
     , get_currency
@@ -102,8 +104,10 @@ i_rule( get_invoice_number, [
 q(0,50,line)
 	
    ,  or([
+
+       generic_horizontal_details( [[`Invoice`, `no`, `.`, q10(tab) ], invoice_number, d, [`(`, `)`,  newline ]] )
        
-	  generic_horizontal_details( [[`Invoice`, `no`, `.`, q10(tab) ], invoice_number, s1, newline ] )
+	  ,generic_horizontal_details( [[`Invoice`, `no`, `.`, q10(tab) ], invoice_number, s1, newline ] )
 
    
 
@@ -126,6 +130,23 @@ i_rule( get_order_number, [
     , generic_horizontal_details( [ [`Ihre`, `Bestellnummer`, tab ], order_number, s1, newline ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Delivery Note
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_note_nr, [
+%=======================================================================
+
+    q(0,200,line)
+
+    , generic_horizontal_details( [ [`Lieferschein`, `-`, `Nr`, `.`, `:`,q10(tab) ], delivery_note_number, w, newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,6 +183,26 @@ i_rule( get_total_vat, [
     ,generic_vertical_details( [ [ `Value`, `added`, `tax` ], `Value`, q(0,1), (end,100,100), total_vat, d, [ `EUR`, tab] ] )
 
     ,generic_item( [ default_vat_rate, `19` ] )
+	
+	
+]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL VAT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+q(0,100,line)
+
+,generic_horizontal_details( [ [ `Betrag`, tab ], currency, w, newline ] )
 	
 	
 ]).
@@ -206,7 +247,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),
+			[line_invoice_line, q10(line_invoice_material), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),
              q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),
              q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr) ]
                       
@@ -250,7 +291,7 @@ i_line_rule( line_invoice_line, [
 	
      
 
-      generic_item([ line_item , d , tab ])
+      generic_item([ line_reference , d , tab ])
 
       , q10(generic_item([ line_quantity , d ] ))
 
@@ -274,7 +315,24 @@ i_line_rule( line_invoice_descr, [
 	
      generic_append( [ line_descr, s1, newline, ` `, ``  ] )
 
+    
+    
+] ).
 
+%=======================================================================
+i_line_rule( line_invoice_material, [
+%=======================================================================
+	
+     generic_append( [ line_descr, s, `:`, ` `, ``  ] )
+ , [
+        generic_item( [line_item_raw,d, newline ] ), 
+
+      check(line_item_raw=Line_Item), line_item(Line_Item),
+
+      generic_append( [line_descr,Line_Item, ` - `, ` `    ] ) 
+
+      ]
      
     
 ] ).
+
