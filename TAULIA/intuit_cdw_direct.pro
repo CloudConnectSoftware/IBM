@@ -454,6 +454,12 @@ i_line_rule_cut( line_invoice_line, [
 	
     ])
 
+,   or([
+    check( q_sys_comp_str_gt( line_net_amount, `0` )  )
+    ,check( q_sys_comp_str_lt(line_net_amount, `0` ) )
+
+      ]) 
+
 ] ).
 
 %=======================================================================
