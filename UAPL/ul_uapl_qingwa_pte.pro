@@ -34,6 +34,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_line_total_amount
+
     , get_invoice_lines
 
 ] ).
@@ -108,7 +110,7 @@ i_rule_cut( get_invoice_date, [
 
     , trace( [ `Invoice Date Raw` , DateRaw ] )
 
-    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
+    , check(string_string_replace( DateRaw, `.,`, ` `, DateStrip ))
 
     , trace( [ `Date Stripped Coma` , DateStrip ] )
 
@@ -214,7 +216,11 @@ i_rule( get_currency, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+    q0n(line)
+    
+    , generic_vertical_details( [ [`Taxable`, `Amount` ], `Amount`, q(0,3), (end,750,800), line_vat_amount, d, newline ] )
+
+    ,q(0,1,line)
 
     , generic_horizontal_details( [ [ `Grand`, `Total`, `in`, `US`, `$` ], 560, line_total_amount, d, newline ] )
 

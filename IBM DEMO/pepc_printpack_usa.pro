@@ -19,7 +19,9 @@ i_rule_list( [
     
       get_supplier_detail
 
-     , get_bank_accountnumber
+    , get_supplier_address
+
+    , get_bank_accountnumber
                      
     , get_invoice_number
     
@@ -67,6 +69,82 @@ i_rule( get_supplier_detail, [
    ,buyer_dept(`PCIL`)
 
    ,buyer_registration_number(`PCIL`)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead([`2800`, `Overlook`])
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_address_line, s1, tab ] )
+
+     , generic_item( [ supplier_dummy1, s1, tab ] )
+
+    , generic_item( [ supplier_dummy5, s1, tab ] )
+
+     , generic_item( [ supplier_dummy2, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_append( [ supplier_address_line, s1, tab, `, `, ` `  ] )
+
+     , generic_item( [ supplier_dummy3, s1, tab ] )
+
+     , generic_item( [ supplier_dummy4, s1, newline ] )
+
+
+
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_invoice_number, [
+%=======================================================================
+
+     q(0,10,line)
+
+    ,generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `:` ], invoice_number, s1, newline ] )
+
 
 ] ).
 
@@ -126,7 +204,7 @@ i_rule( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOTAL INVOICE Currency
+% INVOICE Currency
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -241,7 +319,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-              line_invoice_line
+              [line_invoice_line,line_dummy_line,line_dummy_line1, line_descr_line]
 
               , line
 
@@ -283,7 +361,7 @@ i_line_rule_cut( line_invoice_line, [
 
   generic_item( [ line_item, w, tab ] )
 
-, generic_item( [ line_descr, s1,tab ] ) 
+, generic_item( [ line_po_dummy, s1,tab ] ) 
 
 , generic_item( [ line_quantity_dummy, d, tab ] )
 
@@ -296,4 +374,55 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_dummy_line, [
+%=======================================================================
 
+    generic_item( [ line_descr_dummy, s1, tab ] )
+
+  , generic_item( [ line_descr_dummy1, s1, tab ] )
+
+  , generic_item( [ line_descr_dummy2, s1, newline ] )
+
+] ).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_dummy_line1, [
+%=======================================================================
+
+   generic_item( [ line_descr_dummy3, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+  generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on - November 07, 2017
+% Mapped by - Thejas 
+
+% Updated on   - November 30, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address and Line description
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -20,6 +20,8 @@ i_rule_list( [
   
 	get_supplier_details
 
+    , get_supplier_address
+
     ,get_bank_account_no
 
     , get_vat_code
@@ -27,6 +29,8 @@ i_rule_list( [
 	, get_invoice_number
 
     , get_order_number
+
+    ,get_delivery_note_number
 	
 	, get_invoice_date
 
@@ -58,6 +62,8 @@ i_rule( get_supplier_details, [
 
     sender_name( `Rala GmbH & Co.` )
 
+    ,supplier_party( `Rala GmbH & Co.` )
+
     , supplier_vat_number(`DE149115930`)
 
     , buyer_registration_number(`KSB001`)
@@ -67,6 +73,41 @@ i_rule( get_supplier_details, [
    
 
    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,10,line)
+
+   , line_add_line
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`Rala`, `GmbH`, `&`, `Co`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [supplier_party_dummy , s , [q10(tab), check(supplier_party_dummy(end) < -211)] ] )
+
+     , generic_item( [ supplier_address_line, s1, tab ] )
+
+     , generic_item( [ supplier_dummy, s1, tab ] )
+
+     , generic_item( [ supplier_dummy1, s1, newline ] )
+
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,6 +147,20 @@ q(0,50,line)
    
 
     ])
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_note_number, [
+%=======================================================================
+q(0,50,line)
+	
+	, generic_horizontal_details( [ [ `Lieferschein`, `-`, `Nr`, `.`, `:`], delivery_note_number, d, `VOM` ] )
 ] ).
 
 
@@ -227,7 +282,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr) ]
+			[line_invoice_line, q10(line_invoice_descr),  q10(line_invoice_descr),q10(line_invoice_descr), q10(line_invoice_item) ]
                       
 			, line
 
@@ -275,7 +330,7 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_quantity_uom_code , w , tab ] )
 
-      , generic_item([ line_descr , s1 , tab ])
+      , generic_item([ line_descr , s1, tab ] )
 
      , generic_item([ line_unit_amount_dummy ,d, [`/`, dummy_word(w), tab] ] )
 
@@ -285,15 +340,46 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 
-
-
 %=======================================================================
 i_line_rule( line_invoice_descr, [
 %=======================================================================
 	
      generic_append( [ line_descr, s1, newline, ` `, ``  ] )
 
+     ] ).
 
-     
+%=======================================================================
+i_line_rule( line_invoice_item, [
+%=======================================================================
+	    
+     generic_append( [ line_descr, s1, tab, ` `, ``  ] )
+     , [
+      generic_item( [line_item_raw,w, newline ] ), 
+
+      check(line_item_raw=Line_Item), line_item(Line_Item),
+
+      generic_append( [ line_descr,Line_Item, ` `, ``  ] )
+ 
+      ]
+    
     
 ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - December 13, 2017
+% Updated by   - Rohini 
+% Changes made - Supplier address details 
+
+% Updated on   - 
+% Updated by   - 
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

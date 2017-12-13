@@ -36,6 +36,8 @@ i_rule_list( [
 
     , get_total_vat
 
+    , get_line_vat_rate
+    
     , get_total_invoice
 
     , get_currency
@@ -70,7 +72,7 @@ i_rule( get_supplier_detail, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
@@ -79,9 +81,17 @@ i_rule( get_bank_accountnumber, [
 
      q(0,50,line)
 
-    , generic_horizontal_details( [ [ `BANQUE`, `CIC`, `EST`, `IBAN`, `:` ],  supplier_iban, s, [`-`, `BIC`, `:`] ] )
+    , generic_horizontal_details( [ [ `BANQUE`, `CIC`, `EST`, `IBAN`, `:` ],  supplier_iban_no, s, [`-`, `BIC`, `:`, generic_item( [ supplier_swift_code, w ] ) , newline] ] )
 
-    
+    , check(supplier_iban_no = Iban) ,trace( [ `IBAN`, Iban] )
+
+    , check(strip_string2_from_string1( Iban, ` `, IbanNew ))
+
+    ,supplier_iban(IbanNew)
+
+    ,trace( [ `IBAN`, supplier_iban ] )
+
+
 ] ).
 
 
@@ -215,12 +225,28 @@ i_rule(get_total_vat, [
 
    ,  generic_vertical_details( [ [ `MONTANT`, `T`, `.`, `V`, `.`, `A`],  `MONTANT`, q(0,1), (start,100,200), total_vat, d, tab  ] )
 
-   , generic_item( [ default_vat_rate, `20 ` ] )
-
-    ,clear(regexp_cross_word_boundaries)
+       ,clear(regexp_cross_word_boundaries)
 
       , clear(reverse_punctuation_in_numbers)
   
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL VAT rate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_line_vat_rate, [
+%=======================================================================
+
+
+   q(0,100,line)
+
+   , generic_vertical_details( [ [ `TAUX`, `T`, `.`, `V`, `.`, `A`],`TAUX`, q(0,1), (start,300,300), default_vat_rate, d, [`%`, tab ] ] )
+                                    
+   
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -268,7 +294,7 @@ i_section( get_invoice_lines, [
               
           [line_invoice_line2]
 
-         , [q10(line_descr_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),line_invoice_line,q10(line_append_line)]
+         , [q10(line_delivery_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),line_invoice_line,q10(line_append_line)]
 
 
               , line
@@ -370,10 +396,19 @@ i_line_rule_cut( line_invoice_line, [
 
 
 %=======================================================================
-i_line_rule_cut( line_descr_line, [
+i_line_rule_cut( line_delivery_line, [
 %=======================================================================
 
-    generic_item( [ line_descr, s1, newline ] )
+    generic_item( [ line_descr,s  ] )
+
+    , [
+        generic_item( [line_delivery_raw,d, newline ] ), 
+    
+      check(line_delivery_raw=Line_deliveryRaw), line_delivery_note_number(Line_deliveryRaw),
+      
+      generic_append( [line_descr,Line_deliveryRaw, ` - `, ` `    ] ) 
+      
+      ]
 
 ] ).
 
@@ -382,7 +417,7 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-  generic_append( [line_descr,s1, newline, ` `, ` `    ] )
+  generic_append( [line_descr,s1, newline, ` -  `, ` `    ] )
 
 ] ).
 

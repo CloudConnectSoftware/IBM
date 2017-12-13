@@ -20,6 +20,8 @@ i_rule_list( [
     
       get_supplier_detail
 
+      ,get_supplier_address
+
     , get_bank_accountnumber
                      
     , get_invoice_number
@@ -29,6 +31,8 @@ i_rule_list( [
     , get_due_date
 
     , get_order_number
+
+    ,get_delivery_note_number
     
     , get_total_net
 
@@ -55,12 +59,31 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Linde AG, Linde Gas Division` )
 
+     ,supplier_party( `Linde AG, Linde Gas Division` )
+
    ,supplier_vat_number(`DE 113 822 613`)
 
    , set(reverse_punctuation_in_numbers)
 
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+    qn0(line)
+
+    ,generic_horizontal_details( [ [ `Linde`, `AG`, `,` ],  supplier_address_line, s, [`,`, `www`] ] )
+
+] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,9 +97,15 @@ i_rule( get_bank_accountnumber, [
 
      q(0,150,line)
 
-    , generic_horizontal_details( [ [`Bank`, `Code`, generic_item( [ supplier_bank_code, s ] ), `Account` ],  supplier_bank_account_number, s1, newline ] )
+    , generic_horizontal_details( [ [`Bank`, `Code`, generic_item( [ supplier_bank_cod, s ] ), `Account` ],  supplier_bank_account_no, s1, newline ] )
 
+    , [check(supplier_bank_cod = Scode)  , check(strip_string2_from_string1( Scode, ` `, ScodeNew ))
 
+    , supplier_bank_code(ScodeNew) , trace( [ `IBAN new FORMAT`, supplier_bank_code ] )]
+
+    , [check(supplier_bank_account_no = Sban)  , check(strip_string2_from_string1( Sban, ` `, SbanNew ))
+
+    , supplier_bank_account_number(SbanNew)    , trace( [ `Bank account new FORMAT`, supplier_bank_account_number ] )]
 ] ).
 
 
@@ -143,9 +172,33 @@ i_rule( get_due_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-     q(0,20,line)
+     q(0,100,line)
 
-    ,generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, w, newline ] )
+    ,or([
+        generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, d, newline ] )
+
+        ,generic_horizontal_details( [ [`Your`, `Purchase`, `Order`, `:`, tab ], order_number, d, tab ] )
+
+ 
+    ])
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% delivery Note Number
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_note_number, [
+%=======================================================================
+
+     q(0,100,line)
+
+    ,generic_horizontal_details( [ [`Delivery`, `Note`, `No`, `.`, `:` ], delivery_note_number, d, dummy_word(w) ] )
+
 
 
 ] ).
@@ -243,7 +296,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-            [line_invoice_line, q10(line_append_line), q10(line_append_line),q10(line_append_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),q10(line_po_line)]
+            [line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_po_line),q10(line_append_line),q10(line_po_line)]
 
               , line
 
@@ -336,7 +389,7 @@ i_line_rule( line_append_line, [
 i_line_rule_cut( line_po_line, [
 %=======================================================================
 
-     generic_item( [ line_ref_dummy, s1, tab ] )
+     `Your`, `Purchase`, `Order`, `:`, tab
 
      , generic_item( [ line_buyers_order_number , w , tab ] )
 
@@ -352,8 +405,8 @@ i_line_rule_cut( line_po_line, [
 % Mapped on - October 11, 2017
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   -
+% Updated on   - November 28, 2017
+% Updated by   - Thejaswi
 % Changes made - 
 
 % Updated on   - 

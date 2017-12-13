@@ -131,7 +131,7 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Cust` , `Order` , `No` ], `Cust`, q(0,1), (start,10,10), order_number, s1, tab ] )
+    , generic_vertical_details( [ [ `Cust` , `Order` , `No` ], `Cust`, q(0,1), (start,100,100), order_number, s1, tab ] )
 
     , check(order_number = OrdNo)
 
@@ -299,7 +299,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_quantity_uom_code_dummy , w , tab ] )
 
-    , generic_item( [line_vat_rate , d , tab ])
+    , generic_item( [line_vat_rate_dummy , d , tab ])
 
     , generic_item( [line_unit_amount , d , tab ] )
 
@@ -356,3 +356,49 @@ i_line_rule_cut( line_invoice_line_2, [
 
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sum the line VATs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%=======================================================================
+i_analyse_invoice_fields_first
+%-----------------------------------------------------------------------
+:- i_sum_all_line_nets.
+%=======================================================================
+%=======================================================================
+i_sum_all_line_nets
+%-----------------------------------------------------------------------
+
+:-
+
+    sys_findall( NET,   
+        result( _, _, line_net_amount, NET ),   
+        NETs  ),  
+     
+    i_user_check( sum_string_list, NETs, Sum ),  
+    
+    assertz_derived_data( invoice, total_net, Sum, i_sum_all_line_nets),  
+    !
+    .
+
+    %=======================================================================
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - November 29, 2017
+% Updated by   - Rohini
+% Changes made - Invoice line and Invoice net amount
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
