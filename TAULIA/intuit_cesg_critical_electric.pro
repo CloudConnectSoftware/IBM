@@ -228,6 +228,8 @@ q(0,25,line)
 
   ,po_number(OrdId)
 
+  ,line_buyers_order_number(OrdId)
+
   ,trace( [ `po_number`, po_number ] )
 
 ] ).
