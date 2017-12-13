@@ -262,6 +262,8 @@ i_rule( get_order_number, [
 
   ,trace( [ `po_number`, po_number ] )
 
+  ,order_number(OrdId)
+
 ] ).
 
 
@@ -280,6 +282,15 @@ i_rule(get_line_total_net, [
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], line_net_amount, d, newline ] )
 
   , generic_item( [ line_descr, `Shipping Charges` ] )
+
+  ,line_quantity(`1`)
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 ] ).
 
@@ -436,7 +447,12 @@ i_line_rule_cut( line_invoice_line, [
 
 , q10(generic_item( [ line_vat_rate, `8.9663` ] ))
 
+, q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
 
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 ] ).
 
