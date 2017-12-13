@@ -168,9 +168,9 @@ i_rule( get_bank_accountnumber, [
 
    , or([
        
-       [check( Currency = `CHF` ),generic_horizontal_details( [ [  `IBAN` ], supplier_iban, w, [`(`, `CHF`, `)`, newline ] ] )]
+       [check( currency = `CHF` ),generic_horizontal_details( [ [  `IBAN` ], supplier_iban, w, [`(`, `CHF`, `)`, newline ] ] )]
 
-       ,[check( Currency = `EUR` ),generic_horizontal_details( [ [  `IBAN` ], supplier_iban, w, [`(`, `EUR`, `)`, newline ] ] )]
+       ,[check( currency = `EUR` ),generic_horizontal_details( [ [  `IBAN` ], supplier_iban, w, [`(`, `EUR`, `)`, newline ] ] )]
 
    ])
 
