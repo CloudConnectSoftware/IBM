@@ -176,6 +176,8 @@ i_rule( get_order_number, [
 
         , po_number(POnumber)
 
+        ,order_number(POnumber)
+
         , trace( [ `POnumber` , po_number] )
   
 
@@ -269,6 +271,13 @@ i_line_rule_cut( line_invoice_line, [
    generic_item( [ line_descr, s, [`.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, tab ] ] )
 
   , generic_item( [ line_net_amount, d, [`USD`,  newline ] ] )
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 
 
