@@ -118,7 +118,7 @@ i_rule( get_invoice_date, [
 
   q(0,30,line)
 
-  ,generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab  ], invoice_date_raw, s1, newline ] )
+  ,generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab  ], invoice_date_raw, date, newline ] )
 
   , check( invoice_date_raw = DateRaw )
 
