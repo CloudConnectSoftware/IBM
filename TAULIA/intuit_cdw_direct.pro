@@ -300,7 +300,10 @@ i_rule(get_total_net1, [
 
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], net_subtotal_2, d, newline ] )
 
+, check(sys_calculate_str_divide( net_subtotal_1, net_subtotal_2, total_net))
+
 ] ).
+
 
 
 
@@ -433,7 +436,7 @@ i_line_rule_cut( line_invoice_line, [
 
 , q10(generic_item( [ line_vat_rate, `8.9663` ] ))
 
- 
+
 
 ] ).
 

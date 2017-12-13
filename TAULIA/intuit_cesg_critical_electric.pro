@@ -71,6 +71,8 @@ i_rule( get_supplier_detail, [
    ,supplier_party(`Critical Electric Systems Group, LLC`)
 
    ,supplier_vat_number(`36-4530079`)
+
+   ,currency( `USD` )
  
    ] ).
 
