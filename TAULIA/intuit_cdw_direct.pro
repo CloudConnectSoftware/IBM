@@ -374,32 +374,8 @@ i_rule( get_currency, [
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET Currency
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%=======================================================================
-i_line_rule( get_rounding, [
-%=======================================================================
-   
-     
-  with( invoice , total_vat , VAT )
 
-,with( line , line_vat_amount , LVAT )
-
-, trace( [ `vat tot`, VAT ] )
-
-, trace( [ `Line VAT`, LVAT ] )
-
-, check(sys_calculate_str_subtract( VAT, LVAT, Adjust))
-
-, trace( [ `Rounding Amount`, Adjust ] )
-  
-, generic_item( [ rounding_amount, Adjust ] )
-
-] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -503,11 +479,6 @@ i_line_rule_cut( line_invoice_line, [
 	
     ])
 
-,   or([
-    check( q_sys_comp_str_gt( line_net_amount, `0` )  )
-    ,check( q_sys_comp_str_lt(line_net_amount, `0` ) )
-
-      ]) 
    
 
 ] ).
