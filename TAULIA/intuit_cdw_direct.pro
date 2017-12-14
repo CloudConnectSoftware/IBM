@@ -21,7 +21,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_shipping_address
+    , get_shipping_addres
 
     , get_bank_accountnumber
                      
@@ -46,6 +46,9 @@ i_rule_list( [
     , get_currency
 
     , get_invoice_lines
+
+    
+    ,get_rounding
 
     
 
@@ -262,6 +265,8 @@ i_rule( get_order_number, [
 
   ,trace( [ `po_number`, po_number ] )
 
+  ,order_number(OrdId)
+
 ] ).
 
 
@@ -280,6 +285,15 @@ i_rule(get_line_total_net, [
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], line_net_amount, d, newline ] )
 
   , generic_item( [ line_descr, `Shipping Charges` ] )
+
+  ,line_quantity(`1`)
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 ] ).
 
@@ -300,7 +314,6 @@ i_rule(get_total_net1, [
 
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], net_subtotal_2, d, newline ] )
 
-, check(sys_calculate_str_divide( net_subtotal_1, net_subtotal_2, total_net))
 
 ] ).
 
@@ -359,6 +372,9 @@ i_rule( get_currency, [
   ,generic_horizontal_details( [ [ `Currency`, tab ],  currency, w, newline ] )
 
 ] ).
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -434,9 +450,36 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_net_amount, d, newline ] )
 
-, q10(generic_item( [ line_vat_rate, `8.9663` ] ))
+, q10([	% LINE VAT Rate Calculation
+  
+  with( invoice , total_vat , VAT )
 
+,with( invoice , net_subtotal_1 , Net )
 
+, trace( [ `vat tot`, VAT ] )
+
+, trace( [ `sub total`, Net ] )
+
+, check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+, trace( [ `VAT Rate`, VAT_RATE ] )
+  
+, check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+,trace( [ `VAT per`, VAT_PERCENT ] )
+
+, generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+])
+
+, q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
+
+   
 
 ] ).
 

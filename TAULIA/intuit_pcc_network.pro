@@ -70,6 +70,8 @@ i_rule( get_supplier_detail, [
 
    ,buyer_registration_number(`N/A`)
 
+   ,currency( `USD` )
+
 
 ] ).
 
@@ -163,6 +165,8 @@ i_rule( get_order_number, [
         , trace( [ `PO Number` , POnumber] )
 
         , po_number(POnumber)
+
+        ,order_number(POnumber)
 
         , trace( [ `POnumber` , po_number] )
   
@@ -313,6 +317,24 @@ i_line_rule_cut( line_invoice_line, [
            ])
 
   , generic_item( [ line_net_amount, d, newline ] )
+
+  ,q10(line_quantity(`1`))
+
+  
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
+
+    , q10( [ 
+		 with( line, line_net_amount, ItemNet ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_unit_amount, ItemNet ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 
 

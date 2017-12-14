@@ -418,6 +418,8 @@ i_section( get_invoice_lines, [
               
                 line_invoice_line5
 
+                , line_invoice_oneline
+
              , [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
 
               ,[line_desr_firstline,line_invoice_oneline,q10(line_desr_line2)]
@@ -557,7 +559,13 @@ i_line_rule_cut( line_invoice_oneline, [
     
     , generic_item( [ line_item, w , tab ] )
 
-    , generic_item( [ line_descr, s1 , [ check(line_descr(end) < -40) , tab ] ])
+    , or([
+
+     generic_item( [ line_descr, s1 , [ check(line_descr(end) < -40) , tab ] ])
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     ] )
 
     , generic_item( [ line_buyers_order_number , d , tab ])
 
@@ -734,6 +742,16 @@ i_line_rule_cut( line_invoice_line5, [
 % Updated on   - October 17, 2017
 % Updated by   - Rohini
 % Changes made - New line format added [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
+
+
+% Updated on   - December 11, 2017
+% Updated by   - Thejas
+% Changes made - New line format
+
+
+% Updated on   - December 14, 2017
+% Updated by   - Rohini
+% Changes made - New line format
 
 % Updated on   - 
 % Updated by   -
