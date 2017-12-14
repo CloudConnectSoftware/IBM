@@ -21,7 +21,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_supplier_address
+    , get_shipping_addres
 
     , get_bank_accountnumber
                      
@@ -46,6 +46,9 @@ i_rule_list( [
     , get_currency
 
     , get_invoice_lines
+
+    
+    ,get_rounding
 
     
 
@@ -82,11 +85,107 @@ i_rule( get_bank_accountnumber, [
    
     q(0,10,line)
 
-	, generic_horizontal_details( [ [`ROUTING`, `NO`, `.`, `:`],  custom_variable_5, d, newline  ] )
+	, generic_horizontal_details( [ [`ROUTING`, `NO`, `.`, `:`],  bank_number, d, newline  ] )
 
     , q(0,2,line)
 
-	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `.`, `:`],  custom_variable_3, d, newline  ] )
+	, generic_horizontal_details( [ [ `ACCOUNT`, `NO`, `.`, `:`],  bank_number, d, newline  ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE Currency
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+q0n(line)
+
+    , currency_line
+
+]).
+
+%=======================================================================
+i_line_rule( currency_line, [
+%=======================================================================
+
+    q0n(anything)
+
+   ,`Amount`, `Due`,tab, `$`
+
+    , currency(`USD`)
+
+    ,trace( [ `USD Found` ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIPPING ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_shipping_address, [
+%=======================================================================
+   
+    q(0,200,line)
+
+   , line_ship_to_name
+
+   , q(1,2,line)
+
+   , line_ship_to_street
+
+   , q(0,1,line)
+
+   , line_ship_to_city
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_name, [
+%=======================================================================
+     q0n(anything)
+
+     ,read_ahead([`BRENT`, `GEORGI`])
+
+      ,trace( [ `found` ] )
+
+    , generic_item( [ supplier_address_line_dummy, s1, tab ] )
+
+    , generic_item( [ delivery_party, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_street, [
+%=======================================================================
+
+       generic_item( [ supplier_address_line_dummy2, s1, tab ] )
+
+       ,generic_item( [delivery_street, s1, newline ] )
+    
+  ] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_city, [
+%=======================================================================
+
+      
+      generic_item( [ delivery_city, s, [check(delivery_city(end) < -43)]  ] )
+      
+       ,generic_item( [delivery_state, w ] )
+
+       ,generic_item( [delivery_postcode, [ begin, q(dec,5,6) ,q(other("-") , 1 , 1 ),q(dec,1,4), end ], tab ] )
+
+       ,generic_item( [delivery_dummy2, s1, tab ] )
+       
+       ,generic_item( [delivery_dummy3, d, newline ] )
 
 ] ).
 
@@ -160,6 +259,14 @@ i_rule( get_order_number, [
   
   ,generic_vertical_details( [ [ `PURCHASE`, `ORDER`, `NUMBER` ], `ORDER`, q(0,1), (start,500,500), order_id, d, newline ] )
 
+  ,check(order_id= OrdId)
+
+  ,po_number(OrdId)
+
+  ,trace( [ `po_number`, po_number ] )
+
+  ,order_number(OrdId)
+
 ] ).
 
 
@@ -176,6 +283,17 @@ i_rule(get_line_total_net, [
     q(0,100,line)
 
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], line_net_amount, d, newline ] )
+
+  , generic_item( [ line_descr, `Shipping Charges` ] )
+
+  ,line_quantity(`1`)
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 ] ).
 
@@ -196,7 +314,9 @@ i_rule(get_total_net1, [
 
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], net_subtotal_2, d, newline ] )
 
+
 ] ).
+
 
 
 
@@ -253,6 +373,9 @@ i_rule( get_currency, [
 
 ] ).
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -301,6 +424,8 @@ i_line_rule_cut( line_end_line, [
 
       [ `ACCOUNT`, `MANAGER`, tab, `SHIPPING` ]
 
+      ,[ `GO`, `GREEN` ]
+
      ])
 
   , trace( [ `Found End line` ] )
@@ -325,8 +450,7 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_net_amount, d, newline ] )
 
-
-,q10([	% LINE VAT Rate Calculation
+, q10([	% LINE VAT Rate Calculation
   
   with( invoice , total_vat , VAT )
 
@@ -342,9 +466,20 @@ i_line_rule_cut( line_invoice_line, [
   
 , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
 
+,trace( [ `VAT per`, VAT_PERCENT ] )
+
 , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
- ] )
+])
+
+, q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
+
+   
 
 ] ).
 
@@ -354,7 +489,7 @@ i_line_rule_cut( line_part_line, [
 
  generic_item( [ line_manufacture, s, `:` ] ) 
 
-, generic_item( [ custom_line_variable_2, s1, newline ] )
+, generic_item( [ line_part_number, s1, newline ] )
 
 ] ).
 
@@ -364,10 +499,7 @@ i_line_rule_cut( line_descr_append_line, [
 
  generic_append( [ line_descr, s1, newline, ` - `, `` ] )
 
-
 ] ).
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

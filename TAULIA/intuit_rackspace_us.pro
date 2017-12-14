@@ -8,7 +8,7 @@ i_version( intuit_rackspace_us, `06 December 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `d m y` ).
 
 i_trace_lists.
 
@@ -69,7 +69,6 @@ i_rule( get_supplier_detail, [
 
 ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT NUMBER
@@ -82,7 +81,7 @@ i_rule( get_supplier_bank_account_number, [
 
 	q(0,50,line)
 	
-	, generic_horizontal_details( [ [`Account`, `#`, `:`, tab ], custom_variable_3, d, tab ] )
+	, generic_horizontal_details( [ [`Account`, `#`, `:`, tab ], bank_account_number, d, tab ] )
 
 
 
@@ -107,10 +106,9 @@ i_rule( get_invoice_number, [
 
 ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE DATE
+% Invoice Date
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -118,17 +116,15 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-     q(0,20,line)
+  q(0,30,line)
 
-   , generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date_raw, date, newline ] )
+  ,generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, tab  ], invoice_date_raw, date, newline ] )
 
-   
-
-    , check( invoice_date_raw = DateRaw )
+  , check( invoice_date_raw = DateRaw )
 
     , trace( [ `Invoice Date Raw` , DateRaw ] )
 
-    , check(string_string_replace( DateRaw, `-`, ``, DateStrip ))
+    , check(string_string_replace( DateRaw, `-`, ` `, DateStrip ))
 
     , trace( [ `Date Stripped Coma` , DateStrip ] )
 
@@ -137,19 +133,8 @@ i_rule( get_invoice_date, [
     , trace( [ `Invoice Date` , invoice_date ] )
 
 
-
-      , check( invoice_date = Deliverydate )
-
-        , trace( [ `Delivery date` , Deliverydate] )
-
-        , delivery_date(Deliverydate)
-
-        , trace( [ `Delivery Date` , delivery_date ] )
-
-
-
-
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,6 +149,16 @@ i_rule( get_order_number, [
      q(0,20,line)
 
   , generic_horizontal_details( [ [ `PO`, `Number`, `:`, tab ], order_id, d, newline ] )
+
+        
+      , check( order_id = POnumber )
+
+        , trace( [ `PO Number` , POnumber] )
+
+        , po_number(POnumber)
+
+        , trace( [ `POnumber` , po_number] )
+  
 
 
 ] ).

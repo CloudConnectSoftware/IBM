@@ -23,6 +23,8 @@ i_rule_list( [
 
     , get_supplier_address
 
+    ,get_shipping_address
+
     , get_bank_accountnumber
                      
     , get_invoice_number
@@ -69,8 +71,76 @@ i_rule( get_supplier_detail, [
    ,supplier_party(`Critical Electric Systems Group, LLC`)
 
    ,supplier_vat_number(`36-4530079`)
+
+   ,currency( `USD` )
  
    ] ).
+
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIPPING ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_shipping_address, [
+%=======================================================================
+   
+    q(0,200,line)
+
+   , line_ship_to_name
+
+   , q(0,1,line)
+
+   , line_ship_to_street
+
+   , q(0,1,line)
+
+   , line_ship_to_city
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_name, [
+%=======================================================================
+     q0n(anything)
+
+     ,read_ahead([`Service`, `at`])
+
+      ,trace( [ `found` ] )
+
+    
+
+    , generic_item( [ address_dummy, s1, tab ] )
+
+    , generic_item( [ delivery_party, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_street, [
+%=======================================================================
+
+       generic_item( [ address_2, s1, tab ] )
+
+       ,generic_item( [delivery_street, s1, newline ] )
+    
+  ] ).
+
+%=======================================================================
+i_line_rule( line_ship_to_city, [
+%=======================================================================
+
+        generic_item( [ address_3, s1, tab ] )
+
+       , generic_item( [ delivery_city, s, `,`  ] )
+      
+       ,generic_item( [delivery_state, w ] )
+
+       ,generic_item( [delivery_postcode, [ begin, q(dec,5,6) , end ], newline ] )
+
+       
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT DETAILS
@@ -135,7 +205,7 @@ i_rule( get_delivery_date, [
 q(0,25,line)
 
 
-  ,generic_horizontal_details([ [ `Date`, `:`, tab ], invoice_date, date,  newline  ])
+  ,generic_horizontal_details([ [ `Date`, `:`, tab ], delivery_date, date,  newline  ])
 
 ] ).
 
@@ -153,6 +223,14 @@ q(0,25,line)
 
 
   ,generic_horizontal_details([ [ `PO`, `NUMBER`, `:`, q10(tab) ], order_id, d, tab   ])
+
+  ,check(order_id= OrdId)
+
+  ,po_number(OrdId)
+
+  ,line_buyers_order_number(OrdId)
+
+  ,trace( [ `po_number`, po_number ] )
 
 ] ).
 

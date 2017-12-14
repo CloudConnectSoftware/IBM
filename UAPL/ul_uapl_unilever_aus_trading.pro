@@ -34,6 +34,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_total_invoice
+
     , get_currency
 
     , get_invoice_lines
@@ -139,8 +141,30 @@ i_rule( get_totals, [
 	
     , or([
         generic_horizontal_details( [ [ `Subtotal`, `$`, tab, generic_item( [ total_net, d] ), tab, `$`, tab, generic_item( [ total_vat,d ] ), tab, `$`, tab ], total_invoice, d, newline ] )
+       
         , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, tab, generic_item( [ total_quantity, d] ), tab, generic_item( [ total_net,d ] ), tab ], total_vat, d, newline ] )
+        
+        , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, dummy_num(d), tab, generic_item( [ total_net, d ] ), tab ],  total_vat, d, newline ] )
+        
          ])
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Invoice Total
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_invoice, [
+%=======================================================================
+
+	qn0(line)
+	
+    
+      ,  generic_horizontal_details( [ [ `Total`, `including`, `GST`, `:`, tab, `$`, `A`],  total_invoice, d, newline ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -268,6 +292,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
+
     generic_item( [ line_quantity, d, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
@@ -364,6 +389,11 @@ i_line_rule_cut( line_invoice_line2, [
 % Updated on   - November 29, 2017
 % Updated by   - Rohini
 % Changes made - Invoice line format mapped
+
+
+% Updated on   - December 12, 2017
+% Updated by   - Rohini
+% Changes made - Invoice Amount
 
 % Updated on   - 
 % Updated by   -

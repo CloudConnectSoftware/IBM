@@ -209,9 +209,9 @@ i_line_rule_cut( line_end_line, [
 
     or( [
 
-   % [`Cargill`, `Kenya`, `Limited`]
+    [`Cargill`, `Kenya`, `Limited`]
 
-    [`Please`, `remit`, `to` , `below` , `bank acccount`]
+    ,[`Please`, `remit`, `to` , `below` , `bank acccount`]
 
     ,[ `VAT`, `@`]
 
@@ -328,4 +328,20 @@ i_rule( get_total_invoice, [
 ] ).
     
     
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - December 12, 2017
+% Updated by   - Rohini
+% Changes made - Line details mapped
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

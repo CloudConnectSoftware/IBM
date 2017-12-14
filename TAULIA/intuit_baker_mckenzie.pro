@@ -22,6 +22,8 @@ i_rule_list( [
     , get_supplier_address
 
     , get_bank_accountnumber
+
+    , get_bank_code
  
     , set_credit_note
                      
@@ -83,19 +85,30 @@ i_rule( get_bank_accountnumber, [
 
     q(0,30,line)
 
-   , generic_vertical_details( [ [ `Bank`, `Account`, `No` ], `Bank`, q(0,1), (start,10,10), custom_variable_3, d, [`|`, `ABA`] ] )
-
-
-    , q(0,1,line)
-    
-    , generic_horizontal_details( [ [ `ABA`, `Routing`, `No`, `.`, `:` ], custom_variable_5, d, [`|`, `Swift`] ] )
-
-    , q(0,1,line)
-    
-    , generic_horizontal_details( [ [`Swift`, `Code`, `No`, `.`, `:` ], custom_variable_4, d, [`|`, `Swift`] ] )
+   , generic_vertical_details( [ [ `Wire`, `Transfer`], `Wire`, q(0,1), (start,10,400), bank_account_number, d, [`|`, `ABA`] ] )
 
    
+   
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_code, [
+%=======================================================================
+
+
+    q(0,30,line)
+
+    , generic_horizontal_details( [ [ `ABA`, `Routing`, `No`, `.`, `:`, generic_item( [ bank_number, s ] ), `|`, `Swift`, `Code`, `No`, `.`, `:`],  swift_bic_number, s1, newline ] )
+   
+] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,7 +140,16 @@ i_rule( get_invoice_date, [
 
      q(0,20,line)
 
-   , generic_vertical_details( [ [`www`, `.`, `bakermckenzie` ], `bakermckenzie`, q(0,1), (start,0,500), invoice_date_raw, s1, newline ] )
+   , generic_vertical_details( [ [`Client`, `:` ], `Client`, q(0,1,up), (start,700,0), invoice_date, date, newline ] )
+
+      , check( invoice_date = DeliveryDate )
+
+        , trace( [ `Delivery Date` , DeliveryDate] )
+
+        , delivery_date(DeliveryDate)
+
+        , trace( [ `DeliveryDate` , delivery_date ] )
+
 
 
 ] ).
@@ -146,6 +168,18 @@ i_rule( get_order_number, [
      q(0,20,line)
 
   , generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `#` ], order_id, d, newline ] )
+
+
+      , check( order_id = POnumber )
+
+        , trace( [ `PO Number` , POnumber] )
+
+        , po_number(POnumber)
+
+        ,order_number(POnumber)
+
+        , trace( [ `POnumber` , po_number] )
+  
 
 
 ] ).
@@ -237,6 +271,13 @@ i_line_rule_cut( line_invoice_line, [
    generic_item( [ line_descr, s, [`.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, `.`, tab ] ] )
 
   , generic_item( [ line_net_amount, d, [`USD`,  newline ] ] )
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 
 

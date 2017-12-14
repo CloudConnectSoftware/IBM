@@ -34,6 +34,8 @@ i_rule_list( [
     , get_delivery_date
 
     , get_order_number
+
+    , get_buyer_contact
     
     , get_total_net
 
@@ -67,6 +69,8 @@ i_rule( get_supplier_detail, [
    ,buyer_dept(`N/A`)
 
    ,buyer_registration_number(`N/A`)
+
+   ,currency( `USD` )
 
 
 ] ).
@@ -155,8 +159,38 @@ i_rule( get_order_number, [
 
   , generic_horizontal_details( [ [`Customer`, `Ref`, `:`, `PO`, `#` ], order_id, d, newline ] )
 
+    
+      , check( order_id = POnumber )
+
+        , trace( [ `PO Number` , POnumber] )
+
+        , po_number(POnumber)
+
+        ,order_number(POnumber)
+
+        , trace( [ `POnumber` , po_number] )
+  
+
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONTACT PERSON
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_contact, [
+%=======================================================================
+
+     q(0,40,line)
+
+    , generic_horizontal_details( [ [ `Contact`, `:` ], buyer_contact, s1, newline ] )
+
+
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -283,6 +317,24 @@ i_line_rule_cut( line_invoice_line, [
            ])
 
   , generic_item( [ line_net_amount, d, newline ] )
+
+  ,q10(line_quantity(`1`))
+
+  
+
+  , q10( [ 
+		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
+	
+    ])
+
+    , q10( [ 
+		 with( line, line_net_amount, ItemNet ) % This takes the first value of line_item (captured in rule 'get_line_item')
+
+		, generic_item( [ line_unit_amount, ItemNet ] ) % This stores the value in line_po for the current line
+	
+    ])
 
 
 
