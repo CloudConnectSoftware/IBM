@@ -743,6 +743,16 @@ i_line_rule_cut( line_invoice_line5, [
 % Updated by   - Rohini
 % Changes made - New line format added [ line_invoice_line3, q10(line_desr_line2),line_invoice_line4, q10(line_desr_line2)]
 
+
+% Updated on   - December 11, 2017
+% Updated by   - Thejas
+% Changes made - New line format
+
+
+% Updated on   - December 14, 2017
+% Updated by   - Rohini
+% Changes made - New line format
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
