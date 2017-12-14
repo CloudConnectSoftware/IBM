@@ -21,7 +21,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_shipping_address
+    , get_shipping_addres
 
     , get_bank_accountnumber
                      
@@ -46,6 +46,9 @@ i_rule_list( [
     , get_currency
 
     , get_invoice_lines
+
+    
+    ,get_rounding
 
     
 
@@ -311,7 +314,6 @@ i_rule(get_total_net1, [
 
   , generic_horizontal_details( [ [`SHIPPING` ,tab, `$` ], net_subtotal_2, d, newline ] )
 
-, check(sys_calculate_str_divide( net_subtotal_1, net_subtotal_2, total_net))
 
 ] ).
 
@@ -371,6 +373,33 @@ i_rule( get_currency, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Currency
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_line_rule( get_rounding, [
+%=======================================================================
+   
+     
+  with( invoice , total_vat , VAT )
+
+,with( line , line_vat_amount , LVAT )
+
+, trace( [ `vat tot`, VAT ] )
+
+, trace( [ `Line VAT`, LVAT ] )
+
+, check(sys_calculate_str_subtract( VAT, LVAT, Adjust))
+
+, trace( [ `Rounding Amount`, Adjust ] )
+  
+, generic_item( [ rounding_amount, Adjust ] )
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -461,6 +490,8 @@ i_line_rule_cut( line_invoice_line, [
   
 , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
 
+,trace( [ `VAT per`, VAT_PERCENT ] )
+
 , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
 ])
@@ -477,6 +508,7 @@ i_line_rule_cut( line_invoice_line, [
     ,check( q_sys_comp_str_lt(line_net_amount, `0` ) )
 
       ]) 
+   
 
 ] ).
 
