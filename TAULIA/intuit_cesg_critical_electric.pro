@@ -70,7 +70,17 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party(`Critical Electric Systems Group, LLC`)
 
-   %,supplier_vat_number(`36-4530079`)
+   ,supplier_vat_number(`364530079`)
+
+   ,supplier_city(`Plano`)
+    
+    ,supplier_country_code(`US`)
+
+    ,supplier_postcode(`75074`)
+    
+    ,supplier_state(`TX`)
+    
+    ,supplier_street(`704 Central Pkwy. East, 1200A`)
 
    ,currency( `USD` )
  

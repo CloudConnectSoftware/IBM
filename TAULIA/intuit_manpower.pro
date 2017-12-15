@@ -19,7 +19,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_supplier_address
+    %, get_supplier_address
 
     , get_bank_accountnumber
  
@@ -57,6 +57,15 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Manpower Group US Inc` )
 
+    ,supplier_city(`Chicago`)
+    
+    ,supplier_country_code(`US`)
+
+    ,supplier_postcode(`60673`)
+    
+    ,supplier_state(`IL`)
+    
+    ,supplier_street(`29973 Network Place`)
    
 
 ] ).
@@ -110,7 +119,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-       generic_item( [ supplier_address_line, s1, tab ] )
+       generic_item( [ supplier_street, s1, tab ] )
 
      , generic_item( [ supplier_dummy2, s1, tab ] )
 

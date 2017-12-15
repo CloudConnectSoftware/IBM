@@ -62,13 +62,15 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `Baker & McKenzie LLP` )
 
-  ,supplier_city(`Palo Alto`)
- ,supplier_country_code(`US`)
+   ,supplier_city(`Palo Alto`)
+    
+    ,supplier_country_code(`US`)
 
-,supplier_postcode(`94304`)
-,supplier_state(`CA`)
-,supplier_street(`660 Hansen Way`)
-
+    ,supplier_postcode(`94304`)
+    
+    ,supplier_state(`CA`)
+    
+    ,supplier_street(`660 Hansen Way`)
 
 
 ] ).
