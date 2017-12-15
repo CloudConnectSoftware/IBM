@@ -64,13 +64,15 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `PCC Network Solutions` )
 
-   ,supplier_vat_number(`Not on Invoice`)
+   ,supplier_city(`Chicago`)
+    
+    ,supplier_country_code(`US`)
 
-   ,buyer_dept(`N/A`)
-
-   ,buyer_registration_number(`N/A`)
-
-   ,currency( `USD` )
+    ,supplier_postcode(`60673`)
+    
+    ,supplier_state(`IL`)
+    
+    ,supplier_street(`29973 Network Place`)
 
 
 ] ).
