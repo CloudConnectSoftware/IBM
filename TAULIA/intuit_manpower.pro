@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_order_number
+    %, get_order_number
     
     , get_total_net
 
@@ -57,11 +57,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Manpower Group US Inc` )
 
-   ,supplier_vat_number(`46-1140696`)
-
-   ,buyer_dept(`N/A`)
-
-   ,buyer_registration_number(`N/A`)
+   
 
 ] ).
 
