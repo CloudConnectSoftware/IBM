@@ -146,6 +146,9 @@ i_rule( get_totals, [
         
         , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, dummy_num(d), tab, generic_item( [ total_net, d ] ), tab ],  total_vat, d, newline ] )
         
+        , generic_horizontal_details( [ [`Sub`, `-`, `Totals`, `:`, dummy_num1(d), tab, generic_item( [ total_net, d ] )],  total_vat, d, newline ] )
+
+
          ])
 ] ).
 
@@ -238,12 +241,14 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           
             line_invoice_line
 
-           , [line_invoice_line2, line_invoice_line3]
+           , line_invoice_line2
 
-            ,line_invoice_foramt2
+           ,  line_invoice_line3
+           
+           ,line_invoice_foramt2
+
 
        
 
@@ -369,7 +374,7 @@ i_line_rule_cut( line_invoice_line2, [
 
 
     ])
-
+      
     , q10(generic_item( [ line_quantity, d,  [q10(tab),check(line_quantity(end)< -129)] ] ))
 
     , generic_item( [ line_unit_amount_dummy, d, tab ] )
@@ -433,6 +438,10 @@ i_line_rule_cut( line_invoice_line3, [
 
 
 % Updated on   - December 12, 2017
+% Updated by   - Rohini
+% Changes made - Invoice Amount
+
+% Updated on   - December 15, 2017
 % Updated by   - Rohini
 % Changes made - Invoice Amount
 
