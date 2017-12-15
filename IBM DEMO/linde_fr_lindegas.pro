@@ -77,15 +77,9 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 i_rule( get_supplier_address, [
 %=======================================================================
+    qn0(line)
 
-    sender_name( `Linde AG, Linde Gas Division` )
-
-     ,supplier_party( `Linde AG, Linde Gas Division` )
-
-   ,supplier_vat_number(`DE 113 822 613`)
-
-   , set(reverse_punctuation_in_numbers)
-
+    ,generic_horizontal_details( [ [ `Linde`, `AG`, `,` ],  supplier_address_line, s, [`,`, `www`] ] )
 
 ] ).
 

@@ -34,6 +34,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_total_invoice
+
     , get_currency
 
     , get_invoice_lines
@@ -139,8 +141,33 @@ i_rule( get_totals, [
 	
     , or([
         generic_horizontal_details( [ [ `Subtotal`, `$`, tab, generic_item( [ total_net, d] ), tab, `$`, tab, generic_item( [ total_vat,d ] ), tab, `$`, tab ], total_invoice, d, newline ] )
+       
         , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, tab, generic_item( [ total_quantity, d] ), tab, generic_item( [ total_net,d ] ), tab ], total_vat, d, newline ] )
+        
+        , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, dummy_num(d), tab, generic_item( [ total_net, d ] ), tab ],  total_vat, d, newline ] )
+        
+        , generic_horizontal_details( [ [`Sub`, `-`, `Totals`, `:`, dummy_num1(d), tab, generic_item( [ total_net, d ] )],  total_vat, d, newline ] )
+
+
          ])
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Invoice Total
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_invoice, [
+%=======================================================================
+
+	qn0(line)
+	
+    
+      ,  generic_horizontal_details( [ [ `Total`, `including`, `GST`, `:`, tab, `$`, `A`],  total_invoice, d, newline ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -214,12 +241,16 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-           
             line_invoice_line
 
-            ,line_invoice_foramt2
+           , line_invoice_line2
 
-            , line_invoice_line2
+           ,  line_invoice_line3
+           
+           ,line_invoice_foramt2
+
+
+       
 
               
             , line
@@ -268,6 +299,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
+
     generic_item( [ line_quantity, d, tab ] )
 
     , generic_item( [ line_descr, s1, tab ] )
@@ -278,7 +310,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
-     , generic_item( [ line_unit_amount, d, tab ] )
+     , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
      , generic_item( [ line_allowance_dummy, w, tab ] )
 
@@ -307,7 +339,7 @@ i_line_rule_cut( line_invoice_foramt2, [
 
     , generic_item( [ line_quantity, d ] )
 
-     , generic_item( [ line_unit_amount, d, tab ] )
+     , generic_item( [ line_unit_amount_dummy2, d, tab ] )
 
      , generic_item( [ line_discount, d, tab ] )
 
@@ -334,11 +366,50 @@ i_line_rule_cut( line_invoice_line2, [
 
     , generic_item( [ line_customer_code, d ] )
 
-    , generic_item( [ line_descr, s1, tab ] )
+    , or([
 
+     generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [ line_descr, s1,  [q10(tab),check(line_descr(end)< -172)] ] )
+
+
+    ])
+      
     , q10(generic_item( [ line_quantity, d,  [q10(tab),check(line_quantity(end)< -129)] ] ))
 
-    , generic_item( [ line_unit_amount, d, tab ] )
+    , generic_item( [ line_unit_amount_dummy, d, tab ] )
+
+    , generic_item( [ line_discount, d, tab ] )
+
+    , generic_item( [ line_other_dedu, d ] )
+
+    , generic_item( [ line_vat_rate, d, [`%`,q10(tab) ] ] )
+
+    , generic_item( [ line_net_amount, d, tab ] )
+
+    , generic_item( [ line_vat_amount, d, q10(tab) ] )
+
+    , generic_item( [ line_total_amount, d, newline ] )
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+      generic_item( [ line_number, d ] )
+
+    , generic_item( [ line_item, s1, tab ] )
+
+    , generic_item( [ line_customer_code, d ] )
+
+    , generic_item( [ line_descr, s1,  [q10(tab),check(line_descr(end)< -172)] ] )
+
+    , generic_item( [ line_quantity, d,  [q10(tab),check(line_quantity(end)< -144)] ] )
+
+    , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
     , generic_item( [ line_discount, d, tab ] )
 
@@ -364,6 +435,15 @@ i_line_rule_cut( line_invoice_line2, [
 % Updated on   - November 29, 2017
 % Updated by   - Rohini
 % Changes made - Invoice line format mapped
+
+
+% Updated on   - December 12, 2017
+% Updated by   - Rohini
+% Changes made - Invoice Amount
+
+% Updated on   - December 15, 2017
+% Updated by   - Rohini
+% Changes made - Invoice Amount
 
 % Updated on   - 
 % Updated by   -

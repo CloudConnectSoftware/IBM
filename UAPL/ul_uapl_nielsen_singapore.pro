@@ -22,6 +22,8 @@ i_rule_list( [
 
     , get_Invoice_tax
 
+    , set_credit_note
+
     , get_invoice_number
 
     , get_order_number
@@ -76,6 +78,39 @@ q0n(anything)
 
 ] ). 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`Credit`, `Note`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET BANK ACCOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,7 +160,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
+    ,or([
+
+       generic_horizontal_details( [ [ `Credit`, `Note`, tab ], invoice_number, d, newline ] )
+
      , generic_horizontal_details( [ [ `Invoice`, tab ], invoice_number, d, newline ] )
+
+    ])
 
 	
 	] ).
@@ -142,32 +183,10 @@ i_rule( get_order_number, [
 
      q(0,75,line)
 
-    , find_order_header_line
+  
+      ,generic_horizontal_details( [ [  `PO`, `No`, `.`, `:` ], order_number,s1, newline ] )
 
-    , q(0,15,line)
-
-    , find_order_number
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( find_order_header_line, [
-%=======================================================================
-          
-           q10([ `PO`, `No`, `.`, `:` ])
-
-          , trace( [ `Order header found` ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( find_order_number, [
-%=======================================================================
-
-
-    q0n(anything)
-
-     , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,2,10) , end ] ] )
+   
 
        , check(order_number = OrdNo)
 
@@ -312,7 +331,7 @@ i_rule( get_total_invoice, [
 [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`  ], 250 , total_invoice, d, newline ] ) ]
 
 
-, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `in`, `SGD`  ], 250, total_invoice, d, newline ] ) ]
+, [ check( Currency == `SGD` ) , generic_horizontal_details( [ [`Total`, `Amount`, `in`, `SGD`, tab ], total_invoice, d, newline ] ) ]
 
 
                 
@@ -344,7 +363,7 @@ i_rule( get_line_total_amount, [
 [ check( Currency = `USD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`  ], 250 , line_total_amount, d, newline ] ) ]
 
 
-, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `in`, `SGD`  ], 250, line_total_amount, d, newline ] ) ]
+, [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `SGD`, tab ], line_total_amount, d, newline ] ) ]
                 
  ] )
 
@@ -429,3 +448,22 @@ i_rule( get_line_vat, [
  
 
 ] ). 
+
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - December 12, 2017
+% Updated by   - Rohini
+% Changes made - Invoice total updated
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
