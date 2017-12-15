@@ -66,7 +66,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
 
-   
+   ,currency( `USD` )
 ] ).
 
 
