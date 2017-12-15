@@ -62,11 +62,11 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `Baker & McKenzie LLP` )
 
-   ,supplier_vat_number(`36-2137456`)
+  % ,supplier_vat_number(`36-2137456`)
 
-   ,buyer_dept(`N/A`)
+   %,buyer_dept(`N/A`)
 
-   ,buyer_registration_number(`N/A`)
+   %,buyer_registration_number(`N/A`)
 
 
 ] ).
