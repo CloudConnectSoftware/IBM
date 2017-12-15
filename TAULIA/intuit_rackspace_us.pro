@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_order_number
+    %, get_order_number
     
     , get_total_net
 
@@ -60,11 +60,11 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `Rackspace US Inc` )
 
-   ,supplier_vat_number(`74-3219359`)
+   %,supplier_vat_number(`74-3219359`)
 
-   ,buyer_dept(`N/A`)
+   %,buyer_dept(`N/A`)
 
-   ,buyer_registration_number(`N/A`)
+  % ,buyer_registration_number(`N/A`)
 
 
 ] ).

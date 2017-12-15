@@ -68,6 +68,8 @@ i_rule( get_supplier_detail, [
 
    %,buyer_registration_number(`N/A`)
 
+   ,supplier_country_code(`US`)
+
 
 ] ).
 
