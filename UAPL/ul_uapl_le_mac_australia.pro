@@ -19,7 +19,9 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_bank_account_no
+    , set_credit_note
+
+    , get_bank_account_no
 	
 	, get_invoice_number
 
@@ -60,6 +62,37 @@ i_rule( get_supplier_details, [
    
 ]).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`ADJUSTMENT`, `NOTE`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,6 +110,8 @@ q(0,50,line)
  , generic_horizontal_details( [ [  `Account`, `No` ],  supplier_bank_account_number, w, tab ] ) 
 
 ]).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -89,7 +124,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
+    , or([
+
+     generic_horizontal_details( [ [ `ADJUSTMENT`, `NOTE`, `:`, tab ], invoice_number, s1, newline ] )
+
    , generic_horizontal_details( [ [ `TAX`, `INVOICE`, `:`, tab ],  invoice_number, d, newline ] ) 
+
+    ])
 
 ] ).
 
@@ -226,6 +267,8 @@ i_section( get_invoice_lines, [
 		
 			line_invoice_line 
 
+            , line_invoice_line1
+
             , line			
 		] )
 	
@@ -237,7 +280,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line, [
 %=======================================================================
 	
-     `Le`, `Mac`, `Item`, `No`, `.`, tab
+     [`Le`, `Mac`, `Item`, `No`, `.`, tab]
      
      , trace( [ `FOUND THE HEADER LINE` ] )
 
@@ -247,7 +290,10 @@ i_line_rule_cut( line_start_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 or([
-  [ `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust`, `to`, `the`, `Purchaser`, `shall`, `be`, `at`, `Purchaser`, `'`, `s`, `risk`, `on`, `delivery`, `to`, `the`, `Purchaser`, `or`, `into`, `the`, `Purchaser`, `'`, `s`, `custody`, tab, `Sub`, `Total`,  newline ]
+
+
+  [ `Goods`, `supplied`, `by`, `Le`, `Mac`, `Australia`, `Trust` ]
+
   ,[`Le`, `Mac`, `Australia`, `Trust`, tab, `ABN`, `72`, `294`, `937`, `953`,  newline ]
 
   ,[`sub`, `total`]
@@ -272,7 +318,7 @@ i_line_rule_cut( line_invoice_line, [
 
        , generic_item( [ line_quantity, d, tab ] )
 
-       , generic_item( [ line_price_uom_code, w, tab ] )
+       , generic_item( [ line_quantity_uom_code, w, tab ] )
 
        , generic_item( [ line_unit_amount, d, tab ] )
 
@@ -281,7 +327,50 @@ i_line_rule_cut( line_invoice_line, [
  	
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [   
+%=======================================================================
 
+
+       generic_item( [ line_item_vendor, s1, tab ] )
+       
+       , generic_item( [ line_item, d , q10(tab)] )
+
+       , generic_item( [ line_descr, s1, tab ] )
+
+       , generic_item( [ line_quantity, d, tab ] )
+
+       , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+       , generic_item( [ line_unit_amount_dummy, d, tab ] )
+
+       , generic_item( [ line_dummy, s1, tab ] )
+
+      , generic_item( [ line_net_amount, d, newline ] )
+ 
+ 	
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - December 15, 2017
+% Updated by   - Rohini	
+% Changes made - Credit note set
+
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
