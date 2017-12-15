@@ -8,7 +8,7 @@ i_version( intuit_rackspace_us, `06 December 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `d m y` ).
+i_date_format( _ ).
 
 i_trace_lists.
 

@@ -299,7 +299,9 @@ i_line_rule_cut( line_end_line, [
 
 	or([
 
-			[`Sub`, `total`, tab, `$`, dummy_num11(d), newline ]
+			[`CARRIED`, `FORWARD`, tab ]
+			
+			, [`Sub`, `total`, tab, `$`, dummy_num11(d), newline ]
 
 			, [`Sub`, `total`, tab, `NZD`, q10(tab) , `$`, dummy_num11(d), newline ]
 
@@ -417,3 +419,22 @@ i_line_rule_cut( line_credit_descr_lines, [
 
 ] ).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - December 15, 2017
+% Updated by   - Rohini	
+% Changes made - Line details 
+
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

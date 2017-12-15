@@ -33,7 +33,7 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_order_number
+    %, get_order_number [Do not run this untill we receive further communication from Ches]
     
     , get_total_net
 

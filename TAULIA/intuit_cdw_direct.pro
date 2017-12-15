@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_delivery_date
 
-    , get_order_number
+    % , get_order_number
 
     , get_line_total_net
 
