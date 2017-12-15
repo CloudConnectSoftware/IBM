@@ -283,6 +283,14 @@ i_rule(get_total_vat, [
 
   , generic_horizontal_details( [ [`SALES`, `TAX`,  `:` ],200,  total_vat, d, newline ] )
 
+  , check( total_vat = Totvat )
+
+        , trace( [ `Total VAT` , Totvat] )
+
+        , rate_1_vat(Totvat)
+
+        , trace( [ `Total VAT 1 ` , rate_1_vat ] )
+
 ] ).
 
 
@@ -387,27 +395,8 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_unit_amount, d, tab ] )
 
-, generic_item( [ line_net_amount, d, newline ] )
+, generic_item( [ line_total_amount, d, newline ] )
 
-,q10([	% LINE VAT Rate Calculation
-  
-with( invoice , total_vat , VAT )
-
-,with( invoice , total_net , Net )
-
-, trace( [ `vat tot`, VAT ] )
-
-, trace( [ `sub total`, Net ] )
-
-, check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-, trace( [ `VAT Rate`, VAT_RATE ] )
-  
-, check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-, generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
- ] )
 
 ] ).
 

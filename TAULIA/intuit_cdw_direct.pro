@@ -335,6 +335,14 @@ q(0,150,line)
 
   , generic_horizontal_details( [ [`SALES`, `TAX`, tab, `$` ],  total_vat, d, newline ] )
 
+  , check( total_vat = Totvat )
+
+        , trace( [ `Total VAT` , Totvat] )
+
+        , rate_1_vat(Totvat)
+
+        , trace( [ `Total VAT 1 ` , rate_1_vat ] )
+
 ] ).
 
 
