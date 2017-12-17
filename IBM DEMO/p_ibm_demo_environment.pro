@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_demo_environment, `14/06/2017 13:07:37` ).
+i_version( p_ibm_demo_environment, `17/12/2017 22:53:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,11 @@ i_rules_file( `d_ibm_demo_extra_variables.pro` ).
 i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% User Fields
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,4 +89,67 @@ Kindest regards<br>
 <br>
 <br>
 THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND`
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% POPULATE TOTALS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_missing_invoice_totals___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_missing_invoice_totals___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(
+		not( result( _, invoice, total_net, _ ) ),
+		result( _, invoice, total_vat, VAT ),
+		(
+			result( _, invoice, rounding_amount, Sub_3 )
+			;
+			not( result( _, invoice, rounding_amount, _ ) ),
+			Sub_3 = `0`
+		),
+		result( _, invoice, total_invoice, Total ),
+		sys_calculate_str_add( VAT, Sub_3, X ),
+		sys_calculate_str_subtract( Total, X, Net ),
+		assertz_derived_data( invoice, total_net, Net, i_analyse_total_net )
+
+		;
+
+		not( result( _, invoice, total_vat, _ ) ),
+		result( _, invoice, total_net, Net ),
+		(
+			result( _, invoice, rounding_amount, Sub_3 )
+			;
+			not( result( _, invoice, rounding_amount, _ ) ),
+			Sub_3 = `0`
+		),
+		result( _, invoice, total_invoice, Total ),
+		sys_calculate_str_add( Net, Sub_3, X ),
+		sys_calculate_str_subtract( Total, X, VAT ),
+		assertz_derived_data( invoice, total_vat, VAT, i_analyse_total_vat )
+
+		;
+
+		not( result( _, invoice, total_invoice, _ ) ),
+		result( _, invoice, total_net, Net ),
+		result( _, invoice, total_vat, VAT ),
+		(
+			result( _, invoice, rounding_amount, Sub_3 )
+			;
+			not( result( _, invoice, rounding_amount, _ ) ),
+			Sub_3 = `0`
+		),
+		sys_calculate_str_add( Net, VAT, X ),
+		sys_calculate_str_add( X, Sub_3, Total ),
+		assertz_derived_data( invoice, total_invoice, Total, i_analyse_total_invoice )
+
+	),
+
+	!
 .
