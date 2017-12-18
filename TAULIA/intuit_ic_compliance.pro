@@ -152,7 +152,21 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-    , generic_vertical_details( [ [ `INVOICE`, `#` ], `INVOICE`, q(0,2), (start,300,500), invoice_number, s1, newline ] )
+    , generic_vertical_details( [ [ `INVOICE`, `#` ], `INVOICE`, q(0,2), (start,300,500), invoice_number_raw, s1, newline ] )
+
+    , check( invoice_number_raw = InvRaw )
+
+    , trace( [ `Invoice Number Raw` , InvRaw ] )
+
+    , check(string_string_replace( InvRaw, `-`, ``,NumberStrip ))
+    
+
+    , trace( [ `Stripped ` , NumberStrip ] )
+
+    , invoice_number(NumberStrip)
+
+    , trace( [ `Invoice Number` , invoice_number ] )
+
 
 
 ] ).
