@@ -72,15 +72,15 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`364530079`)
 
-   ,supplier_city(`Plano`)
+   %,supplier_city(`Plano`)
     
     ,supplier_country_code(`US`)
 
-    ,supplier_postcode(`75074`)
+    %,supplier_postcode(`75074`)
     
-    ,supplier_state(`TX`)
+    %,supplier_state(`TX`)
     
-    ,supplier_street(`704 Central Pkwy. East, 1200A`)
+    %,supplier_street(`704 Central Pkwy. East, 1200A`)
 
    ,currency( `USD` )
  
@@ -150,6 +150,68 @@ i_line_rule( line_ship_to_city, [
        ,generic_item( [delivery_postcode, [ begin, q(dec,5,6) , end ], newline ] )
 
        
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_stree_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead([`Critical`, `Electric`])
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_stree_line, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_item( [ supplier_city, w, `,` ] )
+    
+       ,generic_item( [supplier_state, w ] )
+
+       ,generic_item( [supplier_postcode, [ begin, q(dec,5,10) , end ], newline ] )
+
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

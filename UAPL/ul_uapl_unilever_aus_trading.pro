@@ -405,7 +405,12 @@ i_line_rule_cut( line_invoice_line3, [
 
     , generic_item( [ line_customer_code, d ] )
 
-    , generic_item( [ line_descr, s1,  [q10(tab),check(line_descr(end)< -172)] ] )
+    , or([
+        generic_item( [ line_descr, s1,  [q10(tab),check(line_descr(end)< -172)] ] )
+
+        ,generic_item( [ line_descr, s,  [q10(tab),check(line_descr(end)< -190) ] ] )
+        
+        ])
 
     , generic_item( [ line_quantity, d,  [q10(tab),check(line_quantity(end)< -144)] ] )
 
