@@ -62,7 +62,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
 
-   , buyers_code_for_supplier(`TEST01SUP`)
+   , supplier_id(`TEST01SUP`)
 
    ,currency( `USD` )
 ] ).
@@ -86,7 +86,7 @@ i_rule( get_invoice_number, [
 
    ,trace( [ `Inv Date`, DateRaw ] )
 
-   ,with( invoice, buyers_code_for_supplier, VendID )
+   ,with( invoice, supplier_id, VendID )
 
    ,trace( [ `Vendor ID`, VendID ] )
 
