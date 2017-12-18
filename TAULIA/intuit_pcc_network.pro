@@ -64,15 +64,15 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `PCC Network Solutions` )
 
-   ,supplier_city(`Chicago`)
+   ,supplier_city(`Chatsworth`)
     
     ,supplier_country_code(`US`)
 
-    ,supplier_postcode(`60673`)
+    ,supplier_postcode(`91311`)
     
-    ,supplier_state(`IL`)
+    ,supplier_state(`CA`)
     
-    ,supplier_street(`29973 Network Place`)
+    ,supplier_street(`20717 Prairie Street`)
 
 
 ] ).
