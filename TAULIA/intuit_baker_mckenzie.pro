@@ -60,19 +60,83 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Baker & McKenzie LLP` )
 
-   ,supplier_party( `Baker & McKenzie LLP` )
+  % ,supplier_party( `Baker & McKenzie LLP` )
 
-   ,supplier_city(`Palo Alto`)
+  % ,supplier_city(`Palo Alto`)
     
     ,supplier_country_code(`US`)
 
-    ,supplier_postcode(`94304`)
+   % ,supplier_postcode(`94304`)
     
-    ,supplier_state(`CA`)
+  %  ,supplier_state(`CA`)
     
-    ,supplier_street(`660 Hansen Way`)
+   % ,supplier_street(`660 Hansen Way`)
 
 
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+   , q(0,1,line)
+
+   , line_add_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`Baker`, `&`, `McKenzie`, `LLP`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+ 
+        generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < 222)] ] )
+
+      , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, d, newline ] )
+   
 ] ).
 
 
@@ -297,10 +361,14 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped by - Rohini 
 
 
+% Updated on   - December 18, 2017
+% Updated by   - Rohini
+% Changes made - Supplier address mapped
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
