@@ -60,8 +60,7 @@ i_rule( get_supplier_detail, [
 
   % ,supplier_party( `IC Compliance LLC dba ICon Professional Services` )
 
-   ,supplier_vat_number(`Not on Invoice`)
-
+   
    ,buyer_dept(`N/A`)
 
    ,buyer_registration_number(`N/A`)
