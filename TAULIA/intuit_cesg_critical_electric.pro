@@ -68,17 +68,17 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Critical Electric Systems Group, LLC` )
 
-   ,supplier_party(`Critical Electric Systems Group, LLC`)
+   %,supplier_party(`Critical Electric Systems Group, LLC`)
 
-   ,supplier_vat_number(`364530079`)
+   %,supplier_vat_number(`364530079`)
 
    %,supplier_city(`Plano`)
     
     ,supplier_country_code(`US`)
 
-    %,supplier_postcode(`75074`)
+    ,supplier_postcode(`75074`)
     
-    %,supplier_state(`TX`)
+    ,delivery_country_code(`US`)
     
     %,supplier_street(`704 Central Pkwy. East, 1200A`)
 
@@ -210,7 +210,7 @@ i_line_rule( line_add_line_2, [
     
        ,generic_item( [supplier_state, w ] )
 
-       ,generic_item( [supplier_postcode, [ begin, q(dec,5,10) , end ], newline ] )
+       ,generic_item( [supplier_postcode_dummy, [ begin, q(dec,5,10) , end ], newline ] )
 
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

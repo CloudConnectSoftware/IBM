@@ -23,16 +23,12 @@ i_rule_list( [
 
     , get_supplier_address
 
-    , get_bank_accountnumber
-
-    , get_bank_code
- 
+    , get_invoice_date
+     
     , set_credit_note
                      
     , get_invoice_number
     
-    , get_invoice_date
-
     , get_due_date
 
     , get_order_number
@@ -66,37 +62,10 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
 
+   , buyers_code_for_supplier(`TEST01SUP`)
+
    ,currency( `USD` )
 ] ).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER BANK ACCOUNT NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_bank_accountnumber, [
-%=======================================================================
-
-
-   
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER BANK ACCOUNT NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_bank_code, [
-%=======================================================================
-
-
-] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +78,37 @@ i_rule( get_bank_code, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
+ q(0,20,line)
+
+    , generic_horizontal_details( [ [`Date`, `:` ], invoice_date_raw, s1, newline ] )
+
+    ,check(invoice_date_raw = DateRaw)
+
+   ,trace( [ `Inv Date`, DateRaw ] )
+
+   ,with( invoice, buyers_code_for_supplier, VendID )
+
+   ,trace( [ `Vendor ID`, VendID ] )
+
+  ,  check(string_string_replace( DateRaw, `DECEMBER` , `12` , DateMonthRepl ))
+
+   , check(string_string_replace( DateMonthRepl, `,`, ``, DateStrip ))
+
+    , trace( [ `Replaced - with / ` , DateStrip ] )
+   
+    , trace( [ `Replaced Month` , DateStrip])
+
+    ,  check(strcat_list( [ VendID,`` , DateStrip,`` ], InvNew ))   
+
+    ,  check(string_string_replace( InvNew, ` ` , `` , InvNew1 )) 
+
+    , invoice_number(InvNew1)
+
+    , trace( [ `Invoice Number` , invoice_number ] )  
+
 ] ).
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
