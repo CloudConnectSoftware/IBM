@@ -19,7 +19,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    %, get_supplier_address
+    , get_supplier_address
 
     , get_bank_accountnumber
  
@@ -57,15 +57,15 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Manpower Group US Inc` )
 
-    ,supplier_city(`Chicago`)
+   % ,supplier_city(`Chicago`)
     
     ,supplier_country_code(`US`)
 
-    ,supplier_postcode(`60673`)
+   % ,supplier_postcode(`60673`)
     
-    ,supplier_state(`IL`)
+  %  ,supplier_state(`IL`)
     
-    ,supplier_street(`29973 Network Place`)
+  %  ,supplier_street(`29973 Network Place`)
    
 
 ] ).
@@ -132,7 +132,12 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-       generic_append( [ supplier_address_line, s1, newline, `, `, ` `  ] )
+     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -282)] ] )
+
+     , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, s1, newline ] )
+
 
    
 ] ).
@@ -370,9 +375,15 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - December 6, 2017
 % Mapped by - Rohini 
 
+% Updated on   - December 18, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address mapped 
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
