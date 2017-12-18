@@ -62,7 +62,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
 
-   , buyers_code_for_supplier(`TESUP10`)
+   , buyers_code_for_supplier(`TEST01SUP`)
 
    ,currency( `USD` )
 ] ).
@@ -84,18 +84,17 @@ i_rule( get_invoice_number, [
 
     ,check(invoice_date_raw = DateRaw)
 
- ,trace( [ `Inv Date`, DateRaw ] )
+   ,trace( [ `Inv Date`, DateRaw ] )
 
- ,with( invoice, buyers_code_for_supplier, VendID )
+   ,with( invoice, buyers_code_for_supplier, VendID )
 
- ,trace( [ `Vendor ID`, VendID ] )
+   ,trace( [ `Vendor ID`, VendID ] )
 
   ,  check(string_string_replace( DateRaw, `DECEMBER` , `12` , DateMonthRepl ))
 
    , check(string_string_replace( DateMonthRepl, `,`, ``, DateStrip ))
 
     , trace( [ `Replaced - with / ` , DateStrip ] )
-
    
     , trace( [ `Replaced Month` , DateStrip])
 
