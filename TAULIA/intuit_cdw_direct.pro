@@ -71,8 +71,7 @@ i_rule( get_supplier_detail, [
 
   % ,supplier_party(`CDW Direct`)
 
-   ,supplier_vat_number(`36-4530079`)
-
+   
    , supplier_country_code(`US`)
  
    ] ).
