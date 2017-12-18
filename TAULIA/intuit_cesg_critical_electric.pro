@@ -210,7 +210,7 @@ i_line_rule( line_add_line_2, [
     
        ,generic_item( [supplier_state, w ] )
 
-       ,generic_item( [supplier_postcode, [ begin, q(dec,5,10) , end ], newline ] )
+       ,generic_item( [supplier_postcode_dummy, [ begin, q(dec,5,10) , end ], newline ] )
 
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
