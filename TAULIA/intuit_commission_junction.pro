@@ -60,7 +60,69 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
  
-   ] ).
+   , supplier_country_code(`US`)
+
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+   , q(0,1,line)
+
+   , line_add_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`530`, `East`, `Montecito`, `Street`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_street, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+        generic_item( [ supplier_city, s, `,` ] )
+
+      , generic_item( [ supplier_state, w, `,` ] )
+
+     , generic_item( [ supplier_postcode, d, tab ] )
+
+      , generic_item( [ supplier_dummy, w, newline ] )
+   
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -323,9 +385,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - December 6, 2017
 % Mapped by - Thejaswi
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - December 18,2017
+% Updated by   - Rohini
+% Changes made - Supplier Address
 
 % Updated on   - 
 % Updated by   -
