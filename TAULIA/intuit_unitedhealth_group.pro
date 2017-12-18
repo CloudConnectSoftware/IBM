@@ -286,7 +286,7 @@ i_line_rule_cut( line_invoice_line, [
 
    , generic_item( [ line_claim_amount, d,tab ] )  
 
-   , generic_item( [ line_non_claim s1,q10(tab) ] )
+   , generic_item( [ line_non_claim, s1,q10(tab) ] )
 
    , generic_item( [ line_net_amount, d, newline ] )
 

@@ -68,7 +68,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Critical Electric Systems Group, LLC` )
 
-   ,supplier_party(`Critical Electric Systems Group, LLC`)
+   %,supplier_party(`Critical Electric Systems Group, LLC`)
 
    ,supplier_vat_number(`364530079`)
 
@@ -76,7 +76,7 @@ i_rule( get_supplier_detail, [
     
     ,supplier_country_code(`US`)
 
-    %,supplier_postcode(`75074`)
+    ,supplier_postcode(`75074`)
     
     %,supplier_state(`TX`)
     
