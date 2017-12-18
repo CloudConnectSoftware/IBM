@@ -67,6 +67,8 @@ i_rule( get_supplier_detail, [
 
    , supplier_country_code(`US`)
 
+   , supplier_id(`1905878`)
+
 
 ] ).
 
