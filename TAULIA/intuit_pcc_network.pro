@@ -74,6 +74,8 @@ i_rule( get_supplier_detail, [
     
     ,supplier_street(`20717 Prairie Street`)
 
+    ,currency( `USD` )
+
 
 ] ).
 
