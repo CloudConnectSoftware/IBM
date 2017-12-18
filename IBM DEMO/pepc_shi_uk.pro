@@ -259,7 +259,18 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
-   , generic_vertical_details( [ [ `Purchase`, `Order` ], `Purchase`, q(0,1), (end,10,10), order_number, w, tab ] )
+   , [generic_vertical_details( [ [ `Purchase`, `Order` ], `Purchase`, q(0,1), (end,10,10), order_number, w, tab ] )
+
+   
+    , check( order_number = OrdNum )
+
+        , trace( [ `Line Order number` , OrdNum] )
+
+        , line_buyers_order_number(OrdNum)
+
+        , trace( [ `Buyer's Order number` ,  line_buyers_order_number ] )
+]
+
 
 
 ] ).
