@@ -60,6 +60,8 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `Rackspace US Inc` )
 
+   ,supplier_country_code(`US`)
+
    %,supplier_vat_number(`74-3219359`)
 
    %,buyer_dept(`N/A`)

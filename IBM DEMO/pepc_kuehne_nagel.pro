@@ -198,12 +198,19 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
-      , or( [
 
-    generic_horizontal_details( [ [ `Customer`, `Reference`, `:`, tab,`PO`, `:` ],  order_number, d, newline ] )
+  ,[ generic_horizontal_details( [ [ `Customer`, `Reference`, `:`, tab,`PO`, q10(`:`) ],  order_number, d, newline ] )
 
-    ,  generic_horizontal_details( [ [`Customer`, `Reference`, `:`, tab, `PO`],  order_number, d, newline ] )
-] )
+    
+   , check( order_number = OrdNum )
+
+        , trace( [ `Line Order number` , OrdNum] )
+
+        , line_buyers_order_number(OrdNum)
+
+        , trace( [ `Buyer's Order number` ,  line_buyers_order_number ] )
+]
+
 
 ] ).
 
