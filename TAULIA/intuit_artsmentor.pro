@@ -27,7 +27,7 @@ i_rule_list( [
      
     , set_credit_note
                      
-    , get_invoice_number
+  %  , get_invoice_number
     
     , get_due_date
 
@@ -62,9 +62,11 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`N/A`)
 
-   , supplier_id(`TEST01SUP`)
+   %, supplier_id(`TEST01SUP`)
 
    ,currency( `USD` )
+
+   , invoice_number(`Test00112192017`)
 ] ).
 
 
