@@ -27,7 +27,7 @@ i_rule_list( [
      
     , set_credit_note
                      
-    , get_invoice_number
+  %  , get_invoice_number
     
     , get_due_date
 
@@ -60,11 +60,21 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `Artsmentor, LLC` )
 
-   ,supplier_vat_number(`N/A`)
+    %, supplier_id(`TEST01SUP`)
 
-   , supplier_id(`TEST01SUP`)
+    , supplier_street(`1950 Spyglass Court`)
+
+    ,supplier_city(`Tillamook`)
+
+    ,supplier_state(`OR`)
+
+    ,supplier_postcode(`97141`)
+
+    ,supplier_country_code(`US`)
 
    ,currency( `USD` )
+
+   , invoice_number(`Test00112192017`)
 ] ).
 
 
