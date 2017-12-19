@@ -64,14 +64,86 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `PCC Network Solutions` )
 
-   ,supplier_vat_number(`Not on Invoice`)
+   ,supplier_city(`Chatsworth`)
+    
+    ,supplier_country_code(`US`)
 
-   ,buyer_dept(`N/A`)
+    ,supplier_postcode(`91311`)
+    
+    ,supplier_state(`CA`)
+    
+    ,supplier_street(`20717 Prairie Street`)
 
-   ,buyer_registration_number(`N/A`)
+    ,currency( `USD` )
 
-   ,currency( `USD` )
 
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_stree_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead([`From`, `:`])
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_part_dummy, w, `:` ] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_stree_line, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, tab ] )
+
+       ,generic_item( [ supplier_street_dummy, s1,newline  ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_item( [ supplier_city, w, `,` ] )
+    
+       ,generic_item( [supplier_state, w ] )
+
+       ,generic_item( [supplier_postcode, [ begin, q(dec,5,10) , end ], tab ] )
+
+       ,generic_item( [supplier_state_dummy, s1, newline ] )
 
 ] ).
 

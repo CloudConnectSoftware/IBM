@@ -58,16 +58,89 @@ i_rule( get_supplier_detail, [
 
     sender_name( `IC Compliance LLC dba ICon Professional Services` )
 
-   ,supplier_party( `IC Compliance LLC dba ICon Professional Services` )
+  % ,supplier_party( `IC Compliance LLC dba ICon Professional Services` )
 
-   ,supplier_vat_number(`Not on Invoice`)
-
+   
    ,buyer_dept(`N/A`)
 
    ,buyer_registration_number(`N/A`)
 
+   , supplier_country_code(`US`)
+
+   
+
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,10,line)
+
+   , line_add_line
+
+   , q(1,2,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+   , q(0,1,line)
+
+   , line_add_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`IC`, `Compliance`, `LLC` ])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, newline ] )
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+ 
+        generic_item( [ supplier_city, s, `,` ] )
+
+      , generic_item( [ supplier_state, w ] )
+
+      , generic_item( [ supplier_postcode, d, tab ] )
+
+      , generic_item( [ supplier_dummy1, s1, tab ] )
+
+      , generic_item( [ supplier_dummy2, s1, tab ] )
+
+      , generic_item( [ supplier_dummy3, s1, newline ] )
+   
+   
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE NUMBER
@@ -80,7 +153,21 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-    , generic_vertical_details( [ [ `INVOICE`, `#` ], `INVOICE`, q(0,2), (start,300,500), invoice_number, s1, newline ] )
+    , generic_vertical_details( [ [ `INVOICE`, `#` ], `INVOICE`, q(0,2), (start,300,500), invoice_number_raw, s1, newline ] )
+
+    , check( invoice_number_raw = InvRaw )
+
+    , trace( [ `Invoice Number Raw` , InvRaw ] )
+
+    , check(string_string_replace( InvRaw, `-`, ``,NumberStrip ))
+    
+
+    , trace( [ `Stripped ` , NumberStrip ] )
+
+    , invoice_number(NumberStrip)
+
+    , trace( [ `Invoice Number` , invoice_number ] )
+
 
 
 ] ).
@@ -315,10 +402,14 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped by - Rohini 
 
 
+% Updated on   - December 18,2017
+% Updated by   - Rohini 
+% Changes made - Supplier Address
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

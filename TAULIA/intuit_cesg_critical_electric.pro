@@ -68,9 +68,19 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Critical Electric Systems Group, LLC` )
 
-   ,supplier_party(`Critical Electric Systems Group, LLC`)
+   %,supplier_party(`Critical Electric Systems Group, LLC`)
 
-   ,supplier_vat_number(`36-4530079`)
+   %,supplier_vat_number(`364530079`)
+
+   %,supplier_city(`Plano`)
+    
+    ,supplier_country_code(`US`)
+
+    ,supplier_postcode(`75074`)
+    
+    ,delivery_country_code(`US`)
+    
+    %,supplier_street(`704 Central Pkwy. East, 1200A`)
 
    ,currency( `USD` )
  
@@ -140,6 +150,68 @@ i_line_rule( line_ship_to_city, [
        ,generic_item( [delivery_postcode, [ begin, q(dec,5,6) , end ], newline ] )
 
        
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_stree_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+      read_ahead([`Critical`, `Electric`])
+
+    , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_stree_line, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+      generic_item( [ supplier_city, w, `,` ] )
+    
+       ,generic_item( [supplier_state, w ] )
+
+       ,generic_item( [supplier_postcode_dummy, [ begin, q(dec,5,10) , end ], newline ] )
+
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -283,6 +355,14 @@ i_rule(get_total_vat, [
 
   , generic_horizontal_details( [ [`SALES`, `TAX`,  `:` ],200,  total_vat, d, newline ] )
 
+  , check( total_vat = Totvat )
+
+        , trace( [ `Total VAT` , Totvat] )
+
+        , rate_1_vat(Totvat)
+
+        , trace( [ `Total VAT 1 ` , rate_1_vat ] )
+
 ] ).
 
 
@@ -408,6 +488,7 @@ with( invoice , total_vat , VAT )
 , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
  ] )
+
 
 ] ).
 

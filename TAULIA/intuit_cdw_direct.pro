@@ -14,6 +14,8 @@ i_trace_lists.
 
 i_pdf_parameter( same_line, 7 ).
 
+i_op_param( us_invoice, _, _, _, _).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,6 +24,8 @@ i_rule_list( [
       get_supplier_detail
 
     , get_shipping_addres
+
+    , get_supplier_address
 
     , get_bank_accountnumber
                      
@@ -67,11 +71,92 @@ i_rule( get_supplier_detail, [
 
     sender_name( `CDW Direct` )
 
-   ,supplier_party(`CDW Direct`)
+  % ,supplier_party(`CDW Direct`)
 
-   ,supplier_vat_number(`36-4530079`)
+   
+   , supplier_country_code(`US`)
  
    ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+   , q(0,1,line)
+
+   , line_add_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`CDW`, `Direct`, tab ])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, tab ] )
+
+     , generic_item( [ supplier_dummy, s1, tab ] )
+
+     , generic_item( [ supplier_dummy1, s1, tab ] )
+
+     , generic_item( [ supplier_dummy2, s1, tab ] )
+
+     , generic_item( [ supplier_dummy3, s1, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, tab ] )
+
+     , generic_item( [ supplier_dummy4, s1, tab ] )
+
+     , generic_item( [ supplier_dummy5, s1, tab ] )
+
+     , generic_item( [ supplier_dummy6, s1, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+ 
+        generic_item( [ supplier_city, s, `,` ] )
+
+      , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, s1, newline ] )
+   
+] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -335,6 +420,14 @@ q(0,150,line)
 
   , generic_horizontal_details( [ [`SALES`, `TAX`, tab, `$` ],  total_vat, d, newline ] )
 
+  , check( total_vat = Totvat )
+
+        , trace( [ `Total VAT` , Totvat] )
+
+        , rate_1_vat(Totvat)
+
+        , trace( [ `Total VAT 1 ` , rate_1_vat ] )
+
 ] ).
 
 
@@ -450,27 +543,6 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_net_amount, d, newline ] )
 
-, q10([	% LINE VAT Rate Calculation
-  
-  with( invoice , total_vat , VAT )
-
-,with( invoice , net_subtotal_1 , Net )
-
-, trace( [ `vat tot`, VAT ] )
-
-, trace( [ `sub total`, Net ] )
-
-, check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-, trace( [ `VAT Rate`, VAT_RATE ] )
-  
-, check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-,trace( [ `VAT per`, VAT_PERCENT ] )
-
-, generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-])
 
 , q10( [ 
 		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
@@ -508,9 +580,9 @@ i_line_rule_cut( line_descr_append_line, [
 % Mapped on - December 6, 2017
 % Mapped by - Thejaswi
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - December 18, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address
 
 % Updated on   - 
 % Updated by   -

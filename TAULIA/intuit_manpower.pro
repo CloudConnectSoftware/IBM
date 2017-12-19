@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_order_number
+    %, get_order_number
     
     , get_total_net
 
@@ -57,11 +57,16 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Manpower Group US Inc` )
 
-   ,supplier_vat_number(`46-1140696`)
+   % ,supplier_city(`Chicago`)
+    
+    ,supplier_country_code(`US`)
 
-   ,buyer_dept(`N/A`)
-
-   ,buyer_registration_number(`N/A`)
+   % ,supplier_postcode(`60673`)
+    
+  %  ,supplier_state(`IL`)
+    
+  %  ,supplier_street(`29973 Network Place`)
+   
 
 ] ).
 
@@ -114,7 +119,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-       generic_item( [ supplier_address_line, s1, tab ] )
+       generic_item( [ supplier_street, s1, tab ] )
 
      , generic_item( [ supplier_dummy2, s1, tab ] )
 
@@ -127,7 +132,12 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-       generic_append( [ supplier_address_line, s1, newline, `, `, ` `  ] )
+     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -282)] ] )
+
+     , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, s1, newline ] )
+
 
    
 ] ).
@@ -365,9 +375,15 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - December 6, 2017
 % Mapped by - Rohini 
 
+% Updated on   - December 18, 2017
+% Updated by   - Rohini
+% Changes made - Supplier Address mapped 
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

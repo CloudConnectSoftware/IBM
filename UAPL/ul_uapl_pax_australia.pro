@@ -325,7 +325,7 @@ i_line_rule_cut( line_credit_line, [
 
     , generic_item( [line_quantity_uom_code_dummy , w , tab ] )
 
-    , generic_item( [line_vat_rate , d , tab ])
+    , generic_item( [line_vat_rate_dummy , d , tab ])
 
     , generic_item( [line_unit_amount , d , tab ] )
 
@@ -394,6 +394,11 @@ i_sum_all_line_nets
 % Updated on   - November 29, 2017
 % Updated by   - Rohini
 % Changes made - Invoice line and Invoice net amount
+
+
+% Updated on   - December 19, 2017
+% Updated by   - Rohini
+% Changes made - Invoice Line amount
 
 % Updated on   - 
 % Updated by   -
