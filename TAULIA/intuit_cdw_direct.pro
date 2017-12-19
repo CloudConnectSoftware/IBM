@@ -35,7 +35,7 @@ i_rule_list( [
 
     , get_delivery_date
 
-    % , get_order_number
+    , get_order_number
 
     , get_line_total_net
 
@@ -342,16 +342,9 @@ i_rule( get_order_number, [
 
   q(0,25,line)
   
-  ,generic_vertical_details( [ [ `PURCHASE`, `ORDER`, `NUMBER` ], `ORDER`, q(0,1), (start,500,500), order_id, d, newline ] )
+  ,generic_vertical_details( [ [ `PURCHASE`, `ORDER`, `NUMBER` ], `ORDER`, q(0,1), (start,500,500), po_number, d, newline ] )
 
-  ,check(order_id= OrdId)
-
-  ,po_number(OrdId)
-
-  ,trace( [ `po_number`, po_number ] )
-
-  ,order_number(OrdId)
-
+  
 ] ).
 
 
@@ -543,13 +536,6 @@ i_line_rule_cut( line_invoice_line, [
 
 , generic_item( [ line_net_amount, d, newline ] )
 
-
-, q10( [ 
-		 with( invoice, order_number, Item ) % This takes the first value of line_item (captured in rule 'get_line_item')
-
-		, generic_item( [ line_buyers_order_number, Item ] ) % This stores the value in line_po for the current line
-	
-    ])
 
    
 

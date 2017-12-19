@@ -214,18 +214,18 @@ i_rule( get_order_number, [
 
      q(0,20,line)
 
-  ,  generic_vertical_details( [ [`PO`, `#`, tab ], `PO`, q(0,2), (start,100,300), order_id, w, tab ] )
+  ,  generic_vertical_details( [ [`PO`, `#`, tab ], `PO`, q(0,2), (start,100,300), po_number, w, tab ] )
 
   
-      , check( order_id = POnumber )
+      %, check( order_id = POnumber )
 
-        , trace( [ `PO Number` , POnumber] )
+       % , trace( [ `PO Number` , POnumber] )
 
-        , po_number(POnumber)
+        %, po_number(POnumber)
 
-        , order_number(POnumber)
+        %, order_number(POnumber)
 
-        , trace( [ `POnumber` , po_number] )
+        %, trace( [ `POnumber` , po_number] )
   
 
 
