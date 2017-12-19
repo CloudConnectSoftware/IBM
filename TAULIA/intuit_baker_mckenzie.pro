@@ -33,7 +33,7 @@ i_rule_list( [
 
     , get_due_date
 
-    %, get_order_number [Do not run this untill we receive further communication from Ches]
+    , get_order_number 
     
     , get_total_net
 
@@ -235,18 +235,9 @@ i_rule( get_order_number, [
 
      q(0,20,line)
 
-  , generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `#` ], order_id, d, newline ] )
+  , generic_horizontal_details( [ [`P`, `.`, `O`, `.`, `#` ], po_number, d, newline ] )
 
 
-      , check( order_id = POnumber )
-
-        , trace( [ `PO Number` , POnumber] )
-
-        , po_number(POnumber)
-
-        ,order_number(POnumber)
-
-        , trace( [ `POnumber` , po_number] )
   
 
 
