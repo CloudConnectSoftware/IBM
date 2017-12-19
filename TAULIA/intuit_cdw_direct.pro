@@ -289,7 +289,7 @@ i_rule( get_invoice_number, [
 
    , or([
 
-      generic_vertical_details( [ [ `INVOICE`, `NUMBER` ], `NUMBER`, q(0,1), (start,10,10), invoice_number, w, newline ] )
+      generic_vertical_details( [ [ `INVOICE`, `NUMBER` ], `INVOICE`, q(0,1), (start,100,200), invoice_number, s1, tab ] )
 
   ])
 
@@ -569,6 +569,10 @@ i_line_rule_cut( line_descr_append_line, [
 % Updated on   - December 18, 2017
 % Updated by   - Rohini
 % Changes made - Supplier Address
+
+% Updated on   - December 20, 2017
+% Updated by   - Rohini
+% Changes made - Invoice Number
 
 % Updated on   - 
 % Updated by   -
