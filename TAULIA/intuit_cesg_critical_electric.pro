@@ -33,7 +33,7 @@ i_rule_list( [
 
     , get_delivery_date
 
-    % , get_order_number
+    , get_order_number
 
     , get_line_total_net
 
@@ -294,15 +294,15 @@ i_rule( get_order_number, [
 q(0,25,line)
 
 
-  ,generic_horizontal_details([ [ `PO`, `NUMBER`, `:`, q10(tab) ], order_id, d, tab   ])
+  ,generic_horizontal_details([ [ `PO`, `NUMBER`, `:`, q10(tab) ], po_number, d, tab   ])
 
-  ,check(order_id= OrdId)
+ % ,check(order_id= OrdId)
 
-  ,po_number(OrdId)
+  %,po_number(OrdId)
 
-  ,line_buyers_order_number(OrdId)
+  %,line_buyers_order_number(OrdId)
 
-  ,trace( [ `po_number`, po_number ] )
+  %,trace( [ `po_number`, po_number ] )
 
 ] ).
 
