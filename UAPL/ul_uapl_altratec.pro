@@ -487,13 +487,19 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            [line_credit_line , q10(line_descr_line) , q10(line_descr_line)]
+
+             [line_invoice_line2,  q10(line_descr_line)]
+
+            ,[line_credit_line , q10(line_descr_line) , q10(line_descr_line)]
+      
 
             ,[ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
+        
            ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
            ,line_debit_line
+
 
            
 
@@ -609,7 +615,7 @@ i_line_rule_cut( line_invoice_line2, [
     
     , q10(generic_item( [ line_quantity_uom_code , w , tab ] ))
 
-     , generic_item( [ line_unit_amount_dummy , d , tab ] )
+     , generic_item( [ line_unit_amount , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
 
@@ -673,6 +679,10 @@ i_line_rule_cut( line_credit_line, [
 % Updated on   - October 17, 2017
 % Updated by   - Rohini
 % Changes made - Invoice net amount updated
+
+% Updated on   - October 17, 2017
+% Updated by   - Rohini
+% Changes made - Invoice line details
 
 % Updated on   - 
 % Updated by   -
