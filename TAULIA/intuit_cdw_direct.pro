@@ -35,6 +35,8 @@ i_rule_list( [
 
     , get_delivery_date
 
+    , get_due_date
+
     , get_order_number
 
     , get_line_total_net
@@ -309,13 +311,13 @@ i_rule( get_invoice_date, [
 
 q(0,20,line)
 
-  ,generic_vertical_details( [ [ `INVOICE`, `DATE` ], `DATE`, q(0,1), (start,10,10), invoice_date, date, newline ] )
+  ,generic_vertical_details( [ [ `INVOICE`, `DATE` ], `DATE`, q(0,1), (start,10,10), invoice_date, date, tab ] )
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE DUE DATE
+% INVOICE DELIVERY DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -325,9 +327,26 @@ i_rule( get_delivery_date, [
 
 q(0,25,line)
   
-  ,generic_vertical_details( [ [ `INVOICE`, `DATE` ], `DATE`, q(0,1), (start,10,10), delivery_date, date, newline ] )
+  ,generic_vertical_details( [ [ `INVOICE`, `DATE` ], `DATE`, q(0,1), (start,10,10), delivery_date, date, tab ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DELIVERY DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_due_date, [
+%=======================================================================
+
+q(0,25,line)
+  
+  ,generic_vertical_details( [ [ `DUE`, `DATE` ], `DATE`, q(0,1), (start,100,200), due_date, date, tab ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -342,7 +361,7 @@ i_rule( get_order_number, [
 
   q(0,25,line)
   
-  ,generic_vertical_details( [ [ `PURCHASE`, `ORDER`, `NUMBER` ], `ORDER`, q(0,1), (start,500,500), po_number, d, newline ] )
+  ,generic_vertical_details( [ [ `PURCHASE`, `ORDER`, `NUMBER` ], `ORDER`, q(0,1), (start,500,500), po_number, d, tab ] )
 
   
 ] ).
