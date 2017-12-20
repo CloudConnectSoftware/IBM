@@ -362,67 +362,13 @@ i_rule( get_total_vat, [
     , [generic_horizontal_details( [ [  `GST` , generic_item( [ default_vat_rate, d ] ) , `%` , tab ],  total_vat , d, newline ] )
     , set(tot_debit_vat)]
      
+     , generic_horizontal_details( [ [ `GST`, `6`, `%`, tab ], total_vat, d, newline ] )
     ])
 
 
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET TOTAL INVOICE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_total_invoice, [
-%=======================================================================
-
-     qn0(line)
-	
-	, or([
-
-              
-
-              [test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
-              
-                 , check( total_invoice = TotInv )
-
-                 , trace( [ `Total Inv` , TotInv] )
-
-                  , total_net(TotInv)
-
-                  , trace( [ `Freight Total net` , total_net] ) 
-              ]
-          
-               ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
-
-                 , check( total_invoice = TotInv )
-
-                 , trace( [ `Total Inv` , TotInv] )
-
-                  , total_net(TotInv)
-
-                  , trace( [ `Freight Total net` , total_net] )     ]
-        
-                , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
-     
-             
-             ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
-
-
-             , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
-
-             ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
-
-             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
-
-             
-
-    ])
-
-    
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -453,6 +399,63 @@ i_rule( get_total_net, [
 
     ])
 
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_invoice, [
+%=======================================================================
+
+     qn0(line)
+	
+	, or([
+
+              
+
+              [test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
+              
+                 %, check( total_invoice = TotInv )
+
+                 %, trace( [ `Total Inv` , TotInv] )
+
+                  %, total_net(TotInv)
+
+                  %, trace( [ `Freight Total net` , total_net] ) 
+              ]
+          
+               ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+
+                 %, check( total_invoice = TotInv )
+
+                 %, trace( [ `Total Inv` , TotInv] )
+
+                  %, total_net(TotInv)
+
+                  %, trace( [ `Freight Total net` , total_net] )     ]
+        
+                , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+     
+             
+             ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+
+
+             , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
+
+             ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
+
+             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]]
+
+             
+
+    ])
+
+    
 ] ).
 
 
