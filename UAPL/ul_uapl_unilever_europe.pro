@@ -177,9 +177,14 @@ i_rule( get_total_net, [
   % , set(reverse_punctuation_in_numbers)
 
   % , set(regexp_cross_word_boundaries)
+  , or([
+      
+   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
  , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
+
+  ])
  
    % , clear(regexp_cross_word_boundaries)
 
