@@ -145,16 +145,16 @@ i_rule( get_total_net, [
 
     q0n(line)
 
-   , set(reverse_punctuation_in_numbers)
+   %, set(reverse_punctuation_in_numbers)
 
-   , set(regexp_cross_word_boundaries)
+   %, set(regexp_cross_word_boundaries)
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), tab, `:`, tab ],  total_net, d, newline ] )
 
      
-    , clear(regexp_cross_word_boundaries)
+   % , clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+  %  , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -174,16 +174,16 @@ i_rule( get_total_net, [
      q0n(line)
 
      
-   , set(reverse_punctuation_in_numbers)
+  % , set(reverse_punctuation_in_numbers)
 
-   , set(regexp_cross_word_boundaries)
+  % , set(regexp_cross_word_boundaries)
 
  , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
  
-    , clear(regexp_cross_word_boundaries)
+   % , clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+  %  , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -202,15 +202,15 @@ i_rule( get_total_net, [
       q0n(line)
 
       
-   , set(reverse_punctuation_in_numbers)
+  % , set(reverse_punctuation_in_numbers)
 
-   , set(regexp_cross_word_boundaries)
+  % , set(regexp_cross_word_boundaries)
 
    , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ],  total_invoice, d, newline ] )
 
-    , clear(regexp_cross_word_boundaries)
+  %  , clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+    %, clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -259,7 +259,12 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
  
     or([
-          [`Total`, `Material`, `Value`, `in`, `EUR`, tab]
+
+        [`Bank`, `Details`, `:`,  newline]
+
+        ,[`Total`, `Material`, `Value`, `in`, `EUR`, tab]
+
+          
       ])
   
   , trace( [ `Found End line` ] )
@@ -273,7 +278,7 @@ i_line_rule( line_invoice_line, [
 
      generic_item( [ line_reference, w, tab ] )
     
-    , generic_item( [ line_item, s1, tab ] )
+    , generic_item( [ line_item, d, q10(tab) ] )
   
     , generic_item( [ line_descr, s1, tab ]  )
 
@@ -302,16 +307,18 @@ i_line_rule( line_invoice_line1, [
 
     , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
-    , set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
 
     , generic_item( [ line_quantity, d ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
-    , generic_item( [ line_gross_amount_dummy, s1, tab ] )
+    , generic_item( [ line_gross_amount_dummy, d, tab ] )
 
+
+    %, set(reverse_punctuation_in_numbers)
+
+    % , set(regexp_cross_word_boundaries)
+    
     , generic_item( [ line_amount_discount, d, tab ] )
 
     , generic_item( [ line_unit_amount_dummy, d ] )
@@ -324,9 +331,9 @@ i_line_rule( line_invoice_line1, [
 
     , generic_item( [ line_vat_amount, d, newline ] )
 
-    , clear(regexp_cross_word_boundaries)
+ %   , clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+   % , clear(reverse_punctuation_in_numbers)
 
 
 
@@ -345,9 +352,9 @@ i_line_rule( line_invoice_line1, [
 % Mapped on - December 21, 2017
 % Mapped by - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - December 21, 2017
+% Updated by   - Rohini
+% Changes made - Amount format changed hence removed reg expression. New line format mapped.
 
 % Updated on   - 
 % Updated by   -
