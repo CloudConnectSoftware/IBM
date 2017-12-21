@@ -285,7 +285,13 @@ i_line_rule( line_invoice_line, [
     
     , generic_item( [ line_item, d, q10(tab) ] )
   
-    , generic_item( [ line_descr, s1, tab ]  )
+  ,or([
+
+      generic_item( [ line_descr, s1, tab ]  )
+
+    , generic_item( [line_descr , s , [q10(tab), check(line_descr(end) < 48)] ] )
+
+    ] )
 
     , generic_item( [ line_commodity_code, d, tab ] )
 
