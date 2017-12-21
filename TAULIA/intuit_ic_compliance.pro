@@ -310,7 +310,7 @@ i_line_rule( invoice_currency, [
 
     , [`Invoice`, tab, `$`]
 
-,currency( `CAD` )
+,currency( `USD` )
 
 ,trace( [ `currency found` ] )
 

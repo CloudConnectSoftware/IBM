@@ -16,7 +16,7 @@ i_pdf_parameter( same_line, 7 ).
 
 i_op_param( us_invoice, _, _, _, _).
 
-i_analyse_invoice_fields_first1.
+% i_analyse_invoice_fields_first1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -39,7 +39,7 @@ i_rule_list( [
   
     %, get_total_net
 
-    , get_total_vat
+    % , get_total_vat
 
    , get_total_invoice
 
@@ -389,11 +389,7 @@ i_line_rule_cut( line_disc_line, [
 
 , generic_item( [ line_unit_amount_dummy, d, [tab, `-`]] )
 
-, 
-line_unit_amount(`0`)
-
-
-, generic_item( [ line_amount_discount , d, newline ] )
+, generic_item( [ line_amount_discount_dummy , d, newline ] )
 
 
 
@@ -440,7 +436,7 @@ i_sum_all_line_dis1s
 :-
 
     sys_findall( DIS1,   
-        result( _, _, line_amount_discount, DIS1 ),   
+        result( _, _,line_amount_discount_dummy, DIS1 ),   
         DIS1s  ),  
      
     i_user_check( sum_string_list, DIS1s, Sum2 ),  
