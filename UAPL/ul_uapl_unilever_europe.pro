@@ -512,7 +512,14 @@ i_rule( get_port_charges, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
+       
+   or([
+       
        read_ahead([`Trucking`, `to`, `port`])
+
+      ,read_ahead([`Frt`, `&`, `handling`, `chrgs`])
+
+      ] ) 
 
      , trace( [ `Found address`] )
 
@@ -544,7 +551,10 @@ i_rule( get_freight_charges, [
 i_line_rule( line_add_line1, [
 %=======================================================================
 
+
        read_ahead([`Freight`, `Charges`, `in`, `EUR`])
+
+ 
 
      , trace( [ `Found address`] )
 
