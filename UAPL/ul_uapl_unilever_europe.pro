@@ -40,6 +40,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    , get_freight_charges
+
 
 ] ).
 
@@ -238,7 +240,7 @@ i_section( get_invoice_lines, [
 
     , or([
               
-    [line_invoice_line, line_invoice_line1]
+    line_invoice_line, line_invoice_line1, line_add_line
 
             , line
 
@@ -267,7 +269,7 @@ i_line_rule_cut( line_end_line, [
 
         [`Bank`, `Details`, `:`,  newline]
 
-        ,[`Total`, `Material`, `Value`, `in`, `EUR`, tab]
+        ,[`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ]
 
           
       ])
@@ -348,11 +350,39 @@ i_line_rule( line_invoice_line1, [
 
 
 
+] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FREIGHT CHARGES LINE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( get_freight_charges, [
+%=======================================================================
+  
+     q0n(line)
+
+   , line_add_line
 
 ] ).
 
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`Trucking`, `to`, `port`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     , generic_item( [ line_dummy, s1, tab ] )
+
+     , generic_item( [ line_total_amount, d, [`EUR`,  newline ] ] )
+
+] ).
 
 
 
