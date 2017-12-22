@@ -240,7 +240,9 @@ i_section( get_invoice_lines, [
 
     , or([
               
-    line_invoice_line, line_invoice_line1, line_add_line
+    line_invoice_line, line_invoice_line1
+    
+    , line_invoice_line2
 
             , line
 
@@ -320,6 +322,44 @@ i_line_rule( line_invoice_line1, [
 
     , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
+
+    , generic_item( [ line_quantity_dummy, d ] )
+
+    , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+    , generic_item( [ line_gross_amount_dummy, d, tab ] )
+
+
+    %, set(reverse_punctuation_in_numbers)
+
+    % , set(regexp_cross_word_boundaries)
+    
+    , generic_item( [ line_amount_discount, d, tab ] )
+
+    , generic_item( [ line_unit_amount, d ] )
+
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    , generic_item( [ line_net_amount, d, tab ] )
+
+    , generic_item( [ line_vat_rate, d, [`%`, tab ] ] )
+
+    , generic_item( [ line_vat_amount, d, newline ] )
+
+ %   , clear(regexp_cross_word_boundaries)
+
+   % , clear(reverse_punctuation_in_numbers)
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_invoice_line2, [
+%=======================================================================
+
+
+     generic_item( [ line_quantity_dummy, s1, tab ] )
 
     , generic_item( [ line_quantity_dummy, d ] )
 
