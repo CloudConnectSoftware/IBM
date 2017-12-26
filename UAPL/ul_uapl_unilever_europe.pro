@@ -430,10 +430,8 @@ i_line_rule( line_invoice_line, [
     , generic_item( [ line_commodity_code, d, tab ] )
 
     , generic_item( [ line_country, s1, tab ] )
-
  
     , generic_item( [ line_ean_code, d, q10(tab) ] )
-
 
     , generic_item( [ line_gross_weight,s1, tab ] )
 
@@ -458,12 +456,7 @@ i_line_rule( line_invoice_line1, [
     , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
     , q10(generic_item( [ line_gross_amount_dummy, d, tab ] ))
-
-
-    %, set(reverse_punctuation_in_numbers)
-
-    % , set(regexp_cross_word_boundaries)
-    
+  
     , generic_item( [ line_amount_discount, d, tab ] )
 
     , generic_item( [ line_unit_amount_dummy, d ] )
@@ -476,13 +469,7 @@ i_line_rule( line_invoice_line1, [
 
     , q10(generic_item( [ line_vat_amount, d, newline ] ))
 
- %   , clear(regexp_cross_word_boundaries)
-
-   % , clear(reverse_punctuation_in_numbers)
-
-
-
-
+ 
 ] ).
 
 %=======================================================================
@@ -505,10 +492,7 @@ i_line_rule( line_invoice_line2, [
     , generic_item( [ line_gross_amount_dummy, d, tab ] )
 
 
-    %, set(reverse_punctuation_in_numbers)
-
-    % , set(regexp_cross_word_boundaries)
-    
+       
     , generic_item( [ line_amount_discount, d, tab ] )
 
     , generic_item( [ line_unit_amount_dummy, d ] )
@@ -521,46 +505,10 @@ i_line_rule( line_invoice_line2, [
 
     , generic_item( [ line_vat_amount, d, newline ] )
 
- %   , clear(regexp_cross_word_boundaries)
-
-   % , clear(reverse_punctuation_in_numbers)
-
-
-
-] ).
-
-%=======================================================================
-i_line_rule( line_invoice_crossword, [
-%=======================================================================
-
-
-     generic_item( [ line_reference, w, tab ] )
-    
-    , generic_item( [ line_item, d, q10(tab) ] )
-  
-  ,or([
-
-      generic_item( [ line_descr, s1, tab ]  )
-
-    , generic_item( [line_descr , s , [q10(tab), check(line_descr(end) < 48)] ] )
-
-    ] )
-
-    , generic_item( [ line_commodity_code, d, tab ] )
-
-    , generic_item( [ line_country, s1, tab ] )
-
  
-    , generic_item( [ line_ean_code, d, tab ] )
-
-
-    , generic_item( [ line_gross_weight,s1, tab ] )
-
-    , generic_item( [ line_net_weight, s1, newline ] )
-
-
 
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_invoice_crossword1, [
