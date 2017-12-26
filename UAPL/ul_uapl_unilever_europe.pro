@@ -448,7 +448,7 @@ i_line_rule( line_invoice_line1, [
 
     , generic_item( [ line_quantity_dummy, d ] )
 
-    , generic_item( [ line_quantity_uom_code, w, tab ] )
+    , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
     , generic_item( [ line_gross_amount_dummy, d, tab ] )
 
