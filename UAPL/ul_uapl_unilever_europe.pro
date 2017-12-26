@@ -246,7 +246,7 @@ i_rule( get_currency, [
 
   % , set(regexp_cross_word_boundaries)
 
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ],  total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
   %  , clear(regexp_cross_word_boundaries)
 
@@ -269,16 +269,16 @@ i_rule( get_alternative_net, [
 
     q0n(line)
 
-   %, set(reverse_punctuation_in_numbers)
+   , set(reverse_punctuation_in_numbers)
 
-   %, set(regexp_cross_word_boundaries)
+   , set(regexp_cross_word_boundaries)
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
 
      
-   % , clear(regexp_cross_word_boundaries)
+    , clear(regexp_cross_word_boundaries)
 
-   % , clear(reverse_punctuation_in_numbers)
+    , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -298,9 +298,9 @@ i_rule( get_alternative_net, [
      q0n(line)
 
      
-   %, set(reverse_punctuation_in_numbers)
+   , set(reverse_punctuation_in_numbers)
 
-   %, set(regexp_cross_word_boundaries)
+   , set(regexp_cross_word_boundaries)
   , or([
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
@@ -310,9 +310,9 @@ i_rule( get_alternative_net, [
 
   ])
  
-   % , clear(regexp_cross_word_boundaries)
+   , clear(regexp_cross_word_boundaries)
 
-   % , clear(reverse_punctuation_in_numbers)
+   , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -335,7 +335,7 @@ i_rule( get_alternative_net, [
 
    %, set(regexp_cross_word_boundaries)
 
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q1(`:`), tab ],  total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
    %, clear(regexp_cross_word_boundaries)
 
@@ -363,9 +363,11 @@ i_section( get_invoice_lines, [
 
     , or([
               
-   [line_invoice_line, line_invoice_line1]
+   [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
-    , [line_invoice_line,line_invoice_line2]
+    , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
+
+    ,[line_invoice_line, line_invoice_crossword1]
 
             , line
 
@@ -430,7 +432,7 @@ i_line_rule( line_invoice_line, [
     , generic_item( [ line_country, s1, tab ] )
 
  
-    , generic_item( [ line_ean_code, s1, tab ] )
+    , generic_item( [ line_ean_code, d, q10(tab) ] )
 
 
     , generic_item( [ line_gross_weight,s1, tab ] )
@@ -527,6 +529,88 @@ i_line_rule( line_invoice_line2, [
 
 ] ).
 
+%=======================================================================
+i_line_rule( line_invoice_crossword, [
+%=======================================================================
+
+
+     generic_item( [ line_reference, w, tab ] )
+    
+    , generic_item( [ line_item, d, q10(tab) ] )
+  
+  ,or([
+
+      generic_item( [ line_descr, s1, tab ]  )
+
+    , generic_item( [line_descr , s , [q10(tab), check(line_descr(end) < 48)] ] )
+
+    ] )
+
+    , generic_item( [ line_commodity_code, d, tab ] )
+
+    , generic_item( [ line_country, s1, tab ] )
+
+ 
+    , generic_item( [ line_ean_code, d, tab ] )
+
+
+    , generic_item( [ line_gross_weight,s1, tab ] )
+
+    , generic_item( [ line_net_weight, s1, newline ] )
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_invoice_crossword1, [
+%=======================================================================
+
+     set(reverse_punctuation_in_numbers)
+
+     , set(regexp_cross_word_boundaries)
+
+     ,generic_item( [ line_quantity, d, q10(tab) ] )
+
+    , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+
+    , generic_item( [ line_quantity_dummy, d ] )
+
+    , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
+
+    , q10(generic_item( [ line_gross_amount_dummy, d, tab ] ))
+
+
+     
+    
+    , generic_item( [ line_amount_discount, d, tab ] )
+
+    , generic_item( [ line_unit_amount_dummy, d ] )
+
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    , generic_item( [ line_net_amount, d, tab ] )
+
+    , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
+
+    , q10(generic_item( [ line_vat_amount, d, newline ] ))
+
+    , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)
+
+]).
+
+%=======================================================================
+i_line_rule( line_desc_line_dummy, [
+%=======================================================================
+
+
+     generic_item( [ line_reference_dummy, s1, newline ] )
+
+]).   
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -588,17 +672,22 @@ i_line_rule( line_add_line1, [
 %=======================================================================
 
 
-       read_ahead([`Freight`, `Charges`, `in`, `EUR`])
+       read_ahead([`Freight`, `Charges`, q10(`in`), q10(`EUR`)])
 
  
 
      , trace( [ `Found Freight`] )
 
-     , generic_item( [ line_descr, s, [`in`, `EUR`, q10(tab) ] ] )
+     , or([
+         generic_item( [ line_descr, s, [`in`, `EUR`, q10(tab) ] ] )
+
+         ,generic_item( [ line_descr, s1, tab ] )
+
+     ])
 
      , generic_item( [ line_dummy, s1, tab ] )
 
-     , generic_item( [ line_total_amount, d, newline  ] )
+     , generic_item( [ line_total_amount, d, [q10(`EUR`),newline ]  ] )
 
 ] ).
 
