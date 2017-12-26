@@ -30,7 +30,7 @@ i_rule_list( [
 
     , get_due_date
 
-    , get_order_number
+   % , get_order_number
 	
 	, get_invoice_totals
 
