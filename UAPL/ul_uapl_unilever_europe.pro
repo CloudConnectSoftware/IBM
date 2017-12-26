@@ -72,6 +72,8 @@ i_rule( get_supplier_details, [
 
 	, buyer_registration_number(`3009`)
 
+    ,set(tax_invoice)
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
