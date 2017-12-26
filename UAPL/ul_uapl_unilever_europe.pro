@@ -21,6 +21,8 @@ i_rule_list( [
     ,get_Invoice_tax
 
     ,get_bank_account_no
+
+    ,get_currency
 	
 	, get_invoice_number
 
@@ -170,6 +172,26 @@ i_rule( get_total_net, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE NET AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+    q0n(line)
+
+
+    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
+
+     
+
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -245,16 +267,16 @@ i_rule( get_alternative_net, [
 
     q0n(line)
 
-   , set(reverse_punctuation_in_numbers)
+   %, set(reverse_punctuation_in_numbers)
 
-   , set(regexp_cross_word_boundaries)
+   %, set(regexp_cross_word_boundaries)
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), tab, `:`, tab ],  total_net, d, newline ] )
 
      
-    , clear(regexp_cross_word_boundaries)
+   % , clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+   % , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -274,9 +296,9 @@ i_rule( get_alternative_net, [
      q0n(line)
 
      
-   , set(reverse_punctuation_in_numbers)
+   %, set(reverse_punctuation_in_numbers)
 
-   , set(regexp_cross_word_boundaries)
+   %, set(regexp_cross_word_boundaries)
   , or([
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
@@ -286,9 +308,9 @@ i_rule( get_alternative_net, [
 
   ])
  
-    , clear(regexp_cross_word_boundaries)
+   % , clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+   % , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -307,15 +329,15 @@ i_rule( get_alternative_net, [
       q0n(line)
 
       
-   , set(reverse_punctuation_in_numbers)
+   %, set(reverse_punctuation_in_numbers)
 
-   , set(regexp_cross_word_boundaries)
+   %, set(regexp_cross_word_boundaries)
 
    , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ],  total_invoice, d, newline ] )
 
-   , clear(regexp_cross_word_boundaries)
+   %, clear(regexp_cross_word_boundaries)
 
-    , clear(reverse_punctuation_in_numbers)
+    %, clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -417,9 +439,9 @@ i_line_rule( line_invoice_line1, [
 %=======================================================================
 
 
-     generic_item( [ line_quantity_dummy, d ] )
+     generic_item( [ line_quantity, d ] )
 
-    , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
+    , generic_item( [ line_quantity_uom_code, w, tab ] )
 
 
     , generic_item( [ line_quantity_dummy, d ] )
@@ -435,7 +457,7 @@ i_line_rule( line_invoice_line1, [
     
     , generic_item( [ line_amount_discount, d, tab ] )
 
-    , generic_item( [ line_unit_amount, d ] )
+    , generic_item( [ line_unit_amount_dummy, d ] )
 
     , generic_item( [ line_dummy, s1, tab ] )
 
@@ -459,11 +481,17 @@ i_line_rule( line_invoice_line2, [
 %=======================================================================
 
 
-     generic_item( [ line_quantity_dummy, s1, tab ] )
+       set(regexp_allow_partial_matching)
+
+    , generic_item( [ line_quantity , d ])
+    
+    , generic_item( [ line_quantity_uom_code , w , tab ] )
+
+    , clear(regexp_allow_partial_matching) 
 
     , generic_item( [ line_quantity_dummy, d ] )
 
-    , generic_item( [ line_quantity_uom_code, w, tab ] )
+    , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
     , generic_item( [ line_gross_amount_dummy, d, tab ] )
 
@@ -474,7 +502,7 @@ i_line_rule( line_invoice_line2, [
     
     , generic_item( [ line_amount_discount, d, tab ] )
 
-    , generic_item( [ line_unit_amount, d ] )
+    , generic_item( [ line_unit_amount_dummy, d ] )
 
     , generic_item( [ line_dummy, s1, tab ] )
 
@@ -491,6 +519,7 @@ i_line_rule( line_invoice_line2, [
 
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
