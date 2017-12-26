@@ -390,7 +390,7 @@ i_rule( get_total_net, [
 
         ,[test(credit_note), generic_horizontal_details( [ [  `sub`, `Total`] ,200, total_net, d, newline ] )]
 
-        ,generic_horizontal_details( [ [ `sub`, `Total` ], 150 , total_net, d, newline ] )
+        ,generic_horizontal_details( [ [ `sub`, `Total` ], 200 , total_net, d, newline ] )
 
           ,[ [test(tot_debit_vat),trace( [ `VAT FOUND` ] )],  [ peek_fails(test(tot_debit_vat)) ,generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] ) ,trace( [ `2` ] )]]
 
@@ -429,7 +429,7 @@ i_rule( get_total_invoice, [
                   %, trace( [ `Freight Total net` , total_net] ) 
               ]
           
-               ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+               ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
 
                  %, check( total_invoice = TotInv )
 
@@ -437,19 +437,19 @@ i_rule( get_total_invoice, [
 
                   %, total_net(TotInv)
 
-                  %, trace( [ `Freight Total net` , total_net] )     ]
+                  %, trace( [ `Freight Total net` , total_net] )     
         
                 , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
      
              
-             ,  generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )
+             ,  generic_horizontal_details( [ [ `Total`, q10(`:`), tab ] , total_invoice, d, newline ] )
 
 
              , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
 
              ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
 
-             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]]
+             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
 
              
 
