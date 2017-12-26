@@ -273,7 +273,7 @@ i_rule( get_alternative_net, [
 
    %, set(regexp_cross_word_boundaries)
 
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), tab, `:`, tab ],  total_net, d, newline ] )
+    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
 
      
    % , clear(regexp_cross_word_boundaries)
@@ -335,7 +335,7 @@ i_rule( get_alternative_net, [
 
    %, set(regexp_cross_word_boundaries)
 
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ],  total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q1(`:`), tab ],  total_invoice, d, newline ] )
 
    %, clear(regexp_cross_word_boundaries)
 
