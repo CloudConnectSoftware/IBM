@@ -434,6 +434,8 @@ i_section( get_invoice_lines, [
               
               , [line_desr_firstline,q10(line_desr_line2),line_invoice_line, line_invoice_line1]
 
+              , [line_desr_firstline, line_invoice_two_line , q10( line_desr_line2)]
+
              
 
               , line
@@ -580,10 +582,58 @@ i_line_rule_cut( line_invoice_oneline, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_invoice_oneline, [
+%=======================================================================
+      
+      generic_item( [ line_item_dummy , d , tab ] )
+    
+    , generic_item( [ line_item, w , tab ] )
+
+    , or([
+
+     generic_item( [ line_descr, s1 , [ check(line_descr(end) < -40) , tab ] ])
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     ] )
+
+    , generic_item( [ line_buyers_order_number , d , tab ])
+
+    , q10(generic_item( [ line_delivery_note_number, d , tab ] ))
+
+    , generic_item( [ line_quantity , d , tab ] )
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ] )
+
+] ).%=======================================================================
+i_line_rule_cut( line_invoice_two_line, [
+%=======================================================================
+      
+      generic_item( [ line_item_dummy , d , tab ] )
+    
+    , generic_item( [ line_item, w , tab ] )
+
+     , generic_item( [ line_buyers_order_number , d , tab ])
+
+     , generic_item( [ line_quantity , d , tab ] )
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ] )
+
+    , trace( [ `line_invoice_two_line` ] )
+
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_desr_firstline, [
 %=======================================================================
 
       generic_item( [ line_descr , s1 , newline ] )
+
+      ,trace( [ `line_desr_firstline` ] )
 
 ] ).
 
