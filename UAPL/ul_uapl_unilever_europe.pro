@@ -532,9 +532,11 @@ i_line_rule( line_invoice_line2, [
 i_line_rule( line_invoice_crossword1, [
 %=======================================================================
 
-     set(reverse_punctuation_in_numbers)
+     
 
-     , set(regexp_cross_word_boundaries)
+      set(regexp_cross_word_boundaries)
+
+      ,set(reverse_punctuation_in_numbers)
 
      ,generic_item( [ line_quantity, d, q10(tab) ] )
 
