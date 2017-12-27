@@ -178,7 +178,7 @@ i_rule( get_total_invoice, [
 
 	q0n(line)
 	
-	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item_cut( [ total_net, d ] ), q10(tab),  q10(generic_item_cut( [ total_vat, d ] )), tab ],total_invoice, d, newline ] )
+	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,( [ total_net, d ] ), q10(tab),  q10(( [ total_vat, d ] )), tab ],total_invoice, d, newline ] )
 ] ).
 
 
@@ -248,34 +248,32 @@ i_line_rule_cut( line_invoice_line, [
 	
      
 
-     q10(generic_item_cut([ line_material , w , tab ]))
+       q10(generic_item([ line_material , w , tab ]))
 
 
-     , generic_item_cut([ line_descr , s1 , [ q10(tab), check( line_descr(end) < -205 ) ] ])
+       , generic_item([ line_descr , s , [ q10(tab), check( line_descr(end) < -209 ) ] ])
 
-     , q10(generic_item_cut([ line_customer_dummy , w , [ q10(tab), check( line_customer_dummy(end) < -142 ) ] ]))
+        , q10(generic_item([ line_customer_dummy , w , [ q10(tab), check( line_customer_dummy(end) < -142 ) ] ]))
 
-	    , generic_item_cut([ line_buyers_order_number , w, [ q10(tab), check( line_buyers_order_number(end) < -75 ) ] ]) 
+	    , generic_item([ line_buyers_order_number , w, [ q10(tab), check( line_buyers_order_number(end) < -75 ) ] ]) 
 
-         , generic_item_cut([ line_sales_order_number , w, tab  ])
+         , generic_item([ line_sales_order_number , w, q10(tab)  ])
 
-        , generic_item_cut([ line_quantity_dummy1 , d ] )
+        , generic_item([ line_quantity_dummy1 , d ] )
 
-         , generic_item_cut([ line_quantity_uom_code , w , q10(tab) ] )
+         , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
 
-	 , generic_item_cut([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
+	    , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
 
-     , generic_item_cut( [ line_dummy, d, q10(tab) ] )
+         , generic_item( [ line_dummy, s1, tab ] )
 
-     , q10(generic_item_cut( [ line_UOM_dummy, w, tab ] ))
+        , generic_item([ line_net_amount , d  ] )
 
-        , generic_item_cut([ line_net_amount , d , q10(tab) ] )
+        , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,tab ] ] ))
 
-        , q10(generic_item_cut([ line_vat_rate_dummy, d , [ `%` ,tab ] ] ))
+        , q10(generic_item([ line_vat_amount , d , tab ] ))
 
-        , q10(generic_item_cut([ line_vat_amount , d , tab ] ))
-
-	 , generic_item_cut([ line_total_amount , d , newline ] ) 
+	 , generic_item([ line_total_amount , d , newline ] ) 
      
     
 ] ).
@@ -287,29 +285,29 @@ i_line_rule_cut( line_invoice_line2, [
 	
      
 
-     q10(generic_item_cut([ line_material , w , tab ]))
+     q10(generic_item([ line_material , w , tab ]))
 
 
-     , generic_item_cut([ line_descr , s1 , tab ])
+     , generic_item([ line_descr , s1 , tab ])
 
-     	    , generic_item_cut([ line_buyers_order_number_dummy , s1, tab ]) 
+     	    , generic_item([ line_buyers_order_number_dummy , s1, tab ]) 
 
-                 , generic_item_cut([ line_quantity_dummy , d ] )
+                 , generic_item([ line_quantity_dummy , d ] )
 
-         , generic_item_cut([ line_quantity_uom_code , w  ] )
+         , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
 
-	 , generic_item_cut([ line_unit_amount_dummy ,d, [`AUD`, `/`, line_num(d)] ] )
+	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`, line_num(w)] ] )
 
      
-     , q10(generic_item_cut( [ line_UOM_dummy, w, tab ] ))
+     , q10(generic_item( [ line_UOM_dummy, w, tab ] ))
 
-        , generic_item_cut([ line_net_amount , d  ] )
+        , generic_item([ line_net_amount , d  ] )
 
-        , q10(generic_item_cut([ line_vat_rate_dummy, w , q10(tab) ] ))
+        , q10(generic_item([ line_vat_rate_dummy, w , q10(tab) ] ))
 
-        , q10(generic_item_cut([ line_vat_amount , d , tab ] ))
+        , q10(generic_item([ line_vat_amount , d , tab ] ))
 
-	 , generic_item_cut([ line_total_amount , d , newline ] ) 
+	 , generic_item([ line_total_amount , d , newline ] ) 
      
     
 ] ).
