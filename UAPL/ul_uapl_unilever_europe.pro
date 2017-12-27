@@ -31,6 +31,8 @@ i_rule_list( [
     , get_due_date
 
    % , get_order_number
+
+    , get_delivery_number
 	
 	, get_invoice_totals
 
@@ -40,7 +42,6 @@ i_rule_list( [
 
     , get_total_invoice
 
-    
     , get_alternative_net
 
     , get_alternative_vat
@@ -105,7 +106,7 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [`Invoice`, `number`, `:` ], invoice_number, d, tab ] )
+    , generic_horizontal_details( [ [`Invoice`, q10(tab) , `number`  ,q10(tab), `:` ,q10(tab)], invoice_number, d, tab ] )
 	
 	
 ] ).
@@ -124,7 +125,7 @@ i_rule_cut( get_invoice_date, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `date`, `:` ], invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`, `date` , q10(tab) , `:`  ,q10(tab) ], invoice_date, date, newline ] )
 	
 	
 ] ).
@@ -144,6 +145,23 @@ i_rule( get_order_number, [
     q0n(line)
 
     , generic_horizontal_details( [ [ `PO`, `/`, `SO`, `number`, `:` ], order_number, d, or([ tab, newline]) ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_delivery_number, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_horizontal_details( [ [ `Delivery`, `Number` , q10(tab) , `:`  ,q10(tab) ], delivery_note_number, d, or([ tab, newline]) ] )
 
 ] ).
 
@@ -362,16 +380,19 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
     , or([
-              
-   [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
+
+
+         [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
+
+         ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
-    , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
+         , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
-    ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), line_invoice_crossword1]
+         ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), line_invoice_crossword1]
+    
+         ,line_invoice_line1
 
-    ,line_invoice_line1
-
-            , line
+        , line
 
         ])
 
@@ -386,7 +407,8 @@ i_line_rule_cut( line_header_line, [
     or([
       [`Item`, tab, `Material`, tab, `Description`, tab ]
 
-      ,[`vat`, `rate`]
+      ,[`VAT`, tab, `Rate`]
+
       ])
 
       , trace( [ `Found Start line` ] )
@@ -401,10 +423,9 @@ i_line_rule_cut( line_end_line, [
  
     or([
 
-        [`Bank`, `Details`, `:`,  newline]
+        [`Bank`, `Details`, `:`, newline ]
 
         ,[`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ]
-
           
       ])
   
@@ -439,8 +460,6 @@ i_line_rule( line_invoice_line, [
 
     , generic_item( [ line_net_weight, s1, newline ] )
 
-
-
 ] ).
 
 %=======================================================================
@@ -451,7 +470,6 @@ i_line_rule( line_invoice_line1, [
      generic_item( [ line_quantity, d, q10(tab) ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
-
 
     , generic_item( [ line_quantity_dummy, d ] )
 
@@ -492,9 +510,7 @@ i_line_rule( line_invoice_line2, [
     , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
     , generic_item( [ line_gross_amount_dummy, d, tab ] )
-
-
-       
+     
     , generic_item( [ line_amount_discount, d, tab ] )
 
     , generic_item( [ line_unit_amount_dummy, d ] )
@@ -524,15 +540,11 @@ i_line_rule( line_invoice_crossword1, [
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
-
     , generic_item( [ line_quantity_dummy, d ] )
 
     , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
     , q10(generic_item( [ line_gross_amount_dummy, d, tab ] ))
-
-
-     
     
     , generic_item( [ line_amount_discount, d, tab ] )
 
@@ -561,6 +573,102 @@ i_line_rule( line_desc_line_dummy, [
 
 ]).   
 
+%=======================================================================
+i_line_rule( line_newinvoice_ref, [
+%=======================================================================
+
+
+     generic_item( [ line_reference, d ] )
+    
+    , generic_item( [ line_item, d, newline ] )
+  
+  
+] ).
+
+%=======================================================================
+i_line_rule( line_desc_commodity_line, [
+%=======================================================================
+
+
+      generic_item( [ line_commodity_code, d, tab ] )
+
+      ,generic_item( [ line_descr, s1, newline ]  )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_ean_line, [
+%=======================================================================
+
+     generic_item( [ line_ean_code, d, tab ] )
+
+    , generic_item( [ line_gross_weight,s1, tab ] )
+
+    , generic_item( [ line_net_weight, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_net_line, [
+%=======================================================================
+
+
+     generic_item( [ line_gross_amount_dummy, d, tab ] )
+  
+    , generic_item( [ line_amount_discount, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+
+     
+] ).
+
+
+%=======================================================================
+i_line_rule( line_qty_line, [
+%=======================================================================
+
+
+      generic_item( [ line_quantity, d ] )
+
+    , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+    , generic_item( [ line_unit_amount_dummy, d,tab ] )
+
+    , generic_item( [ line__curency, w, tab ] )
+
+    , generic_item( [ line_dummy, s1, newline ] )
+
+ ] ).
+
+ 
+%=======================================================================
+i_line_rule( line_zun_qty_line, [
+%=======================================================================
+
+
+     generic_item( [ line_quantity_dummy, d,tab ] )
+
+    , generic_item( [ line_quantity_uom_code_dummy, w, newline ] )
+
+ 
+] ).
+
+
+%=======================================================================
+i_line_rule( line_vat_line, [
+%=======================================================================
+
+     `vat`, tab
+
+    , generic_item( [ line_vat_rate, d,  [tab, `%`,  newline] ] )
+
+ 
+] ).
+
+
+             
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
