@@ -30,7 +30,7 @@ i_rule_list( [
 
     , get_due_date
 
-   % , get_order_number
+    , get_order_number
 
     , get_delivery_number
 	
@@ -142,9 +142,9 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
-    , generic_horizontal_details( [ [ `PO`, `/`, `SO`, `number`, `:` ], order_number, d, or([ tab, newline]) ] )
+    , generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
 
 ] ).
 
@@ -723,7 +723,12 @@ i_rule( get_freight_charges, [
   
      q0n(line)
 
-   , line_add_line1
+   , or([
+       line_add_line1
+
+       , line_add_line2
+
+   ])
 
 ] ).
 
@@ -739,7 +744,7 @@ i_line_rule( line_add_line1, [
      , trace( [ `Found Freight`] )
 
      , or([
-         generic_item( [ line_descr, s, [`in`, `EUR`, q10(tab) ] ] )
+         generic_item( [ line_descr, s, [q10(`in`),q10(`EUR`), q10(tab) ] ] )
 
          ,generic_item( [ line_descr, s1, tab ] )
 
@@ -748,6 +753,31 @@ i_line_rule( line_add_line1, [
      , generic_item( [ line_dummy, s1, tab ] )
 
      , generic_item( [ line_total_amount, d, [q10(`EUR`),newline ]  ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line2, [
+%=======================================================================
+
+
+    read_ahead([`Freight`, `Charges`, q10(`in`), q10(`EUR`)])
+
+    , trace( [ `Found Freight`] )
+
+    ,generic_item( [ line_descr, s1, tab ] )
+    
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    , set(regexp_cross_word_boundaries)
+
+    , set(reverse_punctuation_in_numbers)
+
+    , generic_item( [ line_total_amount, d, [q10(`EUR`),newline ]  ] )
+
+    , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)
 
 ] ).
 
