@@ -737,7 +737,7 @@ i_line_rule( line_add_line1, [
 %=======================================================================
 
 
-       read_ahead([`Freight`, `Charges`, q10(`in`), q10(`EUR`)])
+       read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
 
  
 
@@ -761,7 +761,7 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 
 
-    read_ahead([`Freight`, `Charges`, q10(`in`), q10(`EUR`)])
+    read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
 
     , trace( [ `Found Freight`] )
 
