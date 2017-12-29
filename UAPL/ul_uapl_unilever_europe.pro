@@ -144,7 +144,12 @@ i_rule( get_order_number, [
 
     qn0(line)
 
-    , generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
+    , or([
+        generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
+
+        , generic_horizontal_details( [ [  `Consignee`, `Number`, tab, `:`, tab, dummy_word(w), `;` ], order_number, d,  newline ] )
+
+        ])
 
 ] ).
 
