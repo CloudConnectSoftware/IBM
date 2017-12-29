@@ -133,11 +133,23 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-	
-    q(1,50,line)
+
+q(0,100,line)
+
+    
+
+    , find_order_number
+
+] ).
 
 
-    , generic_horizontal_details( [ [ `PO`, `Number`, `:` ], order_number, s1, newline ] )
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
 
 ] ).
 
@@ -227,6 +239,8 @@ i_section( get_invoice_lines, [
               ,[line_descr_line, line_append_descr, line_invoice_line1]
 
               ,[line_descr_line1,line_invoice_line3, line_descr_line3]
+
+              ,[line_descr_line1, q10(line_append_descr_1), q10(line_append_descr1), line_invoice_new , q10(line_append_descr1) , line_invoice_tot_line1,q10(line_append_descr_1)]
            
             
             , line
@@ -282,9 +296,11 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
- generic_item( [ line_descr, s1, tab ] )
+ q10(generic_item( [ line_descr, s1, tab ] ))
 
-   ,  generic_append( [ line_descr_dummy, s1, newline, `, `, ` `  ] )
+ ,generic_append( [ line_descr_dummy, s1, tab , `, `, ` `  ] )
+
+ , generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
 ] ).
 
@@ -301,7 +317,7 @@ i_line_rule_cut( line_descr_line1, [
 i_line_rule_cut( line_append_descr, [
 %=======================================================================
 
- generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+    generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
  ,  generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
@@ -346,10 +362,18 @@ i_line_rule_cut( line_invoice_line2, [
 i_line_rule_cut( line_append_descr1, [
 %=======================================================================
 
-  generic_item( [ line_dummy1, s1, tab ] )
+   generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
  ,  generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_descr_1, [
+%=======================================================================
+
+   generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
 
 ] ).
@@ -369,6 +393,7 @@ i_line_rule_cut( line_append_descr2, [
 
 
 ] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_append_descr3, [
@@ -414,6 +439,36 @@ i_line_rule_cut( line_descr_line3, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_new, [
+%=======================================================================
+
+ generic_item( [ line_item_dummy,s1, tab ] )
+
+,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+
+,generic_item( [ line_unit_amount, d, tab ] )
+
+,generic_item( [ line_quantity, d, tab ] )
+
+,generic_item( [ line_net_amount, d, tab ] )
+
+,generic_item( [ line_currency, w, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_tot_line1, [
+%=======================================================================
+
+
+ generic_item( [ line_descr_dummy3, s1, tab ] )
+
+,generic_item( [ line_total_amount, d, newline ] )
+
+] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -444,9 +499,9 @@ i_line_rule_cut( line_descr_line3, [
 % Updated by   - Rohini 
 % Changes made - Line details updated for new format
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - December 29, 2017
+% Updated by   - Thejaswi K
+% Changes made - Line details updated for new format
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
