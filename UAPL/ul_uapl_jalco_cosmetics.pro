@@ -178,7 +178,7 @@ i_rule( get_total_invoice, [
 
 	q0n(line)
 	
-	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,( [ total_net, d ] ), q10(tab),  q10(( [ total_vat, d ] )), tab ],total_invoice, d, newline ] )
+	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)`, tab  ,generic_item( [ total_net, d ] ), q10(tab),  q10( generic_item( [ total_vat, d ] )), tab ],total_invoice, d, newline ] )
 ] ).
 
 
