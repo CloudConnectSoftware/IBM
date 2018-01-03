@@ -433,7 +433,9 @@ i_line_rule_cut( line_end_line, [
  
     or([
 
-        [`Bank`, `Details`, `:`, newline ]
+        [`Bank`, `Details`, `:` ]
+
+        ,[`Sending`, `Fiscal`, `Representative`]
 
         ,[`Total`, `amount`, `in`, `EUR`, tab, `:`, tab ]
           
