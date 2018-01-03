@@ -142,7 +142,9 @@ i_rule_cut( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-    qn0(line)
+    last_line
+
+    , q(0,50,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
@@ -466,7 +468,9 @@ i_line_rule( line_invoice_line, [
 
     , generic_item( [ line_gross_weight,s1, tab ] )
 
-    , generic_item( [ line_net_weight, s1, newline ] )
+    , generic_item( [ line_net_weight, s1, or([tab,newline]) ] )
+
+    , q10(generic_item( [ line_vat_amount_dummy, w, newline ] ))
 
 ] ).
 
@@ -530,6 +534,9 @@ i_line_rule( line_invoice_line2, [
     , generic_item( [ line_vat_rate, d, [`%`, tab ] ] )
 
     , generic_item( [ line_vat_amount, d, newline ] )
+        
+
+    , trace( [ `line_invoice_line2` ] )
 
  
 
@@ -745,7 +752,12 @@ i_line_rule( line_add_line1, [
 %=======================================================================
 
 
-       read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+      or([
+           read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+
+           , read_ahead([`Seafreight`])
+
+      ])
 
  
 
@@ -769,7 +781,12 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 
 
-    read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+    or([
+        read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+
+        ,read_ahead([`Seafreight`])
+
+    ])
 
     , trace( [ `Found Freight`] )
 
