@@ -215,6 +215,8 @@ i_rule_cut( get_invoice_net, [
 
 	    , generic_horizontal_details( [ [ `Total` , `Taxable` , `Amount`, tab , `$`], 100 , total_net, d, newline ] )
 
+		, generic_horizontal_details( [ [ `TOTAL`, `TAXABLE`, `AMOUNT`, tab, `(`, `$`], 100 , total_net, d, [`)`,  newline] ] )
+
 	])
 
 		

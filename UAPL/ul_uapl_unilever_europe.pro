@@ -784,8 +784,6 @@ i_line_rule( line_add_line2, [
     or([
         read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
 
-        ,read_ahead([`Seafreight`])
-
     ])
 
     , trace( [ `Found Freight`] )
