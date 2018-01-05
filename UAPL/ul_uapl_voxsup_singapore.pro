@@ -242,6 +242,7 @@ i_section( get_invoice_lines, [
 
               ,[line_descr_line1, q10(line_append_descr_1), q10(line_append_descr1), line_invoice_new , q10(line_append_descr1) , line_invoice_tot_line1,q10(line_append_descr_1)]
            
+              ,[line_descr_line, line_append_descr, line_invoice_line,line_append_descr,line_append_descr]
             
             , line
 
@@ -266,7 +267,7 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
   
-    [`SUBTOTAL`, tab ]
+    [`SUBTOTAL` ]
 
     , trace( [ `Found End line` ] )
 
@@ -278,15 +279,15 @@ i_line_rule_cut( line_invoice_line, [
 
  generic_item( [ line_item,s1, tab ] )
 
-,generic_item( [ line_descr, s1, tab ] )
+,q10(generic_item( [ line_descr, s1, tab ] ))
 
-,generic_item( [line_descr_dummy, s1, tab ] )
+,q10(generic_item( [line_descr_dummy, s1, tab ] ))
 
 ,generic_item( [ line_service_period, s1, tab ] )
 
 ,generic_item( [ line_quantity, d, tab ] )
 
-,generic_item( [ line_unit_amount, d, tab ] )
+,generic_item( [ line_unit_amount, d, [tab, q10(`$`)] ] )
 
 ,generic_item( [ line_net_amount, d, newline ] )
 
@@ -298,7 +299,7 @@ i_line_rule_cut( line_descr_line, [
 
  q10(generic_item( [ line_descr, s1, tab ] ))
 
- ,generic_append( [ line_descr_dummy, s1, tab , `, `, ` `  ] )
+ ,q10(generic_append( [ line_descr_dummy, s1, tab , `, `, ` `  ] ))
 
  , generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
@@ -319,9 +320,9 @@ i_line_rule_cut( line_append_descr, [
 
     generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
- ,  generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+ ,  q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
-  , generic_append( [ line_descr_dummy1, s1, tab, `, `, ` `  ] )
+  , q10(generic_append( [ line_descr_dummy1, s1, tab, `, `, ` `  ] ))
 
    , generic_item( [ line_dummy, s1, newline ] )
 
