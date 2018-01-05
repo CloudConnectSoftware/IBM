@@ -55,7 +55,7 @@ i_rule( get_supplier_details, [
 %=======================================================================
    
   
-   sender_name(`Voxsup (Singapore) Pte Ltd`)
+    sender_name(`Voxsup (Singapore) Pte Ltd`)
 
    , supplier_vat_number(` 201129524M`)
 
@@ -133,12 +133,9 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
+   q(0,100,line)
 
-q(0,100,line)
-
-    
-
-    , find_order_number
+   , find_order_number
 
 ] ).
 
@@ -147,7 +144,7 @@ q(0,100,line)
 i_line_rule_cut( find_order_number, [
 %=======================================================================
 
-    q0n(anything)
+     q0n(anything)
 
     , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
 
@@ -182,17 +179,17 @@ i_rule( get_total_net, [
     
     q(0,50,line)
 
- ,generic_horizontal_details( [ [`GST`, `7`, `%`, tab, `$`, dummy_num1, tab, dummy_num2],total_vat, d, newline ] )
+  ,generic_horizontal_details( [ [`GST`, `7`, `%`, tab, `$`, dummy_num1, tab, dummy_num2],total_vat, d, newline ] )
 
-, or([
-     [  check( q_sys_comp_str_le( total_vat, `0` ) ) , generic_item( [ default_vat_rate, `0` ] )  ]
+  , or([
 
-       ,  generic_item( [ default_vat_rate, `7` ] )
+     [ check( q_sys_comp_str_le( total_vat, `0` ) ) , generic_item( [ default_vat_rate, `0` ] )  ]
 
-    ])
+   ,  generic_item( [ default_vat_rate, `7` ] )
+
+     ])
      
 ] ).
-
 
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -267,9 +264,9 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
   
-    [`SUBTOTAL` ]
+[`SUBTOTAL` ]
 
-    , trace( [ `Found End line` ] )
+, trace( [ `Found End line` ] )
 
 ] ).
 
@@ -310,7 +307,6 @@ i_line_rule_cut( line_descr_line1, [
 %=======================================================================
 
  generic_item( [ line_descr, s1, newline ] )
-
  
 ] ).
 
@@ -318,13 +314,13 @@ i_line_rule_cut( line_descr_line1, [
 i_line_rule_cut( line_append_descr, [
 %=======================================================================
 
-    generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+  generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
- ,  q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
+, q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
-  , q10(generic_append( [ line_descr_dummy1, s1, tab, `, `, ` `  ] ))
+, q10(generic_append( [ line_descr_dummy1, s1, tab, `, `, ` `  ] ))
 
-   , generic_item( [ line_dummy, s1, newline ] )
+, generic_item( [ line_dummy, s1, newline ] )
 
 
 
@@ -349,9 +345,9 @@ i_line_rule_cut( line_invoice_line1, [
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
- q10(generic_item( [ line_descr_dummy2, s1, tab ] ))
+  q10(generic_item( [ line_descr_dummy2, s1, tab ] ))
 
-, generic_item( [ line_quantity, d, tab ] )
+,generic_item( [ line_quantity, d, tab ] )
 
 ,generic_item( [ line_unit_amount, d, [tab, `$`] ] )
 
@@ -363,9 +359,9 @@ i_line_rule_cut( line_invoice_line2, [
 i_line_rule_cut( line_append_descr1, [
 %=======================================================================
 
-   generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+  generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
- ,  generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
+ ,generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
 
 ] ).
@@ -385,11 +381,11 @@ i_line_rule_cut( line_append_descr2, [
 
   generic_item( [ line_dummy2, s1, tab ] )
  
- , generic_item( [ line_dummy3, s1, tab ] )
+ ,generic_item( [ line_dummy3, s1, tab ] )
  
- , generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+ ,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
- ,  generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
+ ,generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
 
 
