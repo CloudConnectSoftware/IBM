@@ -505,6 +505,10 @@ i_line_rule_cut( line_invoice_tot_line1, [
 % Updated by   - Thejaswi K
 % Changes made - Line details updated for new format
 
+% Updated on   - January 05, 2017
+% Updated by   - Thejaswi K
+% Changes made - Line details updated for new format
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
