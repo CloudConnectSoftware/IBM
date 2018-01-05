@@ -240,6 +240,8 @@ i_section( get_invoice_lines, [
               ,[line_descr_line1, q10(line_append_descr_1), q10(line_append_descr1), line_invoice_new , q10(line_append_descr1) , line_invoice_tot_line1,q10(line_append_descr_1)]
            
               ,[line_descr_line, line_append_descr, line_invoice_line,line_append_descr,line_invoice_tot_line1]
+
+              , [line_descr_line1,q10(line_append_descr_1),q10(line_append_descr_1), line_invoice_line3,line_append_descr3,q10(line_append_descr_1),line_invoice_tot_line1 ]
             
             , line
 
@@ -274,7 +276,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
- q10(generic_item( [ line_item,s1, tab ] ))
+trace( [ `line_invoice_line` ] )
+
+ , q10(generic_item( [ line_item,s1, tab ] ))
 
 ,q10(generic_item( [ line_descr, s1, tab ] ))
 
@@ -288,13 +292,17 @@ i_line_rule_cut( line_invoice_line, [
 
 ,generic_item( [ line_net_amount, d, newline ] )
 
+
+
 ] ).
 
 %=======================================================================
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
- q10(generic_item( [ line_descr, s1, tab ] ))
+trace( [ `Started line_descr_line` ] )
+
+ ,q10(generic_item( [ line_descr, s1, tab ] ))
 
  ,q10(generic_append( [ line_descr_dummy, s1, tab , `, `, ` `  ] ))
 
@@ -306,7 +314,9 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_descr_line1, [
 %=======================================================================
 
- generic_item( [ line_descr, s1, newline ] )
+trace( [ `started line_descr_line1` ] )
+
+ ,generic_item( [ line_descr, s1, newline ] )
  
 ] ).
 
@@ -314,7 +324,9 @@ i_line_rule_cut( line_descr_line1, [
 i_line_rule_cut( line_append_descr, [
 %=======================================================================
 
-  generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+ trace( [ `Started line_append_descr` ] )
+
+,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
 , q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
@@ -331,8 +343,9 @@ i_line_rule_cut( line_append_descr, [
 i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
+trace( [ `Started line_invoice_line1` ] )
 
- generic_item( [ line_quantity, d, tab ] )
+ ,generic_item( [ line_quantity, d, tab ] )
 
 ,generic_item( [ line_unit_amount, d, tab ] )
 
@@ -345,7 +358,9 @@ i_line_rule_cut( line_invoice_line1, [
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
-  q10(generic_item( [ line_descr_dummy2, s1, tab ] ))
+trace( [ `Started line_invoice_line2` ] )
+
+,q10(generic_item( [ line_descr_dummy2, s1, tab ] ))
 
 ,generic_item( [ line_quantity, d, tab ] )
 
@@ -359,7 +374,9 @@ i_line_rule_cut( line_invoice_line2, [
 i_line_rule_cut( line_append_descr1, [
 %=======================================================================
 
-  generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+  trace( [ `Started line_append_descr1` ] )
+
+  ,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
  ,generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
@@ -370,7 +387,9 @@ i_line_rule_cut( line_append_descr1, [
 i_line_rule_cut( line_append_descr_1, [
 %=======================================================================
 
-   generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
+  trace( [ ` Started line_append_descr_1` ] )
+
+  ,generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
 
 
 ] ).
@@ -379,14 +398,15 @@ i_line_rule_cut( line_append_descr_1, [
 i_line_rule_cut( line_append_descr2, [
 %=======================================================================
 
-  generic_item( [ line_dummy2, s1, tab ] )
+ trace( [ ` Started line_append_descr2` ] )
+
+ ,generic_item( [ line_dummy2, s1, tab ] )
  
  ,generic_item( [ line_dummy3, s1, tab ] )
  
  ,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
  ,generic_append( [ line_descr, s1, newline, `, `, ` `  ] )
-
 
 
 ] ).
@@ -396,7 +416,9 @@ i_line_rule_cut( line_append_descr2, [
 i_line_rule_cut( line_append_descr3, [
 %=======================================================================
 
-  generic_item( [ line_dummy2, s1, tab ] )
+ trace( [ ` Started line_append_descr3` ] )
+
+  ,generic_item( [ line_dummy2, s1, tab ] )
  
  , generic_item( [ line_dummy3, s1, tab ] )
  
@@ -411,15 +433,17 @@ i_line_rule_cut( line_append_descr3, [
 i_line_rule_cut( line_invoice_line3, [
 %=======================================================================
 
- generic_item( [ line_item,s1, tab ] )
+trace( [ ` Started line_invoice_line3` ] )
 
-,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+,generic_item( [ line_item,s1, tab ] )
+
+,q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
 ,generic_item( [ line_service_period, s1, tab ] )
 
 ,generic_item( [ line_quantity, d, tab ] )
 
-,generic_item( [ line_unit_amount, d, [tab, `$`] ] )
+,generic_item( [ line_unit_amount, d, [tab, q10(`$`)] ] )
 
 ,generic_item( [ line_net_amount, d, newline ] )
 
@@ -430,9 +454,11 @@ i_line_rule_cut( line_invoice_line3, [
 i_line_rule_cut( line_descr_line3, [
 %=======================================================================
 
- generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+trace( [ ` Started line_descr_line3` ] )
 
-   ,  generic_item( [ line_dummy_currency, s1, newline ] )
+, generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+
+, generic_item( [ line_dummy_currency, s1, newline ] )
 
 ] ).
 
@@ -440,7 +466,9 @@ i_line_rule_cut( line_descr_line3, [
 i_line_rule_cut( line_invoice_new, [
 %=======================================================================
 
- generic_item( [ line_item_dummy,s1, tab ] )
+trace( [ ` Started line_invoice_new` ] )
+
+,generic_item( [ line_item_dummy,s1, tab ] )
 
 ,generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
 
@@ -458,7 +486,9 @@ i_line_rule_cut( line_invoice_new, [
 i_line_rule_cut( line_invoice_tot_line1, [
 %=======================================================================
 
- q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
+trace( [ ` Started line_invoice_tot_line1` ] )
+
+ ,q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
  ,generic_item( [ line_descr_dummy3, s1, tab ] )
 
