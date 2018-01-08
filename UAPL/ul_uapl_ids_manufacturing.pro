@@ -208,7 +208,12 @@ i_line_rule( invoice_number_line, [
     q0n(anything)
 
      
-         , [read_ahead( [ `17`,`/` ] )   , nearest( 260,  10, 10 )     , generic_item( [invoice_number, s1 , newline ] )]
+         , or([
+             [read_ahead( [ `17`,`/` ] )   , nearest( 260,  10, 10 )     , generic_item( [invoice_number, s1 , newline ] )]
+
+             ,[read_ahead( [ `18`,`/` ] )   , nearest( 260,  10, 10 )     , generic_item( [invoice_number, s1 , newline ] )]
+
+         ])
 
 
       
