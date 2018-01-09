@@ -112,16 +112,8 @@ i_rule( get_bank_account_no, [
 
     ,  or( [
 
-    [generic_horizontal_details( [ [ `Account`], supplier_bank_account_number_raw, s1, tab ] )
-
-    ,check(supplier_bank_account_number_raw=AccRaw)
-
-    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
-
-    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number ] )]
-
-
-	, [generic_vertical_details( [ [`Bank`, `Details`, `:`], `Details`, q(1,2), (end,50,50),supplier_bank_account_number_raw, w, newline ] )
+    
+	  [generic_vertical_details( [ [`Bank`, `Details`, `:`], `Details`, q(1,2), (end,50,50),supplier_bank_account_number_raw, w, newline ] )
 	
     ,check(supplier_bank_account_number_raw=AccRaw)
 
@@ -130,9 +122,7 @@ i_rule( get_bank_account_no, [
     ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
 
 
-
-
-] )
+    ] )
 
 ] ).
 
