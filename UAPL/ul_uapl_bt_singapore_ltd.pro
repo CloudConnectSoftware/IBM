@@ -84,7 +84,6 @@ i_rule( get_bank_account_no, [
 
 	q(0,250,line)
 
-
      , with( invoice, currency, Currency )
 
      , or( [

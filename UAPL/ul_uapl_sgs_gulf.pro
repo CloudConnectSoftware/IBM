@@ -20,6 +20,8 @@ i_rule_list( [
 	
 	  get_supplier_details
 
+	  , get_currency
+
 	, get_bank_accountnumber
 	
 	, get_invoice_number
@@ -34,8 +36,7 @@ i_rule_list( [
 
     , get_line_total_amount
 
-	, get_currency
-
+	
     , get_invoice_lines
 	
 ] ).
@@ -68,9 +69,20 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-    q(0,40,line)
+      q(0,150,line)
 
-    ,generic_horizontal_details( [ [ `Account`, `Number`, `:` ],  supplier_bank_account_number, w, [`USD`,  newline] ] )
+     , with( invoice, currency, Currency )
+
+    ,or([
+		[check( Currency = `USD` ) , generic_horizontal_details( [ [ `Account`, `Number`, `:` ],  supplier_bank_account_number_raw, w, [`USD`,  newline] ] )
+
+	    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`AE740211000000201026008`), generic_item( [ supplier_bank_account_number, `201026008` ] )]
+
+		,[check( Currency = `AED` ) ,  generic_item( [ supplier_bank_account_number, `201025001` ] )]
+
+	])	
+
+
 
 ] ).
 
