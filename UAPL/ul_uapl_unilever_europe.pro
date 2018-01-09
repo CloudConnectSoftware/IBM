@@ -89,7 +89,11 @@ i_rule( get_bank_account_no, [
 
   q(0,50,line)
 
- , generic_horizontal_details( [ [ `IBAN`, `:` ],  supplier_bank_account_number, s1, newline ] ) 
+ , generic_horizontal_details( [ [ `IBAN`, `:` ],  supplier_bank_account_raw, s1, newline ] ) 
+
+ , check(supplier_bank_account_raw= `NL41DEUT0265240816`)  
+
+ ,generic_item( [ supplier_bank_account_number, `265240816` ] )
 
 ]).
 
