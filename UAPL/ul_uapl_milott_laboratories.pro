@@ -35,6 +35,8 @@ invoice_or_credit_note
 
     , get_currency
 
+    ,get_bank_acct
+
     , get_order_number
 
     , get_invoice_lines
@@ -105,6 +107,32 @@ i_rule_cut( get_invoice_number, [
 
 
             ])
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_bank_acct, [
+%=======================================================================
+     
+     q(0,100,line)
+
+            , or([
+                
+                [ generic_horizontal_details( [ [ `A`, `/`, `C`],supplier_bank_account_number_raw, s1 , newline ] )
+
+                ,check(supplier_bank_account_number_raw=AccRaw)
+
+                 ,check(AccRaw=`320-2000229-840`)
+
+                 ,supplier_bank_account_number(`3202000229840`), trace( [ `Supplier account number `, supplier_bank_account_number ] )]
+
+                ])
 
 ] ).
     
