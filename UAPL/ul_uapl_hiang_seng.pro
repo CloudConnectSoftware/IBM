@@ -29,6 +29,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_account_number
+
     , get_line_total_amount
 
     , get_invoice_lines
@@ -56,6 +58,41 @@ i_rule( get_supplier_details, [
    , set(freight_vendor)
    
   
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_bank_account_number, [
+%=======================================================================
+
+     q(0,150,line)
+
+
+     , with( invoice, currency, Currency )
+	
+
+    , or([
+        
+        [check( Currency = `USD` ),generic_horizontal_details( [ [`A`, `/`, `C`, `NO`, `.`, `:` ],  supplier_bank_account_number_raw, w, `(` ] )
+
+    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`001-9-20075-2`), generic_item( [ supplier_bank_account_number, `19200752` ] )
+
+        ]
+
+         ,[check( Currency = `THB` ),generic_horizontal_details( [ [`A`, `/`, `C`, `NO`, `.`, `:` ],  supplier_bank_account_number_raw, w, `(` ] )
+
+    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`001-2-19593-3`), generic_item( [ supplier_bank_account_number, `12195933` ] )
+
+        ]
+
+    ])
+	
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
