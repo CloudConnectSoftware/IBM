@@ -26,6 +26,8 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+    ,get_vatt_flag
+
     , get_total_net
 
     , get_total_vat
@@ -167,6 +169,36 @@ i_rule_cut( get_invoice_order, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET FREIGHT FLAG
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_vatt_flag, [
+%=======================================================================
+q(0,100,line)
+
+,set_line_vat
+
+   
+] ).
+
+%=======================================================================
+i_line_rule( set_line_vat, [
+%=======================================================================
+q0n(anything)
+
+,`GST`, `6`, `%`
+
+,set(vat_found)
+
+, trace( [ `Found GST` ] )
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET TOTAL NET
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,9 +211,17 @@ i_rule_cut( get_total_net, [
 
     ,or([
 
-     generic_horizontal_details( [ [`Total`, `before`, `GST`, tab ],  total_net, d, newline ] )
 
-     ,generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  total_net, d, newline ] )
+       
+          [test(vat_found),generic_horizontal_details( [ [`Sub`, `Total`, `(`, `Excluding`, `GST`, `)` ],150,  total_net, d, newline ] )] 
+
+        ,[ peek_fails(test(vat_found)) ,generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  total_net, d, newline ])]
+        
+        
+     
+     ,generic_horizontal_details( [ [`Total`, `before`, `GST`, tab ],  total_net, d, newline ] )
+
+     
 
     ])
 
@@ -322,7 +362,11 @@ i_line_rule_cut( line_invoice_line, [
 
  ,generic_item( [ line_exchange_rate, d, tab ] )
 
- ,generic_item( [ line_gst, w, tab ] )
+ ,q10(generic_item( [ line_vat_rate, d, [`%`, `-`] ] ))
+
+ ,q10(generic_item( [ line_vat_amount, d, tab  ]))
+
+ ,q10(generic_item( [ line_gst_dummy, d, tab  ]))
 
  ,generic_item( [ line_net_amount, d, newline ] )
 
