@@ -36,6 +36,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    , get_invoice_order
+
        ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,6 +113,10 @@ i_rule_cut( get_invoice_number, [
 
    , generic_horizontal_details( [ [ `Debit`, `Note`,  `:` ], invoice_number, w, newline ] )
 
+   , generic_horizontal_details( [ [`Document`, `No`, tab ], invoice_number, w, newline ] )
+
+   
+
     ])
   
 ] ).
@@ -127,7 +133,34 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-        , generic_horizontal_details( [ [ `DATE`, `:`, q10(tab) ],  invoice_date, s1, newline ] )
+    , or([
+            
+         generic_horizontal_details( [ [ `DATE`, `:`, q10(tab) ],  invoice_date, s1, newline ] )
+
+         ,generic_horizontal_details( [ [ `Document`, `Date`, tab ],  invoice_date, s1, newline ] )
+
+    ])
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET PO NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_order, [
+%=======================================================================
+
+    q(0,50,line)
+
+    , or([
+            
+         generic_horizontal_details( [ [ `PO`, `No`, tab ],  order_number,d, newline ] )
+
+        ])
 
 
 ] ).
@@ -144,7 +177,14 @@ i_rule_cut( get_total_net, [
 
     q0n(line)
 
-        , generic_horizontal_details( [ [`Total`, `before`, `GST`, tab ],  total_net, d, newline ] )
+    ,or([
+
+     generic_horizontal_details( [ [`Total`, `before`, `GST`, tab ],  total_net, d, newline ] )
+
+     ,generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  total_net, d, newline ] )
+
+    ])
+
 
 
 ] ).
@@ -182,9 +222,15 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],  total_invoice, d, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],  total_invoice, d, newline ] )
 
-    
+        ,generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  total_invoice, d, newline ] )
+
+      ])
+
+       
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,7 +245,13 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-     , generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],   line_total_amount, d, newline ] )
+     ,or([ 
+         
+          generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],   line_total_amount, d, newline ] )
+
+        , generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  line_net_amount, d, newline ] )
+
+       ])
 
 
     ] ).
