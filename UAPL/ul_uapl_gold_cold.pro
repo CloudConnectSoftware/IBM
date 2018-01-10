@@ -32,7 +32,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_line_total_amount
+    %, get_line_total_amount
 
     , get_invoice_lines
 
@@ -257,6 +257,7 @@ i_rule( get_line_total_amount, [
     ] ).
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -264,14 +265,69 @@ i_rule( get_line_total_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_lines, [
+i_section( get_invoice_lines, [
 %=======================================================================
-   
-   q0n(line)
-    
-    , line_descr( `Monthly Charges` )
 
-]).
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+             line_invoice_line
+
+              , line
+
+        ] )
+
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+
+[`Description`, tab, `Quantity` ]
+
+, trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+    [`Total`, `RINGGIT` ]
+
+
+  , trace( [ `Found End line` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+  generic_item( [ line_descr, s1, tab ] )
+
+ ,generic_item( [ line_quantity, d, tab ] )
+
+ ,generic_item( [ line_unit_amount, d, q10(tab) ] )
+
+ ,generic_item( [ line_currency, w, tab ] )
+
+ ,generic_item( [ line_exchange_rate, d, tab ] )
+
+ ,generic_item( [ line_gst, w, tab ] )
+
+ ,generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
 
 
 
