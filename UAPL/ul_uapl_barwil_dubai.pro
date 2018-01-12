@@ -52,7 +52,7 @@ i_rule( get_supplier_details, [
    
   sender_name( `WILHELMSEN SHIP SERVICE` )
 
-  , supplier_vat_number(`217227`)
+  , supplier_vat_number(`100071350100003`)
 
 
 ] ).
@@ -160,6 +160,8 @@ i_rule( get_order_number, [
 
          ,generic_horizontal_details( [ [ `PO`, `NO`, `:` ], order_number, w, newline ] )
 
+         ,generic_horizontal_details( [ [ `PO`, `NUMBER`, `-` ], order_number, w, newline ] )
+
     ])
 
     , check(order_number = OrdNo)
@@ -223,9 +225,12 @@ i_rule(get_bank_accountnumber, [
     ,trace( [ `currency is`, Currency ] )
 
     , or([
-        [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `Acct`, `#`, `.` ],  supplier_bank_account_number, s, tab ] )]
+        [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `Acct`, `#`, `.` ],  supplier_bank_account_number, d, or([tab, `IBAN`]) ] )]
 
-       ,[check( Currency = `AED` ) , generic_horizontal_details( [ [`AED`, `Acct`, `#`, `.` ],  supplier_bank_account_number, s, tab ] )]
+       ,[check( Currency = `AED` ) , generic_horizontal_details( [ [`AED`, `Acct`, `#`, `.` ],  supplier_bank_account_number, d, or([tab, `IBAN`]) ] )]
+   
+       ,[check( Currency = `EUR` ) , generic_horizontal_details( [ [`EUR`, `Acct`, `#`, `.` ],  supplier_bank_account_number, d, or([tab, `IBAN`]) ] )]
+       
        
     ])
     

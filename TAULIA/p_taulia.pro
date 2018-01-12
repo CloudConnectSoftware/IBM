@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `30/11/2017 12:07:12` ).
+i_version( p_taulia, `11/01/2018 12:57:22` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,7 +13,12 @@ i_rules_file( `d_zip_against_state.pro` ).
 i_rules_file( `d_taulia_ibm.pro` ).
 i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
-i_rules_file( `u_invoice_number_validation_2.pro` ).
+i_rules_file( `u_invoice_number_validation_2.pro` )
+:-
+	collect_correct_p_file( File ),
+	not( q_sys_sub_string( File, _, _, `redbull` ) )
+.
+
 i_rules_file( `u_invoice_date_validation.pro` ).
 i_rules_file( File )
 :-
@@ -45,6 +50,7 @@ i_user_field( invoice, po_composer, `PO Composer` ).
 i_user_field( invoice, supplier_tax_country, `Supplier Tax Country` ).
 i_user_field( invoice, supplier_tax_type, `Supplier Tax Type` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
+i_user_field( invoice, header_discount, `Header Discount` ).
 i_user_field( line, line_tax_exempt_reason, `Line Exempt Reason` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -542,10 +548,23 @@ i_analyse_total_discount___
 	
 	!,
 	
-	sys_calculate_str_multiply( Rounding_Amount, `-1`, Header_Discount ),
-	
-	sys_calculate_str_add( Sum_of_Line_Discounts, Header_Discount, Total_Discount ),
-	
+	(
+		result( _, invoice, header_discount, Header_Discount )
+
+		;
+
+		not( result( _, invoice, header_discount, _ ) ),
+
+		Header_Discount = `0`
+
+	),
+
+	!,
+
+	sys_calculate_str_add( Sum_of_Line_Discounts, Header_Discount, Line_and_Header_Discount ),
+
+	sys_calculate_str_subtract( Line_and_Header_Discount, Rounding_Amount, Total_Discount ),
+
 	sys_retractall( result( _, invoice, total_discount, _ ) ),
 	
 	assertz_derived_data( invoice, total_discount, Total_Discount, i_analyse_total_discount ),

@@ -215,6 +215,7 @@ i_rule_cut( get_invoice_net, [
 
 	    , generic_horizontal_details( [ [ `Total` , `Taxable` , `Amount`, tab , `$`], 100 , total_net, d, newline ] )
 
+
 	])
 
 		
@@ -239,6 +240,8 @@ i_rule_cut( get_invoice_totals, [
 		, generic_horizontal_details( [ [ `Total`, `Including`, `any`, `Goods`, `&`, `Services`, `Tax`, `(`, `in`, `NZD`, `)`, tab, `$`], total_invoice, d ] )
 
 	    , generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
+
+		, generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 
 		, generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 

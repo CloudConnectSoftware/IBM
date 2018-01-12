@@ -221,7 +221,7 @@ i_rule_cut( get_total_vat, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , `AUD` ],20, total_vat , n , newline ] )
+	, generic_horizontal_details( [ [ `Goods` , `&` , `Services` , `Tax` , `AUD` ],100, total_vat , d , newline ] )
 
 ] ).
 
@@ -241,13 +241,7 @@ i_rule_cut( get_invoice_totals, [
 	, or([
 		[ test( credit_note ), generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] ) 
 		
-		, check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net] )]
+		]
 
 
 		, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )

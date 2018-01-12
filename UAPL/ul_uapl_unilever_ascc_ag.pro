@@ -89,7 +89,7 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Invoice`, `Number`, q10( `:`) ], 100, invoice_number, d, tab ] )
+   	, generic_horizontal_details( [ [ `Invoice`, `No`, `:`, tab ], invoice_number, d, tab ] )
   
 
 ] ).
@@ -106,7 +106,7 @@ i_rule( get_invoice_date, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ] , 100, invoice_date, date, newline ] )
+	, generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ] , 100, invoice_date, date, tab ] )
 
 ] ).
 
@@ -122,7 +122,7 @@ i_rule( get_order_number, [
 
    q0n(line)
 	
-	, generic_horizontal_details( [ [ `PO`, `/`, `SO`, `Number`, `:` ] , 100, order_number, d, newline ] )
+	, generic_horizontal_details( [ [ `Cust`, `.`, `PO`, `No`, `:`, tab ] , order_number, d, tab ] )
 
 ] ).
 
@@ -171,7 +171,16 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `Total`, `Amount`, `in`,currency_dummy(w),  `:` ], 200, total_invoice, d , newline ] )
+     , or([
+         generic_horizontal_details( [ [ `Total`, `price`, `in`,currency_dummy(w), `currency`, tab ], 200, total_invoice, d , newline ] )
+
+         ,[generic_horizontal_details( [ [ `Total`, `Additional`, `Charges`, tab ],  total_invoice, d , newline ] )
+
+          , check( total_invoice = TotInv )  , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
+
+     ])
 
         
 ] ).
@@ -187,12 +196,16 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, currency_dummy1(w), `:` ], 200, line_total_amount, d , newline ] )
+     ,or([
+         generic_horizontal_details( [ [ `Total`, `price`, `in`,currency_dummy(w), `currency`, tab ], 200, line_total_amount, d , newline ] )
 
-] ).
+         ,generic_horizontal_details( [ [ `Total`, `Additional`, `Charges`, tab ],  line_total_amount, d , newline ] )
 
+         ])
+
+     ]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -209,3 +222,22 @@ i_rule( get_invoice_lines, [
     , line_descr( `Monthly Charges` )
 
 ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on - December 12, 2016
+% Mapped by - Vidya
+
+% Updated on   - December 29, 2017
+% Updated by   - Thejaswi K
+% Changes made - Invoice number, date,PO Number, totals
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

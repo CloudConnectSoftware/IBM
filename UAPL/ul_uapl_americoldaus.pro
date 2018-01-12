@@ -163,7 +163,9 @@ i_rule_cut( get_invoice_totals, [
 
        generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ], 100, total_invoice, d, generic_item( [ currency , w , newline ] ) ] )
 
-	 , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ], 100, total_invoice, d, generic_item( [ currency , w , newline ] ) ] )        
+	 , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ], 100, total_invoice, d, generic_item( [ currency , w , newline ] ) ] ) 
+
+	 , generic_horizontal_details( [ [`TOTAL`, `ADJUSTMENT`, `AMOUNT`, tab, `(`, `$`], 100, total_invoice, d, [ `)`,generic_item( [ currency , w ] ), newline] ] )       
 	
 ])
 
@@ -182,7 +184,13 @@ i_rule_cut( get_total_vat, [
 
 	q0n(line)
 
-	, generic_horizontal_details( [ [ `Total` , `GST` , `AMOUNT`, tab , `$` ], 100, total_vat , d, newline ] )
+	, or([ 
+		
+		generic_horizontal_details( [ [ `Total` , `GST` , `AMOUNT`, tab , `$` ], 100, total_vat , d, newline ] )
+
+		, generic_horizontal_details( [ [ `TOTAL`, `GST`, `AMOUNT`, tab, `(`, `$` ], 100, total_vat , d, [`)`,  newline] ] )
+
+	])
 	
 ] ).
 
@@ -227,6 +235,8 @@ i_section( get_invoice_lines, [
 		, or( [
 		
 			line_invoice_line
+
+			,line_invoice_adj_line
 			
 			, line
 			
@@ -287,3 +297,31 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_adj_line, [
+%=======================================================================
+
+	generic_item( [ line_charge , d, tab ] )
+
+	
+	, generic_item( [ line_descr , s1, tab ] )
+
+
+	, q10(generic_item( [ line_item , d, tab  ] ))
+
+
+	, q10(generic_item( [ line_uom , w, tab ] ))
+
+
+	, generic_item( [ line_quantity , d , [`-`, tab, `$`, tab ] ] )
+
+	
+	, generic_item( [ line_unit_amount , d , [ tab, `(`, `$`, tab] ])
+
+	
+	, generic_item( [ line_net_amount, d , `)` ] )
+
+	
+	, generic_item( [ line_gstdummy , w , newline ] )
+
+] ).
