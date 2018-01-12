@@ -89,7 +89,7 @@ i_rule( get_bank_accountnumber, [
 
         ]
 
-         [check( Currency = `SGD` ),generic_horizontal_details( [ [`Account`, tab ],  supplier_bank_account_number_raw, w, tab ] )
+        , [check( Currency = `SGD` ),generic_horizontal_details( [ [`Account`, tab ],  supplier_bank_account_number_raw, w, tab ] )
 
     , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`047363155001`), generic_item( [ supplier_bank_account_number, `363155001` ] )
 
