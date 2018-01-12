@@ -319,7 +319,7 @@ i_section( get_invoice_lines, [
 
         , or( [
     
-       line_disc_line,line_invoice_line
+       line_invoice_line
 
        
               , line
@@ -372,24 +372,7 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
-%=======================================================================
-i_line_rule_cut( line_disc_line, [
-%=======================================================================
 
- generic_item( [ line_descr_dummy, s1, tab ] ) 
-
-, generic_append( [ line_descr_dummy, date, tab, ` Start Date - `, ``  ] )
-
-, generic_append( [ line_descr_dummy, date, tab, ` End Date - `, ``  ] )
-    
-, generic_item( [ line_quantity_dummy, d, [tab, `-`] ] )
-
-, generic_item( [ line_unit_amount_dummy, d, [tab, `-`]] )
-
-, generic_item( [ line_amount_discount_dummy , d, newline ] )
-
-
-] ).
 
 %=======================================================================
 
@@ -417,29 +400,7 @@ i_sum_all_line_tot1s
     !
     .
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Sum the Discount
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%=======================================================================
-i_analyse_invoice_fields_first1
-%-----------------------------------------------------------------------
-:- i_sum_all_line_dis1s.
-%=======================================================================
-%=======================================================================
-i_sum_all_line_dis1s
-%-----------------------------------------------------------------------
 
-:-
-
-    sys_findall( DIS1,   
-        result( _, _,line_amount_discount_dummy, DIS1 ),   
-        DIS1s  ),  
-     
-    i_user_check( sum_string_list, DIS1s, Sum2 ),  
-    
-    assertz_derived_data( invoice, total_discount, Sum2, i_sum_all_line_dis1s),  
-    !
-    .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
