@@ -82,17 +82,17 @@ i_rule( get_supplier_address, [
 
    , line_add_line
 
-   , q(0,1,line)
+   , q(0,2,line)
 
    , line_add_line_2
 
    , q(0,1,line)
 
-   , line_add_line_3
+   , q10(line_add_line_3)
 
    , q(0,1,line)
 
-   , line_add_line_4
+   , q10(line_add_line_4)
 
 ] ).
 
@@ -100,9 +100,17 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`530`, `East`, `Montecito`, `Street`])
+       or([
+         
+         read_ahead([`530`, `East`, `Montecito`, `Street`])
+
+         ,read_ahead([`Chicago`, `,`, `IL`, `60677`, `-`, `4001`])
+
+       ])
 
      , trace( [ `Found address`] )
+
+     , q10(generic_item( [ supplier_street_dummy, s1, tab ] ))
 
      , generic_item( [ supplier_street, s1, newline ] )
 
@@ -112,13 +120,13 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-        generic_item( [ supplier_city, s, `,` ] )
+        generic_item( [ supplier_city, w, `,` ] )
 
-      , generic_item( [ supplier_state, w, `,` ] )
+      , generic_item( [ supplier_state, w ] )
 
-     , generic_item( [ supplier_postcode, d, tab ] )
+     , q10(generic_item( [ supplier_postcode, d, or([tab,newline]) ] ))
 
-      , generic_item( [ supplier_dummy, w, newline ] )
+      , q10(generic_item( [ supplier_dummy, w, newline ] ))
    
 
 ] ).
