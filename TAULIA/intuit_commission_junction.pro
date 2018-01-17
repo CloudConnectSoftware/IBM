@@ -28,6 +28,8 @@ i_rule_list( [
     , get_supplier_address
 
     , get_bank_accountnumber
+
+    , get_bank_accountnumber_new
                      
     , get_invoice_number
     
@@ -158,6 +160,30 @@ i_rule( get_bank_accountnumber, [
 
   
   , generic_horizontal_details( [ [ `Swift`, `Code`, `:`],150, swift_bic_number , s1, newline  ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber_new, [
+%=======================================================================
+   
+   q(0,100,line)
+
+  , generic_horizontal_details( [ [  `Routing`, `#`],  swift_bic_number, d, newline  ] )
+
+  , q(0,1,line)
+
+  , generic_horizontal_details( [ [ `Account`, `#`],  bank_account_number, d, newline  ] )
+
+  , q(0,1,line)
+
+  , generic_horizontal_details( [ [  `BIC`],  bank_number, w, newline  ] )
 
 ] ).
 
