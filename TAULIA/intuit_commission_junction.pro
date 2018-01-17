@@ -8,7 +8,7 @@ i_version( intuit_commission_junction, `6 Dec 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y`).
+i_date_format( _ ).
 
 i_trace_lists.
 
@@ -120,9 +120,14 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-        generic_item( [ supplier_city, w, `,` ] )
+        or([
+          generic_item( [ supplier_city, w, `,` ] )
 
-      , generic_item( [ supplier_state, w ] )
+          ,generic_item( [ supplier_city, s, `,` ] )
+
+        ])
+
+      , generic_item( [ supplier_state, w, q10(`,`) ] )
 
      , q10(generic_item( [ supplier_postcode, d, or([tab,newline]) ] ))
 
