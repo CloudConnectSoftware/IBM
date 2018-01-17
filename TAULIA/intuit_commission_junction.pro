@@ -16,7 +16,7 @@ i_pdf_parameter( same_line, 7 ).
 
 i_op_param( us_invoice, _, _, _, _).
 
-% i_analyse_invoice_fields_first1.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
