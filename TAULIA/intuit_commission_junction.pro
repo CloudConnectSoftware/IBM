@@ -31,7 +31,7 @@ i_rule_list( [
 
     , get_bank_accountnumber_new
                      
-    , get_invoice_number
+    %, get_invoice_number
     
     , get_invoice_date
 
@@ -67,6 +67,8 @@ i_rule( get_supplier_detail, [
    ,supplier_party(`Commission Junction, LLC`)
  
    , supplier_country_code(`US`)
+
+   ,invoice_number(`CJ19058780617HTEST`)
 
 ] ).
 
