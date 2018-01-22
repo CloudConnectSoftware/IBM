@@ -823,9 +823,9 @@ i_line_rule( line_add_line2, [
 % Updated by   - Rohini
 % Changes made - Amount format changed hence removed reg expression. New line format mapped.
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - January 22, 2018
+% Updated by   - Thejaswi
+% Changes made - Line format changed
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
