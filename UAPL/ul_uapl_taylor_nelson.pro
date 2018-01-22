@@ -126,11 +126,17 @@ i_rule(get_bank_accountnumber, [
     ,trace( [ `currency is`, Currency ] )
 
     , or([
-        [check( Currency = `MYR` ) , generic_horizontal_details( [ [`Account`, `No`, `.`, `:`, tab ],  supplier_bank_account_number, s, [`(`, `MYR`, `)`] ] )]
+        [check( Currency = `MYR` ) , generic_horizontal_details( [ [`Account`, `No`, `.`, `:`, tab ],  supplier_bank_raw, s, [`(`, `MYR`, `)`] ] )]
 
         , [check( Currency = `USD` ) , generic_vertical_details( [ [ `Account`, `No` ], `Account`, q(0,2), (start,50,50), supplier_bank_account_number, s, [`(`, `USD`, `)`] ] )]
        
     ])
+
+     ,check(supplier_bank_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
     
 
 ] ).
