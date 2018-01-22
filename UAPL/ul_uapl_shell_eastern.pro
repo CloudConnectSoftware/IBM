@@ -75,9 +75,11 @@ i_rule( get_supplier_bank_account_number, [
 %=======================================================================
     last_line
 
-	,q(0,50,up,line)
+	,q(0,200,up)
 	
-	, generic_horizontal_details( [ [ `USD`, `A`, `/`, `C` ], supplier_bank_account_number, w, newline ] )
+	, generic_horizontal_details( [ [ `USD`, `A`, `/`, `C` ], supplier_bank_account_number, d, newline ] )
+
+    
 
 ] ).
 
