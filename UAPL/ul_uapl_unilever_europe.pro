@@ -278,7 +278,7 @@ i_rule( get_currency, [
 
   % , set(regexp_cross_word_boundaries)
 
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
 
   %  , clear(regexp_cross_word_boundaries)
 
@@ -363,15 +363,15 @@ i_rule( get_alternative_net, [
       q0n(line)
 
       
-   %, set(reverse_punctuation_in_numbers)
+   , set(reverse_punctuation_in_numbers)
 
-   %, set(regexp_cross_word_boundaries)
+   , set(regexp_cross_word_boundaries)
 
    , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
-   %, clear(regexp_cross_word_boundaries)
+   , clear(regexp_cross_word_boundaries)
 
-    %, clear(reverse_punctuation_in_numbers)
+    , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -402,7 +402,7 @@ i_section( get_invoice_lines, [
     
          , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
-         ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), line_invoice_crossword1]
+         ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10(line_invoice_line2), q10( line_invoice_crossword1)]
     
          ,line_invoice_line1
 
