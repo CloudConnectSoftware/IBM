@@ -69,9 +69,21 @@ i_rule( get_bank_account_no, [
 
 	q(0,100,line)
 
-	, generic_vertical_details( [ [`ACCOUNT`, `NUMBER`, `:`], `ACCOUNT`, q(0,1), (start,500,0), supplier_bank_account_number, w, newline ] )
-	
+	, or([
+        
+        generic_vertical_details( [ [`ACCOUNT`, `NUMBER`, `:`], `ACCOUNT`, q(0,1), (start,500,0), supplier_bank_raw, s1, newline ] )
 
+        ,generic_vertical_details( [ [`credit`, `to`, `KL`, `-`, `Kepong`, `Oleomas`, `Sdn`, `Bhd`, `Account`, `Number`], `Credit`, q(0,1), (start,600,600), supplier_bank_raw, s, `quoting` ] )
+
+    ])
+	
+    
+
+     ,check(supplier_bank_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,7 +149,12 @@ i_rule( get_total_invoice, [
 
 	qn0(line)
 	
-     , generic_horizontal_details( [ [ `TOTAL`, tab ],  total_invoice, d, newline ] )
+     , or([
+         generic_horizontal_details( [ [ `TOTAL`, tab ],  total_invoice, d, newline ] )
+
+         ,generic_horizontal_details( [ [ `Total`, `(`, `excluding`, `GST`, `)` ],100,  total_invoice, d, newline ] )
+         
+         ])
 
         , check( total_invoice = TotInv )
 
@@ -162,7 +179,13 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, tab ],  line_total_amount, d, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [ `TOTAL`, tab ],  line_total_amount, d, newline ] )
+
+        ,generic_horizontal_details( [ [ `Total`, `(`, `excluding`, `GST`, `)` ],100,  line_total_amount, d, newline ] )
+
+    ])
 
 ] ).
 
