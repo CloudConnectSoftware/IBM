@@ -350,6 +350,8 @@ i_section( get_invoice_lines, [
               
              line_invoice_line
 
+             , line_invoice_line1
+
               , line
 
         ] )
@@ -373,8 +375,15 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    [`Total`, `RINGGIT` ]
+    
+    
+    or( [
+        
+   [`Total`, `RINGGIT` ]
 
+   , [`TOTAL`, `RINGGIT`]
+
+] )
 
   , trace( [ `Found End line` ] )
 
@@ -407,4 +416,39 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
+%=======================================================================
+
+  generic_item( [ line_descr, s1, tab ] )
+
+ ,generic_item( [ line_quantity, d, tab ] )
+
+ ,generic_item( [ line_unit_amount, d ] )
+
+ ,generic_item( [ line_currency, w, tab ] )
+
+ ,generic_item( [ line_exchange_rate, d, [tab, `-`, tab ] ] )
+
+ ,generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - Jan 23, 2018
+% Updated by   - Rohini
+% Changes made - Invoice line details
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
