@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `22/01/2018 14:54:16` ).
+i_version( p_ibm_ksb, `23/01/2018 11:07:57` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -222,7 +222,7 @@ i_analyse_plant_code___
 		
 	q_sys_comp_str_le( Order_Number, Max ),
 
-	sys_retractall( result( _, invoice, plant_code, _ ),
+	sys_retractall( result( _, invoice, plant_code, _ ) ),
 
 	assertz_derived_data( invoice, plant_code, Plant_Code, i_analyse_plant_code ),
 
@@ -392,7 +392,7 @@ i_analyse_order_number___
 
 		q_regexp_match( `^4\\d{9}$`, Order_Number_Final, _ ),
 
-		assertz_derived_data( invoice, order_number, Order_Number_Final, i_analyse_order_number ),
+		assertz_derived_data( invoice, order_number, Order_Number_Final, i_analyse_order_number )
 
 		;
 
@@ -731,7 +731,7 @@ i_analyse_line_buyers_order_number___( LID )
 
 			q_regexp_match( `^4\\d{9}$`, LBON_Final, _ ),
 
-			assertz_derived_data( invoice, line_buyers_order_number, LBON_Final, i_analyse_line_buyers_order_number ),
+			assertz_derived_data( invoice, line_buyers_order_number, LBON_Final, i_analyse_line_buyers_order_number )
 			
 			;
 			
@@ -768,6 +768,7 @@ i_analyse_line_buyers_order_number___( LID )
 			true
 
 		)
+
 	),
 	
 	!
