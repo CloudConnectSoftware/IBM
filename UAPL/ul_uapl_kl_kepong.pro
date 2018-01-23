@@ -132,7 +132,7 @@ i_rule( get_order_number, [
 
 q0n(line)
 	
-    , generic_horizontal_details( [ [ `CUSTOMER`, `ORDER`, `:` ], order_number, d, newline ] )
+    , generic_horizontal_details( [ [ `CUSTOMER`, `ORDER`, q10(tab), `:`,q10(tab) ], order_number, d, newline ] )
 
 ] ).
 
