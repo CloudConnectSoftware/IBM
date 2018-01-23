@@ -402,7 +402,7 @@ i_section( get_invoice_lines, [
     
          , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
-         ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10(line_invoice_line2), q10( line_invoice_crossword1)]
+         ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy),  q10( line_invoice_crossword1),q10( line_invoice_crossword1)]
     
          ,line_invoice_line1
 
@@ -551,6 +551,42 @@ i_line_rule( line_invoice_line2, [
 
 %=======================================================================
 i_line_rule( line_invoice_crossword1, [
+%=======================================================================
+
+     
+
+      set(reverse_punctuation_in_numbers)
+
+     ,generic_item( [ line_quantity, d, q10(tab) ] )
+
+    , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+    , generic_item( [ line_quantity_dummy, d ] )
+
+    , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
+
+    , q10(generic_item( [ line_gross_amount_dummy, d, tab ] ))
+    
+    , generic_item( [ line_amount_discount, d, tab ] )
+
+    , generic_item( [ line_unit_amount_dummy, d ] )
+
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    , generic_item( [ line_net_amount, d, tab ] )
+
+    , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
+
+    , q10(generic_item( [ line_vat_amount, d, newline ] ))
+
+    
+    , clear(reverse_punctuation_in_numbers)
+
+]).
+
+
+%=======================================================================
+i_line_rule( line_invoice_crossword, [
 %=======================================================================
 
      

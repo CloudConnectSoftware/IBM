@@ -293,7 +293,7 @@ i_rule( get_total_vat, [
  qn0(line)
 
 , or([
-    generic_vertical_details( [ [ `Tax`, `Rate` ], `Tax`, q(0,1), (start,20,20), total_vat, d, tab ] )
+    generic_vertical_details( [ [ `Tax`, `Rate` ], `Tax`, q(0,1), (start,20,0), total_vat, d, tab ] )
 
 
 ])
