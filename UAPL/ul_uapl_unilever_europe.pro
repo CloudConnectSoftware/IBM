@@ -478,6 +478,8 @@ i_line_rule( line_invoice_line, [
 
     , q10(generic_item( [ line_vat_amount_dummy, w, newline ] ))
 
+    , trace( [ `line_invoice_line` ] )
+
 ] ).
 
 %=======================================================================
@@ -501,11 +503,31 @@ i_line_rule( line_invoice_line1, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    , generic_item( [ line_net_amount, d, tab ] )
+    , [generic_item( [ line_net_amount_raw, s1, tab ] )
+    
+    , check( line_net_amount_raw = TotalRaw )
+
+    , trace( [ `Line Total Amount raw` , TotalRaw ] )
+
+    , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
+
+    , trace( [ `Line Net Amount Stripped Comma`, TotalStrip ] )
+
+    , trace( [ `Line Net Amount raw2` , TotalStrip] )
+
+    , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
+     
+    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
+
+    , line_net_amount(TotalStrip1)
+
+    , trace( [ `Line Total Amount` , line_net_amount ] ) ]
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
     , q10(generic_item( [ line_vat_amount, d, newline ] ))
+
+    , trace( [ `line_invoice_line1` ] )
 
  
 ] ).
@@ -561,7 +583,7 @@ i_line_rule( line_invoice_crossword, [
 
       ,set(reverse_punctuation_in_numbers)
 
-     ,generic_item( [ line_quantity, d, q10(tab) ] )
+      ,generic_item( [ line_quantity, d, q10(tab) ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -573,11 +595,38 @@ i_line_rule( line_invoice_crossword, [
     
     , generic_item( [ line_amount_discount, d, tab ] )
 
-    , generic_item( [ line_unit_amount, d ] )
+    , generic_item( [ line_unit_amount_dummy, d ] )
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    , generic_item( [ line_net_amount_dummy, d, tab ] )
+    , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)
+
+    , [generic_item( [ line_net_amount_raw, s1, tab ] )
+    
+    , check( line_net_amount_raw = TotalRaw )
+
+    , trace( [ `Line Total Amount raw` , TotalRaw ] )
+
+    , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
+
+    , trace( [ `Line Net Amount Stripped Comma`, TotalStrip ] )
+
+    , trace( [ `Line Net Amount raw2` , TotalStrip] )
+
+    , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
+     
+    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
+
+    , line_net_amount(TotalStrip1)
+
+    , trace( [ `Line Total Amount` , line_net_amount ] ) ]
+
+     , set(regexp_cross_word_boundaries)
+
+      ,set(reverse_punctuation_in_numbers)
+
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
@@ -586,6 +635,10 @@ i_line_rule( line_invoice_crossword, [
     , clear(regexp_cross_word_boundaries)
 
     , clear(reverse_punctuation_in_numbers)
+
+    , trace( [ `line_invoice_line cross` ] )
+
+  
 
 ]).
 
