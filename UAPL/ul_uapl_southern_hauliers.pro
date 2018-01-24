@@ -64,8 +64,13 @@ i_rule( get_bankdetails, [
 
 	q(10,60,line)
 
-	, generic_horizontal_details( [ [ `BANGKOK`, `BANK`, `,`, `A`, `/`, `C`, `NO`, `.`], 100,  supplier_bank_account_number, s1, newline  ] )
-	
+	, generic_horizontal_details( [ [ `BANGKOK`, `BANK`, `,`, `A`, `/`, `C`, `NO`, `.`], 100,  supplier_bank_account_number_raw, s1, newline  ] )
+    
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ] ).
 
