@@ -22,6 +22,8 @@ i_rule_list( [
 
 	,get_supplier_details
 
+   % ,get_bank_accountnumber
+
     , set_Invoice_tax
 
     , get_invoice_number
@@ -148,6 +150,23 @@ i_rule_cut( get_invoice_date, [
     q0n(line)
 
     , generic_horizontal_details( [ [ `Document`, `Date`,  tab, `:` ], 100, invoice_date, date, newline ] )
+
+        
+] ).
+
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+    qn0(line)
+
+        , generic_horizontal_details( [ [`Account`, `Number`,tab ],  supplier_bank_account_number, w, newline ] )
 
         
 ] ).
