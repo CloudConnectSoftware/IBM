@@ -67,9 +67,28 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-    q(0,35,line)
+   
 
-    ,generic_horizontal_details( [ [ `Current`, `Account`, `No`, `.` ],  supplier_bank_account_number, w, newline ] )
+    q0n(line)
+
+    , with( invoice, currency, Currency )
+
+    ,trace( [ `currency is`, Currency ] )
+
+    , or([
+        [check( Currency = `USD` ) ,generic_horizontal_details( [ [`Current`, `Account`, `No`, `.` ], supplier_bank_account_number_raw, w, [`(`, `USD`, `)`,  newline]] )]
+
+      , [check( Currency = `JPY` ) ,generic_horizontal_details( [ [`Savings`, `Account`, `No`, `.`], supplier_bank_account_number_raw, w, [`(`, `JPY`, `)`,  newline] ] ) ]
+
+       ])
+
+    ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+
+    
 
 ] ).
 
