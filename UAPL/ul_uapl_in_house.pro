@@ -24,6 +24,8 @@ i_rule_list( [
 	
 	, get_invoice_number
 
+    ,get_bank_accountnumber
+
     , get_invoice_date
 
     , get_order_number
@@ -50,6 +52,30 @@ i_rule( get_supplier_details, [
      sender_name( `IN-HOUSE PRINTING.`)
 
      ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_bank_accountnumber, [
+%=======================================================================
+
+    q0n(line)
+
+    , generic_horizontal_details( [ [ `Bank`,`A`,`/`,`C`, `No`, `:`, q10(tab) ],  supplier_bank_account_number_raw, w, newline ] )
+
+    
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

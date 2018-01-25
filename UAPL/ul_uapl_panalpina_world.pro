@@ -72,7 +72,15 @@ i_rule( get_bank_accountnumber, [
 
     q(0,400,line)
 
-    ,generic_horizontal_details( [ [ `Account`, `No`, `.`, `:`],  supplier_bank_account_number, w, `(` ] )
+    ,generic_horizontal_details( [ [ `Account`, `No`, `.`, `:`],  supplier_bank_account_number_raw, w, `(` ] )
+
+     ,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+
+    
 
 ] ).
 
@@ -253,8 +261,8 @@ i_rule( get_total_invoice, [
 % Updated by   - Rohini
 % Changes made - Invoice date 
 
-% Updated on   - 
-% Updated by   -
+% Updated on   - January 25, 2018
+% Updated by   - Thejaswi K
 % Changes made - 
 
 

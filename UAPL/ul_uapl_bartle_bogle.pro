@@ -18,6 +18,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_currency
+
     ,get_bank_account_no
 
     ,set_credit_note
@@ -33,8 +35,6 @@ i_rule_list( [
     , get_total_vat
 
     , get_total_invoice
-
-    , get_currency
 
     , get_invoice_lines
     
@@ -69,9 +69,20 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-q(0,50,line)
+   q(0,250,line)
 
- , generic_horizontal_details( [ [  `Account`, `No`, `.`, `:` ],  supplier_bank_account_number, w, [`(`, `SGD`, `A`, `/`, `C`, `)`,  newline ] ] ) 
+     , with( invoice, currency, Currency )
+
+     , or( [
+  
+   [check( Currency = `SGD` ) ,  generic_horizontal_details( [ [  `Account`, `No`, `.`, `:` ],  supplier_bank_account_number_raw, w, [`(`, `SGD`, `A`, `/`, `C`, `)`,  newline ] ] ) ]
+  ,[ check( Currency = `USD` ) ,  generic_horizontal_details( [ [  `Account`, `No`, `.`, `:` ],  supplier_bank_account_number_raw, w, [`(`, `USD`, `A`, `/`, `C`, `)`,  newline ] ] ) ]
+  ,[ check( Currency = `EUR` ) ,  generic_horizontal_details( [ [  `Account`, `No`, `.`, `:` ],  supplier_bank_account_number_raw, w, [`(`, `EUR`, `A`, `/`, `C`, `)`,  newline ] ] ) ]
+
+     ])
+  ,check(supplier_bank_account_number_raw=SupplierAccount)
+  , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+  ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ]).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
