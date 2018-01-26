@@ -79,7 +79,11 @@ i_rule( get_bank_account_no, [
 
 	qn0(line)
 
-	, generic_horizontal_details( [ [ `Citibank`, `,`, `Account`, `No`],  supplier_bank_account_number, w, newline ] )
+ , generic_horizontal_details( [ [ `Citibank`, `,`, `Account`, `No`, `:`, `31`, `-`, `2840`],  supplier_bank_account_number_raw, w, newline ] )
+    
+  ,check(supplier_bank_account_number_raw=SupplierAccount)
+  , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+  ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).
