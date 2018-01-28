@@ -72,8 +72,13 @@ i_rule( get_supplier_bank_account_number, [
 
 	qn0(line)
 	
-	, generic_horizontal_details( [ [ `Account`, `No`, `:` ], supplier_bank_account_number, w, newline ] )
+	, generic_horizontal_details( [ [ `Account`, `no`, `:`, `01`, `-`, `0210`, `-` ], supplier_bank_account_number_raw, w, newline ] )
+    
+	,check(supplier_bank_account_number_raw=SupplierAccount)
 
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,11 +129,11 @@ q0n(line)
 
  , or([
 	 
-	generic_horizontal_details( [ [ `Invoice`, `No`, tab, `:` ] , invoice_number , w , newline ] )
+	  generic_horizontal_details( [ [ `Invoice`, `No`, tab, `:` ] , invoice_number , w , newline ] )
 
-   , generic_horizontal_details( [ [ `Invoice` , `No` , `:` , tab ] , invoice_number , w , tab ] )
+     , generic_horizontal_details( [ [ `Invoice` , `No` , `:` , tab ] , invoice_number , w , tab ] )
 
-	, generic_horizontal_details( [ [ `Credit` , `Note` , tab, `:` , q10(tab) ] , invoice_number , w , newline ] )
+	 , generic_horizontal_details( [ [ `Credit` , `Note` , tab, `:` , q10(tab) ] , invoice_number , w , newline ] )
 
 	 , generic_horizontal_details( [ [ `Credit`, `No`, tab ] , invoice_number , w , newline ] )
 
@@ -206,14 +211,13 @@ qn0(line)
 
 , or([
 
-  generic_horizontal_details( [ [ `GST`, dummyvatrate(d), `%`, tab, `NZD`, tab, `$` ] , 100 , total_vat , d , newline ] )
+     generic_horizontal_details( [ [ `GST`, dummyvatrate(d), `%`, tab, `NZD`, tab, `$` ] , 100 , total_vat , d , newline ] )
 
-, generic_horizontal_details( [ [ `GST` , tab ] , 100 , total_vat , d , newline ] )
+     , generic_horizontal_details( [ [ `GST` , tab ] , 100 , total_vat , d , newline ] )
 
-])
+    ])
 
-
-, generic_item( [ default_vat_rate, `15` ] )
+    , generic_item( [ default_vat_rate, `15` ] )
 
 ] ).
 
@@ -431,9 +435,9 @@ i_line_rule_cut( line_credit_descr_lines, [
 
 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 25, Jan 2018
+% Updated by   - Thejaswi K
+% Changes made - Bank details
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -73,7 +73,13 @@ i_rule( get_bankdetails, [
 
 	q(10,60,line)
 
-	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`], 100,  supplier_bank_account_number, s1, newline  ] )
+	, generic_horizontal_details( [ [ `BSB`, `/`, `Account`, `Number`, tab, `02`, `-`, `0214`], 100,  supplier_bank_account_number_raw, s1, newline  ] )
+
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).
@@ -123,7 +129,7 @@ i_rule( get_Invoice_tax, [
 
     q(0, 10, line)
     
-        , invoice_tax_line
+    , invoice_tax_line
 
 ] ).
 
@@ -157,7 +163,7 @@ i_rule_cut( get_invoice_number, [
 
 	, or([
         
-		  generic_horizontal_details( [ [`Invoice`, q10(`number`), `:`, tab ],  invoice_number, w, or([ tab, newline ]) ] )
+		 generic_horizontal_details( [ [`Invoice`, q10(`number`), `:`, tab ],  invoice_number, w, or([ tab, newline ]) ] )
         
 		, generic_horizontal_details( [ [`Invoice`, `number`, `the`, `credit`, `note`, `relates`, `to`, `:`, tab ],  invoice_number, w, newline ] )
 
@@ -237,13 +243,13 @@ i_rule_cut( get_invoice_totals, [
         
         generic_horizontal_details( [ [ `TOTAL`, `Credit` ], total_invoice , d , newline ] )
 
-		, generic_horizontal_details( [ [ `Total`, `Including`, `any`, `Goods`, `&`, `Services`, `Tax`, `(`, `in`, `NZD`, `)`, tab, `$`], total_invoice, d ] )
+	    , generic_horizontal_details( [ [ `Total`, `Including`, `any`, `Goods`, `&`, `Services`, `Tax`, `(`, `in`, `NZD`, `)`, tab, `$`], total_invoice, d ] )
 
-	    , generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
+	   , generic_horizontal_details( [ [ `Total` , `Invoice` , `Payable`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 
-		, generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
+	   , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 
-		, generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
+	   , generic_horizontal_details( [ [ `TOTAL`, `INVOICE`, `AMOUNT`, tab , `$` ,tab ], total_invoice, d, `NZD`  ] )
 
 	])
 	
