@@ -72,7 +72,20 @@ i_rule( get_supplier_bank_account_number, [
 
 	q(0,50,line)
 	
-	, generic_horizontal_details( [ [ `Internet`, `Payments`, `to`, `Bank`, `Account`, q10(tab) ], supplier_bank_account_number, s1, tab ] )
+	, or([
+		generic_horizontal_details( [ [ `Internet`, `Payments`, `to`, `Bank`, `Account`, q10(tab) ], supplier_bank_account_number_raw, s1, tab ] )
+
+        ,generic_horizontal_details( [ [`Payments`, `for`, `this`, `invoice`, `must`, `be`, `made`, `to`, `12`, `-`, `3244`, `-` ], supplier_bank_account_number_raw, s1, tab ] )
+
+
+	   ])
+
+	,check(supplier_bank_account_number_raw=AccRaw)
+
+    ,check(string_string_replace( AccRaw, `-`, ``, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+
 
 ] ).
 

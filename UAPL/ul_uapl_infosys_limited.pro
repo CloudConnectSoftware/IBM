@@ -224,7 +224,7 @@ i_rule(get_bank_accountnumber, [
     , or([
         [check( Currency = `EUR` ) , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
 
-        , [check( Currency = `EUR` ) , generic_horizontal_details( [ [`SGD`,`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
+        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [`SGD`,`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
        
     ])
     

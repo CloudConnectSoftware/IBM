@@ -107,7 +107,13 @@ i_rule( get_bank_account_no, [
 
 q(0,50,line)
 
- , generic_horizontal_details( [ [  `Account`, `No` ],  supplier_bank_account_number, w, tab ] ) 
+    , generic_horizontal_details( [ [  `BSB`, `032`, `-`, `173`, `Account`, `No` ],  supplier_bank_account_number_ra, w, or([tab,newline]) ] ) 
+   
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ]).
 
@@ -245,7 +251,7 @@ i_rule( get_currency, [
 
    q0n(line)
 
-     , generic_horizontal_details( [ [ `Currency`, tab ], 100, currency, w, newline ] )  
+     , generic_horizontal_details( [ [ `Currency`, tab ],  currency, w, newline ] )  
 
     ] ).
 
@@ -364,9 +370,9 @@ i_line_rule_cut( line_invoice_line1, [
 
 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - Thejaswwi K
+% Updated by   - 25 jan 2018
+% Changes made - Bank account
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
