@@ -106,7 +106,7 @@ i_rule( get_bank_account_no, [
 
   q(0,250,line)
 
-  , set(regexp_allow_partial_matching),  generic_horizontal_details( [ [ `Bank`, `Account`,  `:`,`51724` ],  supplier_bank_account_number_raw, w,   newline ] )
+  , set(regexp_allow_partial_matching),  generic_horizontal_details( [ [ `Bank`, `Account`,  `:`,`517` ],  supplier_bank_account_number_raw, w,   newline ] )
   
   , clear(regexp_allow_partial_matching) 
   
