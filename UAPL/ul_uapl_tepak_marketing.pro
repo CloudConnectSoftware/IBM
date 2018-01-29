@@ -147,9 +147,14 @@ i_rule( get_bank_account_no, [
 i_rule( invoice_or_credit_note, [
 %=======================================================================
 
-    q(0,10,line)
+    q(0,20,line)
     
-    , invoice_or_credit_note_line
+    , or([
+        invoice_or_credit_note_line
+
+    ,  invoice_or_debit_note_line
+
+     ])
 
 ] ).
 
@@ -162,6 +167,18 @@ i_line_rule( invoice_or_credit_note_line, [
     , set(credit_note)
     
     , trace( [ `This is a credit note` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( invoice_or_debit_note_line, [
+%=======================================================================
+
+    `Debit`, `NOTE`
+    
+    , set(debit_note)
+    
+    , trace( [ `This is a Debit note` ] )
 
 ] ).
 
@@ -251,7 +268,9 @@ i_rule( get_total_net, [
 
         ,generic_horizontal_details( [ [ `ZR`, tab, `@`, `0`, `%` ], 230 , total_net , d , tab ] )
 
-        , generic_horizontal_details( [ [ `TOTAL`, tab ],  total_net, d , newline ] )
+        , [test(credit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )]
+
+        , [test(debit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )]
 
     ])
   
@@ -301,6 +320,8 @@ i_rule( get_total_invoice, [
 
      , [test(credit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_invoice, d , newline ] )]
 
+     , [test(debit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_invoice, d , newline ] )]
+
      ,generic_horizontal_details( [ [ `ZR`, tab, `@`, `0`, `%`], 230 , total_invoice , d , tab ] )
 
       , generic_horizontal_details( [ [ `TOTAL`, tab ],  total_invoice, d , newline ] )
@@ -340,6 +361,8 @@ i_rule( get_currency, [
     , or( [
 
          [test(credit_note) , generic_horizontal_details( [ [ `DESCRIPTION`, tab , `Amount` , `(` ] , currency , w , [`)`, newline ] ] ) ]  
+
+        , [test(debit_note) , generic_horizontal_details( [ [ `DESCRIPTION`, tab , `Amount` , `(` ] , currency , w , [`)`, newline ] ] ) ]  
 
         , generic_vertical_details( [ [ `SUB` , `TOTAL` ], `SUB`, q(0,1,up), (start , 400 , 400 ), currency , w , newline ] )
 
@@ -424,7 +447,7 @@ i_section( get_invoice_lines, [
 
               ,[line_desr_firstline,line_invoice_oneline,q10(line_desr_line2)]
 
-              , line_credit_line
+              , [line_credit_debit_line, q10(line-line_desr_line2)]
 
               ,[line_invoice_line , q10(line_desr_line2)]
 
@@ -668,10 +691,14 @@ i_line_rule_cut( line_desr_line2, [
 ]).   
 
 %=======================================================================
-i_line_rule_cut( line_credit_line, [
+i_line_rule_cut( line_credit_debit_line, [
 %=======================================================================
 
-        test(credit_note)
+        or([
+            test(credit_note)
+            ,test(debit_note)
+
+        ])
 
         ,generic_item( [ line_descr, s1 , tab ] )        
         

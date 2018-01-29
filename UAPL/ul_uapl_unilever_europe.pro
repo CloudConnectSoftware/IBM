@@ -73,6 +73,8 @@ i_rule( get_supplier_details, [
 
 	, buyer_registration_number(`3009`)
 
+    ,currency( `EUR` )
+
     ,set(tax_invoice)
 
 ] ).
@@ -148,7 +150,7 @@ i_rule( get_order_number, [
 
     last_line
 
-    , q(0,50,up)
+    , q(0,15,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
@@ -190,7 +192,7 @@ i_rule( get_delivery_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
    %, set(reverse_punctuation_in_numbers)
 
@@ -216,7 +218,9 @@ i_rule( get_total_net, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q0n(line)
+     last_line
+
+    ,q(0,15,up)
 
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
@@ -237,8 +241,9 @@ i_rule( get_currency, [
     i_rule(get_total_vat, [
 %=======================================================================
     
+ last_line
 
-     q0n(line)
+    ,q(0,15,up)
 
      
   % , set(reverse_punctuation_in_numbers)
@@ -271,8 +276,9 @@ i_rule( get_currency, [
     i_rule(get_total_invoice, [
 %=======================================================================
     
-      q0n(line)
+       last_line
 
+    ,q(0,15,up)
       
   % , set(reverse_punctuation_in_numbers)
 
@@ -299,7 +305,9 @@ i_rule( get_currency, [
 i_rule( get_alternative_net, [
 %=======================================================================
 
-    qn0(line)
+    last_line
+
+    ,q(0,15,up)
 
    , set(reverse_punctuation_in_numbers)
 
@@ -326,8 +334,9 @@ i_rule( get_alternative_net, [
     i_rule(get_alternative_vat, [
 %=======================================================================
     
+ last_line
 
-     q0n(line)
+    ,q(0,15,up)
 
      
    , set(reverse_punctuation_in_numbers)
@@ -360,7 +369,9 @@ i_rule( get_alternative_net, [
     i_rule(get_total_alternative, [
 %=======================================================================
     
-      q0n(line)
+       last_line
+
+    ,q(0,15,up)
 
       
    , set(reverse_punctuation_in_numbers)
@@ -450,7 +461,7 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
 
@@ -483,7 +494,7 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line1, [
+i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
 
@@ -533,7 +544,7 @@ i_line_rule( line_invoice_line1, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line2, [
+i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
 
@@ -574,7 +585,7 @@ i_line_rule( line_invoice_line2, [
 
 
 %=======================================================================
-i_line_rule( line_invoice_crossword, [
+i_line_rule_cut( line_invoice_crossword, [
 %=======================================================================
 
      
