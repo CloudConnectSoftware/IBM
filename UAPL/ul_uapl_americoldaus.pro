@@ -68,7 +68,13 @@ i_rule( get_bank_accountnumber, [
 
     q(0,50,line)
 
-    ,generic_horizontal_details( [ [ `Account`, `Number`, tab ],  supplier_bank_account_number, w, newline ] )
+    ,generic_horizontal_details( [ [ `Account`, `Number`, tab ],  supplier_bank_account_number_raw, w, newline ] )
+
+	    ,check(supplier_bank_account_number_raw=SupplierAccount)
+
+    , check(strip_string2_from_string1( SupplierAccount, ` `, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ] ).
 
@@ -325,3 +331,15 @@ i_line_rule_cut( line_invoice_adj_line, [
 	, generic_item( [ line_gstdummy , w , newline ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - Thejaswwi K
+% Updated by   - 25 jan 2018
+% Changes made - Bank account
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
