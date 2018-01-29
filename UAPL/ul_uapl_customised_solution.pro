@@ -35,6 +35,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    ,get_bank_account_no
+
 
        
     ] ).
@@ -77,9 +79,15 @@ i_rule( get_bank_account_no, [
 	q(0,250,line)
 
 
-     ,  generic_horizontal_details( [ [ `ACCOUNT`,`:`, q10(tab) ],  supplier_bank_account_number, w, newline ] )
+     ,  generic_horizontal_details( [ [ `ACCOUNT`,`:`, q10(tab) ],  supplier_bank_account_number_raw, s1, or([tab, newline])  ] )
 
+      ,check(supplier_bank_account_number_raw=AccRaw)
 
+    ,check(string_string_replace( AccRaw, ` `, ``, AccNew ))
+
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+
+    
  ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -24,6 +24,8 @@ i_rule_list( [
 	
 	, get_invoice_date
 
+    , get_bank_account_no
+
     , get_order_number
 
     , get_total_net
@@ -89,6 +91,32 @@ i_rule_cut( get_invoice_date, [
 
         
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET  BANK  ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+
+  q(0,250,line)
+
+  , set(regexp_allow_partial_matching),  generic_horizontal_details( [ [ `Bank`, `Account`,  `:`,`51724` ],  supplier_bank_account_number_raw, w,   newline ] )
+  
+  , clear(regexp_allow_partial_matching) 
+  
+  ,check(supplier_bank_account_number_raw=SupplierAccount)
+
+  , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+  ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -72,7 +72,7 @@ i_rule( get_bank_accountnumber, [
 
 	    ,check(supplier_bank_account_number_raw=SupplierAccount)
 
-    , check(strip_string2_from_string1( SupplierAccount, ` `, SupplierAccount1 ))
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
 
     ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
