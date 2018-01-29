@@ -152,7 +152,7 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
-    , [generic_vertical_details( [ [ `Invoice`, `Number`, tab ], `Invoice`, q(0,1), (start,100, 200), invoice_number, s1, tab ] )
+    , [generic_vertical_details( [ [ `Invoice`, `Number`, tab ], `Invoice`, q(0,1), (start,100, 200), invoice_number_raw, s1, tab ] )
 
         
     , check( invoice_number_raw = InvRaw )
