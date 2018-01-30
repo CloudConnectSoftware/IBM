@@ -106,6 +106,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `1499725400` ), set( chain, `intuit_taulia_facebook` ), trace( [ `This is a Facebook Inc Document` ] ) ]
 
+	   , [ check_text( `0041823212` ), set( chain, `intuit_taulia_gerould` ), trace( [ `This is a Gerould & Player, LLP Document` ] ) ]
+
 
 	] )
 	
