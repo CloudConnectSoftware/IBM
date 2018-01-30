@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% EVOLYTICS LLC
+% IntraEdge, Inc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_evolytics, `29 January, 2018` ).
+i_version( intuit_taulia_intraedge, `30 January, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -58,7 +58,7 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `EVOLYTICS LLC` )
+    sender_name( `IntraEdge, Inc` )
     
    , buyer_dept(`N/A`)
 
@@ -100,7 +100,7 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`EVOLYTICS`, `LLC`])
+       read_ahead([`IntraEdge`, `,`, `Inc`])
 
      , trace( [ `Found address`] )
 
@@ -116,13 +116,22 @@ i_line_rule( line_add_line_2, [
          generic_item( [ supplier_street, s1, newline ] )
 ] ).
 
+
+
 %=======================================================================
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -281)] ] )
+         generic_item( [ supplier_address_line, s1, newline ] )
 
-     , generic_item( [supplier_city_dummy , s , [q10(tab), check(supplier_city_dummy(end) < -250)] ] )
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_line_4, [
+%=======================================================================
+
+     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -333)] ] )
 
      , generic_item( [ supplier_state, w ] )
 
@@ -143,7 +152,7 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `#`, `:` ], invoice_number, d, newline ] )
+    , generic_horizontal_details( [ [ `Invoice`, `#`, `:`], invoice_number, d, newline ] )
 
 
 
@@ -162,7 +171,7 @@ i_rule( get_invoice_date, [
 
      q(0,15,line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `Date`, `:`], invoice_date, date, newline ] )
+   , generic_horizontal_details( [ [`Invoice`, `Date`, `:`], invoice_date, date, newline ] )
 
    
       , check( invoice_date = Deliverydate )
@@ -288,8 +297,6 @@ i_section( get_invoice_lines, [
               
            line_invoice_line
 
-           ,  line_invoice_line1
-
               , line
 
         ] )
@@ -303,7 +310,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
     
-    [`Item`, tab, `Hours`, tab ]
+    [`Item`, tab, `Description`, tab, `Hours` ]
 
     , trace( [ `Found Start line` ] )
 
@@ -325,36 +332,28 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
 
-    generic_item( [ line_descr, s1, tab ] )
+    generic_item( [ line_item, d, tab ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_quantity, d, tab ] )
 
-  , generic_item( [ line_unit_amount, d, newline ] )
-  
-] ).
+  , generic_item( [ line_unit_amount, d ] )
 
-%=======================================================================
-i_line_rule_cut( line_invoice_line1, [
-%=======================================================================
+  , generic_item( [ line_start_date, date, tab ] )
 
-
-    generic_item( [ line_descr, s1, tab ] )
-
-  , generic_item( [ line_quantity, d, tab ] )
-
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , generic_item( [ line_end_date, date, tab ] )
 
   , generic_item( [ line_net_amount, d, newline ] )
   
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
 
-% Mapped on - January 29, 2018
+% Mapped on - January 30, 2018
 % Mapped by - Rohini 
 
 % Updated on   - 

@@ -110,6 +110,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `644-0450` ), set( chain, `intuit_taulia_giact` ), trace( [ `This is a GIACT Systems Document` ] ) ]
 
+	   , [ check_text( `480-240-5240` ), set( chain, `intuit_taulia_intraedge` ), trace( [ `This is a IntraEdge, Inc Document` ] ) ]
+
 
 	] )
 	
