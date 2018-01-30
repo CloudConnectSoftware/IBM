@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_poc_cog_germany , ` 14 November 2017` ).
+i_version( ksb_cog_germany , ` 29 Jan 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,7 +20,7 @@ i_rule_list( [
   
 	get_supplier_details
 
-    , get_supplier_address
+    , get_buyer_address
 
     , get_bank_account_no
 
@@ -65,8 +65,6 @@ i_rule( get_supplier_details, [
     ,supplier_party( `C. Otto Gehrckens GmbH & Co. KG` )
 
     , supplier_vat_number(`DE 134525733`)
-
-    , buyer_registration_number(`KSB001`)
     
     , set(reverse_punctuation_in_numbers)
 
@@ -75,19 +73,24 @@ i_rule( get_supplier_details, [
    
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER ADDRESS
+% Buyer ADDRESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_supplier_address, [
+i_rule( get_buyer_address, [
 %=======================================================================
   
      q(0,10,line)
 
    , line_add_line
+
+   , q(1,2,line)
+
+    ,line_add_line2
 
 ] ).
 
@@ -95,14 +98,24 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`C`, `.`, `Otto`, `Gehrckens`])
+       read_ahead([`KSB`, `AG`])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [supplier_party_dummy , s , [q10(tab), check(supplier_party_dummy(end) < -181)] ] )
+     , generic_item( [buyer_party , s1 , newline ] )
 
-     , generic_item( [ supplier_address_line, s1, newline ] )
+] ).
 
+%=======================================================================
+i_line_rule( line_add_line2, [
+%=======================================================================
+
+
+      generic_item( [buyer_party_address , w, q10(`-`)  ] )
+
+      ,generic_item( [buyer_party_address , d  ] )
+
+     , generic_item( [ buyer_city, w,newline ] )
 
 ] ).
 
