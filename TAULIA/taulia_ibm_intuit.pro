@@ -108,6 +108,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `0041823212` ), set( chain, `intuit_taulia_gerould` ), trace( [ `This is a Gerould & Player, LLP Document` ] ) ]
 
+	   , [ check_text( `644-0450` ), set( chain, `intuit_taulia_giact` ), trace( [ `This is a GIACT Systems Document` ] ) ]
+
 
 	] )
 	
