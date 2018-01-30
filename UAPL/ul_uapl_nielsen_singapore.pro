@@ -112,7 +112,7 @@ q0n(anything)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET BANK ACCOUNT
+% GET    ACCOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -121,9 +121,24 @@ q0n(anything)
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-q(0,100,line)
 
- , generic_horizontal_details( [ [  `Bank`, `A`, `/`, `C`, `No`, `:` ],  supplier_bank_account_number, w, tab ] ) 
+ 
+
+      with( invoice, currency, Currency )
+
+      ,q(0,250,line)
+
+     , or( [
+  
+   [check( Currency = `USD` ) , set(regexp_allow_partial_matching),  generic_horizontal_details( [ [  `Account`, `No`, `.`, `:`,`260` ],  supplier_bank_account_number_raw, w, [`(`, `SGD`, `A`, `/`, `C`, `)`,  newline ] ] ), clear(regexp_allow_partial_matching) ]
+  ,[ check( Currency = `SGD` ) , set(regexp_allow_partial_matching),  generic_horizontal_details( [ [ `SGD`, `A`, `/`, `C`, `No`, `:`, `143` ],  supplier_bank_account_number_raw, w, [`(`, `USD`, `A`, `/`, `C`, `)`,  newline ] ] ) , clear(regexp_allow_partial_matching) ]
+  ,[ check( Currency = `USD` ) , set(regexp_allow_partial_matching),  generic_horizontal_details( [ [ `Bank`, `A`, `/`, `C`, `No`, `:`, `260` ],  supplier_bank_account_number_raw, w, [`(`, `USD`, `A`, `/`, `C`, `)`,  newline ] ] ) , clear(regexp_allow_partial_matching) ]
+  ,[ check( Currency = `EUR` ) , set(regexp_allow_partial_matching), generic_horizontal_details( [ [  `Account`, `No`, `.`, `:` ],  supplier_bank_account_number_raw, w, [`(`, `EUR`, `A`, `/`, `C`, `)`,  newline ] ] ) , clear(regexp_allow_partial_matching) ]
+
+     ])
+  ,check(supplier_bank_account_number_raw=SupplierAccount)
+  , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+  ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ]).
 

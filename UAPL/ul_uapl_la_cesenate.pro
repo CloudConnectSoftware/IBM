@@ -71,8 +71,11 @@ i_rule( get_supplier_bank_account_number, [
 
 	q(0,100,line)
 	
-    ,generic_vertical_details( [ [ `ACCOUNT`, `NUMBER`, `(`, `IBAN`, `)`, `:`], `Account`, q(0,1), (end,20,20), supplier_bank_account_number, w, newline ] )
+    ,generic_vertical_details( [ [ `ACCOUNT`, `NUMBER`, `(`, `IBAN`, `)`, `:`], `Account`, q(0,1), (end,20,20), supplier_iban_rawsu, w, newline ] )
+     
+    , check(supplier_iban_raw= `IT16M0310423900000000820402`)  
 
+    ,generic_item( [ supplier_bank_account_number, `820402` ] )
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

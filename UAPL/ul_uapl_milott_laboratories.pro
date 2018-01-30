@@ -122,17 +122,17 @@ i_rule_cut( get_bank_acct, [
      
      q(0,100,line)
 
-            , or([
+    , or([
                 
-                [ generic_horizontal_details( [ [ `A`, `/`, `C`],supplier_bank_account_number_raw, s1 , newline ] )
+     [ generic_horizontal_details( [ [ `A`, `/`, `C`, `NO`, `.`],supplier_bank_account_number_raw, s1 , newline ] )]
 
-                ,check(supplier_bank_account_number_raw=AccRaw)
+        ])
+                     
+     ,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
 
-                 ,check(AccRaw=`320-2000229-840`)
-
-                 ,supplier_bank_account_number(`3202000229840`), trace( [ `Supplier account number `, supplier_bank_account_number ] )]
-
-                ])
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ] ).
     

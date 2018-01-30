@@ -84,11 +84,17 @@ i_rule( get_bank_account_no, [
     ,trace( [ `currency is`, Currency ] )
 
 	, or([
-        [check( Currency = `USD` ) , generic_horizontal_details( [ [ `Account`, `No`, `:`],  supplier_bank_account_number, s, [`(`, `USD`, `)`, `/`] ] )]
+        [check( Currency = `USD` ) , generic_horizontal_details( [ [ `Account`, `No`, `:`],  supplier_bank_raw, s, [`(`, `USD`, `)`, `/`] ] )]
 
-        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`, `:`, dummy_account(w), `(`, `USD`, `)`, `/` ],  supplier_bank_account_number, w, [`(`, `SGD`, `)`,  newline ] ] )]
+        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`, `:`, dummy_account(w), `(`, `USD`, `)`, `/` ],  supplier_bank_raw, w, [`(`, `SGD`, `)`,  newline ] ] )]
        
     ])
+
+    ,check(supplier_bank_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 	
 
 ] ).

@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , set_credit_note
+
     , get_bank_accountnumber
 
    	, get_invoice_number
@@ -44,6 +46,36 @@ i_rule_list( [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`credit`, `Note`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,7 +107,13 @@ i_rule( get_bank_accountnumber, [
 
     q(0,50,line)
 
-    ,generic_horizontal_details( [ [ `Acc`, `#`, `:` ],  supplier_bank_account_number, w, newline ] )
+    ,generic_horizontal_details( [ [ `Acc`, `#`, `:` ],  supplier_bank_account_number_raw, w, newline ] )
+
+    ,check(supplier_bank_account_number_raw=SupplierAccount)
+
+  , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+  
+  ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 ] ).
 
@@ -92,10 +130,18 @@ i_rule( get_invoice_number, [
 
    q0n(line)
 	
-   	, generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ], invoice_number, d , newline ] )
+   	, or([
+           generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ], invoice_number, d , newline ] )
+
+           ,generic_horizontal_details( [ [ `CR`, `No`, `.`, tab ], invoice_number, d , newline ] )
+
+       ])
   
 
 ] ).
+
+
+  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

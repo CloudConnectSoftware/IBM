@@ -68,6 +68,7 @@ i_rule( get_supplier_detail, [
  
    , supplier_country_code(`US`)
 
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -465,9 +466,9 @@ i_line_rule_cut( line_invoice_disc_line, [
 % Updated by   - Rohini
 % Changes made - Supplier Address
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - January 17,2017
+% Updated by   - Thejaswi K
+% Changes made - New invoice format
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

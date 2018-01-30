@@ -177,24 +177,32 @@ i_rule(get_bank_accountnumber, [
     ,trace( [ `currency is`, Currency ] )
 
     , or([
-        [check( Currency = `USD` ) ,generic_horizontal_details( [ [`BANK`, `ACCOUNT`, `NO`, tab, `:`, tab ], supplier_bank_account_number_raw, w, [`(`, `USD`, `)`] ] )
+        [check( Currency = `USD` ) ,generic_horizontal_details( [ [`BANK`, `ACCOUNT`, `NO`, tab, `:`, tab, `001`, `-` ], supplier_bank_account_number_raw, w, [`(`, `USD`, `)`] ] )]
+
+      , [check( Currency = `SGD` ) ,generic_horizontal_details( [ [`BANK`, `ACCOUNT`, `NO`, tab, `:`, tab, `001`, `-` ], supplier_bank_account_number_raw, w, [`(`, `SGD`, `)`] ] ) ]
+
+       ])
 
     ,check(supplier_bank_account_number_raw=AccRaw)
 
     ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
 
-    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
 
-    , [check( Currency = `SGD` ) ,generic_horizontal_details( [ [`BANK`, `ACCOUNT`, `NO`, tab, `:`, tab ], supplier_bank_account_number_raw, w, [`(`, `SGD`, `)`] ] )
-
-    ,check(supplier_bank_account_number_raw=AccRaw)
-
-    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
-
-    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
-
-    ])
     
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - 25, Jan 2018
+% Updated by   - Thejaswi K
+% Changes made - Bank details
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

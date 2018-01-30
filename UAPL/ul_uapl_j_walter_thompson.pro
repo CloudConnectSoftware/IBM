@@ -75,13 +75,21 @@ i_rule( get_bank_account_no, [
 
      , or( [
   
-[ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Bank`, `Account`, `:`, tab ],  supplier_bank_account_number, w, [`(`, `SGD`, `)`, `/`] ] ) ]
+[ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Bank`, `Account`, `:`, tab ],  supplier_bank_account_number_raw, w, [`(`, `SGD`, `)`, `/`] ] )
+
+,check(supplier_bank_account_number_raw=SupplierAccount)
+    
+, check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+ ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
+
+ ]
 
 
-, [ check( Currency = `USD` ), generic_horizontal_details( [ [`(`, `SGD`, `)`, `/`],  supplier_bank_account_number, w, [`(`, `USD`, `)`,  newline] ] ) ] 
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [`(`, `SGD`, `)`, `/`],  supplier_bank_account_number_raw, w, [`(`, `USD`, `)`,  newline] ] ) ] 
                 
  ] )
-
+   
 ]).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

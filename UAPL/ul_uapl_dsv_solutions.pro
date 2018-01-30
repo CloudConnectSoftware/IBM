@@ -78,7 +78,7 @@ i_rule( get_supplier_bank_account_number, [
 
     ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
 
-    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
+    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number ] )
 
     
 

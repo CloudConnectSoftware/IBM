@@ -20,7 +20,7 @@ i_rule_list( [
   
 	get_supplier_details
 
-    , get_supplier_address
+    , get_buyer_address
 
     , get_bank_account_no
 
@@ -75,6 +75,7 @@ i_rule( get_supplier_details, [
    
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER ADDRESS
@@ -82,12 +83,16 @@ i_rule( get_supplier_details, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_supplier_address, [
+i_rule( get_buyer_address, [
 %=======================================================================
   
      q(0,10,line)
 
    , line_add_line
+
+   , q(1,2,line)
+
+    ,line_add_line2
 
 ] ).
 
@@ -95,13 +100,27 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`C`, `.`, `Otto`, `Gehrckens`])
+       read_ahead([`KSB`, `AG`])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [supplier_party_dummy , s , [q10(tab), check(supplier_party_dummy(end) < -181)] ] )
+     , generic_item( [buyer_party , s1 , tab ] )
 
-     , generic_item( [ supplier_address_line, s1, newline ] )
+     , generic_item( [ supplier_dummy1, s1, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line2, [
+%=======================================================================
+
+
+      generic_item( [buyer_party_address , d  ] )
+
+     , generic_item( [ buyer_city, w,tab ] )
+
+     , generic_item( [ buyer_line_dummy, s1, newline ] )
 
 
 ] ).

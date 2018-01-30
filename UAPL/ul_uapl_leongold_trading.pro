@@ -197,8 +197,6 @@ i_rule( get_total_vat, [
 
    , generic_horizontal_details( [ [`GST`, `:`, tab, `S`, `$` ], 100, total_vat, d, newline ] )
  
-   , generic_item( [ default_vat_rate, `7` ] )
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,8 +244,10 @@ i_section( get_invoice_lines, [
 	, qn0( [ peek_fails(line_end_line)
 		
 		, or( [
+
+            line_shippment
 		
-			line_invoice_line
+			,line_invoice_line
 
             , discount_line
                       
@@ -278,6 +278,24 @@ i_line_rule_cut( line_end_line, [
      , trace( [ `found the end line` ] )
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_shippment, [   
+%=======================================================================
+  
+  read_ahead([q10(`DHL`),`Shipment`])
+
+ , generic_item( [ line_descr, s1, tab ] )
+
+      , generic_item( [ line_quantity, d, [tab, `S`, `$`] ] )
+
+      , generic_item( [ line_unit_amount, d , [tab, `S`, `$`]] )
+
+      , generic_item( [ line_net_amount, d, newline ] )
+
+   
+ 	
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [   
@@ -291,6 +309,8 @@ i_line_rule_cut( line_invoice_line, [
       , generic_item( [ line_unit_amount, d , [tab, `S`, `$`]] )
 
       , generic_item( [ line_net_amount, d, newline ] )
+
+      , q10(line_vat_rate(`7`))
  
  	
 ] ).
@@ -311,4 +331,6 @@ i_line_rule( discount_line, [
   
 
 ] ).
+
+
  

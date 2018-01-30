@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_barwil_dubai, `27/10/2016` ).
+i_version( ul_uapl_barwil_dubai, `22/01/2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,9 +28,11 @@ i_rule_list( [
 
     , get_order_number
 
-	, get_total_invoice
-
     , get_currency
+
+	,get_total_net
+
+     , get_total_invoice
 
     , get_bank_accountnumber
 
@@ -162,6 +164,8 @@ i_rule( get_order_number, [
 
          ,generic_horizontal_details( [ [ `PO`, `NUMBER`, `-` ], order_number, w, newline ] )
 
+         ,generic_horizontal_details( [ [ `PO`, `.`, `NO`, `:`], order_number, w, newline ] )
+
     ])
 
     , check(order_number = OrdNo)
@@ -185,9 +189,43 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
-    , generic_horizontal_details( [ [ `Total` ], 800, total_invoice, d, newline ] )
+    
+     , with( invoice, currency, Currency )
+
+     , check( Currency = `USD` ) 
+
+
+    , generic_horizontal_details( [ [ `Total`,tab, `USD`], 900, total_invoice, d, newline ] )
+
+    
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TOTAL INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_total_net, [
+%=======================================================================
+
+     q0n(line)
+
+    
+     , with( invoice, currency, Currency )
+
+     
+      , check( Currency = `USD` ) 
+
+
+    , generic_horizontal_details( [ [ `Total`,tab, `USD` ], 900, total_net, d, newline ] )
+
+     
 
 
 ] ).
@@ -218,11 +256,13 @@ i_rule( get_currency, [
 i_rule(get_bank_accountnumber, [
 %=======================================================================
 
-    q0n(line)
+    
 
-    , with( invoice, currency, Currency )
+     with( invoice, currency, Currency )
 
     ,trace( [ `currency is`, Currency ] )
+
+    , q0n(line)
 
     , or([
         [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `Acct`, `#`, `.` ],  supplier_bank_account_number, d, or([tab, `IBAN`]) ] )]
@@ -252,7 +292,11 @@ i_rule( get_total_vat, [
 
  qn0(line)
 
-, generic_vertical_details( [ [ `Tax`, `Rate` ], `Tax`, q(0,1), (start,20,20), total_vat, d, tab ] )
+, or([
+    generic_vertical_details( [ [ `Tax`, `Rate` ], `Tax`, q(0,1), (start,20,0), total_vat, d, tab ] )
+
+
+])
   
 ] ).
 
@@ -321,3 +365,20 @@ i_line_rule_cut( line_invoice_line, [
 
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on - December 21, 2017
+% Mapped by - Rohini
+
+
+% Updated on   - January 22, 2018
+% Updated by   - Thejaswi
+% Changes made -  Header totals format change mappped
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

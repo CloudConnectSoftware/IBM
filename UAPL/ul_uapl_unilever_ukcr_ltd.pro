@@ -18,6 +18,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_currency
+
     , get_bank_accountnumber
 	
 	, get_invoice_number
@@ -29,8 +31,6 @@ i_rule_list( [
     , get_total_vat
 
     , get_total_invoice
-
-    , get_currency
 
     , get_line_total_amount
 
@@ -68,9 +68,27 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-    q(0,40,line)
+    q(0,100,line)
 
-    ,generic_horizontal_details( [ [ `IBAN`, `number`],  supplier_bank_account_number, w, tab ] )
+    , with( invoice, currency, Currency )
+
+    
+    , or( [
+  
+[ check( Currency = `GBP` ) , generic_horizontal_details( [ [ `IBAN`, `number`],  supplier_bank_account_number_raw, w, tab ] ) 
+
+  , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`GB17CHAS60924241357055`), generic_item( [ supplier_bank_account_number, `41357055` ] )
+
+ ]
+
+
+, [ check( Currency = `EUR` ) , generic_horizontal_details( [ [ `IBAN`, `number`],  supplier_bank_account_number_raw, w, tab ] ) 
+
+  , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`GB17CHAS60924241357159`), generic_item( [ supplier_bank_account_number, `41357159` ] )
+
+ ] 
+                
+ ] )
 
 ] ).
 
@@ -122,7 +140,7 @@ i_rule( get_total_net, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Net`, tab, generic_item( [ currency, w ] )],110, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Net`, tab, generic_item( [ currency, w ] )],200, total_net, d, newline ] )
 
 
 ] ).
@@ -163,6 +181,23 @@ i_rule( get_total_invoice, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET cURRENCY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+     qn0(line)
+
+    , generic_horizontal_details( [ [ `Total`, `Gross`, tab  ],  currency, w,tab] )
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,3 +229,24 @@ i_rule( get_invoice_lines, [
     , line_descr( `Service Charges` )
 
 ]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 17, 2017
+% Updated by   - Rohini
+% Changes made - Invoice net amount updated
+
+% Updated on   - October 17, 2017
+% Updated by   - Rohini
+% Changes made - Invoice line details
+
+% Updated on   - January 22 , 2018
+% Updated by   - Thejaswi
+% Changes made - BANK ACCOUNT rULES
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

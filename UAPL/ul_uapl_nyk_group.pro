@@ -22,9 +22,7 @@ i_rule_list( [
 
     , get_currency
 
-    ,get_bank_account_no
-	
-	, get_invoice_number
+    , get_invoice_number
 
  	, get_invoice_date
 
@@ -32,7 +30,8 @@ i_rule_list( [
 
 	, get_total_invoice
 
-    
+    ,get_bank_account_no
+        
     , get_invoice_lines
 
 ] ).
@@ -74,12 +73,18 @@ i_rule( get_bank_account_no, [
 
      , or( [
   
-[ check( Currency = `SGD` ) , generic_horizontal_details( [ [  `SGD`, `#`],  supplier_bank_account_number, w, newline ] ) ]
+[ check( Currency = `SGD` ) , generic_horizontal_details( [ [  `SGD`, `#`],  supplier_bank_raw, w, newline ] ) ]
 
 
-, [ check( Currency = `USD` ), generic_horizontal_details( [ [  `USD`, `#`],  supplier_bank_account_number, w, newline ] ) ] 
+, [ check( Currency = `USD` ), generic_horizontal_details( [ [  `USD`, `#`],  supplier_bank_raw, w, newline ] ) ] 
                 
  ] )
+
+ ,check(supplier_bank_raw=SupplierAccount)
+    
+   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+
+    ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
 	
 

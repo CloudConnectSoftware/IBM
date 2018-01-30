@@ -18,6 +18,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_currency
+
     ,get_bank_account_no
 	
 	, get_invoice_number
@@ -32,9 +34,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
-
-    , get_line_total_amount
+     , get_line_total_amount
 
     , get_invoice_lines
 
@@ -72,8 +72,11 @@ i_rule( get_bank_account_no, [
 
 q(0,50,line)
 
- , generic_horizontal_details( [ [ `Beneficiary`, `bank`, `account`, `no`, `.`, tab, `:` ],  supplier_bank_account_number, w, tab ] ) 
-
+ , generic_horizontal_details( [ [ `Beneficiary`, `bank`, `account`, `no`, `.`, tab, `:` ],  supplier_bank_account_number_raw, w, tab ] ) 
+ 
+  ,check(supplier_bank_account_number_raw=SupplierAccount)
+  , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+  ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 ]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
