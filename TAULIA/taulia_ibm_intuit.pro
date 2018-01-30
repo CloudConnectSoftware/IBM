@@ -101,6 +101,12 @@ i_line_rule( buyer_id_line, [
 	   , [ check_text( `816-778-7300` ), set( chain, `intuit_taulia_evolytics` ), trace( [ `This is a EVOLYTICS LLC Document` ] ) ]
 
        , [ check_text( `655-1643` ), set( chain, `intuit_taulia_emmarketing` ), trace( [ `This is a EM Marketing Document` ] ) ]
+
+	   , [ check_text( `14997-25400` ), set( chain, `intuit_taulia_facebook` ), trace( [ `This is a Facebook Inc Document` ] ) ]
+
+	   , [ check_text( `1499725400` ), set( chain, `intuit_taulia_facebook` ), trace( [ `This is a Facebook Inc Document` ] ) ]
+
+
 	] )
 	
 ] ).
