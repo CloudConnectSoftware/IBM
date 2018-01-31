@@ -112,6 +112,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `480-240-5240` ), set( chain, `intuit_taulia_intraedge` ), trace( [ `This is a IntraEdge, Inc Document` ] ) ]
 
+	   , [ check_text( `550-5251` ), set( chain, `intuit_taulia_benz_com` ), trace( [ `This is a BENZ COMMUNICATIONS Document` ] ) ]
+
 
 	] )
 	
