@@ -243,7 +243,7 @@ i_rule( get_currency, [
     
  last_line
 
-    ,q(0,15,up)
+    ,q(0,30,up)
 
      
   % , set(reverse_punctuation_in_numbers)
@@ -253,7 +253,7 @@ i_rule( get_currency, [
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
- , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, tab ] )
+ , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
 
   ])
@@ -278,7 +278,7 @@ i_rule( get_currency, [
     
        last_line
 
-    ,q(0,15,up)
+    ,q(0,30,up)
       
   % , set(reverse_punctuation_in_numbers)
 
@@ -805,10 +805,11 @@ i_line_rule( line_add_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_freight_charges, [
+i_rule_cut( get_freight_charges, [
 %=======================================================================
-  
-     q0n(line)
+  last_line
+
+     , q(0,50,up)
 
    , or([
        line_add_line1
@@ -820,7 +821,7 @@ i_rule( get_freight_charges, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_add_line1, [
+i_line_rule_cut( line_add_line1, [
 %=======================================================================
 
 
@@ -849,7 +850,7 @@ i_line_rule( line_add_line1, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_add_line2, [
+i_line_rule_cut( line_add_line2, [
 %=======================================================================
 
 
@@ -890,6 +891,14 @@ i_line_rule( line_add_line2, [
 % Changes made - Amount format changed hence removed reg expression. New line format mapped.
 
 % Updated on   - January 22, 2018
+% Updated by   - Thejaswi
+% Changes made - Line format changed
+
+% Updated on   - January 29, 2018
+% Updated by   - Thejaswi
+% Changes made - Line format changed
+
+% Updated on   - January 31, 2018
 % Updated by   - Thejaswi
 % Changes made - Line format changed
 
