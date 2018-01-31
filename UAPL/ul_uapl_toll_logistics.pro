@@ -282,6 +282,12 @@ i_rule( get_total_vat, [
 
     generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 250, total_vat, d, newline  ] )
 
+
+    ,generic_horizontal_details( [ [ `GST`, `of`, `7`, `%`, tab, dummy_num(d) ], 250, total_vat, d, newline  ] )
+
+
+
+
     ,generic_horizontal_details( [ [ `ADD`, `GST`, tab ],  total_vat, d, newline ] )
 
    

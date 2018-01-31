@@ -157,7 +157,7 @@ i_rule( get_order_number, [
 
         , generic_horizontal_details( [ [  `Consignee`, `Number`, tab, `:`, tab, dummy_word(w), `;` ], order_number, d,  newline ] )
 
-        , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab), dummy_word(w),q10(dummy_word1(w)), `;` ], order_number, d,  newline ] )
+        , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab), dummy_word(w),q10(dummy_word1(w)), q10(`;`) ], order_number, d,  newline ] )
 
 , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
         ])
@@ -253,7 +253,7 @@ i_rule( get_currency, [
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
- , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
+ , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, tab ] )
 
 
   ])
@@ -679,9 +679,9 @@ i_line_rule_cut( line_desc_commodity_line, [
 %=======================================================================
 
 
-      generic_item( [ line_commodity_code, d, tab ] )
+      generic_item( [ line_commodity_code, d, or([tab,newline]) ] )
 
-      ,generic_item( [ line_descr, s1, newline ]  )
+      ,q10(generic_item( [ line_descr, s1, newline ]  ))
 
 
 ] ).
