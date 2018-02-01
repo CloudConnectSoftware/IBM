@@ -157,7 +157,7 @@ i_rule( get_order_number, [
 
         , generic_horizontal_details( [ [  `Consignee`, `Number`, tab, `:`, tab, dummy_word(w), `;` ], order_number, d,  newline ] )
 
-        , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab), dummy_word(w),q10(dummy_word1(w)), `;` ], order_number, d,  newline ] )
+        , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab), dummy_word(w),q10(dummy_word1(w)), q10(`;`) ], order_number, d,  newline ] )
 
 , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
         ])
@@ -243,7 +243,7 @@ i_rule( get_currency, [
     
  last_line
 
-    ,q(0,15,up)
+    ,q(0,30,up)
 
      
   % , set(reverse_punctuation_in_numbers)
@@ -278,7 +278,7 @@ i_rule( get_currency, [
     
        last_line
 
-    ,q(0,15,up)
+    ,q(0,30,up)
       
   % , set(reverse_punctuation_in_numbers)
 
@@ -679,9 +679,9 @@ i_line_rule_cut( line_desc_commodity_line, [
 %=======================================================================
 
 
-      generic_item( [ line_commodity_code, d, tab ] )
+      generic_item( [ line_commodity_code, d, or([tab,newline]) ] )
 
-      ,generic_item( [ line_descr, s1, newline ]  )
+      ,q10(generic_item( [ line_descr, s1, newline ]  ))
 
 
 ] ).
@@ -805,10 +805,11 @@ i_line_rule( line_add_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_freight_charges, [
+i_rule_cut( get_freight_charges, [
 %=======================================================================
-  
-     q0n(line)
+  last_line
+
+     , q(0,50,up)
 
    , or([
        line_add_line1
@@ -820,7 +821,7 @@ i_rule( get_freight_charges, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_add_line1, [
+i_line_rule_cut( line_add_line1, [
 %=======================================================================
 
 
@@ -849,7 +850,7 @@ i_line_rule( line_add_line1, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_add_line2, [
+i_line_rule_cut( line_add_line2, [
 %=======================================================================
 
 
@@ -890,6 +891,14 @@ i_line_rule( line_add_line2, [
 % Changes made - Amount format changed hence removed reg expression. New line format mapped.
 
 % Updated on   - January 22, 2018
+% Updated by   - Thejaswi
+% Changes made - Line format changed
+
+% Updated on   - January 29, 2018
+% Updated by   - Thejaswi
+% Changes made - Line format changed
+
+% Updated on   - January 31, 2018
 % Updated by   - Thejaswi
 % Changes made - Line format changed
 

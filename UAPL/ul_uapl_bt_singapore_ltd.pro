@@ -71,7 +71,7 @@ i_rule( get_supplier_details, [
 
     ] ).
 
-         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET BANK ACCOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,14 +88,14 @@ i_rule( get_bank_account_no, [
 
      , or( [
   
-[ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `SGD`, `A`, `/`, `C`, `No`, `:`, tab ],  supplier_bank_account_number_raw, w, newline ] ) 
+   [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `SGD`, `A`, `/`, `C`, `No`, `:`, tab ],  supplier_bank_account_number_raw, w, newline ] ) 
 
   , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`041-578238-001`), generic_item( [ supplier_bank_account_number, `578238001` ] )
 
- ]
+   ]
 
 
-, [ check( Currency = `USD` ), generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `No`, `:`, tab],  supplier_bank_account_number_raw, w, newline ] ) 
+,   [ check( Currency = `USD` ), generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `No`, `:`, tab],  supplier_bank_account_number_raw, w, newline ] ) 
 
   , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`260-387295-180`), generic_item( [ supplier_bank_account_number, `260387295180` ] )
 

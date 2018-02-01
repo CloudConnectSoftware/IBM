@@ -98,33 +98,32 @@ q0n(anything)
 
 ] ).
 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET BANK DETAILS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %=======================================================================
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-	q(0,100,line)
+	q(0,250,line)
 
-    ,  or( [
+     , with( invoice, currency, Currency )
 
-    
-	  [generic_vertical_details( [ [`Bank`, `Details`, `:`], `Details`, q(1,2), (end,50,50),supplier_bank_account_number_raw, w, newline ] )
+     , or( [
+  
+     [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `A`, `/`, `C`, `No`, `.`,q10(tab) ],  supplier_bank_account_number, w, [`(`, `SGD`, `)`,  newline] ] ) ]
+
+    ,[ check( Currency = `USD` ), generic_horizontal_details( [ [ `A`, `/`, `C`, `No`, `.`, q10(tab)],  supplier_bank_account_number, w, `(`, `USD`, `)`,  newline ] ) ]
+                
+          ] )
 	
-    ,check(supplier_bank_account_number_raw=AccRaw)
-
-    ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
-
-    ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )]
-
-
-    ] )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -202,7 +201,7 @@ i_rule_cut( get_invoice_date, [
 
      ,  or( [
 
-      generic_horizontal_details( [ [ q10(`Invoice`), `Date`,q10(tab), `:`, q1(tab) ],  invoice_date, date, newline ] )
+      generic_horizontal_details( [ [ q10(`Invoice`), `Date`,q10(tab), `:`, q10(tab) ],  invoice_date, date, newline ] )
 
     ,  generic_horizontal_details( [ [ q10(`Credit`), `Date`,tab, `:` ], 100, invoice_date, date, newline ] )  
 
@@ -229,6 +228,8 @@ i_rule_cut( get_line_buyers_order_number, [
           generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  line_buyers_order_number, d, newline ] )
 
       ,  generic_horizontal_details( [ [ `Account`, `No`, tab, `:`, tab ], 100, line_buyers_order_number, w, newline ] )
+
+      ,  generic_horizontal_details( [ [ `PO`, `No`, tab, `:`, tab ], 100, line_buyers_order_number, w, newline ] )
 
        ] )
 
@@ -259,6 +260,8 @@ i_rule( get_total_net, [
 
           generic_horizontal_details( [ [ `Subtotal` ],350, total_net,d, newline ] )
 
+          ,generic_horizontal_details( [ [ `Amount`, `EXCLUDING`, `GST` ],500, total_net,d, newline ] )
+
      
    ] )
 
@@ -281,6 +284,10 @@ i_rule( get_total_vat, [
       
 
     generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 250, total_vat, d, newline  ] )
+
+
+    ,generic_horizontal_details( [ [ `GST`, `of`, `7`, `%`, tab, dummy_num(d) ], 250, total_vat, d, newline  ] )
+
 
     ,generic_horizontal_details( [ [ `ADD`, `GST`, tab ],  total_vat, d, newline ] )
 
@@ -305,6 +312,8 @@ i_rule( get_total_invoice, [
     , or([ 
         
        generic_horizontal_details( [ [ `Amount`, `DUE`],350, total_invoice, d, newline] )
+
+       ,generic_horizontal_details( [ [ `Grand`, `Total`],800, total_invoice, d, newline] )
 
     
 
