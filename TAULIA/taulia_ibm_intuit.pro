@@ -114,6 +114,12 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `550-5251` ), set( chain, `intuit_taulia_benz_com` ), trace( [ `This is a BENZ COMMUNICATIONS Document` ] ) ]
 
+	   , [ check_text( `223-8300` ), set( chain, `intuit_taulia_high_tech` ), trace( [ `This is a High Tech Connect, LLC Document` ] ) ]
+
+	   , [ check_text( `023950840` ), set( chain, `intuit_taulia_silverback` ), trace( [ `This is a Silverback Data Center Solutions, Inc Document` ] ) ]
+
+	   , [ check_text( `432-7220` ), set( chain, `intuit_taulia_softclouds` ), trace( [ `This is a SoftClouds_LLC Document` ] ) ]
+
 
 	] )
 	
