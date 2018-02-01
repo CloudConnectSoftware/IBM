@@ -118,6 +118,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `023950840` ), set( chain, `intuit_taulia_silverback` ), trace( [ `This is a Silverback Data Center Solutions, Inc Document` ] ) ]
 
+	   , [ check_text( `432-7220` ), set( chain, `intuit_taulia_softclouds` ), trace( [ `This is a SoftClouds_LLC Document` ] ) ]
+
 
 	] )
 	
