@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Jeff Herman Consulting, LLC
+% Tangible UX, LLC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(intuit_taulia_jeff_herman, `2 Feb, 2018` ).
+i_version(intuit_taulia_tangible, `2 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -21,8 +21,6 @@ i_rule_list( [
       get_supplier_detail
 
     , get_supplier_address
-
-    , get_supplier_address1
 
     , get_bank_accountnumber
  
@@ -60,7 +58,7 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Jeff Herman Consulting, LLC` )
+    sender_name( `Tangible UX, LLC` )
        
    , buyer_dept(`N/A`)
 
@@ -87,7 +85,7 @@ i_rule( get_supplier_address, [
 
    , line_add_line
 
-   , q(0,1,line)
+   , q(2,3,line)
 
    , line_add_line_2
 
@@ -102,7 +100,7 @@ i_line_rule( line_add_line, [
 %=======================================================================
 
            
-         read_ahead([`Jeff`, `Herman`, `Consulting`, `,`, `LLC`])
+         read_ahead([`Tangible`, `UX`, `,`, `LLC`])
 
      , trace( [ `Found address`] )
 
@@ -125,17 +123,20 @@ i_line_rule( line_add_line_3, [
 %=======================================================================
 
 
-       generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -315)] ] )
+       generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -372)] ] )
 
-     , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < -288)] ] )
+     , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < -345)] ] )
 
      , generic_item( [ supplier_state, w ] )
 
-     , generic_item( [ supplier_postcode, d, newline ] )
+     , generic_item( [ supplier_postcode, d, tab ] )
+
+     , generic_item( [ supplier_dummy, s1, tab ] )
+
+     , generic_item( [ supplier_dummy1, s1, newline ] )
 
    
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -149,19 +150,7 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
-    ,  [generic_horizontal_details( [ [`INVOICE`, `#` ], invoice_number_raw, s1, newline ] )
-
-        , check( invoice_number_raw = InvoiceRaw )
-
-    , trace( [ `Invoice number raw` , InvoiceRaw ] )
-
-    , check(string_string_replace( InvoiceRaw, ` `, ``, InvoiceStrip ))
-
-    , trace( [ `Invoice Stripped Space` , InvoiceStrip ] )
-
-    , invoice_number(InvoiceStrip)
-
-, trace( [ `Invoice Number` , invoice_number ] )  ]
+    ,  generic_vertical_details( [ [`Invoice`, `#` ], `Invoice`, q(0,1), (start,300,400), invoice_number, s1, newline ] )
 
 
 
@@ -180,7 +169,7 @@ i_rule( get_invoice_date, [
 
      q(0,15,line)
 
-   , generic_horizontal_details( [ [ tab, `DATE` ], invoice_date,date, newline ] )
+   , generic_vertical_details( [ [ `Date`, tab ], `Date`, q(0,1), (start,200,300), invoice_date, date, tab ] )
 
    
       , check( invoice_date = Deliverydate )
@@ -204,9 +193,9 @@ i_rule( get_invoice_date, [
 i_rule( get_due_date, [
 %=======================================================================
    
-   q(0,50,line)
+   q(0,10,line)
 	
-	, generic_horizontal_details( [ [`DUE`, `DATE`], due_date, date, newline ] )
+	, generic_vertical_details( [ [ `Due`, `Date` ], `Due`, q(0,2), (start,200,300), due_date, date, newline ] )
 
 ] ).
 
@@ -222,7 +211,7 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-  , generic_horizontal_details( [ [`PO`, `#`, `:` ], po_number, d ,tab ] )
+  , generic_vertical_details( [ [`P`, `.`, `O`, `.`, `Number` ], `Number`, q(0,1), (start,300,400), porder_number, d, tab ] )
 
 
 ] ).
@@ -237,9 +226,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,30,line)
+q(0,50,line)
 
-,[generic_vertical_details( [ [ `BALANCE`, `DUE` ], `BALANCE`, q(0,1), (start,300,400), total_invoice, d, newline ] )
+,[generic_horizontal_details( [ [ `Total`, tab, `$` ], total_invoice, d, newline ] )
 
    , check( total_invoice = TotInv )
 
@@ -277,7 +266,7 @@ i_line_rule( invoice_currency, [
 
 q0n(anything)
 
-,[ `$`]
+,[`Total`, tab, `$`]
 
 ,currency( `USD` ) 
 
@@ -318,7 +307,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
     
-    [`ACTIVITY`, tab, `QTY`, tab ]
+    [`Activity`, tab, `Quantity`, tab ]
 
     , trace( [ `Found Start line` ] )
 
@@ -328,7 +317,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-       [`PO`, `#`, `:`]
+       [`Total`, tab, `$`]
 
      , trace( [ `Found End line` ] )
 

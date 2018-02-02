@@ -122,6 +122,9 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `468-3995` ), set( chain, `intuit_taulia_jeff_herman` ), trace( [ `This is a Jeff Herman Consulting, LLC Document` ] ) ]
 
+	   , [ check_text( `282-5296` ), set( chain, `intuit_taulia_tangible` ), trace( [ `This is a Tangible UX, LLC Document` ] ) ]
+
+
 
 
 	] )
