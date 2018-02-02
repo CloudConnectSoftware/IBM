@@ -132,6 +132,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `133891517` ), set( chain, `intuit_taulia_deloittetouche` ), trace( [ `This is a Deloitte & Touche LLP Document` ] ) ]
 
+	   , [ check_text( `861065772` ), set( chain, `intuit_taulia_deloittetax` ), trace( [ `This is a Deloitte Tax LLP Document` ] ) ]
+
 
 
 
