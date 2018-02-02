@@ -12,6 +12,7 @@ i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
+i_op_param( us_invoice, _, _, _, _).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [

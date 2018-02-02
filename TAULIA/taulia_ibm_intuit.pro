@@ -26,7 +26,11 @@ i_rule( select_buyer, [
 		[ q0n(line), buyer_id_line ]
 	
 		, [ q0n(line), quickbooks_id_line ]
+
 	
+		, [ q0n(line) , abo_vo_identify_rule ]
+	
+
 	] )
 
 ] ).
@@ -157,3 +161,26 @@ i_line_rule( quickbooks_id_line, [
 	] )
 	
 ] ).
+
+%=======================================================================
+i_rule( abo_vo_identify_rule, [
+%=======================================================================
+
+    check_line_abovo
+
+    , set(chain,`intuit_taulia_ab_ovo`)
+
+    , trace( [ `THIS IS A Ab Ovo Inc DOCUMENT` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( check_line_abovo, [ or([
+%=======================================================================
+   check_text(`AbOvoInc`)
+ , check_text(`2320`)
+ , check_text(`95051`)
+
+
+  ]) ] ).
