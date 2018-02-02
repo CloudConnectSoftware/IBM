@@ -138,6 +138,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `8005178268` ), set( chain, `intuit_taulia_matchpoint` ), trace( [ `This is a MatchPoint Solutions Document` ] ) ]
 
+	   , [ check_text( `1-800-564-2688` ), set( chain, `intuit_taulia_real_world` ), trace( [ `This is a Real World Training Document` ] ) ]
+
 
 
 
