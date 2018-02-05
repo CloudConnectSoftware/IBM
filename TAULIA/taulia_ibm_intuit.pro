@@ -26,7 +26,11 @@ i_rule( select_buyer, [
 		[ q0n(line), buyer_id_line ]
 	
 		, [ q0n(line), quickbooks_id_line ]
+
 	
+		, [ q0n(line) , abo_vo_identify_rule ]
+	
+
 	] )
 
 ] ).
@@ -118,7 +122,25 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `023950840` ), set( chain, `intuit_taulia_silverback` ), trace( [ `This is a Silverback Data Center Solutions, Inc Document` ] ) ]
 
-	   , [ check_text( `432-7220` ), set( chain, `intuit_taulia_softclouds` ), trace( [ `This is a SoftClouds_LLC Document` ] ) ]
+	   , [ check_text( `432-7220` ), set( chain, `intuit_taulia_softclouds` ), trace( [ `This is a SoftClouds LLC Document` ] ) ]
+
+	   , [ check_text( `468-3995` ), set( chain, `intuit_taulia_jeff_herman` ), trace( [ `This is a Jeff Herman Consulting, LLC Document` ] ) ]
+
+	   , [ check_text( `282-5296` ), set( chain, `intuit_taulia_tangible` ), trace( [ `This is a Tangible UX, LLC Document` ] ) ]
+
+	   , [ check_text( `13-5565207` ), set( chain, `intuit_taulia_kpmg` ), trace( [ `This is a KPMG LLP Document` ] ) ]
+
+	   , [ check_text( `133891517` ), set( chain, `intuit_taulia_deloittetouche` ), trace( [ `This is a Deloitte & Touche LLP Document` ] ) ]
+
+	   , [ check_text( `861065772` ), set( chain, `intuit_taulia_deloittetax` ), trace( [ `This is a Deloitte Tax LLP Document` ] ) ]
+
+	   , [ check_text( `528-0570` ), set( chain, `intuit_taulia_lexis` ), trace( [ `This is a LexisNexis Risk Solutions Document` ] ) ]
+
+	   , [ check_text( `8005178268` ), set( chain, `intuit_taulia_matchpoint` ), trace( [ `This is a MatchPoint Solutions Document` ] ) ]
+
+	   , [ check_text( `1-800-564-2688` ), set( chain, `intuit_taulia_real_world` ), trace( [ `This is a Real World Training Document` ] ) ]
+
+
 
 
 	] )
@@ -149,3 +171,26 @@ i_line_rule( quickbooks_id_line, [
 	] )
 	
 ] ).
+
+%=======================================================================
+i_rule( abo_vo_identify_rule, [
+%=======================================================================
+
+    check_line_abovo
+
+    , set(chain,`intuit_taulia_ab_ovo`)
+
+    , trace( [ `THIS IS A Ab Ovo Inc DOCUMENT` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( check_line_abovo, [ or([
+%=======================================================================
+   check_text(`AbOvoInc`)
+ , check_text(`2320`)
+ , check_text(`95051`)
+
+
+  ]) ] ).
