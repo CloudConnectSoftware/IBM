@@ -144,6 +144,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `4044756550` ), set( chain, `intuit_taulia_sally` ), trace( [ `This is a  Sally Williamson & Associates, Inc  Document` ] ) ]
 
+       , [ check_text( `0052021029` ), set( chain, `intuit_taulia_switch` ), trace( [ `This is a  Switch, Ltd  Document` ] ) ]
+
 
 
 
