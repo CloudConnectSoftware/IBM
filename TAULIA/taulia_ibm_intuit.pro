@@ -28,15 +28,15 @@ i_rule( select_buyer, [
 		 
 		
 	
-		, [ q0n(line), abvoinc_chain_rule]
+		,% [ q0n(line), abvoinc_chain_rule]
 
 		 	
-		, [ q0n(line) , interactions_chain_rule ]
+		,% [ q0n(line) , interactions_chain_rule ]
 
 		
-		, [ q0n(line) , brandglue_chain_rule ]
+		,% [ q0n(line) , brandglue_chain_rule ]
 
-	    , [ q0n(line) , cbi_chain_rule ]
+	    , %[ q0n(line) , cbi_chain_rule ]
 
 		
 
@@ -160,6 +160,8 @@ i_line_rule( buyer_id_line, [
        , [ check_text( `0052021029` ), set( chain, `intuit_taulia_switch` ), trace( [ `This is a  Switch, Ltd  Document` ] ) ]
 
 	   , [ check_text( `30579543` ), set( chain, `intuit_taulia_yahoo` ), trace( [ `This is a Yahoo, Inc  Document` ] ) ]
+
+	   , [ check_text( `2873602` ), set( chain, `intuit_taulia_hewitt` ), trace( [ `This is a Hewitt Associates LLC  Document` ] ) ]
 
 
 
