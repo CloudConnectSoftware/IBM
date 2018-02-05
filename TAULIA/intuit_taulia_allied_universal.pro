@@ -36,9 +36,9 @@ i_rule_list( [
 
     , get_order_number
     
-    , get_total_net
+    , % get_total_net
 
-    , get_total_vat
+    , % get_total_vat
 
     , get_total_invoice
 
@@ -258,7 +258,25 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
- q(0,50,line)
+
+  q(0,50,line)
+
+ ,or([
+ 
+  
+
+ generic_vertical_details( [ [ `Total`, `Amount`, `Due`  ], `Total`, q(0,4,up), (start,800,200), total_net, d, newline ] )
+
+  ,generic_horizontal_details( [ [`Subtotal`, tab ],  total_net, d, newline ] )
+
+])
+
+ , q(0,1,line)
+
+ 
+ ,generic_horizontal_details( [ [`Sales`, `Tax` ],  total_vat, d, newline ] )
+
+ , q(0,1,line)
 
 ,generic_vertical_details( [ [ `Total`, `Amount`, `Due` ], `Total`, q(0,1), (start,250, 350 ), total_invoice, d, newline ] )
 
