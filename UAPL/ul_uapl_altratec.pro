@@ -396,7 +396,7 @@ i_rule( get_total_net, [
 
           , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
-          , [test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_net, d, newline ] ) ]
+          , [test(debit_note), generic_horizontal_details( [ [ `Total`, tab,q10(`:`), tab ] , total_net, d, newline ] ) ]
 
 
     ])
