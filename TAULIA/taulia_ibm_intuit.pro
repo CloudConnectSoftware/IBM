@@ -28,7 +28,7 @@ i_rule( select_buyer, [
 		, [ q0n(line), quickbooks_id_line ]
 
 	
-		, [ q0n(line) , abo_vo_identify_rule ]
+		, [ q0n(line) , interactions_identify_rule ]
 	
 
 	] )
@@ -140,6 +140,14 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `1-800-564-2688` ), set( chain, `intuit_taulia_real_world` ), trace( [ `This is a Real World Training Document` ] ) ]
 
+	   , [ check_text( `140019613` ), set( chain, `intuit_taulia_clarity` ), trace( [ `This is a Clarity Consultants  Document` ] ) ]
+
+	   , [ check_text( `4044756550` ), set( chain, `intuit_taulia_sally` ), trace( [ `This is a  Sally Williamson & Associates, Inc  Document` ] ) ]
+
+       , [ check_text( `0052021029` ), set( chain, `intuit_taulia_switch` ), trace( [ `This is a  Switch, Ltd  Document` ] ) ]
+
+	   , [ check_text( `30579543` ), set( chain, `intuit_taulia_yahoo` ), trace( [ `This is a Yahoo, Inc  Document` ] ) ]
+
 
 
 
@@ -173,24 +181,28 @@ i_line_rule( quickbooks_id_line, [
 ] ).
 
 %=======================================================================
-i_rule( abo_vo_identify_rule, [
+i_rule( interactions_identify_rule, [
 %=======================================================================
 
-    check_line_abovo
+    check_line_1
 
-    , set(chain,`intuit_taulia_ab_ovo`)
+    , check_line_2
 
-    , trace( [ `THIS IS A Ab Ovo Inc DOCUMENT` ] )
+    , q10(check_line_3)
+
+    , check_line_4
+
+    , set(chain,`intuit_taulia_interactions`)
+
+    , trace( [ `THIS IS A INTERACTIONS LLC DOCUMENT` ] )
 
 ] ).
-
-
 %=======================================================================
-i_line_rule( check_line_abovo, [ or([
+i_line_rule( check_line_1, [ check_text(`Terms`)] ).
 %=======================================================================
-   check_text(`AbOvoInc`)
- , check_text(`2320`)
- , check_text(`95051`)
-
-
-  ]) ] ).
+i_line_rule( check_line_2, [ check_text( `P.O.No.`)] ).
+%=======================================================================
+i_line_rule( check_line_3, [ check_text(`SuiteE`)] ).
+%=======================================================================
+i_line_rule( check_line_4, [ check_text(`Franklin,MA02038`)] ).
+%=======================================================================
