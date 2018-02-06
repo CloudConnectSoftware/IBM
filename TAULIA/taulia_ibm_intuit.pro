@@ -171,6 +171,9 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `52-2121493` ), set( chain, `intuit_taulia_aol` ), trace( [ `This is a AOL Advertising Inc Document` ] ) ]
 
+	   , [ check_text( `20-5056422` ), set( chain, `intuit_taulia_phenomenon` ), trace( [ `This is a Phenomenon Marketing & Entertainment, Inc Document` ] ) ]
+
+
 
 	] )
 	
