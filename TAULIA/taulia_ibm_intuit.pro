@@ -169,7 +169,7 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `84-1302031` ), set( chain, `intuit_taulia_payreel` ), trace( [ `This is a PayReel Document` ] ) ]
 
-
+	   , [ check_text( `52-2121493` ), set( chain, `intuit_taulia_aol` ), trace( [ `This is a AOL Advertising Inc Document` ] ) ]
 
 
 	] )
