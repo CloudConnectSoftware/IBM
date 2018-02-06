@@ -24,11 +24,24 @@ i_rule( select_buyer, [
 	or( [
 	
 		[ q0n(line), buyer_id_line ]
-	
-		, [ q0n(line), quickbooks_id_line ]
 
+		 
+		
 	
-		, [ q0n(line) , interactions_identify_rule ]
+		,% [ q0n(line), abvoinc_chain_rule]
+
+		 	
+		,% [ q0n(line) , interactions_chain_rule ]
+
+		
+		,% [ q0n(line) , brandglue_chain_rule ]
+
+	    , %[ q0n(line) , cbi_chain_rule ]
+
+		
+
+		 , [ q0n(line), quickbooks_id_line ]
+		
 	
 
 	] )
@@ -148,6 +161,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `30579543` ), set( chain, `intuit_taulia_yahoo` ), trace( [ `This is a Yahoo, Inc  Document` ] ) ]
 
+	   , [ check_text( `2873602` ), set( chain, `intuit_taulia_hewitt` ), trace( [ `This is a Hewitt Associates LLC  Document` ] ) ]
+
 
 
 
@@ -180,29 +195,88 @@ i_line_rule( quickbooks_id_line, [
 	
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AB VO 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %=======================================================================
-i_rule( interactions_identify_rule, [
+i_line_rule( abvoinc_chain_rule, [
 %=======================================================================
 
-    check_line_1
+	q0n(anything)
 
-    , check_line_2
+	, or( [
 
-    , q10(check_line_3)
+		[ `Ab`, `Ovo`, `Inc`,  newline, set(chain, `intuit_taulia_ab_ovo`), trace([`Ab Ovo Inc`]) ]
 
-    , check_line_4
+		, [ `Invoice`,  newline, set(chain, `intuit_taulia_ab_ovo`), trace([`Ab Ovo Inc` ])  ]
 
-    , set(chain,`intuit_taulia_interactions`)
+		, [ `2320`, `-`, `G`, `,`, `Walsh`, `Ave`,  newline, set(chain, `intuit_taulia_ab_ovo`), trace([`Ab Ovo Inc` ])  ]
 
-    , trace( [ `THIS IS A INTERACTIONS LLC DOCUMENT` ] )
 
+	] )
+	
 ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Interactions LLC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %=======================================================================
-i_line_rule( check_line_1, [ check_text(`Terms`)] ).
+i_line_rule( interactions_chain_rule, [
 %=======================================================================
-i_line_rule( check_line_2, [ check_text( `P.O.No.`)] ).
+
+	q0n(anything)
+
+	, or( [
+
+		[ `Remit`, `Payments`, `to`, `:`,  newline, set(chain, `intuit_taulia_interactions`), trace([`Interactions LLC`]) ]
+
+		, [ `Interactions`, `LLC`,  newline, set(chain, `intuit_taulia_interactions`), trace([`Interactions LLC` ])  ]
+
+		, [`Dept`, `3443`,  newline,   set(chain, `intuit_taulia_interactions`), trace([`Interactions LLC` ])  ]
+
+        , [`P`, `.`, `O`, `.`, `Box`, `123443`,  newline,   set(chain, `intuit_taulia_interactions`), trace([`Interactions LLC` ])  ]
+
+		, [`Dallas`, `,`, `TX`, `75312`, `-`, `3443`,  newline,   set(chain, `intuit_taulia_interactions`), trace([`Interactions LLC` ])  ]
+
+	] )
+	
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BrandGlue
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %=======================================================================
-i_line_rule( check_line_3, [ check_text(`SuiteE`)] ).
+i_line_rule( brandglue_chain_rule, [
 %=======================================================================
-i_line_rule( check_line_4, [ check_text(`Franklin,MA02038`)] ).
-%=======================================================================
+
+	q0n(anything)
+
+	, or( [
+
+		[`BrandGlue`,  newline, set(chain, `intuit_taulia_brandglue`), trace([`Brandglue`]) ]
+
+		, [`P`, `.`, `O`, `.`, `Box`, `5531`,  newline, set(chain, `intuit_taulia_brandglue`), trace([`Brandglue` ])  ]
+
+		, [`Bellingham`, `WA`, `98227`,  newline,   set(chain, `intuit_taulia_brandglue`), trace([`Brandglue` ])  ]
+
+        , [`Intuit`, `Accountants`, tab, `Invoice`, `#`, tab,   set(chain, `intuit_taulia_brandglue`), trace([`Brandglue` ])  ]
+
+	
+
+	] )
+	
+] ).
+
