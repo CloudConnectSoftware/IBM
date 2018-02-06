@@ -40,7 +40,7 @@ i_rule_list( [
 
     , get_total_net
 
-    , get_total_vat
+    %, get_total_vat
 
    % , get_total_invoice
 
