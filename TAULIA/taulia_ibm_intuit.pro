@@ -184,6 +184,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `435-773-1500` ), set( chain, `intuit_taulia_mager` ), trace( [ `This is a Mager Consortium, LLC Document` ] ) ]
 
+	  , [ check_text( `267115458` ), set( chain, `intuit_taulia_theoutcast` ), trace( [ `This is a The OutCast Agency LLC Document` ] ) ]
+
 
 
 	] )
