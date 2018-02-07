@@ -259,26 +259,31 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
 
-  q(0,50,line)
+  q(0,100,line)
 
  ,or([
  
   
 
- generic_vertical_details( [ [ `Total`, `Amount`, `Due`  ], `Total`, q(0,4,up), (start,800,200), total_net, d, newline ] )
+  generic_vertical_details( [ [ `Subtotal`,  newline  ], `Subtotal`, q(0,2), (start,100,300), total_net, d, newline ] )
 
-  ,generic_horizontal_details( [ [`Subtotal`, tab ],  total_net, d, newline ] )
+  , generic_horizontal_details( [ [`Subtotal`, tab ],  total_net, d, newline ] )
 
 ])
 
  , q(0,1,line)
 
- 
- ,generic_horizontal_details( [ [`Sales`, `Tax` ],  total_vat, d, newline ] )
+ ,or([
+
+  generic_horizontal_details( [ [`Sales`, `Tax` ],  total_vat, d, newline ] )
+
+ , generic_vertical_details( [ [ `Sales`, `Tax`,  newline  ], `Sales`, q(0,1), (start,100,300), total_vat, d, newline ] )
+
+ ])
 
  , q(0,1,line)
 
-,generic_vertical_details( [ [ `Total`, `Amount`, `Due` ], `Total`, q(0,1), (start,250, 350 ), total_invoice, d, newline ] )
+, generic_vertical_details( [ [ `Total`, `Amount`, `Due` ], `Total`, q(0,1), (start,250, 350 ), total_invoice, d, newline ] )
 
 
 ] ).
