@@ -186,6 +186,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `267115458` ), set( chain, `intuit_taulia_theoutcast` ), trace( [ `This is a The OutCast Agency LLC Document` ] ) ]
 
+	  , [ check_text( `1233009797` ), set( chain, `intuit_taulia_cvs_caremark` ), trace( [ `This is a CVS/Caremark Document` ] ) ]
+
 
 
 	] )
