@@ -203,7 +203,7 @@ i_rule( get_total_invoice, [
 
     q0n(line)
 
-     , generic_horizontal_details( [ [ `TOTAL`, `:`  ], 120 , total_invoice, d, newline ] )
+     , generic_horizontal_details( [ [ `TOTAL`, `:`  ], 200 , total_invoice, d, newline ] )
 
      , check( total_invoice = TotInv )
 
