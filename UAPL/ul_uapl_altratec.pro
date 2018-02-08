@@ -422,13 +422,13 @@ i_rule( get_total_invoice, [
 
               [test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
               
-                 %, check( total_invoice = TotInv )
+                 , check( total_invoice = TotInv )
 
-                 %, trace( [ `Total Inv` , TotInv] )
+                 , trace( [ `Total Inv` , TotInv] )
 
-                  %, total_net(TotInv)
+                  , total_net(TotInv)
 
-                  %, trace( [ `Freight Total net` , total_net] ) 
+                  , trace( [ `Freight Total net` , total_net] ) 
               ]
           
                ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
