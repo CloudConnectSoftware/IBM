@@ -203,6 +203,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `935114660` ), set( chain, `intuit_taulia_tangtoe` ), trace( [ `This is a Tangoe, Inc  Document` ] ) ]
 
 	  , [ check_text( `24-419665` ), set( chain, `intuit_taulia_weiden` ), trace( [ `This is a Wieden + Kennedy  Document` ] ) ]
+
+	  , [ check_text( `12330-24344` ), set( chain, `intuit_taulia_resources` ), trace( [ `This is a RESOURCES GLOBAL PROFESSIONALS  Document` ] ) ]
 	  
 
 	] )
