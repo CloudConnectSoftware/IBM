@@ -309,6 +309,8 @@ or([
 
 		[`The`, `amounts`, `in`, `this`, `invoice`, `is`, `net`, `of`, `any`]
 
+        , [`Gross`]
+
         , [`Page`, `2`, `of`, `2`]
 
         , [`Page`, `3`, `of`, `3`]
