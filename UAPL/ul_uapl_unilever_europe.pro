@@ -89,7 +89,7 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-  q(0,50,line)
+  qn0(line)
 
  , generic_horizontal_details( [ [ `IBAN`, `:` ],  supplier_bank_account_raw, s1, newline ] ) 
 

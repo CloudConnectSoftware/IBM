@@ -19,6 +19,8 @@ i_rule_list( [
 	
       get_supplier_detail
 
+      , get_currency
+
     , get_bank_accountnumber
                 
     , get_invoice_number
@@ -35,9 +37,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
-
-    , get_line_total_amount
+     , get_line_total_amount
 
     , get_invoice_lines
 

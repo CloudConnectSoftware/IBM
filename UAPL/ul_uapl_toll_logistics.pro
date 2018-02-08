@@ -21,6 +21,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    ,get_currency
+
     ,get_bank_account_no
 
     , get_credit_note
@@ -60,9 +62,7 @@ i_rule( get_supplier_details, [
 
     , set(freight_vendor)
 
-    , currency( `SGD` )
-
-    
+        
 
   ] ).
 
@@ -118,7 +118,16 @@ i_rule( get_bank_account_no, [
      [ check( Currency = `SGD` ) , generic_horizontal_details( [ [ `A`, `/`, `C`, `No`, `.`,q10(tab) ],  supplier_bank_account_number, w, [`(`, `SGD`, `)`,  newline] ] ) ]
 
     ,[ check( Currency = `USD` ), generic_horizontal_details( [ [ `A`, `/`, `C`, `No`, `.`, q10(tab)],  supplier_bank_account_number, w, `(`, `USD`, `)`,  newline ] ) ]
+
+    ,[ check( Currency = `SGD` ), generic_horizontal_details( [ [  `Account`, q10(tab)],  supplier_bank_account_raw, s1,  tab ] ) 
+
+     , check(supplier_bank_account_raw  =SupNo)
+
+    ,check(strip_string2_from_string1( SupNo, `-`, SupNoNew ))
+
+     ,supplier_bank_account_number(SupNoNew)]
                 
+
           ] )
 	
 
@@ -315,9 +324,28 @@ i_rule( get_total_invoice, [
 
        ,generic_horizontal_details( [ [ `Grand`, `Total`],800, total_invoice, d, newline] )
 
-    
+       ,generic_horizontal_details( [ [ `Balance`, `Due`,tab, `SGD`], total_invoice, d, newline] )
 
-    ])
+      ])
+                
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Currency
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+     qn0(line)
+
+    , or([ 
+        generic_horizontal_details( [ [ `Balance`, `Due`], currency, w] )
+
+      ])
                 
 ] ).
 

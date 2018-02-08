@@ -126,6 +126,8 @@ i_rule_cut( get_bank_acct, [
                 
      [ generic_horizontal_details( [ [ `A`, `/`, `C`, `NO`, `.`],supplier_bank_account_number_raw, s1 , newline ] )]
 
+     ,[ generic_horizontal_details( [ [ `A`, `/`, `C`],supplier_bank_account_number_raw, s1 , newline ] )]
+
         ])
                      
      ,check(supplier_bank_account_number_raw=SupplierAccount)

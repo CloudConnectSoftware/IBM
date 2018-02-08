@@ -76,9 +76,9 @@ i_rule( get_bank_accountnumber, [
     ,or([
 		[check( Currency = `USD` ) , generic_horizontal_details( [ [ `Account`, `Number`, `:` ],  supplier_bank_account_number_raw, w, [`USD`,  newline] ] )
 
-	    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`AE740211000000201026008`), generic_item( [ supplier_bank_account_number, `201026008` ] )]
+	    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`AE740211000000201026008`), generic_item( [ supplier_bank_account_number, `0201026008` ] )]
 
-		,[check( Currency = `AED` ) ,  generic_item( [ supplier_bank_account_number, `201025001` ] )]
+		,[check( Currency = `AED` ) ,  generic_item( [ supplier_bank_account_number, `0201025001` ] )]
 
 	])	
 
