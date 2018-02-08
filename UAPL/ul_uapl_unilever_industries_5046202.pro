@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , get_bank_accountnumber
+
    	, get_invoice_number
 
     , get_invoice_date
@@ -70,6 +72,28 @@ i_rule( get_invoice_number, [
     , generic_vertical_details( [ [ `Invoice`, `No`], `Invoice`, q(0,1),(end,20,20), invoice_number, d ] )
   
     
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+    q(0,100,line)
+
+    ,or([
+        
+         generic_horizontal_details( [ [ `Benificiary`,`Bank`,`:`,`-` ],supplier_bank_account_number, s1 ,newline ] )
+
+        , generic_horizontal_details( [ [`Account`, `No`, `.`, `:` ],  supplier_bank_account_number, s1, newline ] )
+
+    ])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
