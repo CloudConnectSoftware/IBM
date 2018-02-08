@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `31/01/2018 13:18:01` ).
+i_version( p_ibm_ksb, `08/02/2018 11:33:25` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -37,6 +37,16 @@ i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, por_reference, `POR Reference` ).
 i_user_field( invoice, customer_id, `Customer ID` ).
+i_user_field( invoice, supplier_bank_account_number_2, `supplier_bank_account_number_2` ).
+i_user_field( invoice, supplier_bank_code_2, `supplier_bank_code_2` ).
+i_user_field( invoice, supplier_bank_account_number_3, `supplier_bank_account_number_3` ).
+i_user_field( invoice, supplier_bank_code_3, `supplier_bank_code_3` ).
+i_user_field( invoice, supplier_bank_account_number_4, `supplier_bank_account_number_4` ).
+i_user_field( invoice, supplier_bank_code_4, `supplier_bank_code_4` ).
+i_user_field( invoice, supplier_bank_account_number_5, `supplier_bank_account_number_5` ).
+i_user_field( invoice, supplier_bank_code_5, `supplier_bank_code_5` ).
+i_user_field( invoice, supplier_bank_account_number_6, `supplier_bank_account_number_6` ).
+i_user_field( invoice, supplier_bank_code_6, `supplier_bank_code_6` ).
 i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
 
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
@@ -189,8 +199,17 @@ i_final_rule( [
 %=======================================================================
 
 	q10( [ without( supplier_bank_account_number ), supplier_bank_account_number( `XXXXXX` ) ] )
-
 	, q10( [ without( supplier_bank_code ), supplier_bank_code( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_account_number_2 ), supplier_bank_account_number_2( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_code_2 ), supplier_bank_code_2( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_account_number_3 ), supplier_bank_account_number_3( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_code_3 ), supplier_bank_code_3( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_account_number_4 ), supplier_bank_account_number_4( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_code_4 ), supplier_bank_code_4( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_account_number_5 ), supplier_bank_account_number_5( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_code_5 ), supplier_bank_code_5( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_account_number_6 ), supplier_bank_account_number_6( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_code_6 ), supplier_bank_code_6( `XXXXXX` ) ] )
 
 ] ).
 
