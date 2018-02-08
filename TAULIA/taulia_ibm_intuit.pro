@@ -196,7 +196,7 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `1233009797` ), set( chain, `intuit_taulia_cvs_caremark` ), trace( [ `This is a CVS/Caremark Document` ] ) ]
 	  
-	  , [ check_text( `43-1912895` ), set( chain, `intuit_worldwide_technology` ), trace( [ `This is a World Wide Technology Document` ] ) ]
+	  , [ check_text( `17963` ), set( chain, `intuit_worldwide_technology` ), trace( [ `This is a World Wide Technology Document` ] ) ]
 
 	  , [ check_text( `935114660` ), set( chain, `intuit_taulia_tangtoe` ), trace( [ `This is a Tangoe, Inc  Document` ] ) ]
 
