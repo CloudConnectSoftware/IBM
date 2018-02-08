@@ -51,6 +51,8 @@ i_rule( select_buyer, [
 
 	,  [ q0n(line), woodruff_sawyer_identify_rule ]
 
+	,  [ q0n(line), realworld_identify_rule ]	
+
 	
 
 	
@@ -201,6 +203,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `935114660` ), set( chain, `intuit_taulia_tangtoe` ), trace( [ `This is a Tangoe, Inc  Document` ] ) ]
 
 	  , [ check_text( `24-419665` ), set( chain, `intuit_taulia_weiden` ), trace( [ `This is a Wieden + Kennedy  Document` ] ) ]
+
+	  , [ check_text( `12330-24344` ), set( chain, `intuit_taulia_resources` ), trace( [ `This is a RESOURCES GLOBAL PROFESSIONALS  Document` ] ) ]
 	  
 
 	] )
@@ -979,4 +983,46 @@ i_line_rule( woodruff_rule_4, [
 i_line_rule( woodruff_rule_5, [
 %======================================================================
    [`INVOICE`, `DUE`, `ON`, `PRESENTATION`,  newline ]
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Real World Training
+%=======================================================================
+i_rule(  realworld_identify_rule, [
+%=======================================================================
+      realworld_rule_1
+	, realworld_rule_2
+	, realworld_rule_3
+	, realworld_rule_4
+	, q(1,2,line)
+	, realworld_rule_5
+    , set(chain,`intuit_taulia_real_world`)
+    , trace( [ `This is a Real World Training Document` ] )
+] ).
+%=======================================================================
+i_line_rule( realworld_rule_1, [
+%=======================================================================
+   [`Real`, `World`, `Training`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( realworld_rule_2, [
+%=======================================================================
+   [`Invoice`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( realworld_rule_3, [
+%=======================================================================
+   [`5501`, `LBJ`, `Freeway`, `,`, `Suite`, `180`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( realworld_rule_4, [
+%======================================================================
+   [`Dallas`, `,`, `TX`, `75240`, tab, `DATE`, tab, `INVOICE`, `#`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( realworld_rule_5, [
+%======================================================================
+   [`BILL`, `TO`,  newline ]
 ] ).
