@@ -214,6 +214,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `47-4641274` ), set( chain, `intuit_taulia_pwc` ), trace( [ `This is a PricewaterhouseCoopers Advisory Services LLC  Document` ] ) ]
 	  
+      , [ check_text( `26-3660836` ), set( chain, `intuit_taulia_syniverse` ), trace( [ `This is a Syniverse ICX Corporation  Document` ] ) ]
+
 
 	] )
 	
