@@ -205,6 +205,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `24-419665` ), set( chain, `intuit_taulia_weiden` ), trace( [ `This is a Wieden + Kennedy  Document` ] ) ]
 
 	  , [ check_text( `12330-24344` ), set( chain, `intuit_taulia_resources` ), trace( [ `This is a RESOURCES GLOBAL PROFESSIONALS  Document` ] ) ]
+
+	   , [ check_text( `1204420` ), set( chain, `intuit_xerox_tech` ), trace( [ `This is a Xerox Technology  Document` ] ) ]
 	  
 
 	] )
