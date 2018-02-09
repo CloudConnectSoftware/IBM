@@ -24,7 +24,7 @@ i_rule_list( [
 
    % ,  get_buyer_address2
 
-    , get_bank_account_no
+    , get_supplier_bank_account_no
 
     ,set_credit_note
 	
@@ -155,32 +155,32 @@ q0n(anything)
 
 
 %=======================================================================
-i_rule( get_bank_account_no, [
+i_rule( get_supplier_bank_account_no, [
 %=======================================================================
 
 q(0,100,line)
 
- ,  [generic_horizontal_details( [ [  `Volksbank`, `Alzey`, `-`, `Worms`, `eG`, `Nr`, `.` ],  bank_raw, s, [`,`, `BLZ`, generic_item( [ code_raw, s ] ), newline ] ] )
+ ,  [generic_horizontal_details( [ [  `Volksbank`, `Alzey`, `-`, `Worms`, `eG`, `Nr`, `.` ],  bank_raw, s, [`,`, `BLZ`, generic_item( [ code_raw, s1 ] ), newline ] ] )
   
-    , check(bank_raw  =SupbNo) ,check(strip_string2_from_string1( SupbNo, ` `, SupNobNew )) ,bank_account(SupNobNew) , trace( [ `Bank acc`, bank_account ] )
+    , check(bank_raw  =SupbNo) ,check(strip_string2_from_string1( SupbNo, ` `, SupNobNew )) ,supplier_bank_account_number(SupNobNew) , trace( [ `New Bank acc`, supplier_bank_account_number ] )
 
-    , check(code_raw  =SupNo) ,check(strip_string2_from_string1( SupNo, ` `, SupNoNew ))  ,bank_code(SupNoNew) , trace( [ `New Bank acc code `, bank_code ] )]
+    , check(code_raw  =SupNo) ,check(strip_string2_from_string1( SupNo, ` `, SupNoNew ))  ,supplier_bank_code(SupNoNew) , trace( [ `New Bank acc code `, supplier_bank_code ] )]
      
     , q(0,1,line)
 
-    ,[generic_horizontal_details( [ [  `Postbank`, `Ludwigshafen`, `Nr`, `.` ],  bank_raw2, s, [`,`, `BLZ`, generic_item( [ code_raw2, s ] ), newline ] ] )
+    ,[generic_horizontal_details( [ [  `Postbank`, `Ludwigshafen`, `Nr`, `.` ],  bank_raw2, s, [`,`, `BLZ`, generic_item( [ code_raw2, s1 ] ), newline ] ] )
   
-    , check(bank_raw2  =SupbNo2) ,check(strip_string2_from_string1( SupbNo2, ` `, SupNobNew2 )) ,bank_account2(SupNobNew2) , trace( [ `Bank acc 2`, bank_account2 ] )
+    , check(bank_raw2  =SupbNo2) ,check(strip_string2_from_string1( SupbNo2, ` `, SupNobNew2 )) ,supplier_bank_account_nummber_2(SupNobNew2) , trace( [ `Ne Bank acc 2`, supplier_bank_account_2 ] )
 
-    , check(code_raw2  =SupNo2) ,check(strip_string2_from_string1( SupNo2, ` `, SupNoNew2 ))  ,bank_code2(SupNoNew2) , trace( [ ` New Bank acc code 2`, bank_code2 ] )]
+    , check(code_raw2  =SupNo2) ,check(strip_string2_from_string1( SupNo2, ` `, SupNoNew2 ))  ,supplier_bank_code_2(SupNoNew2) , trace( [ ` New Bank acc code 2`, supplier_bank_code_2 ] )]
      
       , q(0,1,line)
 
-    ,[generic_horizontal_details( [ [  `Deutsche`, `Bank`, `AG`, `,`, `Worms`, `Nr`, `.` ],  bank_raw3, s, [`,`, `BLZ`, generic_item( [ code_raw3, s ] ), newline ] ] )
+    ,[generic_horizontal_details( [ [  `Deutsche`, `Bank`, `AG`, `,`, `Worms`, `Nr`, `.` ],  bank_raw3, s, [`,`, `BLZ`, generic_item( [ code_raw3, s1 ] ), newline ] ] )
   
-    , check(bank_raw3  =SupbNo3) ,check(strip_string2_from_string1( SupbNo3, ` `, SupNobNew3 )) ,bank_account2(SupNobNew3) , trace( [ `New Bank acc 3`, bank_account3 ] )
+    , check(bank_raw3  =SupbNo3) ,check(strip_string2_from_string1( SupbNo3, ` `, SupNobNew3 )) ,supplier_bank_account_number_3(SupNobNew3) , trace( [ `New Bank acc 3`, supplier_bank_account_number_3 ] )
 
-    , check(code_raw3  =SupNo3) ,check(strip_string2_from_string1( SupNo3, ` `, SupNoNew3 ))  ,bank_code2(SupNoNew3) , trace( [ `New Bank acc code 3`, bank_code3 ] )]
+    , check(code_raw3  =SupNo3) ,check(strip_string2_from_string1( SupNo3, ` `, SupNoNew3 ))  ,supplier_bank_code_3(SupNoNew3) , trace( [ `New Bank acc code 3`, supplier_bank_code_3 ] )]
      
      
 ]).
