@@ -206,7 +206,13 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `12330-24344` ), set( chain, `intuit_taulia_resources` ), trace( [ `This is a RESOURCES GLOBAL PROFESSIONALS  Document` ] ) ]
 
-	   , [ check_text( `1204420` ), set( chain, `intuit_xerox_tech` ), trace( [ `This is a Xerox Technology  Document` ] ) ]
+	  , [ check_text( `1204420` ), set( chain, `intuit_xerox_tech` ), trace( [ `This is a Xerox Technology  Document` ] ) ]
+
+	  , [ check_text( `3751736507` ), set( chain, `intuit_taulia_bingads` ), trace( [ `This is a Microsoft Online, Inc  Document` ] ) ]
+
+	  , [ check_text( `134008324` ), set( chain, `intuit_taulia_pwc` ), trace( [ `This is a PricewaterhouseCoopers LLP  Document` ] ) ]
+
+	  , [ check_text( `47-4641274` ), set( chain, `intuit_taulia_pwc` ), trace( [ `This is a PricewaterhouseCoopers Advisory Services LLC  Document` ] ) ]
 	  
 
 	] )
