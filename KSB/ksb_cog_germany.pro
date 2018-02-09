@@ -28,7 +28,7 @@ i_rule_list( [
 	
 	, get_invoice_number
 
-    %, get_order_number
+    , get_order_number
 	
 	, get_invoice_date
 
