@@ -216,6 +216,8 @@ i_line_rule( buyer_id_line, [
 	  
       , [ check_text( `26-3660836` ), set( chain, `intuit_taulia_syniverse` ), trace( [ `This is a Syniverse ICX Corporation  Document` ] ) ]
 
+	  , [ check_text( `13-2554344` ), set( chain, `intuit_taulia_dimensiondata` ), trace( [ `This is a DIMENSION DATA NORTH AMERICA, INC  Document` ] ) ]
+
 
 	] )
 	
