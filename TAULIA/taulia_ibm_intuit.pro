@@ -218,6 +218,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `13-2554344` ), set( chain, `intuit_taulia_dimensiondata` ), trace( [ `This is a DIMENSION DATA NORTH AMERICA, INC  Document` ] ) ]
 
+      , [ check_text( `74-2616805` ), set( chain, `intuit_taulia_dell` ), trace( [ `This is a DELL MARKETING L.P. Document` ] ) ]
+
 
 	] )
 	
