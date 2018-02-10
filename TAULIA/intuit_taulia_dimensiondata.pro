@@ -131,7 +131,7 @@ i_line_rule( line_add_line_3, [
 
      , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < 94)] ] )
 
-     , generic_item( [supplier_street , s , [q10(tab), check(supplier_street(end) < 134)] ] )
+     , generic_item( [supplier_state , s , [q10(tab), check(supplier_state(end) < 134)] ] )
 
      , generic_item( [ supplier_postcode, s1, newline ] )
 
