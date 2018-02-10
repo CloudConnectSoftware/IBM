@@ -55,6 +55,8 @@ i_rule( get_supplier_details, [
 
     , set(freight_vendor)
 
+    , supplier_vat_number(`NOVAT_AYEZAN`)
+
   ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,8 +72,12 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `No`, `:` ], 100, invoice_number, s1, tab ] )
-	
+   ,or([
+        generic_horizontal_details( [ [ `Invoice`, `No`, `:` ], 100, invoice_number, s1, tab ] )
+
+        ,generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ],  invoice_number, w, newline ] )
+
+   ])
 	
 ] ).
 
@@ -87,8 +93,12 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date`, `/`, `Tax`, `Point`, `:`], 100, invoice_date, s1, tab ] )
+    ,or([
+        generic_horizontal_details( [ [ `Date`, `/`, `Tax`, `Point`, `:`], 100, invoice_date, date, tab ] )
 
+        ,generic_horizontal_details( [ [`Invoice`, `/`, `Tax`, `Date`, tab], invoice_date, date, newline ] )
+
+    ])
 
 ] ).
 
@@ -104,16 +114,12 @@ i_rule( get_line_buyers_order_number, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Po`, `.`, `No`, `.` ], 10, line_buyers_order_number, s1, or([ tab , newline ]) ] )
+    , or([
+        generic_horizontal_details( [ [ `Po`, `.`, `No`, `.` ], 10, order_number, s1, or([ tab , newline ]) ] )
 
-    , check(line_buyers_order_number = OrdNo)
+        ,generic_horizontal_details( [ [ `Po`, q10(tab) ],  order_number, w, newline ] )
 
-    , trace([`Order Number Capital Varaible` , OrdNo])
-
-    , order_number(OrdNo)
-
-    , trace( [ `THIS IS NOW THE Header ORDER Number` , OrdNo ])
-
+         ])
 
 ] ).
 
@@ -129,8 +135,13 @@ i_rule( get_total_net, [
 
      qn0(line)
  
-      , generic_horizontal_details( [ [ `Nett`, `Total`, tab ],  total_net, d, newline ] )
-    
+      , or([
+          
+          generic_horizontal_details( [ [ `Nett`, `Total`, tab ],  total_net, d, newline ] )
+
+          ,generic_horizontal_details( [ [  `Total`, `Net`, tab, `(`, `AED`,net_dummy(d),`)`, `USD` ],  total_net, d, newline ] )
+
+      ])   
 
 ] ).
 
@@ -146,7 +157,7 @@ i_rule( get_total_vat, [
 
      qn0(line)
  
-      , generic_horizontal_details( [ [ `VAT`, `Total`, tab ],  total_vat, d, newline ] )  
+      , generic_horizontal_details( [ [ `Total`, `V`, `.`, `A`, `.`, `T`, `.`, tab, `(`, `AED`,vat_dummy(d),`)`, `USD` ],  total_vat, d, newline ] )  
 
 ] ).
 
@@ -163,7 +174,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
  
-     , generic_horizontal_details( [ [ `US`, tab ],  total_invoice, d, newline ] )
+     , or([
+         
+         generic_horizontal_details( [ [ `US`, tab ],  total_invoice, d, newline ] )
+
+         ,generic_horizontal_details( [ [ `Invoice`, `Total`, tab, `(`, `AED`, tot_dummmy(d),`)`, `USD` ],  total_invoice, d, newline ] )
+
+     ])
 
 ] ).
 
@@ -216,3 +233,21 @@ i_rule(get_bank_accountnumber, [
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on - 
+% Mapped by - Vidya
+
+% Updated on   - 08 Feb, 2018
+% Updated by   - Thejaswi
+% Changes made - Update mapping for New format
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
