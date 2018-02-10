@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_op_param( us_invoice, _, _, _, _).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -335,6 +337,8 @@ i_section( get_invoice_lines, [
               
         line_invoice_line
 
+        , line_invoice_line1
+
               , line
 
         ] )
@@ -347,9 +351,15 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-[`Final`, `Invoice`, `:`, `RE`]
-  
 
+
+  or([
+    
+    [`Final`, `Invoice`, `:`, `RE`]
+
+    , [`Final`, `Invoice`, `:`]
+  
+] )
 
 , trace( [ `Found Start line` ] )
 
@@ -377,16 +387,6 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_descr, s1, tab ] )
 
-  , q10([
-       or([
-
-             [ check(line_descr= `Material`)
-            
-            , generic_item( [ line_vat_rate, `7.75` ] ) ] 
-
-          ])
-
-           ])
 
   , generic_item( [ line_net_amount, d, newline ] )
 
@@ -413,6 +413,18 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  
+] ).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -421,6 +433,10 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - December 6, 2017
 % Mapped by - Rohini 
 
+
+% Updated on   - Feb 10, 2018
+% Updated by   - Rohini
+% Changes made - New line format mapped
 
 % Updated on   - 
 % Updated by   -
