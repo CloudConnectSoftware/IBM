@@ -12,6 +12,8 @@ i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
+i_op_param( us_invoice, _, _, _, _).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -347,6 +349,17 @@ i_line_rule_cut( line_invoice_line, [
   , generic_item( [ line_quantity, d, tab ] )
 
   , generic_item( [ line_net_amount, d, newline ] )
+
+    , q10([
+       or([
+
+             [ check(line_descr= `Delivery Fee`)
+            
+            , generic_item( [ line_vat_rate, `9` ] ) ] 
+
+          ])
+
+           ])
 
 
 ] ).
