@@ -227,6 +227,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `3751205782` ), set( chain, `intuit_taulia_microsoft` ), trace( [ `This is a Microsoft Corporation Document` ] ) ]
 
 	  , [ check_text( `800-316-6440` ), set( chain, `intuit_taulia_eatclub` ), trace( [ `This is a EAT Club Inc Document` ] ) ]
+
+	  , [ check_text( `13-5565207` ), set( chain, `intuit_taulia_kpmg` ), trace( [ `This is a KPMG LLP Document` ] ) ]
 	   
 	   
 	 , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
