@@ -166,7 +166,7 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `861065772` ), set( chain, `intuit_taulia_deloittetax` ), trace( [ `This is a Deloitte Tax LLP Document` ] ) ]
 
-	   , [ check_text( `528-0570` ), set( chain, `intuit_taulia_lexis` ), trace( [ `This is a LexisNexis Risk Solutions Document` ] ) ]
+	   , [ check_text( `41-1815880` ), set( chain, `intuit_taulia_lexis` ), trace( [ `This is a LexisNexis Risk Solutions Document` ] ) ]
 
 	   , [ check_text( `8005178268` ), set( chain, `intuit_taulia_matchpoint` ), trace( [ `This is a MatchPoint Solutions Document` ] ) ]
 

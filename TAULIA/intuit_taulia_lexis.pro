@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_op_param( us_invoice, _, _, _, _).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -313,11 +315,8 @@ i_section( get_invoice_lines, [
 
          , [line_invoice_line1,line_invoice_line2]
 
-         , line_invoice_line4
 
          , line_invoice_line3
-
-         , line_invoice_line4
 
               , line
 
@@ -348,8 +347,12 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
  
        or( [
+
+         [`8`, `/`, `31`, `/`, `2017`, tab, `OL`, tab, `Tax`, `OL`, `-`, `Online`, `subscriptions`]
            
-        [ `Total`, `Charges`, tab, `$`]
+       , [ `Total`, `Charges`, tab, `$`]
+
+
 
        ] )
 
@@ -401,10 +404,16 @@ i_line_rule_cut( line_invoice_line3, [
    , q10(generic_item( [ line_tax_code, s1, tab ]))
 
    , generic_item( [ line_descr, s1, [tab, `$`]] )
-   
-   , generic_item( [ line_net_amount, d ] )
 
-   ,  generic_item( [ line_dummy, s1, newline ] )
+   , or([
+   
+     generic_item( [ line_net_amount, d ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+
+   ] )
+
+   ,  q10(generic_item( [ line_dummy, s1, newline ] ))
 
   
 ] ).
