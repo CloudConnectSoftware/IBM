@@ -88,7 +88,7 @@ i_rule( get_supplier_address, [
 
    , line_add_line
 
-   , q(1,2,line)
+   , q(0,1,line)
 
    , line_add_line_2
 
@@ -328,11 +328,11 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_append( [ line_descr, s1, [ tab, `$`] , ` `, ` `] )
 
-      , generic_item( [ line_unit_amount, d, [ tab, `$`] ] )
+      , generic_item( [ line_net_amount, d, [ tab, `$`] ] )
 
-      , generic_item( [ line_vat_amount_dummy, d, [ tab, `$`] ] )
+      , generic_item( [ line_vat_amount, d, [ tab, `$`] ] )
 
-      , generic_item( [ line_net_amount, d, newline ] )
+      , generic_item( [ line_total_amount, d, newline ] )
 
   
 ] ).
