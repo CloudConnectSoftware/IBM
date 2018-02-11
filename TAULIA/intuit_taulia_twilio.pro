@@ -82,7 +82,7 @@ i_rule( get_supplier_detail, [
 i_rule( get_supplier_address, [
 %=======================================================================
   
-     q(0,20,line)
+     q(0,50,line)
 
    , line_add_line
 
@@ -362,7 +362,7 @@ i_line_rule_cut( line_header_line, [
         
         [`Description`, `-`, `Tax`, `Type`]
 
-        , [`Quantity`, tab, `Amount`,  newline ]
+        , [`INVOICE`, `DETAILS`,  newline ]
 
         ] )
 
@@ -375,8 +375,12 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
  
        or([
+
+           [`TAXABLE`, `SERVICES`,  newline ]
+
+    , [`See`, `below`, `for`, `the`, `full`]
      
-     [ `SUB`, `TOTAL`, `-`, `TAXABLE`, `SERVICES`, tab ]
+     , [ `SUB`, `TOTAL`, `-`, `TAXABLE`, `SERVICES`, tab ]
 
      , [`INVOICE`, `AMOUNT`, tab, `$`]
 

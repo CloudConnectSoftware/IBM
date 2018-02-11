@@ -55,6 +55,8 @@ i_rule( select_buyer, [
 
 	,  [ q0n(line), cisco_identify_rule ]	
 
+	,  [ q0n(line), twilio_identify_rule ]
+
 
 	
 
@@ -232,6 +234,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `800-316-6440` ), set( chain, `intuit_taulia_eatclub` ), trace( [ `This is a EAT Club Inc Document` ] ) ]
 
 	  , [ check_text( `13-5565207` ), set( chain, `intuit_taulia_kpmg` ), trace( [ `This is a KPMG LLP Document` ] ) ]
+
+	  , [ check_text( `8666309944` ), set( chain, `intuit_taulia_teletech` ), trace( [ `This is a TeleTech Services Corporation Document` ] ) ]
 
 	  , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
 
@@ -1098,4 +1102,32 @@ i_line_rule( cisco_rule_4, [
 i_line_rule( cisco_rule_5, [
 %======================================================================
    [`PAYMENT`, `DUE`, `DATE`, `:`, dummy_num1(date),  newline ]
+] ).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Twilio, Inc
+%=======================================================================
+i_rule(  twilio_identify_rule, [
+%=======================================================================
+      twilio_rule1
+	  ,   twilio_rule2
+
+    , set(chain,`intuit_taulia_twilio`)
+
+    , trace( [ `This is a Twilio, Inc Document` ] )
+] ).
+%=======================================================================
+i_line_rule( twilio_rule1, [
+%=======================================================================
+   [`Any`, `questions`, `regarding`, `this`, `invoice`, `,`, `contact`, `invoicing`, `@`, `twilio`, `.`, `com`, `.`,  newline ]
+] ).
+
+%=======================================================================
+i_line_rule( twilio_rule2, [
+%=======================================================================
+   [`Twilio`, `,`, `Inc`, `.`, `,`, `375`, `Beale`, `Street`, `,`, `Suite`, `300`, `,`, `San`, `Francisco`, `,`, `CA`, `94105`,  newline ]
 ] ).

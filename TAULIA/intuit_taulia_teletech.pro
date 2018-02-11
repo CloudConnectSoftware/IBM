@@ -60,7 +60,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `TeleTech Services Corporation` )
 
-   , supplier_party( `TeleTech Services Corporation` )
+   , supplier_country_code( `US` )
     
    , buyer_dept(`N/A`)
 
@@ -68,7 +68,82 @@ i_rule( get_supplier_detail, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,10,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line1
+
+   , q(0,1,line)
+
+   , line_add_line2
+
+   , q(0,1,line)
+
+   , line_add_line3
+
+ 
+ ] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`TeleTech`, `Services`, `Corporation`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [supplier_party , s1 , tab ] )
+
+     ,q10( generic_item( [ supplier_dummy, s1, tab ] ))
+
+     , generic_item( [ supplier_dummy1, s1, tab ] )
+
+     , generic_item( [ supplier_dummy2, s1, newline ] )
+    
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line1, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, tab ] )
+
+     , generic_item( [ supplier_dummy3, s1, tab ] )
+
+     , generic_item( [ supplier_dummy4, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line2, [
+%=======================================================================
+
+       generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -140)] ] )
+
+     , generic_item( [ supplier_dummy1, s,  [q10(tab), check(supplier_dummy1(end) < -118)] ] )
+
+     , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, d, tab ] )
+
+     , generic_item( [ supplier_dummy5, s1, tab ] )
+
+     , generic_item( [ supplier_dummy6, s1, newline ] )
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -148,9 +223,11 @@ i_rule( get_invoice_date, [
 
      generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
 
-   , generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+  , generic_horizontal_details( [ [`Invoice`, `Date`, tab ], invoice_date, date, newline ] )
 
-   
+   , generic_horizontal_details( [ [`Invoice`, `Date`, tab ], invoice_date, date, tab ] )
+
+   ] )
       , check( invoice_date = Deliverydate )
 
         , trace( [ `Delivery date` , Deliverydate] )
@@ -159,7 +236,7 @@ i_rule( get_invoice_date, [
 
         , trace( [ `Delivery Date` , delivery_date ] )
 
-] )
+
 
 ] ).
 
@@ -351,7 +428,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-       [ `Subtotal`, tab ]
+       or([
+           
+           [`Total`, `Professional`, `Services`, tab]
+           
+           ,[ `Subtotal`, tab ]
+
+] )
 
      , trace( [ `Found End line` ] )
 
