@@ -53,6 +53,9 @@ i_rule( select_buyer, [
 
 	,  [ q0n(line), realworld_identify_rule ]	
 
+	,  [ q0n(line), cisco_identify_rule ]	
+
+
 	
 
 	
@@ -84,7 +87,7 @@ i_line_rule( buyer_id_line, [
 		
 		, [ check_text( `INTUIT01` ), set( chain, `intuit_cesg_critical_electric` ), trace( [ `THIS IS Critical Electric Systems Group, LLC DOCUMENT` ] ) ]
 
-		, [ check_text( `1905878` ), set( chain, `intuit_commission_junction` ), trace( [ `THIS IS Affiliate by Conversant/ Commission Junction, LLC DOCUMENT` ] ) , set( re_extract ) ]
+		, [ check_text( `4121196406` ), set( chain, `intuit_commission_junction` ), trace( [ `THIS IS Affiliate by Conversant/ Commission Junction, LLC DOCUMENT` ] ) , set( re_extract ) ]
 		
 		, [ check_text( `36-4530079` ), set( chain, `intuit_cdw_direct` ), trace( [ `THIS IS CDW Direct, LLC DOCUMENT` ] ) , set( re_extract ) ]
 		
@@ -229,9 +232,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `800-316-6440` ), set( chain, `intuit_taulia_eatclub` ), trace( [ `This is a EAT Club Inc Document` ] ) ]
 
 	  , [ check_text( `13-5565207` ), set( chain, `intuit_taulia_kpmg` ), trace( [ `This is a KPMG LLP Document` ] ) ]
-	   
-	   
-	 , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
+
+	  , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
 
 
 	] )
@@ -1052,4 +1054,48 @@ i_line_rule( realworld_rule_4, [
 i_line_rule( realworld_rule_5, [
 %======================================================================
    [`BILL`, `TO`,  newline ]
+] ).
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CISCO SYSTEMS CAPITAL CORPORATION
+%=======================================================================
+i_rule(  cisco_identify_rule, [
+%=======================================================================
+      cisco_rule_1
+	, cisco_rule_2
+	, cisco_rule_3
+	, cisco_rule_4
+	, cisco_rule_5
+    , set(chain,`intuit_taulia_cisco`)
+    , trace( [ `This is a CISCO SYSTEMS CAPITAL CORPORATION Document` ] )
+] ).
+%=======================================================================
+i_line_rule( cisco_rule_1, [
+%=======================================================================
+   [`170`, `West`, `Tasman`, `Drive`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( cisco_rule_2, [
+%=======================================================================
+   [`San`, `Jose`, `,`, `CA`, `95134`, tab, `INVOICE`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( cisco_rule_3, [
+%=======================================================================
+   [`INVOICE`, `NO`, `:`, dummy_num(s1),  newline ]
+] ).
+%=======================================================================
+i_line_rule( cisco_rule_4, [
+%======================================================================
+   [`INVOICE`, `DATE`, `:`, dummy_num(date),  newline ]
+] ).
+%=======================================================================
+i_line_rule( cisco_rule_5, [
+%======================================================================
+   [`PAYMENT`, `DUE`, `DATE`, `:`, dummy_num1(date),  newline ]
 ] ).
