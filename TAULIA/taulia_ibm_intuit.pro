@@ -220,6 +220,15 @@ i_line_rule( buyer_id_line, [
 
       , [ check_text( `74-2616805` ), set( chain, `intuit_taulia_dell` ), trace( [ `This is a DELL MARKETING L.P. Document` ] ) ]
 
+	 , [ check_text( `858-414-5685` ), set( chain, `intuit_taulia_intuittreeline` ), trace( [ `This is a Treeline Inc Document` ] ) ]
+
+	  , [ check_text( `81-4578737` ), set( chain, `intuit_taulia_experian` ), trace( [ `This is a Experian Marketing Solutions, LLC Document` ] ) ]
+
+	   , [ check_text( `3751205782` ), set( chain, `intuit_taulia_microsoft` ), trace( [ `This is a Microsoft Corporation Document` ] ) ]
+	   
+	   
+	 , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
+
 
 	] )
 	
