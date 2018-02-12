@@ -344,7 +344,7 @@ i_rule( get_total_invoice, [
 
     ,or([
 
-    generic_vertical_details( [ [ `Rechnungssumme`, `€` ], `Rechnungssumme`, q(0,1), (start,100,100), total_invoice, d, newline ] )
+    generic_horizontal_details( [ [ `Endbetrag`,tab, `EUR` ],600, total_invoice, d, newline ] )
 
     ])
     
@@ -369,11 +369,8 @@ i_rule( get_currency, [
 
     ,or([
  
-    [generic_horizontal_details( [ [ `Rechnungssumme` ], currency_raw, w, newline ] )
+    generic_horizontal_details( [ [ `Endbetrag`,tab ],600, currency, w, tab ] )
 
-    , check(currency_raw=Currency) , check(Currency=`€ uros`)
-
-    ,generic_item( [ currency, `EUR` ] )]
 
           ])
 	
@@ -419,7 +416,7 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-        [ `PAKETABRECHNUNG` ]
+        [ `Paketnr`, `Referenznummer` ]
 
       ])
 
@@ -447,119 +444,45 @@ i_line_rule( line_invoice_line, [
 	
         set(reverse_punctuation_in_numbers)
 
-        , set(regexp_cross_word_boundaries)
-
-        ,generic_item([ line_reference , d  ])
-
         ,generic_item([line_item , w   ] )
 
-        ,generic_item([line_descr , s1,tab ] )
+        ,generic_item([line_descr , w ,tab  ] )
 
-        ,generic_item([line_quantity_dummy1, d  ] )
-
-        ,generic_item([line_quantity_uom_code_dummy1 , w , tab  ] )
-
-        ,generic_item([line_quantity_dummy2, d  ] )
-
-        ,generic_item([line_quantity_uom_code_dummy3 , w , tab  ] )
-
-        , generic_item([line_unit_amount, d , tab  ] )
-
-        ,generic_item([line_quantity, d  ] )
-
-        ,generic_item([line_quantity_uom_code , w, tab  ] )
-
-       , generic_item([ line_net_amount , d , newline ] )
-
-
-       ,clear(regexp_cross_word_boundaries)
-
-       ,clear(reverse_punctuation_in_numbers)
-
-        ,q10([	% LINE VAT Rate Calculation
-  
-       with( invoice , total_vat , VAT )
-
-      , with( invoice , total_net , Net )
-
-      , trace( [ `vat tot`, VAT ] )
-
-     , trace( [ `sub total`, Net ] )
-
-     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-     , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
-         
-] ).
-
-
-%=======================================================================
-i_line_rule( line_credit_line, [
-%=======================================================================
-	
-        set(reverse_punctuation_in_numbers)
-
-        , set(regexp_cross_word_boundaries)
-
-        ,generic_item([ line_reference , d  ])
-
-        ,generic_item([line_item , w , [q10(tab), check(line_item(end) < -284)  ]  ] )
-
-        ,generic_item([line_descr , s1,tab ] )
-
-        ,generic_item([line_quantity_dummy1, d  ] )
+        ,generic_item([line_descr , d  ] )
 
         ,generic_item([line_quantity_uom_code_dummy1 , w , tab  ] )
 
-        , generic_item([line_unit_amount, d , tab  ] )
+        , generic_item([line_weight, d , q10(tab)  ] )
 
-        ,generic_item([line_quantity, d  ] )
+        ,q10(generic_item([line_dummy2 , d, tab  ] ))
 
-        ,generic_item([line_quantity_uom_code , w, tab  ] )
+        ,generic_item([line_gst_code, d  ] )
 
-       , generic_item([ line_net_amount , d , newline ] )
-
-
-       ,clear(regexp_cross_word_boundaries)
-
-       ,clear(reverse_punctuation_in_numbers)
-
-        ,q10([	% LINE VAT Rate Calculation
-  
-       with( invoice , total_vat , VAT )
-
-      , with( invoice , total_net , Net )
-
-      , trace( [ `vat tot`, VAT ] )
-
-     , trace( [ `sub total`, Net ] )
-
-     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-     , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
-         
-] ).
-
-%=======================================================================
-i_line_rule( line_descs_line, [
-%=======================================================================
-	
-        q10(generic_append( [ line_descr , s1, tab, ` , `, ``  ] ))
-        ,generic_append( [ line_descr , s1, newline, ` , `, ``  ] )
         
+       , generic_item([ line_net_amount , d , newline ] )
+
+
+       ,clear(regexp_cross_word_boundaries)
+
+       ,clear(reverse_punctuation_in_numbers)
+
+     , q10([
+       or([
+
+             [ check(line_gst_code= `J`)
+
+            , generic_item( [ line_vat_rate, `19` ] ) ] % 2.0
+
+            ,[ check(line_gst_code= `N`)
+
+            , generic_item( [ line_vat_rate, `0`] ) ] 
+
+          ])
+
+     ])
+         
 ] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
