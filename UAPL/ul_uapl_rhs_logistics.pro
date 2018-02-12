@@ -66,7 +66,7 @@ i_rule( get_invoice_number, [
 
     q(0,10,line)
 
-    ,or([generic_horizontal_details( [ [ `Document`,`Number`, q10(tab), `:`, q10(tab) ], invoice_number, w, newline ] )
+    ,or([generic_horizontal_details( [ [ `Document`,`No`, q10(tab), q10(`:`), q10(tab) ], invoice_number, s1, newline ] )
 
     ])
 
@@ -84,7 +84,7 @@ i_rule( get_invoice_date, [
 
     q(0,10,line)
 
-    ,generic_horizontal_details( [ [  `Date`, tab, `:`,q10(tab) ], 30, invoice_date, date, newline ] )
+    ,generic_horizontal_details( [ [  `Date`, tab, q10(`:`),q10(tab) ], 30, invoice_date, date, newline ] )
 
 ] ).
 
@@ -146,7 +146,7 @@ i_rule( get_currency, [
 
 q(0,50,line)
 
-,or([generic_horizontal_details( [ [ `Amount`,  q10(tab) ] , total_invoice, w, newline ] )
+,or([generic_horizontal_details( [ [ `Amount`,  q10(tab) ] , currency, w, newline ] )
 
 
 ])
@@ -170,7 +170,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-             [ line_invoice_line, q10(line_append_line)]
+              line_invoice_line
 
               , line
 
@@ -200,8 +200,9 @@ i_line_rule_cut( line_end_line, [
 
 or([
   
-    [`sales`,`order`]
-   , [`Grand`, q10(tab), `Total`]
+    [`US`,`Dollars`]
+
+   , [q10(tab), `Total`]
 
 ])
 
@@ -213,62 +214,10 @@ or([
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-generic_item( [ line_number, w ] )
 
-,generic_item( [ line_item, w, tab ] )
-
-,generic_item( [ line_quantity_uom_code, w, tab ] )
-
-,generic_item( [ line_quantity, w, tab ] )
-
-,generic_item( [ line_unit_amount, d, tab ] )
+ generic_item( [ line_descr, s1, tab ] )
 
 ,generic_item( [ line_net_amount, d, newline ] )
-
-
-
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_append_line, [
-%=======================================================================
-
-generic_item( [ line_descr, s1, newline ] )
-
-]).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_landscape, [
-%=======================================================================
-
-generic_item( [ line_item, w] )
-
-, generic_item( [ line_descr, s1, tab ] )
-
-,generic_item( [ line_quantity_uom_code, w, q10(tab) ] )
-
-,generic_item( [ line_quantity, d, tab ] )
-
-,generic_item( [ line_gross, d, tab ] )
-
-,generic_item( [ line_net, d, tab ] )
-
-,generic_item( [ line_weigt_gross, d, tab ] )
-
-,generic_item( [ line_weight_net, d, tab ] )
-
-,generic_item( [ line_volume, d, tab ] )
-
-,generic_item( [ line_unit_amount, d, tab ] )
-
-,generic_item( [ line_net_amount, d, q10(tab) ] )
-
-,generic_item( [ line_hscc, d, tab ] )
-
-,generic_item( [ line_origin_dummy, s1, newline ] )
-
-
 
 
 ] ).
