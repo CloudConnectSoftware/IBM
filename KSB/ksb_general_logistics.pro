@@ -26,25 +26,25 @@ i_rule_list( [
 
     ,set_credit_note
   
-    , get_bank_account_no
+   % , get_bank_account_no
 	
 	, get_invoice_number
 
-    , get_order_number
+    %, get_order_number
 	
 	, get_invoice_date
 
     , get_due_date
 
-    , get_delivery_note_nr
+   % , get_delivery_note_nr
 
 	, get_total_invoice
 
     , get_currency
 
-    ,get_net_amount
+    %,get_net_amount
 
-    , get_total_vat
+    %, get_total_vat
 
     , get_invoice_lines
 
@@ -150,7 +150,7 @@ i_line_rule( line_add_line1, [
 
      , trace( [ `Found address Buyer`] )
 
-     , generic_item( [buyer_party , s1, newline ])
+     , generic_item( [buyer_party , s1, tab ])
 
 ] ).
 
@@ -161,7 +161,7 @@ i_line_rule( line_add_line2, [
 
       , `D`, `-`, `67227`
 
-      ,generic_item( [ buyer_city , w , newline ] )
+      ,generic_item( [ buyer_city , w , tab ] )
 
 
 ] ).
@@ -369,7 +369,7 @@ i_rule( get_currency, [
 
     ,or([
  
-    generic_horizontal_details( [ [ `Endbetrag`,tab ],600, currency, w, tab ] )
+    generic_horizontal_details( [ [ `Endbetrag`,tab ], currency, w, tab ] )
 
 
           ])
@@ -416,8 +416,9 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-        [ `Paketnr`, `Referenznummer` ]
+        [ `Paketnr`,tab, `Referenznummer` ]
 
+       
       ])
 
     , trace([`found the start line`])
@@ -430,7 +431,9 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
-         [`Zwischensumme` ]
+         [`Services`,`:` ]
+
+         ,[`Gesamtbetrag`,` MwSt`]
 
         ])
 
@@ -441,14 +444,14 @@ i_line_rule_cut( line_end_line,[
 %=======================================================================
 i_line_rule( line_invoice_line, [
 %=======================================================================
-	
-        set(reverse_punctuation_in_numbers)
+	set(regexp_cross_word_boundaries)
+        , set(reverse_punctuation_in_numbers)
 
-        ,generic_item([line_item , w   ] )
+        ,generic_item([line_item , d   ] )
 
-        ,generic_item([line_descr , w ,tab  ] )
+        ,q10(generic_item([line_descr , d ,tab  ] ))
 
-        ,generic_item([line_descr , d  ] )
+        ,q10(generic_item([line_dummy1 , d, tab  ] ))
 
         ,generic_item([line_quantity_uom_code_dummy1 , w , tab  ] )
 
