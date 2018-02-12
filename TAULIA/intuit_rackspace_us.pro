@@ -322,9 +322,7 @@ i_line_rule_cut( line_header_line, [
 
 or([
 
-   [`Service`, tab, `Reference`, `No`, `.`, tab ]
-
-   , [`INVOICE`, tab, `Page`]
+   [`Current`, `Invoice`, `Charges` ]
 
 ] )
 
