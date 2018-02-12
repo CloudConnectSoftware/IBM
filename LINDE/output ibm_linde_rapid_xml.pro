@@ -1,5 +1,5 @@
 
-i_version( output_ibm_rapid_xml, `10:34 06 July 2017` ).
+i_version( output_ibm_rapid_xml, `12/02/2018 16:52:29` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,9 +174,9 @@ write_invoice_fields___
 :-
 %===============================================================================
 
-	write_field( `D_CaptureType`, invoice, capture_type ),
+	write_field( `S_CaptureType`, invoice, capture_type ),
 	
-	write_field( `D_BusinessUnit`, invoice, buyer_dept ),
+	write_field( `D_Country`, invoice, buyer_dept ),
 	
 	write_field( `D_CompanyCode`, invoice, buyer_registration_number ),
 	
@@ -187,50 +187,54 @@ write_invoice_fields___
 	write_field( `C_CTEmailTo`, invoice, ct_email_to ),
 	
 	write_field( `C_CTEmailFrom`, invoice, ct_email_from ),
+
+	write_field( `S_EmailFrom`, invoice, email_from ),
 	
 	write_field( `C_CTEmailSubject`, invoice, ct_email_subject ),
 	
 	write_field( `C_CTPages`, invoice, ct_pages ),
-	
-	write_field( `I_VendorName`, invoice, supplier_party ),
-	
-	write_field( `I_VendorAddress`, invoice, supplier_address_line ),
-	
-	write_field( `I_VendorTax`, invoice, supplier_vat_number ),
-	
-	write_field( `I_VendorBankAcc`, invoice, supplier_bank_account_number ),
-	
-	write_field( `I_VendorBankCode`, invoice, supplier_bank_code ),
-	
-	write_field( `I_VendorIBAN`, invoice, supplier_iban ),
-	
-	write_field( `I_VendorSwift`, invoice, supplier_swift_code ),
-	
-	write_field( `I_InvType`, invoice, invoice_type ),
-	
-	write_field( `I_InvDate`, invoice, date ),
-	
-	write_field( `I_InvDueDate`, invoice, processed_due_date ),
-	
-	write_field( `I_InvPayterms`, invoice, payment_terms ),
 
-	write_field( `I_InvNumber`, invoice, invoice_number ),
-
-	write_field( `I_InvTotal`, invoice, total_invoice ),
-
-	write_field( `I_InvTax`, invoice, total_vat ),
-
-	write_field( `I_Currency`, invoice, currency ),
+	write_field( `C_CTReason`, invoice, ct_reason ),
 	
-	write_field( `I_Requestor`, invoice, requestor ),
+	write_field( `D_SuppName`, invoice, supplier_party ),
 	
-	write_field( `I_PONumber`, invoice, order_number ),
+	write_field( `D_SuppNum`, invoice, supplier_id ),
 	
-	write_field( `I_DevNote`, invoice, delivery_note_number ),
+	write_field( `D_VATNo`, invoice, supplier_vat_number ),
+	
+	write_field( `D_VendorBankAcc`, invoice, supplier_bank_account_number ),
+	
+	write_field( `D_VendorBankCode`, invoice, supplier_bank_code ),
+	
+	write_field( `D_VendorIBAN`, invoice, supplier_iban ),
+	
+	write_field( `D_VendorSwift`, invoice, supplier_swift_code ),
+	
+	write_field( `D_DocType`, invoice, invoice_type ),
+	
+	write_field( `D_InvDate`, invoice, date ),
+	
+	write_field( `D_InvDueDate`, invoice, processed_due_date ),
+	
+	write_field( `D_InvPayterms`, invoice, payment_terms ),
 
-	write_field( `I_VendorNumber`, invoice, buyers_code_for_supplier ),
+	write_field( `D_InvNumber`, invoice, invoice_number ),
 
-	write_field( `I_VendorTerms`, invoice, vendor_terms )
+	write_field( `D_InvAmount`, invoice, total_invoice ),
+
+	write_field( `D_InvTaxCode`, invoice, default_vat_code ),
+
+	write_field( `D_InvTax`, invoice, total_vat ),
+
+	write_field( `D_WithHoldTax`, invoice, total_withheld_tax ),
+
+	write_field( `D_Curr`, invoice, currency ),
+	
+	write_field( `D_PONo`, invoice, order_number ),
+	
+	write_field( `D_DelivNo`, invoice, delivery_note_number ),
+
+	write_field( `D_FiscalYear`, invoice, fiscal_year )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -262,6 +266,8 @@ write_line___( LID )
 		write_start_element( `fields` ),
 
 			sys_string_number( LIDS, LID ),
+
+			write_field( `L_LineType`, LID, line_descr ),
 
 			write_field( `L_LineNumber`, LIDS ),
 
