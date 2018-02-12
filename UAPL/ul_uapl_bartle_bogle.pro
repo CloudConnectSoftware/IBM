@@ -167,6 +167,8 @@ i_rule( get_order_number, [
     ,generic_horizontal_details( [ [ `P`, `.`, `O` , `No` `:` ], order_number, w, newline ] )    
 
     ,generic_horizontal_details( [ [ `P`, `.`, `O` , `No` `:` ], order_number, w, newline ] )
+
+    ,generic_horizontal_details( [ [ `Reference`, tab], order_number, s1, newline ] )
     
      ])
 
