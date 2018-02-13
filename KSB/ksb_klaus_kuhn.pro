@@ -119,7 +119,7 @@ i_rule( get_buyer_address, [
 
    , line_add_line
 
-   , q(1,5,line)
+   , q(1,7,line)
 
     ,line_add_line2
 
@@ -133,9 +133,11 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , s1 , or([tab, newline]) ] )
-   
+     , generic_item( [buyer_party_raw , s1 , or([tab, newline]) ] )
 
+     , check(buyer_party_raw  =Buyer1) ,check(strip_string2_from_string1( Buyer1, `.`, Buyer_new )) 
+         
+      ,   buyer_party(Buyer_new) , trace( [ `buyer party `, buyer_party ] )
 ] ).
 
 %=======================================================================
@@ -144,7 +146,12 @@ i_line_rule( line_add_line2, [
 
       generic_item( [ buyer_postcode , [ begin, q(dec,5,6) , end ]  ] )
 
-      ,generic_item( [ buyer_city , w , or([tab,newline]) ] )
+      ,or([
+          generic_item( [ buyer_city , w , or([tab,newline]) ] )
+
+          ,generic_item( [ buyer_city , w , dummy_city(w) ] )
+
+      ])
 
 
 ] ).
@@ -199,6 +206,8 @@ q(0,30,line)
        generic_horizontal_details( [[`Rechnung`, `RE`, `/` ], invoice_number, d,  newline ] )
 
        ,generic_horizontal_details( [[`Gutschrift`, `GW`, `/` ], invoice_number, d,  newline ] )
+
+       ,generic_horizontal_details( [[`Gutschrift`, `GQ`, `/` ], invoice_number, d,  newline ] )
        
 
     ])
@@ -308,6 +317,16 @@ q(0,100,line)
     [set(regexp_cross_word_boundaries)
 
     ,generic_horizontal_details( [ [ `Gesamtwert`,`netto`],200, total_net, d,  newline ] )
+
+    ,clear(regexp_cross_word_boundaries)]
+
+    ,[set(regexp_cross_word_boundaries)
+
+    ,generic_horizontal_details( [ [ `Warenwert`],200, net_subtotal_1, d,  newline ] )
+
+    ,q(0,1,line)
+
+    , generic_horizontal_details( [ [ `Verpackung`],200, net_subtotal_2, d,  newline ] )
 
     ,clear(regexp_cross_word_boundaries)]
 
