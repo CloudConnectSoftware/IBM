@@ -396,6 +396,8 @@ i_section( get_invoice_lines, [
 
            ,   [q10(line_descr_line), q10( line_append_line),q10( line_append_line),line_invoice_line1]
 
+           ,   [q10(line_descr_line), q10( line_append_line),line_invoice_line2]
+
               , line
 
         ] )
@@ -408,8 +410,14 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    
+    or([
+
+
     [`Description`, tab, `Qty`, tab, `Rate`]
+
+    , [`Description`, tab, `Amount`,  newline ]
+
+    ] )
 
     , trace( [ `Found Start line` ] )
 
@@ -471,6 +479,30 @@ i_line_rule_cut( line_invoice_line1, [
     generic_append( [ line_descr, s1, tab, ` `, ` ` ] )
 
    ,generic_item( [ line_net_amount,d, newline ] )
+
+ 
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+    generic_append( [ line_descr, s1, tab, ` `, ` ` ] )
+
+    , [generic_item( [ line_net_amount_dummy, s1, newline ] )
+
+      , check( line_net_amount_dummy = TotalRaw )
+
+    , trace( [ `invoice_total_raw1`, TotalRaw ] )
+
+    , check(string_string_replace( TotalRaw, `T`, ``,Totalstrip ))
+
+    , trace( [ `Total_stripped`, Totalstrip ] )
+
+    , line_net_amount(Totalstrip)
+
+    , trace( [ `Invoice total captured`, line_net_amount ] )]
 
  
   

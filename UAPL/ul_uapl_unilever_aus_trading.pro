@@ -100,7 +100,7 @@ i_rule( get_bank_accountnumber, [
    	
    ,generic_horizontal_details( [ [ `Account`, `No`, `:` ], supplier_bank_account_number_raw, s1, newline ] )
 
-   , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`032802-002`), generic_item( [ supplier_bank_account_number, `32802002` ] )
+   , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`032802-002`), generic_item( [ supplier_bank_account_number, `032802002` ] )
 
  
  

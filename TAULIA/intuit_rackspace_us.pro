@@ -203,6 +203,15 @@ i_rule( get_invoice_date, [
 
     , trace( [ `Invoice Date` , invoice_date ] )
 
+    
+      , check( invoice_date = DeliveryDate )
+
+        , trace( [ `Delivery Date` , DeliveryDate] )
+
+        , delivery_date(DeliveryDate)
+
+        , trace( [ `DeliveryDate` , delivery_date ] )
+
 
 ] ).
 
@@ -311,9 +320,11 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
+or([
 
-   [`Service`, tab, `Reference`, `No`, `.`, tab ]
+   [`Current`, `Invoice`, `Charges` ]
 
+] )
 
    , trace( [ `Found Start line` ] )
 
@@ -323,8 +334,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
+  or([
 
-       [`Subtotal`, `:`, tab, `$`]
+        [`INVOICE`, tab, `Page`]
+
+       , [`Total`, `Before`, `Tax`, `:`, tab ]
+
+       ] )
 
 
   , trace( [ `Found End line` ] )
@@ -339,11 +355,11 @@ i_line_rule_cut( line_invoice_line, [
 
    generic_item( [ line_descr, s1, tab ] )
 
-  , generic_item( [ line_item, d ] )
+  , q10(generic_item( [ line_item, d ] ))
 
-  , generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+  , q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
-  , generic_append( [ line_descr, s1, tab, `, `, ` `  ] )
+  , q10(generic_append( [ line_descr, s1, tab, `, `, ` `  ] ))
 
   , generic_item( [ line_quantity , d ] )
 

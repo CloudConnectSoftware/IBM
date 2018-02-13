@@ -167,6 +167,8 @@ i_rule( get_order_number, [
     ,generic_horizontal_details( [ [ `P`, `.`, `O` , `No` `:` ], order_number, w, newline ] )    
 
     ,generic_horizontal_details( [ [ `P`, `.`, `O` , `No` `:` ], order_number, w, newline ] )
+
+    ,generic_horizontal_details( [ [ `Reference`, tab], order_number, s1, newline ] )
     
      ])
 
@@ -308,6 +310,8 @@ or([
         
 
 		[`The`, `amounts`, `in`, `this`, `invoice`, `is`, `net`, `of`, `any`]
+
+        , [`Gross`]
 
         , [`Page`, `2`, `of`, `2`]
 

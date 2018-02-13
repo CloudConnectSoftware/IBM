@@ -74,13 +74,13 @@ i_rule( get_bank_account_no, [
 
         [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`, `:`, q10(tab)],  supplier_bank_account_number_inv, w, [`(`, `SGD`] ] )
 
-        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`141-055848-001` )  , supplier_bank_account_number(`141055848001`) ]
+        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`141-055848-001` )  , supplier_bank_account_number(`55848001`) ]
 
         ,[check( Currency = `USD` ) ,generic_vertical_details( [ [ `Account`, `NO`, `:` ], `No`, q(0,1), (end,10,30), supplier_bank_account_number_inv, w,  [`(`, `USD`]  ] )
-        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`260-239967-178` )  , supplier_bank_account_number(`260239967178`)]
+        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`260-239967-178` )  , supplier_bank_account_number(`239967178`)]
 
         ,[check( Currency = `EUR` ) ,generic_vertical_details( [ [ `Account`, `NO`, `:` ], `No`, q(1,2), (end,10,30), supplier_bank_account_number_inv, w,  [`(`, `EUR`]  ] )
-        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`260-239967-179` )  , supplier_bank_account_number(`260239967179`)]
+        ,check( supplier_bank_account_number_inv = SupAccount )  , check( SupAccount=`260-239967-179` )  , supplier_bank_account_number(`239967179`)]
 
     ])
 	

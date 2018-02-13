@@ -311,6 +311,12 @@ i_section( get_invoice_lines, [
               
         line_invoice_line
 
+        , line_invoice_line1
+
+        , line_invoice_line2
+
+        , line_invoice_line3
+
               , line
 
         ] )
@@ -324,7 +330,13 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
     
+   or([
+
     [`Employee`, `Name`, tab, `Fee`, `Type`, tab ]
+
+    , [`Fee`, `Type`, tab, `Fee`, `Description`, tab ]
+
+    ] )
 
     , trace( [ `Found Start line` ] )
 
@@ -334,7 +346,17 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-       [`ManpowerGroup`, `US`, `Inc`]
+
+   or([
+
+       [`Sub`, `Total`, tab]
+
+       , [`SubTotal`, tab ]
+       
+       ,[`ManpowerGroup`, `US`, `Inc`]
+
+] )
+
 
      , trace( [ `Found End line` ] )
 
@@ -349,9 +371,9 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_descr, s1, tab ] )
 
-  , generic_append( [ line_descr, s1, tab , ` , `, ` `  ] )
+  , generic_append( [ line_descr, s1, q10(tab) , ` , `, ` `  ] )
 
-  , generic_item( [ line_descr_type, w, tab ] )
+  , generic_item( [ line_descr_type,s1, tab ] )
 
   , generic_item( [ line_quantity, d, tab ] )
 
@@ -368,6 +390,79 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
+%=======================================================================
+
+   
+
+    generic_item( [ line_descr, s1, tab ] )
+
+  , generic_append( [ line_descr, s1, q10(tab) , ` , `, ` `  ] )
+
+  , generic_item( [ line_descr_type, s1, tab ] )
+
+  , generic_item( [ line_billing, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, [ tab, `$`] ] )
+
+  , generic_item( [ line_unit_amount, d, [ tab, `$`] ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+] ).
+
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+   
+
+    generic_item( [ line_descr, s1, tab ] )
+
+  , q10(generic_append( [ line_descr, s1, q10(tab) , ` , `, ` `  ] ))
+
+  , generic_item( [ line_descr_type, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+   
+
+    generic_item( [ line_descr, s1, tab ] )
+
+  , generic_append( [ line_descr, s1, q10(tab) , ` , `, ` `  ] )
+
+  , generic_item( [ line_buyers_order_number, d, tab ] )
+
+  , generic_item( [ line_dummy, s1, tab ] )
+
+  
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_billing, s1, [tab, `$`] ] )
+
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -378,6 +473,12 @@ i_line_rule_cut( line_invoice_line, [
 % Updated on   - December 18, 2017
 % Updated by   - Rohini
 % Changes made - Supplier Address mapped 
+
+
+% Updated on   - Feb 10, 2017
+% Updated by   - Rohini
+% Changes made - New Line format mapped
+
 
 % Updated on   - 
 % Updated by   -

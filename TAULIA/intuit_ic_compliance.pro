@@ -8,7 +8,7 @@ i_version( intuit_ic_compliance, `06 December 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
@@ -405,6 +405,11 @@ i_line_rule_cut( line_invoice_line, [
 % Updated on   - December 18,2017
 % Updated by   - Rohini 
 % Changes made - Supplier Address
+
+% Updated on   - Feb 6,2017
+% Updated by   - Rohini 
+% Changes made - Invoice date
+
 
 
 % Updated on   - 

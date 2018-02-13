@@ -166,6 +166,8 @@ i_rule( get_order_number, [
 
          ,generic_horizontal_details( [ [ `PO`, `.`, `NO`, `:`], order_number, w, newline ] )
 
+          ,generic_horizontal_details( [ [ `Reference`, tab], order_number, s1, newline ] )
+
     ])
 
     , check(order_number = OrdNo)
@@ -197,7 +199,7 @@ i_rule( get_total_invoice, [
      , check( Currency = `USD` ) 
 
 
-    , generic_horizontal_details( [ [ `Total`,tab, `USD`], 900, total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`,q10(tab), q10(`USD`) ], 900, total_invoice, d, newline ] )
 
     
 
@@ -223,7 +225,7 @@ i_rule( get_total_net, [
       , check( Currency = `USD` ) 
 
 
-    , generic_horizontal_details( [ [ `Total`,tab, `USD` ], 900, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`,q10(tab), q10(`USD`) ], 900, total_net, d, newline ] )
 
      
 
@@ -242,7 +244,7 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_horizontal_details( [ [ `Currency` ], 150, currency , w, newline ] )
+    , generic_horizontal_details( [ [ `Currency` ], 200, currency , w, newline ] )
 
 ] ).
 

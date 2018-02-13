@@ -89,7 +89,7 @@ i_rule( get_supplier_details, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-  q(0,50,line)
+  qn0(line)
 
  , generic_horizontal_details( [ [ `IBAN`, `:` ],  supplier_bank_account_raw, s1, newline ] ) 
 
@@ -150,7 +150,7 @@ i_rule( get_order_number, [
 
     last_line
 
-    , q(0,15,up)
+    , q(0,20,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
@@ -159,8 +159,20 @@ i_rule( get_order_number, [
 
         , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab), dummy_word(w),q10(dummy_word1(w)), q10(`;`) ], order_number, d,  newline ] )
 
-, generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
+        , generic_horizontal_details( [ [  `Consignee`, `Numbe`, `r`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
+
+        , find_order_number
         ])
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,15) , end ] ] )
 
 ] ).
 
@@ -307,7 +319,7 @@ i_rule( get_alternative_net, [
 
     last_line
 
-    ,q(0,15,up)
+    ,q(0,25,up)
 
    , set(reverse_punctuation_in_numbers)
 
@@ -336,7 +348,7 @@ i_rule( get_alternative_net, [
     
  last_line
 
-    ,q(0,15,up)
+    ,q(0,25,up)
 
      
    , set(reverse_punctuation_in_numbers)
@@ -346,7 +358,7 @@ i_rule( get_alternative_net, [
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
- , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
+ , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, tab ] )
 
 
   ])
@@ -371,7 +383,7 @@ i_rule( get_alternative_net, [
     
        last_line
 
-    ,q(0,15,up)
+    ,q(0,20,up)
 
       
    , set(reverse_punctuation_in_numbers)
@@ -497,8 +509,11 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
+     set(regexp_cross_word_boundaries)
 
-     generic_item( [ line_quantity, d, q10(tab) ] )
+    , set(reverse_punctuation_in_numbers)
+
+     , generic_item( [ line_quantity, d, q10(tab) ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -514,31 +529,18 @@ i_line_rule_cut( line_invoice_line1, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    , [generic_item( [ line_net_amount_raw, s1, tab ] )
+    ,generic_item( [ line_net_amount, d, tab ] )
     
-    , check( line_net_amount_raw = TotalRaw )
-
-    , trace( [ `Line Total Amount raw` , TotalRaw ] )
-
-    , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
-
-    , trace( [ `Line Net Amount Stripped Comma`, TotalStrip ] )
-
-    , trace( [ `Line Net Amount raw2` , TotalStrip] )
-
-    , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
-     
-    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
-
-    , line_net_amount(TotalStrip1)
-
-    , trace( [ `Line Total Amount` , line_net_amount ] ) ]
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
     , q10(generic_item( [ line_vat_amount, d, newline ] ))
 
     , trace( [ `line_invoice_line1` ] )
+
+    , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)
 
  
 ] ).
@@ -718,7 +720,10 @@ i_line_rule_cut( line_net_line, [
 i_line_rule_cut( line_qty_line, [
 %=======================================================================
 
+       set(reverse_punctuation_in_numbers)
 
+     , set(regexp_cross_word_boundaries)
+      ,
       generic_item( [ line_quantity, d ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
@@ -728,6 +733,10 @@ i_line_rule_cut( line_qty_line, [
     , generic_item( [ line__curency, w, tab ] )
 
     , generic_item( [ line_dummy, s1, newline ] )
+
+    , clear(reverse_punctuation_in_numbers)
+
+    , clear(regexp_cross_word_boundaries)
 
  ] ).
 

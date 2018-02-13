@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( in_house, `14/2/2017 10:46:05` ).
+i_version( ul_uapl_in_house, `14/2/2017 10:46:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,7 +105,7 @@ i_rule( get_vat_amount, [
 
   , or([ 
       
-      generic_horizontal_details( [ [ `VAT` , `Amount`, `.`],  TOTAL, s1 , newline ] )
+      generic_horizontal_details( [ [ `VAT` , `Amount`, `.`],  total_vat, s1 , newline ] )
 	 
      , total_vat(`0`)
 
@@ -203,7 +203,15 @@ i_rule( get_total_invoice, [
 
     q0n(line)
 
-     , generic_horizontal_details( [ [ `TOTAL`, `:`  ], 120 , total_invoice, d, newline ] )
+     , generic_horizontal_details( [ [ `TOTAL`, `:`  ], 200 , total_invoice, d, newline ] )
+
+     , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )
 
      
 ] ).
