@@ -237,6 +237,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `8666309944` ), set( chain, `intuit_taulia_teletech` ), trace( [ `This is a TeleTech Services Corporation Document` ] ) ]
 
+	  , [ check_text( `408-686-4489` ), set( chain, `intuit_taulia_armor` ), trace( [ `This is a ArmorBlue, Inc Document` ] ) ]
+
 	  , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
 
 

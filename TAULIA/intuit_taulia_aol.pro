@@ -100,6 +100,38 @@ i_rule( get_invoice_number, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+
+  q(0,50,line)
+
+  , generic_horizontal_details( [ [`ABA`, `:` ], bank_number, d, newline ] )
+
+  , q(0,1,line)
+
+  , [generic_horizontal_details( [ [`Acct`, `#` ], bank_account_number_raw,s1, newline ] )
+
+      , check( bank_account_number_raw = BankRaw )
+
+    , check(string_string_replace( BankRaw, `-`, ``, BankStrip ))
+
+    , bank_account_number(BankStrip)
+
+    , trace( [ `Bank account` , bank_account_number ] )]
+
+  , q(0,1,line)
+
+  , generic_horizontal_details( [ [`Swift`, `Code`, `-`], swift_bic_number, s1, newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

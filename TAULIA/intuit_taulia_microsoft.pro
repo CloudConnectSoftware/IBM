@@ -28,6 +28,8 @@ i_rule_list( [
     , get_shipto_address
 
     , get_bank_accountnumber
+
+    , get_bank_accountnumber1
  
     , set_credit_note
                      
@@ -235,7 +237,13 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
+     , or([
+
+        generic_horizontal_details( [ [`Invoice`, `No`, `:` ],invoice_number, d, newline ] )
+
      , generic_horizontal_details( [ [`Document`, `No`, `:`, tab ],invoice_number, d, newline ] )
+
+] )
 
 
 ] ).
@@ -259,6 +267,44 @@ i_rule( get_bank_accountnumber, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BANK ACCOUNT NUMBER ALTERNATIVE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber1, [
+%=======================================================================
+
+    
+    
+     q(0,20,line)
+
+     , generic_horizontal_details( [ [`Acct`, `#` ], bank_account_number, d, newline ] )
+
+      ,    q(0,2,line)
+
+     ,[generic_horizontal_details( [ [`Aba`, `#`], bank_number_raw, s, [`(`, `ACH`, `)`] ] )
+
+      , check( bank_number_raw = BankRaw )
+
+    , trace( [ `Bank number raw` , BankRaw ] )
+
+    , check(string_string_replace( BankRaw, `-`, ``, BankStrip ))
+
+    , trace( [ `Bank Stripped Space` , BankStrip ] )
+
+    , bank_number(BankStrip)
+
+    , trace( [ `Bank account Number` , bank_number ] )  ]
+
+
+
+] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE DATE
@@ -271,8 +317,9 @@ i_rule( get_invoice_date, [
 
      q(0,25,line)
 
+  , or([
 
-     , generic_horizontal_details( [ [ `Document`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+    [generic_horizontal_details( [ [ `Invoice`, `Date`, `:`, dummy_num(w), `,` ], invoice_date, date, newline ] )
 
           , check( invoice_date = Deliverydate )
 
@@ -280,10 +327,21 @@ i_rule( get_invoice_date, [
 
         , delivery_date(Deliverydate)
 
-        , trace( [ `Delivery Date` , delivery_date ] )
+        , trace( [ `Delivery Date` , delivery_date ] )]
 
 
+     , [generic_horizontal_details( [ [ `Document`, `Date`, `:`, tab ], invoice_date, date, newline ] )
 
+          , check( invoice_date = Deliverydate )
+
+        , trace( [ `Delivery date` , Deliverydate] )
+
+        , delivery_date(Deliverydate)
+
+        , trace( [ `Delivery Date` , delivery_date ] )]
+
+
+] )
 
 ] ).
 
@@ -319,8 +377,13 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
+     , or([
+
+      generic_horizontal_details( [ [ tab, `PO`, `:` ], po_number, d, newline ] )
+
      , generic_horizontal_details( [ [ `PO`, `Number`, `:` ], po_number, d, newline ] )
    
+] )
 
 ] ).
 
@@ -380,8 +443,14 @@ i_rule( get_total_invoice, [
 
  , q(0,100,up)
  
- 
- ,generic_horizontal_details( [ [ `Total`, `Amount`, tab, generic_item( [ currency, w ] ), tab ],  total_invoice, d, newline ] )
+ ,or([
+
+  generic_horizontal_details( [ [ `Total`, `Amount`, tab, generic_item( [ currency, w ] ), tab ],  total_invoice, d, newline ] )
+
+ , generic_horizontal_details( [ [`Total`, `for`, `Invoice`, `(`, generic_item( [ currency, w ] ), `)`, tab ],  total_invoice, d, newline ] )
+
+
+] )
 
 ] ).
 
@@ -406,6 +475,16 @@ i_section( get_invoice_lines, [
               
           [line_invoice_line, q10(line_append_line)]
 
+          , line_invoice_line1
+
+          , line_invoice_line2
+
+         % , line_invoice_line3
+
+          , line_invoice_line4
+
+          , line_invoice_line5
+
 
               , line
 
@@ -419,9 +498,17 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-        
-        [`Line`, `No`, `.`, tab, `Usage`, `Country`]
+        or([
 
+            [`Name`, tab, `Week`, `Starting`]
+
+            ,  [`Name`, tab, `Date`, tab, `Category`]
+
+
+        , [`Line`, `No`, `.`, tab, `Usage`, `Country`]
+        
+
+] )
 
     , trace( [ `Found Start line` ] )
 
@@ -433,7 +520,26 @@ i_line_rule_cut( line_end_line, [
 
      or([
 
-     [`We`, `hereby`, `certify`, `that`, `the`, `information`]
+         [`Page`]
+
+         , [`MCS`, `_`, `uiInvoiceCDN`, tab, `Page`]
+
+         
+         , [`Page`, `2`, `of`, `16`,  newline ]
+
+         , [`Name`, tab, `Date`, tab, `Category`]
+
+         , [`Sub`, `-`, `total`, `for`, `Services`]
+
+
+         , [`Remit`, `To`, `:`, tab ]
+
+         , [`https`, `:`, `/`, `/`, `cp`, `/`, `Core`, `/`, `Report`, `/`]
+
+         , [`Total`, `for`, `Invoice`, `(`]
+
+
+    , [`We`, `hereby`, `certify`, `that`, `the`, `information`]
 
      ] )
 
@@ -489,6 +595,93 @@ i_line_rule_cut( line_append_line, [
   
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
+%=======================================================================
+
+    generic_item( [ line_descr_dummy4, s1, tab ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , q10(generic_item( [ line_descr_dummy5, s1, tab ] ))
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+    q10(generic_item( [ line_descr_dummy5, s1, tab ] ))
+
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , q10(generic_item( [ line_descr_dummy5, s1, tab ] ))
+
+ , q10(generic_item( [ line_descr_dummy6, s1, tab ] ))
+
+  , q10(generic_item( [ line_descr_dummy7, s1, tab ] ))
+
+  , q10(generic_item( [ line_descr_dummy8, s1, tab ] ))
+
+ , q10(generic_item( [ line_descr_dummy9, s1, tab ] ))
+
+  , q10(generic_item( [ line_descr_dummy10, s1, tab ] ))
+
+  , generic_item( [ line_quantity_dummy, d, tab ] )
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+    generic_item( [ line_descr_dummy6, s1, tab ] )
+
+  , generic_item( [ line_descr_dummy8, s1, tab ] )
+
+  , generic_item( [ line_descr_dummy7, s1, tab ] )
+
+   , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line5, [
+%=======================================================================
+
+  
+    generic_item( [ line_start_date, date, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, tab ] )
+
+   , generic_item( [ line_descr, s1, [tab, `(`] ] )
+
+  , generic_item( [ line_net_amount, n, [`)`,  newline ] ] )
+
+  
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
