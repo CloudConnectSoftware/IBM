@@ -83,7 +83,7 @@ i_rule( get_bank_accountnumber, [
 
     , or([
         
-        [check( Currency = `USD` ),generic_horizontal_details( [ [`Account`, tab ],  supplier_bank_account_number_raw, w, tab ] )
+        [check( Currency = `USD` ),generic_horizontal_details( [ [`Account`, tab ],  supplier_bank_account_number_raw, w, `USD` ] )
 
     , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`260771449178`), generic_item( [ supplier_bank_account_number, `771449178` ] )
 
@@ -114,7 +114,7 @@ i_rule( get_invoice_number, [
    q(0,5,line)
 	
 
-    , generic_horizontal_details( [ [`TAX`, `INVOICE`],  invoice_number, w, newline ] )
+    , generic_horizontal_details( [ [`TAX`, `INVOICE`],  invoice_number, w, or([newline,tab]) ] )
   
 
 ] ).
@@ -131,7 +131,7 @@ i_rule( get_invoice_date, [
 
    q(0,5,line)
 	
-   	,generic_horizontal_details( [ [`INVOICE`, `DATE`, `:`],  invoice_date, date, newline ] )
+   	,generic_horizontal_details( [ [`INVOICE`, `DATE`, q10(`:`)],  invoice_date, date, newline ] )
 
 
 ] ).
