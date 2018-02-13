@@ -267,26 +267,32 @@ write_line___( LID )
 
 			sys_string_number( LIDS, LID ),
 
-			write_field( `L_LineType`, LID, line_descr ),
+			write_field( `L_LineType`, LID, line_type_code ),
 
 			write_field( `L_LineNumber`, LIDS ),
 
-			write_field( `L_Description`, LID, line_descr ),
+			write_field( `L_POLineNumber`, LID, line_order_line_number ),
 
-			write_field( `L_Amount`, LID, line_total_amount ),
+			write_field( `L_LineAmount`, LID, line_total_amount ),
 			
-			write_field( `L_TaxPercent`, LID, line_vat_rate ),
+			write_field( `L_TaxRate`, LID, line_vat_rate ),
 			
 			write_field( `L_TaxAmount`, LID, line_vat_amount ),
 			
 			write_field( `L_PONumber`, LID, line_buyers_order_number ),
 			
+			write_field( `L_Description`, LID, line_descr ),
+
+			write_field( `L_PartNumber`, LID, line_item ),
+
+			write_field( `L_DelivNo`, LID, line_delivery_note_number ),
+			
 			write_field( `L_UnitPrice`, LID, line_unit_amount ),
+			
+			write_field( `L_UOM`, LID, line_quantity_uom_code ),
 			
 			write_field( `L_Quantity`, LID, line_quantity ),
 			
-			write_field( `L_PartNumber`, LID, line_item ),
-
 		write_end_element,
 		
 	write_end_element
