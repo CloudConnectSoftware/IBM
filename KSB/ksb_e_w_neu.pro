@@ -170,7 +170,7 @@ q(0,100,line)
 
     ,[generic_horizontal_details( [ [  `Postbank`, `Ludwigshafen`, `Nr`, `.` ],  bank_raw2, s, [`,`, `BLZ`, generic_item( [ code_raw2, s1 ] ), newline ] ] )
   
-    , check(bank_raw2  =SupbNo2) ,check(strip_string2_from_string1( SupbNo2, ` `, SupNobNew2 )) ,supplier_bank_account_nummber_2(SupNobNew2) , trace( [ `Ne Bank acc 2`, supplier_bank_account_2 ] )
+    , check(bank_raw2  =SupbNo2) ,check(strip_string2_from_string1( SupbNo2, ` `, SupNobNew2 )) ,supplier_bank_account_number_2(SupNobNew2) , trace( [ `Ne Bank acc 2`, supplier_bank_account_2 ] )
 
     , check(code_raw2  =SupNo2) ,check(strip_string2_from_string1( SupNo2, ` `, SupNoNew2 ))  ,supplier_bank_code_2(SupNoNew2) , trace( [ ` New Bank acc code 2`, supplier_bank_code_2 ] )]
      
