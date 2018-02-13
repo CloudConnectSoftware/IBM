@@ -150,7 +150,7 @@ i_rule( get_order_number, [
 
     last_line
 
-    , q(0,15,up)
+    , q(0,20,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
