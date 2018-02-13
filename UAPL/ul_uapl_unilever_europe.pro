@@ -546,11 +546,19 @@ i_line_rule_cut( line_invoice_line1, [
 
     , trace( [ `Line Total Amount` , line_net_amount ] ) ]
 
+    , set(regexp_cross_word_boundaries)
+
+    , set(reverse_punctuation_in_numbers)
+
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
     , q10(generic_item( [ line_vat_amount, d, newline ] ))
 
     , trace( [ `line_invoice_line1` ] )
+
+    , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)
 
  
 ] ).
