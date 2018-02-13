@@ -186,7 +186,7 @@ i_rule_cut( get_invoice_number, [
 
      ,generic_horizontal_details( [ [ `Credit`,`Note` ,`Number`, `:` , tab ], invoice_number , w, newline ] )
 
-     ,generic_horizontal_details( [ [ `TAX`, `INVOICE` ],  invoice_number, w, tab ] )
+     ,generic_horizontal_details( [ [ `TAX`, `INVOICE` ],  invoice_number, s1, tab ] )
 
    
 
