@@ -288,6 +288,8 @@ i_rule( get_total_vat, [
 ]).
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -305,7 +307,7 @@ q(0,100,line)
 
     [set(regexp_cross_word_boundaries)
 
-    ,generic_horizontal_details( [ [ `Warenwert`],200, total_net, d,  newline ] )
+    ,generic_horizontal_details( [ [ `Gesamtwert`,`netto`],200, total_net, d,  newline ] )
 
     ,clear(regexp_cross_word_boundaries)]
 
@@ -314,6 +316,7 @@ q(0,100,line)
 	
 	
 ]).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -566,7 +569,7 @@ i_line_rule( line_invoice_line2, [
 i_rule( get_freight_line, [
 %=======================================================================
 
-    q(0,20,line)
+    q(0,200,line)
 
     , freight_line
 
@@ -578,7 +581,7 @@ i_line_rule( freight_line, [
 
 q0n(anything)
 
-    ,read_ahead([`Kosten`, `Verpackung`])
+    ,read_ahead([ `Verpackung`])
 
     , generic_item([ line_descr , s1 , tab ])
       
@@ -589,6 +592,26 @@ q0n(anything)
      , clear(regexp_cross_word_boundaries)
 
     , trace( [ `Freight Note Found` ] )
+
+    ,q10([	% LINE VAT Rate Calculation
+  
+       with( invoice , total_vat , VAT )
+
+      , with( invoice , total_net , Net )
+
+      , trace( [ `vat tot`, VAT ] )
+
+     , trace( [ `sub total`, Net ] )
+
+     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+     , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+       ])
 
 ] ).
 
