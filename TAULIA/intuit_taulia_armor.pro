@@ -132,8 +132,14 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
+,or([
+     
+       generic_horizontal_details( [ [ `Invoice`, `Number`, `:`], invoice_number_raw, s1, newline ] )
 
-    ,  [generic_horizontal_details( [ [ `Invoice`, `Number`, `:`], invoice_number_raw, s1, newline ] )
+       ,  generic_horizontal_details( [ [ `Inv`, tab ], invoice_number_raw, s1, newline ] )
+
+
+    ])
 
     , check( invoice_number_raw = InvoiceRaw )
 
@@ -145,7 +151,7 @@ i_rule( get_invoice_number, [
 
     , invoice_number(InvoiceStrip)
 
-    , trace( [ `Invoice Number` , invoice_number ] )  ]
+    , trace( [ `Invoice Number` , invoice_number ] )  
 
 
 
@@ -267,3 +273,104 @@ q0n(anything)
 ,trace( [ `currency found`] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+           [q10(line_descr_line),q10(line_append_line),q10(line_append_line), q10(line_append_line),q10(line_append_line), q10(line_append_line),line_invoice_line ]
+
+              , line
+
+        ] )
+    ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+         or([
+
+    [`Project`, `POS`, `program`,  newline ]
+
+    ,[`Project`, `Enterprise`, `Program`]
+
+      ] )
+
+    , trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+ 
+       or([
+           
+           [`Intuit`, `Contact`, `:`]
+        
+           ] )
+
+     , trace( [ `Found End line` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+      or([
+
+      generic_append( [ line_descr, s, [tab, `$` ], ` `, ` `  ] )
+
+      , generic_append( [ line_descr, s, [tab, `$`, `,`], ` `, ` `  ] )
+
+      ] )
+      
+   ,or([
+
+    generic_item( [ line_net_amount, d, newline] )
+
+] )
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+
+    generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+  
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+
+     generic_item( [ line_descr, s1, newline ])
+  
+] ).
+
+
+
+
+
+
+
