@@ -36,7 +36,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    %, get_line_total_amount
+    , get_line_total_amount
 
     , get_invoice_lines
 
@@ -316,11 +316,11 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
      ,or([ 
          
-          generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],   line_total_amount, d, newline ] )
+          generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],   line_net_amount, d, newline ] )
 
         , generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  line_net_amount, d, newline ] )
 
