@@ -324,6 +324,8 @@ i_rule( get_line_total_amount, [
 
         , generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  line_net_amount, d, newline ] )
 
+        ,line_descr(`Being disbursement of GST paid for shipment`)
+
        ])
 
 
