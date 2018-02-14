@@ -150,7 +150,7 @@ i_rule( get_order_number, [
 
     last_line
 
-    , q(0,20,up)
+    , q(0,100,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
@@ -232,7 +232,7 @@ i_rule( get_currency, [
 
      last_line
 
-    ,q(0,15,up)
+    ,q(0,100,up)
 
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
@@ -255,7 +255,7 @@ i_rule( get_currency, [
     
  last_line
 
-    ,q(0,30,up)
+    ,q(0,100,up)
 
      
   % , set(reverse_punctuation_in_numbers)
@@ -290,7 +290,7 @@ i_rule( get_currency, [
     
        last_line
 
-    ,q(0,30,up)
+    ,q(0,100,up)
       
   % , set(reverse_punctuation_in_numbers)
 
@@ -319,7 +319,7 @@ i_rule( get_alternative_net, [
 
     last_line
 
-    ,q(0,25,up)
+    ,q(0,100,up)
 
    , set(reverse_punctuation_in_numbers)
 
@@ -348,7 +348,7 @@ i_rule( get_alternative_net, [
     
  last_line
 
-    ,q(0,25,up)
+    ,q(0,100,up)
 
      
    , set(reverse_punctuation_in_numbers)
@@ -383,7 +383,7 @@ i_rule( get_alternative_net, [
     
        last_line
 
-    ,q(0,20,up)
+    ,q(0,100,up)
 
       
    , set(reverse_punctuation_in_numbers)
@@ -818,12 +818,14 @@ i_rule_cut( get_freight_charges, [
 %=======================================================================
   last_line
 
-     , q(0,50,up)
+     , q(0,100,up)
 
    , or([
        line_add_line1
 
        , line_add_line2
+
+       ,line_add_line3
 
    ])
 
@@ -883,6 +885,27 @@ i_line_rule_cut( line_add_line2, [
     , clear(regexp_cross_word_boundaries)
 
     , clear(reverse_punctuation_in_numbers)
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_line3, [
+%=======================================================================
+
+
+    or([
+        read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+
+    ])
+
+    , trace( [ `Found Freight`] )
+
+    ,generic_item( [ line_descr, s1, tab ] )
+    
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    , generic_item( [ line_total_amount, d, [q10(`EUR`),newline ]  ] )
+
 
 ] ).
 

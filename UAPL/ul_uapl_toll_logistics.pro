@@ -234,11 +234,11 @@ i_rule_cut( get_line_buyers_order_number, [
 
      ,  or( [
 
-          generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  line_buyers_order_number, d, newline ] )
+          generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:` ],100,  order_number, d, newline ] )
 
-      ,  generic_horizontal_details( [ [ `Account`, `No`, tab, `:`, tab ], 100, line_buyers_order_number, w, newline ] )
+      ,  generic_horizontal_details( [ [ `Account`, `No`, tab, `:`, tab ], 100, order_number, w, newline ] )
 
-      ,  generic_horizontal_details( [ [ `PO`, `No`, tab, `:`, tab ], 100, line_buyers_order_number, w, newline ] )
+      ,  generic_horizontal_details( [ [ `PO`, `No`, tab, `:`, tab ], 100, order_number, w, newline ] )
 
        ] )
 
@@ -340,12 +340,30 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
     , or([ 
         generic_horizontal_details( [ [ `Balance`, `Due`], currency, w] )
 
+       , generic_horizontal_details( [ [`7`, `%`, `On`], currency, w, dummy_net(d)] )
+
+        ,[generic_vertical_details( [ [ `Amount`], `Amount`, q(0,1), (end,40,40), currency_raw,w, [`)`,  newline] ] )
+
+        , check( currency_raw = CurrencyRaw )
+
+    , trace( [ `Curency raw` , CurrencyRaw ] )
+
+    , check(string_string_replace( CurrencyRaw , `(`,`` , Curency ))
+
+    , trace( [ `Bracket stripped Currency` , Currency ] )
+
+	, currency( Currency )
+
+    , trace( [ `New Currency` , currency ] )]
+
       ])
+
+      
                 
 ] ).
 

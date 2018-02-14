@@ -36,7 +36,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    %, get_line_total_amount
+    , get_line_total_amount
 
     , get_invoice_lines
 
@@ -195,6 +195,8 @@ i_rule_cut( get_invoice_order, [
             
          generic_horizontal_details( [ [ `PO`, `No`, tab ],  order_number,d, newline ] )
 
+         ,generic_horizontal_details( [ [ `PO`, `#`, `:`, tab ],  order_number,d, newline ] )
+
         ])
 
 
@@ -316,15 +318,18 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+     q0n(line)
 
      ,or([ 
          
-          generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],   line_total_amount, d, newline ] )
+          generic_horizontal_details( [ [ `Total`, `including`, `GST` , tab],   line_net_amount, d, newline ] )
 
         , generic_horizontal_details( [ [ `TOTAL`, `RINGGIT`, amount_sentence(s1), tab],  line_net_amount, d, newline ] )
+        
 
        ])
+
+       ,line_descr(`Being disbursement of GST paid for shipment`)
 
 
     ] ).
@@ -444,8 +449,8 @@ i_line_rule_cut( line_invoice_line1, [
 % Changes made - Invoice line details
 
 
-% Updated on   - 
-% Updated by   -
+% Updated on   - Feb 14
+% Updated by   - Thejaswi
 % Changes made - 
 
 
