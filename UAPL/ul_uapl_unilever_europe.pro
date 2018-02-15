@@ -616,25 +616,8 @@ i_line_rule_cut( line_invoice_crossword, [
 
     , clear(reverse_punctuation_in_numbers)
 
-    , [generic_item( [ line_net_amount_raw, s1, tab ] )
+    , generic_item( [ line_net_amount, d, tab ] )
     
-    , check( line_net_amount_raw = TotalRaw )
-
-    , trace( [ `Line Total Amount raw` , TotalRaw ] )
-
-    , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
-
-    , trace( [ `Line Net Amount Stripped Comma`, TotalStrip ] )
-
-    , trace( [ `Line Net Amount raw2` , TotalStrip] )
-
-    , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
-     
-    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
-
-    , line_net_amount(TotalStrip1)
-
-    , trace( [ `Line Total Amount` , line_net_amount ] ) ]
 
      , set(regexp_cross_word_boundaries)
 
