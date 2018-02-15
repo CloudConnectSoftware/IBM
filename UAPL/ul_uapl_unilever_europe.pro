@@ -144,7 +144,7 @@ i_rule( get_order_number, [
 
     last_line
 
-    , q(0,100,up)
+    , q(0,150,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
@@ -263,14 +263,12 @@ i_rule( get_currency, [
  , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
     
    , [ set(reverse_punctuation_in_numbers)  , set(regexp_cross_word_boundaries)
-  ,   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, or([tab,newline]) ] )
+  ,   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
    , clear(regexp_cross_word_boundaries)   , clear(reverse_punctuation_in_numbers)]
 
   ])
  
-   
-
 
 ] ).
 
@@ -437,7 +435,7 @@ i_line_rule_cut( line_invoice_line1, [
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
-    , q10(generic_item( [ line_vat_amount, d, newline ] ))
+    , q10(generic_item( [ line_vat_amount_dummy, d, newline ] ))
 
     , trace( [ `line_invoice_line1` ] )
 
