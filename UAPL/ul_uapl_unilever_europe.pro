@@ -210,8 +210,12 @@ i_rule( get_total_net, [
 
    %, set(regexp_cross_word_boundaries)
 
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
+    ,or([
+        
+        generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
+        ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
 
+    ])
      
    % , clear(regexp_cross_word_boundaries)
 
@@ -234,10 +238,16 @@ i_rule( get_currency, [
 
     ,q(0,100,up)
 
+,or([
+    generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
 
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
+    , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
-     
+    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
+
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)]
+    
+   ]) 
 
 
 ] ).
@@ -257,22 +267,31 @@ i_rule( get_currency, [
 
     ,q(0,100,up)
 
-     
-  % , set(reverse_punctuation_in_numbers)
-
-  % , set(regexp_cross_word_boundaries)
   , or([
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
  , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
+    
+   , [ set(reverse_punctuation_in_numbers)
+
+   , set(regexp_cross_word_boundaries)
+  , or([
+      
+   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
+
+ , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, tab ] )
 
 
   ])
  
-   % , clear(regexp_cross_word_boundaries)
+   , clear(regexp_cross_word_boundaries)
 
-  %  , clear(reverse_punctuation_in_numbers)
+   , clear(reverse_punctuation_in_numbers)]
+
+  ])
+ 
+   
 
 
 ] ).
@@ -291,17 +310,24 @@ i_rule( get_currency, [
        last_line
 
     ,q(0,100,up)
-      
-  % , set(reverse_punctuation_in_numbers)
+ 
 
-  % , set(regexp_cross_word_boundaries)
+   ,or([
+       
+     generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
 
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
+    , [ set(reverse_punctuation_in_numbers)
 
-  %  , clear(regexp_cross_word_boundaries)
+   , set(regexp_cross_word_boundaries)
 
-    %, clear(reverse_punctuation_in_numbers)
+   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
+   , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)]
+    
+   ])
+  
 
 ] ).
 
@@ -321,16 +347,7 @@ i_rule( get_alternative_net, [
 
     ,q(0,100,up)
 
-   , set(reverse_punctuation_in_numbers)
-
-   , set(regexp_cross_word_boundaries)
-
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
-
-     
-    , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
+   
 
 
 ] ).
@@ -351,21 +368,7 @@ i_rule( get_alternative_net, [
     ,q(0,100,up)
 
      
-   , set(reverse_punctuation_in_numbers)
-
-   , set(regexp_cross_word_boundaries)
-  , or([
-      
-   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
-
- , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, tab ] )
-
-
-  ])
  
-   , clear(regexp_cross_word_boundaries)
-
-   , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -386,15 +389,7 @@ i_rule( get_alternative_net, [
     ,q(0,100,up)
 
       
-   , set(reverse_punctuation_in_numbers)
-
-   , set(regexp_cross_word_boundaries)
-
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
-
-   , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
+ 
 
 
 ] ).
@@ -509,11 +504,8 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
-     set(regexp_cross_word_boundaries)
 
-    , set(reverse_punctuation_in_numbers)
-
-     , generic_item( [ line_quantity, d, q10(tab) ] )
+     generic_item( [ line_quantity, d, q10(tab) ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -538,10 +530,7 @@ i_line_rule_cut( line_invoice_line1, [
 
     , trace( [ `line_invoice_line1` ] )
 
-    , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
-
+    
  
 ] ).
 
