@@ -42,12 +42,6 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_alternative_net
-
-    , get_alternative_vat
-
-    , get_total_alternative
-
     , get_invoice_lines
 
     , get_port_charges
