@@ -36,7 +36,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_line_total_amount
+    %, get_line_total_amount
 
     , get_invoice_lines
 
