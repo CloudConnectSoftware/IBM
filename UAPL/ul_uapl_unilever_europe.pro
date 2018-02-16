@@ -496,17 +496,43 @@ i_line_rule_cut( line_invoice_crossword, [
 
       ,generic_item( [ line_quantity, d, q10(tab) ] )
 
+      , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
+
     , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
 
     , generic_item( [ line_quantity_dummy, d ] )
 
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
     , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
+
     , q10(generic_item( [ line_gross_amount_dummy, d, tab ] ))
+
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
     
     , generic_item( [ line_amount_discount, d, tab ] )
 
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
+
     , generic_item( [ line_unit_amount_dummy, d ] )
+
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
 
     , generic_item( [ line_dummy, s1, tab ] )
 
@@ -514,11 +540,13 @@ i_line_rule_cut( line_invoice_crossword, [
     
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)   ,set(reverse_punctuation_in_numbers)
+
     , q10(generic_item( [ line_vat_amount, d, newline ] ))
 
-    , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)
 
     , trace( [ `line_invoice_line cross` ] )
 
