@@ -325,9 +325,9 @@ i_section( get_invoice_lines, [
 
          [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
 
-         ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
+        % ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
-         , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
+        % , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
          ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
     
@@ -430,8 +430,7 @@ i_line_rule_cut( line_invoice_line1, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    ,generic_item( [ line_net_amount, d, tab ] )
-    
+    ,generic_item( [ line_net_amount, d,tab ] )
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
@@ -468,7 +467,7 @@ i_line_rule_cut( line_invoice_line2, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    , generic_item( [ line_net_amount, d, tab ] )
+    , generic_item( [ line_net_amount,d,tab ] )
 
     , generic_item( [ line_vat_rate, d, [`%`, tab ] ] )
 
@@ -487,8 +486,6 @@ i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 i_line_rule_cut( line_invoice_crossword, [
 %=======================================================================
-
-     
 
       set(regexp_cross_word_boundaries)
 
