@@ -57,6 +57,10 @@ i_rule( select_buyer, [
 
 	,  [ q0n(line), twilio_identify_rule ]
 
+	,  [ q0n(line), advantage_identify_rule ]
+
+	,  [ q0n(line), sodexo_identify_rule ]
+
 
 	
 
@@ -230,6 +234,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `81-4578737` ), set( chain, `intuit_taulia_experian` ), trace( [ `This is a Experian Marketing Solutions, LLC Document` ] ) ]
 
 	  , [ check_text( `3751205782` ), set( chain, `intuit_taulia_microsoft` ), trace( [ `This is a Microsoft Corporation Document` ] ) ]
+
+	  , [ check_text( `3750825354` ), set( chain, `intuit_taulia_microsoft` ), trace( [ `This is a Microsoft Corporation Document` ] ) ]
 
 	  , [ check_text( `800-316-6440` ), set( chain, `intuit_taulia_eatclub` ), trace( [ `This is a EAT Club Inc Document` ] ) ]
 
@@ -1132,4 +1138,91 @@ i_line_rule( twilio_rule1, [
 i_line_rule( twilio_rule2, [
 %=======================================================================
    [`Twilio`, `,`, `Inc`, `.`, `,`, `375`, `Beale`, `Street`, `,`, `Suite`, `300`, `,`, `San`, `Francisco`, `,`, `CA`, `94105`,  newline ]
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Advantage Technical Resourcing
+%=======================================================================
+i_rule(  advantage_identify_rule, [
+%=======================================================================
+      advantage_rule1
+
+    	, q(1,5,line)
+
+	  ,   advantage_rule2
+
+    , set(chain,`intuit_taulia_advantage`)
+
+    , trace( [ `This is a Advantage Technical Resourcing Document` ] )
+] ).
+%=======================================================================
+i_line_rule( advantage_rule1, [
+%=======================================================================
+   [`PLEASE`, `MAIL`, `ALL`, `REMITTANCES`, `TO`, `:`,  newline ]
+] ).
+
+%=======================================================================
+i_line_rule( advantage_rule2, [
+%=======================================================================
+   [`PURCHASE`, `ORDER`, `NO`, `.`, tab, `TERMS`, tab, `SALESPERSON`, tab, `OFFICE`, `NO`, `.`, tab, `CUSTOMER`,  newline ]
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SODEXO, INC & AFFILIATES
+%=======================================================================
+i_rule(  sodexo_identify_rule, [
+%=======================================================================
+         
+		 sodexo_rule1
+
+      , q(1,5,line)
+
+	  ,  sodexo_rule2
+
+	  , q(1,5,line)
+
+	  ,  sodexo_rule3
+
+    , set(chain,`intuit_taulia_sodexo`)
+
+    , trace( [ `This is a SODEXO, INC & AFFILIATES Document` ] )
+] ).
+%=======================================================================
+i_line_rule( sodexo_rule1, [
+%=======================================================================
+
+  or([
+
+	  [`SODEXO`, `,`, `INC`, `&`, `AFFILIATES`,  newline ]
+ ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( sodexo_rule2, [
+%=======================================================================
+  or([
+
+	  [ `ATTN`, `:`,  newline  ]
+
+   , [`BILL`, `TO`, `:`, tab, `MAKE`, `CHECK`, `PAYABLE`, `TO`, `:`,  newline ]
+
+] )
+] ).
+
+
+%=======================================================================
+i_line_rule( sodexo_rule3, [
+%=======================================================================
+  or([
+
+	  [`TERMS`, tab, `ACCOUNT`, `NUMBER`, tab, `COST`, `CENTER`, tab, `INVOICE`, `DATE`, tab, `INVOICE`, `NO`, `.`,  newline ]
+  , [`TERMS`, tab, `SDX`, `A`, `/`, `R`, `NUMBER`, tab, `UNIT`, `NUMBER`, tab, `INVOICE`, `DATE`, tab, `INVOICE`, `NUMBER`,  newline ]
+
+] )
 ] ).
