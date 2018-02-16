@@ -430,9 +430,7 @@ i_line_rule_cut( line_invoice_line1, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    ,generic_item( [ line_net_amount, [ begin , q(dec,1,10),  q(other_skip(","), 1,1),q(dec,1,10),q(other(".") , 1 , 1 ) 
-                                                ,  q( dec , 1 , 2 ), end ]  ] )
-    
+    ,generic_item( [ line_net_amount, d,tab ] )
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
@@ -469,8 +467,7 @@ i_line_rule_cut( line_invoice_line2, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    , generic_item( [ line_net_amount, [ begin , q(dec,1,10),  q(other_skip(","), 1,1),q(dec,1,10),q(other(".") , 1 , 1 ) 
-                                                ,  q( dec , 1 , 2 ), end ]  ] )
+    , generic_item( [ line_net_amount,d,tab ] )
 
     , generic_item( [ line_vat_rate, d, [`%`, tab ] ] )
 
