@@ -42,12 +42,6 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_alternative_net
-
-    , get_alternative_vat
-
-    , get_total_alternative
-
     , get_invoice_lines
 
     , get_port_charges
@@ -150,7 +144,7 @@ i_rule( get_order_number, [
 
     last_line
 
-    , q(0,100,up)
+    , q(0,150,up)
 
     , or([
         generic_horizontal_details( [ [  `consignee`, `number`, q10(tab), `:`, q10(tab) ], order_number, d,  newline ] )
@@ -206,16 +200,20 @@ i_rule( get_total_net, [
 
     qn0(line)
 
-   %, set(reverse_punctuation_in_numbers)
 
-   %, set(regexp_cross_word_boundaries)
+    ,or([
+        
+        generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
+        ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
 
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
+       , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
+    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
+
+    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)]
+
+    ])
      
-   % , clear(regexp_cross_word_boundaries)
-
-  %  , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
@@ -234,10 +232,11 @@ i_rule( get_currency, [
 
     ,q(0,100,up)
 
+,or([
+    generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
 
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in` ],  currency, w, tab ] )
-
-     
+       
+   ]) 
 
 
 ] ).
@@ -257,23 +256,19 @@ i_rule( get_currency, [
 
     ,q(0,100,up)
 
-     
-  % , set(reverse_punctuation_in_numbers)
-
-  % , set(regexp_cross_word_boundaries)
   , or([
       
    generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
  , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
+    
+   , [ set(reverse_punctuation_in_numbers)  , set(regexp_cross_word_boundaries)
+  ,   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
 
+   , clear(regexp_cross_word_boundaries)   , clear(reverse_punctuation_in_numbers)]
 
   ])
  
-   % , clear(regexp_cross_word_boundaries)
-
-  %  , clear(reverse_punctuation_in_numbers)
-
 
 ] ).
 
@@ -291,117 +286,26 @@ i_rule( get_currency, [
        last_line
 
     ,q(0,100,up)
-      
-  % , set(reverse_punctuation_in_numbers)
-
-  % , set(regexp_cross_word_boundaries)
-
-   , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
-
-  %  , clear(regexp_cross_word_boundaries)
-
-    %, clear(reverse_punctuation_in_numbers)
-
-
-] ).
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE NET AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_alternative_net, [
-%=======================================================================
-
-    last_line
-
-    ,q(0,100,up)
-
-   , set(reverse_punctuation_in_numbers)
-
-   , set(regexp_cross_word_boundaries)
-
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
-
-     
-    , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
-
-
-] ).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE VAT AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-%=======================================================================
-    i_rule(get_alternative_vat, [
-%=======================================================================
-    
- last_line
-
-    ,q(0,100,up)
-
-     
-   , set(reverse_punctuation_in_numbers)
-
-   , set(regexp_cross_word_boundaries)
-  , or([
-      
-   generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `.`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, newline ] )
-
- , generic_horizontal_details( [ [ `Total`, `VAT`, `amount`, tab, `:`, tab, `0`, `,`, `00`, `%`, `on`, dummy_num(d), tab ],  total_vat, d, tab ] )
-
-
-  ])
  
-   , clear(regexp_cross_word_boundaries)
 
-   , clear(reverse_punctuation_in_numbers)
+   ,or([
+       
+     generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
 
-
-] ).
-
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE TOTAL AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-%=======================================================================
-    i_rule(get_total_alternative, [
-%=======================================================================
-    
-       last_line
-
-    ,q(0,100,up)
-
-      
-   , set(reverse_punctuation_in_numbers)
-
-   , set(regexp_cross_word_boundaries)
+    , [ set(reverse_punctuation_in_numbers) , set(regexp_cross_word_boundaries)
 
    , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
-   , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
-
+   , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)]
+    
+   ])
+  
 
 ] ).
 
 
 
-
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE LINES
@@ -509,11 +413,8 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
-     set(regexp_cross_word_boundaries)
 
-    , set(reverse_punctuation_in_numbers)
-
-     , generic_item( [ line_quantity, d, q10(tab) ] )
+     generic_item( [ line_quantity, d, q10(tab) ] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -534,14 +435,11 @@ i_line_rule_cut( line_invoice_line1, [
 
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
-    , q10(generic_item( [ line_vat_amount, d, newline ] ))
+    , q10(generic_item( [ line_vat_amount_dummy, d, newline ] ))
 
     , trace( [ `line_invoice_line1` ] )
 
-    , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
-
+    
  
 ] ).
 
@@ -612,35 +510,8 @@ i_line_rule_cut( line_invoice_crossword, [
 
     , generic_item( [ line_dummy, s1, tab ] )
 
-    , clear(regexp_cross_word_boundaries)
-
-    , clear(reverse_punctuation_in_numbers)
-
-    , [generic_item( [ line_net_amount_raw, s1, tab ] )
+    , generic_item( [ line_net_amount, d, tab ] )
     
-    , check( line_net_amount_raw = TotalRaw )
-
-    , trace( [ `Line Total Amount raw` , TotalRaw ] )
-
-    , check(string_string_replace( TotalRaw, `.`, ``, TotalStrip ))
-
-    , trace( [ `Line Net Amount Stripped Comma`, TotalStrip ] )
-
-    , trace( [ `Line Net Amount raw2` , TotalStrip] )
-
-    , check(string_string_replace( TotalStrip, `,`, `.`, TotalStrip1 ))
-     
-    , trace( [ `Line Total Amount Stripped Space` , TotalStrip1 ] )
-
-    , line_net_amount(TotalStrip1)
-
-    , trace( [ `Line Total Amount` , line_net_amount ] ) ]
-
-     , set(regexp_cross_word_boundaries)
-
-      ,set(reverse_punctuation_in_numbers)
-
-
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
     , q10(generic_item( [ line_vat_amount, d, newline ] ))
