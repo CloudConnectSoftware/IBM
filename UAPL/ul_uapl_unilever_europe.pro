@@ -695,7 +695,7 @@ i_rule_cut( get_freight_charges, [
 
      , q(0,100,up)
 
-     , set(reverse_punctuation_in_numbers)  , set(regexp_cross_word_boundaries)
+    % , set(reverse_punctuation_in_numbers)  , set(regexp_cross_word_boundaries)
 
    , or([
        line_add_line1
@@ -706,7 +706,7 @@ i_rule_cut( get_freight_charges, [
 
    ])
 
-   ,clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)
+   %,clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)
 ] ).
 
 %=======================================================================
