@@ -336,9 +336,9 @@ i_section( get_invoice_lines, [
 
       ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
-        ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
+       ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
-        , [line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
+        ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
     
          ,line_invoice_line1
 
