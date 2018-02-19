@@ -448,14 +448,13 @@ i_line_rule( line_invoice_line, [
        
         , set(reverse_punctuation_in_numbers)
 
-        ,generic_item([line_descr , s1 ,[tab,q10(`EUR`),q10(tab])  ] )
+        ,generic_item([line_descr , s1 ,[tab,q10(`EUR`),q10(tab)] ] )
 
         ,q10(generic_append( [ line_descr , s1, tab, ` , `, ``  ] ))
 
-        q10(generic_append( [ line_descr , s1, [tab,q10(`EUR`),q10(tab]), ` , `, ``  ] ))
+        q10(generic_append( [ line_descr , s1, [tab,q10(`EUR`),q10(tab), ` , `, ``  ] ))
         
        , generic_item([ line_net_amount , d , newline ] )
-
 
        ,clear(regexp_cross_word_boundaries)
 
