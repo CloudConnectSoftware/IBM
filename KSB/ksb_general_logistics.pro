@@ -394,7 +394,7 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			[  line_invoice_line , q10(line_descs_line),q10(line_descs_line) ]
+			 line_invoice_line 
 
             ,line_credit_line
 
@@ -416,7 +416,9 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-        [ `Summe`,`Pakete` ]
+        [ `TagesSumme` ]
+
+        ,`Paketnr`
 
        
       ])
@@ -433,6 +435,8 @@ i_line_rule_cut( line_end_line,[
 		 
 
          [`Gesamtbetrag`,` MwSt`]
+
+         ,[`Services`,`:`]
          , `Endbetrag`
 
         ])
@@ -448,11 +452,38 @@ i_line_rule( line_invoice_line, [
        
         , set(reverse_punctuation_in_numbers)
 
+        ,generic_item([line_descr , s1 , tab] )
+
+        ,q10(generic_item([line_dummy_1 , d , tab ]))
+
+        ,q10(generic_append( [ line_descr , s1, tab, ` , `, ``  ] ))
+
+        , generic_item([ line_quantity , d , [dummy_num(d),tab] ] )
+
+        , generic_item([ line_tax_amount , w , tab ] )
+        
+       , generic_item([ line_net_amount , d , newline ] )
+
+       ,clear(regexp_cross_word_boundaries)
+
+       ,clear(reverse_punctuation_in_numbers)
+
+     
+         
+] ).
+
+%=======================================================================
+i_line_rule( line_invoice_line1, [
+%=======================================================================
+	    set(regexp_cross_word_boundaries)
+       
+        , set(reverse_punctuation_in_numbers)
+
         ,generic_item([line_descr , s1 ,[tab,q10(`EUR`),q10(tab)] ] )
 
         ,q10(generic_append( [ line_descr , s1, tab, ` , `, ``  ] ))
 
-        q10(generic_append( [ line_descr , s1, [tab,q10(`EUR`),q10(tab), ` , `, ``  ] ))
+        ,q10(generic_append( [ line_descr , s1, [tab,q10(`EUR`),q10(tab), ` , `, ``]] ))
         
        , generic_item([ line_net_amount , d , newline ] )
 
