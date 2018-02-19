@@ -203,17 +203,18 @@ i_rule( get_total_net, [
 
     ,or([
         
+        
+     generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
+        
+    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
+    
+
        
-       [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
+    , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
 
     , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)]
-
-    , generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
-        
-    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
-    
 
     ])
      
@@ -295,14 +296,15 @@ i_rule( get_currency, [
 
    ,or([
        
+       generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
      
-     [ set(reverse_punctuation_in_numbers) , set(regexp_cross_word_boundaries)
+     ,[ set(reverse_punctuation_in_numbers) , set(regexp_cross_word_boundaries)
 
    , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
    , clear(regexp_cross_word_boundaries)  , clear(reverse_punctuation_in_numbers)]
 
-   ,generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
+   
 
     
    ])
