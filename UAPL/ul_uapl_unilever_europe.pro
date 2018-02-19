@@ -332,9 +332,9 @@ i_section( get_invoice_lines, [
 
          [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
 
-        % ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
+        ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
-        % , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
+        , [line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
          ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
     
