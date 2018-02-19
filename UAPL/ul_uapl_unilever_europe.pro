@@ -715,7 +715,7 @@ i_line_rule_cut( line_add_line1, [
 
 
       or([
-           read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+           read_ahead([`Freight`, `Charges`, `in`, `EUR`])
 
            , read_ahead([`Seafreight`])
 
@@ -734,7 +734,7 @@ i_line_rule_cut( line_add_line1, [
 
      , generic_item( [ line_dummy, s1, tab ] )
 
-     , generic_item( [ line_total_amount, d, [q10(`EUR`),newline ]  ] )
+     , generic_item( [ line_total_amount, d, [newline ]  ] )
 
 ] ).
 
@@ -744,7 +744,7 @@ i_line_rule_cut( line_add_line2, [
 
 
     or([
-        read_ahead([`Freight`, q10(`Charges`), q10(`in`), q10(`EUR`)])
+        read_ahead([`Freight`, `Charges`])
 
     ])
 
@@ -758,7 +758,7 @@ i_line_rule_cut( line_add_line2, [
 
     , set(reverse_punctuation_in_numbers)
 
-    , generic_item( [ line_total_amount, d, [q10(`EUR`),newline ]  ] )
+    , generic_item( [ line_total_amount, d, [`EUR`,newline ]  ] )
 
     , clear(regexp_cross_word_boundaries)
 
