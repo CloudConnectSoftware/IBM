@@ -204,13 +204,13 @@ i_rule( get_total_net, [
     ,or([
         
         
-    % generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
+     generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), q10(tab) ],  total_net, d, newline ] )
         
-    %,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
+    ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
     
 
        
-     [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
+     ,[set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
     ,generic_horizontal_details( [ [ `Net`, `Amount`, `in`, generic_item( [ currency, w ] ), q10(tab), q10(`:`), tab ],  total_net, d, newline ] )
 
@@ -296,9 +296,9 @@ i_rule( get_currency, [
 
    ,or([
        
-       %generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
+       generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), q10(tab) ],  total_invoice, d, newline ] )
      
-     [ set(reverse_punctuation_in_numbers) , set(regexp_cross_word_boundaries)
+     ,[ set(reverse_punctuation_in_numbers) , set(regexp_cross_word_boundaries)
 
    , generic_horizontal_details( [ [`Total`, `amount`, `in`, `EUR`, q10(tab),q10(`:`), tab ],  total_invoice, d, newline ] )
 
@@ -332,13 +332,13 @@ i_section( get_invoice_lines, [
     , or([
 
 
-        % [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
+         [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
 
-      %,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
+      ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
-      % ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
+       ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line2]
 
-        [line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
+        ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
     
          ,line_invoice_line1
 
