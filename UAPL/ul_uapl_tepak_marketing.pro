@@ -260,7 +260,7 @@ i_rule_cut(get_line_buyers_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-    qn0(line)
+    q0n(line)
 
     , or( [ 
             
@@ -271,6 +271,8 @@ i_rule( get_total_net, [
         , [test(credit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )]
 
         , [test(debit_note) , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )]
+
+        , generic_horizontal_details( [ [ `TOTAL` ], 200, total_net, d , newline ] )
 
     ])
   
