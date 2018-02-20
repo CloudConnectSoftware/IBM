@@ -528,7 +528,7 @@ i_line_rule_cut( line_invoice_crossword, [
     
     , generic_item( [ line_vat_rate, d, [`%`, or([tab,newline]) ] ] )
 
-    , q10(generic_item( [ line_vat_amount, d, newline ] ))
+    , q10(generic_item( [ line_vat_amount_dummy, d, newline ] ))
 
     , clear(regexp_cross_word_boundaries)
 
