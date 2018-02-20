@@ -203,11 +203,11 @@ q(0,30,line)
 	
    ,  or([
 
-       generic_horizontal_details( [[`Rechnung`, `RE`, `/` ], invoice_number, d,  newline ] )
+       generic_horizontal_details( [[`Rechnung` ], invoice_number, s1,  newline ] )
 
-       ,generic_horizontal_details( [[`Gutschrift`, `GW`, `/` ], invoice_number, d,  newline ] )
+       ,generic_horizontal_details( [[`Gutschrift` ], invoice_number, s1,  newline ] )
 
-       ,generic_horizontal_details( [[`Gutschrift`, `GQ`, `/` ], invoice_number, d,  newline ] )
+       ,generic_horizontal_details( [[`Gutschrift` ], invoice_number, s1,  newline ] )
        
 
     ])
