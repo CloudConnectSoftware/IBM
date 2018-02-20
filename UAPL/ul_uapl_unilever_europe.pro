@@ -331,8 +331,8 @@ i_section( get_invoice_lines, [
 
     , or([
 
-
-         [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
+        [line_invoice_line_new1, q10(line_desc_line_dummy), line_invoice_line_new]
+        , [line_newinvoice_ref, line_desc_commodity_line ,q10(line_desc_line_dummy) , line_ean_line ,line_net_line, line_qty_line, line_zun_qty_line, line_vat_line  ]
 
       ,[line_invoice_line, q10(line_desc_line_dummy), line_invoice_line1]
     
@@ -341,6 +341,8 @@ i_section( get_invoice_lines, [
         ,[line_invoice_line,q10(line_desc_line_dummy),q10(line_desc_line_dummy), q10( line_invoice_crossword)]
     
          ,line_invoice_line1
+
+         ,[line_invoice_line_new1, q10(line_desc_line_dummy), line_invoice_line_new]
 
         , line
 
@@ -446,6 +448,72 @@ i_line_rule_cut( line_invoice_line1, [
     , q10(generic_item( [ line_vat_amount_dummy, d, newline ] ))
 
     , trace( [ `line_invoice_line1` ] )
+
+    
+ 
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_new1, [
+%=======================================================================
+
+    set(regexp_cross_word_boundaries)
+
+      ,set(reverse_punctuation_in_numbers)
+
+    , generic_item( [ line_reference, w, tab ] )
+    
+    , generic_item( [ line_item, d, tab ] )
+  
+     , generic_item( [ line_descr, s1, tab ]  )
+
+    , generic_item( [ line_commodity_code, d, tab ] )
+
+    , generic_item( [ line_country, s1, tab ] )
+ 
+    
+    , generic_item( [ line_gross_weight, s1, newline] )
+
+
+    , trace( [ `line_invoice_line` ] )
+
+    , clear(regexp_cross_word_boundaries)
+
+      ,clear(reverse_punctuation_in_numbers)
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_new, [
+%=======================================================================
+
+     set(regexp_cross_word_boundaries)
+
+      ,set(reverse_punctuation_in_numbers)
+
+    , generic_item( [ line_quantity, d ] )
+
+    , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+    , generic_item( [ line_quantity_dummy, d ] )
+
+    , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
+  
+    , generic_item( [ line_amount_discount, d, tab ] )
+
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    ,generic_item( [ line_net_amount, d,tab ] )
+
+    , generic_item( [ line_vat_rate, d, [`%`,tab ] ] )
+
+    , q10(generic_item( [ line_vat_amount_dummy, d, newline ] ))
+
+    , trace( [ `line_invoice_line new` ] )
+
+    , clear(regexp_cross_word_boundaries)
+
+      ,clear(reverse_punctuation_in_numbers)
 
     
  
