@@ -293,7 +293,7 @@ q0n(line)
     ,or([
     
     
-    generic_vertical_details( [ [ `%`,`MWST` ], `MWST`, q(0,10), (end,60,60), total_vat, d, tab ] )
+    generic_horizontal_details( [ [ `Mehrwertsteuer`, tab, `19`, `,`, `00`, `%`, tab, `EUR` ], 200, total_vat, d, newline] )
 
     ])
     
@@ -311,20 +311,7 @@ q0n(line)
 i_rule( get_net_amount, [
 %=======================================================================
 
-	q0n(line)
-
-
-    ,set(regexp_cross_word_boundaries)
-
-    ,or([
-   
-    generic_vertical_details( [ [ `Nettosumme` ], `Nettosumme`, q(0,1), (start,60,60), total_net, d, tab ] )
-
-    ])
-    
-    ,clear(regexp_cross_word_boundaries)
-
-   
+	
   	
 ]).
 
@@ -344,7 +331,7 @@ i_rule( get_total_invoice, [
 
     ,or([
 
-    generic_horizontal_details( [ [ `Endbetrag`,tab, `EUR` ],600, total_invoice, d, newline ] )
+    generic_horizontal_details( [ [ `Endbetrag`, tab, `EUR`],600, total_invoice, d, newline ] )
 
     ])
     
@@ -396,9 +383,6 @@ i_section( get_invoice_lines, [
             		
 			 line_invoice_line 
 
-            ,line_credit_line
-
-
 			, line
 
 			
@@ -416,9 +400,7 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-        [ `TagesSumme` ]
-
-        ,`Paketnr`
+       [`Paketnr`, tab, `Referenznummer`]
 
        
       ])
@@ -436,7 +418,7 @@ i_line_rule_cut( line_end_line,[
 
          [`Gesamtbetrag`,` MwSt`]
 
-         ,[`Services`,`:`]
+         ,[`Services`,`:`, tab ]
          , `Endbetrag`
 
         ])
@@ -446,7 +428,7 @@ i_line_rule_cut( line_end_line,[
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	    set(regexp_cross_word_boundaries)
        
@@ -456,11 +438,15 @@ i_line_rule( line_invoice_line, [
 
         ,q10(generic_item([line_dummy_1 , d , tab ]))
 
+        ,q10(generic_item([line_dummy_2 , w , tab ]))
+
         ,q10(generic_append( [ line_descr , s1, tab, ` , `, ``  ] ))
 
-        , generic_item([ line_quantity , d , [dummy_num(d),tab] ] )
+        , generic_item([ line_quantity , d, q10(tab) ] )
 
-        , generic_item([ line_tax_amount , w , tab ] )
+        ,q10( generic_item([ line_quantity_dummy , d, tab ] ))
+
+        , generic_item([ line_gst_code , w , tab ] )
         
        , generic_item([ line_net_amount , d , newline ] )
 
@@ -468,6 +454,21 @@ i_line_rule( line_invoice_line, [
 
        ,clear(reverse_punctuation_in_numbers)
 
+       ,    q10([
+
+          or([
+
+             [ check(line_gst_code= `J`)
+
+            , generic_item( [ line_vat_rate, `19` ] ) ] % vat rate table
+
+            ,[ check(line_gst_code= `N`)
+
+            , generic_item( [ line_vat_rate, `0`] ) ] 
+
+          ])
+          
+       ])
      
          
 ] ).
