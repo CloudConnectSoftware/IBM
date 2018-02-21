@@ -267,7 +267,7 @@ generic_item( [ line_item, d, tab ] )
 
         , generic_item( [ line_descr, s1, tab ] )
 
-        , generic_item( [ line_descr_dummy, s1, tab] )
+        , q10(generic_item( [ line_descr_dummy, s1, tab] ))
 
         , generic_item( [ line_quantity, d ] )
       

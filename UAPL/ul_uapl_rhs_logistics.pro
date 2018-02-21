@@ -188,6 +188,8 @@ or([
     
     [`Particulars`, tab, `Amount`, `USD`]
 
+    ,[`SNo`, `Description`]
+
   ])
 
 , trace( [ `Found Start line` ] )
@@ -201,6 +203,8 @@ i_line_rule_cut( line_end_line, [
 or([
   
     [`US`,`Dollars`]
+
+    ,`USD`
 
    , [q10(tab), `Total`]
 
