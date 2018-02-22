@@ -43,9 +43,9 @@ i_rule_list( [
 
     , get_currency
 
-    %,get_net_amount
+    ,get_net_amount
 
-    %, get_total_vat
+    , get_total_vat
 
     , get_invoice_lines
 
@@ -403,7 +403,6 @@ i_line_rule_cut( line_start_line,[
 	or([
 
        [`Summe`, q10(tab), `Pakete`]
-
        
       ])
 
@@ -417,8 +416,9 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
+          [`Das`, `von`, `der`, `GLS`]
 
-         [`Gesamtbetrag`,` MwSt`]
+          ,[`Gesamtbetrag`,` MwSt`]
 
 
         ])
