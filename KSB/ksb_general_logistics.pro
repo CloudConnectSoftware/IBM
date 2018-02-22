@@ -23,6 +23,7 @@ i_rule_list( [
 	get_supplier_details
 
     , get_buyer_address 
+    
 
     ,set_credit_note
   
@@ -236,6 +237,7 @@ i_rule( get_order_number, [
 
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET Delivery Note
@@ -352,7 +354,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-	qn0(line)
+	q0n(line)
 
     ,or([
  
@@ -381,7 +383,7 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			 line_invoice_line 
+			 line_invoice_line1
 
 			, line
 
@@ -400,7 +402,7 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-       [`Paketnr`, tab, `Referenznummer`]
+       [`Summe`, q10(tab), `Pakete`]
 
        
       ])
@@ -418,59 +420,11 @@ i_line_rule_cut( line_end_line,[
 
          [`Gesamtbetrag`,` MwSt`]
 
-         ,[`Services`,`:`, tab ]
-         , `Endbetrag`
 
         ])
 
         , trace([`found the end line`])
     
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line, [
-%=======================================================================
-	    set(regexp_cross_word_boundaries)
-       
-        , set(reverse_punctuation_in_numbers)
-
-        ,generic_item([line_descr , s1 , tab] )
-
-        ,q10(generic_item([line_dummy_1 , d , tab ]))
-
-        ,q10(generic_item([line_dummy_2 , w , tab ]))
-
-        ,q10(generic_append( [ line_descr , s1, tab, ` , `, ``  ] ))
-
-        , generic_item([ line_quantity , d, q10(tab) ] )
-
-        ,q10( generic_item([ line_quantity_dummy , d, tab ] ))
-
-        , generic_item([ line_gst_code , w , tab ] )
-        
-       , generic_item([ line_net_amount , d , newline ] )
-
-       ,clear(regexp_cross_word_boundaries)
-
-       ,clear(reverse_punctuation_in_numbers)
-
-       ,    q10([
-
-          or([
-
-             [ check(line_gst_code= `J`)
-
-            , generic_item( [ line_vat_rate, `19` ] ) ] % vat rate table
-
-            ,[ check(line_gst_code= `N`)
-
-            , generic_item( [ line_vat_rate, `0`] ) ] 
-
-          ])
-          
-       ])
-     
-         
 ] ).
 
 %=======================================================================
