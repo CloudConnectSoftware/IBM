@@ -22,7 +22,7 @@ i_rule_list( [
 
     , get_buyer_address 
 
-   % ,  get_buyer_address2
+     , get_iban_no
 
     , get_supplier_bank_account_no
 
@@ -183,6 +183,31 @@ q(0,100,line)
     , check(code_raw3  =SupNo3) ,check(strip_string2_from_string1( SupNo3, ` `, SupNoNew3 ))  ,supplier_bank_code_3(SupNoNew3) , trace( [ `New Bank acc code 3`, supplier_bank_code_3 ] )]
      
      
+]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK IBAN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_iban_no, [
+%=======================================================================
+
+qn0(line)
+
+ 
+    , generic_horizontal_details( [ [ `IBAN`, q10(`:`), q10(tab) ], bank_iban_raw, s1, newline ] )
+
+    , check(bank_iban_raw  =SupibNo)
+
+    ,check(strip_string2_from_string1( SupibNo, ` `, SupiNobNew ))
+
+    , supplier_iban(SupiNobNew)
+
+    , trace( [ `Bank acc`, supplier_iban ] )
+
 ]).
 
 
