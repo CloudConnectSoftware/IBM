@@ -27,6 +27,8 @@ i_rule_list( [
    % ,  get_buyer_address2
 
     , get_bank_account_no
+
+    , get_iban_no
 	
 	, get_invoice_number
 
@@ -169,7 +171,9 @@ i_line_rule( line_add_line2, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-q(0,100,line)
+  last_line
+
+  ,q(0,50,up)
 
  , generic_horizontal_details( [ [`(`, `BLZ`, generic_item( [ code_1,s ] ), `)`, generic_item( [ bank_1,s1 ] ), tab, `(`, `BLZ`, generic_item( [ code_2,s ] ), `)`, generic_item( [ bank_2,s1 ] ), tab, `(`, `BLZ` ],  code_3, s, [`)`,generic_item( [ bank_3,s1 ] ),newline] ] )
  
@@ -184,6 +188,37 @@ q(0,100,line)
     , check(bank_3  =SupbNo3) ,check(strip_string2_from_string1( SupbNo3, ` `, SupNobNew3 )) ,supplier_bank_account_number_3(SupNobNew3) , trace( [ `New Bank acc 3`, supplier_bank_account_number_3 ] )
 
     , check(code_3  =SupNo3) ,check(strip_string2_from_string1( SupNo3, ` `, SupNoNew3 ))  ,supplier_bank_code_3(SupNoNew3) , trace( [ `New Bank acc code 3`, supplier_bank_code_3 ] )
+     
+
+]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%=======================================================================
+i_rule( get_iban_no, [
+%=======================================================================
+
+ last_line
+
+  ,q(0,50,up)
+
+ , generic_horizontal_details( [ [`IBAN`, `:`,  generic_item( [ iban_1,s1 ] ), tab, `IBAN`, `:`, generic_item( [ iban_2,s1 ] ),tab, `IBAN`, `:` ],  iban_3, s1, newline ] )
+ 
+ 
+   , check(iban_1  =SupibNo) ,check(strip_string2_from_string1( SupibNo, ` `, SupiNobNew )) ,supplier_iban(SupiNobNew) , trace( [ `New iban acc`, supplier_iban ] )
+
+  
+    , check(iban_2  =SupibNo2) ,check(strip_string2_from_string1( SupibNo2, ` `, SupiNobNew2 )) ,supplier_iban_2(SupiNobNew2) , trace( [ `Ne iban acc 2`, supplier_iban_2 ] )
+
+       
+    , check(iban_3  =SupibNo3) ,check(strip_string2_from_string1( SupibNo3, ` `, SupiNobNew3 )) ,supplier_iban_3(SupiNobNew3) , trace( [ `New iban acc 3`, supplier_iban_3 ] )
+
+   
      
 
 ]).
