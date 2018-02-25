@@ -89,8 +89,12 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-    ,generic_horizontal_details( [ [`Invoice`, `Number`, `:`, tab ], invoice_number,s1, newline ] )
+    ,or([
+      
+      generic_horizontal_details( [ [`Invoice`, `Number`, `:`, tab ], invoice_number,s1, newline ] )
 
+
+       ])
 
 ] ).
 
@@ -106,7 +110,13 @@ i_rule( get_invoice_date, [
 
      q(0,20,line)
 
-  ,generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+     ,or([
+      
+     generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+
+     , generic_vertical_details( [ [ `Invoice`, `Date`, `:` ], `Date`, q(0,1), (end,100,100), invoice_date, date, tab ] )
+
+       ])
 
 
 ] ).
