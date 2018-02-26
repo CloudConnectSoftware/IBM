@@ -540,6 +540,14 @@ i_line_rule( line_invoice_line, [
      , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
        ])
+
+       , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       
+       ])
      
     
 ] ).
@@ -608,6 +616,14 @@ i_line_rule( line_invoice_line2, [
         , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
        ])
+
+       , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       
+       ])
      
     
 ] ).
@@ -665,6 +681,14 @@ q0n(anything)
 
      , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
+       ])
+
+       , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       
        ])
 
 ] ).
