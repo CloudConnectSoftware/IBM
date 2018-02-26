@@ -461,6 +461,13 @@ i_line_rule( line_invoice_line, [
       , generic_item([ line_vat_rate , d , newline ] ) 
       
        , clear(regexp_cross_word_boundaries)
+
+       , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       ])
      
     
 ] ).
