@@ -492,7 +492,7 @@ trace( [ ` Started line_invoice_tot_line1` ] )
 
  ,generic_item( [ line_descr_dummy3, s1, tab ] )
 
-,generic_item( [ line_total_amount, d, newline ] )
+,generic_item( [ line_net_amount, d, newline ] )
 
 ] ).
 
