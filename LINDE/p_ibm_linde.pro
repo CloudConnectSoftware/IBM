@@ -334,6 +334,50 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% CHECK FOR FUTURE INVOICE DATE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_future_invoice_date___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_future_invoice_date___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, invoice_date, Invoice_Date ),
+	
+	(
+		i_date_format( Date_Format )
+		
+		;
+		
+		true
+		
+	),
+	
+	!,
+
+	date_string( Date_Invoice, Date_Format, Invoice_Date ),
+	sys_date_1900_days( Date_Invoice, Invoice_Date_Count ),
+	
+	date_get( today, Today ),
+	sys_date_1900_days( Today, Today_Count ),
+	
+	sys_calculate( Day_Diff, Today_Count - Invoice_Date_Count ),
+	
+	Day_Diff < 0,
+
+	sys_assertz( grammar_set( future_dated ) ),
+
+	trace( [ `Date is in the future` ] ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % INVOICE TYPE
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
