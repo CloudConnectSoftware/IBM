@@ -18,7 +18,7 @@ i_rule_list( [
    
     get_supplier_details
 
-    , get_bank_accountnumber
+    , get_supplier_bank_account_number
 
     , get_invoice_number
 
@@ -89,8 +89,12 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-    ,generic_horizontal_details( [ [`Invoice`, `Number`, `:`, tab ], invoice_number,s1, newline ] )
+    ,or([
+      
+      generic_horizontal_details( [ [`Invoice`, `Number`, `:`, tab ], invoice_number,s1, newline ] )
 
+
+       ])
 
 ] ).
 
@@ -106,7 +110,13 @@ i_rule( get_invoice_date, [
 
      q(0,20,line)
 
-  ,generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+     ,or([
+      
+     generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+
+     , generic_vertical_details( [ [ `Invoice`, `Date`, `:` ], `Date`, q(0,1), (end,100,100), invoice_date, date, tab ] )
+
+       ])
 
 
 ] ).
@@ -237,9 +247,9 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_quantity_uom_code, s1, tab ] )
 
-  , generic_item( [ line_quantity, d, tab ] )
+  , q10(generic_item( [ line_quantity, d, tab ] ))
 
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , q10(generic_item( [ line_unit_amount, d, tab ] ))
 
   , generic_item( [ line_net_amount, d, newline ] )
 

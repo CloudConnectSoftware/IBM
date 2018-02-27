@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `12/02/2018 10:45:08` ).
+i_version( p_ibm_ksb, `21/02/2018 10:51:58` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,7 @@ i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` ).
+i_rules_file( `u_invoice_date_validation.pro` ).
 i_rules_file( `u_numerical_validation.pro` ).
 
 i_op_param( unique_id, _, To, _, Scan_ID )

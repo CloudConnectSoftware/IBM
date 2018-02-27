@@ -1,5 +1,5 @@
 
-i_version( output_ibm_rapid_xml, `12/02/2018 16:52:29` ).
+i_version( output_ibm_linde_rapid_xml, `27/02/2018 12:49:10` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -180,21 +180,21 @@ write_invoice_fields___
 	
 	write_field( `D_CompanyCode`, invoice, buyer_registration_number ),
 	
-	write_field( `C_CTID`, invoice, ct_id ),
+	write_field( `S_CTID`, invoice, ct_id ),
 	
-	write_field( `C_CTCaptureTime`, invoice, ct_capture_time ),
+	write_field( `S_CTCaptureTime`, invoice, ct_capture_time ),
 	
-	write_field( `C_CTEmailTo`, invoice, ct_email_to ),
+	write_field( `S_CTEmailTo`, invoice, ct_email_to ),
 	
-	write_field( `C_CTEmailFrom`, invoice, ct_email_from ),
+	write_field( `S_CTEmailFrom`, invoice, ct_email_from ),
 
 	write_field( `S_EmailFrom`, invoice, email_from ),
 	
-	write_field( `C_CTEmailSubject`, invoice, ct_email_subject ),
+	write_field( `S_CTEmailSubject`, invoice, ct_email_subject ),
 	
-	write_field( `C_CTPages`, invoice, ct_pages ),
+	write_field( `S_CTPages`, invoice, ct_pages ),
 
-	write_field( `C_CTReason`, invoice, ct_reason ),
+	write_field( `S_CTReason`, invoice, ct_reason ),
 	
 	write_field( `D_SuppName`, invoice, supplier_party ),
 	
