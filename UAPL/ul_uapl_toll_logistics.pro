@@ -62,6 +62,7 @@ i_rule( get_supplier_details, [
 
     , set(freight_vendor)
 
+    ,  currency( `SGD` )
         
 
   ] ).
@@ -359,7 +360,7 @@ i_rule( get_currency, [
 
 	, currency( Currency )
 
-    , trace( [ `New Currency` , currency ] )]
+      , trace( [ `New Currency` , currency ] )]
 
       ])
 
