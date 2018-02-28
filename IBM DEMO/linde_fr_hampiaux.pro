@@ -59,11 +59,11 @@ i_rule( get_supplier_detail, [
 
     sender_name( `HAMPIAUX S.A.S.` )
 
-    ,supplier_party( `HAMPIAUX S.A.S.` )
+   , supplier_party( `HAMPIAUX S.A.S.` )
 
-   ,supplier_vat_number(`FR 21 769 800 830`)
+   , supplier_vat_number(`FR 21 769 800 830`)
 
-   
+   , buyer_registration_number(`FR10`)
  
 
 
