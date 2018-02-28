@@ -354,7 +354,7 @@ i_rule( get_currency, [
 
     , trace( [ `Curency raw` , CurrencyRaw ] )
 
-    , check(string_string_replace( CurrencyRaw , `(`,`` , Curency ))
+    , check(string_string_replace( CurrencyRaw , `(`,`` , Currency ))
 
     , trace( [ `Bracket stripped Currency` , Currency ] )
 
