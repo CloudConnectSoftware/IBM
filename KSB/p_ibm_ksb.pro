@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `28/02/2018 12:28:47` ).
+i_version( p_ibm_ksb, `28/02/2018 13:52:21` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -208,16 +208,22 @@ i_final_rule( [
 
 	q10( [ without( supplier_bank_account_number ), supplier_bank_account_number( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code ), supplier_bank_code( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban ), supplier_bank_iban( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_2 ), supplier_bank_account_number_2( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_2 ), supplier_bank_code_2( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_2 ), supplier_bank_iban_2( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_3 ), supplier_bank_account_number_3( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_3 ), supplier_bank_code_3( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_3 ), supplier_bank_iban_3( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_4 ), supplier_bank_account_number_4( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_4 ), supplier_bank_code_4( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_4 ), supplier_bank_iban_4( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_5 ), supplier_bank_account_number_5( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_5 ), supplier_bank_code_5( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_5 ), supplier_bank_iban_5( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_6 ), supplier_bank_account_number_6( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_6 ), supplier_bank_code_6( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_6 ), supplier_bank_iban_6( `XXXXXX` ) ] )
 
 ] ).
 
