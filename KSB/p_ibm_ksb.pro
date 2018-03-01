@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `01/03/2018 10:16:13` ).
+i_version( p_ibm_ksb, `01/03/2018 10:29:57` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -89,7 +89,7 @@ i_op_param( default_forward_email_subject, _, _, _, `KSB Invoice Processing Erro
 %-----------------------------------------------------------------------
 % Custom Scenario
 %-----------------------------------------------------------------------
-% document_reason_lookup( ``, ``, ``, _, _ ).
+document_reason_lookup( `Multiple POs Quoted`, `failed`, `i_anlyse_multiple_po_quoted`, _, _ ).
 
 %-----------------------------------------------------------------------
 % Email Template Beginning Text
@@ -919,6 +919,37 @@ i_analyse_line_buyers_order_number___( LID )
 
 	),
 	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CHECK FOR MULTIPLE POS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_multiple_po_quoted___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_multiple_po_quoted___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, order_number, PO ),
+
+	result( LID, invoice, line_buyers_order_number, Line_PO ),
+
+	Line_PO \= PO,
+
+	sys_string_number( LID_S, LID ),
+
+	strcat_list( [ `Multiple POs Quoted - Header Level PO: `, PO, `, Line Level PO (Line `, LID_S, `): `, Line_PO ], Trace ),
+
+	trace( [ Trace ] ),
+	
+	sys_assertz( grammar_set( i_anlyse_multiple_po_quoted ) ),
+
 	!
 .
 
