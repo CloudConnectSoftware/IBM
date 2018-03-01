@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `28/02/2018 13:52:21` ).
+i_version( p_ibm_ksb, `01/03/2018 10:16:13` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -808,6 +808,8 @@ i_analyse_line_fields_last( LID ):- i_analyse_line_vat_code___( LID ).
 i_analyse_line_vat_code___( LID )
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
+	result( _, invoice, buyers_code_for_supplier, BCFS ),
+	
 	(
 		result( _, LID, line_vat_code, _ ),
 
@@ -819,7 +821,34 @@ i_analyse_line_vat_code___( LID )
 
 	),
 
-	assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code ),
+	(
+		result( _, invoice, buyer_registration_number, `1001` ),
+
+		tax_code_matrix( BCFS, Line_VAT_Code, _, _ ),
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+
+		;
+
+		result( _, invoice, buyer_registration_number, `1009` ),
+
+		tax_code_matrix( BCFS, _, Line_VAT_Code, _ ),
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+
+		;
+
+		result( _, invoice, buyer_registration_number, `1011` ),
+
+		tax_code_matrix( BCFS, _, _, Line_VAT_Code ),
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+
+		;
+
+		assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code )
+		
+	),
 
 	!
 .
