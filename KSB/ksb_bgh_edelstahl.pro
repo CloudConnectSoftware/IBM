@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BGH Edelstahl Freital GmbH
+% BGH Edelstahl Siegen GmbH
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_bgh, `14 February 2018` ).
+i_version( ksb_bgh_edelstahl, `1 March 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,11 +66,11 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `BGH Edelstahl Freital GmbH` )
+    sender_name( `BGH Edelstahl Siegen GmbH` )
 
-    ,supplier_party( `BGH Edelstahl Freital GmbH` )
+    ,supplier_party( `BGH Edelstahl Siegen GmbH` )
 
-    , supplier_vat_number(`DE140853191`)
+    , supplier_vat_number(`DE 811163253`)
     
       
 ] ).
@@ -131,24 +131,24 @@ i_rule( get_bank_account_no, [
    q(0,50,line)
 	
 
-   ,  generic_horizontal_details( [ [ `Deutsche`, `Bank`, `AG`, tab, `DEUTDE8C`, tab, `IBAN`, `:`, `DE`, `08`, generic_item( [ supplier_bank_code, s ] ) ], supplier_bank_account_number, d, newline ] )
+   ,  generic_horizontal_details( [ [ `Deutsche`, `Bank`, `AG`, tab, `DEUTDEDK460`, tab, `IBAN`, `:`, `DE`, `41`, generic_item( [ supplier_bank_code, s ] ) ], supplier_bank_account_number, d, newline ] )
 
    
   , q(0,1,line)
 	
 
-   ,  generic_horizontal_details( [ [ `Commerzbank`, `AG`, tab, `COBADEFFXXX`, tab, `IBAN`, `:`, `DE`, `97`, generic_item( [ supplier_bank_code_2, s ] ) ], supplier_bank_account_number_2, d, newline ] )
+   ,  generic_horizontal_details( [ [ `Commerzbank`, `AG`, tab, `COBADEFFXXX`, tab, `IBAN`, `:`, `DE`, `59`, generic_item( [ supplier_bank_code_2, s ] ) ], supplier_bank_account_number_2, d, newline ] )
 
    
    , q(0,1,line)
 	
 
-   ,  generic_horizontal_details( [ [ `Sparkasse`, tab, `WELADED1SIE`, tab, `IBAN`, `:`, `DE`, `72`, generic_item( [ supplier_bank_code_3, s ] ) ], supplier_bank_account_number_3, d, newline ] )
+   ,  generic_horizontal_details( [ [ `Sparkasse`, tab, `WELADED1SIE`, tab, `IBAN`, `:`, `DE`, `91`, generic_item( [ supplier_bank_code_3, s ] ) ], supplier_bank_account_number_3, d, newline ] )
 
    , q(0,1,line)
 	
 
-   ,  generic_horizontal_details( [ [ `HypoVereinsbank`, tab, `HYVEDEMM429`, tab, `IBAN`, `:`, `DE`, `13`, generic_item( [ supplier_bank_code_4, s ] ) ], supplier_bank_account_number_4, d, newline ] )
+   ,  generic_horizontal_details( [ [`HypoVereinsbank`, tab, `HYVEDEMM429`, tab, `IBAN`, `:`, `DE`, `35`, generic_item( [ supplier_bank_code_4, s ] ) ], supplier_bank_account_number_4, d, newline ] )
   
 
 
@@ -474,7 +474,7 @@ i_line_rule( line_append_line, [
 % MAPPING AUDIT TRAIL
 
 
-% Created on   - February 14, 2018
+% Created on   - March 1, 2018
 % Updated by   - Rohini
 
 % Updated on   - 
