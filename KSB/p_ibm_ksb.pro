@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `21/02/2018 10:51:58` ).
+i_version( p_ibm_ksb, `01/03/2018 10:29:57` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -39,16 +39,22 @@ i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, por_reference, `POR Reference` ).
 i_user_field( invoice, customer_id, `Customer ID` ).
+i_user_field( invoice, supplier_bank_iban, `supplier_bank_iban` ).
 i_user_field( invoice, supplier_bank_account_number_2, `supplier_bank_account_number_2` ).
 i_user_field( invoice, supplier_bank_code_2, `supplier_bank_code_2` ).
+i_user_field( invoice, supplier_bank_iban_2, `supplier_bank_iban_2` ).
 i_user_field( invoice, supplier_bank_account_number_3, `supplier_bank_account_number_3` ).
 i_user_field( invoice, supplier_bank_code_3, `supplier_bank_code_3` ).
+i_user_field( invoice, supplier_bank_iban_3, `supplier_bank_iban_3` ).
 i_user_field( invoice, supplier_bank_account_number_4, `supplier_bank_account_number_4` ).
 i_user_field( invoice, supplier_bank_code_4, `supplier_bank_code_4` ).
+i_user_field( invoice, supplier_bank_iban_4, `supplier_bank_iban_4` ).
 i_user_field( invoice, supplier_bank_account_number_5, `supplier_bank_account_number_5` ).
 i_user_field( invoice, supplier_bank_code_5, `supplier_bank_code_5` ).
+i_user_field( invoice, supplier_bank_iban_5, `supplier_bank_iban_5` ).
 i_user_field( invoice, supplier_bank_account_number_6, `supplier_bank_account_number_6` ).
 i_user_field( invoice, supplier_bank_code_6, `supplier_bank_code_6` ).
+i_user_field( invoice, supplier_bank_iban_6, `supplier_bank_iban_6` ).
 i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
 
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
@@ -83,7 +89,7 @@ i_op_param( default_forward_email_subject, _, _, _, `KSB Invoice Processing Erro
 %-----------------------------------------------------------------------
 % Custom Scenario
 %-----------------------------------------------------------------------
-% document_reason_lookup( ``, ``, ``, _, _ ).
+document_reason_lookup( `Multiple POs Quoted`, `failed`, `i_anlyse_multiple_po_quoted`, _, _ ).
 
 %-----------------------------------------------------------------------
 % Email Template Beginning Text
@@ -202,16 +208,22 @@ i_final_rule( [
 
 	q10( [ without( supplier_bank_account_number ), supplier_bank_account_number( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code ), supplier_bank_code( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban ), supplier_bank_iban( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_2 ), supplier_bank_account_number_2( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_2 ), supplier_bank_code_2( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_2 ), supplier_bank_iban_2( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_3 ), supplier_bank_account_number_3( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_3 ), supplier_bank_code_3( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_3 ), supplier_bank_iban_3( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_4 ), supplier_bank_account_number_4( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_4 ), supplier_bank_code_4( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_4 ), supplier_bank_iban_4( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_5 ), supplier_bank_account_number_5( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_5 ), supplier_bank_code_5( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_5 ), supplier_bank_iban_5( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_account_number_6 ), supplier_bank_account_number_6( `XXXXXX` ) ] )
 	, q10( [ without( supplier_bank_code_6 ), supplier_bank_code_6( `XXXXXX` ) ] )
+	, q10( [ without( supplier_bank_iban_6 ), supplier_bank_iban_6( `XXXXXX` ) ] )
 
 ] ).
 
@@ -502,6 +514,8 @@ i_analyse_customer_id___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	qq_op_param( unique_id, Scan_ID ),
+
+	sys_retractall( result( _, invoice, customer_id, _ ) ),
 
 	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_customer_id ),
 
@@ -794,6 +808,8 @@ i_analyse_line_fields_last( LID ):- i_analyse_line_vat_code___( LID ).
 i_analyse_line_vat_code___( LID )
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
+	result( _, invoice, buyers_code_for_supplier, BCFS ),
+	
 	(
 		result( _, LID, line_vat_code, _ ),
 
@@ -805,7 +821,34 @@ i_analyse_line_vat_code___( LID )
 
 	),
 
-	assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code ),
+	(
+		result( _, invoice, buyer_registration_number, `1001` ),
+
+		tax_code_matrix( BCFS, Line_VAT_Code, _, _ ),
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+
+		;
+
+		result( _, invoice, buyer_registration_number, `1009` ),
+
+		tax_code_matrix( BCFS, _, Line_VAT_Code, _ ),
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+
+		;
+
+		result( _, invoice, buyer_registration_number, `1011` ),
+
+		tax_code_matrix( BCFS, _, _, Line_VAT_Code ),
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+
+		;
+
+		assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code )
+		
+	),
 
 	!
 .
@@ -876,6 +919,37 @@ i_analyse_line_buyers_order_number___( LID )
 
 	),
 	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CHECK FOR MULTIPLE POS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_multiple_po_quoted___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_multiple_po_quoted___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, order_number, PO ),
+
+	result( LID, invoice, line_buyers_order_number, Line_PO ),
+
+	Line_PO \= PO,
+
+	sys_string_number( LID_S, LID ),
+
+	strcat_list( [ `Multiple POs Quoted - Header Level PO: `, PO, `, Line Level PO (Line `, LID_S, `): `, Line_PO ], Trace ),
+
+	trace( [ Trace ] ),
+	
+	sys_assertz( grammar_set( i_anlyse_multiple_po_quoted ) ),
+
 	!
 .
 

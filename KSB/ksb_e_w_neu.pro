@@ -204,9 +204,9 @@ qn0(line)
 
     ,check(strip_string2_from_string1( SupibNo, ` `, SupiNobNew ))
 
-    , supplier_iban(SupiNobNew)
+    , supplier_bank_iban(SupiNobNew)
 
-    , trace( [ `Bank acc`, supplier_iban ] )
+    , trace( [ `Bank acc`, supplier_bank_iban ] )
 
 ]).
 

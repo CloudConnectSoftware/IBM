@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_ksb_dc_xml, `08/02/2018 11:30:27` ).
+i_version( output_ibm_ksb_dc_xml, `28/02/2018 12:01:54` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,16 +22,22 @@ i_op_param( xml_transform( supplier_vat_number, In ), _, _, _, Out ) :- size_res
 i_op_param( xml_transform( supplier_bank_account_number, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 i_op_param( xml_transform( supplier_bank_code, In ), _, _, _, Out ) :- size_restrict_text( In, 15, Out ).
 i_op_param( xml_transform( supplier_bank_ogm, In ), _, _, _, Out ) :- size_restrict_text( In, 50, Out ).
+i_op_param( xml_transform( supplier_iban, In ), _, _, _, Out ) :- size_restrict_text( In, 34, Out ).
 i_op_param( xml_transform( supplier_bank_account_number_2, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 i_op_param( xml_transform( supplier_bank_code_2, In ), _, _, _, Out ) :- size_restrict_text( In, 15, Out ).
+i_op_param( xml_transform( supplier_iban_2, In ), _, _, _, Out ) :- size_restrict_text( In, 34, Out ).
 i_op_param( xml_transform( supplier_bank_account_number_3, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 i_op_param( xml_transform( supplier_bank_code_3, In ), _, _, _, Out ) :- size_restrict_text( In, 15, Out ).
+i_op_param( xml_transform( supplier_iban_3, In ), _, _, _, Out ) :- size_restrict_text( In, 34, Out ).
 i_op_param( xml_transform( supplier_bank_account_number_4, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 i_op_param( xml_transform( supplier_bank_code_4, In ), _, _, _, Out ) :- size_restrict_text( In, 15, Out ).
+i_op_param( xml_transform( supplier_iban_4, In ), _, _, _, Out ) :- size_restrict_text( In, 34, Out ).
 i_op_param( xml_transform( supplier_bank_account_number_5, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 i_op_param( xml_transform( supplier_bank_code_5, In ), _, _, _, Out ) :- size_restrict_text( In, 15, Out ).
+i_op_param( xml_transform( supplier_iban_5, In ), _, _, _, Out ) :- size_restrict_text( In, 34, Out ).
 i_op_param( xml_transform( supplier_bank_account_number_6, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 i_op_param( xml_transform( supplier_bank_code_6, In ), _, _, _, Out ) :- size_restrict_text( In, 15, Out ).
+i_op_param( xml_transform( supplier_iban_6, In ), _, _, _, Out ) :- size_restrict_text( In, 34, Out ).
 i_op_param( xml_transform( payment_terms, In ), _, _, _, Out ) :- size_restrict_text( In, 10, Out ).
 
 i_op_param( xml_transform( narrative, In ), _, _, _, Out ) :- size_restrict_text( In, 50, Out ).
@@ -179,16 +185,22 @@ write_header___
 		write_variable_as_tag( invoice, supplier_bank_account_number, `Bank_Account` ), % Needs to be validated
 		write_variable_as_tag( invoice, supplier_bank_code, `Bank_Code` ),
 		write_variable_as_tag( invoice, supplier_bank_ogm, `Bank_OGM` ),
+		write_variable_as_tag( invoice, supplier_bank_iban, `Bank_IBAN` ),
 		write_variable_as_tag( invoice, supplier_bank_account_number_2, `Bank_Account2` ),
 		write_variable_as_tag( invoice, supplier_bank_code_2, `Bank_Code2` ),
+		write_variable_as_tag( invoice, supplier_bank_iban_2, `Bank_IBAN2` ),
 		write_variable_as_tag( invoice, supplier_bank_account_number_3, `Bank_Account3` ),
 		write_variable_as_tag( invoice, supplier_bank_code_3, `Bank_Code3` ),
+		write_variable_as_tag( invoice, supplier_bank_iban_3, `Bank_IBAN3` ),
 		write_variable_as_tag( invoice, supplier_bank_account_number_4, `Bank_Account4` ),
 		write_variable_as_tag( invoice, supplier_bank_code_4, `Bank_Code4` ),
+		write_variable_as_tag( invoice, supplier_bank_iban_4, `Bank_IBAN4` ),
 		write_variable_as_tag( invoice, supplier_bank_account_number_5, `Bank_Account5` ),
 		write_variable_as_tag( invoice, supplier_bank_code_5, `Bank_Code5` ),
+		write_variable_as_tag( invoice, supplier_bank_iban_5, `Bank_IBAN5` ),
 		write_variable_as_tag( invoice, supplier_bank_account_number_6, `Bank_Account6` ),
 		write_variable_as_tag( invoice, supplier_bank_code_6, `Bank_Code6` ),
+		write_variable_as_tag( invoice, supplier_bank_iban_6, `Bank_IBAN6` ),
 		write_variable_as_tag( invoice, payment_terms, `Payment_Term` ),
 		
 		write_variable_as_tag( invoice, narrative, `Description` ),

@@ -59,11 +59,11 @@ i_rule( get_supplier_detail, [
 
     sender_name( `HAMPIAUX S.A.S.` )
 
-    ,supplier_party( `HAMPIAUX S.A.S.` )
+   , supplier_party( `HAMPIAUX S.A.S.` )
 
-   ,supplier_vat_number(`FR 21 769 800 830`)
+   , supplier_vat_number(`FR 21 769 800 830`)
 
-   
+   , buyer_registration_number(`FR10`)
  
 
 
@@ -91,6 +91,41 @@ i_rule( get_bank_accountnumber, [
 
     ,trace( [ `IBAN`, supplier_iban ] )
 
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET ORDER NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_order_number, [
+%=======================================================================
+
+    q(0,50,line)
+
+        , find_order_number
+
+        
+ 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+
+        generic_item( [ order_number , [ begin, q(dec("8"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+        ,generic_item( [ order_number , [ begin, q(dec("9"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
 
 ] ).
 

@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `31/01/2018 13:18:11` ).
+i_version( p_ibm_unilever_uapl, `28/02/2018 12:28:58` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -514,6 +514,8 @@ i_analyse_customer_id___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	qq_op_param( unique_id, Scan_ID ),
+
+	sys_retractall( result( _, invoice, customer_id, _ ) ),
 
 	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_customer_id ),
 
