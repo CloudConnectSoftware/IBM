@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_linde, `27/02/2018 12:34:57` ).
+i_version( p_ibm_linde, `01/03/2018 11:06:17` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -471,5 +471,142 @@ i_analyse_line_quantity_uom_code___( LID )
 
 	assertz_derived_data( LID, line_quantity_uom_code, `EACH`, i_analyse_line_quantity_uom_code ),
 
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% REASON CODE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_enquire_last:- i_analyse_reason_code___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_reason_code___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(
+		i_user_data( customer_intervention_form( Customer_Form ) ),
+
+		json_get_list_values( Customer_Form, `ignored_customer_intervention_questions`, Ignored_Customer_Intervention_Quesntions )
+
+		;
+
+		Ignored_Customer_Intervention_Quesntions = [ ]
+
+	),
+
+	!,
+
+	(
+		i_user_data( rules_intervention_form( Rules_Form ) ),
+
+		json_get_list_values( Rules_Form, `ignored_rules_intervention_questions`, Ignored_Rules_Intervention_Quesntions )
+
+		;
+
+		Ignored_Rules_Intervention_Quesntions = [ ]
+
+	),
+
+	!,
+	
+	sys_findall(
+		Failure_Reason,
+		(
+			required_data_item( Data_Item_Name, _, _, _, _, `Flag As Fail and Post`, _, _, _, Variable, Dependency ),
+			sys_call( Dependency ),
+			any_lines_present,
+			not( missed_data_items_condition ),
+			not( q_sys_sub_string( Variable, 1, _, `line_` ) ),
+			sys_string_atom( Variable, Var ),
+			not( result( _, invoice, Var, _ ) ),
+			strcat_list( [ `Missing `, Data_Item_Name ], Failure_Reason ),
+			not( q_sys_member( Data_Item_Name, Ignored_Rules_Intervention_Quesntions ) ),
+			not( q_sys_member( Data_Item_Name, Ignored_Customer_Intervention_Quesntions ) )
+		),
+		Header_Level_Data_Item_Failure_Reason_List_Raw
+	),
+
+	i_force_list( Header_Level_Data_Item_Failure_Reason_List_Raw, Header_Level_Data_Item_Failure_Reason_List ),
+
+	!,
+
+	sys_findall(
+		Failure_Reason,
+		(
+			required_data_item( Data_Item_Name, _, _, _, _, `Flag As Fail and Post`, _, _, _, Variable, Dependency ),
+			sys_call( Dependency ),
+			any_lines_present,
+			not( missed_data_items_condition ),
+			q_sys_sub_string( Variable, 1, _, `line_` ),
+			sys_string_atom( Variable, Var ),
+			sys_findall(
+				LID_String,
+				(
+					result( _, LID, _, _ ),
+					sys_string_number( LID_String, LID ),
+					not( result( _, LID, line_type, _ ) ),
+					not( result( _, LID, Var, _ ) )
+				),
+				List_of_Line_Numbers_Raw
+			),
+			i_force_list( List_of_Line_Numbers_Raw, List_of_Line_Numbers ),
+			List_of_Line_Numbers \= [ ],
+			strcat_list( [ `Missing `, Data_Item_Name ], Failure_Reason ),
+			not( q_sys_member( Data_Item_Name, Ignored_Rules_Intervention_Quesntions ) ),
+			not( q_sys_member( Data_Item_Name, Ignored_Customer_Intervention_Quesntions ) )
+		),
+		Line_Level_Data_Item_Failure_Reason_List_Raw
+	),
+
+	i_force_list( Line_Level_Data_Item_Failure_Reason_List_Raw, Line_Level_Data_Item_Failure_Reason_List ),
+
+	!,
+
+	sys_findall(
+		Failure_Reason,
+		(
+			document_scenario( Scenario, _, _, `Flag As Fail and Post`, _, _, _, _, _, _, _, Dependency ),
+			sys_call( Dependency ),
+			Scenario = Failure_Reason,
+			not( q_sys_member( Data_Item_Name, Ignored_Rules_Intervention_Quesntions ) ),
+			not( q_sys_member( Data_Item_Name, Ignored_Customer_Intervention_Quesntions ) )
+		),
+		Document_Scenario_Failure_Reason_List_Raw
+	),
+
+	i_force_list( Document_Scenario_Failure_Reason_List_Raw, Document_Scenario_Failure_Reason_List ),
+
+	!,
+
+	sys_append( Header_Level_Data_Item_Failure_Reason_List, Line_Level_Data_Item_Failure_Reason_List, Data_Item_Failure_Reason_List ),
+
+	sys_append( Data_Item_Failure_Reason_List, Document_Scenario_Failure_Reason_List, Failure_Reason_List ),
+
+	(
+		Failure_Reason_List = [ ],
+	
+		assertz_derived_data( invoice, ct_reason, `SUCCESS`, i_analyse_reason_code )
+
+		;
+
+		Failure_Reason_List = [ Document_Failure_Reason ],
+
+		reason_code_lookup( Document_Failure_Reason, Reason_Code ),
+	
+		assertz_derived_data( invoice, ct_reason, Reason_Code, i_analyse_reason_code )
+
+		;
+
+		Failure_Reason_List = [ Reason_1 | Remaining_Reasons ],
+	
+		assertz_derived_data( invoice, ct_reason, `MULTIPLE_REASONCODES`, i_analyse_reason_code )
+
+	),
+	
 	!
 .
