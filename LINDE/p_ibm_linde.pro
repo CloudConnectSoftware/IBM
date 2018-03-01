@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_linde, `01/03/2018 11:06:17` ).
+i_version( p_ibm_linde, `01/03/2018 11:13:18` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -140,6 +140,7 @@ i_final_rule( [
 	, remove( mime_type ), mime_type( `application/pdf` )
 	, remove( item_type ), item_type( `LND1_APInvoice01` )
 	, remove( capture_type ), capture_type( `CLOUDTRADE` )
+	, remove( vendor_id )
 	, remove( buyer_dept )
 
 ] ).
