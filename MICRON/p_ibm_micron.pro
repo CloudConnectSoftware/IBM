@@ -4,10 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `01/03/2018 15:40:59` ).
+i_version( p_ibm_micron, `02/03/2018 10:35:29` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `d_ibm_micron.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).

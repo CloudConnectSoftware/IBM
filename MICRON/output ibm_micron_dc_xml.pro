@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `01/03/2018 15:40:52` ).
+i_version( output_ibm_micron_dc_xml, `02/03/2018 10:48:34` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -126,18 +126,8 @@ write_header___
 		write_variable_as_tag( invoice, supplier_vat_number, `Vendor_VAT_Code` ),
 		write_variable_as_tag( invoice, buyer_vat_number, `Buyer_VAT_Code` ),
 		
-		( qq_op_param( unique_id, ScanID )
+		( ( qq_op_param( unique_id, ScanID ); result( _, invoice, scan_id, ScanID ) )
 		
-			% Below is what the unique_id op_param should do
-			
-			% i_mail( unique_id, ID ),
-			% sys_string_number( IDS, ID ),
-			
-			% date_get( today, Today ),
-			% sys_date_string( Today, 'y-m-d', TodayWithHyphen ),
-			% strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
-			% strcat_list( [ TodayWithHyphen, `_CT`, IDS ], Scan_ID ),
-			
 			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
 			
 			;	instance( Instance ),
