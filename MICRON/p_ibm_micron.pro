@@ -4,11 +4,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `12/02/2018 15:23:53` ).
+i_version( p_ibm_micron, `01/03/2018 15:40:59` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_rules_file( `d_ibm_micron.pro` ).
+i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` ).
 i_rules_file( `u_numerical_validation.pro` ).
@@ -22,6 +23,7 @@ i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, customer_id, `Customer ID` ).
 i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
+i_user_field( invoice, scan_id, `scan_id` ).
 i_user_field( invoice, supplier_bank_code, `supplier_bank_code` ).
 i_user_field( invoice, ship_from, `ship_from` ).
 i_user_field( invoice, ship_to, `ship_to` ).
@@ -157,6 +159,39 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% SCAN ID
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	remove( scan_id ), scan_id( Scan_ID )
+
+] )
+:-
+	instance( I ),
+	string_to_upper( I, I_U ),
+	(
+		not( q_sys_sub_string( I_U, _, _, `DBG` ) ),
+		i_mail( unique_id, ID ),
+		sys_string_number( IDS, ID )
+		;
+		q_sys_sub_string( I_U, _, _, `DBG` ),
+		IDS = `Test`
+	),
+	string_pad_left( IDS, 8, `0`, IDPad ),
+	date_get( today, Today ),
+	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
+	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
+	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID )
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % REMOVE VARIABLES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,6 +231,40 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% CURRENCY CODE VALIDATION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_currency_code___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_currency_code___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, currency, Currency ),
+
+	sys_retractall( result( _, invoice, currency, _ ) ),
+
+	string_to_upper( Currency, Currency_U ),
+
+	(
+		iso_currency_code( Currency_U ),
+
+		assertz_derived_data( invoice, currency, Currency_U, i_analyse_currency )
+
+		;
+
+		trace( [ `currency invalid - value removed`, Currency ] )
+
+	),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % INVOICE TYPE
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,17 +287,11 @@ i_analyse_invoice_type___
 
 		result( _, invoice, order_number, _ ),
 
-		assertz_derived_data( invoice, invoice_type, `PO-basedINV`, i_analyse_invoice_type )
+		assertz_derived_data( invoice, invoice_type, `PO-based`, i_analyse_invoice_type )
 
 		;
-
-		grammar_set( tax_invoice ),
 
 		assertz_derived_data( invoice, invoice_type, `Tax invoice`, i_analyse_invoice_type )
-
-		;
-
-		assertz_derived_data( invoice, invoice_type, `INV`, i_analyse_invoice_type )
 
 	),
 
