@@ -12,6 +12,8 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_include_partner_attachments_image_only.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -180,6 +182,10 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)    , trace( [ `Total net` , total_net] )]
 
+        , [set(reverse_punctuation_in_numbers)  , set(regexp_cross_word_boundaries), generic_horizontal_details( [ [ `Total`, `Additional`, `Charges`, tab ],  total_invoice, d , newline ] )
+
+          , check( total_invoice = TotInv )  , trace( [ `Total Inv` , TotInv] )  , total_net(TotInv)    , trace( [ `Total net` , total_net] ), clear(regexp_cross_word_boundaries)    , clear(reverse_punctuation_in_numbers)]
+
      ])
 
         
@@ -202,6 +208,8 @@ qn0(line)
          generic_horizontal_details( [ [ `Total`, `price`, `in`,currency_dummy(w), `currency`, tab ], 200, line_total_amount, d , newline ] )
 
          ,generic_horizontal_details( [ [ `Total`, `Additional`, `Charges`, tab ],  line_total_amount, d , newline ] )
+
+         , [set(reverse_punctuation_in_numbers)  , set(regexp_cross_word_boundaries), generic_horizontal_details( [ [ `Total`, `Additional`, `Charges`, tab ],  line_total_amount, d , newline ] ), clear(regexp_cross_word_boundaries) , clear(reverse_punctuation_in_numbers)]
 
          ])
 
