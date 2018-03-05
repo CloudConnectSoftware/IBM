@@ -359,7 +359,7 @@ i_rule( get_currency, [
 
     , trace( [ `New Currency` , currency ] )]
 
-    , generic_vertical_details( [ [ `Amount`], `Amount`, q(1,0), (end,40,40), currency_raw,w,newline ] )
+    , generic_vertical_details( [ [ `Amount`], `Amount`, q(1,0), (end,40,40), currency,w,newline ] )
 
 
       ])
