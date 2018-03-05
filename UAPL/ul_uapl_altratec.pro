@@ -177,11 +177,6 @@ i_line_rule( bill_to_line2, [
     ,trace( [ `Company code set to`, buyer_registration_number ] )
 ] ).
 
-
-
-    
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET INVOICE NUMBER
@@ -364,7 +359,7 @@ i_rule( get_total_vat, [
      
      , generic_horizontal_details( [ [ `GST`, `6`, `%`, tab ], total_vat, d, newline ] )
 
-     , generic_horizontal_details( [ [ `GST`, `7`, `%`, tab ], total_vat, d, newline ] )
+     
     ])
 
 
@@ -390,16 +385,13 @@ i_rule( get_total_net, [
         
          ]
 
-        ,[test(credit_note), generic_horizontal_details( [ [  `sub`, `Total`] ,200, total_net, d, newline ] )]
+        , [test(credit_note), generic_horizontal_details( [ [  `sub`, `Total`] ,200, total_net, d, newline ] )]
 
-        ,generic_horizontal_details( [ [ `sub`, `Total` ], 200 , total_net, d, newline ] )
+        , generic_horizontal_details( [ [ `sub`, `Total` ], 200 , total_net, d, newline ] )
 
-          ,[ [test(tot_debit_vat),trace( [ `VAT FOUND` ] )],  [ peek_fails(test(tot_debit_vat)) ,generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_net, d, newline ] ) ,trace( [ `2` ] )]]
+        , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
-          , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
-
-          , [test(debit_note), generic_horizontal_details( [ [ `Total`, tab,q10(`:`), tab ] , total_net, d, newline ] ) ]
-
+         
 
     ])
 
@@ -422,18 +414,9 @@ i_rule( get_total_invoice, [
 
               
 
-              [test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
-              
-                 , check( total_invoice = TotInv )
-
-                 , trace( [ `Total Inv` , TotInv] )
-
-                  , total_net(TotInv)
-
-                  , trace( [ `Freight Total net` , total_net] ) 
-              ]
-          
-               ,[ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
+            test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
+             
+            , [ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
 
                  %, check( total_invoice = TotInv )
 
@@ -443,7 +426,7 @@ i_rule( get_total_invoice, [
 
                   %, trace( [ `Freight Total net` , total_net] )     
         
-                , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
+             , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
      
              
              ,  generic_horizontal_details( [ [ `Total`, q10(`:`), tab ] , total_invoice, d, newline ] )
