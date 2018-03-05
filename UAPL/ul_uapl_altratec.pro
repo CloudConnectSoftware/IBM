@@ -363,6 +363,8 @@ i_rule( get_total_vat, [
     , set(tot_debit_vat)]
      
      , generic_horizontal_details( [ [ `GST`, `6`, `%`, tab ], total_vat, d, newline ] )
+
+     , generic_horizontal_details( [ [ `GST`, `7`, `%`, tab ], total_vat, d, newline ] )
     ])
 
 
