@@ -169,13 +169,11 @@ q0n(anything)
 i_rule( get_invoice_number, [
 %=======================================================================
 
-q(0,50,line)
+q(0,15,line)
 	
    ,  or([
            
-           generic_horizontal_details( [ [`Rechnungskorrektur` ], invoice_number, s1, newline ] )
-
-           ,  generic_horizontal_details( [ [`Rechnung` ], invoice_number, s1, newline ] )
+           generic_horizontal_details( [ [ `Nr`, `.`, `:`], invoice_number, s1, tab ] )
 
         ])
 ] ).
@@ -195,9 +193,8 @@ q(0,50,line)
 	
    ,  or([
 
-     generic_horizontal_details( [ [ `Landsberg`, `,`, `den` ], invoice_date, date, newline ] )
+     generic_horizontal_details( [ [ `Datum`, `:`, tab ], invoice_date, date, newline ] )
 
-     ,  generic_horizontal_details( [ [ `Halle`, `,`, `den` ], invoice_date, date, newline ] )
 
 
         ])
@@ -219,9 +216,7 @@ i_rule( get_order_number, [
 
     , or([
       
-      generic_horizontal_details( [ [`Ihre`, `Bestellung`, `:`, tab,dummy_num(d), `/` ], order_number, d, `vom` ] )
-
-      , generic_horizontal_details( [ [`Ihre`, `Bestellung`, `:`, tab,dummy_num(s), `/` ], order_number, d ] )
+      generic_horizontal_details( [ [`Best`, `.`, `-`, `Nr`, `.`, `:`, tab ], order_number, d, newline ] )
 
         ])
 
@@ -241,7 +236,7 @@ i_rule( get_delivery_note_nr, [
 
     ,or([
         
-        generic_horizontal_details( [ [`Unsere`, `Lieferung`, `:` ],  delivery_note_number, s,  `vom` ] )
+        
         
         ])
 
@@ -269,7 +264,7 @@ i_rule( get_net_amount, [
 
         ,or([
 
-       generic_horizontal_details( [ [`Gesamtbetrag`, `/`, `Netto`, `:`, tab ], total_net, d, newline ] )
+       generic_horizontal_details( [ [`Nettosumme`, `:`, tab, generic_item( [ currency, w ] ), tab ], total_net, d, newline ] )
 
        ])
 
@@ -301,7 +296,7 @@ qn0(line)
     , set(regexp_cross_word_boundaries)
 
 
-    ,  generic_horizontal_details( [ [`MwSt`, `:`, `19`, `,`, `00`, `%`, tab ], total_vat, d, newline ] )
+    ,  generic_horizontal_details( [ [`Mehrwertsteuer`, `:`, `19`, `%`, tab, `EUR`, tab ], total_vat, d, newline ] )
    
     , generic_item( [ default_vat_rate, `19` ] )
     
@@ -334,9 +329,8 @@ i_rule( get_total_invoice, [
 
     ,or([
 
-      generic_horizontal_details( [ [`Gutschriftsbetrag`, `:`, tab ], total_invoice, d, newline ] )
+      generic_horizontal_details( [ [`Endbetrag`, `:`, tab, `EUR`, tab ], total_invoice, d, newline ] )
 
-    ,  generic_horizontal_details( [ [`Rechnungsbetrag`, `:`, tab ], total_invoice, d, newline ] )
 
       ])
 
@@ -350,39 +344,6 @@ i_rule( get_total_invoice, [
 ]).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% FREIGHT CHARGES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_freight_line, [
-%=======================================================================
-
-	qn0(line)
-
-   
-
-   , [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
-
-
-   , generic_horizontal_details( [ [ `Fracht`, `:`, tab ], line_net_amount, d, newline ] )
-
-    , generic_item( [ line_descr, `Fracht` ] )
-
-
-
-    , clear(reverse_punctuation_in_numbers)
-
-    , clear(regexp_cross_word_boundaries)]
-
-    
- 
-	
-]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -402,7 +363,9 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-		  [line_invoice_line, line_descr_line, q10(line_item_line) , q10(line_item_line)]
+		  line_invoice_line
+
+          , line_credit_line
 
 			, line
 
@@ -421,7 +384,7 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-        [`Pos`, `.`, tab, `Bezeichnung`, tab ]
+        [`Pos`, `.`, tab, `Menge`, `ME`, tab, `Bezeichnung` ]
 
       ])
 
@@ -435,7 +398,9 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 
-          [`Gesamtbetrag`, `/`, `Netto`, `:`, tab ]
+          [`RECHNUNG`, tab, `Datum`, `:`, tab ]
+
+         , [`Nettosumme`, `:`, tab, `EUR`, tab ]
 
 
         ])
@@ -458,11 +423,52 @@ i_line_rule( line_invoice_line, [
  
       , generic_item( [line_reference , d, tab  ] )
 
-      , generic_item( [line_item , s1, tab  ] )
+      , generic_item( [line_quantity , d  ] )
+
+      , generic_item( [line_quantity_uom_code , w, tab  ] )
+
+     , generic_item( [line_descr , s1, tab  ] )
+
+     ,q10(generic_item( [line_date , date, tab  ] ))
+
+      , generic_item( [line_unit_amount , d , tab ] )
+
+      , generic_item( [line_net_amount , d , newline ] )
+
+
+      , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+    
+] )
+
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+%=======================================================================
+i_line_rule( line_credit_line, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+       , set(reverse_punctuation_in_numbers)
+
+   
+ 
+      , generic_item( [line_reference , s1, tab  ] )
 
       , generic_item( [line_quantity , d  ] )
 
-      , generic_item( [line_quantity_uom_code , s1, tab  ] )
+      , generic_item( [line_quantity_uom_code , w, tab  ] )
+
+     , generic_item( [line_descr , s1, tab  ] )
 
       , generic_item( [line_unit_amount , d , tab ] )
 
@@ -486,25 +492,6 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 
-%=======================================================================
-i_line_rule( line_append_line, [
-%=======================================================================
-
-   generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
-
-       
-] ).
-
-
-%=======================================================================
-i_line_rule( line_descr_line, [
-%=======================================================================
-
-
-     generic_item( [line_descr , s1 , newline ] )
-
-       
-] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
