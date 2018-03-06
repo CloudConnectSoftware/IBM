@@ -1,5 +1,5 @@
 
-i_version( output_ibm_linde_rapid_xml, `27/02/2018 12:49:10` ).
+i_version( output_ibm_linde_rapid_xml, `06/03/2018 13:56:04` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -259,7 +259,7 @@ write_line___( LID )
 
 		),
 		
-		strcat_list( [ Client_Code, `_`, `L_Line` ], LineType ),
+		strcat_list( [ Client_Code, `_`, `LINE01` ], LineType ),
 		
 		write_attribute_string( `type`, LineType ),
 
