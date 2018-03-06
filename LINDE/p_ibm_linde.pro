@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_linde, `01/03/2018 11:13:18` ).
+i_version( p_ibm_linde, `06/03/2018 13:59:27` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -140,6 +140,7 @@ i_final_rule( [
 	, remove( mime_type ), mime_type( `application/pdf` )
 	, remove( item_type ), item_type( `LND1_APInvoice01` )
 	, remove( capture_type ), capture_type( `CLOUDTRADE` )
+	, remove( ct_reason ), ct_reason( `SUCCESS` )
 	, remove( vendor_id )
 	, remove( buyer_dept )
 
@@ -308,7 +309,7 @@ i_final_rule( [
 :-
 	i_mail( subject, Subject ),
 
-	sys_string_split( Subject, `-`, [ Email_From, _ ] )
+	sys_string_split( Subject, `-`, [ Email_From | _ ] )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -489,6 +490,8 @@ i_analyse_enquire_last:- i_analyse_reason_code___.
 i_analyse_reason_code___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
+	sys_retractall( result( _, invoice, ct_reason, _ ) ),
+	
 	(
 		i_user_data( customer_intervention_form( Customer_Form ) ),
 
