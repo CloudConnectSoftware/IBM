@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_linde, `06/03/2018 13:59:27` ).
+i_version( p_ibm_linde, `06/03/2018 14:52:31` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -41,6 +41,7 @@ i_user_field( invoice, supplier_iban, `supplier_iban` ).
 i_user_field( invoice, supplier_swift_code, `supplier_swift_code` ).
 i_user_field( invoice, total_withheld_tax, `total_withheld_tax` ).
 i_user_field( invoice, fiscal_year, `fiscal_year` ).
+i_user_field( invoice, notelog, `notelog` ).
 
 i_user_field( line, line_type_code, `line_type_code` ).
 

@@ -1,5 +1,5 @@
 
-i_version( output_ibm_linde_rapid_xml, `06/03/2018 13:56:04` ).
+i_version( output_ibm_linde_rapid_xml, `06/03/2018 14:51:42` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -152,6 +152,8 @@ write_document___
 		write_invoice_fields,
 
 	write_end_element,
+
+	write_variable_as_tag( invoice, notelog, `notelog` ),
 
 	write_start_element( `childcomponents` ),
 
