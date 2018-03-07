@@ -45,7 +45,7 @@ invoice_or_credit_note
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE OR CREDIT NOTE
+% INVOICE OR CREDIT NOTE or DEBIT NOTE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,19 +55,38 @@ i_rule( invoice_or_credit_note, [
 
 	q(0,10,line)
 	
-	, invoice_or_credit_note_line
+	, or([
+        invoice_or_credit_note_line
+
+        , debit_note_line
+
+    ])
 
 ] ).
 
 %=======================================================================
 i_line_rule( invoice_or_credit_note_line, [
 %=======================================================================
-
-	`S`, tab, `Unilever`, `Asia`, `Private`, `Limited`, tab, `CREDIT`, `NOTE`,  newline
+ q0n(anything)
+	
+    ,[ `CREDIT`, `NOTE`]
 	
 	, set(credit_note)
 	
 	, trace( [ `This is a credit note` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( debit_note_line, [
+%=======================================================================
+ q0n(anything)
+	
+    ,[ `DEBIT`, `NOTE`]
+	
+	, set(debit_note)
+	
+	, trace( [ `This is a Debit note` ] )
 
 ] ).
 
@@ -362,13 +381,15 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_credit_line
-                     
-            , line_invoice_line 
-     
-              , line_desr_line 
+             [line_invoice_line2, q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
 
-                , line
+            , [ line_credit_line , q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
+                     
+            , [line_invoice_line , q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
+     
+            
+
+            , line
 
         ] )
 
@@ -461,6 +482,22 @@ i_line_rule_cut( line_credit_line, [
 i_line_rule_cut( line_desr_line, [
 %=======================================================================
 
-     generic_append( [ line_descr, s1, newline, ` `, `` ] )
+     generic_append( [ line_descr, s1, newline, ` , `, `` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+          
+       q10(generic_item( [ line_item, w, tab ] ))
+
+     , generic_item( [ line_quantity, d, q10(tab) ] )  
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     , generic_item( [ line_unit_price, d, tab ] )
+
+     , generic_item( [ line_net_amount , d , newline ] )
 
 ] ).
