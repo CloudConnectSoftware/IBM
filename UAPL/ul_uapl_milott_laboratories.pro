@@ -298,15 +298,17 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
-        , [ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
+       , [line_before_total,q(0,1,line),line_total_rule,q(0,1,line), line_after_total]
+
+       % , [ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
         
-        , check( total_invoice = TotInv )
+       % , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv v` , TotInv] )
+       % , trace( [ `Total Inv v` , TotInv] )
 
-        , total_net(TotInv)
+        %, total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
+       % , trace( [ `Total net` , total_net] ) ]
 
        % , [ generic_vertical_details( [ [ `say`, `total` ], `total`, q(1,2,up), (end,100,900), total_invoice , d , newline ] )
         
@@ -319,8 +321,45 @@ i_rule( get_total_invoice, [
        % , trace( [ `Total net` , total_net] ) ]
 
 
-         ]) 
-       
+         ])        
+
+] ).
+
+%=======================================================================
+i_line_rule( line_before_total, [
+%=======================================================================
+ q0n(anything)
+
+ , `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`,  newline
+
+ 
+] ).
+
+%=======================================================================
+i_line_rule( line_total_rule, [
+%=======================================================================
+ q0n(anything)
+
+ 
+ , generic_item( [ total_invoice, d, newline] )
+
+ , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv v` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_after_total, [
+%=======================================================================
+ q0n(anything)
+ 
+
+ , `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`,  newline
 
 ] ).
 
