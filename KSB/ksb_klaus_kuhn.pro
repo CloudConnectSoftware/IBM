@@ -137,9 +137,18 @@ i_line_rule( line_add_line, [
 
      , generic_item( [buyer_party_raw , s1 , or([tab, newline]) ] )
 
-     , check(buyer_party_raw  =Buyer1) ,check(strip_string2_from_string1( Buyer1, `.`, Buyer_new )) 
+     , or([
          
-      ,   buyer_party(Buyer_new) , trace( [ `buyer party `, buyer_party ] )
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB DIVISION SERVICES`) ,generic_item( [ buyer_party, `KSB SAS` ] ) ]
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
 ] ).
 
 %=======================================================================
