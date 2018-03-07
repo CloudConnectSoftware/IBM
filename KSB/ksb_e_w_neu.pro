@@ -245,7 +245,7 @@ i_rule( get_order_number, [
     q(0,50,line)
 
     , or([
-        generic_horizontal_details( [ [ q10([`Ihre`, `Referenz`, `:`, tab]), q10(`Bestellung`) ], order_number, d, `v` ] )
+        generic_horizontal_details( [ [ `Ihre`, `Referenz`, `:`, q10(tab), q10(`Bestellung`) ], order_number, d, dummy_word(w) ] )
 
          ])
 
