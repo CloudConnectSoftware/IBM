@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `02/03/2018 14:53:54` ).
+i_version( p_ibm_ksb, `07/03/2018 13:53:15` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -998,6 +998,37 @@ i_analyse_line_buyers_order_number___( LID )
 
 	),
 	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% LINE BUYERS ORDER NUMBER FOR FREIGHT LINE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_last( LID ):- i_analyse_line_buyers_order_number_for_freight___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_buyers_order_number_for_freight___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_descr, Descr ),
+
+	string_to_lower( Descr, Descr_L ),
+
+	freight_description_lookup( Keyword ),
+
+	string_to_lower( Keyword, Keyword_L ),
+
+	q_sys_sub_string( Descr_L, _, _, Keyword_L ),
+
+	sys_retractall( result( _, LID, line_buyers_order_number, _ ) ),
+
+	assertz_derived_data( LID, line_buyers_order_number, `FC`, i_analyse_line_buyers_order_number_for_freight ),
+
 	!
 .
 
