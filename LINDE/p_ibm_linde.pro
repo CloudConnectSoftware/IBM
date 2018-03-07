@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_linde, `07/03/2018 08:47:36` ).
+i_version( p_ibm_linde, `07/03/2018 09:56:24` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -474,6 +474,222 @@ i_analyse_line_quantity_uom_code___( LID )
 	not( result( _, LID, line_quantity_uom_code, _ ) ),
 
 	assertz_derived_data( LID, line_quantity_uom_code, `EACH`, i_analyse_line_quantity_uom_code ),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PREVENT NORMAL INTERVENTION ANALYSIS FROM RUNNING
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_intervention_forms___:- !.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_document_errors___:- !.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_flag_as_fail_and_posts___:- !.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ANALYSE DOCUMENT ERRORS BEFORE CREATING XML
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_intervention_forms_alternate___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_intervention_forms_alternate___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(
+		q_enquire_form( `customer_intervention_form`, Form ),
+		
+		i_check_answered_rules_intervention_form,
+		
+		i_check_answered_customer_intervention_form
+		
+		;
+		
+		i_check_answered_rules_intervention_form,
+		
+		i_generate_initial_customer_intervention_form
+		
+		;
+		
+		i_check_answered_customer_intervention_form,
+		
+		i_generate_initial_rules_intervention_form
+		
+		;
+		
+		i_generate_initial_rules_intervention_form,
+		
+		i_generate_initial_customer_intervention_form
+	
+	),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ACTION REJECTIONS, FORWARDS & DELETIONS BEFORE SENDING TO INTERVENTION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_document_errors_alternate___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_document_errors_alternate___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	not( grammar_set( ignore_enquire ) ),
+
+	get_header_level_data_item_failures( List_of_Header_Level_Data_Item_Failures ),
+
+	get_line_level_data_item_failures( List_of_Line_Level_Data_Item_Failures ),
+
+	get_document_scenario_failures( List_Of_Document_Scenario_Failures ),
+
+	sys_append( List_of_Header_Level_Data_Item_Failures, List_of_Line_Level_Data_Item_Failures, List_of_Data_Item_Failures ),
+
+	sys_append( List_of_Data_Item_Failures, List_Of_Document_Scenario_Failures, List_of_Failures ),
+
+	List_of_Failures \= [ ],
+
+	!,
+	
+	beginning_text( Beginning_Text ),
+
+	sys_findall(
+		Error_Text,
+		(
+			q_sys_member( ( _, _, _, _, _, Error_Description_Text ), List_of_Failures ),
+			strcat_list( [ Error_Description_Text, `<br><br>` ], Error_Text )
+		),
+		List_of_Error_Texts
+	),
+	
+	sys_stringlist_concat( List_of_Error_Texts, ``, Document_Error_Text_No_Breaks ),
+	
+	string_string_replace( Document_Error_Text_No_Breaks, `
+`, `<br>`, Document_Error_Text ),
+
+	q_sys_member( ( Action, Email_Address, Result, Sub_Result, Error_Header_Text, _ ), List_of_Failures ),
+	
+	strcat_list( [ `Document Not Processed - `, Error_Header_Text ], Subject ),
+
+	(
+		Action = `Reject to Supplier`,
+		trace( `***Result: Failed - Reject to Supplier***` ),
+
+		sys_assertz( grammar_set( i_analyse_return_to_sender ) ),
+		
+		remaining_rejection_text( Remaining_Rejection_Text ),
+		
+		strcat_list( [ Beginning_Text, Document_Error_Text, Remaining_Rejection_Text ], Return_Email_Body ),
+		
+		assertz_derived_data( invoice, return_email_body, Return_Email_Body, i_insert_return_email_body ),
+		
+		assertz_derived_data( invoice, return_email_subject, Subject, i_insert_return_email_subject )
+
+		;
+
+		Action = `Forward to Email Address`,
+		trace( `***Result: Failed - Forward to Email Address***` ),
+
+		sys_assertz( grammar_set( i_analyse_forward_to_address ) ),
+		
+		remaining_forward_text( Remaining_Forward_Text ),
+		
+		strcat_list( [ Beginning_Text, Document_Error_Text, Remaining_Forward_Text ], Forward_Email_Body ),
+		
+		assertz_derived_data( invoice, forward_email_body, Forward_Email_Body, i_insert_forward_email_body ),
+
+		assertz_derived_data( invoice, forward_email, Email_Address, i_insert_forward_email ),
+		
+		assertz_derived_data( invoice, forward_email_subject, Subject, i_insert_forward_email_subject )
+
+		;
+
+		Action = `Delete`,
+		trace( `***Result: Failed - Delete Document***` ),
+
+		sys_assertz( grammar_set( i_analyse_junk_flag ) )
+
+	),
+
+	assertz_derived_data( invoice, force_result, Result, i_force_result ),
+
+	assertz_derived_data( invoice, force_sub_result, Sub_Result, i_force_sub_result ),
+
+	sys_assertz( grammar_set( ignore_enquire ) ),
+	
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ACTION FLAG AS FAIL AND POSTS BEFORE SENDING TO INTERVENTION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_flag_as_fail_and_posts_alternate___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_flag_as_fail_and_posts_alternate___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	not( grammar_set( ignore_enquire ) ),
+
+	get_header_level_data_item_flag_as_fail_and_posts( Header_Level_Data_Item_List ),
+
+	get_line_level_data_item_flag_as_fail_and_posts( Line_Level_Data_Item_List ),
+
+	get_document_scenario_flag_as_fail_and_posts( Document_Scenario_List ),
+
+	(
+		(
+			q_sys_member( Sub_Result, Header_Level_Data_Item_List )
+
+			;
+
+			q_sys_member( Sub_Result, Line_Level_Data_Item_List )
+
+			;
+
+			q_sys_member( Sub_Result, Document_Scenario_List )
+
+		),
+
+		assertz_derived_data( invoice, force_result, `failed`, i_force_failed ),
+
+		assertz_derived_data( invoice, force_sub_result, Sub_Result, i_force_sub_result ),
+
+		sys_assertz( grammar_set( i_analyse_flag_as_fail_and_post ) ),
+
+		trace( `***Result: Flag As Fail and Post***` )
+
+		;
+
+		Header_Level_Data_Item_List = [ ],
+		
+		Line_Level_Data_Item_List = [ ],
+
+		Document_Scenario_List = [ ]
+
+	),
 
 	!
 .
