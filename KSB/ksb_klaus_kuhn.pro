@@ -774,8 +774,11 @@ q0n(anything)
 
 % Updated on   - Feb 24, 2018
 % Updated by   - Thejaswi
-% Updates     - Bank details
+% Updates      - Bank details
 
+% Updated on   - march , 2018
+% Updated by   - Thejaswi
+% Changes made - Line capture
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
