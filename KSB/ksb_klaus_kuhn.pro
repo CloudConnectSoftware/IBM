@@ -655,7 +655,7 @@ i_rule( get_freight_line, [
 
     , q(0,1,line)
 
-    , shipping_line
+    , q10(shipping_line)
 
     
 ] ).
