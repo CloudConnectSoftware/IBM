@@ -50,6 +50,7 @@ i_rule_list( [
 
      ,  get_freight_line
 
+
 ] ).
 
 
@@ -137,9 +138,18 @@ i_line_rule( line_add_line, [
 
      , generic_item( [buyer_party_raw , s1 , or([tab, newline]) ] )
 
-     , check(buyer_party_raw  =Buyer1) ,check(strip_string2_from_string1( Buyer1, `.`, Buyer_new )) 
+     , or([
          
-      ,   buyer_party(Buyer_new) , trace( [ `buyer party `, buyer_party ] )
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB DIVISION SERVICES`) ,generic_item( [ buyer_party, `KSB SAS` ] ) ]
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
 ] ).
 
 %=======================================================================
@@ -643,6 +653,10 @@ i_rule( get_freight_line, [
 
     , freight_line
 
+    , q(0,1,line)
+
+    , shipping_line
+
     
 ] ).
 %=======================================================================
@@ -696,6 +710,58 @@ q0n(anything)
 ] ).
 
 
+%=======================================================================
+i_line_rule( shipping_line, [
+%=======================================================================
+
+q0n(anything)
+
+    ,read_ahead([ `Versand`])
+
+    , generic_item([ line_descr , s1 , tab ])
+      
+     , set(regexp_cross_word_boundaries)
+ 
+     , generic_item([ line_net_amount ,d,  newline ] )
+      
+     , clear(regexp_cross_word_boundaries)
+
+    , trace( [ `Freight Note Found` ] )
+
+    ,q10([	% LINE VAT Rate Calculation
+  
+       with( invoice , total_vat , VAT )
+
+      , with( invoice , total_net , Net )
+
+      , trace( [ `vat tot`, VAT ] )
+
+     , trace( [ `sub total`, Net ] )
+
+     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+     , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+       ])
+
+       , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       
+       ])
+
+       , generic_item( [ line_buyers_order_number, `FC` ] )
+
+] ).
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -708,8 +774,11 @@ q0n(anything)
 
 % Updated on   - Feb 24, 2018
 % Updated by   - Thejaswi
-% Updates     - Bank details
+% Updates      - Bank details
 
+% Updated on   - march , 2018
+% Updated by   - Thejaswi
+% Changes made - Line capture
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
