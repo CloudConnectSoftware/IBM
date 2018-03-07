@@ -392,7 +392,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_material) ]
+			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material) ]
   
 			, line
 
@@ -452,11 +452,11 @@ i_line_rule( line_invoice_line, [
 
       , set(regexp_cross_word_boundaries)
 
-      , generic_item([ line_unit_amount ,d,  tab ] )
+      , generic_item([ line_unit_amount_dummy ,d,  tab ] )
 
       , generic_item([ line_dummy_line ,d,  tab ] )
 
-      , generic_item([ line_net_amount ,d,  tab ] )
+      , q10(generic_item([ line_net_amount ,d,  tab ] ))
 
       , generic_item([ line_vat_rate , d , newline ] ) 
       
@@ -470,6 +470,19 @@ i_line_rule( line_invoice_line, [
        ])
      
     
+] ).
+
+%=======================================================================
+i_line_rule( line_invoice_net_line, [
+%=======================================================================
+
+    generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
+
+    , generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
+	
+     , q10(generic_item([ line_net_amount ,d,  newline ] ))
+
+        
 ] ).
 
 
