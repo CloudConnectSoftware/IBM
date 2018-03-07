@@ -776,7 +776,7 @@ q0n(anything)
 % Updated by   - Thejaswi
 % Updates      - Bank details
 
-% Updated on   - march , 2018
+% Updated on   - march 8, 2018
 % Updated by   - Thejaswi
 % Changes made - Line capture
 
