@@ -45,7 +45,7 @@ invoice_or_credit_note
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE OR CREDIT NOTE
+% INVOICE OR CREDIT NOTE or DEBIT NOTE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,19 +55,38 @@ i_rule( invoice_or_credit_note, [
 
 	q(0,10,line)
 	
-	, invoice_or_credit_note_line
+	, or([
+        invoice_or_credit_note_line
+
+        , debit_note_line
+
+    ])
 
 ] ).
 
 %=======================================================================
 i_line_rule( invoice_or_credit_note_line, [
 %=======================================================================
-
-	`S`, tab, `Unilever`, `Asia`, `Private`, `Limited`, tab, `CREDIT`, `NOTE`,  newline
+ q0n(anything)
+	
+    ,[ `CREDIT`, `NOTE`]
 	
 	, set(credit_note)
 	
 	, trace( [ `This is a credit note` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( debit_note_line, [
+%=======================================================================
+ q0n(anything)
+	
+    ,[ `DEBIT`, `NOTE`]
+	
+	, set(debit_note)
+	
+	, trace( [ `This is a Debit note` ] )
 
 ] ).
 
@@ -279,15 +298,17 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
-        , [ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
+       , [line_before_total,q(0,1,line),line_total_rule,q(0,1,line), line_after_total]
+
+       % , [ generic_vertical_details( [ [ `Amount` ], `Amount`, q(5,7), (end,30,30), total_invoice , d , newline ] )
         
-        , check( total_invoice = TotInv )
+       % , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv v` , TotInv] )
+       % , trace( [ `Total Inv v` , TotInv] )
 
-        , total_net(TotInv)
+        %, total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
+       % , trace( [ `Total net` , total_net] ) ]
 
        % , [ generic_vertical_details( [ [ `say`, `total` ], `total`, q(1,2,up), (end,100,900), total_invoice , d , newline ] )
         
@@ -300,8 +321,45 @@ i_rule( get_total_invoice, [
        % , trace( [ `Total net` , total_net] ) ]
 
 
-         ]) 
-       
+         ])        
+
+] ).
+
+%=======================================================================
+i_line_rule( line_before_total, [
+%=======================================================================
+ q0n(anything)
+
+ , `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`,  newline
+
+ 
+] ).
+
+%=======================================================================
+i_line_rule( line_total_rule, [
+%=======================================================================
+ q0n(anything)
+
+ 
+ , generic_item( [ total_invoice, d, newline] )
+
+ , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv v` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_after_total, [
+%=======================================================================
+ q0n(anything)
+ 
+
+ , `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`, `=`,  newline
 
 ] ).
 
@@ -362,13 +420,15 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_credit_line
-                     
-            , line_invoice_line 
-     
-              , line_desr_line 
+             [line_invoice_line2, q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
 
-                , line
+            , [ line_credit_line , q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
+                     
+            , [line_invoice_line , q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
+     
+            
+
+            , line
 
         ] )
 
@@ -461,6 +521,38 @@ i_line_rule_cut( line_credit_line, [
 i_line_rule_cut( line_desr_line, [
 %=======================================================================
 
-     generic_append( [ line_descr, s1, newline, ` `, `` ] )
+     generic_append( [ line_descr, s1, newline, ` , `, `` ] )
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+          
+       q10(generic_item( [ line_item, w, tab ] ))
+
+     , generic_item( [ line_quantity, d, q10(tab) ] )  
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     , generic_item( [ line_unit_price, d, tab ] )
+
+     , generic_item( [ line_net_amount , d , newline ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+
+% Updated on   - march 7, 2018
+% Updated by   - Thejaswi
+% Changes made - New Format
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

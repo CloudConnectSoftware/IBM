@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% UNILEVER GULF FZE
+% UNILEVER `RHS LOGISTICS`
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_unilever_gulf, `17 May 2017` ).
+i_version( ul_uapl_rhs_logistics, `10 Feb 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -31,6 +31,8 @@ i_rule_list( [
     , get_total_vat
 
     , get_total_invoice
+
+    , get_total_invoice_alternate
 
     , get_currency
 
@@ -90,7 +92,7 @@ i_rule( get_invoice_date, [
         
         generic_horizontal_details( [ [  `Date`, tab, q10(`:`),q10(tab) ], 30, invoice_date, date, newline ] )
 
-       , generic_vertical_details( [ [ `Invoice`, `Date`, `:` ], `Date`, q(0,1), (end,100,100), invoice_date, date, tab ] )
+       , generic_vertical_details( [ [ `Invoice`, `Date`, `:` ], `Date`, q(0,1), (end,100,100), invoice_date, date, or([tab,newline]) ] )
 
        ])
 
@@ -108,7 +110,12 @@ i_rule( get_order_number, [
 
     q(0,20,line)
 
-    ,generic_horizontal_details( [ [ `PO`, `-` ],  order_number, w, or([tab,dummy_word(w)]) ] )
+    ,or([
+        generic_horizontal_details( [ [ `PO`, `-` ],  order_number, w, or([tab,dummy_word(w)]) ] )
+
+        ,generic_horizontal_details( [ [ `PO`, `:` ],  order_number, w, or([tab,dummy_word(w)]) ] )
+
+    ])
 
 ] ).
 
@@ -136,6 +143,62 @@ q(0,50,line)
    , total_net(TotInv)   , trace( [ `Total net` , total_net ] ) ]
 
     ])
+
+] ).
+
+%=======================================================================
+i_rule( get_total_invoice_alternate, [
+%=======================================================================
+
+last_line
+
+, q(5,15,up)
+
+, line_total_invoice
+
+,q(0,1,line)
+
+, line_next_line
+
+, q(0,1,line)
+
+, line_next_line_2
+
+] ).
+
+%=======================================================================
+i_line_rule( line_total_invoice, [
+%=======================================================================
+ q0n(anything)
+
+ 
+ , generic_item( [ total_invoice, d, newline] )
+
+ , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv v` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] )
+
+ 
+] ).
+
+%=======================================================================
+i_line_rule( line_next_line, [
+%=======================================================================
+  `USD`, dummy_amount_word(s), `Only`, newline
+
+] ).
+
+%=======================================================================
+i_line_rule( line_next_line_2, [
+%=======================================================================
+ q0n(anything)
+ 
+
+ , `For`, `RAIS`, `HASSAN`, `SAADI`, `LOGISTICS`, `(`, `L`, `.`, `L`, `.`, `C`, `)`,  newline
 
 ] ).
 
@@ -210,6 +273,8 @@ i_section( get_invoice_lines, [
 
               ,line_invoice_line2
 
+              ,line_invoice_line3
+
               , line
 
         ] )
@@ -268,7 +333,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
- generic_item( [ line_ref, d,tab ])
+ generic_item( [ line_ref, d,q10(tab) ])
 
 , generic_item( [ line_descr, s1, [tab, `USD`,tab ] ] ) 
 
@@ -287,3 +352,40 @@ i_line_rule_cut( line_invoice_line2, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+
+ generic_item( [ line_ref, d,q10(tab) ])
+
+, generic_item( [ line_descr, s1, [tab, `USD`,tab ] ] ) 
+
+, generic_item( [ line_unit_amount, d, tab ] )
+
+, generic_item( [ line_quantity, d, tab ] )
+
+, generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Created on   - Feb 10, 2018
+% Updated by   - Thejaswi
+
+% Updated on   - Feb 23, 2018
+% Updated by   - Thejaswi
+% Updates     -  format change
+
+% Updated on   - march 7, 2018
+% Updated by   - Thejaswi
+% Changes made - New Format
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
