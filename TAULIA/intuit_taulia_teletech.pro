@@ -8,7 +8,9 @@ i_version( intuit_taulia_teletech, `9 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y` ).
+i_date_format( `m/d/y` ):- not( grammar_set( alternate_date_format ) ).
+
+i_date_format( `m/d/y` ):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -235,6 +237,15 @@ i_rule( get_invoice_date, [
         , delivery_date(Deliverydate)
 
         , trace( [ `Delivery Date` , delivery_date ] )
+
+                , q10( [
+
+          check( q_sys_sub_string( invoice_date, _, _, `-` ) )
+
+          , set( alternate_date_format )
+
+           ] )
+
 
 
 
