@@ -187,17 +187,17 @@ i_rule( get_bank_account_no, [
 
  , generic_horizontal_details( [ [`(`, `BLZ`, generic_item( [ code_1,s ] ), `)`, generic_item( [ bank_1,s1 ] ), tab, `(`, `BLZ`, generic_item( [ code_2,s ] ), `)`, generic_item( [ bank_2,s1 ] ), tab, `(`, `BLZ` ],  code_3, s, [`)`,generic_item( [ bank_3,s1 ] ),newline] ] )
  
-, check(bank_1  =SupbNo) ,check(strip_string2_from_string1( SupbNo, ` `, SupNobNew )) ,supplier_bank_account_number(SupNobNew) , trace( [ `New Bank acc`, supplier_bank_account_number ] )
+, check(bank_1  =SupbNo) ,check(strip_string2_from_string1( SupbNo, ` `, SupNobNew )) ,supplier_bank_account_number_3(SupNobNew) , trace( [ `New Bank acc 3`, supplier_bank_account_number_3 ] )
 
-    , check(code_1  =SupNo) ,check(strip_string2_from_string1( SupNo, ` `, SupNoNew ))  ,supplier_bank_code(SupNoNew) , trace( [ `New Bank acc code `, supplier_bank_code ] )
+    , check(code_1  =SupNo) ,check(strip_string2_from_string1( SupNo, ` `, SupNoNew ))  ,supplier_bank_code_3(SupNoNew) , trace( [ `New Bank acc code 3 `, supplier_bank_code_3 ] )
      
     , check(bank_2  =SupbNo2) ,check(strip_string2_from_string1( SupbNo2, ` `, SupNobNew2 )) ,supplier_bank_account_number_2(SupNobNew2) , trace( [ `Ne Bank acc 2`, supplier_bank_account_2 ] )
 
     , check(code_2  =SupNo2) ,check(strip_string2_from_string1( SupNo2, ` `, SupNoNew2 ))  ,supplier_bank_code_2(SupNoNew2) , trace( [ ` New Bank acc code 2`, supplier_bank_code_2 ] )
      
-    , check(bank_3  =SupbNo3) ,check(strip_string2_from_string1( SupbNo3, ` `, SupNobNew3 )) ,supplier_bank_account_number_3(SupNobNew3) , trace( [ `New Bank acc 3`, supplier_bank_account_number_3 ] )
+    , check(bank_3  =SupbNo3) ,check(strip_string2_from_string1( SupbNo3, ` `, SupNobNew3 )) ,supplier_bank_account_number(SupNobNew3) , trace( [ `New Bank acc 1`, supplier_bank_account_number ] )
 
-    , check(code_3  =SupNo3) ,check(strip_string2_from_string1( SupNo3, ` `, SupNoNew3 ))  ,supplier_bank_code_3(SupNoNew3) , trace( [ `New Bank acc code 3`, supplier_bank_code_3 ] )
+    , check(code_3  =SupNo3) ,check(strip_string2_from_string1( SupNo3, ` `, SupNoNew3 ))  ,supplier_bank_code(SupNoNew3) , trace( [ `New Bank acc code 1`, supplier_bank_code ] )
      
 
 ]).
@@ -220,13 +220,13 @@ i_rule( get_iban_no, [
  , generic_horizontal_details( [ [`IBAN`, `:`,  generic_item( [ iban_1,s1 ] ), tab, `IBAN`, `:`, generic_item( [ iban_2,s1 ] ),tab, `IBAN`, `:` ],  iban_3, s1, newline ] )
  
  
-   %, check(iban_1  =SupibNo) ,check(strip_string2_from_string1( SupibNo, ` `, SupiNobNew )) ,supplier_bank_iban(SupiNobNew) , trace( [ `New iban acc`, supplier_iban ] )
+   , check(iban_1  =SupibNo) ,check(strip_string2_from_string1( SupibNo, ` `, SupiNobNew )) ,supplier_bank_iban_3(SupiNobNew) , trace( [ `New iban acc3`, supplier_bank_iban_3 ] )
 
   
-   % , check(iban_2  =SupibNo2) ,check(strip_string2_from_string1( SupibNo2, ` `, SupiNobNew2 )) ,supplier_bank_iban_2(SupiNobNew2) , trace( [ `Ne iban acc 2`, supplier_iban_2 ] )
+    , check(iban_2  =SupibNo2) ,check(strip_string2_from_string1( SupibNo2, ` `, SupiNobNew2 )) ,supplier_bank_iban_2(SupiNobNew2) , trace( [ `Ne iban acc 2`, supplier_bank_iban_2 ] )
 
        
-    , check(iban_3  =SupibNo3) ,check(strip_string2_from_string1( SupibNo3, ` `, SupiNobNew3 )) ,supplier_bank_iban(SupiNobNew3) , trace( [ `New iban acc 3`, supplier_bank_iban ] )
+    , check(iban_3  =SupibNo3) ,check(strip_string2_from_string1( SupibNo3, ` `, SupiNobNew3 )) ,supplier_bank_iban(SupiNobNew3) , trace( [ `New iban acc 1`, supplier_bank_iban ] )
 
    
      
@@ -382,6 +382,7 @@ qn0(line)
     ,clear(regexp_cross_word_boundaries)]
 
 
+
 ])
 	
 	
@@ -522,9 +523,9 @@ i_line_rule_cut( line_invoice_line, [
       
        , set(regexp_cross_word_boundaries)
 
-       ,generic_item([ line_quantity , d ,q10(tab) ])
+       ,generic_item([ line_quantity , d, tab ])
 
-       , generic_item([ line_quantity_uom_code ,w, q10(tab) ] )
+       , generic_item([ line_quantity_uom_code ,w, tab ] )
 
       , generic_item([ line_unit_amount ,d,  `/` ] )
 
@@ -610,7 +611,7 @@ i_line_rule_cut( line_invoice_line2, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_freight_line, [
+i_rule_cut( get_freight_line, [
 %=======================================================================
 
     q(0,200,line)
@@ -624,7 +625,7 @@ i_rule( get_freight_line, [
     
 ] ).
 %=======================================================================
-i_line_rule( freight_line, [
+i_line_rule_cut( freight_line, [
 %=======================================================================
 
 q0n(anything)
@@ -650,13 +651,12 @@ q0n(anything)
        
        ])
 
-       , generic_item( [ line_buyers_order_number, `FC` ] )
 
 ] ).
 
 
 %=======================================================================
-i_line_rule( shipping_line, [
+i_line_rule_cut( shipping_line, [
 %=======================================================================
 
 q0n(anything)
@@ -681,7 +681,7 @@ q0n(anything)
        
        ])
 
-       , generic_item( [ line_buyers_order_number, `FC` ] )
+      
 
 ] ).
 
