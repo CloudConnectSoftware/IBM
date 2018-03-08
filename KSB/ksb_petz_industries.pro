@@ -441,19 +441,6 @@ i_line_rule_cut( line_end_line,[
 i_line_rule( line_invoice_line, [
 %=======================================================================
 	
-      generic_item( [line_reference , d , tab ] )
-
-      , generic_item( [ line_item, d, newline ] )
-
-
-
-    
-] ).
-
-%=======================================================================
-i_line_rule( line_invoice_line, [
-%=======================================================================
-	
         set(regexp_cross_word_boundaries)
 
        , set(reverse_punctuation_in_numbers)
