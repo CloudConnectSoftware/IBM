@@ -391,8 +391,10 @@ i_section( get_invoice_lines, [
 	,qn0( [ peek_fails(line_end_line)
 		
 		,or( [
+
+            [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
 		
-			[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material) ]
+			, [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material) ]
   
 			, line
 
@@ -446,7 +448,7 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_descr , s1 , tab ])
 
-      , generic_item([ line_quantity , d ] )
+      , generic_item([ line_quantity , d, q10(tab) ] )
 
       , generic_item([ line_quantity_uom_code , w , tab ] )
 
