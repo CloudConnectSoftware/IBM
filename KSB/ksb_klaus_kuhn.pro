@@ -332,7 +332,7 @@ i_rule( get_total_vat, [
 
         [set(regexp_cross_word_boundaries)
 
-    ,generic_horizontal_details( [ [ `Mehrwertsteuer`,  dummy_vat_rate(d), `%`],200, total_vat, d,  newline ] )
+    ,generic_horizontal_details( [ [ `Mehrwertsteuer`,  generic_item( [ default_vat_rate, d] ), `%`],200, total_vat, d,  newline ] )
 
     ,clear(regexp_cross_word_boundaries)]
 
@@ -507,12 +507,10 @@ i_line_rule_cut( line_end_line,[
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
-     
-
-        generic_item([ line_reference , w , tab ])
+       q10(generic_item([ line_reference , w , tab ]))
 
       , generic_item([ line_descr , s1 , tab ])
       
@@ -530,26 +528,6 @@ i_line_rule( line_invoice_line, [
       
        , clear(regexp_cross_word_boundaries)
 
-        
-        ,q10([	% LINE VAT Rate Calculation
-  
-       with( invoice , total_vat , VAT )
-
-      , with( invoice , total_net , Net )
-
-      , trace( [ `vat tot`, VAT ] )
-
-     , trace( [ `sub total`, Net ] )
-
-     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-     , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
 
        , q10( [ 
 
@@ -558,13 +536,12 @@ i_line_rule( line_invoice_line, [
         , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
        
        ])
-     
-    
+         
 ] ).
 
 
 %=======================================================================
-i_line_rule( line_invoice_descr, [
+i_line_rule_cut( line_invoice_descr, [
 %=======================================================================
 
     q10(generic_append( [ line_descr, w, tab, ` `, ``  ] ))
@@ -574,7 +551,7 @@ i_line_rule( line_invoice_descr, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_item, [
+i_line_rule_cut( line_invoice_item, [
 %=======================================================================
 	    
      generic_append( [ line_descr, s, `:`, ` `, ``  ] )
@@ -593,7 +570,7 @@ i_line_rule( line_invoice_item, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line2, [
+i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 	
      
@@ -607,25 +584,6 @@ i_line_rule( line_invoice_line2, [
       
        , clear(regexp_cross_word_boundaries)
 
-        ,q10([	% LINE VAT Rate Calculation
-  
-        with( invoice , total_vat , VAT )
-
-        , with( invoice , total_net , Net )
-
-        , trace( [ `vat tot`, VAT ] )
-
-       , trace( [ `sub total`, Net ] )
-
-       , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-        , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-        , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-        , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
 
        , q10( [ 
 
@@ -635,8 +593,8 @@ i_line_rule( line_invoice_line2, [
        
        ])
      
-    
 ] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -677,25 +635,6 @@ q0n(anything)
 
     , trace( [ `Freight Note Found` ] )
 
-    ,q10([	% LINE VAT Rate Calculation
-  
-       with( invoice , total_vat , VAT )
-
-      , with( invoice , total_net , Net )
-
-      , trace( [ `vat tot`, VAT ] )
-
-     , trace( [ `sub total`, Net ] )
-
-     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-     , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
 
        , q10( [ 
 
@@ -728,26 +667,6 @@ q0n(anything)
 
     , trace( [ `Freight Note Found` ] )
 
-    ,q10([	% LINE VAT Rate Calculation
-  
-       with( invoice , total_vat , VAT )
-
-      , with( invoice , total_net , Net )
-
-      , trace( [ `vat tot`, VAT ] )
-
-     , trace( [ `sub total`, Net ] )
-
-     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-     , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
-
        , q10( [ 
 
          with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
@@ -759,6 +678,8 @@ q0n(anything)
        , generic_item( [ line_buyers_order_number, `FC` ] )
 
 ] ).
+
+
 
 
 
