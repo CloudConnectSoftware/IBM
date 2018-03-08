@@ -248,14 +248,20 @@ q(0,30,line)
 	
    ,  or([
 
-       generic_horizontal_details( [[`Rechnung` ], invoice_number, s1,  newline ] )
+       generic_horizontal_details( [[`Rechnung` ], invoice_number_raw, s1,  newline ] )
 
-       ,generic_horizontal_details( [[`Gutschrift` ], invoice_number, s1, newline ] )
+       ,generic_horizontal_details( [[`Gutschrift` ], invoice_number_raw, s1, newline ] )
 
-       ,generic_horizontal_details( [[`Gutschrift` ], invoice_number, s1,  newline ] )
+       ,generic_horizontal_details( [[`Gutschrift` ], invoice_number_raw, s1,  newline ] )
        
-
     ])
+     ,check(invoice_number_raw=SupplierInv)
+    
+   , check(strip_string2_from_string1( SupplierInv, ` `, InvNew ))
+
+    , invoice_number(InvNew), trace( [ `New Invoice #`, invoice_number ] )
+
+        
 ] ).
 
 
