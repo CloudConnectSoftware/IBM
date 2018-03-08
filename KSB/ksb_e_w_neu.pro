@@ -225,12 +225,29 @@ q(0,20,line)
 	
    ,  or([
 
-       generic_horizontal_details( [[`Belegnummer`, `:`, q10(tab) ], invoice_number, w,  or([tab,newline]) ] )
+        generic_horizontal_details( [[`Belegnummer`, `:`, q10(tab) ], invoice_number, w,  or([tab,newline]) ] )
        
+        , find_order_number
 
-    ])
+        ])
+    
 ] ).
 
+
+%=======================================================================
+i_line_rule( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+          generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,8) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,8) , end ] ] )
+
+    ])
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -392,9 +409,11 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-            [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
+            
 		
-			, [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material) ]
+			 [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material)  ]
+
+             ,[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
   
 			, line
 
@@ -480,6 +499,8 @@ i_line_rule( line_invoice_net_line, [
 
     generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
 
+    ,q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
+
     , generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
 	
      , q10(generic_item([ line_net_amount ,d,  newline ] ))
@@ -523,9 +544,12 @@ i_line_rule( line_invoice_item, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
 
-
 % Created on   - January 30, 2018
 % Updated by   - Thejaswi
+
+% Updated on   - March 8, 2018
+% Updated by   - Thejaswi
+% Changes made - Line capture
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
