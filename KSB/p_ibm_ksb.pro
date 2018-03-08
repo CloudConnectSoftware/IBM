@@ -309,6 +309,94 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% ORDER NUMBER VALIDATION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	check( i_analyse_order_number___ )
+
+] ).
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_order_number___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, order_number, Order_Number ),
+
+	sys_retractall( result( _, invoice, order_number, _ ) ),
+
+	string_to_upper( Order_Number, Order_Number_U ),
+
+	(
+		i_user_check( gen_clean_and_extract_from_string, Order_Number_U, Order_Number_Final ),
+
+		q_regexp_match( `^4\\d{9}$`, Order_Number_Final, _ ),
+
+		assertz_derived_data( invoice, order_number, Order_Number_Final, i_analyse_order_number )
+
+		;
+
+		trace( [ `order_number invalid - value removed`, Order_Number ] )
+
+	),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ADD A SINGLE SUMMARY LINE FOR NON-PO INVOICES MORE THAN 50 LINES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	without( order_number )
+
+	, with( 51, _, _ )
+
+	, remove( line_item ), remove( line_item_for_buyer ), remove( line_descr ), remove( line_pack_size ), remove( line_reference )
+	, remove( line_start_date ), remove( line_end_date ), remove( line_from_date ), remove( line_to_date ), remove( line_delivery_note_number )
+	, remove( line_buyers_order_number ), remove( line_order_line_number ), remove( line_original_order_date )
+	, remove( line_net_amount ), remove( line_quantity ), remove( line_unit_amount ), remove( line_percent_discount )
+	, remove( line_amount_discount ), remove( line_vat_rate ), remove( line_vat_code ), remove( line_vat_amount )
+	, remove( line_total_amount ), remove( line_quantity_uom_code ), remove( line_price_uom_code )
+	, remove( line_charge_period_uom_code ), remove( line_charge_period_uom_descr ), remove( line_charge_period )
+
+	, line_quantity( `1` )
+	, line_descr( `Page Summary` )
+
+	, q10( [ with( invoice, total_net, Net )
+		, line_net_amount( Net )
+		, set( summary_net_used )
+	] )
+	, q10( [ with( invoice, total_invoice, Gross )
+		, line_total_amount( Gross )
+		, set( summary_gross_used )
+	] )
+	, q10( [ with( invoice, total_vat, VAT )
+		, line_vat_amount( VAT )
+		, set( summary_vat_used )
+	] )
+
+	, or( [ test( summary_gross_used ), test( summary_net_used ), test( summary_vat_used ) ] )
+
+	, trace( [ `Summary line Created`, line_descr, line_net_amount, line_total_amount ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % DELAY FILES TOO CLOSE TO MIDNIGHT
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -515,42 +603,6 @@ i_analyse_buyer_registration_number___
 		q_sys_sub_string( I_U, _, _, `DBG` ),
 
 		assertz_derived_data( invoice, buyer_registration_number, `TEST`, i_analyse_buyer_registration_number )
-
-	),
-
-	!
-.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% ORDER NUMBER VALIDATION
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_invoice_fields_first:- i_analyse_order_number___.
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_order_number___
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:-
-	result( _, invoice, order_number, Order_Number ),
-
-	sys_retractall( result( _, invoice, order_number, _ ) ),
-
-	string_to_upper( Order_Number, Order_Number_U ),
-
-	(
-		i_user_check( gen_clean_and_extract_from_string, Order_Number_U, Order_Number_Final ),
-
-		q_regexp_match( `^4\\d{9}$`, Order_Number_Final, _ ),
-
-		assertz_derived_data( invoice, order_number, Order_Number_Final, i_analyse_order_number )
-
-		;
-
-		trace( [ `order_number invalid - value removed`, Order_Number ] )
 
 	),
 
