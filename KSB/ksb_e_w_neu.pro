@@ -497,7 +497,7 @@ i_line_rule( line_invoice_line, [
 i_line_rule( line_invoice_net_line, [
 %=======================================================================
 
-    generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
+    q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
 
     ,q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
 
