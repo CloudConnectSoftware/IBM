@@ -454,6 +454,8 @@ i_line_rule_cut( line_end_line,[
 		 
 		   [`Summe`, `:`]
 
+           ,[`Netto`, `-`, `Betrag`]
+
            , [`E`, `.`, `W`, `.`, `NEU`, `GmbH`]
 
 
