@@ -200,7 +200,13 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
+     , or([
+
+    generic_horizontal_details( [ [`PO`, `Number`, `:`, tab ], po_number, d, newline ] )
+
   , generic_horizontal_details( [ [ `Customer`, `I`, `.`, `O`, `.`, `#`, `:`, tab ], po_number, d, newline ] )
+
+  ] )
 
 ] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -269,7 +275,7 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-     q(0,20,line)
+     q(0,100,line)
 
   , generic_horizontal_details( [ [`Invoice`, `Currency`, `:`, tab ], currency, w, newline ] )
 
@@ -310,7 +316,7 @@ i_line_rule_cut( line_header_line, [
 
  [`Line`, `#`, tab, `Description`]
 
- ,  q10([`IO`, `Line`, `#`, tab, `Description` ])
+ ,  [`IO`, `Line`, `#`, tab, `Description` ]
 
     
     ] )
@@ -326,6 +332,8 @@ i_line_rule_cut( line_end_line, [
        or([
        
        [`INVOICE`, `NUMBER`, `MUST`, `BE` ]
+
+       , [`Subtotal`]
 
 
       ] )
