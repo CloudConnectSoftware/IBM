@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `09/03/2018 09:29:40` ).
+i_version( p_ibm_ksb, `09/03/2018 10:27:42` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -98,25 +98,7 @@ document_reason_lookup( `Multiple POs Quoted`, `failed`, `i_anlyse_multiple_po_q
 %-----------------------------------------------------------------------
 beginning_text( Text )
 :-
-	i_mail( to, To ),
-	string_to_upper( To, To_U ),
-	(
-		q_sys_sub_string( To_U, _, _, `KSB_DE_1001` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_DE_1009` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_AT` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_CH` )
-	),
-	Text = `Sehr geehrte Damen und Herren,<br>Ihr Dokument wurde von der Accounts Payable Abteilung abgelehnt mit folgender Begründung:<br>Dear Sir/Madam,<br>Your document has been rejected by our Accounts Payable Department due to following reason:<br><br>`
-.
-beginning_text( Text )
-:-
-	i_mail( to, To ),
-	string_to_upper( To, To_U ),
-	q_sys_sub_string( To_U, _, _, `KSB_FR` ),
-	Text = `Cher(e) Madame/Monsieur<br>Votre document a été rejeté par notre service Accounts Payable pour les raisons suivantes:<br>Dear Sir/Madam,<br>Your document has been rejected by our Accounts Payable Department due to following reason:<br><br>`
+	Text = `Dear Sir/Madam,<br>Your document has been rejected by our Accounts Payable Department due to following reason:<br><br>`
 .
 
 %-----------------------------------------------------------------------
@@ -124,17 +106,6 @@ beginning_text( Text )
 %-----------------------------------------------------------------------
 remaining_rejection_text( Text )
 :-
-	i_mail( to, To ),
-	string_to_upper( To, To_U ),
-	(
-		q_sys_sub_string( To_U, _, _, `KSB_DE_1001` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_DE_1009` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_AT` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_CH` )
-	),
 	(
 		( result( _, invoice, buyer_registration_number, `1001` ); data( invoice, buyer_registration_number, `1001` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
@@ -148,24 +119,13 @@ remaining_rejection_text( Text )
 		( result( _, invoice, buyer_registration_number, `1025` ); data( invoice, buyer_registration_number, `1025` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_CH@ksb.com<br>Accounts Payable Team: AP_Queries_CH@ksb.com / +41 432 109 911`
 		;
-		not( result( _, invoice, buyer_registration_number, _ ) ), not( data( invoice, buyer_registration_number, _ ) ),
-		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
-	),
-	strcat_list( [ `<br><br>Im Anhang finden Sie die Kopie des Dokumentes.<br>Bitte schicken Sie die korrigierte Rechnung an die für Rechnungen speziell erstellte Email-Adresse. Sie brauchen uns keine Gutschrift/Korrekturrechnung zu schicken, da wir Ihre Rechnung nicht in unseren Geschäftsbüchern registrieren.<br>Falls Sie nicht an dem Abrechnungsprozess für KSB beteiligt sind,  leiten Sie bitte diese Nachricht an die zuständige Abteilung in Ihrer Firma weiter.<br>Bei Fragen, wenden Sie sich bitte an das Accounts Payable Team.<br>Vielen Dank für Ihr Verständnis.<br>Mit freundlichen Grüßen,<br>KSB Accounts Payable Team<br><br>Kontaktdaten:<br>`, Contact_Details, `<br><br>DAS IST EINE AUTOMATISCHE NACHRICHT - ANTWORTEN SIE DARAUF NICHT<br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
-.
-remaining_rejection_text( Text )
-:-
-	i_mail( to, To ),
-	string_to_upper( To, To_U ),
-	q_sys_sub_string( To_U, _, _, `KSB_FR` ),
-	(
 		( result( _, invoice, buyer_registration_number, `1011` ); data( invoice, buyer_registration_number, `1001` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 		;
 		not( result( _, invoice, buyer_registration_number, _ ) ), not( data( invoice, buyer_registration_number, _ ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 	),
-	strcat_list( [ `<br><br>Nous vous joignons ci-dessous un document mentionnant cette référence.<br>Merci de bien vouloir nous envoyer une facture corrigée à l’adresse e-mail pour les factures, vous ne devez pas joindre la note de crédit tant que nous n’avons pas enregistré votre facture dans nos comptes.<br>Si vous n’êtes pas responsable du processus de facturation de KSB, nous vous prions de bien vouloir transférer ce message au service concerné dans votre entreprise.<br>Si vous avez des questions, merci de bien vouloir contacter  notre service Accounts Payable.<br>Merci de votre compréhension.<br>Cordialement,<br>KSB Accounts Payable Team<br><br>Détails du contact:<br>`, Contact_Details, `<br><br>C'EST UNE MESSAGE AUTOMATIQUE - NE RÉPONDEZ PAS S'IL VOUS PLAIT<br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
+	strcat_list( [ `<br><br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
 .
 
 %-----------------------------------------------------------------------
@@ -173,17 +133,6 @@ remaining_rejection_text( Text )
 %-----------------------------------------------------------------------
 remaining_forward_text( Text )
 :-
-	i_mail( to, To ),
-	string_to_upper( To, To_U ),
-	(
-		q_sys_sub_string( To_U, _, _, `KSB_DE_1001` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_DE_1009` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_AT` )
-		;
-		q_sys_sub_string( To_U, _, _, `KSB_CH` )
-	),
 	(
 		( result( _, invoice, buyer_registration_number, `1001` ); data( invoice, buyer_registration_number, `1001` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
@@ -197,24 +146,13 @@ remaining_forward_text( Text )
 		( result( _, invoice, buyer_registration_number, `1025` ); data( invoice, buyer_registration_number, `1025` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_CH@ksb.com<br>Accounts Payable Team: AP_Queries_CH@ksb.com / +41 432 109 911`
 		;
-		not( result( _, invoice, buyer_registration_number, _ ) ), not( data( invoice, buyer_registration_number, _ ) ),
-		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
-	),
-	strcat_list( [ `<br><br>Im Anhang finden Sie die Kopie des Dokumentes.<br>Bitte schicken Sie die korrigierte Rechnung an die für Rechnungen speziell erstellte Email-Adresse. Sie brauchen uns keine Gutschrift/Korrekturrechnung zu schicken, da wir Ihre Rechnung nicht in unseren Geschäftsbüchern registrieren.<br>Falls Sie nicht an dem Abrechnungsprozess für KSB beteiligt sind,  leiten Sie bitte diese Nachricht an die zuständige Abteilung in Ihrer Firma weiter.<br>Bei Fragen, wenden Sie sich bitte an das Accounts Payable Team.<br>Vielen Dank für Ihr Verständnis.<br>Mit freundlichen Grüßen,<br>KSB Accounts Payable Team<br><br>Kontaktdaten:<br>`, Contact_Details, `<br><br>DAS IST EINE AUTOMATISCHE NACHRICHT - ANTWORTEN SIE DARAUF NICHT<br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
-.
-remaining_forward_text( Text )
-:-
-	i_mail( to, To ),
-	string_to_upper( To, To_U ),
-	q_sys_sub_string( To_U, _, _, `KSB_FR` ),
-	(
 		( result( _, invoice, buyer_registration_number, `1011` ); data( invoice, buyer_registration_number, `1001` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 		;
 		not( result( _, invoice, buyer_registration_number, _ ) ), not( data( invoice, buyer_registration_number, _ ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 	),
-	strcat_list( [ `<br><br>Nous vous joignons ci-dessous un document mentionnant cette référence.<br>Merci de bien vouloir nous envoyer une facture corrigée à l’adresse e-mail pour les factures, vous ne devez pas joindre la note de crédit tant que nous n’avons pas enregistré votre facture dans nos comptes.<br>Si vous n’êtes pas responsable du processus de facturation de KSB, nous vous prions de bien vouloir transférer ce message au service concerné dans votre entreprise.<br>Si vous avez des questions, merci de bien vouloir contacter  notre service Accounts Payable.<br>Merci de votre compréhension.<br>Cordialement,<br>KSB Accounts Payable Team<br><br>Détails du contact:<br>`, Contact_Details, `<br><br>C'EST UNE MESSAGE AUTOMATIQUE - NE RÉPONDEZ PAS S'IL VOUS PLAIT<br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
+	strcat_list( [ `<br><br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
 .
 
 
