@@ -411,9 +411,14 @@ i_section( get_invoice_lines, [
 
             
 		
-			 [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material)  ]
+			  [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), line_invoice_net_line,  q10(line_invoice_material)  ]
 
-             ,[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
+             , [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
+
+             , line_invoice_line
+
+             , [ line_invoice_net_line,line_invoice_material]
+
   
 			, line
 
@@ -447,16 +452,19 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
-		          `Summe`, `:`, tab
+		   [`Summe`, `:`, tab]
 
-               ])
+           , [`E`, `.`, `W`, `.`, `NEU`, `GmbH`]
 
-               , trace([`found the end line`])
+
+        ])
+
+     , trace([`found the end line`])
     
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
      
@@ -494,12 +502,12 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_net_line, [
+i_line_rule_cut( line_invoice_net_line, [
 %=======================================================================
 
     q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
 
-    ,q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
+    , generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
 
     , generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
 	
@@ -513,7 +521,7 @@ i_line_rule( line_invoice_net_line, [
 i_line_rule( line_invoice_descr, [
 %=======================================================================
 
-    q10(generic_item([ line_dummy_line ,d,  tab ] ))
+    q10(generic_item([ line_dummy_line ,s1,  tab ] ))
 	
      ,generic_append( [ line_descr, s1, newline, ` `, ``  ] )
 
