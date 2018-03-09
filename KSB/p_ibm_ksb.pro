@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `08/03/2018 14:16:45` ).
+i_version( p_ibm_ksb, `09/03/2018 09:29:40` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -989,7 +989,7 @@ i_analyse_line_buyers_order_number___( LID )
 
 			q_regexp_match( `^4\\d{9}$`, LBON_Final, _ ),
 
-			assertz_derived_data( invoice, line_buyers_order_number, LBON_Final, i_analyse_line_buyers_order_number )
+			assertz_derived_data( LID, line_buyers_order_number, LBON_Final, i_analyse_line_buyers_order_number )
 			
 			;
 			

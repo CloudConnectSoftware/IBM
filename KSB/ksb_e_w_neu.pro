@@ -227,27 +227,12 @@ q(0,20,line)
 
         generic_horizontal_details( [[`Belegnummer`, `:`, q10(tab) ], invoice_number, w,  or([tab,newline]) ] )
        
-        , find_order_number
 
         ])
     
 ] ).
 
 
-%=======================================================================
-i_line_rule( find_order_number, [
-%=======================================================================
-
-    q0n(anything)
-
-    , or([
-          generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,8) , end ] ] )
-
-        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,8) , end ] ] )
-
-    ])
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,11 +248,28 @@ i_rule( get_order_number, [
 
     , or([
         generic_horizontal_details( [ [ `Ihre`, `Referenz`, `:`, q10(tab), q10(`Bestellung`) ], order_number, d, dummy_word(w) ] )
+       
+        , find_order_number
 
-         ])
-
+        ])
+    
 ] ).
 
+
+%=======================================================================
+i_line_rule( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+          generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+])
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET Delivery Note
@@ -411,9 +413,14 @@ i_section( get_invoice_lines, [
 
             
 		
-			 [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_net_line), q10(line_invoice_material)  ]
+			  [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), line_invoice_net_line,  q10(line_invoice_material)  ]
 
-             ,[line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
+             , [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
+
+             , line_invoice_line
+
+             , [ line_invoice_net_line,line_invoice_material]
+
   
 			, line
 
@@ -447,16 +454,21 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
-		          `Summe`, `:`, tab
+		   [`Summe`, `:`]
 
-               ])
+           ,[`Netto`, `-`, `Betrag`]
 
-               , trace([`found the end line`])
+           , [`E`, `.`, `W`, `.`, `NEU`, `GmbH`]
+
+
+        ])
+
+     , trace([`found the end line`])
     
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
      
@@ -494,12 +506,12 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_net_line, [
+i_line_rule_cut( line_invoice_net_line, [
 %=======================================================================
 
     q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
 
-    ,q10(generic_append( [ line_descr, s1, tab, ` , `, ``  ] ))
+    , generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
 
     , generic_append( [ line_descr, s1, tab, ` , `, ``  ] )
 	
@@ -513,7 +525,7 @@ i_line_rule( line_invoice_net_line, [
 i_line_rule( line_invoice_descr, [
 %=======================================================================
 
-    q10(generic_item([ line_dummy_line ,d,  tab ] ))
+    q10(generic_item([ line_dummy_line ,s1,  tab ] ))
 	
      ,generic_append( [ line_descr, s1, newline, ` `, ``  ] )
 
