@@ -227,27 +227,12 @@ q(0,20,line)
 
         generic_horizontal_details( [[`Belegnummer`, `:`, q10(tab) ], invoice_number, w,  or([tab,newline]) ] )
        
-        , find_order_number
 
         ])
     
 ] ).
 
 
-%=======================================================================
-i_line_rule( find_order_number, [
-%=======================================================================
-
-    q0n(anything)
-
-    , or([
-          generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,8) , end ] ] )
-
-        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,8) , end ] ] )
-
-    ])
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -263,11 +248,28 @@ i_rule( get_order_number, [
 
     , or([
         generic_horizontal_details( [ [ `Ihre`, `Referenz`, `:`, q10(tab), q10(`Bestellung`) ], order_number, d, dummy_word(w) ] )
+       
+        , find_order_number
 
-         ])
-
+        ])
+    
 ] ).
 
+
+%=======================================================================
+i_line_rule( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+          generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+])
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET Delivery Note
