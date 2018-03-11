@@ -98,11 +98,11 @@ i_rule( get_buyer_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([ `KSB`, `AKTIENGESELLSCHAFT`, tab ])
+       read_ahead([ `KSB` ])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , `KSB AKTIENGESELLSCHAFT` ] )
+     , generic_item( [buyer_party , s1, tab ] )
    
 ] ).
 
@@ -130,7 +130,7 @@ i_rule( get_bank_account_no, [
    q(0,50,line)
 	
 
-   ,  [generic_horizontal_details( [ [`Swift`, `/`, `BIC`, `:`, generic_item( [ supplier_bank_code, s ] ), `,`, `IBAN`, `:`, `AT37` ],  supplier_bank_account_number_raw, s1, newline ] )
+   ,  [generic_horizontal_details( [ [`IBAN`, `:`],  supplier_bank_account_number_raw, s1, newline ] )
      
      
       , check( supplier_bank_account_number_raw = BankRaw )
@@ -141,9 +141,9 @@ i_rule( get_bank_account_no, [
 
     , trace( [ `Bank Stripped Space` , BankStrip ] )
 
-    , supplier_bank_account_number(BankStrip)
+    , supplier_bank_iban(BankStrip)
 
-    , trace( [ `Bank account Number` , supplier_bank_account_number ] )  ]
+    , trace( [ `Bank account Number` , supplier_bank_iban ] )  ]
 
  
 
@@ -164,7 +164,20 @@ q(0,15,line)
 	
    ,  or([
         
-       generic_vertical_details( [ [ `RECHNUNG`, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number, s1, newline ] )
+      [ generic_vertical_details( [ [ `RECHNUNG`, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number_raw, s1, newline ] )
+
+     , check( invoice_number_raw = InvoiceRaw )
+
+    , trace( [ `Invoice number raw` , InvoiceRaw ] )
+
+    , check(string_string_replace( InvoiceRaw, ` `, ``, InvoiceStrip ))
+
+    , trace( [ `Invoice Stripped Space` , InvoiceStrip ] )
+
+    , invoice_number(InvoiceStrip)
+
+, trace( [ `Invoice Number` , invoice_number ] )  ]
+
 
         ])
 ] ).
