@@ -97,11 +97,11 @@ i_rule( get_buyer_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`KSB`, `AG`])
+       read_ahead([`KSB`])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , `KSB AG` ] )
+     , generic_item( [buyer_party , s1, tab ] )
    
 ] ).
 
