@@ -454,7 +454,7 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
-		   [`Summe`, `:`]
+		   [`Summe`]
 
            ,[`Netto`, `-`, `Betrag`]
 
