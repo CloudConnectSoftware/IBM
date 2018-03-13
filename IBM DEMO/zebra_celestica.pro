@@ -33,6 +33,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_total_vat
+
     , get_bank_account
 
     , get_bank_code
@@ -58,6 +60,8 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 
     buyers_code_for_supplier( `CELESTICA HONG KONG LTD.` )
+
+    , sender_name( `CELESTICA HONG KONG LTD.` )
 
     ,   supplier_vat_number(`ZEBRA-GB2`)
 
@@ -180,6 +184,14 @@ i_rule(get_total_invoice, [
     , q(0,20,up)
 
     , generic_horizontal_details( [ [`Total`, tab , `USD`, tab ], total_invoice, d , newline  ] )
+
+    , check( total_invoice = TotInv )
+
+    , trace( [ `Total Inv` , TotInv] )
+
+    , total_net(TotInv)
+
+    , trace( [ `Total net` , total_net ] )  
 
 ] ).
 
