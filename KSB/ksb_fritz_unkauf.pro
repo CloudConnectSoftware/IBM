@@ -25,10 +25,8 @@ i_rule_list( [
 
     , set_credit_note   
 
-    , get_bank_account_code
-  
-    , get_bank_account_no
-	
+    , get_bank_iban
+  	
 	, get_invoice_number
 
     , get_order_number
@@ -101,13 +99,26 @@ i_rule( get_buyer_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([ `K`, `S`, `B`, tab, `AG`, tab ])
+       read_ahead([ `K`, `S`, `B` ])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , s1,tab ] )
+     , generic_item( [buyer_party_raw , s1 , newline ] )
 
-     , generic_append( [ buyer_party, s1, tab, ` `, ` `  ] )
+     , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB DIVISION SERVICES`) ,generic_item( [ buyer_party, `KSB SAS` ] ) ]
+
+        ,[ check(buyer_party_raw = `K S B SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
    
 ] ).
 
@@ -134,7 +145,7 @@ i_line_rule( line_add_line2, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_bank_account_no, [
+i_rule( get_bank_iban, [
 %=======================================================================
    
    
@@ -150,9 +161,9 @@ i_rule( get_bank_account_no, [
 
     , trace( [ `Bank Stripped Space` , BankStrip ] )
 
-    , supplier_iban(BankStrip)
+    , supplier_bank_iban(BankStrip)
 
-    , trace( [ `Bank account Number` , supplier_iban ] ) ]
+    , trace( [ `Bank account Number` , supplier_bank_iban ] ) ]
 
    ,  q(0,3,line)
 
@@ -166,9 +177,9 @@ i_rule( get_bank_account_no, [
 
     , trace( [ `Bank Stripped Space1` , BankStrip1 ] )
 
-    , supplier_iban_2(BankStrip1)
+    , supplier_bank_iban_2(BankStrip1)
 
-    , trace( [ `Bank account Number1` , supplier_iban_2 ] ) ]
+    , trace( [ `Bank account Number1` , supplier_bank_iban_2 ] ) ]
 
     
 
@@ -191,6 +202,10 @@ q(0,10,line)
    ,  or([
             generic_horizontal_details( [ [ `Rechnung`, `-`, `Nr`, `.`, `:` ], invoice_number, d, `(` ] )
 
+            ,generic_horizontal_details( [ [ `Rechnung`, `-`, `Nr`, `.`, `:` ], invoice_number, d, newline ] )
+
+            ,generic_horizontal_details( [ [ `R`, `E`, `C`, `H`, `N`, `U`, `N`, `G`, `-`, `N`, `R`, `.`, `:`, tab], invoice_number, d, `(` ] )
+
         ])
 ] ).
 
@@ -209,7 +224,7 @@ q(0,25,line)
 	
    ,  or([
         
-        generic_horizontal_details( [ [ `Datum`, tab, `:`, tab ], invoice_date,date, newline ] ) 
+        generic_horizontal_details( [ [ `Datum`, tab, `:`, q10(tab) ], invoice_date,date, newline ] ) 
 
         ])
 ] ).
@@ -271,15 +286,17 @@ i_rule( get_net_amount, [
 
      ,or([
 
-    [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
+    [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
     ,  generic_vertical_details( [ [  `Netto`, `-`, `Gesamt` ], `Netto`, q(0,1), (start,10,20), total_net, d, [`EUR`, tab ] ] )
 
-    , clear(reverse_punctuation_in_numbers)
+    , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)]
 
-    , clear(regexp_cross_word_boundaries)]
+    , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
+
+    ,  generic_horizontal_details( [ [ `Netto`, `-`, `Gesamt` ],100,total_net, d, [`EUR`, newline ] ] )
+
+    , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)]
 
     
     
@@ -303,9 +320,7 @@ qn0(line)
 
      ,or([
 
-         [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
+         [set(reverse_punctuation_in_numbers)    , set(regexp_cross_word_boundaries)
 
 
     ,  generic_vertical_details( [ [  `Mwst`, tab ], `Mwst`, q(0,1), (start,10,200), total_vat, d, [`EUR`, tab ] ] )
@@ -313,10 +328,16 @@ qn0(line)
     , generic_item( [ default_vat_rate, `19` ] )
     
 
-    , clear(reverse_punctuation_in_numbers)
+    , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)]
 
-    , clear(regexp_cross_word_boundaries)]
+    
+    , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
+    ,  generic_horizontal_details( [ [ `Mwst` ],200, total_vat, d, [`EUR`, newline ]  ] )
+
+    , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)]
+    
+      
     ])
 
 ]).
@@ -335,15 +356,17 @@ i_rule( get_total_invoice, [
 
      ,or([
   
-    [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
+      [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
     ,  generic_vertical_details( [ [ `Mwst`, tab, `Endbetrag` ], `Endbetrag`, q(0,1), (start,10,20), total_invoice, d, [generic_item( [ currency, w ] ), newline ] ] )
 
-    , clear(reverse_punctuation_in_numbers)
+    , clear(reverse_punctuation_in_numbers)   , clear(regexp_cross_word_boundaries)]
 
-    , clear(regexp_cross_word_boundaries)]
+    , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
+
+    ,  generic_horizontal_details( [ [ `Endbetrag`, `:` ],200,total_net, d, [generic_item( [ currency, w ] ), newline ]  ] )
+
+    , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)]
     
         ])
 	
@@ -431,9 +454,11 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_unit_amount_dummy, d, tab  ])
 
-      , generic_item([ line_amount_dummy, d, tab  ])
+      , q10(generic_item([ line_amount_rabat, d, tab  ]))
 
-      , generic_item([ line_net_amount, d, newline  ])
+      , generic_item([ line_net_amount, d   ])
+
+      , generic_item([ line_dummy_s, d, newline  ])
 
 
 
