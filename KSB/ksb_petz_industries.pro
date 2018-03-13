@@ -167,9 +167,9 @@ i_rule( get_bank_account_no, [
 
     , trace( [ `Bank Stripped Space` , BankStrip ] )
 
-    , supplier_iban(BankStrip)
+    , supplier_bank_iban(BankStrip)
 
-    , trace( [ `Bank account Number` , supplier_iban ] )  ]
+    , trace( [ `Bank account Number` , supplier_bank_iban ] )  ]
 
     ] ).
 

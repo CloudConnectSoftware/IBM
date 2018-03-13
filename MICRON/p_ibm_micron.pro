@@ -31,6 +31,7 @@ i_user_field( invoice, ship_to, `ship_to` ).
 i_user_field( invoice, bill_from, `bill_from` ).
 i_user_field( invoice, bill_to, `bill_to` ).
 i_user_field( invoice, swiss_supplier_name, `swiss_supplier_name` ).
+i_user_field( invoice, swiss_supplier_country, `swiss_supplier_country` ).
 i_user_field( invoice, swiss_supplier_address_1, `swiss_supplier_address_1` ).
 i_user_field( invoice, swiss_supplier_address_2, `swiss_supplier_address_2` ).
 i_user_field( invoice, swiss_supplier_address_3, `swiss_supplier_address_3` ).
@@ -41,6 +42,8 @@ i_user_field( invoice, swiss_buyer_address_3, `swiss_buyer_address_3` ).
 i_user_field( invoice, swiss_buyer_address_4, `swiss_buyer_address_4` ).
 i_user_field( invoice, swiss_buyer_address_5, `swiss_buyer_address_5` ).
 
+i_user_field( line, line_packing_list, `line_packing_list` ).
+i_user_field( line, line_proforma, `line_proforma` ).
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
 i_user_field( line, line_gl, `Line GL` ).
 

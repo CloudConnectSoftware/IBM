@@ -412,11 +412,11 @@ i_section( get_invoice_lines, [
 		,or( [
 
             
+               [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_material) ]
 		
-			  [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), line_invoice_net_line,  q10(line_invoice_material)  ]
+			  , [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), line_invoice_net_line,  q10(line_invoice_material)  ]
 
-             , [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_material) ]
-
+             
              , line_invoice_line
 
              , [ line_invoice_net_line,line_invoice_material]
@@ -453,13 +453,12 @@ i_line_rule_cut( line_end_line,[
 %=======================================================================
 
 	  or([
-		 
-		   [`Summe`, `:`]
+		 		  
 
-           ,[`Netto`, `-`, `Betrag`]
+        [`Netto`, `-`, `Betrag`, `:`, `MwSt`, `-`, `Betrag`]
 
-           , [`E`, `.`, `W`, `.`, `NEU`, `GmbH`]
-
+        , [`Summe`, `:`]
+          
 
         ])
 
@@ -468,7 +467,7 @@ i_line_rule_cut( line_end_line,[
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line, [
+i_line_rule( line_invoice_line, [
 %=======================================================================
 	
      
