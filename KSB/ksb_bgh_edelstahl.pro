@@ -369,8 +369,13 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			[line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line) , q10(line_append_line)  ]
-           
+			[line_descr_line, line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line) , q10(line_append_line)  ]
+            
+            , line_descr_line
+
+            , line_append_line
+
+            , line_invoice_line_2
 
 			, line
 
@@ -422,32 +427,26 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_number, d , tab ])
 
-      ,  generic_append( [ line_descr , s1, tab, `  `, ``  ] )
+      , generic_append( [ line_descr , s1, tab, `  `, ``  ] )
+   
+       , generic_item([ line_quantity_dummy, d ])
 
-     
+      , generic_item([ line_quantity_uom_code, w ,tab ])
 
-      ,generic_item([ line_quantity_dummy, d ])
-
-       ,generic_item([ line_quantity_uom_code, w ,tab ])
-
-       ,or([
-
-           generic_item([ line_unit_amount, d ,tab ])
-
-       ,  generic_item([ line_unit_amount, d ,[`EUR`, `/`, `t`, tab ] ])
-
+      , or([
+             generic_item([ line_unit_amount, d ,tab ])
+           ,  generic_item([ line_unit_amount, d ,[`EUR`, `/`, `t`, tab ] ])
        ] )
 
-        , generic_item([ line_net_amount , d , newline ] )
+       , generic_item([ line_net_amount , d , newline ] )
 
         
       , q10( [ 
 
-         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
-
+          with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
         , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
     
-] )
+            ] )
 
        , clear(reverse_punctuation_in_numbers)
 
@@ -475,6 +474,43 @@ i_line_rule( line_append_line, [
         
 ] ).
 
+%=======================================================================
+i_line_rule( line_invoice_line_2, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+      , generic_append( [ line_descr , s1, tab, `  `, ``  ] )
+   
+       , generic_item([ line_quantity, d, tab ])
+
+      , generic_item([ line_quantity_uom_code, w ,tab ])
+
+      , or([
+             generic_item([ line_unit_amount, d ,tab ])
+           ,  generic_item([ line_unit_amount, d ,[`EUR`, `/`, `Stück`, tab ] ])
+       ] )
+
+       , generic_item([ line_net_amount , d , q10(tab) ] )
+
+       , generic_item([ line_currency , w , newline ] )
+
+        
+      , q10( [ 
+
+          with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+    
+            ] )
+
+       , clear(reverse_punctuation_in_numbers)
+       
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
 
 
 
