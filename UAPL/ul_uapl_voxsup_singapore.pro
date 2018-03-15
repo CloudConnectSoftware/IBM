@@ -237,7 +237,7 @@ i_section( get_invoice_lines, [
 
               ,[line_descr_line1,line_invoice_line3, line_descr_line3]
 
-              ,[line_descr_line1, q10(line_append_descr_1), q10(line_append_descr1), line_invoice_new , q10(line_append_descr1) , line_invoice_tot_line1,q10(line_append_descr_1)]
+              ,[line_descr_line1, q10(line_append_descr_1), q10(line_append_descr1),q10(line_append_descr), line_invoice_new , q10(line_append_descr),q10(line_append_descr1) , line_invoice_tot_line1,q10(line_append_descr_1)]
            
               ,[line_descr_line, line_append_descr, line_invoice_line,line_append_descr,line_invoice_tot_line1]
 
