@@ -127,7 +127,12 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Invoice`, `date`, newline ], `Date`, q(0,1), (start, 0,10), invoice_date, date, newline ] )
+    , or([
+        generic_vertical_details( [ [ `Invoice`, `date`, newline ], `Date`, q(0,1), (start, 0,10), invoice_date, date, newline ] )
+
+        , generic_vertical_details( [ [ `Invoice`, `date`, newline ], `Date`, q(0,1), (start, 0,10), invoice_date, date ] )
+
+       ])
 	
 ] ).
 
