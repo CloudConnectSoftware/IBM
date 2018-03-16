@@ -105,7 +105,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party_raw , s1 , newline ] )
+     , generic_item( [buyer_party_raw , s1 , or([ tab, newline ]) ] )
 
      , or([
          
@@ -128,8 +128,6 @@ i_line_rule( line_add_line, [
 %=======================================================================
 i_line_rule( line_add_line2, [
 %=======================================================================
-
-
         `67206`
 
       ,generic_item( [ buyer_city , w , newline ] )
@@ -485,15 +483,15 @@ i_line_rule( line_invoice_line, [
  
       , generic_item([ line_quantity_uom_code, w, tab  ])
 
-      , generic_item( [ line_descr, s1, tab ] )
+      , generic_append( [ line_descr, w, tab, ` `, ``  ] )
 
       , generic_item([ line_unit_amount_dummy, d, tab  ])
 
       , q10(generic_item([ line_amount_rabat, d, tab  ]))
 
-      , generic_item([ line_net_amount, d   ])
+      , generic_item([ line_net_amount, d , q10(newline)  ])
 
-      , generic_item([ line_dummy_s, d, newline  ])
+      , q10(generic_item([ line_dummy_s, d, newline  ]))
 
 
 
