@@ -12,6 +12,9 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_user_field( line, line_net_1, `Line Net` ).
+
+i_user_field( line, line_net_2, `Line Net 2` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -353,6 +356,8 @@ q(0,100,line)
 
     ,generic_horizontal_details( [ [ `Rechnungssumme` ], currency, w, [`:`, tab] ] )
 
+    ,generic_horizontal_details( [ [ `Netto` ], currency, w, [`st`] ] )
+
 ])
 	
 	
@@ -411,8 +416,9 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
+               [line_invoice_disc_1, q10(line_invoice_descr), q10(line_invoice_descr), q10(line_invoice_descr),line_invoice_disc_2 ]
             
-               [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_material) ]
+              , [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_material) ]
 		
 			  , [line_invoice_line, q10(line_invoice_descr), q10(line_invoice_descr), line_invoice_net_line,  q10(line_invoice_material)  ]
 
@@ -546,6 +552,79 @@ i_line_rule( line_invoice_item, [
       ]
     
     
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_disc_1, [
+%=======================================================================
+	
+     
+     
+      generic_item([ line_reference , d , tab ])
+
+      ,generic_item([ line_item , d  ])
+
+      , generic_item([ line_descr , s1 , tab ])
+
+      , generic_item([ line_quantity , d, q10(tab) ] )
+
+      , generic_item([ line_quantity_uom_code , w , tab ] )
+
+      , set(regexp_cross_word_boundaries)
+
+      , generic_item([ line_unit_amount_dummy ,d,  tab ] )
+
+      , generic_item([ line_dummy_line ,d,  tab ] )
+
+      , q10(generic_item([ line_net_1 ,d,  tab ] ))
+
+      , generic_item([ line_vat_rate , d , newline ] ) 
+      
+       , clear(regexp_cross_word_boundaries)
+
+
+         
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_disc_2, [
+%=======================================================================
+	
+      generic_append( [ line_descr, s1,[tab, `-`], ` `, ``  ] )
+
+      , set(reverse_punctuation_in_numbers)
+      
+      , set(regexp_cross_word_boundaries)
+
+      , generic_item([ line_net_2 ,n , newline ] )
+  
+      , clear(regexp_cross_word_boundaries)
+
+      , clear(reverse_punctuation_in_numbers)
+
+      , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       ])
+
+     , with( line, line_net_1 , Net1 ) % calcultes line net combining 2 line amounts
+
+    , with( line , line_net_2, Net2 )
+
+    , trace( [ `Net line 1`, Net1 ] )
+
+     , trace( [ `Net line 2`, Net2 ] )
+
+     , check(sys_calculate_str_add( Net1, Net2, NetTot))
+
+     , trace( [ `Net amont`, NetTot ] )
+  
+     , line_net_amount(NetTot)  
+
+      
 ] ).
 
 
