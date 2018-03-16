@@ -83,17 +83,23 @@ i_rule( get_bank_accountnumber, [
 
     , or([
         
-        [check( Currency = `USD` ),generic_horizontal_details( [ [`Account`, tab ],  supplier_bank_account_number_raw, w, `USD` ] )
+        [check( Currency = `USD` ),generic_horizontal_details( [ [`Account`, q10(tab) ],  supplier_bank_account_number_raw, w, or([`USD`,tab]) ] )
 
-    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`260771449178`), generic_item( [ supplier_bank_account_number, `771449178` ] )
+       , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`260771449178`), generic_item( [ supplier_bank_account_number, `771449178` ] )]
 
-        ]
 
         , [check( Currency = `SGD` ),generic_horizontal_details( [ [`Account`, tab ],  supplier_bank_account_number_raw, w, tab ] )
 
-    , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`047363155001`), generic_item( [ supplier_bank_account_number, `363155001` ] )
+        , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`047363155001`), generic_item( [ supplier_bank_account_number, `363155001` ] )]
 
-        ]
+
+        , [check( Currency = `USD` ),generic_horizontal_details( [ [`Account`, q10(tab) ],  supplier_bank_account_number_raw, s, `USD` ] )
+
+         , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`260-771449-178`), generic_item( [ supplier_bank_account_number, `771449178` ] )]
+
+         , [check( Currency = `USD` ),generic_horizontal_details( [ [`Account`, q10(tab) ],  supplier_bank_account_number_raw, s1, tab ] )
+
+         , check(supplier_bank_account_number_raw=Sacc), check(Sacc=`260-771449-178`), generic_item( [ supplier_bank_account_number, `771449178` ] )]
 
     ])
 
