@@ -116,8 +116,22 @@ i_line_rule( line_add_line2, [
       , [`92635`]
 
       ] )
+      
+         ,   or([
 
-      ,generic_item( [ buyer_city , s1 , tab ] )
+       generic_item( [ buyer_city_raw , s, `CEDEX`  ] )
+
+      ,generic_item( [ buyer_city , w , tab ] )
+
+         ] )
+
+               ,or([
+
+       [ check(buyer_city_raw = Buyer_raw) ,check(Buyer_raw = `GRENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
+
+     ] )
+
+
 
 ] ).
 
