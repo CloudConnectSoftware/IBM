@@ -293,8 +293,7 @@ i_line_rule_cut( line_end_line, [
 
     [`Total`, `HTVA`]
 
-    , [`Séq`, `.`, `Numéro`, `article`, tab, `Anc` ]
-
+    
     ])
   , trace( [ `Found End line` ] )
 
