@@ -196,7 +196,7 @@ q(0,25,line)
 	
    ,  or([
         
-        generic_vertical_details( [ [  `Nummer`, tab ], `Nummer`, q(0,1), (start,50,100), invoice_number, d, tab ] )
+        generic_vertical_details( [ [  `Nummer`, tab ], `Nummer`, q(0,1), (start,100,100), invoice_number, d, tab ] )
 
         ])
 ] ).
@@ -378,6 +378,8 @@ i_section( get_invoice_lines, [
 
             		
 			[line_invoice_line1,q10(line_descr_line),line_invoice_line]
+
+           , [line_invoice_line1,q10(line_descr_line),line_credit_note_line, line_credit_net_line]
            
 
 			, line
@@ -448,8 +450,6 @@ i_line_rule( line_invoice_line, [
         , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
     
 ] )
-  
-
        , clear(reverse_punctuation_in_numbers)
 
        , clear(regexp_cross_word_boundaries)
@@ -486,9 +486,9 @@ i_line_rule( line_invoice_line1, [
 i_line_rule( line_descr_line, [
 %=======================================================================
 
-     generic_item([ line_descr,s1 ,tab ])
+        generic_item([ line_descr,s1 ,tab ])
 
-     ,  generic_item([ line_descr_dummy,s1 ,newline ])
+     ,  generic_append( [ line_descr , s1, newline, `  `, ``  ] )
         
 ] ).
 
@@ -502,7 +502,45 @@ i_line_rule( line_append_line, [
         
 ] ).
 
+%=======================================================================
+i_line_rule( line_credit_note_line, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
 
+      , set(reverse_punctuation_in_numbers)
+
+      , generic_item([ line_dummy, s1 , tab ])
+
+      , generic_item([ line_unit_amount_dummy1, d ,[`-`, `%`, tab ] ])
+
+       , generic_item([ line_discount_amount_dummy , d , [`-`,newline] ] )
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+%=======================================================================
+i_line_rule( line_credit_net_line, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+      , generic_item([ line_dummy1, s1 , tab ])
+
+      , generic_item([ line_net_amount, d ,newline ])
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
