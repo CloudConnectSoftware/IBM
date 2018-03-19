@@ -117,6 +117,8 @@ i_line_rule( line_add_line, [
 
         ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
 
+        ,[ check(buyer_party_raw = `K S B SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
 
     
@@ -325,7 +327,7 @@ i_rule( get_net_amount, [
 
     , [set(reverse_punctuation_in_numbers)   , set(regexp_cross_word_boundaries)
 
-    ,  generic_horizontal_details( [ [ `Netto`, `-`, `Gesamt` ],100,total_net, d, [`EUR`, newline ] ] )
+    ,  generic_horizontal_details( [ [ `Netto`, `-`, `Gesamt` ],100,total_net, d, [[generic_item( [ currency, w ] ), newline ] ] ] )
 
     , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)]
 
