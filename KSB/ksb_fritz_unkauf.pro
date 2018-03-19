@@ -113,7 +113,7 @@ i_line_rule( line_add_line, [
 
         ,[ check(buyer_party_raw = `KSB DIVISION SERVICES`) ,generic_item( [ buyer_party, `KSB SAS` ] ) ]
 
-        ,[ check(buyer_party_raw = `K S B SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+        ,[ check(buyer_party_raw = `K S B`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
 
         ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
 
