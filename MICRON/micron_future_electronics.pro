@@ -451,10 +451,11 @@ q(0,30,line)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_exchange_rate, [
+i_rule_cut( get_exchange_rate, [
 %=======================================================================
+last_line
 
-q(0,100,line)
+,q(100,150,up)
 
     ,generic_horizontal_details( [ [`SGD`, `EXCHANGE`, `RATE`, `@` ], exchange_rate, d, newline] )
 
@@ -467,19 +468,23 @@ q(0,100,line)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule(get_net_amount, [
+i_rule_cut(get_net_amount, [
 %=======================================================================
-    qn0(line)
+      last_line
 
-   , generic_horizontal_details( [ [`TOTAL`, `OF`, `GOODS` ],750,  total_net, d,  newline ] )
+  ,q(0,500,up)  
+
+   , generic_horizontal_details( [ [`Total`,`of` , `GOODS` ],750,  total_net, d,  newline ] )
 
 ] ).
 
 
 %=======================================================================
-i_rule(get_total_invoice, [
+i_rule_cut(get_total_invoice, [
 %=======================================================================
-    qn0(line)
+      last_line
+
+  ,q(0,100,up)  
    
    , generic_horizontal_details( [ [`USD` ],500,  total_invoice, d,  newline ] )
 
@@ -494,9 +499,11 @@ i_rule(get_total_invoice, [
 %=======================================================================
 i_rule(get_total_vat, [
 %=======================================================================
-    qn0(line)
+    last_line
 
-  , generic_horizontal_details( [ [`GST`, `@`, generic_item( [ default_vat_rate,d ] ) , `%`],600,  total_invoice, d,  newline ] )
+  ,q(0,500,up)  
+
+  , generic_horizontal_details( [ [`GST`, `@`, generic_item( [ default_vat_rate,d ] ) , `%`],600,  total_vat, d,  newline ] )
 
     
 ] ).
