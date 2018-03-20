@@ -531,7 +531,7 @@ i_line_rule_cut( line_end_line,[
 
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
         set(regexp_cross_word_boundaries)
@@ -575,7 +575,7 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_descr_line, [
+i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
      generic_item([ line_descr,s1 ,newline ])
@@ -585,7 +585,7 @@ i_line_rule( line_descr_line, [
 
 
 %=======================================================================
-i_line_rule( line_append_line, [
+i_line_rule_cut( line_append_line, [
 %=======================================================================
 
      generic_append( [ line_descr , s1, newline, `  `, ``  ] )
