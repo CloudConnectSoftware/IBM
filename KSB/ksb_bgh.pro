@@ -28,6 +28,8 @@ i_rule_list( [
     , get_bank_account_code
   
     , get_bank_account_no
+
+    , get_bank_iban_no
 	
 	, get_invoice_number
 
@@ -152,11 +154,126 @@ i_rule( get_bank_account_no, [
   
 
 
+  ] ).  
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_no, [
+%=======================================================================
+
+   q(0,50,line)
+	
+
+   ,  generic_horizontal_details( [ [ `Deutsche`, `Bank`, `AG`, tab, `DEUTDE8C`, tab, `IBAN`, `:`, `DE`, `08`, generic_item( [ supplier_bank_code, s ] ) ], supplier_bank_account_number, d, newline ] )
+
+   
+  , q(0,1,line)
+	
+
+   ,  generic_horizontal_details( [ [ `Commerzbank`, `AG`, tab, `COBADEFFXXX`, tab, `IBAN`, `:`, `DE`, `97`, generic_item( [ supplier_bank_code_2, s ] ) ], supplier_bank_account_number_2, d, newline ] )
+
+   
+   , q(0,1,line)
+	
+
+   ,  generic_horizontal_details( [ [ `Sparkasse`, tab, `WELADED1SIE`, tab, `IBAN`, `:`, `DE`, `72`, generic_item( [ supplier_bank_code_3, s ] ) ], supplier_bank_account_number_3, d, newline ] )
+
+   , q(0,1,line)
+	
+
+   ,  generic_horizontal_details( [ [ `HypoVereinsbank`, tab, `HYVEDEMM429`, tab, `IBAN`, `:`, `DE`, `13`, generic_item( [ supplier_bank_code_4, s ] ) ], supplier_bank_account_number_4, d, newline ] )
+  
 
 
   ] ).  
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_iban_no, [
+%=======================================================================
+
+   q(0,50,line)
+	
+
+   ,  [generic_horizontal_details( [ [ `Deutsche`, `Bank`, `AG`, tab, `DEUTDE8C`, tab, `IBAN`, `:`], supplier_bank_iban_raw, s1, newline ] )
+  
+    , check( supplier_bank_iban_raw = BankRaw1 )
+
+    , trace( [ `Bank number raw1` , BankRaw1 ] )
+
+    , check(string_string_replace( BankRaw1, ` `, ``, BankStrip1 ))
+
+    , trace( [ `Bank Stripped Space1` , BankStrip1 ] )
+
+    , supplier_bank_iban(BankStrip1)
+
+    , trace( [ `Bank account Number1` , supplier_bank_iban ] ) ]
+   
+  , q(0,1,line)
+	
+
+   ,  [generic_horizontal_details( [ [ `Commerzbank`, `AG`, tab, `COBADEFFXXX`, tab, `IBAN`, `:` ], supplier_bank_iban_raw2, s1, newline ] )
+
+      , check( supplier_bank_iban_raw2 = BankRaw5 )
+
+    , trace( [ `Bank number raw5` , BankRaw5 ] )
+
+    , check(string_string_replace( BankRaw5, ` `, ``, BankStrip5 ))
+
+    , trace( [ `Bank Stripped Space5` , BankStrip5] )
+
+    , supplier_bank_iban_2(BankStrip5)
+
+     , trace( [ `Bank account Number5` , supplier_bank_iban_2 ] ) ]
+
+   
+   , q(0,1,line)
+	
+
+   ,  [generic_horizontal_details( [ [ `Sparkasse`, tab, `WELADED1SIE`, tab, `IBAN`, `:`], supplier_bank_iban_raw3, s1, newline  ] )
+
+         , check( supplier_bank_iban_raw3 = BankRaw8 )
+
+    , trace( [ `Bank number raw8` , BankRaw8 ] )
+
+    , check(string_string_replace( BankRaw8, ` `, ``, BankStrip8 ))
+
+    , trace( [ `Bank Stripped Space8` , BankStrip8] )
+
+    , supplier_bank_iban_3(BankStrip8)
+
+    , trace( [ `Bank account Number8` , supplier_bank_iban_3 ] )  ]
+
+   , q(0,1,line)
+	
+
+   ,  [generic_horizontal_details( [ [ `HypoVereinsbank`, tab, `HYVEDEMM429`, tab, `IBAN`, `:`], supplier_bank_iban_raw4, s1, newline  ] )
+  
+        , check( supplier_bank_iban_raw4 = BankRaw )
+
+    , trace( [ `Bank number raw` , BankRaw ] )
+
+    , check(string_string_replace( BankRaw, ` `, ``, BankStrip ))
+
+    , trace( [ `Bank Stripped Space` , BankStrip] )
+
+    , supplier_bank_iban_4(BankStrip)
+
+    , trace( [ `Bank account Number` , supplier_bank_iban_4 ] )  ]
+
+
+  ] ).  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -371,7 +488,7 @@ i_section( get_invoice_lines, [
             		
 			[line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line) , q10(line_append_line)  ]
            
-
+  
 			, line
 
 			
@@ -412,6 +529,7 @@ i_line_rule_cut( line_end_line,[
     
 ] ).
 
+
 %=======================================================================
 i_line_rule( line_invoice_line, [
 %=======================================================================
@@ -422,7 +540,7 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_number, d , tab ])
 
-      ,  generic_append( [ line_descr , s1, tab, `  `, ``  ] )
+      ,  generic_item( [ line_descr, s1, tab ] )
 
      
 
@@ -455,7 +573,6 @@ i_line_rule( line_invoice_line, [
 
     
 ] ).
-
 
 %=======================================================================
 i_line_rule( line_descr_line, [
