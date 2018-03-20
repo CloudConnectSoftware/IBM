@@ -141,24 +141,21 @@ i_rule( get_ksb_bank_account_no, [
 
 q(0,100,line)
 
-  , set(regexp_allow_partial_matching)
-
-  , generic_horizontal_details( [ [  `IBAN`, `:`, `DE96` ],  supplier_bank_account_number, s, [`BIC` ] ] )
+  , generic_horizontal_details( [ [  `IBAN`, `:` ],  supplier_bank_iban, s, [`BIC` ] ] )
   
     ,q(0,1,line)
 
-    ,generic_horizontal_details( [ [  `Commerzbank`, `AG`, tab, `IBAN`, `:`, `DE63` ],  supplier_bank_account_number_2, s, [`BIC` ] ] )
+    ,generic_horizontal_details( [ [  `Commerzbank`, `AG`, tab, `IBAN`, `:` ],  supplier_bank_iban_2, s, [`BIC` ] ] )
   
     ,q(0,1,line)
 
-    ,generic_horizontal_details( [ [  `Commerzbank`, `AG`, tab, `IBAN`, `:`, `DE88`],  supplier_bank_account_number_3, s, [[`BIC` ] ] ] )
+    ,generic_horizontal_details( [ [  `Commerzbank`, `AG`, tab, `IBAN`, `:`, `DE88`],  supplier_bank_iban_3, s, [[`BIC` ] ] ] )
   
     ,q(0,1,line)
 
-    ,generic_horizontal_details( [ [  `BW`, `Bank`, tab, `IBAN`, `:`, `DE35` ],  supplier_bank_account_number_4, s, [[`BIC` ] ] ] )
+    ,generic_horizontal_details( [ [  `BW`, `Bank`, tab, `IBAN`, `:` ],  supplier_bank_iban_4, s, [[`BIC` ] ] ] )
   
 
-    , clear(regexp_allow_partial_matching)
      
 ]).
 
@@ -177,11 +174,11 @@ q(0,100,line)
 
     , set(regexp_allow_partial_matching)
 
-    ,generic_horizontal_details( [ [  `VR`, `Bank`, `Rhein`, `-`, `Neckar`, `eG`, tab, `IBAN`, `:`, `DE71` ],  supplier_bank_account_number_5, s, [[`BIC` ] ] ] )
+    ,generic_horizontal_details( [ [  `VR`, `Bank`, `Rhein`, `-`, `Neckar`, `eG`, tab, `IBAN`, `:` ],  supplier_bank_iban_5, s, [[`BIC` ] ] ] )
   
      ,q(0,1,line)
 
-    ,generic_horizontal_details( [ [  `COBADEFFXXX`, tab, `Postbank`, tab, `IBAN`, `:`, `DE62` ], supplier_bank_account_number_6, s, [`BIC` ] ] )
+    ,generic_horizontal_details( [ [  `COBADEFFXXX`, tab, `Postbank`, tab, `IBAN`, `:` ], supplier_bank_iban_6, s, [`BIC` ] ] )
   
      
     , clear(regexp_allow_partial_matching)
