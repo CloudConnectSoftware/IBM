@@ -70,7 +70,7 @@ i_rule( get_supplier_details, [
 
     ,supplier_party( `SCHNEIDER ELECTRIC GMBH` )
 
-    , supplier_vat_number(`DE 225 673 854`)
+    , supplier_vat_number(`DE225673854`)
     
       
 ] ).
