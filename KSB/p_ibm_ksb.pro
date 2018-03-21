@@ -377,7 +377,7 @@ i_analyse_midnight_delay___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% PLANT CODE
+% PLANT CODE (CHECK FOR SERVICE LEVEL - PLANT CODES ARE NO LONGER INSERTED)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -396,15 +396,11 @@ i_analyse_plant_code___
 
 	sys_string_number( Order_Number, _ ),
 
-	plant_code_lookup( Plant_Code, Min, Max ),
+	plant_code_lookup( Min, Max ),
 
 	q_sys_comp_str_ge( Order_Number, Min ),
 		
 	q_sys_comp_str_le( Order_Number, Max ),
-
-	sys_retractall( result( _, invoice, plant_code, _ ) ),
-
-	assertz_derived_data( invoice, plant_code, Plant_Code, i_analyse_plant_code ),
 
 	sys_assertz( grammar_set( service_invoice ) ),
 	
