@@ -73,9 +73,9 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-     sender_name( `R. & T. Müller GbR` )
+     sender_name( `R. & T. Muller GbR` )
 
-    , supplier_party( `R. & T. Müller GbR` )
+    , supplier_party( `R. & T. Muller GbR` )
 
     , supplier_vat_number(`DE255865622`) 
 
