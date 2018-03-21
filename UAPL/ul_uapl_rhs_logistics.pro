@@ -115,6 +115,8 @@ i_rule( get_order_number, [
 
         ,generic_horizontal_details( [ [ `PO`, `:` ],  order_number, w, or([tab,dummy_word(w)]) ] )
 
+        ,generic_horizontal_details( [ [ `PO` ],  order_number, w, newline] )
+
     ])
 
 ] ).
@@ -358,7 +360,7 @@ i_line_rule_cut( line_invoice_line3, [
 
  generic_item( [ line_ref, d,q10(tab) ])
 
-, generic_item( [ line_descr, s1, [tab, `USD`,tab ] ] ) 
+, generic_item( [ line_descr, s1, [tab, `USD`,q10(tab) ] ] ) 
 
 , generic_item( [ line_unit_amount, d, tab ] )
 
