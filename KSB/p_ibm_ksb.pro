@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `09/03/2018 10:27:42` ).
+i_version( p_ibm_ksb, `21/03/2018 12:07:01` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -377,7 +377,7 @@ i_analyse_midnight_delay___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% PLANT CODE
+% PLANT CODE (CHECK FOR SERVICE LEVEL - PLANT CODES ARE NO LONGER INSERTED)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -396,15 +396,11 @@ i_analyse_plant_code___
 
 	sys_string_number( Order_Number, _ ),
 
-	plant_code_lookup( Plant_Code, Min, Max ),
+	plant_code_lookup( Min, Max ),
 
 	q_sys_comp_str_ge( Order_Number, Min ),
 		
 	q_sys_comp_str_le( Order_Number, Max ),
-
-	sys_retractall( result( _, invoice, plant_code, _ ) ),
-
-	assertz_derived_data( invoice, plant_code, Plant_Code, i_analyse_plant_code ),
 
 	sys_assertz( grammar_set( service_invoice ) ),
 	
@@ -845,15 +841,15 @@ i_analyse_line_order_line_number___( LID )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% LINE VAT CODES
+% LINE VAT CODES AND RATES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_line_fields_last( LID ):- i_analyse_line_vat_code___( LID ).
+i_analyse_line_fields_last( LID ):- i_analyse_line_vat_code_and_rate___( LID ).
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_line_vat_code___( LID )
+i_analyse_line_vat_code_and_rate___( LID )
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	result( _, invoice, buyers_code_for_supplier, BCFS ),
@@ -872,29 +868,47 @@ i_analyse_line_vat_code___( LID )
 	(
 		result( _, invoice, buyer_registration_number, `1001` ),
 
-		tax_code_matrix( BCFS, Line_VAT_Code, _, _ ),
+		tax_code_matrix( BCFS, Line_VAT_Rate, Line_VAT_Code, _, _, _, _ ),
 
-		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+		Line_VAT_Code \= `??`,
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code_and_rate ),
+
+		sys_retractall( result( _, LID, line_vat_rate, _ ) ),
+
+		assertz_derived_data( LID, line_vat_rate, Line_VAT_Rate, i_analyse_line_vat_code_and_rate )
 
 		;
 
 		result( _, invoice, buyer_registration_number, `1009` ),
 
-		tax_code_matrix( BCFS, _, Line_VAT_Code, _ ),
+		tax_code_matrix( BCFS, _, _, Line_VAT_Rate, Line_VAT_Code, _, _ ),
 
-		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+		Line_VAT_Code \= `??`,
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code_and_rate ),
+
+		sys_retractall( result( _, LID, line_vat_rate, _ ) ),
+
+		assertz_derived_data( LID, line_vat_rate, Line_VAT_Rate, i_analyse_line_vat_code_and_rate )
 
 		;
 
 		result( _, invoice, buyer_registration_number, `1011` ),
 
-		tax_code_matrix( BCFS, _, _, Line_VAT_Code ),
+		tax_code_matrix( BCFS, _, _, _, _, Line_VAT_Rate, Line_VAT_Code ),
 
-		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code )
+		Line_VAT_Code \= `??`,
+
+		assertz_derived_data( LID, line_vat_code, Line_VAT_Code, i_analyse_line_vat_code_and_rate ),
+
+		sys_retractall( result( _, LID, line_vat_rate, _ ) ),
+
+		assertz_derived_data( LID, line_vat_rate, Line_VAT_Rate, i_analyse_line_vat_code_and_rate )
 
 		;
 
-		assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code )
+		assertz_derived_data( LID, line_vat_code, `??`, i_analyse_line_vat_code_and_rate )
 		
 	),
 
