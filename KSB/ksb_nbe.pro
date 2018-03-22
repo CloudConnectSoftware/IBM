@@ -103,7 +103,27 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , s1, newline ] )
+     , or([
+         
+         generic_item( [buyer_party_raw , s1 ,  newline ] )   
+         
+          ])
+
+   
+       , or([
+         
+         [check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        , [ check(buyer_party_raw = `KSB DIVISION SERVICES`) ,generic_item( [ buyer_party, `KSB Service` ] ) ]
+
+        , [ check(buyer_party_raw = `KSB SE & Co. KGa`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        , [ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        , [ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
    
 ] ).
 
@@ -443,7 +463,13 @@ i_line_rule( line_append_line, [
 i_line_rule_cut( line_item_line, [
 %=======================================================================
 
-    [ `Material`, `-`, `Nr`, `.`]
+    or([
+        
+        [ `Material`, `-`, `Nr`, `.`]
+
+        , [`Material`, `-`, `Nr`, `:`]
+
+    ])
 
      ,generic_item( [ line_item, s1, newline ] )
 
