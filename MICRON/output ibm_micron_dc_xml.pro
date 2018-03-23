@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `02/03/2018 10:48:34` ).
+i_version( output_ibm_micron_dc_xml, `23/03/2018 14:46:36` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,7 +157,9 @@ write_header___
 		write_element_string( `Import_Status`, `READY TO IMPORT` ),
 		
 		write_variable_as_tag( invoice, supplier_bank_account_number, `Bank_Account` ), % Needs to be validated
+		write_variable_as_tag( invoice, supplier_bank_name, `Bank_Name` ),
 		write_variable_as_tag( invoice, supplier_bank_code, `Bank_Code` ),
+		write_variable_as_tag( invoice, supplier_bank_swift, `Bank_SWIFT` ),
 		write_variable_as_tag( invoice, supplier_bank_ogm, `Bank_OGM` ),
 		write_variable_as_tag( invoice, payment_terms, `Payment_Term` ),
 		

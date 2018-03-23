@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `02/03/2018 10:35:29` ).
+i_version( p_ibm_micron, `23/03/2018 14:46:27` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,9 +23,10 @@ i_user_field( invoice, total_local_vat, `Total Local VAT` ).
 i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, customer_id, `Customer ID` ).
-i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
 i_user_field( invoice, scan_id, `scan_id` ).
+i_user_field( invoice, supplier_bank_name, `supplier_bank_name` ).
 i_user_field( invoice, supplier_bank_code, `supplier_bank_code` ).
+i_user_field( invoice, supplier_bank_swift, `supplier_bank_swift` ).
 i_user_field( invoice, ship_from, `ship_from` ).
 i_user_field( invoice, ship_to, `ship_to` ).
 i_user_field( invoice, bill_from, `bill_from` ).
@@ -41,6 +42,8 @@ i_user_field( invoice, swiss_buyer_address_2, `swiss_buyer_address_2` ).
 i_user_field( invoice, swiss_buyer_address_3, `swiss_buyer_address_3` ).
 i_user_field( invoice, swiss_buyer_address_4, `swiss_buyer_address_4` ).
 i_user_field( invoice, swiss_buyer_address_5, `swiss_buyer_address_5` ).
+i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
+i_user_field( invoice, credit_note_flag, `Credit Note Flag` ).
 
 i_user_field( line, line_packing_list, `line_packing_list` ).
 i_user_field( line, line_proforma, `line_proforma` ).
@@ -143,6 +146,22 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% PRESERVE CREDIT NOTE FLAG
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	test( credit_note ), credit_note_flag( `true` )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % PRESERVE TAX INVOICE FLAG
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,6 +176,26 @@ i_final_rule( [
 	, check( Flag = `true` )
 	
 	, set( tax_invoice )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PRESERVE CREDIT NOTE FLAG
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	with( invoice, credit_note_flag, Flag )
+	
+	, check( Flag = `true` )
+	
+	, set( credit_note )
 
 ] ).
 
@@ -289,13 +328,13 @@ i_analyse_invoice_type___
 
 		;
 
-		result( _, invoice, order_number, _ ),
+		result( _, invoice, tax_invoice, _ ),
 
-		assertz_derived_data( invoice, invoice_type, `PO-based`, i_analyse_invoice_type )
+		assertz_derived_data( invoice, invoice_type, `Tax Invoice`, i_analyse_invoice_type )
 
 		;
 
-		assertz_derived_data( invoice, invoice_type, `Tax invoice`, i_analyse_invoice_type )
+		assertz_derived_data( invoice, invoice_type, `Invoice`, i_analyse_invoice_type )
 
 	),
 
