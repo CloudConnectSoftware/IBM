@@ -39,6 +39,8 @@ i_rule_list( [
 
     , get_supplieraddress
 
+    , get_buyer_address
+
     , get_suppliercountry
 
     , get_invoice_lines
@@ -92,7 +94,10 @@ i_rule( get_invoice_date, [
 
     q(0,10,line)
 
-    , generic_horizontal_details( [ [  `Company`, tab, `Micron`, `Semiconductor`, `Asia`, `Pte`, `Ltd` ], 100 , invoice_date , date , newline ] )
+    , or([
+        generic_horizontal_details( [ [  `Company`, tab, `Micron`, `Semiconductor`, `Asia`, `Pte`, `Ltd` ], 100 , invoice_date , date , newline ] )
+        , generic_horizontal_details( [ [   `Invoice`, `Date` ], 100 , invoice_date , date , newline ] )
+        ])
 
 ] ).
 
@@ -126,7 +131,18 @@ i_rule(get_currency, [
 
     q(0,25,line)
 
-    , generic_vertical_details( [ [ `Amount` ], `Amount`, q(0,2), (end, 10 , 10), currency, w , newline ] )
+    , generic_vertical_details( [ [ `Amount` ], `Amount`, q(0,1), (end, 20 , 20), currency_raw, w , `)` ] )
+
+    , check( currency_raw = CurrencyRaw )
+
+    , trace( [ `Curency raw` , CurrencyRaw ] )
+
+    , check(string_string_replace( CurrencyRaw , `(`,`` , Currency ))
+
+    , trace( [ `Bracket stripped Currency` , Currency ] )
+
+    , currency(Currency)
+
 
 ] ).
 
@@ -172,7 +188,11 @@ i_rule(get_bank_account, [
 
     , q(0,10,up)
 
-    , generic_horizontal_details( [ [ `Account`, `No`, tab ] , supplier_bank_account_number , s1 , tab ] )
+    , generic_horizontal_details( [ [ `Account`, `No`, tab ] , supplier_bank_account_number_raw , s1 , tab ] )
+
+    ,  check( supplier_bank_account_number_raw = BankRaw2 )  , check(string_string_replace( BankRaw2, `-`, ``, BankStrip2 ))   
+    , supplier_bank_account_number(BankStrip2) , trace( [ `Bank number raw2` , supplier_bank_account_number ] ) 
+
 
 ] ).
 
@@ -211,6 +231,77 @@ i_rule(get_shiptoaddress, [
     , generic_vertical_details( [ [ `Ship`, `To` ], `Ship`, q(0,1), (end, 30,30), ship_to , s1, tab ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Buyer Address
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_address, [
+%=======================================================================
+
+     q(0,25,line)
+
+    ,  generic_vertical_details( [ [ `Bill`, `To` ], `To`, q(1,2), (end,30,30), bill_to, s1, tab ] )
+
+
+   , q(0,1,line)
+
+   , line_b_add_line_2
+
+   , q(0,1,line)
+
+   , line_b_add_line_3
+
+   , q(0,1,line)
+
+   , line_b_add_line_4
+
+   , q(0,1,line)
+
+   , line_b_add_line_5
+
+   , q(0,1,line)
+
+   , line_b_add_line_6
+
+   , q(0,1,line)
+
+   , line_b_add_line_7
+
+  
+] ).
+
+
+%=======================================================================
+i_line_rule( line_b_add_line_2, [
+%=======================================================================
+      generic_item( [ swiss_buyer_address_1, s1, tab ] )  
+
+       
+] ).
+
+%=======================================================================
+i_line_rule( line_b_add_line_3, [
+%=======================================================================
+     generic_item( [ swiss_buyer_address_2, s1, tab ] ) 
+ 
+   
+] ).
+
+
+%=======================================================================
+i_line_rule( line_b_add_line_4, [
+%=======================================================================
+
+         generic_item( [ swiss_buyer_address_3, s1, tab ] )   
+   
+
+] ).
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,7 +375,7 @@ i_line_rule( line_supplier_address2, [
 i_line_rule( line_supplier_address3, [
 %=======================================================================
 
-    generic_item( [ swiss_supplier_address_3, s1 , tab ] )
+    generic_item( [ swiss_supplier_address_3, s1 , newline ] )
 
 ] ).
 
@@ -293,7 +384,7 @@ i_line_rule( line_supplier_address3, [
 i_line_rule( line_supplier_address4, [
 %=======================================================================
 
-    generic_item( [ swiss_supplier_country, s1 , tab  ] )
+    generic_item( [ swiss_supplier_country, s1 , newline  ] )
 
 ] ).
 
@@ -353,15 +444,27 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_buyers_order_number, d, tab ] )
 
-    , generic_item( [ line_descr, s1 , tab])
+    , q10(generic_item( [ line_po_line_dummy, w , tab]))
 
-    , generic_append( [ line_descr, s1, tab , ` `, ``  ] )
+    , generic_item( [ line_item, s , [ q10(tab) , check(line_item(end) < -244 ) ] ])
 
-    , generic_append( [ line_descr, s1, tab , ` `, ``  ] )
+    , generic_item( [ line_lot_dummy, s ,  [ q10(tab) , check(line_lot_dummy(end) < -166 ) ] ])
 
-    , generic_append( [ line_descr, s1, tab , ` `, ``  ] )
+    , generic_item( [ line_proforma, w , tab])
 
-    , generic_append( [ line_descr, s1, tab , ` ` , ``])
+    , generic_item( [ line_device_dummy, w , tab])
+
+    , generic_item( [ line_customer_part_dummy, w , tab])
+
+    , generic_item( [ line_descr, s , [ q10(tab) , check(line_descr(end) < 161 ) ] ])
+
+    , generic_item( [ line_qty_good_dummy, d , tab ] )
+
+    , generic_item( [ line_qty_reject_dummy, d , [ q10(tab) , check(line_qty_reject_dummy(end) < 249 ) ] ] )
+
+    , generic_item( [ line_quantity, d , [ q10(tab) , check(line_quantity(end) < 293) ] ] )
+
+    , generic_item( [ line_qty_ship, d , tab ] )
 
     , generic_item( [ line_unit_amount, d , tab ] )
 
@@ -377,8 +480,8 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - March 13, 2018
 % Mapped by - Santhosh
 
-% Updated on   -
-% Updated by   - 
+% Updated on   - March 23, 2018
+% Updated by   - Thejaswi
 % Changes made -  
 
 
