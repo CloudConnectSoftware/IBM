@@ -61,6 +61,8 @@ i_rule( get_supplier_detail, [
 
     , sender_name( `UTAC HEADQUARTERS PTE. LTD.` )
 
+    , bill_from( `UTAC HEADQUARTERS PTE. LTD.` )
+
     ,   supplier_vat_number(`M90370157E`)
 
 ] ).
