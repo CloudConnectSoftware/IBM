@@ -325,9 +325,11 @@ i_line_rule( discount_line, [
 
 , generic_item( [ line_quantity, d, [tab, `s`,`$` ]] )
 
-, generic_item( [ line_unit_amount, s1 , [ tab , `(`, `s`,`$`  ]]  )
+, generic_item( [ line_unit_amount, d , [ tab , `(`, `s`,`$`  ]]  )
 
 , generic_item( [ line_total_amount_dummy, d,  [ `)` , newline ]]  )
+
+, q10(line_vat_rate(`7`))
   
 
 ] ).
