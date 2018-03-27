@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_ksb_dc_xml, `28/02/2018 12:01:54` ).
+i_version( output_ibm_ksb_dc_xml, `27/03/2018 15:15:53` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +66,7 @@ i_override_2dp_amount( total_vat ).
 i_override_2dp_amount( total_invoice ).
 
 i_override_4dp_amount( line_quantity ).
-i_override_2dp_amount( line_unit_amount ).
+i_override_4dp_amount( line_unit_amount ).
 i_override_2dp_amount( line_net_amount ).
 i_override_2dp_amount( line_vat_amount ).
 i_override_2dp_amount( line_total_amount ).
