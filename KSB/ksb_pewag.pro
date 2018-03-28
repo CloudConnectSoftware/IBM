@@ -375,6 +375,12 @@ i_section( get_invoice_lines, [
             		
 			[q10(line_item_line),line_invoice_line, line_invoice_line1]
 
+            , [line_invoice_line,q10(line_append_line1), line_invoice_line1]
+
+             , [line_invoice_line,q10(line_append_line1),q10(line_append_line1), line_invoice_line2,q10(line_additional_line)]
+
+             
+
             
 			, line
 
@@ -428,11 +434,11 @@ i_line_rule( line_invoice_line, [
 
       ,  generic_item([ line_quantity , d ,tab ])
 
-      ,  generic_item([ line_quantity_uom , w ,tab ])
+      , generic_item([ line_quantity_uom_code , w ,tab ])
 
-      ,  generic_item([ line_quantity_dummy , d ,tab ])
+      , generic_item([ line_quantity_dummy , d ,tab ])
 
-      ,  generic_item([ line_item , d  ])
+      ,  q10(generic_item([ line_item , d  ]))
 
        , generic_item([ line_descr , s1, newline  ])
 
@@ -463,7 +469,7 @@ i_line_rule( line_invoice_line1, [
 
       , generic_item([ line_quantity_dummy , d ])
 
-      ,  generic_item([ line_quantity_uom_code , s1 ,tab ])
+      ,  generic_item([ line_quantity_uom , w ,tab ])
 
       ,  generic_item([ line_quantity_uom1 , s1 ,tab ])
 
@@ -490,6 +496,57 @@ i_line_rule( line_item_line, [
         
 ] ).
 
+%=======================================================================
+i_line_rule( line_append_line1, [
+%=======================================================================
+
+    generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+        
+] ).
+
+
+%=======================================================================
+i_line_rule( line_additional_line, [
+%=======================================================================
+
+            set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+       , generic_item([ line_descr , s1 ,tab ])
+
+       , generic_item([ line_net_amount , d, newline  ])
+
+        , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+        
+] ).
+
+%=======================================================================
+i_line_rule( line_invoice_line2, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+      ,  generic_item([ line_quantity_uom , w ,tab ])
+
+      ,  generic_item([ line_quantity_uom1 , s1 ,tab ])
+
+      ,  generic_item([ line_unit_amount , d ,tab ])
+
+      ,  generic_item([ line_net_amount , d ,newline ])
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -498,6 +555,10 @@ i_line_rule( line_item_line, [
 
 % Created on   - February 13, 2018
 % Updated by   - Rohini
+
+% Updated on   - March 28, 2018
+% Updated by   - Rohini
+% Changes made   - Line level format
 
 % Updated on   - 
 % Updated by   - 
