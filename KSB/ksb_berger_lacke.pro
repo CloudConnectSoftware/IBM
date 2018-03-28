@@ -287,7 +287,7 @@ i_line_rule( find_order_number, [
 i_rule( get_delivery_note_nr, [
 %=======================================================================
 
-    q(0,100,line)
+    q(0,50,line)
 
     ,or([
         
@@ -385,7 +385,7 @@ i_rule( get_total_invoice, [
 
     ,or([
 
-    generic_vertical_details( [ [ `Rechnungssumme`, `€` ], `Rechnungssumme`, q(0,1), (start,100,100), total_invoice, d, newline ] )
+    generic_vertical_details( [ [ `Rechnungssumme`, q10(`€`) ], `Rechnungssumme`, q(0,1), (end,100,100), total_invoice, d, newline ] )
 
     ])
     
