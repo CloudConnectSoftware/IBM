@@ -226,7 +226,7 @@ i_rule( get_total_invoice, [
         
         [ test(tml_found) , generic_horizontal_details( [ [ `Total`, `Amount`, `payable` , `in`, `SGD` ], 200, total_invoice, d, newline ] ) ]
 
-       ,  [ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `SGD` ], 200, total_invoice, d, newline ] ) ]
+       ,  [ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` ], 200, total_invoice, d, newline ] ) ]
 
     ] )
 
