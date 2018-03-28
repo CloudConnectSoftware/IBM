@@ -406,13 +406,17 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-	qn0(line)
+	q0n(line)
 
     ,or([
  
     [generic_horizontal_details( [ [ `Rechnungssumme` ], currency_raw, w, newline ] )
 
     , check(currency_raw=Currency) , check(Currency=`€ uros`)    ,generic_item( [ currency, `EUR` ] )]
+
+    , [generic_horizontal_details( [ [ `Rechnungssumme` ], currency_raw, w, newline ] )
+
+    , check(currency_raw=Currency) , check(Currency=`€`)    ,generic_item( [ currency, `EUR` ] )]
 
 
     , currency_line
@@ -427,9 +431,7 @@ i_line_rule( currency_line, [
 
     q0n(anything)
 
-   , [ `Wert`,`€` ]
-
-    , currency(`EUR`)
+   , currency(`EUR`)
 
 ] ).
 
