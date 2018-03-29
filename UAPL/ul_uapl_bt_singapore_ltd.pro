@@ -496,7 +496,7 @@ i_rule( get_total_invoice, [
 
      , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD` ],150 , total_invoice, d, or([ `CR` , newline ]) ] ) ]
 
-     , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD`,tab, `-` ], total_invoice, d,  or([ `CR` , newline ]) ] ) ]
+     , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `GBP`,tab, `-` ], total_invoice, d,  or([ `CR` , newline ]) ] ) ]
 
 
 
