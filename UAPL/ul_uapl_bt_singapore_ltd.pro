@@ -639,7 +639,7 @@ i_rule( get_line_vat, [
 
     ,[ check( Currency == `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `SGD`],150, line_vat_amount, d, newline ] ) ]
 
-    ,[ check( Currency == `GBP` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `GBP`],150, line_vat_amount, d, newline ] ) ]
+    ,[ check( Currency == `GBP` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `GBP`],150, line_vat_amount, d, or([ `CR` , newline ])  ] ) ]
 
    ] )
 
