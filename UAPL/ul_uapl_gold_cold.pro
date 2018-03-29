@@ -356,7 +356,9 @@ i_section( get_invoice_lines, [
              line_invoice_line
 
              , line_invoice_line1
-             , [line_invoice_line_new,line_invoice_line_net]
+
+             , [line_invoice_line_new,q10(line_descr_append_line),line_invoice_line2]
+             , [line_invoice_line_new,q10(line_descr_append_line),line_invoice_line_net]
 
               , line
 
@@ -375,7 +377,7 @@ or([
     
     [`Description`, tab, `Quantity` ]
 
-    ,[`No`, `.`, tab, `GST`, tab, `Description`, tab, `RM`]
+    ,[`No`, `.`, q10(tab), `GST`, tab, `Description`, tab, `RM`]
 
 ])
 
@@ -450,12 +452,27 @@ i_line_rule_cut( line_invoice_line1, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+  generic_append( [ line_descr , s1, tab, ` , `, ``  ] )
+
+ ,generic_item( [ line_quantity, d, tab ] )
+
+ , generic_item( [ line_quantity_uom_code_dummy, w, q10(tab) ] )
+
+ ,generic_item( [ line_unit_amount, d, tab ] )
+
+ ,generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line_new, [
 %=======================================================================
 
   generic_item( [ line_reference, d, tab ] )
-
- ,generic_item( [ line_dummy, w ] )
 
  , generic_item( [ line_descr, s1, newline ] )
 
@@ -471,6 +488,14 @@ i_line_rule_cut( line_invoice_line_net, [
  ,generic_item( [ line_net_amount, d, newline ] )
 
 ]).
+
+%=======================================================================
+i_line_rule( line_descr_append_line, [
+%=======================================================================
+	
+   generic_append( [ line_descr , s1, newline, ` , `, ``  ] )
+        
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
