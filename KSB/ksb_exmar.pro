@@ -69,6 +69,8 @@ i_rule( get_supplier_details, [
     ,supplier_party( `EXMAR GmbH` )
 
     , supplier_vat_number(`DE 811199533`)
+
+     , supplier_bank_iban(`DE34510500150227085096`) % IBAN # on the document is Image
     
       
 ] ).
@@ -348,6 +350,8 @@ i_section( get_invoice_lines, [
             		
 			[line_invoice_line, q10(line_descr_line), q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_append_line1), q10(line_append_line),line_invoice_line1]
 
+            , [q10(line_append_line),line_invoice_line1]
+
             
 			, line
 
@@ -379,8 +383,10 @@ i_line_rule_cut( line_end_line,[
 %=======================================================================
 
 	  or([
+
+          [`Rechnung`]
 		 
-         [`Waren`, `-`, `/`, `Nettowert`, tab ]
+        , [`Waren`, `-`, `/`, `Nettowert`, tab ]
 
 
         ])
@@ -441,11 +447,15 @@ i_line_rule( line_append_line, [
 i_line_rule( line_invoice_line1, [
 %=======================================================================
 	
-        set(regexp_cross_word_boundaries)
+        
+        
+        [`Position`, `Nettowert`, tab ]
+        
+        
+      ,  set(regexp_cross_word_boundaries)
 
       , set(reverse_punctuation_in_numbers)
 
-     , generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
 
       ,  generic_item([ line_unit_amount , d ,tab ])
 
@@ -498,10 +508,14 @@ i_line_rule( line_append_line1, [
 % Created on   - February 14, 2018
 % Updated by   - Rohini
 
+% Updated on   - march 29, 2018
+% Updated by   - Rohini
+% Changes made   - Bank details hardcoded and line details updated
+
+
 % Updated on   - 
 % Updated by   - 
 % Changes made   - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
