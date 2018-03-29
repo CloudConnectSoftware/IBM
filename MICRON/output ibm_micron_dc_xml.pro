@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `29/03/2018 09:55:59` ).
+i_version( output_ibm_micron_dc_xml, `29/03/2018 10:56:41` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -305,8 +305,8 @@ write_line___( LID )
 		write_element_string( `PO_Release`, `0` ),
 
 		write_variable_as_tag( LID, line_delivery_note_number, `Delivery_Note` ),
-		write_variable_as_tag( LID, line_packing_list, `Line Packing List` ),
-		write_variable_as_tag( LID, line_proforma, `Line Proforma` ),
+		write_variable_as_tag( LID, line_packing_list, `Line_Packing_List` ),
+		write_variable_as_tag( LID, line_proforma, `Line_Proforma` ),
 
 		write_ibm_number_variable_as_tag( LID, line_unit_amount, `Unit_Price`, '2dp_' ),
 
