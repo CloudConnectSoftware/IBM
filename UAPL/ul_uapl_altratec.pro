@@ -411,7 +411,7 @@ i_rule( get_total_invoice, [
 	
 	, or([
 
-            [ test(debit_note),test(tot_debit_vat), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
+            [ test(debit_note),test(tot_debit_vat), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )]
               
               
 
