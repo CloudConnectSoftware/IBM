@@ -474,6 +474,8 @@ i_line_rule_cut( line_invoice_line_new, [
 
   generic_item( [ line_reference, d, tab ] )
 
+  , q10(generic_item( [ line_gst_dummy, w, tab ] ))
+
  , generic_item( [ line_descr, s1, newline ] )
 
 
