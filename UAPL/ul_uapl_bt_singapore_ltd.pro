@@ -34,7 +34,7 @@ i_rule_list( [
 
    % , get_order_number
 
-    , get_total_net
+   % , get_total_net
 
     , get_total_vat
 
@@ -48,7 +48,7 @@ i_rule_list( [
 
     ,get_line_vat
 
-    , get_total_line_net
+    %, get_total_line_net
 
 ] ).
 
@@ -408,7 +408,9 @@ i_rule( get_total_net, [
 
  , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [`Total`, `Charges`, tab, `SGD` ], 500, total_net, d, newline ] ) ]
 
- , [ check( Currency == `GBP` ) ,generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `GBP`],150, total_net, d, newline ] )] 
+ , [ check( Currency == `GBP` ) ,generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `GBP`],150, total_net, d, or([ `CR` , newline ]) ] )] 
+
+ , [ check( Currency == `GBP` ) ,generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `GBP`,tab, `-`], total_net, d, or([ `CR` , newline ]) ] )]
 
  
 ] )
@@ -460,7 +462,7 @@ i_rule( get_total_vat, [
 
     , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [`Total`, `Taxation`, tab, `SGD`],500, total_vat, d , newline ] ) ]
 
-    ,[ check( Currency == `GBP` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `GBP`],150, total_vat, d, newline ] ) ]
+    ,[ check( Currency == `GBP` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `GBP`],150, total_vat, d,or([ `CR` , newline ]) ] ) ]
 
    ] )
 
@@ -494,6 +496,8 @@ i_rule( get_total_invoice, [
 
      , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `SGD` ],150 , total_invoice, d, or([ `CR` , newline ]) ] ) ]
 
+     , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `GBP`,tab, `-` ], total_invoice, d,  or([ `CR` , newline ]) ] ) ]
+
 
 
      
@@ -518,11 +522,13 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-      with( invoice, order_number, Order_Number )
+       with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-    , qn0(line)
+     ,trace( [ `currency`, Currency ] )
+
+    , q0n(line)
 
     , or( [
 
@@ -534,7 +540,7 @@ i_rule( get_line_total_amount, [
 
       , [ check( Currency == `USD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `USD`],150, line_total_amount, d, or([ `CR` , newline ]) ] ) ]
 
-      , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `GBP` ],150,  line_total_amount, d, newline ] ) ]  
+      , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `GBP`, tab, `-` ],  line_total_amount, d, or([ `CR` , newline ])  ] ) ]  
      ] )
 
 ] ).
@@ -598,9 +604,9 @@ i_rule( get_total_line_net, [
 
 , [ check( Currency == `SGD` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `SGD`], 150,line_net_amount, d, newline ] ) ]
 
-, [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD` ],150, line_net_amount, d, newline ] ) ]
+, [ check( Currency == `USD` ) , generic_horizontal_details( [ [ `Total`, `Usage`, `Charges`, tab, `USD` ],150, line_net_amount, d, or([ `CR` , newline ]) ] ) ]
 
- 
+ , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [ `Total`, `One`, `Off`, `Charges`, tab, `GBP` ],150, line_net_amount, d, or([ `CR` , newline ]) ] ) ]
 
 ] )
 
@@ -635,7 +641,7 @@ i_rule( get_line_vat, [
 
     ,[ check( Currency == `SGD` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `SGD`],150, line_vat_amount, d, newline ] ) ]
 
-    ,[ check( Currency == `GBP` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `GBP`],150, line_vat_amount, d, newline ] ) ]
+    ,[ check( Currency == `GBP` )   , generic_horizontal_details( [ [ `Total`, `Tax`, `@`, generic_item( [ default_vat_rate_dummy, d ] ), `%`, tab, `GBP`],150, line_vat_amount, d, or([ `CR` , newline ])  ] ) ]
 
    ] )
 
