@@ -522,11 +522,13 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-      with( invoice, order_number, Order_Number )
+       with( invoice, order_number, Order_Number )
 
     , check( i_user_check( check_po_currency, Order_Number, Currency ) )
 
-    , qn0(line)
+     ,trace( [ `currency`, Currency ] )
+
+    , q0n(line)
 
     , or( [
 
@@ -538,7 +540,7 @@ i_rule( get_line_total_amount, [
 
       , [ check( Currency == `USD` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `USD`],150, line_total_amount, d, or([ `CR` , newline ]) ] ) ]
 
-      , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [ `Total`, `of`, `this`, `bill`, tab, `GBP` ],150,  line_total_amount, d, or([ `CR` , newline ])        ] ) ]  
+      , [ check( Currency == `GBP` ) , generic_horizontal_details( [ [`Total`, `of`, `this`, `bill`, tab, `GBP`, tab, `-` ],  line_total_amount, d, or([ `CR` , newline ])  ] ) ]  
      ] )
 
 ] ).
