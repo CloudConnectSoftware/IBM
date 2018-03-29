@@ -321,7 +321,13 @@ i_line_rule( invoice_currency, [
 
 q0n(anything)
 
-,[`Endbetrag`, tab, `EUR`]
+, or([
+
+ [`Endbetrag`, tab, `EUR`]
+
+, [`EUR`,  newline ]
+
+] )
 
 ,currency( `EUR` ) 
 
