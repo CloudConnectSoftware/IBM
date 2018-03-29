@@ -31,6 +31,8 @@ i_rule_list( [
 
     , get_total_vat
 
+    , get_bank_name
+
     , get_bank_account
 
     , get_bank_code
@@ -188,7 +190,7 @@ i_rule(get_bank_account, [
 
     last_line
 
-    , q(0,10,up)
+    , q(0,200,up)
 
     , generic_horizontal_details( [ [ `Account`, `No`, tab ] , supplier_bank_account_number_raw , s1 , tab ] )
 
@@ -211,9 +213,21 @@ i_rule(get_bank_code, [
 
     last_line
 
-    , q(0,20,up)    
+    , q(0,200,up)    
 
-    , generic_horizontal_details( [ [ `Swift`, `Code`, tab ], supplier_bank_code , w , newline ] )
+    , generic_horizontal_details( [ [ `Swift`, `Code`, tab ], supplier_bank_swift , w , newline ] )
+
+] ).
+
+%=======================================================================
+i_rule(get_bank_name, [
+%=======================================================================
+
+    last_line
+
+    , q(0,300,up)    
+
+    , generic_horizontal_details( [ [ `Bank`, `Name`, tab ], supplier_bank_name , s1 , tab ] )
 
 ] ).
 

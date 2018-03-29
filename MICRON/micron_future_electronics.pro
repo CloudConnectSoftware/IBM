@@ -30,6 +30,8 @@ i_rule_list( [
 
     , get_currency
 
+    , get_bank_name
+
     , get_bank_accountnumber
 
     , get_bank_code
@@ -279,7 +281,17 @@ i_rule( get_bank_code, [
     
      q(0,200,line)
 
-    , generic_horizontal_details( [ [ `SW`, `IFT`, `CODE`, `:`],  supplier_bank_code, w, [`USD`] ] ) 
+    , generic_horizontal_details( [ [ `SW`, `IFT`, `CODE`, `:`],  supplier_bank_swift, w, [`USD`] ] ) 
+
+]).
+
+%=======================================================================
+i_rule( get_bank_name, [
+%=======================================================================
+    
+     q(0,200,line)
+
+    , generic_horizontal_details( [ [ `T`, `/`, `T`, `ONLY`, `:`, q10(tab)],  supplier_bank_name, s, [`,`] ] ) 
 
 ]).
     
