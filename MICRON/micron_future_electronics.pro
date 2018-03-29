@@ -291,7 +291,7 @@ i_rule( get_bank_name, [
     
      q(0,200,line)
 
-    , generic_horizontal_details( [ [ `T`, `/`, `T`, `ONLY`, `:`, q10(tab)],  supplier_bank_name, s, [`,`] ] ) 
+    , generic_horizontal_details( [ [ `T`, `/`, `T`, `ONLY`, `:`, q10(tab)],  supplier_bank_name, s, [`,`, `21`, `COLLYER`] ] ) 
 
 ]).
     
