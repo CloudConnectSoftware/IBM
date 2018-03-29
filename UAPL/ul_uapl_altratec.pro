@@ -381,8 +381,7 @@ i_rule( get_total_net, [
 
     , or([
         
-        [ test(freight_total), generic_horizontal_details( [ [ `Total`, tab ] ,total_net, d, newline ] )
-        
+        [ test(freight_total), generic_horizontal_details( [ [ `Total`, tab ] ,total_net, d, newline ] )      
          ]
 
         , [test(credit_note), generic_horizontal_details( [ [  `sub`, `Total`] ,200, total_net, d, newline ] )]
@@ -412,9 +411,19 @@ i_rule( get_total_invoice, [
 	
 	, or([
 
+            [ test(debit_note),test(tot_debit_vat), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
+              
               
 
-              [ test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )]
+              ,[ test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
+              
+               , check( total_invoice = TotInv )
+
+                 , trace( [ `Total Inv` , TotInv] )
+
+                  , total_net(TotInv)
+
+                  , trace( [ `Freight Total net` , total_net] )]
              
             , [ test(freight_total), generic_horizontal_details( [ [ `Total`, `:`, tab ] , total_invoice, d, newline ] )]
 
