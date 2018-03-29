@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `23/03/2018 14:46:36` ).
+i_version( output_ibm_micron_dc_xml, `29/03/2018 09:55:59` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,15 +71,15 @@ write_output___( VAT_totals, Version )
 %===============================================================================
 
 	write_start_element( `DCDocumentData`, `http://tempuri.org/DCDocumentData.xsd` ),
-	
+
 		write_header,
-		
-		write_dc_swiss_header, 
-	
+
+		write_dc_swiss_header,
+
 		write_lines( write_line ),
 
 	write_end_element
-.	
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,11 +96,11 @@ write_header___
 %===============================================================================
 
 	write_start_element( `DC_Header` ),
-	
+
 		write_variable_as_tag( invoice, invoice_type, `Inv_Type` ),
-		
+
 		write_variable_as_date_with_ibm_timestamp( invoice, date, `Doc_Date` ),
-		
+
 		%%	Date of transmission
 		write_variable_as_date_with_ibm_timestamp( system, today, `Scan_Date` ),
 
@@ -116,35 +116,35 @@ write_header___
 
 		write_ibm_number_variable_as_tag( invoice, total_invoice, `Total_Amount`, '2dp_' ),
 		write_ibm_number_variable_as_tag( invoice, total_vat, `Tax_Amount`, '2dp_' ),
-		
+
 		write_variable_as_tag( invoice, currency, `Currency_Code` ), % Needs to be in ISO format
-		
+
 		write_variable_as_date_with_ibm_timestamp( invoice, processed_due_date, `Due_Date` ),
-		
+
 		write_variable_as_tag( invoice, buyers_code_for_supplier, `Vendor_ID` ),
-		
+
 		write_variable_as_tag( invoice, supplier_vat_number, `Vendor_VAT_Code` ),
 		write_variable_as_tag( invoice, buyer_vat_number, `Buyer_VAT_Code` ),
-		
+
 		( ( qq_op_param( unique_id, ScanID ); result( _, invoice, scan_id, ScanID ) )
-		
+
 			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
-			
+
 			;	instance( Instance ),
 				q_sys_sub_string( Instance, _, _, `DBG` )
 		),
-		
+
 		( qq_op_param( split_input_transfer_name( _ ), ImageFile )
 			->	true
-			
+
 			;	i_mail( image_file_name, ImageFile )
-			
+
 			;	instance( Instance ),
 				q_sys_sub_string( Instance, _, _, `DBG` ),
 				ImageFile = `Test file`
 		),
 		write_element_string( `Image_File`, ImageFile ), %ImageFile - needs to be the same as the tif
-		
+
 		write_variable_as_date_with_ibm_timestamp( default, default, `Discount_Date` ),
 
 		( result( _, invoice, total_percent_discount, _ )
@@ -152,43 +152,43 @@ write_header___
 			;	write_element_string( `Discount_Percent`, `0` )
 		),
 		write_element_string( `Invoice_Exception`, `` ),
-		
+
 		write_variable_as_date_with_ibm_timestamp( system, today, `Import_Date` ),
 		write_element_string( `Import_Status`, `READY TO IMPORT` ),
-		
+
 		write_variable_as_tag( invoice, supplier_bank_account_number, `Bank_Account` ), % Needs to be validated
 		write_variable_as_tag( invoice, supplier_bank_name, `Bank_Name` ),
 		write_variable_as_tag( invoice, supplier_bank_code, `Bank_Code` ),
 		write_variable_as_tag( invoice, supplier_bank_swift, `Bank_SWIFT` ),
 		write_variable_as_tag( invoice, supplier_bank_ogm, `Bank_OGM` ),
 		write_variable_as_tag( invoice, payment_terms, `Payment_Term` ),
-		
+
 		write_variable_as_tag( invoice, narrative, `Description` ),
-		
+
 		write_element_string( `IRPF_Value`, `0` ),
-		
+
 		write_variable_as_tag( invoice, customer_comments, `Other_Information` ),
-		
+
 		write_element_string( `Nr_Of_Images`, `1` ),
 		write_variable_as_tag( invoice, exchange_rate, `Exch_Rate` ),
-		
+
 		write_element_string( `Indexer_Id`, `CLTR` ), % Our Identifier
-		
+
 		write_variable_as_tag( invoice, erp_ref_number, `ERP_Ref_Number` ),
-		
+
 		( result( _, invoice, total_local_vat, _ )
 			->	write_ibm_number_variable_as_tag( invoice, total_local_vat, `VAT_Local_Amount`, '4dp_' ) % Only for foreign invoices with UK VAT
 			;	write_element_string( `VAT_Local_Amount`, `0` )
 		),
 		write_ibm_number_variable_as_tag( invoice, total_discount, `Discount_Amount`, '4dp_' ),
-		
+
 		write_variable_as_tag( invoice, por_reference, `POR_Reference` ),
 		write_variable_as_tag( invoice, tax_reporting_country, `TaxReportingCountry` ),
 		write_variable_as_tag( invoice, vat_region, `VATRegion` ),
 		write_variable_as_tag( invoice, attention_of, `AttentionOf` ),
 		write_variable_as_tag( invoice, ob10_link, `OB10_Link` ),
 		write_variable_as_tag( invoice, payment_reference, `Payment_Reference` ),
-		
+
 		write_variable_as_tag( invoice, ship_from, `ShipFrom` ),
 		write_variable_as_tag( invoice, ship_to, `ShipTo` ),
 		write_variable_as_tag( invoice, bill_from, `BillFrom` ),
@@ -215,7 +215,7 @@ write_dc_swiss_header___
 %===============================================================================
 
 	write_start_element( `DC_Swiss_Header` ),
-	
+
 		write_variable_as_date_with_ibm_timestamp( invoice, processed_swiss_date_of_supply, `Date_Of_Supply` ),
 		write_variable_as_tag( invoice, swiss_supplier_name, `Supplier_Name` ),
 		write_variable_as_tag( invoice, swiss_supplier_address_1, `Supplier_Address1` ),
@@ -250,9 +250,9 @@ write_dc_swiss_header___
 		write_variable_as_tag( invoice, swiss_buyer_address_8, `Buyer_Address8` ),
 		write_variable_as_tag( invoice, swiss_buyer_address_9, `Buyer_Address9` ),
 		write_variable_as_tag( invoice, swiss_buyer_address_10, `Buyer_Address10` ),
-		
+
 		write_ibm_number_variable_as_tag( invoice, total_net, `Total_Net`, '2dp_' ),
-		
+
 	write_end_element
 .
 
@@ -277,48 +277,50 @@ write_line___( LID )
 
 		sys_string_number( LIDS, LID ),
 		sys_calculate_str_multiply( LIDS, `10`, LID10 ),
-	
+
 		( ( qq_op_param( unique_id, ScanID ); result( _, invoice, scan_id, ScanID ) )
-		
+
 			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
-			
+
 			;	instance( Instance ),
 				q_sys_sub_string( Instance, _, _, `DBG` )
 		),
 
 		( result( _, LID, line_order_line_number, _ )
 			->	write_variable_as_tag( LID, line_order_line_number, `Invoice_Line` )
-			
+
 			;	write_element_string( `Invoice_Line`, LID10 )
 		),
 
 		write_ibm_number_variable_as_tag( LID, line_total_amount, `Amount`, '2dp_' ),
-		
+
 		write_ibm_number_variable_as_tag( LID, line_vat_rate, `Tax_Percent`, '4dp_' ),
-	
+
 		write_ibm_number_variable_as_tag( LID, line_vat_amount, `Tax_Amount`, '2dp_' ),
 
 		write_variable_as_tag( LID, line_vat_code, `Tax_Code` ),
-		
+
 		write_variable_as_tag( LID, line_buyers_order_number, `PO_Number` ),
-		
+
 		write_element_string( `PO_Release`, `0` ),
-		
+
 		write_variable_as_tag( LID, line_delivery_note_number, `Delivery_Note` ),
+		write_variable_as_tag( LID, line_packing_list, `Line Packing List` ),
+		write_variable_as_tag( LID, line_proforma, `Line Proforma` ),
 
 		write_ibm_number_variable_as_tag( LID, line_unit_amount, `Unit_Price`, '2dp_' ),
 
 		write_ibm_number_variable_as_tag( LID, line_quantity, `Quantity`, '4dp_' ),
 
 		write_variable_as_tag( LID, line_item, `MAT_NUMBER` ),
-		
+
 		write_variable_as_tag( LID, line_cost_centre, `CostCenter` ),
 		write_variable_as_tag( LID, line_internal_order_number, `InternalOrder` ),
 		write_variable_as_tag( LID, line_gl, `GLAccount` ),
 		write_variable_as_tag( LID, line_descr, `Description` ),
 
 	write_end_element,
-	
+
 	write_dc_swiss_line
 .
 
@@ -338,9 +340,9 @@ write_dc_swiss_line___
 %===============================================================================
 
 	write_start_element( `DC_Swiss_Line` ),
-	
+
 		write_variable_as_tag( invoice, swiss_line_var, `Description_Of_Supply` ),
-		
+
 	write_end_element
 .
 
@@ -361,7 +363,7 @@ write_variable_as_date_with_ibm_timestamp___( default, default, Tag )
 %-------------------------------------------------------------------------------
 :-
 %===============================================================================
-	write_element_string( Tag, `1900-01-01T00:00:00.0000000-00:00` )	
+	write_element_string( Tag, `1900-01-01T00:00:00.0000000-00:00` )
 .
 
 %===============================================================================
@@ -372,15 +374,15 @@ write_variable_as_date_with_ibm_timestamp___( Location, Variable, Tag )
 
 	( Location = system
 		->	date_get( Variable, Date )
-		
+
 		;	result( _, Location, Variable, Date )
 	)
 		->	sys_date_string( Date, 'yyyy-mm-dd', DateS ),
 			strcat_list( [ DateS, `T00:00:00.0000000-00:00` ], DateWithT ),
-			
+
 			write_element_string( Tag, DateWithT )
-	
-	;	write_element_string( Tag, `1900-01-01T00:00:00.0000000-00:00` )	
+
+	;	write_element_string( Tag, `1900-01-01T00:00:00.0000000-00:00` )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -398,12 +400,12 @@ write_ibm_number_variable_as_tag___( Location, Variable, Tag, DP )
 %===============================================================================
 
 	( result( _, Location, Variable, ResultRaw )
-		->	true			
+		->	true
 		;	ResultRaw = `0`
 	),
 	atomlist_concat( [ normalise_, DP, in_string ], RoundPred ),
 	RoundValue =.. [ RoundPred, ResultRaw, Result ],
 	sys_call( RoundValue ),
-	
+
 	write_element_string( Tag, Result )
 .
