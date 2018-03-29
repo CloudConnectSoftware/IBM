@@ -230,6 +230,14 @@ i_rule( get_total_invoice, [
 
     ] )
 
+    , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )
+
 ] ).
 
 
