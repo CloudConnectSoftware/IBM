@@ -114,6 +114,8 @@ write_header___
 
 		write_variable_as_tag( invoice, invoice_number, `Invoice_Num` ),
 
+		write_variable_as_tag( invoice, order_number, `PO_Number` ),
+
 		write_ibm_number_variable_as_tag( invoice, total_invoice, `Total_Amount`, '2dp_' ),
 		write_ibm_number_variable_as_tag( invoice, total_vat, `Tax_Amount`, '2dp_' ),
 
