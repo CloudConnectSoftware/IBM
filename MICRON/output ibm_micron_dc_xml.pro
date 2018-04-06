@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `29/03/2018 10:56:41` ).
+i_version( output_ibm_micron_dc_xml, `06/04/2018 14:29:20` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -303,6 +303,8 @@ write_line___( LID )
 		write_variable_as_tag( LID, line_vat_code, `Tax_Code` ),
 
 		write_variable_as_tag( LID, line_buyers_order_number, `PO_Number` ),
+
+		write_variable_as_tag( LID, line_po_item, `PO_Item` ),
 
 		write_element_string( `PO_Release`, `0` ),
 
