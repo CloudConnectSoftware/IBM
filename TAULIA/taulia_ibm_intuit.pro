@@ -125,7 +125,9 @@ i_line_rule( buyer_id_line, [
 
 		 , [ check_text( `23-2588479` ), set( chain, `intuit_taulia_iron_mountain` ), trace( [ `This is a Iron mountain Document` ] ) , set( re_extract ) ]
  
-        , [ check_text( `4945325025` ), set( chain, `intuit_taulia_access_emanate` ), trace( [ `This is a Access Emanate Communications Document` ] ) ]
+        , [ check_text( `415-904-7070` ), set( chain, `intuit_taulia_access_emanate` ), trace( [ `This is a Access Emanate Communications Document` ] ) ]
+
+	    , [ check_text( `4945325025` ), set( chain, `intuit_taulia_access_emanate` ), trace( [ `This is a Access Emanate Communications Document` ] ) ]
 
 		, [ check_text( `77-0562390` ), set( chain, `intuit_taulia_access_telecomm` ), trace( [ `This is a Access Telecomm Systems, Inc Document` ] ) ]
 
