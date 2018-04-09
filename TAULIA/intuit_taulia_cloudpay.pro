@@ -187,7 +187,13 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
+     , or([
+
+      generic_horizontal_details( [ [`Invoice`, `No`, `.`, tab ], invoice_number, s1 , newline ] )
+
     , generic_horizontal_details( [ [`Invoice`, `#`, tab ], invoice_number, s1 , newline ] )
+
+    ] )
 
 ] ).
 
@@ -249,8 +255,13 @@ i_rule( get_order_number, [
 
      q(0,20,line)
 
+     , or([
+
+      generic_horizontal_details( [ [`PO`, `Number`, tab ], po_number, d, newline ] )
+
   ,  generic_horizontal_details( [ [`PO`, `#`, tab ], po_number, d, newline ] )
 
+] )
 
 ] ).
 
@@ -264,7 +275,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,30,line)
+last_line
+
+,q(0,100,up)
 
 ,[generic_horizontal_details( [ [`Total`, tab, `$`],  total_invoice, d, newline ] )
 
@@ -294,7 +307,14 @@ i_rule( get_currency, [
 
 q(0,50,line)
 
+, or([
+
+  generic_horizontal_details( [ [ `Currency`, `:` ], currency, w, newline ] )
+
 ,invoice_currency
+
+
+] )
 
 ] ).
 
@@ -346,7 +366,13 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
     
-    [`Payroll`, `ID`, `Item`, tab, `Entity`, tab ]
+    or([
+      
+      [`Payroll`, `ID`, `Item`, tab, `Entity`, tab ]
+
+    , [`Payroll`, `ID`, tab, `Entity`, tab, `Description`, tab ]
+
+    ] )
 
     , trace( [ `Found Start line` ] )
 
