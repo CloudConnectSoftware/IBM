@@ -195,7 +195,7 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-     q(0,20,line)
+     q(0,50,line)
 
   , generic_horizontal_details( [ [ `PO`, `Number`, `:` ], po_number, d, newline ] )
 
@@ -395,9 +395,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - January 25, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - April 9, 2018
+% Updated by   - Rohini
+% Changes made - PO #
 
 % Updated on   - 
 % Updated by   -
