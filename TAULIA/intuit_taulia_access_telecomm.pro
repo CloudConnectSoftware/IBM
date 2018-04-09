@@ -306,6 +306,8 @@ i_section( get_invoice_lines, [
 
            , line_invoice_line1 
 
+           , line_invoice_line2
+
               , line
 
         ] )
@@ -388,6 +390,29 @@ i_line_rule_cut( line_append_line, [
 
   
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+
+   
+    generic_item( [ line_item_dummy, s1, tab ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , set(regexp_cross_word_boundaries)
+
+  , generic_item( [ line_net_amount, d ] )
+
+  , clear(regexp_cross_word_boundaries)
+
+  , generic_item( [ line_dummy_amount, w, newline ] )
+
+  
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
