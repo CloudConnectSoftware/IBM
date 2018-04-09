@@ -288,7 +288,13 @@ i_rule( get_total_invoice, [
 
 q(0,30,line)
 
-,[generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [`USD`,  newline ] ] )
+, or([
+
+  generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [ tab, generic_item( [ currency, w ] ),  newline ] ] )
+
+,generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [`USD`,  newline ] ] )
+
+] )
 
    , check( total_invoice = TotInv )
 
@@ -298,7 +304,7 @@ q(0,30,line)
 
         , trace( [ `Total net` , total_net ] )
 
-]
+
 
 ] ).
 
@@ -443,9 +449,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - January 25, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - April 8, 2018
+% Updated by   - Rohini
+% Changes made - Total amount and currency
 
 % Updated on   - 
 % Updated by   -
