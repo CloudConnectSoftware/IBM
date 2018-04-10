@@ -205,6 +205,8 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `30579543` ), set( chain, `intuit_taulia_yahoo` ), trace( [ `This is a Yahoo, Inc  Document` ] ) ]
 
+	   , [ check_text( `77-0398689` ), set( chain, `intuit_taulia_yahoo` ), trace( [ `This is a Yahoo, Inc  Document` ] ) ]
+
 	   , [ check_text( `2873602` ), set( chain, `intuit_taulia_hewitt` ), trace( [ `This is a Hewitt Associates LLC  Document` ] ) ]
 
 	   , [ check_text( `35-2428242` ), set( chain, `intuit_taulia_interactive` ), trace( [ `This is a Interactive Intelligence  Document` ] ) ]
