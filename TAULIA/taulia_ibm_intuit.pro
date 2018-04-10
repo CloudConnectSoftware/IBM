@@ -155,6 +155,8 @@ i_line_rule( buyer_id_line, [
 
         , [ check_text( `855-665-6380` ), set( chain, `intuit_taulia_concentrix` ), trace( [ `This is a Concentrix Corporation Document` ] ) ]
 
+	   , [ check_text( `1-800-747-0583` ), set( chain, `intuit_taulia_concentrix` ), trace( [ `This is a Concentrix Corporation Document` ] ) ]
+
 	   % , [ check_text( `221.4100` ), set( chain, `intuit_taulia_cpawebengage` ), trace( [ `This is a CPAwebengage, Inc Document` ] ) ]
 
 	   , [ check_text( `881-2400` ), set( chain, `intuit_taulia_dei_rossie` ), trace( [ `This is a Dei Rossi Marketing Document` ] ) ]
