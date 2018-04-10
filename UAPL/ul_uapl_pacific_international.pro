@@ -117,6 +117,8 @@ q0n(anything)
     
     [`waybill` ]
 
+    , [`PORT`, `-`, `TO`, `-`, `PORT`, `OR`, `COMBINED`, `TRANSPORT`, `BILL`, `OF`, `LADING`]
+
     ])
 
 , trace( [ `This is a packing List doc` ] )
