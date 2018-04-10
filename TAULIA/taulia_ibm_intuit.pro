@@ -61,6 +61,8 @@ i_rule( select_buyer, [
 
 	,  [ q0n(line), sodexo_identify_rule ]
 
+	,  [ q0n(line), sodexo_identify_rule1 ]
+
 	,  [ q0n(line), realworld_identify_rule1 ]
 
     ,  [ q0n(line), switch_identify_rule ]
@@ -1237,6 +1239,73 @@ i_line_rule( sodexo_rule3, [
 
 	  [`TERMS`, tab, `ACCOUNT`, `NUMBER`, tab, `COST`, `CENTER`, tab, `INVOICE`, `DATE`, tab, `INVOICE`, `NO`, `.`,  newline ]
   , [`TERMS`, tab, `SDX`, `A`, `/`, `R`, `NUMBER`, tab, `UNIT`, `NUMBER`, tab, `INVOICE`, `DATE`, tab, `INVOICE`, `NUMBER`,  newline ]
+
+] )
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SODEXO, INC & AFFILIATES ALTERNATIVE
+%=======================================================================
+i_rule(  sodexo_identify_rule1, [
+%=======================================================================
+         
+		 sodexo_rule1
+
+	  , sodexo_rule2
+
+      , q(1,5,line)
+
+	  ,  sodexo_rule3
+
+	  , q(1,5,line)
+
+	  ,  sodexo_rule4
+
+
+    , set(chain,`intuit_taulia_sodexo`)
+
+    , trace( [ `This is a SODEXO, INC & AFFILIATES Document` ] )
+] ).
+%=======================================================================
+i_line_rule( sodexo_rule1, [
+%=======================================================================
+
+  or([
+
+	  [ `SODEXO`, `,`, `INC`, `&`, `AFFILIATES`,  newline ]
+ ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( sodexo_rule2, [
+%=======================================================================
+
+  or([
+
+	  [ `SERVICES`, tab, `INTUIT`,  newline ]
+ ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( sodexo_rule3, [
+%=======================================================================
+  or([
+
+	  [`BILL`, `TO`, `:`, tab, `INTUIT`, tab, `MAKE`, `CHECK`, `PAYABLE`, `TO`, `:`,  newline ]
+
+] )
+] ).
+
+
+%=======================================================================
+i_line_rule( sodexo_rule4, [
+%=======================================================================
+  or([
+
+	  [`TERMS`, tab, `ACCOUNT`, `NUMBER`, tab, `COST`, `CENTER`, tab, `INVOICE`, `DATE`, tab, `INVOICE`, `NO`, `.`,  newline ]
 
 ] )
 ] ).
