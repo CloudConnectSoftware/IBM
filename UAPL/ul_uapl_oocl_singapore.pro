@@ -20,6 +20,8 @@ i_rule_list( [
 
 	get_supplier_details
 
+    , supporting_doc_line
+
     , get_credit_note
 
     , get_debit_note
@@ -62,6 +64,46 @@ i_rule( get_supplier_details, [
 
      , set(freight_vendor)
   		
+
+] ).
+
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Supporting Document Packing list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_supporting, [
+%=======================================================================
+
+    q(0, 150, line)
+    
+        , supporting_doc_line
+
+] ).
+
+%=======================================================================
+i_line_rule( supporting_doc_line, [
+%=======================================================================
+
+q0n(anything)
+
+, or([
+    
+    [`waybill` ]
+
+    , [`COPY`,`NON`,`NEGOTIABLE`]
+
+    ,[`Bill`,`of`,`Lading`, newline]
+
+    ])
+
+, trace( [ `This is a packing List doc` ] )
+
+ , set(i_analyse_supporting_document) 
+ 
+ , trace( [ `This is a supporting document` ] )
 
 ] ).
 
