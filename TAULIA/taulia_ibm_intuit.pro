@@ -263,6 +263,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `800-316-6440` ), set( chain, `intuit_taulia_eatclub` ), trace( [ `This is a EAT Club Inc Document` ] ) ]
 
+	  , [ check_text( `866-815-6623` ), set( chain, `intuit_taulia_eatclub` ), trace( [ `This is a EAT Club Inc Document` ] ) ]
+
 	  , [ check_text( `13-5565207` ), set( chain, `intuit_taulia_kpmg` ), trace( [ `This is a KPMG LLP Document` ] ) ]
 
 	  , [ check_text( `8666309944` ), set( chain, `intuit_taulia_teletech` ), trace( [ `This is a TeleTech Services Corporation Document` ] ) ]
