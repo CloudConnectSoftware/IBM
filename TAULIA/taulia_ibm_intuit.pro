@@ -121,6 +121,8 @@ i_line_rule( buyer_id_line, [
 
 		, [ check_text( `730759` ), set( chain, `intuit_rackspace_us` ), trace( [ `This is a Rackspace US, Inc Document` ] ) ]
 
+		, [ check_text( `74-3219359` ), set( chain, `intuit_rackspace_us` ), trace( [ `This is a Rackspace US, Inc Document` ] ) ]
+
 		, [ check_text( `~503-740-0032` ), set( chain, `intuit_artsmentor` ), trace( [ `This is a Artsmentor, LLC, Inc Document` ] ) ]
 
 		, [ check_text( `00000711734` ), set( chain, `intuit_unitedhealth_group` ), trace( [ `This is a United health Group, LLC, Inc Document` ] ) ]
