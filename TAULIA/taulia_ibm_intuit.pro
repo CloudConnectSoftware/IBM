@@ -132,6 +132,8 @@ i_line_rule( buyer_id_line, [
 		, [ check_text( `4801902834` ), set( chain, `intuit_taulia_camelot` ), trace( [ `This is a Camelot Communications Document` ] ) , set( re_extract ) ]
 
 		 , [ check_text( `23-2588479` ), set( chain, `intuit_taulia_iron_mountain` ), trace( [ `This is a Iron mountain Document` ] ) , set( re_extract ) ]
+
+		 , [ check_text( `1-800-934-3453` ), set( chain, `intuit_taulia_iron_mountain` ), trace( [ `This is a Iron mountain Document` ] ) , set( re_extract ) ]
  
         , [ check_text( `415-904-7070` ), set( chain, `intuit_taulia_access_emanate` ), trace( [ `This is a Access Emanate Communications Document` ] ) ]
 
