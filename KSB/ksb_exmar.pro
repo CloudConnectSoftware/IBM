@@ -434,7 +434,7 @@ i_line_rule( line_invoice_line, [
 i_line_rule( line_descr_line, [
 %=======================================================================
 	
-  generic_item( [ line_descr, s1, newline  ] )
+  generic_item( [ line_descr_dummy, s1, newline  ] )
 
     
 ] ).
@@ -444,7 +444,7 @@ i_line_rule( line_descr_line, [
 i_line_rule( line_append_line, [
 %=======================================================================
 	
-  generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+  generic_append( [ line_descr_dummy, s1, newline, ` `, ` `  ] )
 
     
 ] ).
@@ -493,7 +493,7 @@ i_line_rule( line_append_line1, [
 
       , set(reverse_punctuation_in_numbers)
 
-     , generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
+     , generic_append( [ line_descr_dummy, s1, tab, ` `, ` `  ] )
 
       ,  generic_item([ line_dummy_amount , d ,[`%`, tab ] ])
 
