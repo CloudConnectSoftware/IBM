@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `21/03/2018 12:07:01` ).
+i_version( p_ibm_ksb, `11/04/2018 21:20:09` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -491,7 +491,13 @@ i_analyse_buyer_registration_number___
 :-
 	i_mail( to, To ),
 
-	result( _, invoice, buyer_party, _ ),
+	result( _, invoice, buyer_party, Party ),
+
+	string_to_upper( Party, Party_U ),
+	
+	buyer_party_city_lookup( Comapny_Code, Party_Lookup, _ ),
+
+	string_to_upper( Party_Lookup, Party_U ),
 
 	result( _, invoice, buyer_city, _ ),
 	
@@ -502,11 +508,15 @@ i_analyse_buyer_registration_number___
 	(
 		q_sys_sub_string( To, _, _, `ksb_de_1001` ),
 
+		Comapny_Code = `1001`,
+
 		assertz_derived_data( invoice, buyer_registration_number, `1001`, i_analyse_buyer_registration_number )
 
 		;
 
 		q_sys_sub_string( To, _, _, `ksb_de_1009` ),
+
+		Comapny_Code = `1009`,
 
 		assertz_derived_data( invoice, buyer_registration_number, `1009`, i_analyse_buyer_registration_number )
 
@@ -514,17 +524,23 @@ i_analyse_buyer_registration_number___
 
 		q_sys_sub_string( To, _, _, `ksb_at` ),
 
+		Comapny_Code = `1017`,
+
 		assertz_derived_data( invoice, buyer_registration_number, `1017`, i_analyse_buyer_registration_number )
 
 		;
 
 		q_sys_sub_string( To, _, _, `ksb_ch` ),
 
+		Comapny_Code = `1025`,
+
 		assertz_derived_data( invoice, buyer_registration_number, `1025`, i_analyse_buyer_registration_number )
 
 		;
 
 		q_sys_sub_string( To, _, _, `ksb_fr` ),
+
+		Comapny_Code = `1011`,
 
 		assertz_derived_data( invoice, buyer_registration_number, `1011`, i_analyse_buyer_registration_number )
 
