@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `11/04/2018 21:20:09` ).
+i_version( p_ibm_ksb, `12/04/2018 10:24:42` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -124,6 +124,12 @@ remaining_rejection_text( Text )
 		;
 		not( result( _, invoice, buyer_registration_number, _ ) ), not( data( invoice, buyer_registration_number, _ ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
+		;
+		instance( I ),
+		string_to_upper( I, I_U ),
+		q_sys_sub_string( I_U, _, _, `DBG` ),
+		( result( _, invoice, buyer_registration_number, `TEST` ); data( invoice, buyer_registration_number, `TEST` ) ),
+		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 	),
 	strcat_list( [ `<br><br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
 .
@@ -150,6 +156,12 @@ remaining_forward_text( Text )
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 		;
 		not( result( _, invoice, buyer_registration_number, _ ) ), not( data( invoice, buyer_registration_number, _ ) ),
+		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
+		;
+		instance( I ),
+		string_to_upper( I, I_U ),
+		q_sys_sub_string( I_U, _, _, `DBG` ),
+		( result( _, invoice, buyer_registration_number, `TEST` ); data( invoice, buyer_registration_number, `TEST` ) ),
 		Contact_Details = `Invoices:  AP_Invoices_DE_1001@ksb.com<br>Accounts Payable Team: AP_Queries_DE@ksb.com / +49623386 1133`
 	),
 	strcat_list( [ `<br><br>Below we are attaching copy of the document image for your reference.<br>Please send us a corrected invoice to email address for invoices, you don't have to send us Credit Note as we don't register your invoice in our books.<br>If you are not involved in billing process for KSB we kindly ask you to forward this message to the relevant department in your company.<br>In case of any questions please contact Accounts Payable Team.<br>Thank you for your understanding.<br>With kind regards,<br>KSB Accounts Payable Team<br><br>Contact details:<br>`, Contact_Details, `<br><br>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT RESPOND` ], Text )
