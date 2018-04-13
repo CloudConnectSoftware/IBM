@@ -14,6 +14,13 @@ i_trace_lists.
 
 i_pdf_parameter( x_tolerance_100, 100 ).
 
+
+i_user_field( line, line_net_1, `Line Net` ).
+
+i_user_field( line, line_net_2, `Line Net 2` ).
+
+i_user_field( line, line_net_3, `Line Net 3` ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -386,6 +393,11 @@ i_rule( get_net_amount, [
     
     ])
 
+
+    ,  check( total_net = TotNet)
+
+    , generic_item( [ line_net_amount , TotNet ] )
+
 	
 ]).
 
@@ -486,7 +498,8 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			[line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line) , q10(line_append_line)  ]
+		 line_descr_line1
+
            
   
 			, line
@@ -544,19 +557,19 @@ i_line_rule_cut( line_invoice_line, [
 
      
 
-      ,generic_item([ line_quantity, d ])
+      ,generic_item([ line_quantity_dummy, d ])
 
-       ,generic_item([ line_quantity_uom_code, w ,tab ])
+       ,generic_item([ line_quantity_uom_code_dummy, w ,tab ])
 
        ,or([
 
-           generic_item([ line_unit_amount, d ,tab ])
+           generic_item([ line_unit_1, d ,tab ])
 
-       ,  generic_item([ line_unit_amount, d ,[`EUR`, `/`, `t`, tab ] ])
+       ,  generic_item([ line_unit_1, d ,[`EUR`, `/`, `t`, tab ] ])
 
        ] )
 
-        , generic_item([ line_net_amount , d , newline ] )
+        , generic_item([ line_net_1 , d , newline ] )
 
         
       , q10( [ 
@@ -582,19 +595,132 @@ i_line_rule_cut( line_descr_line, [
         
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_descr_line1, [
+%=======================================================================
+
+     generic_item([ line_descr,s1 ,tab ])
+
+     ,  generic_item([ line_quantity,d  ])
+
+     , generic_item([ line_quantity_uom_code, w ,newline ])
+        
+] ).
 
 
 %=======================================================================
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-     generic_append( [ line_descr , s1, newline, `  `, ``  ] )
+     generic_append( [ line_descr_dummy , s1, newline, `  `, ``  ] )
         
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+      , generic_item([ line_reference_dummy, d , tab ])
+
+      ,  generic_item( [ line_descr_dummy, s1, tab ] )
+
+     
+
+      ,generic_item([ line_quantity_dummy, d ])
+
+       ,generic_item([ line_quantity_uom_code_dummy, w ,tab ])
+
+       ,or([
+
+           generic_item([ line_unit_3, d ,tab ])
+
+       ,  generic_item([ line_unit_3, d ,[`EUR`, `/`, `t`, tab ] ])
+
+       ] )
+
+        , generic_item([ line_net_3 , d , newline ] )
+
+        
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line2, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+      , generic_item([ line_reference, d , tab ])
+
+      ,  generic_item( [ line_descr, s1, tab ] )
+
+     
+
+      ,generic_item([ line_quantity_dummy, d ])
+
+       ,generic_item([ line_quantity_uom_code_dummy, w ,tab ])
+
+       ,or([
+
+           generic_item([ line_unit_2, d ,tab ])
+
+       ,  generic_item([ line_unit_2, d ,[`EUR`, `/`, `t`, tab ] ])
+
+       ] )
+
+        , generic_item([ line_net_2 , d , newline ] )
+
+        
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+
+
+    
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_net_line, [
+%=======================================================================
+                     
+    with( line, line_net_1 , Net1 )
+
+    , with( line , line_net_2, Net2 )
+
+     , with( line , line_net_3, Net3 )
+
+    , trace( [ `Net line 1`, Net1 ] )
+
+
+
+     , trace( [ `Net line 2`, Net2 ] )
+
+     , trace( [ `Net line 3`, Net3 ] )
+
+     , check(sys_calculate_str_add( Net2, Net1, NetTot))
+
+     , trace( [ `VAT Rate`, NetTot ] )
+  
+     , generic_item( [ line_net_amount , NetTot ] )    
+
+    
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
