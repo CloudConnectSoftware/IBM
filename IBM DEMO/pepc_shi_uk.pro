@@ -19,6 +19,8 @@ i_rule_list( [
     
       get_supplier_detail
 
+    , set_credit_note
+
     , get_supplier_address
 
     , get_bank_accountnumber
@@ -61,6 +63,38 @@ i_rule( get_supplier_detail, [
    ,buyer_dept(`PCIL`)
 
    ,buyer_registration_number(`PCIL`)
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`Credit`, `memo`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
 
 ] ).
 
@@ -172,22 +206,22 @@ i_rule( get_bank_accountnumber, [
 
      , check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
 
-     , supplier_bank_code(AccNew), trace( [ `Supplier Bank Code without special characters`, supplier_bank_code ] )]
+     , remit_to_bank_code(AccNew), trace( [ `Supplier Bank Code without special characters`, remit_to_bank_code ] )]
 
   
      , q(0,1,line)
 
-     , generic_horizontal_details( [ [ `Account`, `Number` ], supplier_bank_account_number, w, tab ] )
+     , generic_horizontal_details( [ [ `Account`, `Number` ], remit_to_bank_account_number, w, tab ] )
 
 
      , q(0,4,line)
 
-     , generic_horizontal_details( [ [ `BIC`, `(`, `SWIFT`, `CODE`, `)`, `:`], supplier_swift_code, s1, newline ] )
+     , generic_horizontal_details( [ [ `BIC`, `(`, `SWIFT`, `CODE`, `)`, `:`], remit_to_swift_code, s1, newline ] )
 
 
      , q(0,2,line)
 
-     , generic_horizontal_details( [ [`IBAN`, `#` ], supplier_iban, s1, newline ] )
+     , generic_horizontal_details( [ [`IBAN`, `#` ], remit_to_iban, s1, newline ] )
 
      
     
@@ -205,8 +239,13 @@ i_rule( get_invoice_number, [
 
       q(0,10,line)
 
+      , or([
+
+      generic_horizontal_details( [ [`Credit`, `memo`, tab ], invoice_number, s1, newline ] )
+
     , generic_horizontal_details( [ [  `Invoice`, `No`, `.`, tab ], invoice_number, s1, newline ] )
 
+] )
 
 ] ).
 
@@ -365,8 +404,10 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
     , or( [
+
+      [line_credit_line, line_material_line, q10(line_append_line),  q10(line_append_line),  q10(line_append_line)]
               
-         [line_invoice_line, line_material_line, q10(line_append_line),  q10(line_append_line),  q10(line_append_line)]
+        , [line_invoice_line, line_material_line, q10(line_append_line),  q10(line_append_line),  q10(line_append_line)]
 
          , line
 
@@ -411,6 +452,27 @@ i_line_rule_cut( line_invoice_line, [
    , generic_item( [ line_quantity,d, tab ] )
 
    , generic_item( [ line_unit_amount,d, tab ] )
+
+   , generic_item( [ line_net_amount,d, newline ] )
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_credit_line, [
+%=======================================================================
+
+
+     generic_item( [ line_item, d, tab ] )
+
+   , generic_item( [ line_descr, s1, [tab, `-`] ] )
+
+   , generic_item( [ line_quantity_dummy,d, [tab, `-`] ] )
+
+   , generic_item( [ line_quantity,d, tab ] )
+
+   , generic_item( [ line_unit_amount,d, [tab, `-`] ] )
 
    , generic_item( [ line_net_amount,d, newline ] )
 
@@ -466,10 +528,14 @@ i_line_rule_cut( line_append_line, [
 % Changes made - Supplier Address and Supplier Bank details 
 
 
+% Updated on   - April 16, 2018
+% Updated by   - Rohini
+% Changes made - Credit note mapped
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
