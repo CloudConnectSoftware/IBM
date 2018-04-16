@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `12/04/2018 10:24:42` ).
+i_version( p_ibm_ksb, `16/04/2018 10:51:56` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -512,9 +512,11 @@ i_analyse_buyer_registration_number___
 	string_to_upper( Party_Lookup, Party_U ),
 
 	result( _, invoice, buyer_city, _ ),
-	
-	!,
 
+	trace( [ `Document sent to`, To ] ),
+	trace( [ `Buyer Party from lookup`, Party_U ] ),
+	trace( [ `Company Code from lookup`, Comapny_Code ] ),
+	
 	sys_retractall( result( _, invoice, buyer_registration_number, _ ) ),
 	
 	(
