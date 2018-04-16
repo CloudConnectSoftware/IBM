@@ -1,5 +1,5 @@
 
-i_version( output_ibm_rapid_xml, `09/04/2018 11:01:57` ).
+i_version( output_ibm_pepsico_rapid_xml, `16/04/2018 13:43:15` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -177,46 +177,96 @@ write_invoice_fields___
 	write_field( `C_CTEmailSubject`, invoice, ct_email_subject ),
 	
 	write_field( `C_CTPages`, invoice, ct_pages ),
-	
-	write_field( `I_VendorName`, invoice, supplier_party ),
-	
-	write_field( `I_VendorAddress`, invoice, supplier_address_line ),
-	
-	write_field( `I_VendorTax`, invoice, supplier_vat_number ),
-	
-	write_field( `I_VendorBankAcc`, invoice, supplier_bank_account_number ),
-	
-	write_field( `I_VendorBankCode`, invoice, supplier_bank_code ),
-	
-	write_field( `I_VendorIBAN`, invoice, supplier_iban ),
-	
-	write_field( `I_VendorSwift`, invoice, supplier_swift_code ),
-	
-	write_field( `I_InvType`, invoice, invoice_type ),
-	
-	write_field( `I_InvDate`, invoice, date ),
-	
-	write_field( `I_InvDueDate`, invoice, processed_due_date ),
-	
-	write_field( `I_InvPayterms`, invoice, payment_terms ),
 
-	write_field( `I_InvNumber`, invoice, invoice_number ),
+	write_field( `C_CTReason`, invoice, ct_reason ),
 
-	write_field( `I_InvTotal`, invoice, total_invoice ),
+	write_field( `C_CaptureType`, invoice, capture_type ),
 
-	write_field( `I_InvTax`, invoice, total_vat ),
+	write_field( `H_CompanyID`, invoice, buyer_id ),
 
-	write_field( `I_Currency`, invoice, currency ),
+	write_field( `H_CompanyCode`, invoice, buyer_registration_number ),
+
+	write_field( `H_CompanyName`, invoice, company_name ),
+
+	write_field( `H_ERP`, invoice, erp_id ),
+
+	write_field( `H_Country`, invoice, buyer_dept ),
+
+	write_field( `H_BusinessUnit`, invoice, business_unit ),
+
+	write_field( `H_InvDate`, invoice, date ),
+
+	write_field( `H_InvNumber`, invoice, invoice_number ),
+
+	write_field( `H_InvAmount`, invoice, total_invoice ),
+
+	write_field( `H_Curr`, invoice, currency ),
+
+	write_field( `H_DocType`, invoice, invoice_type ),
+
+	write_field( `H_PONo`, invoice, order_number ),
+
+	write_field( `H_InvDueDate`, invoice, processed_due_date ),
+
+	write_field( `H_InvPayterms`, invoice, payment_terms ),
+
+	write_field( `H_InvTaxAmt`, invoice, total_vat ),
+
+	write_field( `H_WHTaxAmt`, invoice, total_withholding_tax ),
+
+	write_field( `H_Requestor`, invoice, requestor ),
+
+	write_field( `H_DelivNo`, invoice, delivery_note_number ),
+
+	write_field( `H_PreApp`, invoice, pre_approved ),
+
+	write_field( `H_PepsiCoTaxID`, invoice, buyer_vat_number ),
+
+	write_field( `H_PepsiCoEntity`, invoice, buyer_party ),
+
+	write_field( `H_PepsiCoAdd1`, invoice, buyer_address_line ),
+
+	write_field( `H_PepsiCoAdd2`, invoice, buyer_street ),
+
+	write_field( `H_PepsiCoCity`, invoice, buyer_city ),
+
+	write_field( `H_PepsiCoPostCode`, invoice, buyer_postcode ),
+
+	write_field( `S_UniqueVendorID`, invoice, supplier_unique_id ),
 	
-	write_field( `I_Requestor`, invoice, requestor ),
+	write_field( `S_VendorTaxNo`, invoice, supplier_vat_number ),
 	
-	write_field( `I_PONumber`, invoice, order_number ),
+	write_field( `S_VendorName`, invoice, supplier_party ),
 	
-	write_field( `I_DevNote`, invoice, delivery_note_number ),
+	write_field( `S_VendorNum`, invoice, buyers_code_for_supplier ),
+	
+	write_field( `S_VendorPayTerms`, invoice, supplier_payment_terms ),
+	
+	write_field( `S_VendorAdd1`, invoice, supplier_address_line ),
+	
+	write_field( `S_VendorAdd2`, invoice, supplier_street ),
+	
+	write_field( `S_VendorCity`, invoice, supplier_city ),
+	
+	write_field( `S_VendorPostCode`, invoice, supplier_postcode ),
+	
+	write_field( `S_RemVendorName`, invoice, remit_to_party ),
+	
+	write_field( `S_RemVendorAdd1`, invoice, remit_to_address_line ),
+	
+	write_field( `S_RemVendorAdd2`, invoice, remit_to_street ),
 
-	write_field( `I_VendorNumber`, invoice, buyers_code_for_supplier ),
+	write_field( `S_RemVendorCity`, invoice, remit_to_city ),
 
-	write_field( `I_VendorTerms`, invoice, vendor_terms )
+	write_field( `S_RemVendorPostCode`, invoice, remit_to_postcode ),
+
+	write_field( `S_RemVendorBankAcc`, invoice, remit_to_bank_account_number ),
+
+	write_field( `S_RemVendorBankCode`, invoice, remit_to_bank_code ),
+	
+	write_field( `S_RemVendorIBAN`, invoice, remit_to_iban ),
+	
+	write_field( `S_RemVendorSwift`, invoice, remit_to_swift_code )
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,32 +291,40 @@ write_line___( LID )
 
 		),
 		
-		strcat_list( [ Client_Code, `_`, `L_Line` ], LineType ),
+		strcat_list( [ Client_Code, `_`, `L_APLine` ], LineType ),
 		
 		write_attribute_string( `type`, LineType ),
 
 		write_start_element( `fields` ),
 
-			sys_string_number( LIDS, LID ),
+			write_field( `L_LineNumber`, LID, line_number ),
 
-			write_field( `L_LineNumber`, LIDS ),
+			write_field( `L_LineType`, LID, line_type_code ),
 
-			write_field( `L_Description`, LID, line_descr ),
+			write_field( `L_POLineNumber`, LID, line_order_line_number ),
 
-			write_field( `L_Amount`, LID, line_total_amount ),
+			write_field( `L_LineAmount`, LID, line_total_amount ),
 			
-			write_field( `L_TaxPercent`, LID, line_vat_rate ),
+			write_field( `L_LineNet`, LID, line_net_amount ),
+			
+			write_field( `L_TaxRate`, LID, line_vat_rate ),
 			
 			write_field( `L_TaxAmount`, LID, line_vat_amount ),
 			
 			write_field( `L_PONumber`, LID, line_buyers_order_number ),
 			
+			write_field( `L_Description`, LID, line_descr ),
+
+			write_field( `L_PartStockNumber`, LID, line_item ),
+
+			write_field( `L_DelivNo`, LID, line_delivery_note_number ),
+
 			write_field( `L_UnitPrice`, LID, line_unit_amount ),
 			
+			write_field( `L_UOM`, LID, line_quantity_uom_code ),
+
 			write_field( `L_Quantity`, LID, line_quantity ),
 			
-			write_field( `L_PartNumber`, LID, line_item ),
-
 		write_end_element,
 		
 	write_end_element
