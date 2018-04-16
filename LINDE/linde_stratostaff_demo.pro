@@ -57,7 +57,12 @@ i_rule( get_supplier_detail, [
 
     sender_name( `STRATOSTAFF(PTY) LTD` )
 
+    , supplier_party( `STRATOSTAFF(PTY) LTD` )
+
    ,supplier_vat_number(`4290116112`)
+
+   ,buyer_registration_number(`FR10`)
+   
 
    ,supplier_party(`STRATOSTAFF(PTY) LTD`)
 

@@ -59,11 +59,15 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Linde AG, Linde Gas Division` )
 
-     ,supplier_party( `Linde AG, Linde Gas Division` )
+   , supplier_party( `Linde AG, Linde Gas Division` )
 
-   ,supplier_vat_number(`DE 113 822 613`)
+   , supplier_vat_number(`DE113822613`)
 
    , set(reverse_punctuation_in_numbers)
+
+   , buyer_dept(`FR10`)
+
+   , buyer_registration_number(`FR10`)
 
 
 ] ).
@@ -101,7 +105,7 @@ i_rule( get_bank_accountnumber, [
 
     , [check(supplier_bank_cod = Scode)  , check(strip_string2_from_string1( Scode, ` `, ScodeNew ))
 
-    , supplier_bank_code(ScodeNew) , trace( [ `IBAN new FORMAT`, supplier_bank_code ] )]
+    , supplier_bank_code(ScodeNew) , trace( [ `Bank code new FORMAT`, supplier_bank_code ] )]
 
     , [check(supplier_bank_account_no = Sban)  , check(strip_string2_from_string1( Sban, ` `, SbanNew ))
 
@@ -122,8 +126,19 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-    , generic_vertical_details( [ [`Rechnungsnr`, `.`, `/`, `Invoice`, `No`], `Rechnungsnr`, q(0,1), (start,10,50), invoice_number, s1, tab ] )
+    , generic_vertical_details( [ [`Rechnungsnr`, `.`, `/`, `Invoice`, `No`], `Rechnungsnr`, q(0,1), (start,10,50), invoice_number_raw, s1, tab ] )
 
+    , check( invoice_number_raw = InvRaw )
+
+    , trace( [ `Invoice Number Raw` , InvRaw ] )
+
+    , check(string_string_replace( InvRaw, ` `, ``,NumberStrip1 ))
+    
+    , trace( [ `Stripped1 ` , NumberStrip1 ] )
+
+    , invoice_number(NumberStrip1)
+
+    , trace( [ `Invoice Number New` , invoice_number ] )
 
 ] ).
 
