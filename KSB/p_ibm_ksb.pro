@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_ksb, `16/04/2018 10:51:56` ).
+i_version( p_ibm_ksb, `17/04/2018 12:43:40` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -56,6 +56,8 @@ i_user_field( invoice, supplier_bank_account_number_6, `supplier_bank_account_nu
 i_user_field( invoice, supplier_bank_code_6, `supplier_bank_code_6` ).
 i_user_field( invoice, supplier_bank_iban_6, `supplier_bank_iban_6` ).
 i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
+i_user_field( invoice, additional_costs, `additional_costs` ).
+i_user_field( invoice, additional_data_on_po_sap_line, `additional_data_on_po_sap_line` ).
 
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
 i_user_field( line, line_gl, `Line GL` ).
@@ -280,9 +282,21 @@ i_analyse_order_number___
 
 	sys_retractall( result( _, invoice, order_number, _ ) ),
 
-	string_to_upper( Order_Number, Order_Number_U ),
-
 	(
+		string_to_upper( Order_Number, Order_Number_U ),
+
+		i_user_check( gen_clean_and_extract_from_string, Order_Number_U, Order_Number_Final ),
+
+		q_regexp_match( `^4\\d{9}$`, Order_Number_Final, _ ),
+
+		assertz_derived_data( invoice, order_number, Order_Number_Final, i_analyse_order_number )
+
+		;
+
+		result( _, LID, line_buyers_order_number, Line_PO ),
+
+		string_to_upper( Line_PO, Order_Number_U ),
+
 		i_user_check( gen_clean_and_extract_from_string, Order_Number_U, Order_Number_Final ),
 
 		q_regexp_match( `^4\\d{9}$`, Order_Number_Final, _ ),
@@ -294,6 +308,23 @@ i_analyse_order_number___
 		trace( [ `order_number invalid - value removed`, Order_Number ] )
 
 	),
+
+	!
+.
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_order_number___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_buyers_order_number, Line_PO ),
+
+	string_to_upper( Line_PO, Order_Number_U ),
+
+	i_user_check( gen_clean_and_extract_from_string, Order_Number_U, Order_Number_Final ),
+
+	q_regexp_match( `^4\\d{9}$`, Order_Number_Final, _ ),
+
+	assertz_derived_data( invoice, order_number, Order_Number_Final, i_analyse_order_number ),
 
 	!
 .
@@ -340,9 +371,307 @@ i_final_rule( [
 
 	, or( [ test( summary_gross_used ), test( summary_net_used ), test( summary_vat_used ) ] )
 
-	, trace( [ `Summary line Created`, line_descr, line_net_amount, line_total_amount ] )
+	, trace( [ `Over 50 non-PO lines, summary line created`, line_descr, line_net_amount, line_total_amount ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ANALYSE FC COSTS PO LINES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_final_rule( [
+%=======================================================================
+
+	with( order_number )
+
+	, or( [
+		
+		[ with( invoice, additional_costs, Costs ), check( Costs = `no` )
+
+			, create_summary_line_with_po
+
+		]
+
+		, [ with( invoice, additional_costs, Costs ), check( Costs = `yes` )
+			, with( invoice, additional_data_on_po_sap_line, Data ), check( Data = `yes` )
+
+			, create_summary_line_with_po
+
+		]
+		
+		, [ with( invoice, additional_costs, Costs ), check( Costs = `yes` )
+			, with( invoice, additional_data_on_po_sap_line, Data ), check( Data = `no` )
+
+			, create_summary_po_lines_with_fc_costs_line
+
+		]
+
+	] )
+
+] ).
+
+%=======================================================================
+i_rule( create_summary_line_with_po, [
+%=======================================================================
+
+	with( invoice, order_number, Order_Number )
+	
+	, remove( line_item ), remove( line_item_for_buyer ), remove( line_descr ), remove( line_pack_size ), remove( line_reference )
+	, remove( line_start_date ), remove( line_end_date ), remove( line_from_date ), remove( line_to_date ), remove( line_delivery_note_number )
+	, remove( line_buyers_order_number ), remove( line_order_line_number ), remove( line_original_order_date )
+	, remove( line_net_amount ), remove( line_quantity ), remove( line_unit_amount ), remove( line_percent_discount )
+	, remove( line_amount_discount ), remove( line_vat_rate ), remove( line_vat_code ), remove( line_vat_amount )
+	, remove( line_total_amount ), remove( line_quantity_uom_code ), remove( line_price_uom_code )
+	, remove( line_charge_period_uom_code ), remove( line_charge_period_uom_descr ), remove( line_charge_period )
+
+	, line_quantity( `1` )
+	, line_descr( `Page Summary` )
+	, line_buyers_order_number( Order_Number )
+
+	, q10( [ with( invoice, total_net, Net )
+		, line_net_amount( Net )
+		, set( summary_net_used )
+	] )
+	, q10( [ with( invoice, total_invoice, Gross )
+		, line_total_amount( Gross )
+		, set( summary_gross_used )
+	] )
+	, q10( [ with( invoice, total_vat, VAT )
+		, line_vat_amount( VAT )
+		, set( summary_vat_used )
+	] )
+
+	, or( [ test( summary_gross_used ), test( summary_net_used ), test( summary_vat_used ) ] )
+
+	, trace( [ `Summary line with PO created`, line_descr, line_net_amount, line_total_amount ] )
+
+] ).
+
+%=======================================================================
+i_rule( create_summary_po_lines_with_fc_costs_line, [
+%=======================================================================
+
+	check( get_po_lines_and_fc_costs_line( Non_FC_Net, Non_FC_Total, FC_Net, FC_Total ) )
+	
+	, with( invoice, order_number, Order_Number )
+
+	, remove( line_item ), remove( line_item_for_buyer ), remove( line_descr ), remove( line_pack_size ), remove( line_reference )
+	, remove( line_start_date ), remove( line_end_date ), remove( line_from_date ), remove( line_to_date ), remove( line_delivery_note_number )
+	, remove( line_buyers_order_number ), remove( line_order_line_number ), remove( line_original_order_date )
+	, remove( line_net_amount ), remove( line_quantity ), remove( line_unit_amount ), remove( line_percent_discount )
+	, remove( line_amount_discount ), remove( line_vat_rate ), remove( line_vat_code ), remove( line_vat_amount )
+	, remove( line_total_amount ), remove( line_quantity_uom_code ), remove( line_price_uom_code )
+	, remove( line_charge_period_uom_code ), remove( line_charge_period_uom_descr ), remove( line_charge_period )
+
+	, line_quantity( `1` )
+	, line_descr( `Page Summary` )
+	, line_buyers_order_number( Order_Number )
+	, line_net_amount( Non_FC_Net )
+	, line_total_amount( Non_FC_Total )
+
+	, trace( [ `Summary PO line created`, line_descr, Non_FC_Net, Non_FC_Total ] )
+
+	, q10( [
+
+		check( not( q_sys_comp_str_eq( FC_Net, `0` ) ) )
+		, check( not( q_sys_comp_str_eq( FC_Total, `0` ) ) )
+		, line_quantity( `1` )
+		, line_descr( `Page Summary` )
+		, line_buyers_order_number( `FC` )
+		, line_net_amount( FC_Net )
+		, line_total_amount( FC_Total )
+
+		, trace( [ `Summary FC line created`, line_descr, FC_Net, FC_Total ] )
+
+	] )
+
+] ).
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+get_po_lines_and_fc_costs_line( Sum_of_Non_FC_Nets, Sum_of_Non_FC_Totals, Sum_of_FC_Nets, Sum_of_FC_Totals )
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	sys_findall(
+		Net,
+		(
+			result( _, LID, _, _ ),
+			LID \= invoice,
+			(
+				result( _, LID, line_descr, Descr ),
+				not( check_for_fc_cost( Descr ) )
+				;
+				not( result( _, LID, line_descr, _ ) )
+			),
+			get_line_net_amount( LID, Net ),
+            not( grammar_set( `fc net`, LID ) ),
+            sys_assertz( grammar_set( `fc net`, LID ) )
+		),
+        Non_FC_Nets_Raw
+    ),
+
+    i_force_list( Non_FC_Nets_Raw, Non_FC_Nets ),
+
+    i_user_check( sum_string_list, Non_FC_Nets, Sum_of_Non_FC_Nets ),
+
+	!,
+
+	sys_findall(
+		Total_1,
+		(
+			result( _, LID_1, _, _ ),
+			LID_1 \= invoice,
+			(
+				result( _, LID_1, line_descr, Descr_1 ),
+				not( check_for_fc_cost( Descr_1 ) )
+				;
+				not( result( _, LID_1, line_descr, _ ) )
+			),
+			get_line_total_amount( LID_1, Total_1 ),
+            not( grammar_set( `fc total`, LID_1 ) ),
+            sys_assertz( grammar_set( `fc total`, LID_1 ) )
+		),
+        Non_FC_Totals_Raw
+    ),
+
+    i_force_list( Non_FC_Totals_Raw, Non_FC_Totals ),
+
+    i_user_check( sum_string_list, Non_FC_Totals, Sum_of_Non_FC_Totals ),
+
+	!,
+
+	sys_findall(
+		Net_2,
+		(
+			result( _, LID_2, line_descr, Descr_2 ),
+			check_for_fc_cost( Descr_2 ),
+			get_line_net_amount( LID_2, Net_2 ),
+            not( grammar_set( `fc net`, LID_2 ) ),
+            sys_assertz( grammar_set( `fc net`, LID_2 ) )
+		),
+        FC_Nets_Raw
+    ),
+
+    i_force_list( FC_Nets_Raw, FC_Nets ),
+
+    i_user_check( sum_string_list, FC_Nets, Sum_of_FC_Nets ),
+
+	!,
+
+	sys_findall(
+		Total_3,
+		(
+			result( _, LID_3, line_descr, Descr_3 ),
+			check_for_fc_cost( Descr_3 ),
+			get_line_total_amount( LID_3, Total_3 ),
+            not( grammar_set( `fc total`, LID_3 ) ),
+            sys_assertz( grammar_set( `fc total`, LID_3 ) )
+		),
+        FC_Totals_Raw
+    ),
+
+    i_force_list( FC_Totals_Raw, FC_Totals ),
+
+    i_user_check( sum_string_list, FC_Totals, Sum_of_FC_Totals ),
+
+    !
+.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+check_for_fc_cost( Descr )
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	string_to_lower( Descr, Descr_L ),
+	freight_description_lookup( Keyword ),
+	string_to_lower( Keyword, Keyword_L ),
+	q_sys_sub_string( Descr_L, _, _, Keyword_L )
+.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+get_line_net_amount( LID, Net )
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	(
+		result( _, LID, line_net_amount, Net )
+		;
+		not( result( _, LID, line_net_amount, _ ) ),
+		(
+        	result( _, LID, line_quantity, Qty ),
+            result( _, LID, line_unit_amount, Unit ),
+            sys_calculate_str_multiply( Qty, Unit, Net )
+            ;
+            ( not( result( _, LID, line_quantity, _ ) ); not( result( _, LID, line_unit_amount, _ ) ) ),
+            (
+				result( _, LID, line_vat_amount, VAT ),
+            	(
+					result( _, LID, line_vat_rate, VAT_Rate ),
+            		sys_calculate_str_divide( VAT_Rate, `100`, VAT_Multiplier ),
+            		sys_calculate_str_divide( VAT, VAT_Multiplier, Net )
+					;
+					not( result( _, LID, line_vat_rate, VAT_Rate ) ),
+					result( _, LID, line_total_amount, Total ),
+					sys_calculate_str_subtract( Total, VAT, Net )
+				)
+				;
+				not( result( _, LID, line_vat_amount, _ ) ),
+				result( _, LID, line_total_amount, Total ),
+				result( _, LID, line_vat_rate, VAT_Rate ),
+				sys_calculate_str_divide( VAT_Rate, `100`, VAT_Multiplier ),
+				sys_calculate_str_add( `1`, VAT_Multiplier, Total_Multiplier ),
+				sys_calculate_str_divide( Total, Total_Multiplier, Net )
+			)
+        )
+	),
+	
+	!
+.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+get_line_total_amount( LID, Total )
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:-
+	(
+        result( _, LID, line_total_amount, Total )
+        ;
+        not( result( _, LID, line_total_amount, _ ) ),
+        get_line_net_amount( LID, Net ),
+        (
+            result( _, LID, line_vat_amount, VAT )
+            ;
+            not( result( _, LID, line_vat_amount, _ ) ),
+            (
+				result( _, LID, line_vat_rate, VAT_Rate ),
+            	sys_calculate_str_divide( VAT_Rate, `100`, VAT_Multiplier_Raw )
+				;
+				not( result( _, LID, line_vat_rate, _ ) ),
+				(
+					result( _, invoice, total_net, Total_Net )
+					;
+					not( result( _, invoice, total_net, _ ) ),
+					result( _, invoice, total_vat, Total_VAT ),
+					result( _, invoice, total_invoice, Total_Invoice ),
+					sys_calculate_str_subtract( Total_Invoice, Total_VAT, Total_Net )
+				),
+				(
+					result( _, invoice, total_vat, Total_VAT )
+					;
+					result( _, invoice, total_invoice, Total_Invoice ),
+					sys_calculate_str_subtract( Total_Invoice, Total_Net, Total_VAT )
+				),
+				sys_calculate_str_divide( Total_VAT, Total_Net, VAT_Multiplier_Raw )
+			),
+			normalise_2dp_in_string( VAT_Multiplier_Raw, VAT_Multiplier ),
+			sys_calculate_str_multiply( Net, VAT_Multiplier, VAT )
+        ),
+        sys_calculate_str_add( Net, VAT, Total )
+    ),
+
+	!
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
