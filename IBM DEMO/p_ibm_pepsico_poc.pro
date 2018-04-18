@@ -48,8 +48,8 @@ i_user_field( invoice, vendor_terms, `vendor_terms` ).
 %-----------------------------------------------------------------------
 % Customer Name
 %-----------------------------------------------------------------------
-i_op_param( rules_intervention_role, _, _, _, `CloudTrade (PepsiCo)` ). % This will be the role for rules intervention
-i_op_param( customer_name, _, _, _, `PepsiCo` ). % This will be the role for customer intervention (this field is mandatory)
+i_op_param( rules_intervention_role, _, _, _, `CloudTrade (PepsiCo POC)` ). % This will be the role for rules intervention
+i_op_param( customer_name, _, _, _, `PepsiCo POC` ). % This will be the role for customer intervention (this field is mandatory)
 
 %-----------------------------------------------------------------------
 % Duplicate Table to Use
