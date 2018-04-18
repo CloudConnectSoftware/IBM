@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `18/04/2018 10:39:36` ).
+i_version( p_ibm_pepsico, `18/04/2018 14:37:33` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -153,20 +153,21 @@ i_analyse_invoice_fields_first:- i_analyse_hard_coded_values___.
 i_analyse_hard_coded_values___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
+	sys_retractall( result( _, invoice, vendor_id, _ ) ),
 	sys_retractall( result( _, invoice, client_code, _ ) ),
 	sys_retractall( result( _, invoice, number_of_docs, _ ) ),
 	sys_retractall( result( _, invoice, mime_type, _ ) ),
 	sys_retractall( result( _, invoice, item_type, _ ) ),
 	sys_retractall( result( _, invoice, capture_type, _ ) ),
 	sys_retractall( result( _, invoice, ct_reason, _ ) ),
-	sys_retractall( result( _, invoice, vendor_id, _ ) ),
 
-	assertz_derived_data( invoice, client_code, `PEPC`, i_analyse_file_names ),
-	assertz_derived_data( invoice, number_of_docs, `1`, i_analyse_file_names ),
-	assertz_derived_data( invoice, mime_type, `application/pdf`, i_analyse_file_names ),
-	assertz_derived_data( invoice, item_type, `PEPC_APDocuments`, i_analyse_file_names ),
-	assertz_derived_data( invoice, capture_type, `CLOUDTRADE`, i_analyse_file_names ),
-	assertz_derived_data( invoice, ct_reason, `SUCCESS`, i_analyse_file_names ),
+	assertz_derived_data( invoice, vendor_id, `PEPC`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, client_code, `PEPC`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, number_of_docs, `1`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, mime_type, `application/pdf`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, item_type, `PEPC_APDocuments`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, capture_type, `CLOUDTRADE`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, ct_reason, `SUCCESS`, i_analyse_hard_coded_values ),
 
 	!
 .
