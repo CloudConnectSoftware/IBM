@@ -530,6 +530,97 @@ i_analyse_supplier_unique_id___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% SUPPLIER PAYMENT TERMS AND ADDRESS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_supplier_payment_terms_and_address___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_supplier_payment_terms_and_address___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, supplier_unique_id, Supplier_Unique_ID ),
+
+	q_gratabase_lookup( `ibm_pepsico_vendor_master_list`,
+		[ Supplier_Unique_ID, _, _, _, _, _, _, _, _, _ ],
+		[ Supplier_Unique_ID, _, _, _, _, Supplier_Payment_Terms, Supplier_Address_Line_1, Supplier_Address_Line_2, Supplier_City, Supplier_Postcode ],
+		Available
+	),
+
+	(
+		Available = false
+
+		-> trace( [ `Unable to access IBM PepsiCo Vendor Master List table` ] ), fail
+
+		;
+
+		trace( [ `Got values from IBM PepsiCo Vendor Master List table` ] )
+
+	),
+
+	(
+		not( result( _, invoice, supplier_payment_terms, _ ) ),
+
+		assertz_derived_data( invoice, supplier_payment_terms, Supplier_Payment_Terms, i_analyse_supplier_payment_terms_and_address )
+
+		;
+
+		true
+
+	),
+
+	(
+		not( result( _, invoice, supplier_address_line, _ ) ),
+
+		assertz_derived_data( invoice, supplier_address_line, Supplier_Address_Line_1, i_analyse_supplier_payment_terms_and_address )
+
+		;
+
+		true
+
+	),
+
+	(
+		not( result( _, invoice, supplier_street, _ ) ),
+
+		assertz_derived_data( invoice, supplier_street, Supplier_Address_Line_2, i_analyse_supplier_payment_terms_and_address )
+
+		;
+
+		true
+
+	),
+
+	(
+		not( result( _, invoice, supplier_city, _ ) ),
+
+		assertz_derived_data( invoice, supplier_city, Supplier_City, i_analyse_supplier_payment_terms_and_address )
+
+		;
+
+		true
+
+	),
+
+	(
+		not( result( _, invoice, supplier_postcode, _ ) ),
+
+		assertz_derived_data( invoice, supplier_postcode, Supplier_Postcode, i_analyse_supplier_payment_terms_and_address )
+
+		;
+
+		true
+
+	),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % POPULATE LINE NUMBER
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
