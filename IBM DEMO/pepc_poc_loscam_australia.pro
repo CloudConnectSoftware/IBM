@@ -60,7 +60,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party(`Loscam Australia PTY LTD`)
 
-   ,supplier_vat_number(`33 090 555 052`)
+   ,supplier_vat_number(`26006440991`)
 
    ,buyer_dept(`PCIL`)
 
