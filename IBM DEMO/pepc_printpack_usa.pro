@@ -21,6 +21,8 @@ i_rule_list( [
 
     , get_supplier_address
 
+    , get_buyer_address
+
     , get_bank_accountnumber
                      
     , get_invoice_number
@@ -124,6 +126,77 @@ i_line_rule( line_add_line_2, [
 
      , generic_item( [ supplier_dummy4, s1, newline ] )
 
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BUYER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_buyer_address, [
+%=======================================================================
+  
+  q(0,10,line)
+
+   , line_buyer_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_1
+
+   , q(1,2,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_buyer_add_line, [
+%=======================================================================
+
+      read_ahead([`To`, `:`])
+
+    , trace( [ `Found address`] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_buyer_add_line_1, [
+%=======================================================================
+
+     generic_item( [ buyer_party, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_buyer_add_line_2, [
+%=======================================================================
+
+     generic_item( [ buyer_address_line, s1, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_buyer_add_line_3, [
+%=======================================================================
+
+     generic_item( [ buyer_city, w, tab ] )
+
+     , generic_item( [ buyer_state, w, tab ] )
+
+     , generic_item( [ buyer_postcode, w, tab ] )
+
+      , generic_item( [ buyer_country_code, w, newline ] )
 
 
 ] ).
@@ -161,7 +234,7 @@ i_rule( get_bank_accountnumber, [
 
     q(0,100,line)
 
-    , generic_horizontal_details( [ [ `REMIT`, `ACH`, `TO`, `:`, `Bank`, `Acct` ],  supplier_bank_account_number, d,  [ `/`,`Routing`, `(`, `ABA`, `)`, 
+    , generic_horizontal_details( [ [ `REMIT`, `ACH`, `TO`, `:`, `Bank`, `Acct` ],  remit_to_bank_account_number, d,  [ `/`,`Routing`, `(`, `ABA`, `)`, 
     generic_item( [ supplier_bank_code, d ] ), tab, `DUE`, `BY`, `-`, `>`, tab, generic_item( [ due_date, date ] ), newline] ] )
 
 ] ).
