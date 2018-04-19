@@ -44,7 +44,7 @@ i_rule_list( [
 
     , get_currency
 
-    ,get_net_amount
+    % ,get_net_amount
 
     , get_total_vat
 
@@ -314,7 +314,7 @@ i_rule( get_packing, [
 
     , set(regexp_cross_word_boundaries)
 
-    ,  generic_horizontal_details( [ [`Anteil`, `Verpackung` ], line_net_amount, d,  newline ] )
+    ,  generic_horizontal_details( [ [`Anteil`, `Verpackung` ],800, line_net_amount, d,  newline ] )
 
     , clear(reverse_punctuation_in_numbers)
 
@@ -340,7 +340,7 @@ i_rule( get_freight, [
 
     , set(regexp_cross_word_boundaries)
 
-    ,  generic_horizontal_details( [ [`Anteil`, `Fracht` ], line_net_amount, d,  newline ] )
+    ,  generic_horizontal_details( [ [`Anteil`, `Fracht` ],800, line_net_amount, d,  newline ] )
 
     , clear(reverse_punctuation_in_numbers)
 
