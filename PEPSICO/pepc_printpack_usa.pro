@@ -21,6 +21,8 @@ i_rule_list( [
 
     , get_supplier_address
 
+    , get_remmitance
+
     , get_buyer_address
 
     , get_bank_accountnumber
@@ -66,11 +68,9 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party(`Printpack, `)
 
-   ,supplier_vat_number(`CUSTNO_6107136`)
+   ,supplier_vat_number(`NA`)
 
-   ,buyer_dept(`PCIL`)
-
-   ,buyer_registration_number(`PCIL`)
+   
 
 ] ).
 
@@ -128,7 +128,6 @@ i_line_rule( line_add_line_2, [
 
 ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BUYER ADDRESS
@@ -138,22 +137,21 @@ i_line_rule( line_add_line_2, [
 %=======================================================================
 i_rule( get_buyer_address, [
 %=======================================================================
-  
-  q(0,10,line)
+   q(0,15,line)
 
-   , line_buyer_add_line
+   , line_byer_add_line
 
    , q(0,1,line)
 
-   , line_add_line_1
+   , line_buyer_line_1
+
+   , q(0,1,line)
+
+   , line_buyer_line_2
 
    , q(1,2,line)
 
-   , line_add_line_2
-
-   , q(0,1,line)
-
-   , line_add_line_3
+   , line_buyerline_3
 
 
 
@@ -170,7 +168,7 @@ i_line_rule( line_buyer_add_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_buyer_add_line_1, [
+i_line_rule( line_buyer_line_1, [
 %=======================================================================
 
      generic_item( [ buyer_party, s1, newline ] )
@@ -178,25 +176,102 @@ i_line_rule( line_buyer_add_line_1, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_buyer_add_line_2, [
+i_line_rule( line_buyer_line_2, [
 %=======================================================================
+    q0n([anything])
+    
+     , read_ahead([`P`, `O`])
 
-     generic_item( [ buyer_address_line, s1, newline ] )
+     , generic_item( [ buyer_address_line, s1, tab ] )
 
 
 ] ).
 
 %=======================================================================
-i_line_rule( line_buyer_add_line_3, [
+i_line_rule( line_buyer_line_3, [
 %=======================================================================
 
      generic_item( [ buyer_city, w, tab ] )
 
-     , generic_item( [ buyer_state, w, tab ] )
+     , generic_item( [ buyer_state, w,tab ] )
 
      , generic_item( [ buyer_postcode, w, tab ] )
 
-      , generic_item( [ buyer_country_code, w, newline ] )
+     , generic_item( [ buyer_country_code, d, newline ] )
+
+
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Remit to 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_remmitance, [
+%=======================================================================
+  last_line
+
+  , q(0,15,up)
+
+   , line_remit_add_line
+
+   , q(0,1,line)
+
+   , line_remit_line_1
+
+   , q(1,2,line)
+
+   , line_remit_line_2
+
+   , q(0,1,line)
+
+   , line_remitline_3
+
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_remit_add_line, [
+%=======================================================================
+
+      read_ahead([`SEND`, `REMITTANCE`, `TO`])
+
+    , trace( [ `Found address`] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_remit_line_1, [
+%=======================================================================
+
+     generic_item( [ remit_to_party, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_remit_line_2, [
+%=======================================================================
+
+     generic_item( [ remit_remit_to_address_line, s1, tab ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_remit_line_3, [
+%=======================================================================
+
+     generic_item( [ remit_to_city, w, [`,`,tab] ] )
+
+     , generic_item( [ remit_to_state, w,[`.`,tab] ] )
+
+     , generic_item( [ remit_to_postcode, d, tab ] )
+
 
 
 ] ).
