@@ -151,7 +151,7 @@ i_rule( get_buyer_address, [
 
    , q(1,2,line)
 
-   , line_buyerline_3
+   , line_buyer_line_3
 
 
 
@@ -161,7 +161,7 @@ i_rule( get_buyer_address, [
 i_line_rule( line_buyer_add_line, [
 %=======================================================================
 
-      read_ahead([ `BILL`,`To`, `:`])
+      read_ahead([ `To`, `:`])
 
     , trace( [ `Found address`] )
 
@@ -191,13 +191,15 @@ i_line_rule( line_buyer_line_2, [
 i_line_rule( line_buyer_line_3, [
 %=======================================================================
 
-     generic_item( [ buyer_city, w, tab ] )
+ q0n([anything])
 
-     , generic_item( [ buyer_state, w,tab ] )
+     , generic_item( [ buyer_city, w, tab ] )
+
+     , generic_item( [ buyer_state, w ] )
 
      , generic_item( [ buyer_postcode, w, tab ] )
 
-     , generic_item( [ buyer_country_code, d, newline ] )
+     , generic_item( [ buyer_country_code, w, newline ] )
 
 
 
@@ -219,11 +221,11 @@ i_rule( get_remmitance, [
 
    , line_remit_add_line
 
-   , q(0,1,line)
+   , q(1,2,line)
 
    , line_remit_line_1
 
-   , q(1,2,line)
+   , q(0,1,line)
 
    , line_remit_line_2
 
@@ -239,7 +241,9 @@ i_rule( get_remmitance, [
 i_line_rule( line_remit_add_line, [
 %=======================================================================
 
-      read_ahead([`SEND`, `REMITTANCE`, `TO`])
+    q0n(anything)
+
+    , read_ahead([`SEND`, `REMITTANCE`, `TO`])
 
     , trace( [ `Found address`] )
 
@@ -249,7 +253,7 @@ i_line_rule( line_remit_add_line, [
 i_line_rule( line_remit_line_1, [
 %=======================================================================
 
-     generic_item( [ remit_to_party, s1, newline ] )
+     generic_item( [ remit_to_party, s1, tab ] )
 
 ] ).
 
@@ -257,7 +261,7 @@ i_line_rule( line_remit_line_1, [
 i_line_rule( line_remit_line_2, [
 %=======================================================================
 
-     generic_item( [ remit_remit_to_address_line, s1, tab ] )
+     generic_item( [ remit_to_address_line, s1, tab ] )
 
 
 ] ).
@@ -266,11 +270,11 @@ i_line_rule( line_remit_line_2, [
 i_line_rule( line_remit_line_3, [
 %=======================================================================
 
-     generic_item( [ remit_to_city, w, [`,`,tab] ] )
+     generic_item( [ remit_to_city, w, [`,`] ] )
 
-     , generic_item( [ remit_to_state, w,[`.`,tab] ] )
+     , generic_item( [ remit_to_state, w,[`.`] ] )
 
-     , generic_item( [ remit_to_postcode, d, tab ] )
+     , generic_item( [ remit_to_postcode, d, newline ] )
 
 
 
@@ -509,15 +513,15 @@ i_line_rule_cut( line_invoice_line, [
 
   generic_item( [ line_item, w, tab ] )
 
-, generic_item( [ line_buyers_order_number_dummy, s1,tab ] ) 
+, q10(generic_item( [ line_buyers_order_number_dummy, s1,tab ] ) )
 
-, generic_item( [ line_quantity_dummy, d, tab ] )
+, q10(generic_item( [ line_quantity_dummy, d, tab ] ))
 
-, generic_item( [ line_quantity_uom_code, w, tab ] )
+, q10(generic_item( [ line_quantity_uom_code, w, tab ] ))
 
 , generic_item( [ line_unit_amount, d,tab ] )
 
-, generic_item( [ line_net_amount, w, newline ] )
+, generic_item( [ line_net_amount, d, newline ] )
 
 ] ).
 
@@ -526,7 +530,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_dummy_line, [
 %=======================================================================
 
-    generic_item( [ line_descr_dummy, s1, tab ] )
+    generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_descr_dummy1, s1, tab ] )
 
