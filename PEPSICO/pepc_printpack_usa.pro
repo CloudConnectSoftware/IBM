@@ -314,7 +314,7 @@ i_rule( get_bank_accountnumber, [
     q(0,100,line)
 
     , generic_horizontal_details( [ [ `REMIT`, `ACH`, `TO`, `:`, `Bank`, `Acct` ],  remit_to_bank_account_number, d,  [ `/`,`Routing`, `(`, `ABA`, `)`, 
-    generic_item( [ supplier_bank_code, d ] ), tab, `DUE`, `BY`, `-`, `>`, tab, generic_item( [ due_date, date ] ), newline] ] )
+    generic_item( [ supplier_bank_code, d ] ), tab, `DUE`, `BY`, `-`, `>`, tab, generic_item( [ due_date, date ] ), `USD`,newline] ] )
 
 ] ).
 
@@ -378,9 +378,9 @@ i_line_rule( currency_line, [
 
    ,`Amount`, `$`
 
-    , currency(`USD`)
+    , currency(`CAD`)
 
-    ,trace( [ `USD Found` ] )
+    ,trace( [ `CAD Found` ] )
 
 ] ).
 
@@ -394,9 +394,27 @@ i_line_rule( currency_line, [
 i_rule( get_order_number, [
 %=======================================================================
 
-   q(0,50,line)
+   qn0(line)
 
-  ,generic_vertical_details( [ [ `CUSTOMER`, `P`, `.`, `O`, `.` ], `CUSTOMER`, q(0,1), (start,50,50),order_number, w, tab ] )
+  ,or([
+    
+    [generic_horizontal_details( [ [ `PO`, `:` ], order_number_raw, s1,tab ] )
+
+    , check( order_number_raw = OrdRaw )
+
+    , trace( [ `Order Raw` , OrdRaw ] )
+
+    , check(string_string_replace( OrdRaw, `-`, ``, OrdStrip ))
+
+    , trace( [ `Order Stripped Comma` , OrdStrip ] )
+
+    , order_number(OrdStrip)
+
+    , trace( [ `Order No now` , order_number ] )]
+    
+    , generic_vertical_details( [ [ `CUSTOMER`, `P`, `.`, `O`, `.` ], `CUSTOMER`, q(0,1), (start,50,50),order_number, w, tab ] )
+
+  ])
 
 
 ] ).
