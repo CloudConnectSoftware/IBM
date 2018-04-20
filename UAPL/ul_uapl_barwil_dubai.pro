@@ -225,7 +225,7 @@ i_rule( get_total_net, [
       , check( Currency = `USD` ) 
 
 
-    , generic_horizontal_details( [ [ `Total`,q10(tab), q10(`USD`) ], 900, total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, q10(`Exclusive`) , q10(`Tax`),q10(tab), q10(`USD`) ], 900, total_net, d, newline ] )
 
      
 
@@ -295,7 +295,9 @@ i_rule( get_total_vat, [
  qn0(line)
 
 , or([
+
     generic_vertical_details( [ [ `Tax`, `Rate` ], `Tax`, q(0,1), (start,20,0), total_vat, d, tab ] )
+    , generic_vertical_details( [ [ `Tax`, `Rate` ], `Tax`, q(0,1), (start,20,0), total_vat, d, tab ] )
 
 
 ])
@@ -344,7 +346,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
 
-    `Total` ,  tab
+    `Total` 
 
      , trace([`found the end line`])
 
