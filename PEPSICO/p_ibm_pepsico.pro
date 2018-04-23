@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `18/04/2018 14:37:33` ).
+i_version( p_ibm_pepsico, `23/04/2018 13:44:43` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -33,6 +33,8 @@ i_user_field( invoice, ct_email_subject, `ct_email_subject` ).
 i_user_field( invoice, ct_pages, `ct_pages` ).
 i_user_field( invoice, ct_reason, `ct_reason` ).
 i_user_field( invoice, capture_type, `capture_type` ).
+i_user_field( invoice, invoice_status, `invoice_status` ).
+i_user_field( invoice, invoice_status_reason_code, `invoice_status_reason_code` ).
 i_user_field( invoice, buyer_id, `buyer_id` ).
 i_user_field( invoice, company_name, `company_name` ).
 i_user_field( invoice, erp_id, `erp_id` ).
@@ -160,6 +162,8 @@ i_analyse_hard_coded_values___
 	sys_retractall( result( _, invoice, item_type, _ ) ),
 	sys_retractall( result( _, invoice, capture_type, _ ) ),
 	sys_retractall( result( _, invoice, ct_reason, _ ) ),
+	sys_retractall( result( _, invoice, invoice_status, _ ) ),
+	sys_retractall( result( _, invoice, invoice_status_reason_code, _ ) ),
 
 	assertz_derived_data( invoice, vendor_id, `PEPC`, i_analyse_hard_coded_values ),
 	assertz_derived_data( invoice, client_code, `PEPC`, i_analyse_hard_coded_values ),
@@ -168,6 +172,8 @@ i_analyse_hard_coded_values___
 	assertz_derived_data( invoice, item_type, `PEPC_APDocuments`, i_analyse_hard_coded_values ),
 	assertz_derived_data( invoice, capture_type, `CLOUDTRADE`, i_analyse_hard_coded_values ),
 	assertz_derived_data( invoice, ct_reason, `SUCCESS`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, invoice_status, `RECEIVED`, i_analyse_hard_coded_values ),
+	assertz_derived_data( invoice, invoice_status_reason_code, `SUCCESS`, i_analyse_hard_coded_values ),
 
 	!
 .
@@ -1084,6 +1090,7 @@ i_analyse_reason_code___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	sys_retractall( result( _, invoice, ct_reason, _ ) ),
+	sys_retractall( result( _, invoice, invoice_status_reason_code, _ ) ),
 	
 	(
 		i_user_data( customer_intervention_form( Customer_Form ) ),
@@ -1187,7 +1194,8 @@ i_analyse_reason_code___
 	(
 		Failure_Reason_List = [ ],
 	
-		assertz_derived_data( invoice, ct_reason, `SUCCESS`, i_analyse_reason_code )
+		assertz_derived_data( invoice, ct_reason, `SUCCESS`, i_analyse_reason_code ),
+		assertz_derived_data( invoice, invoice_status_reason_code, `SUCCESS`, i_analyse_reason_code )
 
 		;
 
@@ -1195,13 +1203,15 @@ i_analyse_reason_code___
 
 		reason_code_lookup( Document_Failure_Reason, Reason_Code ),
 	
-		assertz_derived_data( invoice, ct_reason, Reason_Code, i_analyse_reason_code )
+		assertz_derived_data( invoice, ct_reason, Reason_Code, i_analyse_reason_code ),
+		assertz_derived_data( invoice, invoice_status_reason_code, Reason_Code, i_analyse_reason_code )
 
 		;
 
 		Failure_Reason_List = [ Reason_1 | Remaining_Reasons ],
 	
-		assertz_derived_data( invoice, ct_reason, `MULTIPLE_REASONCODES`, i_analyse_reason_code )
+		assertz_derived_data( invoice, ct_reason, `MULTIPLE_REASONCODES`, i_analyse_reason_code ),
+		assertz_derived_data( invoice, invoice_status_reason_code, `MULTIPLE_REASONCODES`, i_analyse_reason_code )
 
 	),
 	
