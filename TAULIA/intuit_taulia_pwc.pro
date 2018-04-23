@@ -8,9 +8,9 @@ i_version( intuit_taulia_pwc, `9 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y` ):- not( grammar_set( alternate_date_format ) ).
+i_date_format( `_` ):- not( grammar_set( alternate_date_format ) ).
 
-i_date_format( `m/d/y` ):- grammar_set( alternate_date_format).
+i_date_format( `_` ):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -173,12 +173,24 @@ i_rule( get_invoice_date, [
 i_rule( get_due_date, [
 %=======================================================================
 
-     q(0,15,line)
+   q(0,15,line)
 
-   , generic_horizontal_details( [ [ `PAYMENT`, `DUE`, `:` ], due_date, date, newline ] )
+   , generic_horizontal_details( [ [ `PAYMENT`, `DUE`, `:` ], due_date_x, s1, newline ] )
 
+   , check( i_user_check( convert_date_to_expected_format, due_date_x, DateOut ) )
+
+   , generic_item( [ due_date, DateOut ] )
 
 ] ).
+
+%-----------------------------------------------------------------------
+i_user_check( convert_date_to_expected_format, DateIn, DateOut )
+%-----------------------------------------------------------------------
+:-
+    date_string( DateRaw, _, DateIn ),
+    date_string( DateRaw, `m/d/y`, DateOut )
+.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
