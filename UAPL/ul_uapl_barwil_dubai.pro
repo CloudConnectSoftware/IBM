@@ -166,6 +166,8 @@ i_rule( get_order_number, [
 
          ,generic_horizontal_details( [ [ `PO`, `.`, `NO`, `:`], order_number, w, newline ] )
 
+         ,generic_horizontal_details( [ [ `PO`, `#`], order_number, w, newline ] )
+
           ,generic_horizontal_details( [ [ `Reference`, tab], order_number, s1, newline ] )
 
     ])
@@ -336,7 +338,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    `Description` ,  tab
+    or([
+        
+        [`Description` ,  tab]
+
+        ,[`S`, `.`, `No`, `:`, `Description`]
+
+    ])
 
     , trace([`found the start line`])
 
@@ -360,6 +368,8 @@ i_line_rule_cut( line_invoice_line, [
       generic_item( [line_descr , s1 , tab] )
 
      , generic_item( [line_vat_rate , d , tab ])
+
+     ,q10(generic_item( [line_quantity , d , tab] ))
 
     , generic_item( [line_net_amount , d , tab] )
     
