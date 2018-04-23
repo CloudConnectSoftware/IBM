@@ -1,5 +1,5 @@
 
-i_version( output_ibm_pepsico_rapid_xml, `16/04/2018 13:43:15` ).
+i_version( output_ibm_pepsico_rapid_xml, `23/04/2018 13:43:49` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -181,6 +181,10 @@ write_invoice_fields___
 	write_field( `C_CTReason`, invoice, ct_reason ),
 
 	write_field( `C_CaptureType`, invoice, capture_type ),
+
+	write_field( `T_InvStatus`, invoice, invoice_status ),
+
+	write_field( `T_InvStatusRsn`, invoice, invoice_status_reason_code ),
 
 	write_field( `H_CompanyID`, invoice, buyer_id ),
 
