@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `06/04/2018 14:29:49` ).
+i_version( p_ibm_micron, `24/04/2018 11:55:59` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -204,41 +204,6 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% SCAN ID & CUSTOMER ID
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_final_rule( [
-%=======================================================================
-
-	remove( scan_id ), scan_id( Scan_ID )
-
-	, remove( customer_id ), customer_id( Scan_ID )
-
-] )
-:-
-	instance( I ),
-	string_to_upper( I, I_U ),
-	(
-		not( q_sys_sub_string( I_U, _, _, `DBG` ) ),
-		i_mail( unique_id, ID ),
-		sys_string_number( IDS, ID )
-		;
-		q_sys_sub_string( I_U, _, _, `DBG` ),
-		IDS = `Test`
-	),
-	string_pad_left( IDS, 8, `0`, IDPad ),
-	date_get( today, Today ),
-	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
-	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
-	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID )
-.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 % REMOVE VARIABLES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,6 +239,45 @@ i_final_rule( [
 	, remove( line_gl )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% SCAN ID & CUSTOMER ID
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_scan_id_and_customer_id___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_scan_id_and_customer_id___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	instance( I ),
+	string_to_upper( I, I_U ),
+	(
+		not( q_sys_sub_string( I_U, _, _, `DBG` ) ),
+		i_mail( unique_id, ID ),
+		sys_string_number( IDS, ID )
+		;
+		q_sys_sub_string( I_U, _, _, `DBG` ),
+		IDS = `Test`
+	),
+	string_pad_left( IDS, 8, `0`, IDPad ),
+	date_get( today, Today ),
+	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
+	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
+	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID ),
+
+	sys_retractall( result( _, invoice, scan_id, _ ) ),
+	assertz_derived_data( invoice, scan_id, Scan_ID, i_analyse_scan_id_and_customer_id ),
+
+	sys_retractall( result( _, invoice, customer_id, _ ) ),
+	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_scan_id_and_customer_id ),
+
+	!
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
