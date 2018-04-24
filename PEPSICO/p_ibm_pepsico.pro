@@ -8,7 +8,14 @@ i_version( p_ibm_pepsico, `24/04/2018 14:04:35` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_include_partner_attachments_image_only:- i_mail( subject, Subject ), q_sys_sub_string( Subject, 1, _, `PreApprovalforPOExemptInvoice-` ).
+i_include_partner_attachments_image_only
+:-
+	i_mail( subject, Subject ),
+	q_sys_sub_string( Subject, 1, _, `PreApprovalforPOExemptInvoice-` ),
+	chained_to( Chain ),
+	Chain \= `unrecognised_document`,
+	not( missed_data_items_condition )
+.
 
 i_rules_file( `d_ibm_pepsico.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
