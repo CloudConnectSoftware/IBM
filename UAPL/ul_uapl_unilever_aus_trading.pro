@@ -165,7 +165,7 @@ i_rule( get_totals, [
     , or([
         generic_horizontal_details( [ [ `Subtotal`, `$`, tab, generic_item( [ total_net, d] ), tab, `$`, tab, generic_item( [ total_vat,d ] ), tab, `$`, tab ], total_invoice, d, newline ] )
        
-        , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, tab, generic_item( [ total_quantity, d] ), tab, generic_item( [ total_net,d ] ), tab ], total_vat, d, newline ] )
+        , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, tab, generic_item( [ total_quantity, d] ), tab, generic_item( [ total_net,d ] ), q10(tab) ], total_vat, d, newline ] )
         
         , generic_horizontal_details( [ [ `Sub`, `-`, `Totals`, `:`, dummy_num(d), tab, generic_item( [ total_net, d ] ), tab ],  total_vat, d, newline ] )
         
