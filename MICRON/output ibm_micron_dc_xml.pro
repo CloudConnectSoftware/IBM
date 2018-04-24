@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `06/04/2018 14:29:20` ).
+i_version( output_ibm_micron_dc_xml, `24/04/2018 11:52:18` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,13 +128,15 @@ write_header___
 		write_variable_as_tag( invoice, supplier_vat_number, `Vendor_VAT_Code` ),
 		write_variable_as_tag( invoice, buyer_vat_number, `Buyer_VAT_Code` ),
 
-		( ( qq_op_param( unique_id, ScanID ); result( _, invoice, scan_id, ScanID ) )
-
-			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
-
-			;	instance( Instance ),
-				q_sys_sub_string( Instance, _, _, `DBG` )
+		( qq_op_param( unique_id, ScanID )
+		
+			; result( _, invoice, scan_id, ScanID )
+			
+			; ScanID = ``
+			
 		),
+
+		write_element_string( `Scan_ID`, ScanID ),
 
 		( qq_op_param( split_input_transfer_name( _ ), ImageFile )
 			->	true
