@@ -4,9 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `23/04/2018 13:44:43` ).
+i_version( p_ibm_pepsico, `24/04/2018 14:04:35` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+i_include_partner_attachments_image_only:- i_mail( subject, Subject ), q_sys_sub_string( Subject, 1, _, `PreApprovalforPOExemptInvoice-` ).
 
 i_rules_file( `d_ibm_pepsico.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
@@ -490,13 +492,28 @@ i_analyse_pre_approval_indicator___
 	sys_retractall( result( _, invoice, pre_approved, _ ) ),
 
 	(
+		i_include_partner_attachments_image_only,
+		
 		result( _, invoice, buyer_id, Company_ID ),
 
 		q_sys_member( Company_ID, [ `CAFRITO`, `CAQUAKER` ] ),
 
 		i_mail( subject, Subject ),
 
-		q_sys_sub_string( Subject, 1, _, `PreApprovalforPOExemptInvoice-` )
+		q_sys_sub_string( Subject, 1, _, `PreApprovalforPOExemptInvoice-` ),
+
+		(
+			i_mail( num_attachments, 1 ),
+
+			assertz_derived_data( invoice, pre_approved, `E`, i_analyse_pre_approval_indicator )
+
+			;
+
+			not( i_mail( num_attachments, 1 ) ),
+
+			assertz_derived_data( invoice, pre_approved, `Y`, i_analyse_pre_approval_indicator )
+
+		)
 
 		;
 
