@@ -296,7 +296,7 @@ last_line
     generic_horizontal_details( [ [`*`, `*`, `TOTAL`, `AMOUNT`, `*`, `*`, tab, `$` ], total_invoice, d, newline ] )
 
 
- , generic_horizontal_details( [ [`CREDIT`, `AMOUNT`, `*`, `*`, tab, `$`],  total_invoice, d, [`CR`] ] )
+ , generic_horizontal_details( [ [`CREDIT`, `AMOUNT`, `*`, `*`, tab, `$`],  total_invoice, n, [`CR`] ] )
 
 ] )
 
@@ -395,7 +395,9 @@ i_line_rule_cut( line_header_line, [
 
         ,[`Station`, tab, `Spots`, tab, `Ordered`, tab ]
 
-        , [`Market`, `:` ]
+        ,[ `Market`, `:`, `ZZBILL`]
+
+      
 
 ] )
     , trace( [ `Found Start line` ] )
@@ -407,13 +409,17 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 
      or([
+
+          [ `Please`, `Remit`, `Payment`, `To`]
        
-         [`*`, `Market`, `*`, `NATC` ]
+        , [`*`, `Market`, `*`, `NATC` ]
+
+         , [`*`, `Market`, `ZZBILL`, `Total`]
 
 
      , [`*`, `Market`, `*` ]
 
-     , [ `Please`, `Remit`, `Payment`, `To`]
+    
 
      ] )
 
@@ -507,7 +513,7 @@ i_line_rule_cut( line_invoice_line4, [
 
   , generic_item( [ line_quantity, d, tab ] )
 
-  , generic_item( [ line_net_amount, n, tab ] )
+  , generic_item( [ line_net_amount, d, tab ] )
 
 
   , generic_item( [ line_amount_dummy, d, tab ] )
