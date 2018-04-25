@@ -273,6 +273,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `95-4465932` ), set( chain, `intuit_taulia_consumerinfo` ), trace( [ `This is a ConsumerInfo Document` ] ) ]
 
+	  , [ check_text( `483043581006` ), set( chain, `intuit_taulia_bpn` ), trace( [ `This is a BPN WW INC Document` ] ) ]
+
 
 	] )
 	
