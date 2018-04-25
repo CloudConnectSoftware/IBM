@@ -223,7 +223,13 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
     
-[`Description`, tab, `Unit`, `of`, `Measure`]
+or([
+  
+  [`Description`, tab, `Unit`, `of`, `Measure`]
+
+  , [`Description`, tab, `Units`, tab, `Unit`]
+
+])
 
 , trace( [ `Found Start line` ] )
 
@@ -244,6 +250,7 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
    generic_item( [ line_descr, s1, tab ] )
+   
 
   , generic_item( [ line_quantity_uom_code, s1, tab ] )
 
