@@ -296,7 +296,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-           [q10(line_descr_line), q10(line_descr_line1),line_invoice_line]
+           line_invoice_line
 
               , line
 
@@ -324,6 +324,8 @@ i_line_rule_cut( line_end_line, [
       or([
       
        [`ACTIVITY`, tab, `QTY`, tab, `RATE` ]
+
+       , [`TOTAL`, `Due`]
        
        
        , [`Please`, `remit`, `payment`, `to` ]
@@ -341,7 +343,7 @@ i_line_rule_cut( line_invoice_line, [
 
 
    
-    generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
+    generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_quantity, d, tab ] )
 
