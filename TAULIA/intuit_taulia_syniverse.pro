@@ -8,9 +8,9 @@ i_version( intuit_taulia_syniverse, `9 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y` ):- not( grammar_set( alternate_date_format ) ).
+i_date_format(_):- not( grammar_set( alternate_date_format ) ).
 
-i_date_format( `m/d/y` ):- grammar_set( alternate_date_format).
+i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
