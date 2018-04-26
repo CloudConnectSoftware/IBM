@@ -807,7 +807,7 @@ i_rule( pierpoint_chain_rule, [
 i_line_rule( pierpoint_rule, [
 %=======================================================================
 
-	   [`Pierpoint`, `International`, `LLC`,  newline ]
+	   [`Pierpoint`, `International`, `LLC` ]
 
 
 ] ).
@@ -817,7 +817,7 @@ i_line_rule( pierpoint_rule1, [
 %=======================================================================
 
 	   
-	   [`1065`, `Cross`, `Springs`, `Ct`,  newline ]
+	   [`1065`, `Cross`, `Springs`, `Ct`]
 
 
 ] ).
@@ -828,7 +828,7 @@ i_line_rule( pierpoint_rule2, [
 %=======================================================================
 
 	   
-	   [`San`, `Jose`, `,`, `CA`, `95120`, `US`,  newline ]
+	   [`San`, `Jose`, `,`, `CA`, `95120` ]
 
 ] ).
 
@@ -836,7 +836,7 @@ i_line_rule( pierpoint_rule2, [
 i_line_rule( pierpoint_rule3, [
 %=======================================================================
 
-   [`ignacio`, `.`, `martin`, `@`, `pierpoint`, `.`, `com`,  newline  ]
+   [`ignacio`, `.`, `martin`, `@`, `pierpoint`, `.`, `com` ]
 
 ] ).
 
