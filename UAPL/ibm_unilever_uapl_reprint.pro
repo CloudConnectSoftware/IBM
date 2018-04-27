@@ -77,7 +77,7 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `19-9907099-D` ), set( chain, `ul_uapl_yang_ming_singapore` ), trace( [ `THIS is a YANG MING (SINGAPORE) PTE Reprint. LTD.` ] )  ]
 
-		 
+		 , [ check_text( `72294937953` ), set( chain, `ul_uapl_le_mac_australia` ), trace( [ `THIS IS A LE MAC AUSTRALIA DOCUMENT` ] ) ]
 
 		% [ check_text( `` ), set( chain, `` ), trace( [ `` ] ) ]
 		
