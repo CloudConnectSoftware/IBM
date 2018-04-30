@@ -123,15 +123,17 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -116)] ] )
+     generic_item( [supplier_city , s , [`,`,q10(tab), check(supplier_city(end) < -116)] ] )
 
-     , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < -89)] ] )
-
-     , generic_item( [ supplier_state, w ] )
+          , generic_item( [ supplier_state, w ] )
 
      , generic_item( [ supplier_postcode, d ] )
 
-     , generic_item( [ supplier_country_code, w, newline ] )
+     , or([generic_item( [ supplier_country_code, w, newline ] )
+            , generic_item( [ supplier_country_code, `US` ] )
+
+     ])
+
    
 ] ).
 
@@ -296,7 +298,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-           [q10(line_descr_line), q10(line_descr_line1),line_invoice_line]
+           line_invoice_line
 
               , line
 
@@ -324,6 +326,8 @@ i_line_rule_cut( line_end_line, [
       or([
       
        [`ACTIVITY`, tab, `QTY`, tab, `RATE` ]
+
+       , [`TOTAL`, `Due`]
        
        
        , [`Please`, `remit`, `payment`, `to` ]
@@ -341,7 +345,7 @@ i_line_rule_cut( line_invoice_line, [
 
 
    
-    generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
+    generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_quantity, d, tab ] )
 
