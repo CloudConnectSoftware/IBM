@@ -430,19 +430,17 @@ i_line_rule( line_invoice_line, [
 
       , generic_item([ line_number, d ,tab ])
 
-      , generic_item([ line_item, d ,tab ])
+      , generic_item([ line_item, d ,q10(tab) ])
 
       , generic_item([ line_descr, s1 ,tab ])
 
       , generic_item([ line_descr_dummy, s1, tab  ])
 
-      , generic_item([ line_quantity, d  ])
-
-      , generic_item([ line_quantity_uom_code, w ,tab ])
+      , generic_item([ line_quantity, d ,  [`aqm`,tab] ])
 
       , generic_item( [ line_unit_amount,d , tab ] )
 
-      , generic_item( [ line_net_amount,d , tab ] )
+      , generic_item( [ line_net_amount,d , q10(tab) ] )
 
       , generic_item( [ line_descr_dummy1, d , newline ] )
 
