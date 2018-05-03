@@ -20,6 +20,8 @@ i_rule_list( [
 
     , get_supplier_bank_account_number
 
+    , get_bank_account_number
+
     , get_invoice_number
 
     , get_line_buyers_order_number
@@ -72,6 +74,52 @@ i_rule( get_supplier_bank_account_number, [
 	q(0,50,line)
 	
 	, generic_horizontal_details( [ [`Account`, `No`, `:`], supplier_bank_account_number, d, newline ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT NUMBER ALTERNATIVE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_account_number, [
+%=======================================================================
+
+	q(0,50,line)
+	
+	, [generic_horizontal_details( [ [`BSB`, `:`], supplier_bank_code_raw, s1, newline ] )
+
+    , check( supplier_bank_code_raw = BankRaw )
+
+    , trace( [ `Bank number raw` , BankRaw ] )
+
+    , check(string_string_replace( BankRaw, `-`, ``, BankStrip ))
+
+    , trace( [ `Bank Stripped Space` , BankStrip ] )
+
+    , supplier_bank_account_number(BankStrip)
+
+    , trace( [ `Bank account Number` , supplier_bank_account_number ] )  ]
+
+    , q(0,1,line)
+
+    	
+  	, [generic_horizontal_details( [ [`Account`, `No`, `:` ], supplier_bank_acct_raw, s1, newline ] )
+
+    , check( supplier_bank_acct_raw = BankRaw1 )
+
+    , trace( [ `Bank number raw1` , BankRaw1 ] )
+
+    , check(string_string_replace( BankRaw1, `-`, ``, BankStrip1 ))
+
+    , trace( [ `Bank Stripped Space1` , BankStrip1 ] )
+
+    , supplier_bank_account_number(BankStrip1)
+
+    , trace( [ `Bank account Number1` , supplier_bank_account_number ] )  ]
 
 ] ).
 
@@ -210,6 +258,8 @@ i_section( get_invoice_lines, [
               
         line_invoice_line
 
+        , line_invoice_line1
+
               , line
 
         ] )
@@ -264,6 +314,22 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
+%=======================================================================
+
+   generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_quantity_uom_code, s1, tab ] )
+
+  , generic_item( [ line_quantity_dummy, s1, tab ] )
+
+  , generic_item( [ line_unit_dummy, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -273,10 +339,14 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped by - Rohini 
 
 
+% Updated on   - May 3, 2018
+% Updated by   - Rohini
+% Changes made - Line details and Bank details
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
