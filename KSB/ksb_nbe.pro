@@ -215,6 +215,8 @@ i_rule( get_order_number, [
       
       generic_horizontal_details( [ [ `Bestellung`, `-`, `Nr`, `.` ], order_number, d,  newline ] )
 
+      , generic_horizontal_details( [ [`Bestellung`, `-`, `Nr`, `.`], order_number, d,  `vom` ] )
+
         ])
 
 ] ).
