@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `24/04/2018 14:04:35` ).
+i_version( p_ibm_pepsico, `04/05/2018 10:33:14` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -463,15 +463,15 @@ i_analyse_invoice_type___
 	sys_retractall( result( _, invoice, invoice_type, _ ) ),
 
 	(
-		result( _, invoice, order_number, _ ),
-
-		assertz_derived_data( invoice, invoice_type, `PO`, i_analyse_invoice_type )
-
-		;
-
 		grammar_set( credit_note ),
 
 		assertz_derived_data( invoice, invoice_type, `CREDIT`, i_analyse_invoice_type )
+
+		;
+
+		result( _, invoice, order_number, _ ),
+
+		assertz_derived_data( invoice, invoice_type, `PO`, i_analyse_invoice_type )
 
 		;
 
