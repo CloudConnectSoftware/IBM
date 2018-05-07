@@ -131,7 +131,18 @@ i_line_rule( line_add_line2, [
 
       `67206`
 
-      ,generic_item( [ buyer_city , s1 , tab ] )
+      ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ] )
+
+      
+      ,or([
+
+         [ check(buyer_city_raw = Buyer_raw) ,check(Buyer_raw = `Frabnkenthal`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
+
+       , [ check(buyer_city_raw = Buyer_raw) ,check(Buyer_raw = `GENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
+ 
+       ,[ check(buyer_city_raw = City_raw) ,generic_item( [ buyer_city, City_raw ] ) ] 
+
+     ] )
 
 ] ).
 
