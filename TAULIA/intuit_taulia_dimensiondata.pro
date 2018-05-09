@@ -104,13 +104,17 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([ `DIMENSION`, `DATA`, `NORTH`, `AMERICA`, `,`, `INC` ])
+       read_ahead([ `DIMENSION` ])
 
      , trace( [ `Found address`] )
 
+     , or([
+
+         generic_item( [ supplier_party, s1, tab ] )
+
      , generic_item( [ supplier_party, s1, newline ] )
 
-
+] )
 ] ).
 
 %=======================================================================
