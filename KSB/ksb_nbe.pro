@@ -129,7 +129,8 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line2, [
 %=======================================================================
 
-      `67206`
+      or([
+          `67206` ,`67208` ])
 
       ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ] )
 

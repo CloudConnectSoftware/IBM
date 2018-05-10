@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `04/05/2018 10:33:14` ).
+i_version( p_ibm_pepsico, `10/05/2018 10:31:23` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -214,6 +214,7 @@ i_analyse_file_names___
 	string_pad_left( IDS, 8, `0`, IDPad ),
 	strcat_list( [ `PEPC_CT_`, IDPad, `.zip` ], Zip_File_Name ),
 	strcat_list( [ `PEPC_CT_`, IDPad, `.pdf` ], PDF_File_Name ),
+	strcat_list( [ `PEPC_CT_`, IDPad ], Customer_ID ),
 
 	sys_retractall( result( _, invoice, zip_file_name, _ ) ),
 	sys_retractall( result( _, invoice, batch_name, _ ) ),
@@ -222,6 +223,7 @@ i_analyse_file_names___
 	assertz_derived_data( invoice, zip_file_name, Zip_File_Name, i_analyse_file_names ),
 	assertz_derived_data( invoice, batch_name, Zip_File_Name, i_analyse_file_names ),
 	assertz_derived_data( invoice, file_name, PDF_File_Name, i_analyse_file_names ),
+	assertz_derived_data( invoice, customer_id, Customer_ID, i_analyse_file_names ),
 
 	!
 .
@@ -267,6 +269,29 @@ i_analyse_ct_id___
 	sys_retractall( result( _, invoice, ct_id, _ ) ),
 
 	assertz_derived_data( invoice, ct_id, CT_ID, i_analyse_ct_id ),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% POPULATE CUSTOMER ID
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_customer_id___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_customer_id___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	qq_op_param( unique_id, Scan_ID ),
+
+	sys_retractall( result( _, invoice, customer_id, _ ) ),
+
+	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_customer_id ),
 
 	!
 .
