@@ -210,7 +210,9 @@ i_line_rule( buyer_id_line, [
 
 	   , [ check_text( `35-2428242` ), set( chain, `intuit_taulia_interactive` ), trace( [ `This is a Interactive Intelligence  Document` ] ) ]
 
-	   , [ check_text( `0101092443` ), set( chain, `intuit_taulia_matters` ), trace( [ `This is a xMatters  Document` ] ) ]
+	   , [ check_text( `45-1505676` ), set( chain, `intuit_taulia_interactive` ), trace( [ `This is a Interactive Intelligence  Document` ] ) ]
+
+       , [ check_text( `0101092443` ), set( chain, `intuit_taulia_matters` ), trace( [ `This is a xMatters  Document` ] ) ]
 
 	   , [ check_text( `84-1302031` ), set( chain, `intuit_taulia_payreel` ), trace( [ `This is a PayReel Document` ] ) ]
 
