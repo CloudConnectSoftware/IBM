@@ -195,7 +195,7 @@ i_line_rule( line_add_line_3, [
 %=======================================================================
     
    
-generic_item( [ buyer_postcode , s1 , newline ] )
+generic_item( [ buyer_address_line , s1 , newline ] )
 
 
        
@@ -285,7 +285,7 @@ i_rule( get_order_number, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PAYMENT TERM
+% PAYMENT TERMS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -295,7 +295,7 @@ i_rule( get_payment_terms, [
 
   q(0,50,line)
 
-, generic_horizontal_details( [ [ `Date`, `of`, `Invoice`, `)`, `:`, tab ], payment_terms, d,[ q10(tab)] ] )
+, generic_horizontal_details( [ [ `Date`, `of`, `Invoice`, `)`, `:`], payment_terms, s1,newline ] )
 
       
 ] ).

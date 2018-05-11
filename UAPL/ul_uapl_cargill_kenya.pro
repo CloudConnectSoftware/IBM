@@ -304,7 +304,9 @@ i_line_rule_cut( line_invoice_line4, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q0n(line)
+    or([
+
+   [ q0n(line)
 
     , or([
 
@@ -313,6 +315,17 @@ i_rule( get_total_invoice, [
     , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,800), total_invoice, d,newline ] )
 
      ])
+    ]
+    
+    ,[ last_line
+    
+    , q0n(up)
+        
+    ,generic_vertical_details( [ [ `Cargill`, `Kenya`, `Limited` ], `Limited`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+    
+    ]
+    
+    ])
      
     , check( total_invoice = TotInv )
 
@@ -336,6 +349,11 @@ i_rule( get_total_invoice, [
 % Updated on   - December 12, 2017
 % Updated by   - Rohini
 % Changes made - Line details mapped
+
+% Updated on   - May 11, 2018
+% Updated by   - Roopesh
+% Changes made - added line for capture invoice total
+
 
 % Updated on   - 
 % Updated by   -
