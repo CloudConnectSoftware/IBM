@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `24/04/2018 11:55:59` ).
+i_version( p_ibm_micron, `15/05/2018 13:06:48` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -63,8 +63,10 @@ i_user_field( line, line_gl, `Line GL` ).
 %-----------------------------------------------------------------------
 % Customer Name
 %-----------------------------------------------------------------------
-i_op_param( rules_intervention_role, _, _, _, `Micron (Technical)` ). % This will be the role for rules intervention
-i_op_param( customer_name, _, _, _, `Micron` ). % This will be the role for customer intervention (this field is mandatory)
+i_op_param( rules_intervention_role, _, _, _, `Micron Test (Technical)` ):- i_test_indicator. % This will be the role for rules intervention
+i_op_param( rules_intervention_role, _, _, _, `Micron (Technical)` ):- not( i_test_indicator ). % This will be the role for rules intervention
+i_op_param( customer_name, _, _, _, `Micron Test` ):- i_test_indicator. % This will be the role for customer intervention (this field is mandatory)
+i_op_param( customer_name, _, _, _, `Micron` ):- not( i_test_indicator ). % This will be the role for customer intervention (this field is mandatory)
 
 %-----------------------------------------------------------------------
 % Duplicate Table to Use
