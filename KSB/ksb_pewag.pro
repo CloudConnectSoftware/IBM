@@ -372,11 +372,11 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-           [line_invoice_line,q10(line_append_line1),q10(line_append_line1), line_invoice_line2]
+           [line_invoice_line,q10(line_append_line1),q10(line_append_line1), line_invoice_line2,q10(line_additional_line), trace( [ `1`] )]
 		
-           , [q10(line_item_line),line_invoice_line, line_invoice_line1]
+           , [q10(line_item_line),line_invoice_line, line_invoice_line1, trace( [ `2`] )]
 
-            , [line_invoice_line,q10(line_append_line1), line_invoice_line1]
+            , [line_invoice_line,q10(line_append_line1), line_invoice_line1, trace( [ `3`] )]
 
             
 
@@ -538,7 +538,7 @@ i_line_rule( line_invoice_line2, [
 
       ,  generic_item([ line_unit_amount_dummy , d ,tab ])
 
-      ,  generic_item([ line_net_amount_dummy , d ,newline ])
+      ,  generic_item([ line_net_amount , d ,newline ])
 
        , clear(reverse_punctuation_in_numbers)
 
