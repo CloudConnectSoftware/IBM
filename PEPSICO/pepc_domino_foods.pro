@@ -8,7 +8,7 @@ i_version( pepc_dominos_food, `April 30, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `m/d/y`).
 
 i_trace_lists.
 
