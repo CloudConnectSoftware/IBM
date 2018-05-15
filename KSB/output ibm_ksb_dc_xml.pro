@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_ksb_dc_xml, `15/05/2018 12:17:25` ).
+i_version( output_ibm_ksb_dc_xml, `27/03/2018 15:15:53` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -356,7 +356,7 @@ write_line___( LID )
 		
 		write_variable_as_tag( LID, line_delivery_note_number, `Delivery_Note` ),
 
-		write_ibm_number_variable_as_tag( LID, line_unit_amount, `Unit_Price`, '4dp_' ),
+		write_ibm_number_variable_as_tag( LID, line_unit_amount, `Unit_Price`, '2dp_' ),
 
 		write_ibm_number_variable_as_tag( LID, line_quantity, `Quantity`, '4dp_' ),
 
