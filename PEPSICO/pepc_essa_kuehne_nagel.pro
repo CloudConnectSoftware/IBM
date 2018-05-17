@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pepc_kuehne_nagel, `16 May 2018` ).
+i_version( pepc_essa_kuehne_nagel, `16 May 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -12,6 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_pdf_parameter( x_tolerance_100, 100 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -164,7 +165,13 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
-    ,generic_vertical_details( [ [ `Invoice`, `No` ], `Invoice`, q(0,1), (end,200,400), invoice_number, s1, newline ] )
+    , or([
+        
+        generic_vertical_details( [ [ `Invoice`, `No` ], `Invoice`, q(0,1), (end,200,400), invoice_number, s1, newline ] )
+
+        , [generic_vertical_details( [ [ `Credit`, `No` ], `Credit`, q(0,1), (end,200,400), invoice_number, s1, newline ] ) , set(credit_note) ]
+
+    ])
 
 
 ] ).
@@ -324,6 +331,8 @@ i_line_rule_cut( line_header_line, [
 [`No`, `/`, `Type`, `Packages`]
 
 ,[`Arrival`, `Date`]
+
+,[`Your`, `Ref`,`:`]
 
     ])
 
