@@ -296,7 +296,7 @@ i_rule( get_invoice_date, [
 
 q(0,20,line)
 
-  or( [
+  , or( [
 
       generic_vertical_details( [ [ `Invoice`, `Date`], `Date`, q(0,1), (start,10,10), invoice_date, date, newline ] )
 
@@ -372,7 +372,7 @@ i_rule(get_total_vat, [
    
    ,q(0,15,up)
 
-  , generic_horizontal_details( [ [`VAT` , `@`, generic_item( [ default_vat_rate, d ] ), `%` tab, `GBP` ],100,  total_vat, d, newline ] )
+  , generic_horizontal_details( [ [`VAT` , `@`, generic_item( [ default_vat_rate, d ] ), `%`, tab, `GBP` ],100,  total_vat, d, newline ] )
 
 ] ).
 
@@ -443,7 +443,7 @@ i_line_rule_cut( line_header_line, [
 
 or([
   
-  [`Item`, tab `Cost`]
+  [`Item`, tab, `Cost`]
 
 ])
 

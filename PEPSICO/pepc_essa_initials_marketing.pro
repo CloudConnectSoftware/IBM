@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pepc_essa_initials_marketing, `16/05/2018 ` ).
+i_version( pepc_essa_initials_marketing, `18/05/2018 ` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,6 +20,8 @@ i_rule_list( [
       get_supplier_detail
 
     , get_supplier_address
+
+    , get_buyer_address
 
     , set_credit_note
 
@@ -65,7 +67,6 @@ i_rule( get_supplier_detail, [
 
 ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER ADDRESS
@@ -75,40 +76,28 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 i_rule( get_supplier_address, [
 %=======================================================================
-   last_line
+  last_line
 
    , q(0,30,up)
 
    , line_add_line
-
-  , q(0,1,line)
-
-   , line_add_line_2
-
-   , q(0,1,line)
-
-   , line_add_line_3
-
-   , q(0,1,line)
-
+  
 ] ).
 
 %=======================================================================
 i_line_rule( line_add_line, [
 %=======================================================================
 
-    q0n([anything ])
  
-    , read_ahead( [`25`, `The`, `Village`)
- 
-    , trace( [ `FOUND SUPPLIER ADDRESS`] )
+     `Initials`, `Marketing`, `Registered`, `In`, `England`, `and`, `Wales`, `Registered`, `Number`, `5740945`, `Registered`, `Address`
 
-    , generic_item( [ supplier_address_line, s1, [q10(tab), check(supplier_address_line(end) < -297)] ] )
+    , generic_item( [ supplier_address_line, sf ] )
 
-    , generic_item( [ supplier_city, s, [q10(tab), check(supplier_city(end) < -297)] ] )
+    , generic_item( [ supplier_city, w ] )
 
-    , generic_item( [ supplier_postcode, s, [q10(tab), check(supplier_postcode(end) < -297), newline ] ] )
+    , generic_item( [ supplier_postcode, w, newline ] )
 
+    
 ] ).
 
 
@@ -134,15 +123,15 @@ i_rule( get_buyer_address, [
 
    , line_buyer_add_line_3
 
-   , q(0,1,line)
+   , q(1,2,line)
 
    , line_buyer_add_line_4
 
-   , q(0,2,line)
+   , q(1,2,line)
 
    , line_buyer_add_line_5
-   
-   , q(0,2,line)
+
+   , q(0,1,line)
 
    , line_buyer_add_line_6
 
@@ -152,10 +141,12 @@ i_rule( get_buyer_address, [
 %=======================================================================
 i_line_rule( line_buyer_add_line, [
 %=======================================================================
+    
+    `To`, `:`
 
-    read_ahead([`PEPSICO`])
+    , generic_item( [ buyer_party, s1, tab ] )
 
-    , generic_item( [ buyer_party, s1,newline ] )
+    , generic_item( [ buyer_party_dummy, s1, newline ] )
 
     
 ] ).
@@ -164,7 +155,7 @@ i_line_rule( line_buyer_add_line, [
 i_line_rule( line_buyer_add_line_2, [
 %=======================================================================
 
-    generic_item( [ buyer_address_line, s1, newline ] )
+    generic_item( [ buyer_address_line, s1, tab ] )
    
 ] ).
 
@@ -172,33 +163,31 @@ i_line_rule( line_buyer_add_line_2, [
 i_line_rule( line_buyer_add_line_3, [
 %=======================================================================
 
-    generic_append( [ buyer_address_line, s1, newline, ` `, ` `  ] )
-
+    generic_append( [ buyer_address_line, s1, tab, ` `, ` `  ] )
    
 ] ).
 
 %=======================================================================
 i_line_rule( line_buyer_add_line_4, [
 %=======================================================================
-
-     ,generic_item( [ buyer_city, s1, newline ] )
+    
+    generic_item( [ buyer_city, s1, newline ] )
    
 ] ).
 
 %=======================================================================
 i_line_rule( line_buyer_add_line_5, [
 %=======================================================================
-
-   generic_item( [ buyer_state, s1, newline ] )
-
+    
+    generic_item( [ buyer_state, s1, newline ] )
    
 ] ).
 
 %=======================================================================
 i_line_rule( line_buyer_add_line_6, [
 %=======================================================================
- 
-     generic_item( [ buyer_postcode, s1, newline ] )
+
+   generic_item( [ buyer_postcode, s1, newline] )
 
    
 ] ).
@@ -274,11 +263,11 @@ i_rule( get_invoice_number, [
 
    , or([
 
-        generic_vertical_details( [ [ `Invoice`, `number`], `number`, q(0,3), (start,10,10), invoice_number, w, newline ] )
+        generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], invoice_number, w, newline ] )
 
-        ,generic_vertical_details( [ [ `Credit`, `Note`, `number`], `number`, q(0,3), (start,10,10), invoice_number, w, newline ] ) 
+        , generic_horizontal_details( [ [ `Credit`, `No`, `:` ], invoice_number, w, newline ] )
 
-  ])
+       ])
 
 ] ).
 
@@ -295,11 +284,11 @@ i_rule( get_invoice_date, [
 
 q(0,20,line)
 
-  or( [
+  , or( [
 
-      generic_vertical_details( [ [ `Invoice`, `Date`], `Date`, q(0,1), (start,10,10), invoice_date, date, newline ] )
+      generic_horizontal_details( [ [ `Invoice`, `Date`, `:` ], invoice_date, date , newline ] )
 
-      ,generic_vertical_details( [ [ `Credit`, `Note`, `Date`], `Date`, q(0,1), (start,10,10), invoice_date, date, newline ] )
+      , generic_horizontal_details( [ [ `Credit`, `Date`, `:` ], invoice_date, date , newline ] )
 
   ] )
 
@@ -352,7 +341,7 @@ i_rule(get_total_net, [
   
   q(0,150,line)
 
-  , generic_horizontal_details( [ [`NET`, `:`, `GBP` ], 100, total_net, d, newline ] )
+  , generic_horizontal_details( [ [`Net`, `Total`, tab, `£` ],  total_net, d, newline ] )
 
 ] ).
 
@@ -371,7 +360,7 @@ i_rule(get_total_vat, [
    
    ,q(0,15,up)
 
-  , generic_horizontal_details( [ [`VAT` , `@`, generic_item( [ default_vat_rate, d ] ), `%` tab, `GBP` ],100,  total_vat, d, newline ] )
+  , generic_horizontal_details( [ [`VAT`, `(`, generic_item( [ default_vat_rate, d ] ), `%`, `)`, tab, `£` ], total_vat, d, newline ] )
 
 ] ).
 
@@ -388,9 +377,9 @@ i_rule(get_total_invoice, [
 
 q(0,150,line) 
 
-  ,generic_horizontal_details( [ [`Invoice`, `Total`,  tab, generic_item( [ currency, w ] )  ],100,   total_invoice, d, newline ] )
+  , generic_horizontal_details( [ [ `Invoice`, `Total`, tab, `£`  ],   total_invoice, d, newline ] )
 
- 
+  , generic_item( [ currency, `EUR` ] )
 
 ] ).
 
@@ -423,9 +412,9 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-            [test(credit_note), line_credit_line]
+            [test(credit_note), line_desc_line, line_invoice_append, line_credit_line]
            
-           , line_invoice_line 
+           , [line_desc_line, line_invoice_append, line_credit_line ]
 
            , line
 
@@ -442,7 +431,7 @@ i_line_rule_cut( line_header_line, [
 
 or([
   
-  [`Item`, tab `Cost`]
+  [`Job`, `Number`, `:`]
 
 ])
 
@@ -456,7 +445,7 @@ i_line_rule_cut( line_end_line, [
 
   or([
     
-    [`Net`, `:`]
+    [`Payment`, `Terms`]
 
   ])
 
@@ -468,11 +457,9 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
-
-  
+ 
 
   generic_item( [ line_descr, s1, tab ] )
-
 
 , generic_item( [ line_net_amount, d, newline ] )
 
@@ -483,8 +470,7 @@ i_line_rule( line_desc_line, [
 %=======================================================================
      
 generic_item( [ line_descr, s1, newline ] )
-    
-      
+          
 ] ).
 
 %=======================================================================
@@ -499,14 +485,11 @@ i_line_rule_cut( line_credit_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line2, [
+i_line_rule_cut( line_invoice_append, [
 %=======================================================================
 
-  
+  generic_append( [ line_descr, s1, tab, `_`, ``  ] )
 
-  generic_item( [ line_descr, s1, tab  ] )
-
-, generic_item( [ line_net_amount, d, newline ] )
 
 
 ] ).
