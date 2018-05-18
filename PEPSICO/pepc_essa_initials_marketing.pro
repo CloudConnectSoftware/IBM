@@ -189,7 +189,6 @@ i_line_rule( line_buyer_add_line_6, [
 
    generic_item( [ buyer_postcode, s1, newline] )
 
-   
 ] ).
 
 
