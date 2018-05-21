@@ -248,15 +248,15 @@ i_rule( get_bank_accountnumber, [
    
    qn0(line)
 
-  , generic_horizontal_details( [ [  `C`, `number:`, `:` ],  supplier_bank_account_number, w, newline ] )
+  , generic_horizontal_details( [ [  `C`, `number:`, `:` ], remit_to_bank_account_number, w, newline ] )
 
   , q(1,2,line)
 
-  , generic_horizontal_details( [ [  `SWIFT` `:` ],  supplier_swift_code, w, newline ] )
+  , generic_horizontal_details( [ [  `SWIFT` `:` ], remit_to_swift_code, w, newline ] )
   
   , q(0,1,line)
 
-  , generic_horizontal_details( [ [  `IBAN`, `:` ],  supplier_iban, sw, newline ] )
+  , generic_horizontal_details( [ [  `IBAN`, `:` ], remit_to_iban, w, newline ] )
 	
 ] ).
 
