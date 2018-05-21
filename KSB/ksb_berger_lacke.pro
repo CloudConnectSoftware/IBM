@@ -491,6 +491,8 @@ i_line_rule_cut( line_end_line,[
 		 
          [`Zwischensumme` ]
 
+         , [ `Pos`, `.`, `Artikel`, `-` ]
+
         ])
 
         , trace([`found the end line`])
@@ -508,7 +510,11 @@ i_line_rule_cut( line_invoice_line, [
         ,generic_item([ line_reference , d  ])
 
         ,or([
-            generic_item([line_item , w , [q10(line_item(end)< -299)]  ] )
+            generic_item([line_item , w , [q10(line_item(end)< -295)]  ] )
+
+            , generic_item([line_item , w , [q10(line_item(end)< -299)]  ] )
+
+            , generic_item([line_item , w , [q10(line_item(end)< -301)]  ] )
 
             , generic_item([line_item , w , [q10(line_item(end)< -397)]  ] )
 
