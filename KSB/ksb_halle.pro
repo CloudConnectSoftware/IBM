@@ -129,7 +129,13 @@ i_line_rule( line_add_line2, [
      
        , [`92635`]
 
-       ,  generic_item( [ buyer_city , s1, tab ] )
+       ,  or([
+           
+           generic_item( [ buyer_city , s, `CEDEX` ] )
+
+           , generic_item( [ buyer_city , s1, tab ] )
+
+       ])
 
       
 
@@ -286,10 +292,40 @@ i_rule( get_order_number, [
 
  q(0,40,line)
 
- , generic_horizontal_details( [ [  `purchase`, `order`, `:` ],  order_number, s,[q10(tab), check(order_number(end) < -109)] ] )
+ , or([
+     
+     generic_horizontal_details( [ [  `purchase`, `order`, `:` ],  order_number, s,[q10(tab), check(order_number(end) < -109)] ] )
+
+ ,  find_order_number
+ 
+
+   ])
+
+   
+   , set(po_found)
+
+    , trace( [ `TML line FOUND` ] )
+
+    , q10([ peek_fails(test(po_found)) ,  set(consolidate_lines_non_po)])
+
 
 ] ).
 
+
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
