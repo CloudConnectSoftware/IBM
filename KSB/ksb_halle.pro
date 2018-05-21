@@ -127,7 +127,14 @@ i_line_rule( line_add_line2, [
     
      q0n(anything)
      
-       , [`92635`]
+       ,or([
+             [`92635`]
+
+            , `67227`
+
+            , [`F`, `-`, `92635`]
+
+       ])
 
        ,  or([
            
@@ -158,6 +165,8 @@ q(0,25,line)
         
           generic_horizontal_details( [ [ `Number`, `:` ],  invoice_number, s1, newline ] )
 
+          , generic_horizontal_details( [ [ `Nummer`, `:` ],  invoice_number, s1, newline ] )
+
         ])
 ] ).
 
@@ -177,6 +186,8 @@ q(0,25,line)
    ,  or([
         
         generic_horizontal_details( [ [ `Date`, `:` ],  invoice_date, date, newline ] )
+
+        , generic_horizontal_details( [ [ `Datum`, `:` ],  invoice_date, date, newline ] )
 
         ])
 ] ).
@@ -198,6 +209,8 @@ q(0,25,line)
         
           generic_horizontal_details( [ [ `Delivery`, `note`, `no`, `.`, `:` ], line_delivery_note_number, s1, newline ] )
 
+          , generic_horizontal_details( [ [  `Lieferungs`, `-`, `Nr`, `.`, `:` ], line_delivery_note_number, s1, newline ] )
+
         ])
 ] ).
 
@@ -213,23 +226,24 @@ i_rule( get_net_amount, [
 %=======================================================================
 
   q(0,100,line)
-	
-   ,  or([
-        
+     
         
 
-     [set(reverse_punctuation_in_numbers), set(regexp_cross_word_boundaries)
+     , set(reverse_punctuation_in_numbers), set(regexp_cross_word_boundaries)
 
-      ,  generic_horizontal_details( [ [ `Total`, tab ],  total_net, d, newline ] )
+      ,  or([  
+          
+          generic_horizontal_details( [ [ `Total`, tab ],  total_net, d, newline ] )
 
+      ,   generic_horizontal_details( [ [`Summe`, `Positionen`, tab ],  total_net, d, newline ] )
 
-      , clear(reverse_punctuation_in_numbers)
+            ])
 
-    , clear(regexp_cross_word_boundaries)]
+      , clear(reverse_punctuation_in_numbers)   , clear(regexp_cross_word_boundaries)
 
   
 
-        ])
+        
 ] ).
 
 
@@ -244,23 +258,23 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
  q(0,125,line)
-	
-   ,  or([
+
+	, set(reverse_punctuation_in_numbers), set(regexp_cross_word_boundaries)
+
+    ,  or([
+
+            generic_horizontal_details( [ [ `Final`, `amount`, tab ],  total_invoice, d, newline ] )
         
-        
+            ,  generic_horizontal_details( [ [ `Endbetrag`, tab],  total_invoice, d, newline ] )
 
-     [set(reverse_punctuation_in_numbers), set(regexp_cross_word_boundaries)
-
-      ,  generic_horizontal_details( [ [ `Final`, `amount`, tab ],  total_invoice, d, newline ] )
+    ])
 
 
-      , clear(reverse_punctuation_in_numbers)
-
-    , clear(regexp_cross_word_boundaries)]
+    , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)
 
   
 
-        ])
+        
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -378,7 +392,7 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			[line_invoice_line, q10(line_append_line), q10(line_append_line1),q10(line_append_line1),q10(line_append_line1)]
+			line_invoice_line
 
 			, line
 
@@ -398,6 +412,8 @@ i_line_rule_cut( line_start_line,[
 	or([
 
         [`Item`, tab, `Description`, tab]
+
+        , [`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
         
       ])
 
@@ -412,7 +428,9 @@ i_line_rule_cut( line_end_line,[
 	  or([
 		 
        
-    [`Final`, `amount`]
+        [`Final`, `amount`]
+
+        , `Summe`, `Positionen`
 
 
         ])
@@ -427,13 +445,14 @@ i_line_rule_cut( line_invoice_line, [
 	
         set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
-      , generic_item([ line_item, s1 ,q10(tab) ])
+
+       , generic_item([ line_reference, s1 ,tab ])
 
       , generic_item([ line_descr, s1 ,tab ])
 
-       , generic_item([ line_reference, s1 ,tab ])
+      , generic_item([ line_item, w ,q10(tab) ])
           
-      , generic_item([ line_quantity, d, q10(tab)  ])
+      , generic_item([ line_quantity, d ])
 
       , generic_item([ line_quantity_uom_code, w, tab  ])
 
