@@ -110,7 +110,7 @@ i_line_rule( line_add_line, [
 
        q0n(anything)
        
-       ,read_ahead([ `KSB`, `SAS` ])
+       ,read_ahead([ `KSB` ])
 
      , trace( [ `Found BUYER address`] )
 
@@ -456,7 +456,7 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_item([ line_quantity_uom_code, w, tab  ])
 
-      , generic_item( [ line_unit_amount,d , tab ] )
+      , generic_item( [ line_unit_amount_dummy,d , tab ] )
 
       , generic_item( [ line_net_amount,d , newline ] )
 
