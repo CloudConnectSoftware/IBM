@@ -79,6 +79,8 @@ i_rule( get_supplier_details, [
 
     , supplier_vat_number(`FR20569801897`) 
 
+    , currency( `EUR` )
+
        
 ] ).
 
