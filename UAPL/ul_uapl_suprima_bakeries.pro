@@ -103,7 +103,13 @@ i_line_rule( invoice_tax_line, [
 
 q0n(anything)
 
-	, `TAX`, `CREDIT`, tab
+, or([
+
+      [`T`, `A`, `X`, `I`, `N`, `V`, `O`, `I`, `C`, `E`]
+
+	, [`TAX`, `CREDIT`, tab ]
+
+    ] )
 
 	,set(tax_invoice)
 
@@ -124,9 +130,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
+    , or([
+
+    generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, tab ], invoice_number, d, newline ] )
+
    , generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], 30,invoice_number, d, newline ] )
 	
-	
+	] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -141,7 +152,13 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
+        , or([
+
+       generic_horizontal_details( [ [ `DATE`, tab ], invoice_date, date, newline ] )
+
+
     , generic_horizontal_details( [ [ `Invoice`, `Date`, `:`],30, invoice_date, date, newline ] )
+] )
 
 ] ).
 
@@ -174,7 +191,13 @@ i_rule( get_total_net, [
 
  qn0(line)
 
+ , or([
+
+    generic_horizontal_details( [ [`Nett`, tab ], total_net, d, newline ] )
+
  , generic_horizontal_details( [ [ `SUB`, `TOTAL`, tab ], total_net, d, newline ] )
+
+ ] )
 
 ] ).
 
@@ -190,8 +213,11 @@ i_rule( get_total_vat, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `GST`, tab ],  total_vat, d, newline ] )
+    , or([
 
+     generic_horizontal_details( [ [ `GST`, tab ],  total_vat, d, newline ] )
+
+] )
 
 ] ).
 
@@ -205,9 +231,14 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q(0,3,line)
+    q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`,  tab ],  total_invoice, d, newline ] )
+     , or([
+
+      generic_horizontal_details( [ [`Total`, tab ],  total_invoice, d, newline ] )
+
+
+    ] )
 
 ] ).
 
@@ -245,3 +276,21 @@ i_rule( get_invoice_lines, [
     , line_descr( `NON PO Line Charges` )
 
 ]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - May 22, 2018
+% Updated by   - Rohini
+% Changes made - Tax Invoice, Invoice number, date, Total net
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
