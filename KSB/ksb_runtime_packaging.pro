@@ -507,9 +507,9 @@ i_line_rule_cut( line_po_line, [
 % Created on   - February 15, 2018
 % Updated by   - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - May 22, 2018
+% Updated by   - Thejaswi k
+% Changes made  - Line details updated 
 
 
 % Updated on   - 
