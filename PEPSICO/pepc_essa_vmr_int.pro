@@ -25,6 +25,8 @@ i_rule_list( [
 
     , get_remit_address
 
+    , get_bank_swif_no
+
     , get_bank_accountnumber
                      
     , get_invoice_number
@@ -313,6 +315,37 @@ i_line_rule( line_remit_line3, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
+     q(0,100,line)
+
+     , generic_horizontal_details( [ [ `Account`, `No`, `:`,  generic_item( [ remit_to_bank_account_number, d ]),  tab, `IBAN`, `:`],  remit_to_iban_raw, s1, newline ] )
+
+     
+      , check( remit_to_iban_raw = BankRaw1 )
+
+    , trace( [ `Bank number raw` , BankRaw1 ] )
+
+    , check(string_string_replace( BankRaw1, ` `, ``, BankStrip1 ))
+
+    , trace( [ `Bank Stripped Space1` , BankStrip1 ] )
+
+    , remit_to_iban(BankStrip1)
+
+    , trace( [ `remit_to_iban ` , remit_to_iban ] ) 
+
+  
+    
+] ).
+
+%=======================================================================
+i_rule( get_bank_swif_no, [
+%=======================================================================
+
+     q(0,100,line)
+
+     , generic_horizontal_details( [ [ `Swift`, `code`, `:`],  remit_to_swift_code, s1, newline ] )
+
+      
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -343,7 +376,12 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-      , generic_horizontal_details( [ [`INVOICE`, q10(tab) ], invoice_number, w, `from` ] )
+      , or([
+          generic_horizontal_details( [ [`INVOICE`, q10(tab) ], invoice_number, w, `from` ] )
+
+          , [ generic_horizontal_details( [ [`Credit`, `Memo`, q10(tab) ], invoice_number, w, `from` ] ) , set(credit_note)]
+
+      ])
 
       ,  q(0,1,line)
 
@@ -483,7 +521,7 @@ i_rule(get_currency, [
 
     ,q(0,30,up)
 
-  , generic_vertical_details( [ [ `TOTAL`, newline ], `TOTAL`, q(0,1), (end,10,40), currency,  w,  newline  ] )
+  , generic_vertical_details( [ [ `TOTAL`, newline ], `TOTAL`, q(0,1), (end,10,100), currency,  w,  newline  ] )
 
 
 ] ).
