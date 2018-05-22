@@ -43,7 +43,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-   % , get_currency
+   , get_currency
 
     , get_invoice_lines
 
@@ -142,9 +142,9 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-      generic_item( [ supplier_city, w, `,`] )
+      generic_item( [ supplier_city, s, `,`] )
 
-    ,  generic_item( [ supplier_state, w, q10(tab)] )
+    ,  generic_item( [ supplier_state, w ] )
 
     , generic_item( [ supplier_postcode, s1, tab ] )
 
@@ -483,7 +483,7 @@ i_rule(get_currency, [
 
     ,q(0,30,up)
 
-  , generic_vertical_details( [ [ `TOTAL`, newline ], `TOTAL`, q(0,1), (end,10,10), currency,  w,  newline  ] )
+  , generic_vertical_details( [ [ `TOTAL`, newline ], `TOTAL`, q(0,1), (end,10,40), currency,  w,  newline  ] )
 
 
 ] ).
