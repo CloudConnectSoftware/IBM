@@ -131,7 +131,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
  
-    , generic_item( [ supplier_city, w] )
+      generic_item( [ supplier_city, w] )
 
     ,  generic_item( [ supplier_state, w, q10(tab)] )
 
