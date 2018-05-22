@@ -167,9 +167,6 @@ i_rule( get_buyer_address, [
 
     ,line_add_line4
 
-    , q(1,2,line)
-
-    ,line_add_line5
 
 
 
@@ -185,15 +182,13 @@ i_line_rule( line_add_line1, [
 
     ,  generic_item( [buyer_party , s1, tab ] )
 
-     ,  generic_item( [buyer_party_dummy , s1, newline ] )
-
 ] ).
 
 %=======================================================================
 i_line_rule( line_add_line2, [
 %=======================================================================
   
-  generic_item( [ buyer_address_line , s1 , newline ] )
+  generic_item( [ requestor , s1 , tab ] )
 
 ] ).
 
@@ -201,7 +196,7 @@ i_line_rule( line_add_line2, [
 i_line_rule( line_add_line3, [
 %=======================================================================
   
-  generic_append( [ buyer_address_line , s1 , tab , ` `, ``  ] )
+  generic_item( [ buyer_address_line , s1 , newline ] )
       
 
 ] ).
@@ -210,17 +205,9 @@ i_line_rule( line_add_line3, [
 %=======================================================================
 i_line_rule( line_add_line4, [
 %=======================================================================
-  
-   generic_item( [ buyer_street , s1 , tab ] )
+     generic_item( [ buyer_city, w ] )
 
-] ).
-%=======================================================================
-i_line_rule( line_add_line5, [
-%=======================================================================
-  
-  generic_append( [buyer_street , s1 , tab, ` `, ` `  ] )
-
- ,  generic_item( [ buyer_state, w, q10(tab)] )
+ ,  generic_item( [ buyer_state, w ] )
 
   ,  generic_item( [ buyer_postcode, s1, newline ] )
 
@@ -462,11 +449,13 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 or([
     
-[`DESCRIPTION`, tab, `UNITS`]
+  [`NAME`, tab, `UNITS`]
+
+] )
 
 , trace( [ `Found Start line` ] )
 
-])
+
 
 ] ).
 
@@ -476,9 +465,9 @@ i_line_rule_cut( line_end_line, [
  
  or([
 
-    [ `Echéance`, `:`]
+      [ `SUBTOTAL`, `:`]
 
-    , [`Code`, tab, `VAT`, `Basis`, tab, `Rate`, tab ]
+    , [`Open`, `Invoice` ]
 
     , [`Libellé`, `prestation`]
 
