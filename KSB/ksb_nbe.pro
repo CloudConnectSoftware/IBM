@@ -70,6 +70,8 @@ i_rule( get_supplier_details, [
     ,supplier_party( `NBE-Elektrische Maschinen und Geräte GmbH` )
 
     , supplier_vat_number(`DE139650565`)
+
+    , supplier_bank_iban([`DE13860700000512226200`])
     
       
 ] ).

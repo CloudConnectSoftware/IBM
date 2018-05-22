@@ -411,6 +411,8 @@ i_line_rule_cut( line_end_line,[
 		 
          [`Rechnung`]
 
+         , [`Pos`, `.`, tab, `Artikelnr`, `.`, tab, `Bezeichnung`]
+
         , [`Zwischensumme`, `EUR`, tab ]
 
 
@@ -421,7 +423,7 @@ i_line_rule_cut( line_end_line,[
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
         set(regexp_cross_word_boundaries)
@@ -465,7 +467,7 @@ i_line_rule( line_invoice_line, [
 
 
 %=======================================================================
-i_line_rule( line_append_line, [
+i_line_rule_cut( line_append_line, [
 %=======================================================================
 
      generic_append( [ line_descr , s1, newline, `  `, ``  ] )
@@ -475,7 +477,7 @@ i_line_rule( line_append_line, [
 
 
 %=======================================================================
-i_line_rule( line_delivery_line, [
+i_line_rule_cut( line_delivery_line, [
 %=======================================================================
 
      [`Lieferschein`]
@@ -487,7 +489,7 @@ i_line_rule( line_delivery_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_po_line, [
+i_line_rule_cut( line_po_line, [
 %=======================================================================
 
      [`Ihre`, `Belegnummer`, `:`]
@@ -505,9 +507,9 @@ i_line_rule( line_po_line, [
 % Created on   - February 15, 2018
 % Updated by   - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - May 22, 2018
+% Updated by   - Thejaswi k
+% Changes made  - Line details updated 
 
 
 % Updated on   - 
