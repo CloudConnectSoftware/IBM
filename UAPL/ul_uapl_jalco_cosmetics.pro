@@ -246,8 +246,9 @@ i_rule( line_invoice_line_rule, [
 
 or([
  
-       
-     line_invoice_line2
+      [line_invoice_line3, line_invoice_append]
+    
+     , line_invoice_line2
 
      , line_invoice_line
 
@@ -327,6 +328,42 @@ i_line_rule_cut( line_invoice_line2, [
     
 ] ).
 
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line3, [
+%=======================================================================
+	
+     
+
+      q10(generic_item([ line_item , s1 , tab ]))
+
+
+     , generic_item([ line_descr , s1 , tab ])
+
+     , generic_item([ line_buyers_order_number , d ])
+
+     , q10(generic_item([ line_customer_dummy , s1 , tab])) 
+
+     , generic_item([ line_quantity , d ] )
+
+     , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
+
+	 , generic_item([ line_unit_amount ,d ] )
+
+     , q10(generic_item( [ line_UOM_dummy, s1, tab ] ))
+
+     , generic_item([ line_net_amount , d , q10(tab) ] )
+
+     , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,q10(tab) ] ] ))
+
+     , generic_item([ line_vat_amount , d ] )
+
+	 , generic_item([ line_total_amount , d , newline ] ) 
+     
+    
+] ).
+
 %=======================================================================
 i_line_rule( line_invoice_descr, [
 %=======================================================================
@@ -337,3 +374,33 @@ i_line_rule( line_invoice_descr, [
      
     
 ] ).
+
+
+
+%=======================================================================
+i_line_rule( line_invoice_append, [
+%=======================================================================
+	
+     generic_append( [ line_descr, w, tab, ` `, ``  ] )
+
+   , generic_item( [ line_dummy, s1, newline ] )
+     
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - May 23, 2018
+% Updated by   - Rohini
+% Changes made - Line format 
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
