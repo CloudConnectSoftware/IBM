@@ -292,19 +292,13 @@ qn0(line)
 
      ,or([
 
-         [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
-
+    [ set(reverse_punctuation_in_numbers), set(regexp_cross_word_boundaries)
 
     , generic_horizontal_details( [ [ `19`, `,`, `0`, `%`, `MWST`, `.`, `VON`, tab, dummy_num(d), tab ], total_vat, d, newline ] )
 
     , generic_item( [ default_vat_rate, `19` ] )
     
-
-    , clear(reverse_punctuation_in_numbers)
-
-    , clear(regexp_cross_word_boundaries)]
+    , clear(reverse_punctuation_in_numbers), clear(regexp_cross_word_boundaries) ]
 
     ])
 
@@ -324,15 +318,11 @@ i_rule( get_total_invoice, [
 
      ,or([
   
-    [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
+    [ set(reverse_punctuation_in_numbers), set(regexp_cross_word_boundaries)
 
     ,   generic_horizontal_details( [ [ `Rechnungssumme`, tab  ], total_invoice, d, newline ] )
 
-    , clear(reverse_punctuation_in_numbers)
-
-    , clear(regexp_cross_word_boundaries)]
+    , clear(reverse_punctuation_in_numbers), clear(regexp_cross_word_boundaries) ]
     
         ])
 	
@@ -372,11 +362,13 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-           [line_invoice_line,q10(line_append_line1),q10(line_append_line1), line_invoice_line2,q10(line_additional_line), trace( [ `1`] )]
+           [line_invoice_line, q(0, 2,line_append_line1), line_invoice_line2,q10(line_additional_line), trace( [ `1`] )]
 		
            , [q10(line_item_line),line_invoice_line, line_invoice_line1, trace( [ `2`] )]
 
             , [line_invoice_line,q10(line_append_line1), line_invoice_line1, trace( [ `3`] )]
+
+            , line_invoice_line_freight
 
             
 
@@ -444,6 +436,28 @@ i_line_rule_cut( line_invoice_line, [
        , generic_item([ line_descr , s1, newline  ])
 
              
+      , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+    
+] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_freight, [
+%=======================================================================
+	
+
+        read_ahead(`FRACHTKOSTEN`)
+
+       , generic_item([ line_descr , s1, tab  ])
+
+       , generic_item([ line_net_amount , s1, newline  ])
+
+
       , q10( [ 
 
          with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
