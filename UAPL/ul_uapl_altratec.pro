@@ -390,6 +390,8 @@ i_rule( get_total_net, [
 
         , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
+        , generic_horizontal_details( [ [  `Total`, `:`, tab ],  total_net, d, newline ] )
+
          
 
     ])
@@ -704,6 +706,10 @@ i_line_rule_cut( line_credit_line, [
 % Updated on   - October 17, 2017
 % Updated by   - Rohini
 % Changes made - Invoice line details
+
+% Updated on   - May 23, 2018
+% Updated by   - Rohini
+% Changes made - Invoice Net amount
 
 % Updated on   - 
 % Updated by   -
