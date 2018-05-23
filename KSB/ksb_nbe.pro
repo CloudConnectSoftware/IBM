@@ -71,7 +71,7 @@ i_rule( get_supplier_details, [
 
     , supplier_vat_number(`DE139650565`)
 
-    , supplier_bank_iban([`DE13860700000512226200`])
+    , supplier_bank_iban(`DE13860700000512226200`)
     
       
 ] ).
