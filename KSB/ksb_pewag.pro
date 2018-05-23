@@ -362,19 +362,14 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-           [line_invoice_line, q(0, 2,line_append_line1), line_invoice_line2,q10(line_additional_line), trace( [ `1`] )]
+           [line_invoice_line, q(0, 2,line_append_line1), line_invoice_line2, trace( [ `1`] )]
 		
            , [q10(line_item_line),line_invoice_line, line_invoice_line1, trace( [ `2`] )]
 
             , [line_invoice_line,q10(line_append_line1), line_invoice_line1, trace( [ `3`] )]
 
             , line_invoice_line_freight
-
-            
-
-             
-
-            
+                
 			, line
 
 			
@@ -406,7 +401,9 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
-         [`Summe`, `netto`, tab ]
+         [`Summe`, `netto`]
+
+         , [`POS`, `.`, tab, `BESTELL`, `-`, tab, `EH`, tab, `LIEFER`, `-`, tab ]
 
 
         ])
@@ -436,15 +433,7 @@ i_line_rule_cut( line_invoice_line, [
        , generic_item([ line_descr , s1, newline  ])
 
              
-      , q10( [ 
-
-         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
-
-        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
-    
-] )
-
-]).
+    ]).
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line_freight, [
@@ -453,9 +442,17 @@ i_line_rule_cut( line_invoice_line_freight, [
 
         read_ahead(`FRACHTKOSTEN`)
 
-       , generic_item([ line_descr , s1, tab  ])
+    , set(regexp_cross_word_boundaries)
 
-       , generic_item([ line_net_amount , s1, newline  ])
+    , set(reverse_punctuation_in_numbers)
+
+    , generic_item([ line_descr , s1, tab  ])
+
+    , generic_item([ line_net_amount , d, newline  ])
+
+    , clear(reverse_punctuation_in_numbers)
+
+    , clear(regexp_cross_word_boundaries)
 
 
       , q10( [ 
@@ -511,7 +508,7 @@ i_line_rule( line_item_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_append_line1, [
+i_line_rule_cut( line_append_line1, [
 %=======================================================================
 
     generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
@@ -520,7 +517,7 @@ i_line_rule( line_append_line1, [
 
 
 %=======================================================================
-i_line_rule( line_additional_line, [
+i_line_rule_cut( line_additional_line, [
 %=======================================================================
 
             set(regexp_cross_word_boundaries)
@@ -529,7 +526,7 @@ i_line_rule( line_additional_line, [
 
        , generic_item([ line_descr , s1 ,tab ])
 
-       , generic_item([ line_net_amount_dummy , d, newline  ])
+       , generic_item([ line_net_amount , d, newline  ])
 
         , clear(reverse_punctuation_in_numbers)
 
@@ -539,7 +536,7 @@ i_line_rule( line_additional_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line2, [
+i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 	
         set(regexp_cross_word_boundaries)
