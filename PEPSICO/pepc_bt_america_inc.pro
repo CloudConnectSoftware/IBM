@@ -72,7 +72,7 @@ i_rule( get_supplier_detail, [
 
     ,supplier_party(`BT America Inc`)
 
-	,supplier_vat_number(`13-3459785`)
+	,supplier_vat_number(`133459785`)
 
     ,buyer_dept(``)
 
