@@ -272,7 +272,7 @@ i_line_rule( line_add_line, [
 
 
 %=======================================================================
-i_line_rule( line_add_line_2, [
+i_line_rule( line_add_line_1, [
 %=======================================================================
 
 generic_item( [ buyer_party, s1, tab ] )
