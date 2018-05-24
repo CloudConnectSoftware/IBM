@@ -287,25 +287,27 @@ i_rule( get_net_amount, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-qn0(line)
+    qn0(line)
 
-     ,or([
-
-         [set(reverse_punctuation_in_numbers)
+    , set(reverse_punctuation_in_numbers)
 
     , set(regexp_cross_word_boundaries)
 
+    ,or([
 
-    ,  generic_horizontal_details( [ [`Mehrwertsteuer`, `:`, `19`, `%`, tab, `EUR`, tab ], total_vat, d, newline ] )
-   
-    , generic_item( [ default_vat_rate, `19` ] )
-    
+      generic_horizontal_details( [ [`Mehrwertsteuer`, q10(`:`),q10(tab) ,`19`, `%`, tab, `EUR`, tab ], total_vat, d, newline ] )
+
+    ,  generic_horizontal_details( [ [`Mehrwertsteuer`, `%`, `19`, tab, `EUR`, tab ], total_vat, d, newline ] )
+       
+    ])
 
     , clear(reverse_punctuation_in_numbers)
 
-    , clear(regexp_cross_word_boundaries)]
+    , clear(regexp_cross_word_boundaries)
 
-    ])
+    , generic_item( [ default_vat_rate, `19` ] )
+
+    
 
 ]).
 
