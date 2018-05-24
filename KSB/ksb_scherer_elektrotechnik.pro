@@ -504,9 +504,9 @@ i_line_rule( line_credit_line, [
 % Created on   - March 5, 2018
 % Updated by   - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - May 24, 2018
+% Updated by   - Thejaswi
+% Changes made   - Vat amount rule was incorrect
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
