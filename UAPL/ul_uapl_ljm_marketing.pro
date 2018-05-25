@@ -194,7 +194,7 @@ i_rule_cut( get_invoice_totals, [
 
   q0n(line)
 
-    , [generic_horizontal_details( [ [ `Ex`, `GST`, tab ], total_net, d, newline ] )
+    , [generic_horizontal_details( [ [ `ExGST`, tab ], total_net, d, newline ] )
 
 
     , check(total_net =TotNet)
@@ -237,7 +237,11 @@ i_rule( get_total_invoice, [
 
    q0n(line)
 
-     , generic_horizontal_details( [ [ `Total`, tab ], total_invoice, d, newline ] )  
+     , or([
+         generic_horizontal_details( [ [ `Total`, tab ], total_invoice, d, newline ] )  
+ 
+
+     ])
 
     ] ).
     
