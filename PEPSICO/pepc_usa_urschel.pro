@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% MIDWEST INDUSTRIAL RUBBER INC
+% URSCHEL LABORATORIES INC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -64,7 +64,7 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `MIDWEST INDUSTRIAL RUBBER INC` )
+    sender_name( `URSCHEL LABORATORIES INC` )
 
     
 ] ).
@@ -166,11 +166,11 @@ i_line_rule( line_add_line1, [
 
       or([
           read_ahead([`Fritto`])
+          
           , read_ahead([`PEPSICO`])
-
       ])
 
-     , trace( [ `Found address`] )
+    , trace( [ `Found address`] )
 
     ,  generic_item( [buyer_party , s1, tab ] )
 
@@ -492,7 +492,7 @@ i_section( get_invoice_lines, [
 
                 line_invoice_line              
 
-                
+                , line_additional_charges
 
               , line
 

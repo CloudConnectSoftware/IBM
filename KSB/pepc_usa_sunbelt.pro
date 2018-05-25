@@ -17,7 +17,7 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     
-      get_supplier_detail
+    get_supplier_detail
 
     , get_supplier_address
 
@@ -154,9 +154,20 @@ i_rule( get_buyer_address, [
 
     ,line_add_line2
 
-    , q(1,2,line)
+    , q(0,1,line)
 
     ,line_add_line3
+
+    , q(0,1,line)
+
+    ,line_add_line4
+
+    , q(0,1,line)
+
+    ,line_add_line5
+
+
+
 
 ] ).
 
@@ -164,11 +175,7 @@ i_rule( get_buyer_address, [
 i_line_rule( line_add_line1, [
 %=======================================================================
 
-      or([
-          read_ahead([`Fritto`])
-          , read_ahead([`PEPSICO`])
-
-      ])
+        read_ahead([`PEPSICO`])
 
      , trace( [ `Found address`] )
 
@@ -188,11 +195,11 @@ i_line_rule( line_add_line2, [
 i_line_rule( line_add_line3, [
 %=======================================================================
   
-  generic_item( [ buyer_city, sf ] )
+  generic_item( [ buyer_city, w, `,` ] )
 
   , generic_item( [ buyer_state, w  ] )
      
-  , generic_item( [ buyer_postcode, d, tab ] )
+  , generic_item( [ buyer_postcode, w, tab ] )
 
 ] ).
 
@@ -310,7 +317,7 @@ i_rule( get_payment_terms, [
 
     q(0,50,line)
 
-    , generic_horizontal_details( [ [ `Terms`, q10(tab)], payment_terms, s1, tab ] )
+    , generic_vertical_details( [ [  `Terms`, `:` ], `Terms`, q(0,1), (start,20,20), payment_terms, s1, tab ] )
 
 ] ).
 
@@ -328,7 +335,7 @@ i_rule( get_invoice_number, [
 
     , or([
             
-         generic_vertical_details( [ [ `Inv`, `.`], `Inv`, q(0,3), (end,150,150), invoice_number, d, [tab, `TERMS`] ] )
+         generic_horizontal_details( [ [ `Invoice`, `:`], invoice_number, w, newline ] )
 
     ])
 
@@ -348,7 +355,7 @@ q(0,5,line)
 
     , or([
             
-         generic_horizontal_details( [ [`DATE`, tab], invoice_date, tab  ] )
+         generic_horizontal_details( [ [`Date`, `/`, `Time`, `:`], invoice_date, date  ] )
 
     ])
 
@@ -384,7 +391,7 @@ i_rule( get_order_number, [
 
 q(0,50,line)
 
- ,   generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `#`, tab ], order_number, w , newline ] )
+ ,   generic_horizontal_details( [ [ `Customer`, `P`, `/`, `O`, `:` ], order_number, w , tab ] )
   
 ] ). 
 
@@ -402,7 +409,7 @@ i_rule(get_total_net, [
 
     , q(0,30,up)
 
-    , generic_horizontal_details( [ [ `*`, `*`, `*`, `TOTAL`, `*`, `*`, `*`, tab, `U`, `.`, `S`, `.`, `$`, tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [  `Invoice`, `Subtotal`, `:`, tab, `$` ], total_net, d, newline ] )
 
 ] ).
 
@@ -439,7 +446,7 @@ i_rule(get_total_invoice, [
 
   , q(0,30,up)
 
-  ,  generic_horizontal_details( [ [`*`, `*`, `*`, `TOTAL`, `*`, `*`, `*`, tab, `U`, `.`, `S`, `.`, `$`, tab], total_invoice, d, newline ] )
+  ,  generic_horizontal_details( [ [ `Invoice`, `Total`, `:`, tab, `$`], total_invoice, d, newline ] )
 
 
 ] ).
@@ -507,7 +514,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 or([
     
-  [`QUANTITY`, tab, `PART`, `NO`, `.`]
+  [`Part`, `/`, `Misc`, tab, `Description`, `/`, `Ref`]
 
 ] )
 
@@ -523,9 +530,9 @@ i_line_rule_cut( line_end_line, [
  
  or([
 
-     [`QUANTITY`, tab, `PART`, `NO`, `.`]
+     [`Part`, `/`, `Misc`, tab, `Description`, `/`, `Ref`]
 
-    , [`*`, `*`, `*`, `TOTAL`, `*`, `*`, `*`, tab, `U`, `.`, `S`, `.`, `$`, tab]
+    , [`Invoice`, `Subtotal`, `:`]
 
  ])
 
@@ -539,35 +546,20 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_quantity, d , tab ] )
-      
-    , generic_item( [ line_item, w, tab ] )
+      generic_item( [ line_item, w, tab ] )
 
-    , generic_item( [ line_descr, s1, tab ] )
+     , generic_item( [ line_descr, s1, tab ] )
 
-    ,  generic_item( [ line_unit_amount, d, tab  ] )
+     , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+     , generic_item( [ line_quantity, d , tab ] )
+    
+     ,  generic_item( [ line_unit_amount, d, tab  ] )
 
     , generic_item( [ line_net_amount, d, newline  ] )
 
 ] ).
 
-%=======================================================================
-i_line_rule_cut( line_additional_charges, [
-%=======================================================================
-
-    or([
-    
-     read_ahead( [ `INSURANCE`, `CHGS` ] )
-    
-    , read_ahead( [ `SHIPPING`, `AND`, `HANDLING` ] )
-
-    ])
-    
-    , generic_item( [ line_descr, s1, tab ] )
-
-    , generic_item( [ line_net_amount, d, newline  ] )
-
-] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
