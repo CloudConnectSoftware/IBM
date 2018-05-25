@@ -78,11 +78,11 @@ i_rule( get_supplier_detail, [
 
 %=======================================================================
 i_rule( get_supplier_address, [
-%=======================================================================
+
    
     last_line
 
-    , q(0,50 ,line)
+    , q(0,50 ,up)
 
     , line_add_line
 
@@ -181,10 +181,12 @@ i_line_rule( line_add_line1, [
 
        ,read_ahead(`FRITO`)
 
+       ] )
+
+
      , trace( [ `Found address`] )
 
-     ] )
-
+     
 
     ,  generic_item( [buyer_party , s1, newline ] )
 
@@ -205,7 +207,7 @@ i_line_rule( line_add_line2, [
 %=======================================================================
   
     generic_item( [ buyer_postcode , d ])
-    , generic_item( [ buyer_city , e , newline ] )
+    , generic_item( [ buyer_city , w , newline ] )
 
 ] ).
 
