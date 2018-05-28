@@ -563,7 +563,7 @@ i_line_rule_cut( credit_note_line, [
 %=======================================================================
       
      
-      generic_item( [line_item_dummy , w , tab ] )
+     q10( generic_item( [line_item_dummy , s1 , tab ] ))
 
       , generic_item( [line_descr , s1 , tab] )
 
