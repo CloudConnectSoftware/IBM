@@ -201,7 +201,11 @@ i_rule( get_total_invoice, [
 	
 	, or([
         [generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab, `(` ,generic_item( [ total_net, d ] ), `)`, tab , `(`,  generic_item( [ total_vat, d ] ), `)`, tab, `(` ],total_invoice, d, [`)`,newline] ] ), set(credit_note), trace( [ `This is a credit note` ] )]
-        ,generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item( [ total_net, d ] ), tab,  generic_item( [ total_vat, d ] ), tab ],total_invoice, d, newline ] )
+        ,[generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item( [ total_net, d ] ), tab,  generic_item( [ total_vat, d ] ), tab ],total_invoice, d, newline ] )]
+
+        ,[generic_horizontal_details( [ [  `Total`, `:`, `(`, `AUD`, `)`, tab, generic_item( [ total_net, d ] ), tab ],  total_invoice, d, newline ] )]
+
+
     ])
     
 ] ).
