@@ -566,7 +566,7 @@ i_line_rule_cut( line_invoice_line, [
          
      [ set(regexp_allow_partial_matching)
 
-    , generic_item( [ line_quantity_dummy , d ])
+    , generic_item( [ line_quantity , d ])
     
     , generic_item( [ line_quantity_uom_code , w , tab ] )
 
@@ -574,7 +574,7 @@ i_line_rule_cut( line_invoice_line, [
     
     )
 
-    , generic_item( [ line_unit_amount , d , tab ] )
+    , generic_item( [ line_unit_amount_dummy , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
 
@@ -614,11 +614,11 @@ i_line_rule_cut( line_invoice_line2, [
     
     , generic_item( [ line_descr , s1, tab ] )
      
-    , generic_item( [ line_quantity_dummy , d, q10(tab) ])
+    , generic_item( [ line_quantity , d, q10(tab) ])
     
     , q10(generic_item( [ line_quantity_uom_code , w , tab ] ))
 
-     , generic_item( [ line_unit_amount , d , tab ] )
+     , generic_item( [ line_unit_amount_dummy , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
 
@@ -635,10 +635,10 @@ i_line_rule_cut( line_invoice_line3, [
     
     , generic_item( [ line_descr , s1, tab ] )
      
-    , generic_item( [ line_quantity_dummy , d, tab ])
+    , generic_item( [ line_quantity , d, tab ])
   
 
-     , generic_item( [ line_unit_amount , d , tab ] )
+     , generic_item( [ line_unit_amount_dummy , d , tab ] )
 
     , generic_item( [ line_net_amount, d , newline ] )
 
@@ -710,6 +710,11 @@ i_line_rule_cut( line_credit_line, [
 % Updated on   - May 23, 2018
 % Updated by   - Rohini
 % Changes made - Invoice Net amount
+
+
+% Updated on   - May 29, 2018
+% Updated by   - Rohini
+% Changes made - Invoice Line details
 
 % Updated on   - 
 % Updated by   -
