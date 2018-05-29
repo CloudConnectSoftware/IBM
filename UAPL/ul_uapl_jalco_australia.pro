@@ -244,10 +244,32 @@ i_rule( get_line_total_amount, [
         , or([
             generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , `(` ,  dummy_number1(d) ,`)`, tab , `(`, dummy_num2(d),`)`, tab , `(` ],line_total_amount, d, [`)`,newline ] ] )
             ,generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , dummy_number1(d) , tab, dummy_num2(d), tab ],line_total_amount, d, newline ] )    
+          ,[generic_horizontal_details( [ [  `Total`, `:`, `(`, `AUD`, `)`, tab, dummy_number1(d), tab ],  line_total_amount, d, newline ] )]
+
         ])
 
 , line_descr( `Service Charges` )
 
      ] ).
 
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+
+% Updated on   - May 29, 2018
+% Updated by   - Rohini
+% Changes made - Invoice Line details
+
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
