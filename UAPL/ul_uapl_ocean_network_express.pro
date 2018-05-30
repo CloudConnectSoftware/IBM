@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_oceanfreight_limited, `30/5/2018`  ).
+i_version( ul_uapl_ocean_network_express, `30/5/2018`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -12,7 +12,6 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -112,7 +111,12 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `USD`, tab],  total_invoice, d, newline ] ) 
+    , or([
+        generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `USD`, tab],  total_invoice, d, newline ] )
+    
+      , generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `SGD`, tab],  total_invoice, d, newline ] ) 
+
+    ])
 
     , check( total_invoice = TotInv )
 
