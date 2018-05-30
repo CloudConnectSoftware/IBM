@@ -63,7 +63,7 @@ i_rule_cut( get_invoice_number, [
     
     q(0,30,line)
 
-   , generic_vertical_details( [ [ `INVOICE`,`NUMBER`], `NUMBER`, q(0,1), (end,10,20), invoice_number, w, tab ] )
+   , generic_vertical_details( [ [ `INVOICE`,`NUMBER`], `NUMBER`, q(0,1), (start,30,30), invoice_number, w, tab ] )
 
 ] ).
 
@@ -80,7 +80,7 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
-    , generic_vertical_details( [ [ `ISSUE`,`Date`], `Date`, q(0,1), (end,10,20), invoice_date_raw, w, newline ] )
+    , generic_vertical_details( [ [ `ISSUE`,`Date`], `Date`, q(0,1), (start,30,30), invoice_date_raw, w, newline ] )
 
     , check( invoice_date_raw = DateRaw )    , trace( [ `Date raw` , DateRaw ] )
 
@@ -95,8 +95,6 @@ i_rule_cut( get_invoice_date, [
 	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
 
    
-    ] ).
-	
 ] ).
 
 
@@ -112,7 +110,7 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`, `:`, tab ],  total_invoice, d, newline ] ) 
+    , generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `USD`, tab],  total_invoice, d, newline ] ) 
 
     , check( total_invoice = TotInv )
 
@@ -137,7 +135,7 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_horizontal_details( [ [ `Amount`,`in` ], currency,  w , `:`] )
+    , generic_horizontal_details( [ [  `TOTAL`, `AMOUNT`, `IN` ], currency,  w , tab] )
 
     
 ] ).
