@@ -10,8 +10,6 @@ i_version( pepc_witpol_sp_zoo , `23 May 2018` ).
 
 i_date_format( _ ).
 
-i_date_language( dutch ).
-
 i_trace_lists.
 
 i_pdf_parameter( same_line, 7 ).
