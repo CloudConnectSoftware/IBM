@@ -10,7 +10,7 @@ i_version( pepc_nordzucker_ag , `22 May 2018` ).
 
 i_date_format( _ ).
 
-i_date_language( dutch ).
+i_date_language( english ).
 
 i_trace_lists.
 
@@ -99,7 +99,7 @@ i_rule( get_supplier_vat_code, [
 
     q(0,50,line)
 
-    ,generic_horizontal_details( [ [`VAT`, `number`, `:`, tab ],supplier_vat_number, s1, newline ] )
+    ,generic_horizontal_details( [ [`VAT`, `no`, `.`, tab],supplier_vat_number, s1, newline ] )
    
 
 
@@ -220,32 +220,6 @@ i_line_rule( line_suppadd_line, [
 
 ] ).
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET SUPPLIER BANK ACCOUNT NUMBER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_supplier_bank_details, [
-%=======================================================================
-
-    last_line
-	
-    ,q(0,30,up)
-
-    , generic_horizontal_details( [ [`Bank`, `Account`, `:`],  remit_to_bank_account_numberRaw, s,[`Reference`, `:`, `55745148`,  newline] ] ) 
-
-   
-    ,check(remit_to_bank_account_numberRaw=RemtAccount)
-    
-   , check(strip_string2_from_string1( RemtAccount, ` `, RemtAccount1 ))
-
-    ,remit_to_bank_account_number(RemtAccount), trace( [ `New Bank`, remit_to_bank_account_numberRaw ] )
-
-] ).
 
 
 
