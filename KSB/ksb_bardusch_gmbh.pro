@@ -413,7 +413,7 @@ i_rule( get_delivery_note_nr, [
 i_rule( get_line_net, [
 %=======================================================================
 
-    qn0(line)
+    last_line, q0n(up)
 
     , set(reverse_punctuation_in_numbers)
 
@@ -447,8 +447,7 @@ i_rule( get_line_net, [
 i_rule_cut( get_net_amount, [
 %=======================================================================
 
-		        
-      qn0(line)
+	last_line, q0n(up)
   
 
     , [set(reverse_punctuation_in_numbers)
@@ -477,11 +476,10 @@ i_rule_cut( get_net_amount, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_vat, [
+i_rule_cut( get_total_vat, [
 %=======================================================================
 
-    qn0(line)
-
+    last_line, q0n(up)
 
     , [set(reverse_punctuation_in_numbers)
 
@@ -511,7 +509,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-    qn0(line)
+    last_line, q0n(up)
   
     , [set(reverse_punctuation_in_numbers)
 
