@@ -819,9 +819,9 @@ i_line_rule_cut( line_invoice_line_Tragernr, [
 
     , set(reverse_punctuation_in_numbers)
    
-    , generic_item( [ line_Tragernr, d, tab ] )
+    , generic_item( [ line_descr, d, tab ] )
 
-    , generic_item( [ line_dummy, d, tab ] )
+    , generic_append( [ line_descr, d, tab, `Barcode - `, ` `  ] )
 
     , generic_item( [ line_item, w, tab ] )
 
