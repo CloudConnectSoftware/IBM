@@ -289,7 +289,13 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
     
-      generic_item( [ customer_item_no_dummy , d , tab ] )
+      or([
+          
+          generic_item( [ customer_item_no_dummy , d , tab ] )
+
+        , generic_item( [customer_item_no_dummy , s , [q10(tab), check(customer_item_no_dummy(end) < -342)] ] )
+
+     ] )
 
     , generic_item( [line_item , d , tab ])
 
@@ -297,7 +303,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [line_quantity , d , tab ] )
 
-    , generic_item( [line_quantity_uom_code_dummy , w , tab ] )
+    , generic_item( [line_quantity_uom_code, w , tab ] )
 
     , generic_item( [line_vat_rate_dummy , d , tab ])
 
