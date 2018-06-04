@@ -264,13 +264,17 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            line_invoice_line
+            line_invoice_line4
+           
+           , line_invoice_line
 
            , line_invoice_line2
 
-           ,  line_invoice_line3
+           , line_invoice_line3
            
-           ,line_invoice_foramt2
+           , line_invoice_foramt2
+
+           
 
 
        
@@ -454,6 +458,33 @@ i_line_rule_cut( line_invoice_line3, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+
+
+      generic_item( [ line_reference, d , tab ] )
+
+    , generic_item( [ line_descr, s1, tab ] )
+
+    , q10(generic_item( [ line_quantity, d, tab ] ))
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_discount_dummy, d, tab ] )
+
+    , generic_item( [ line_deduct_dummy, d, q10(tab) ] )
+
+    , generic_item( [ line_vat_dummy, d, [`%`, tab ] ] )
+
+    , generic_item( [ line_net_amount, d, tab ] )
+
+    , generic_item( [ line_vat_amount, d, tab ] )
+
+    ,   generic_item( [ line_total_amount, d, newline ] )
+
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -472,6 +503,10 @@ i_line_rule_cut( line_invoice_line3, [
 % Updated on   - December 15, 2017
 % Updated by   - Rohini
 % Changes made - Invoice Amount
+
+% Updated on   - June 4, 2018
+% Updated by   - Rohini
+% Changes made - Line details
 
 % Updated on   - 
 % Updated by   -
