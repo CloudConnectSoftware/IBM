@@ -95,7 +95,7 @@ i_rule( get_supplier_details, [
 i_rule( get_buyer_address, [
 %=======================================================================
   
-     q(0,20,line)
+     q(0,10,line)
 
    , line_add_line
 
@@ -112,11 +112,32 @@ i_line_rule( line_add_line, [
 
        q0n(anything)
        
-       ,read_ahead([ `KSB` ])
+       ,or([
+           
+           
+           read_ahead([ `Werksverrechnung` ])
+
+           , read_ahead([ `KSB` ])
+
+
+       ])
 
      , trace( [ `Found BUYER address`] )
 
-    , generic_item( [buyer_party , s1 , newline ] )
+    , generic_item( [buyer_party_raw , s1 , or([tab, newline ]) ] )
+
+    , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `Werksverrechnung KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
    
 
 ] ).
@@ -134,15 +155,17 @@ i_line_rule( line_add_line2, [
 
             , `67227`
 
+            , `91257`
+
             , [`F`, `-`, `92635`]
 
        ])
 
        ,  or([
            
-           generic_item( [ buyer_city , s, `CEDEX` ] )
+           generic_item( [ buyer_city , w, `CEDEX` ] )
 
-           , generic_item( [ buyer_city , s1, tab ] )
+           , generic_item( [ buyer_city , w, or([tab, newline ]) ] )
 
        ])
 
