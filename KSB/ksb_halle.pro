@@ -36,6 +36,8 @@ i_rule_list( [
 	, get_invoice_number
 
     , get_order_number
+
+    , get_set_consolidated_npo
 	
 	, get_invoice_date
 
@@ -99,7 +101,7 @@ i_rule( get_buyer_address, [
 
    , line_add_line
 
-   , q(0,3,line)
+   , q(0,2,line)
 
     ,line_add_line2
 
@@ -124,7 +126,12 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found BUYER address`] )
 
-    , generic_item( [buyer_party_raw , s1 , or([tab, newline ]) ] )
+    , or([
+        generic_item( [buyer_party_raw , s , `GMBH` ] )
+
+        , generic_item( [buyer_party_raw , s1 , or([tab, newline ]) ] )
+
+    ])
 
     , or([
          
@@ -366,6 +373,20 @@ i_line_rule_cut( find_order_number, [
 
 ]).
 
+%=======================================================================
+i_rule( get_set_consolidated_npo, [
+%=======================================================================
+
+     or([
+        [with( invoice, order_number, Po ), trace( [ `PO found` ] )]
+
+        , [ set(consolidate_lines_non_po)   , trace( [ `PO line not FOUND` ] )]
+
+    ])
+        
+
+    ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -416,10 +437,11 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
+            [line_invoice_disc_dummy , line_append_line,  q(0,3, line_append_line1), line_net_line]
             		
-			line_invoice_line
+		, line_invoice_line
 
-			, line
+           , line
 
 			
 			
@@ -471,20 +493,77 @@ i_line_rule_cut( line_invoice_line, [
         set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
 
-       , generic_item([ line_reference, s1 ,tab ])
+      , generic_item([ line_reference, s1 ,tab ])
 
-      , generic_item([ line_descr, s1 ,tab ])
+      , generic_item([ line_item, w ,q10(tab) ])
 
-      , q10(generic_item([ line_item, w ,q10(tab) ]))
-          
-      , generic_item([ line_quantity, d ])
-
-      , generic_item([ line_quantity_uom_code, w, tab  ])
+      , q10(generic_item([ line_descr, s1 ,tab ]))
+       
+      , generic_item([ line_quantity, d , [a(w), tab ]  ])
 
       , generic_item( [ line_unit_amount_dummy,d , tab ] )
 
       , generic_item( [ line_net_amount,d , newline ] )
 
+      
+       , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_disc_dummy, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
+
+
+      , generic_item([ line_reference, s1 ,tab ])
+
+      , generic_item([ line_item, w ,q10(tab) ])
+
+      , q10(generic_item([ line_descr, s1 ,tab ]))
+       
+      , generic_item([ line_quantity, d , [a(w), tab ]  ])
+
+      , generic_item( [ line_unit_amount_dummy,d , tab ] )
+
+      , generic_item( [ line_net_amount_dummy,d , newline ] )
+
+      
+       , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_discount_line_2, [
+%=======================================================================
+	
+      set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
+
+      , `Rabat` , `%`,  tab
+
+      , generic_item([ line_descr_dummy, s1 ,tab ])
+       
+      , generic_item([ line_amount_dummy, d, tab ])
+
+      , generic_item( [ line_net_amount_dummy,d , newline ] )
+      
+       , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_net_line, [
+%=======================================================================
+	
+      set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
+
+      , `Positionsnetto`, tab
+
+      , generic_item( [ line_net_amount,d , newline ] )
       
        , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
 
