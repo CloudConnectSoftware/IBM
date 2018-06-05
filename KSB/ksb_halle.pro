@@ -36,6 +36,8 @@ i_rule_list( [
 	, get_invoice_number
 
     , get_order_number
+
+    , get_set_consolidated_npo
 	
 	, get_invoice_date
 
@@ -366,6 +368,20 @@ i_line_rule_cut( find_order_number, [
 
 ]).
 
+%=======================================================================
+i_rule( get_set_consolidated_npo, [
+%=======================================================================
+
+     or([
+        [with( invoice, order_number, Po ), trace( [ `PO found` ] )]
+
+        , [ set(consolidate_lines_non_po)   , trace( [ `PO line not FOUND` ] )]
+
+    ])
+        
+
+    ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,6 +435,8 @@ i_section( get_invoice_lines, [
             		
 			line_invoice_line
 
+            , line_invoice_line_2
+
 			, line
 
 			
@@ -471,12 +489,12 @@ i_line_rule_cut( line_invoice_line, [
         set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
 
-       , generic_item([ line_reference, s1 ,tab ])
+      , generic_item([ line_reference, s1 ,tab ])
 
-      , generic_item([ line_descr, s1 ,tab ])
+      , generic_item([ line_item, w ,q10(tab) ])
 
-      , q10(generic_item([ line_item, w ,q10(tab) ]))
-          
+      , q10(generic_item([ line_descr, s1 ,tab ]))
+       
       , generic_item([ line_quantity, d ])
 
       , generic_item([ line_quantity_uom_code, w, tab  ])
@@ -485,6 +503,25 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_item( [ line_net_amount,d , newline ] )
 
+      
+       , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+	
+      set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
+
+      , `Rabat` , `%`,  tab
+
+      , generic_item([ line_descr_dummy, s1 ,tab ])
+       
+      , generic_item([ line_amount_dummy, d ])
+
+      , generic_item( [ line_net_amount,d , newline ] )
       
        , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
 
