@@ -292,8 +292,11 @@ i_rule( get_line_order_number, [
  
     , generic_horizontal_details( [[or([`M`, `SG`]), `(`, dummy_word2(w), `)`, `-`], line_buyers_order_number, s1, newline] )
 
-])
+ ,  find_order_number
 
+   ])
+ 
+ 
     , check(line_buyers_order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
@@ -305,6 +308,22 @@ i_rule( get_line_order_number, [
 
 ] ).
 
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        generic_item( [ line_buyers_order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+
+]).
+
+   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -382,7 +401,7 @@ qn0(line)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET VAT RATE
+%  TOTAL  VAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -391,25 +410,25 @@ i_rule( get_vat_rate, [
 %=======================================================================
 
 qn0(line)
- 
-     , vat_rate_line
-
-       
-] ).
-
-%=======================================================================
-i_line_rule( vat_rate_line, [
-%=======================================================================
-
-   q0n(anything)
-
-     , `Standard`, `Rated`   
-     
-     , generic_item( [ default_vat_rate, `6` ] )
 
 
 
-] ).
+    , [set(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)
+
+     ,or([
+
+         generic_vertical_details( [ [`Tax`, `Rate` ], `Rate`, q(0,1), (start,50,100), default_vat_rate, d, `%` ] )
+
+             ])
+   
+    , clear(reverse_punctuation_in_numbers)
+
+    , clear(regexp_cross_word_boundaries)]
+
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
