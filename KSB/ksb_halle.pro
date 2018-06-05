@@ -437,7 +437,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-            [line_invoice_disc_dummy , line_append_line,  q(0,3, line_append_line1), line_net_line]
+            [line_invoice_disc_dummy , line_append_line,  q(0,2, line_append_line1),line_discount_line_2, line_net_line]
             		
 		, line_invoice_line
 
@@ -477,7 +477,12 @@ i_line_rule_cut( line_end_line,[
        
         [`Final`, `amount`]
 
-        , `Summe`, `Positionen`
+        ,[ `Summe`, `Positionen`]
+
+        , [`Item`, tab, `Description`, tab]
+
+        , [`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
+        
 
 
         ])
@@ -493,7 +498,7 @@ i_line_rule_cut( line_invoice_line, [
         set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
 
-      , generic_item([ line_reference, s1 ,tab ])
+      , generic_item([ line_reference, d ,tab ])
 
       , generic_item([ line_item, w ,q10(tab) ])
 
@@ -518,7 +523,7 @@ i_line_rule_cut( line_invoice_disc_dummy, [
         set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
 
-      , generic_item([ line_reference, s1 ,tab ])
+      , generic_item([ line_reference, d ,tab ])
 
       , generic_item([ line_item, w ,q10(tab) ])
 
@@ -542,7 +547,9 @@ i_line_rule_cut( line_discount_line_2, [
 	
       set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
-      , `Rabat` , `%`,  tab
+      , q10([`_`, `_`, tab])
+
+      , `Rabatt` , `%`,  tab
 
       , generic_item([ line_descr_dummy, s1 ,tab ])
        
@@ -561,6 +568,8 @@ i_line_rule_cut( line_net_line, [
 	
       set(regexp_cross_word_boundaries) , set(reverse_punctuation_in_numbers)
 
+      , q10([`_`, `_`, tab])
+
       , `Positionsnetto`, tab
 
       , generic_item( [ line_net_amount,d , newline ] )
@@ -575,7 +584,9 @@ i_line_rule_cut( line_net_line, [
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-     generic_append( [ line_descr , s1, newline, `--`, ``  ] )
+     q10([`_`, `_`, tab])
+
+     , generic_append( [ line_descr , s1, newline, `--`, ``  ] )
 
      
         
@@ -586,9 +597,11 @@ i_line_rule_cut( line_append_line, [
 i_line_rule_cut( line_append_line1, [
 %=======================================================================
 
-    q10(generic_append( [ line_descr , s1, tab, `--`, ``  ] ))
+    q10([`_`, `_`, tab])
 
-, generic_append( [ line_descr , s1, newline, `.`, ``  ] )
+    , q10(generic_append( [ line_descr , s1, tab, `--`, ``  ] ))
+
+    , generic_append( [ line_descr , s1, newline, `.`, ``  ] )
 
 ] ).
 
