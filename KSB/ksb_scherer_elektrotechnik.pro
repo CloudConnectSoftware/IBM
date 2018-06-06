@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_scherer_elektrotechnik, `5 March 2018` ).
+i_version( ksb_scherer_elektrotechnik, `6 June 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,7 +108,20 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , s1, newline ] )
+     , generic_item( [buyer_party_party , s1, newline ] )
+
+     , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        , [ check(buyer_party_raw = `KSB SE & Co.`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
 
    
 ] ).
@@ -173,7 +186,7 @@ q(0,15,line)
 	
    ,  or([
            
-           generic_horizontal_details( [ [ `Nr`, `.`, `:`], invoice_number, s1, tab ] )
+           generic_horizontal_details( [ [ `Nr`, q10(`.`), `:`], invoice_number, w, tab ] )
 
         ])
 ] ).
@@ -507,6 +520,10 @@ i_line_rule( line_credit_line, [
 % Updated on   - May 24, 2018
 % Updated by   - Thejaswi
 % Changes made   - Vat amount rule was incorrect
+
+% Updated on   - June 6, 2018
+% Updated by   - Thejaswi
+% Changes made   - Buyer party and invoice date
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
