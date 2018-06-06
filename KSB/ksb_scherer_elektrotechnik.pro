@@ -108,7 +108,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party_party , s1, newline ] )
+     , generic_item( [buyer_party_raw , s1, newline ] )
 
      , or([
          
@@ -131,10 +131,16 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line2, [
 %=======================================================================
 
+      or( [
 
-      [`67227`]
+            [`D`, `-`, `67206`], [`820`, `15`, tab  ], [`92635`], [`67206`], [`67227` ], [`DE`, `-`, `06110`], [`92635`]
 
-      ,generic_item( [ buyer_city , w, tab  ] )
+          , [`66424`], [`DE`, `-`, `67206`], [`F`, `59482`], [`F`, `-`, `92635`], [`36004`], [`91253`], [`92635 `] , [`67227`]
+         
+
+      ] )
+
+      , generic_item( [ buyer_city , w, or( [tab, newline ] )  ] )
 
 
 ] ).
