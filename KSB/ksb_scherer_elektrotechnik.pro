@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_scherer_elektrotechnik, `5 March 2018` ).
+i_version( ksb_scherer_elektrotechnik, `6 June 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,7 +108,20 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party , s1, newline ] )
+     , generic_item( [buyer_party_raw , s1, newline ] )
+
+     , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        , [ check(buyer_party_raw = `KSB SE & Co.`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
 
    
 ] ).
@@ -118,10 +131,16 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line2, [
 %=======================================================================
 
+      or( [
 
-      [`67227`]
+            [`D`, `-`, `67206`], [`820`, `15`, tab  ], [`92635`], [`67206`], [`67227` ], [`DE`, `-`, `06110`], [`92635`]
 
-      ,generic_item( [ buyer_city , w, tab  ] )
+          , [`66424`], [`DE`, `-`, `67206`], [`F`, `59482`], [`F`, `-`, `92635`], [`36004`], [`91253`], [`92635 `] , [`67227`]
+         
+
+      ] )
+
+      , generic_item( [ buyer_city , w, or( [tab, newline ] )  ] )
 
 
 ] ).
@@ -173,7 +192,7 @@ q(0,15,line)
 	
    ,  or([
            
-           generic_horizontal_details( [ [ `Nr`, `.`, `:`], invoice_number, s1, tab ] )
+           generic_horizontal_details( [ [ `Nr`, q10(`.`), `:`], invoice_number, w, tab ] )
 
         ])
 ] ).
@@ -507,6 +526,10 @@ i_line_rule( line_credit_line, [
 % Updated on   - May 24, 2018
 % Updated by   - Thejaswi
 % Changes made   - Vat amount rule was incorrect
+
+% Updated on   - June 6, 2018
+% Updated by   - Thejaswi
+% Changes made   - Buyer party and invoice date
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
