@@ -65,9 +65,9 @@ i_rule( get_supplier_detail, [
 
    , set(reverse_punctuation_in_numbers)
 
-   , buyer_dept(`FR10`)
+   , buyer_dept(``)
 
-   , buyer_registration_number(`FR10`)
+   , buyer_registration_number(``)
 
 
 ] ).
