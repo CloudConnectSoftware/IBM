@@ -86,6 +86,8 @@ q0n(anything)
     
     [`packing` , `list`]
 
+    , [`Bill`,`of` , `LADING`]
+
 ])
 
 , trace( [ `This is a packing List doc` ] )
