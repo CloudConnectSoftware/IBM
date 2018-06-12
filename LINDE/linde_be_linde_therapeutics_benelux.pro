@@ -119,14 +119,24 @@ i_rule( get_invoice_number, [
 
     ,or([
 
-      [ generic_vertical_details( [ [  `Avoir`, `No`, tab],`Avoir` , q(0,1), (start,10,25), invoice_number, s1, tab ] )]
+      [ generic_vertical_details( [ [  `Avoir`, `No`, tab],`Avoir` , q(0,1), (start,10,25), invoice_number_raw, s1, tab ] )]
 
-    , [ generic_vertical_details( [ [   `Factuurnummer`],`Factuurnummer` , q(0,1), (start,10,45), invoice_number, s1, tab ] )]
+    , [ generic_vertical_details( [ [   `Factuurnummer`],`Factuurnummer` , q(0,1), (start,10,45), invoice_number_raw, s1, tab ] )]
 
-    
+        ])
 
+                
+    , check( invoice_number_raw = InvoiceRaw )
 
-    ])
+    , trace( [ `Invoice number raw` , InvoiceRaw ] )
+
+    , check(string_string_replace( InvoiceRaw, `-`, ``, InvoiceStrip ))
+
+    , trace( [ `Invoice Stripped Space` , InvoiceStrip ] )
+
+    , invoice_number(InvoiceStrip)
+
+    , trace( [ `Invoice Number` , invoice_number ] ) 
 
 ] ).
 
@@ -378,25 +388,28 @@ i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
 
 
- generic_item( [ line_item, s1, tab ] )
+ generic_item( [ line_item, d, tab ] )
 
- , generic_item( [ line_quantity, d ] )
+ , generic_item( [ line_vat_rate, d ] )
 
 , generic_item( [ line_descr, s1, tab ] )
 
 , set(reverse_punctuation_in_numbers)   ,set(regexp_cross_word_boundaries)
 
-, generic_item( [ line_quantity_dummy, d ] )
+, generic_item( [ line_quantity_dummy, d, [a(w), tab] ] )
 
-, generic_item( [ line_quantity_uom_code, s1,tab ] )
+, generic_item( [ line_quantity, d ] )
 
- , generic_item( [ line_unit_amount_dummy, d,tab ] )
+, generic_item( [ line_quantity_uom_code, w,tab ] )
+
+ , generic_item( [ line_unit_amount, d,tab ] )
 
 , generic_item( [ line_net_amount, d, newline ] )
 
 , clear(reverse_punctuation_in_numbers)   ,clear(regexp_cross_word_boundaries)
 
 ] ).
+
 
     
 %=======================================================================
