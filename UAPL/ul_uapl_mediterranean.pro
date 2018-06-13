@@ -60,7 +60,13 @@ i_rule(get_credit_note, [
 i_line_rule( invoice_or_credit_note_line, [
 %=======================================================================
 
-	`ELSEWHERE` , `CREDIT`, `NOTE`
+	or([
+        
+    [`ELSEWHERE` , `CREDIT`, `NOTE`]
+
+   , [`IMPORT`, `CREDIT`, `NOTE`]
+
+   ] )
 	
 	, set(credit_note), set(credit)
 	
@@ -215,6 +221,8 @@ i_line_rule( import_or_elsewhere_inv_line, [
 	or([
         [[`IMPORT`, `TAX` , `INVOICE`] , set(importinv_found)  	, trace( [ `This is an Import Invoice` ] )]
 
+       ,[[`IMPORT`, `Credit` , `Note`] , set(importinv_found)  	, trace( [ `This is an Import Credit` ] )] 
+
        ,[[`Export`, `TAX` , `INVOICE`] , set(exportinv_found)  	, trace( [ `This is an Export Invoice` ] )]
        
        
@@ -314,6 +322,12 @@ i_rule_cut( get_currency, [
 % Updated on   - October 17, 2017
 % Updated by   - Thejaswi K
 % Changes made - Invoice date
+
+
+% Updated on   - June 13, 2018
+% Updated by   - Rohini
+% Changes made - Import Credit note - currency
+
 
 % Updated on   - 
 % Updated by   -
