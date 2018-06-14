@@ -466,7 +466,9 @@ i_line_rule_cut( line_start_line,[
 
         [`Item`, tab, `Description`, tab]
 
-        , [`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
+        , [q10([ `_`, `_`, tab ] ) ,`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
+
+        ,[ `Iron`, `Mountain`, `Slovakia`, `s`, `.`, `r`, `.`, `o`, `.`,  newline]
         
       ])
 
@@ -484,6 +486,8 @@ i_line_rule_cut( line_end_line,[
         [`Final`, `amount`]
 
         ,[ `Summe`, `Positionen`]
+
+        
 
              
 
