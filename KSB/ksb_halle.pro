@@ -613,8 +613,8 @@ i_line_rule_cut( line_append_line1, [
 % Mapped on - May 21, 2018
 % Mapped by - Roopesh 
 
-% Updated on   - 
-% Updated by   -
+% Updated on   - 14 Jube 2018
+% Updated by   - Thejaswi
 % Changes made - 
 
 % Updated on   - 
