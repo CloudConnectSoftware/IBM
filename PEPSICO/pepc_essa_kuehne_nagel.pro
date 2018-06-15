@@ -48,7 +48,7 @@ i_rule_list( [
     , get_line_total
 
 ] ).
-
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,10 +63,6 @@ i_rule( get_supplier_detail, [
     sender_name( `Kuehne + Nagel Ltd` )
 
    ,supplier_vat_number(`GB864440910`)
-
-   ,buyer_dept(`PCIL`)
-
-   ,buyer_registration_number(`PCIL`)
 
 ] ).
 
