@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_bardusch_gmbh, `9 March 2018` ).
+i_version( ksb_bardusch_gmbh, `14 June 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -585,6 +585,8 @@ i_section( get_invoice_lines, [
 
            , line_invoice_line_Tragernr
 
+           , line_invoice_line_new
+
             , or([line_invoice_line3(1,-430,500), gen_line_nothing_here( [ -430, 10, 10 ] ) ] )
 
             
@@ -735,6 +737,33 @@ set(regexp_cross_word_boundaries)
 , generic_item( [ line_unit_amount, d, [`EUR`, tab ] ] )
 
 , generic_item( [ line_net_amount, d, [ `EUR`,  newline ] ] )
+
+, clear(reverse_punctuation_in_numbers)
+
+ , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_new, [
+%=======================================================================
+	
+	
+set(regexp_cross_word_boundaries)
+
+, set(reverse_punctuation_in_numbers)
+
+, a(d), tab 
+
+, generic_item( [ line_descr, s1, tab ] )
+
+, generic_item( [ line_quantity, d, [a(w), tab] ] )
+    
+, generic_item( [ line_unit_amount, d, [`EUR`, tab ] ] )
+
+, generic_item( [ line_net_amount, d, [ q10(tab), `EUR`,  newline ] ] )
 
 , clear(reverse_punctuation_in_numbers)
 
@@ -921,9 +950,9 @@ i_line_rule_cut( line_descr_line, [
 % Updated by   - Thejaswi
 % Changes made   - Line level
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - 14 June 2018
+% Updated by   - THejaswi K
+% Changes made   - line level capture
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

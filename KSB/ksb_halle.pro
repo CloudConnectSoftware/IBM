@@ -428,6 +428,12 @@ q0n(anything)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
+i_section_control( get_invoice_lines, first_one_only ).
+%=======================================================================
+i_section_end( get_invoice_lines, line_section_end_line ).
+%=======================================================================
+i_line_rule( line_section_end_line, [ `Rechnung`, newline] ).
+%=======================================================================
 i_section( get_invoice_lines, [
 %=======================================================================
 
@@ -460,7 +466,9 @@ i_line_rule_cut( line_start_line,[
 
         [`Item`, tab, `Description`, tab]
 
-        , [`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
+        , [q10([ `_`, `_`, tab ] ) ,`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
+
+        ,[ `Iron`, `Mountain`, `Slovakia`, `s`, `.`, `r`, `.`, `o`, `.`,  newline]
         
       ])
 
@@ -479,10 +487,9 @@ i_line_rule_cut( line_end_line,[
 
         ,[ `Summe`, `Positionen`]
 
-        , [`Item`, tab, `Description`, tab]
-
-        , [`Pos`, `.`, tab, `Artikel`, tab, `Teile`]
         
+
+             
 
 
         ])
@@ -613,8 +620,8 @@ i_line_rule_cut( line_append_line1, [
 % Mapped on - May 21, 2018
 % Mapped by - Roopesh 
 
-% Updated on   - 
-% Updated by   -
+% Updated on   - 14 Jube 2018
+% Updated by   - Thejaswi
 % Changes made - 
 
 % Updated on   - 
