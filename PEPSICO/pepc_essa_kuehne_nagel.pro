@@ -43,7 +43,9 @@ i_rule_list( [
 
     , get_currency
 
-    , get_invoice_lines
+    % , get_invoice_lines
+
+    , get_line_total
 
 ] ).
 
@@ -293,6 +295,25 @@ i_rule(get_total_invoice, [
     ,q(0,20,up)
 
   ,generic_horizontal_details( [ [ `TOTAL`, generic_item( [ currency, w, tab ] )], total_invoice, d, newline  ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_line_total, [
+%=======================================================================
+
+   last_line
+
+    ,q(0,20,up)
+
+  ,generic_horizontal_details( [ [ `TOTAL`, generic_item( [ currency, w, tab ] )], line_net_amount, d, newline  ] )
 
 ] ).
 
