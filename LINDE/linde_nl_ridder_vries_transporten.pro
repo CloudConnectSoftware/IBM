@@ -449,7 +449,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-   , generic_item( [ line_descr, s1, newline ] )
+  generic_item( [ line_descr, s1, newline ] )
 
 
 ]).
@@ -471,7 +471,7 @@ i_line_rule_cut( line_after_disc_line, [
 
 `Ursprungsland`, `:`
 
-  generic_append( [ line_descr, s1,newline, `  `, `  ` ] ))
+  ,generic_append( [ line_descr, s1, newline, `  `, `  ` ] )
 
 
 ]).
