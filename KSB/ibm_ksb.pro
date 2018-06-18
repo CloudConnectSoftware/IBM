@@ -1722,11 +1722,11 @@ i_rule( ksb_se_identity_rule, [
 
 ] ).
 %=======================================================================
-i_line_rule( ksb_sas_line_1, [ check_text( `Rechnung`) ]).
+i_line_rule( ksb_se_line_1, [ check_text( `Rechnung`) ]).
 %=======================================================================
-i_line_rule( ksb_sas_line_2, [check_text(`Nummer`)] ).
+i_line_rule( ksb_se_line_2, [check_text(`Nummer`)] ).
 %=======================================================================
-i_line_rule( ksb_sas_line_3, [check_text(`Datum`) ]).
+i_line_rule( ksb_se_line_3, [check_text(`Datum`) ]).
 %=======================================================================
-i_line_rule( ksb_sas_line_4, [check_text(`Auftrags`) ]).
+i_line_rule( ksb_se_line_4, [check_text(`Auftrags`) ]).
 %=======================================================================
