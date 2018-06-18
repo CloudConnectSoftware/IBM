@@ -83,6 +83,8 @@ i_rule( select_rules, [
 
 		, [ q0n(line), scherer_identity_rule]
 
+		, [ q0n(line), ksb_sas_identity_rule_2]
+
 		, [ q0n(line), ksb_sas_identity_rule]
 
  		, [ q0n(line), metalldruckerei_identity_rule]
@@ -1678,5 +1680,42 @@ i_line_rule( sas_line_1 , [
 	, [ `Rechnung`, tab, `KSB`, `S`, `.`, `A`, `.`, `S`, `.`, `·`, `128`, `RUE`, `CARNOT`, `·`, `59320`, `SEQUEDIN`,  newline ]  
 	, [ `Invoice`, tab, `KSB`, `SAS`, `·`, `10`, `-`, `14`, `rue`, `de`, `la`, `Gare` ]
 	,[ `Invoice`, tab, `·`, `10`, `,`, `14`, `rue`, `de`, `la`, `gare`]
+	
   ] )
 ] ).
+
+%=======================================================================
+i_rule( ksb_sas_identity_rule_2, [
+%=======================================================================
+    
+	 ksb_sas_line_1
+	 , ksb_sas_line_2
+	 , ksb_sas_line_3
+	 , ksb_sas_line_4
+	 , ksb_sas_line_5
+	 , ksb_sas_line_6
+	 , ksb_sas_line_7
+	 ,  ksb_sas_line_8
+
+	 , set(chain,`ksb_ksb_sas`)
+     , trace( [ `THIS IS A KSB SAS DOCUMENT` ] )
+
+] ).
+%=======================================================================
+i_line_rule( ksb_sas_line_1, [ check_text( `Invoice`) ]).
+%=======================================================================
+i_line_rule( ksb_sas_line_2, [check_text(`Number`)] ).
+%=======================================================================
+i_line_rule( ksb_sas_line_3, [check_text(`Date`) ]).
+%=======================================================================
+i_line_rule( ksb_sas_line_4, [check_text(`Sales`) ]).
+%=======================================================================
+i_line_rule( ksb_sas_line_5, [check_text(a(w)) ]).
+%=======================================================================
+i_line_rule( ksb_sas_line_6, [check_text(`Delivery`) ]).
+%=======================================================================
+i_line_rule( ksb_sas_line_7, [check_text(`Customer`) ]).
+
+%=======================================================================
+i_line_rule( ksb_sas_line_8, [check_text(`this`) ]).
+
