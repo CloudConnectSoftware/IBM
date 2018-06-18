@@ -1692,10 +1692,7 @@ i_rule( ksb_sas_identity_rule_2, [
 	 , ksb_sas_line_2
 	 , ksb_sas_line_3
 	 , ksb_sas_line_4
-	 , ksb_sas_line_5
-	 , ksb_sas_line_6
-	 , ksb_sas_line_7
-	 ,  ksb_sas_line_8
+	
 
 	 , set(chain,`ksb_ksb_sas`)
      , trace( [ `THIS IS A KSB SAS DOCUMENT` ] )
@@ -1710,12 +1707,5 @@ i_line_rule( ksb_sas_line_3, [check_text(`Date`) ]).
 %=======================================================================
 i_line_rule( ksb_sas_line_4, [check_text(`Sales`) ]).
 %=======================================================================
-i_line_rule( ksb_sas_line_5, [check_text(a(w)) ]).
-%=======================================================================
-i_line_rule( ksb_sas_line_6, [check_text(`Delivery`) ]).
-%=======================================================================
-i_line_rule( ksb_sas_line_7, [check_text(`Customer`) ]).
 
-%=======================================================================
-i_line_rule( ksb_sas_line_8, [check_text(`this`) ]).
 
