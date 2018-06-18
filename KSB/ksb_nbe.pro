@@ -233,10 +233,23 @@ i_rule( get_order_number, [
 
       , generic_horizontal_details( [ [`Bestell`, `-`, `Nr`, `.`], order_number, d,  or([tab,newline]) ] )
 
-        ])
+       , find_order_number
+
+      ])
 
 ] ).
 
+
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,10) , end ] ] )
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  DELIVERY NOTE NUMBER
