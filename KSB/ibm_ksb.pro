@@ -31,6 +31,8 @@ i_rule( select_rules, [
 
 		,[ q0n(line), hosch_identify_rule ]
 
+		, [q0n(line), ksb_halle_rule ]
+
 		,[ q0n(line), nbe_identify_rule ]
 
 		,[ q0n(line), schroder_identify_rule ]
@@ -69,6 +71,8 @@ i_rule( select_rules, [
 
 		,[ q0n(line), ksb_george_heinlein_rule]
 
+		, [ q0n(line), ksb_se_co_identity_rule]
+
 		,[ q0n(line), ksb_halm_motors_rule]
 
 		,[ q0n(line), ksb_armaturen_rule]
@@ -83,16 +87,13 @@ i_rule( select_rules, [
 
 		, [ q0n(line), scherer_identity_rule]
 
-		, [ q0n(line), ksb_sas_identity_rule_2]
-
 		, [ q0n(line), ksb_sas_identity_rule]
 
-		, [ q0n(line), ksb_se_identity_rule]
+		
 
  		, [ q0n(line), metalldruckerei_identity_rule]
 
-
-
+		
 
 
 				
@@ -112,7 +113,7 @@ i_line_rule( check_text_id_line, [ or( [
 
 	[ check_text( `DataItemName(exactlyasitappearsonSDD)` ), set( chain, `generic test template` ), trace( [ `GENERIC TEST TEMPLATE` ] ) ]
 
-	, [ check_text( `Turmstrasse92·06110Halle` ), set( chain, `ksb_halle` ), trace( [ `This is a KSB HALLE Document` ] ),set( re_extract )  ]  
+	, [ check_text( `Turmstrasse92` ), set( chain, `ksb_halle` ), trace( [ `This is a KSB HALLE Document` ] ),set( re_extract )  ]  
 
 	, [ check_text( `KSBSAS128,rueCarnot·59482Sequedin` ), set( chain, `ksb_ksb_sas` ), trace( [ `This is a KSB S.A.S document` ] ) ]
 
@@ -134,11 +135,11 @@ i_line_rule( check_text_id_line, [ or( [
 
 	%, [ check_text( `12298` ), set( chain, `ksb_george_heinlein` ), trace( [ `This is ksb_george_heinlein document` ] ) ]
 
-	, [ check_text( `KSBSE&Co.KGaA·Bahnhofplatz1·91257Pegnitz` ), set( chain, `ksb_ksb_aktiengesellschaft` ), trace( [ `This is KSB AKTIENGESELLSCHAFT document` ] ) ]
+	%, [ check_text( `KSBSE&Co.KGaA·Bahnhofplatz1·91257Pegnitz` ), set( chain, `ksb_ksb_aktiengesellschaft` ), trace( [ `This is KSB AKTIENGESELLSCHAFT document` ] ) ]
 
-	 , [ check_text( `100002000` ), set( chain, `ksb_ksb_aktiengesellschaft` ), trace( [ `This is KSB AKTIENGESELLSCHAFT document` ] ) ]
+	% , [ check_text( `100002000` ), set( chain, `ksb_ksb_aktiengesellschaft` ), trace( [ `This is KSB AKTIENGESELLSCHAFT document` ] ) ]
 
-	 , [ check_text( `100001000` ), set( chain, `ksb_ksb_aktiengesellschaft` ), trace( [ `This is KSB AKTIENGESELLSCHAFT document` ] ) ]
+	% , [ check_text( `100001000` ), set( chain, `ksb_ksb_aktiengesellschaft` ), trace( [ `This is KSB AKTIENGESELLSCHAFT document` ] ) ]
 
 	, [ check_text( `DE811239368` ), set( chain, `ksb_e_w_neu` ), trace( [ `This is E.W. NEU GmbH document` ] ) ]
 
@@ -474,11 +475,6 @@ i_line_rule( check_text_id_line, [ or( [
 
 	, [ check_text( `IBANDE19120700000264614900` ), set( chain, `ksb_ksb_service_gmbh` ), trace( [ `This is a KSB-SERVICE GMBH document` ] ) ]
 
-	%, [ check_text( `8968520` ), set( chain, `ksb_ksb_sas` ), trace( [ `This is a KSB S.A.S document` ] ) ]
-
-	%, [ check_text( `896261000` ), set( chain, `ksb_ksb_sas` ), trace( [ `This is a KSB S.A.S document` ] ) ]
-
-	%, [ check_text( `301905000` ), set( chain, `ksb_ksb_sas` ), trace( [ `This is a KSB S.A.S document` ] ) ]
 
 	, [ check_text( `61288725-5039` ), set( chain, `ksb_volt_electric` ), trace( [ `This is a VOLT ELEKTRIC MOTOR document` ] ) ]
 
@@ -702,6 +698,40 @@ i_line_rule(hosch_line_2 , [
 %=======================================================================
  [`-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-`, `-` ]
 
+] ).
+
+
+%=======================================================================
+i_rule(ksb_se_co_identity_rule , [
+%=======================================================================
+   
+	  ksb_se_n_co
+	 , set( chain, `ksb_ksb_aktiengesellschaft` )
+     , trace( [ `THIS IS A KSB SE&CO DOCUMENT` ] )
+
+] ).
+%=======================================================================
+i_line_rule(ksb_se_n_co , [
+%=======================================================================
+	  [`KSBSE&CoKGaAJohannKlein-Strasse9·67227Frankenthal`]
+
+] ).
+
+%=======================================================================
+i_rule(ksb_halle_rule , [
+%=======================================================================
+     ksb_halle_line_1
+	 , set( chain, `ksb_halle` )
+     , trace( [ `THIS IS A KSB HALLE DOCUMENT` ] )
+
+] ).
+%=======================================================================
+i_line_rule( ksb_halle_line_1 , [
+%=======================================================================
+  or([
+	  [ `KSB`, `SE`, `&`, `Co`, `.`, `KGaA`, `·`, `Turmstrasse`, `92`]
+	
+  ] )
 ] ).
 
 
@@ -1330,9 +1360,6 @@ i_line_rule( ksb_service_line_5 , [
 
 ] ).
 
-
-
-
 %=======================================================================
 i_rule( leonard_identity_rule, [
 %=======================================================================
@@ -1340,10 +1367,7 @@ i_rule( leonard_identity_rule, [
       leonard_line_rule
     , leonard_line_rule1
 	,q(0,2,line)
-    , leonard_line_rule2
- 
-
-     
+    , leonard_line_rule2   
      , set(chain,`ksb_leonard`)
      , trace( [ `THIS IS A LEONARD ENGINEERING GMBH  DOCUMENT` ] )
 
@@ -1578,9 +1602,6 @@ i_line_rule( wendik_pumpen_line_5 , [
 
 ] ).
 
-
-
-
 %=======================================================================
 i_rule( profil_identity_rule, [
 %=======================================================================
@@ -1666,10 +1687,9 @@ i_line_rule( metalldruckerei_line_2 , [
 
 
 %=======================================================================
-i_rule( ksb_sas_identity_rule, [
+i_rule( ksb_sas_identity_rule , [
 %=======================================================================
-    
-	 sas_line_1
+    	   sas_line_1
 	 , set(chain,`ksb_ksb_sas`)
      , trace( [ `THIS IS A KSB SAS DOCUMENT` ] )
 
@@ -1678,55 +1698,13 @@ i_rule( ksb_sas_identity_rule, [
 i_line_rule( sas_line_1 , [
 %=======================================================================
   or([
-	  [`Invoice`, tab, `KSB`, `SAS`, `·`, `128`, `,`, `rue`, `Carnot`, `·`, `59482`, `Sequedin` ]
+	  [`Invoice`, tab, `KSB`, `SAS` ]
+	, [ `KSB`, `SAS`, `·`, `128`, `,`, `rue`, `Carnot`, `·`, `59482`, `Sequedin` ]
 	, [ `Rechnung`, tab, `KSB`, `S`, `.`, `A`, `.`, `S`, `.`, `·`, `128`, `RUE`, `CARNOT`, `·`, `59320`, `SEQUEDIN`,  newline ]  
 	, [ `Invoice`, tab, `KSB`, `SAS`, `·`, `10`, `-`, `14`, `rue`, `de`, `la`, `Gare` ]
-	,[ `Invoice`, tab, `·`, `10`, `,`, `14`, `rue`, `de`, `la`, `gare`]
+	, [ `Invoice`, tab, `·`, `10`, `,`, `14`, `rue`, `de`, `la`, `gare`]
+	, [`Invoice`, tab, `KSB`, `SAS`, `·`, `10`, `-`, `14`, `rue`, `de`, `la`, `Gare`, `·`]
 	
   ] )
 ] ).
 
-%=======================================================================
-i_rule( ksb_sas_identity_rule_2, [
-%=======================================================================
-    
-	 ksb_sas_line_1
-	 , ksb_sas_line_2
-	 , ksb_sas_line_3
-	 , ksb_sas_line_4
-	 , set(chain,`ksb_ksb_sas`)
-     , trace( [ `THIS IS A KSB SAS DOCUMENT` ] )
-
-] ).
-%=======================================================================
-i_line_rule( ksb_sas_line_1, [ check_text( `Invoice`) ]).
-%=======================================================================
-i_line_rule( ksb_sas_line_2, [check_text(`Number`)] ).
-%=======================================================================
-i_line_rule( ksb_sas_line_3, [check_text(`Date`) ]).
-%=======================================================================
-i_line_rule( ksb_sas_line_4, [check_text(`Sales`) ]).
-%=======================================================================
-
-%=======================================================================
-%=======================================================================
-i_rule( ksb_se_identity_rule, [
-%=======================================================================
-    
-	 ksb_se_line_1
-	 , ksb_se_line_2
-	 , ksb_se_line_3
-	 , ksb_se_line_4
-	 , set(chain,`ksb_ksb_aktiengesellschaft`)
-     , trace( [ `THIS IS A ksb_ksb_aktiengesellschaft DOCUMENT` ] )
-
-] ).
-%=======================================================================
-i_line_rule( ksb_se_line_1, [ check_text( `Rechnung`) ]).
-%=======================================================================
-i_line_rule( ksb_se_line_2, [check_text(`Nummer`)] ).
-%=======================================================================
-i_line_rule( ksb_se_line_3, [check_text(`Datum`) ]).
-%=======================================================================
-i_line_rule( ksb_se_line_4, [check_text(`Auftrags`) ]).
-%=======================================================================
