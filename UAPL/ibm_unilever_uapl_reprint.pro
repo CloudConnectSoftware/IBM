@@ -79,6 +79,12 @@ i_line_rule( check_text_id_line, [
 
 		 , [ check_text( `72294937953` ), set( chain, `ul_uapl_le_mac_australia` ), trace( [ `THIS IS A LE MAC AUSTRALIA DOCUMENT` ] ) ]
 
+		 ,  [ check_text( `M2-0129625X` )  , set( chain, `ul_uapl_toll_logistics` ), trace( [ `THIS IS A TOLL LOGISTICS DOCUMENT` ] ) ]
+
+        , [ check_text( `199408934C` )  , set( chain, `ul_uapl_toll_logistics` ), trace( [ `THIS IS A TOLL LOGISTICS DOCUMENT` ] ) ]
+
+        , [ check_text( `0129625` )  , set( chain, `ul_uapl_toll_logistics` ), trace( [ `THIS IS A TOLL LOGISTICS DOCUMENT` ] ) ]
+
 		% [ check_text( `` ), set( chain, `` ), trace( [ `` ] ) ]
 		
 	] )
