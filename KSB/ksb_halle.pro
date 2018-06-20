@@ -257,7 +257,7 @@ q(0,25,line)
 i_rule( get_net_amount, [
 %=======================================================================
 
-  q(0,100,line)
+  q(0,400,line)
      
         
 
@@ -266,6 +266,8 @@ i_rule( get_net_amount, [
       ,  or([  
           
           generic_horizontal_details( [ [ `Total`, tab ],  total_net, d, newline ] )
+
+      ,  generic_horizontal_details( [ [ `Order`, `Value`, tab ],  total_net, d, newline ] )
 
       ,   generic_horizontal_details( [ [`Summe`, `Positionen`, tab ],  total_net, d, newline ] )
 
@@ -300,7 +302,6 @@ i_rule( get_total_invoice, [
             ,  generic_horizontal_details( [ [ `Endbetrag`, tab],  total_invoice, d, newline ] )
 
     ])
-
 
     , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)
 
@@ -487,12 +488,7 @@ i_line_rule_cut( line_end_line,[
 
         ,[ `Summe`, `Positionen`]
 
-        
-
-             
-
-
-        ])
+        ] )
 
         , trace([`found the end lineTWO`])
     
