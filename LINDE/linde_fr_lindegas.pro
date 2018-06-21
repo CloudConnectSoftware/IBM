@@ -542,9 +542,9 @@ i_line_rule_cut( line_po_line, [
 % Mapped on - October 11, 2017
 % Mapped by - Rohini 
 
-% Updated on   - November 28, 2017
+% Updated on   - 21 June 2018
 % Updated by   - Thejaswi
-% Changes made - 
+% Changes made - Comapny code and line level rule updated
 
 % Updated on   - 
 % Updated by   -
