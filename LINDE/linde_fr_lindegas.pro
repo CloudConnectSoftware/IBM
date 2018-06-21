@@ -267,15 +267,31 @@ i_rule( get_order_number, [
      q(0,100,line)
 
     ,or([
-        generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, `PO` ], order_number, d, newline ] )
+        generic_horizontal_details( [ [`Ihre`, `Bestelldaten`, `:`, q10(`PO`)], order_number, d, newline ] )
 
-        ,generic_horizontal_details( [ [`Your`, `Purchase`, `Order`, `:`, tab ], order_number, d, tab ] )
-
+    , generic_horizontal_details( [ [`Your`, `Purchase`, `Order`, `:`, tab ], order_number, d, tab ] )
  
-    ])
+    ,  find_order_number
 
+   ])
 
 ] ).
+
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
