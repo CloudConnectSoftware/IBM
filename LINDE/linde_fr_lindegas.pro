@@ -96,31 +96,28 @@ i_line_rule( line_add_line, [
     , or([
         read_ahead(`Linde`)
         
-        , read_ahead(`LINDE`)
+        , read_ahead(`LINDE`)       
+    ] ) 
 
-       
-        
-    ]) 
+    , trace( [ `Found address`] )
 
-        , trace( [ `Found address`] )
-
-        , or([
+    , or([
 
           generic_item( [ buyer_party, s1, newline ] )
 
           , generic_item( [ buyer_party, s1, tab ] )
         
-        ])
+    ])
 
 
-     , or([
+    , or([
 
         [ check(buyer_party = `Linde France SA`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ] 
 
         , [ check(buyer_party = `LINDE HOMECARE FRANCE SAS`) ,generic_item( [ buyer_registration_number, `FR30` ] ) ]
 
      
-           ])
+    ])
 
 ]).
 
