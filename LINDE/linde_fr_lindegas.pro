@@ -349,7 +349,8 @@ i_rule(get_total_vat, [
 i_rule(get_total_invoice, [
 %=======================================================================
 
-   q(0,100,line)
+    last_line
+   , q(0,100,up)
 
    , set(reverse_punctuation_in_numbers)
 
