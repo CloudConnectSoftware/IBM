@@ -282,11 +282,11 @@ i_rule(get_total_net, [
 
     , set(reverse_punctuation_in_numbers)
 
-   ,set(regexp_cross_word_boundaries)
+   , set(regexp_cross_word_boundaries)
 
-  , generic_horizontal_details( [ [`Nettobetrag`, `/`, `Net`, `Amount`, tab, `(`, dummy_num(w), `)`, tab ],  total_net, d, newline ] )
+    , generic_horizontal_details( [ [`Nettobetrag`, `/`, `Net`, `Amount`, tab, `(`, dummy_num(w), `)`, tab ],  total_net, d, newline ] )
 
-   ,clear(regexp_cross_word_boundaries)
+   , clear(regexp_cross_word_boundaries)
 
      , clear(reverse_punctuation_in_numbers)
 
@@ -439,9 +439,9 @@ i_line_rule_cut( line_invoice_line_2, [
 
  , set(regexp_cross_word_boundaries)
 
-  ,  generic_item( [ line_descr, s1, tab ] )
+  ,  generic_item( [ line_descr_dummy, s1, tab ] )
 
- , generic_item( [ line_net_amount, d, newline ] )
+ , generic_item( [ line_net_amount_dummy, d, newline ] )
 
 , clear(regexp_cross_word_boundaries)
 
@@ -500,6 +500,11 @@ i_line_rule_cut( line_po_line, [
 % Updated on   - 21 June 2018
 % Updated by   - Thejaswi
 % Changes made - Comapny code and line level rule updated
+
+
+% Updated on   - 25 June 2018
+% Updated by   - Rohini
+% Changes made - Line details udpated
 
 % Updated on   - 
 % Updated by   -
