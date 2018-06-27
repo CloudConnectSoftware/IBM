@@ -190,7 +190,7 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,200,line)
 	
     , generic_horizontal_details( [ [ `SUBTOTAL`, tab ],  total_net, d, newline ] )
 
@@ -207,7 +207,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,200,line)
 	
     , generic_horizontal_details( [ [`GST`, tab],  total_vat, d, newline ] )
 
@@ -225,7 +225,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,200,line)
 	
     , generic_horizontal_details( [ [`TOTAL`, `USD`, tab ],  total_invoice, d, newline ] )
 
