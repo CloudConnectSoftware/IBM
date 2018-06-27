@@ -453,7 +453,7 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			 line_invoice_line , line_descs_line,line_descs_append
+			 line_invoice_line 
 
             ,line_credit_line
 
@@ -576,7 +576,11 @@ i_line_rule_cut( line_credit_line, [
 
         ,generic_item([ line_reference , d  ])
 
-        ,generic_item([line_item , w , [q10(tab), check(line_item(end) < -284)  ]  ] )
+        , or( [ generic_item([line_item , w , [q10(tab), check(line_item(end) < -284)  ]  ] )
+
+        , generic_item([line_item , w , [q10(tab), check(line_item(end) < -397)  ]  ] )
+
+        ] )
 
         ,generic_item([line_descr , s1,tab ] )
 
