@@ -522,16 +522,13 @@ i_line_rule_cut( line_invoice_line, [
 
         ,generic_item([line_descr , s1,tab ] )
 
-        ,generic_item([line_quantity_dummy1, d, [a(w), tab]  ] )
+        ,generic_item([line_quantity_dummy1, s1, tab  ] )
 
-        ,generic_item([line_quantity_dummy2, d ,[a(w), tab]  ] )
-
+        , generic_item([line_quantity_dummy2, s1, tab ] )
 
         , generic_item([line_quantity, d ,[ q10([a(w) ] ), tab]  ] )
-
        
        , generic_item([ line_net_amount , d , newline ] )
-
 
        ,clear(regexp_cross_word_boundaries)
 
