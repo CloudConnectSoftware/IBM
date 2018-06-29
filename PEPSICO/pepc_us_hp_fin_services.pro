@@ -216,7 +216,7 @@ i_line_rule( line_suppadd_line_3, [
 
     , generic_item( [ supplier_state, w ] ) 
 
-    , generic_item( [ supplier_state, d, newline ] ) 
+    , generic_item( [ supplier_postcode, d, newline ] ) 
 
 ] ).
 
