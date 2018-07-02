@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( linde_it_ups_espanap, `08 June 2018` ).
+i_version( linde_it_ups_italiana, `2 July 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -188,7 +188,7 @@ i_line_rule( line_add_line1, [
 
     , trace( [ `Found address`] )
 
-    , generic_item( [ buyer_party, s1, newline ] ) , `(`, generic_item( [ order_number, d, `)` ] )
+    , generic_item( [ buyer_party, s1, newline ] ) 
 
      
     , or([
@@ -265,7 +265,7 @@ i_rule( get_invoice_date, [
 
   , or([
       
-      generic_vertical_details( [ [`Data`,`Fattura`], `Fecha`, q(0,1), (start,100,400), invoice_date_raw, s1, newline ] )
+      generic_vertical_details( [ [`Data`,`Fattura`], `Fattura`, q(0,1), (start,100,400), invoice_date_raw, s1, newline ] )
 	
   ])
     
