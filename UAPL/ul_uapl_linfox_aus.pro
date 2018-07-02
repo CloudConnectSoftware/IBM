@@ -178,14 +178,9 @@ i_rule( get_total_net, [
 
 	, or([
 
-		[test(credit_note)  
+		 generic_horizontal_details( [ [`Total`, `GST`, `Exclusive`, `value`, `of`, `services`, tab, `$`, tab],total_net , d , newline ] )
 
-		 , generic_horizontal_details( [ [ `Sub`, `Total` ] ,100,total_net , d , newline ] )]
-
-		 , generic_horizontal_details( [ [ `Sub`, `Total`, tab, q10(`NZD`), q10(tab), `$` ] , total_net , d , newline ] )
-
-		 , generic_vertical_details( [ [ `Total`, `Invoice`], `Total`, q(0,3,up),(end,10,10), total_net, d, tab ] )
-
+		 
 	])
 	
 ] ).
@@ -207,13 +202,10 @@ qn0(line)
 
 , or([
 
-     generic_horizontal_details( [ [ `GST`, dummyvatrate(d), `%`, tab, `NZD`, tab, `$` ] , 100 , total_vat , d , newline ] )
-
-     , generic_horizontal_details( [ [ `GST` , tab ] , 100 , total_vat , d , newline ] )
+     generic_horizontal_details( [ [ `GST`, `applicable`, `to`, `the`, `services`, tab, `$`, tab]  , total_vat , d , newline ] )
 
     ])
 
-    , generic_item( [ default_vat_rate, `15` ] )
 
 ] ).
 
@@ -232,7 +224,7 @@ qn0(line)
 
 , or([
 
-  generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `PAYABLE`, tab, q10(`NZD`), `$` ] , total_invoice , d , newline ] )
+  generic_horizontal_details( [ [ `TOTAL`, `GST`, `INCLUSIVE`, `PRICE`, tab, `$`, tab ] , total_invoice , d , newline ] )
 
   , generic_horizontal_details( [ [ `TOTAL`, `CREDIT`, `AMOUNT`, tab , `$` ] , total_invoice , d , newline ] )
 
@@ -249,173 +241,38 @@ qn0(line)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_section( get_invoice_lines, [
+i_rule( get_invoice_lines, [
 %=======================================================================
 
-	line_header_line
 
-	, qn0( [ peek_fails(line_end_line)
+	qn0(line)
+	
 
-		, or( [
+	, or([
 
-			line_invoice_lines
+	
+		 generic_horizontal_details( [ [`Total`, `GST`, `Exclusive`, `value`, `of`, `services`, tab, `$`, tab ],line_net_amount , d , newline ] )
 
-			, line_invoice_lines_new
-
-			, line_invoice_lines_2
-
-			,[line_credit_lines , line_credit_descr_lines ]
-
-
-			
-			, line
-
-		] )
-
-	] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_header_line, [
-%=======================================================================
-
-or([
-
-	[`Description`, `of`, `Charges`]
-
-	,[`date`, tab, `Bill`, `No`]
-
+		 
 	])
-
-	, trace( [`Found header line` ] )
-
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-
-	or([
-
-			[`CARRIED`, `FORWARD`, tab ]
-			
-			, [`Sub`, `total`, tab, `$`, dummy_num11(d), newline ]
-
-			, [`Sub`, `total`, tab, `NZD`, q10(tab) , `$`, dummy_num11(d), newline ]
-
-		    , [`Sub`, `Total`, tab, `NZD`,`$`, tab, dummy_num10(d), newline ]
-
-
-		, [`TOTAL`, `AMOUNT`, `PAYABLE`]
-		
-			])
-
-	, trace( [ `FOUND END LINE`])
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_lines, [
-%=======================================================================
-
-    
-
-		  generic_item( [ line_descr, s1, tab ] )
 	
-		, generic_item( [ line_net_amount, d, newline] )
+	, q(0,1,line)
 
-	    , trace( [ `Complete line`] )
+, or([
 
-
-] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_invoice_lines_new, [
-%=======================================================================
-
-    
-
-		generic_item( [ line_descr, s1, tab ] )
-
-		, q10(generic_item( [ line_reference, s1, tab ] ))
-	
-		, generic_item( [ line_net_amount, d, newline] )
-
-	    , trace( [ `Complete line`] )
+     generic_horizontal_details( [ [ `GST`, `applicable`, `to`, `the`, `services`, tab, `$`, tab]  , line_vat_amount , d , newline ] )
 
 
-] ).
+    ])
+
+, q(0,1,line)
+
+, or([
+
+  generic_horizontal_details( [ [ `TOTAL`, `GST`, `INCLUSIVE`, `PRICE`, tab, `$`, tab ] , line_total_amount , d , newline ] )
 
 
-%=======================================================================
-i_line_rule_cut( line_invoice_lines_2, [
-%=======================================================================
-
-
-
-generic_item([line_date, date])
-
-    , generic_item( [ line_bil_no, d,tab] )
-
-	, generic_item( [ line_descr, s1, tab ] )
-	
-	, generic_item( [ line_ship_from, s1, tab ] )
-
-	, generic_item( [ line_city, s, q10(tab) ] )
-
-	, generic_item( [ line_bill_to_ref, d,tab] )
-
-	, generic_item( [ line_consignee_ref, d, tab ] )
-
-	, generic_item( [ line_freight, s1, tab ] )
-
-	, generic_item( [ line_quantity_uom, s1, tab ] )
-
-	, generic_item( [ line_pcs, d, tab ] )
-
-	, generic_item( [ line_quantity, d] )
-
-	, generic_item( [ line_unit_amount, d, tab ] )
-
-	, generic_item( [ line_ln_total, d,tab] )
-
-	, generic_item( [ line_sub_total, d, tab ] )
-
-	, generic_item( [ line_other, d,tab] )
-
-	, generic_item( [ line_surcharge, d, tab ] )
-
-	, generic_item( [ line_net_amount, d, newline] )
-
-	,trace( [ `Complete line`] )
-
-
-] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_credit_lines, [
-%=======================================================================
-
-    
-		 generic_item( [ line_net_amount, d, newline] )
-
-	    , trace( [ `Complete line Net`] )
-
-
-] ).
-%=======================================================================
-i_line_rule_cut( line_credit_descr_lines, [
-%=======================================================================
-
-    
-		 generic_item( [ line_descr, s1, newline] )
-
-	    , trace( [ `Complete line Decr`] )
-
+])
 
 ] ).
 
@@ -424,10 +281,6 @@ i_line_rule_cut( line_credit_descr_lines, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
-
-% Updated on   - December 15, 2017
-% Updated by   - Rohini	
-% Changes made - Line details 
 
 
 
