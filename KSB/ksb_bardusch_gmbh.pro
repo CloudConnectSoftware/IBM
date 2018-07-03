@@ -55,7 +55,7 @@ i_rule_list( [
 
     %,  get_freight_line 
 
-   % , get_line_net
+    , get_line_net
 
 ] ).
 
@@ -443,7 +443,7 @@ i_rule( get_delivery_note_nr, [
 i_rule( get_line_net, [
 %=======================================================================
 
-    last_line, q0n(up)
+    last_line, q(0,100,up)
 
     , set(reverse_punctuation_in_numbers)
 
@@ -517,7 +517,7 @@ i_rule_cut( get_total_vat, [
 
      ,or([
 
-        generic_horizontal_details( [ [gen_beof,`+`, `Mehrwertsteuer`, generic_item( [ default_vat_rate, d ] ), `%`, q10(tab), `(`, dummy_num(d), `EUR`, `)`, tab ], total_vat, d, [q10(tab),`EUR`,  newline ] ] )
+        generic_horizontal_details( [ [gen_beof,`+`, `Mehrwertsteuer`, generic_item( [ default_vat_rate, d , `%` ] ), q10(tab), `(`, dummy_num(d), `EUR`, `)`, tab ], total_vat, d, [q10(tab),`EUR`,  newline ] ] )
 
         ])
 
@@ -666,15 +666,12 @@ i_rule_cut( line_invoice_rule,[
     
     or( [
 
-            line_invoice_line3
+            line_invoice_line3(1,-430,500)
 
-            , [line_invoice_line, line_invoice_line1]
+            , [line_invoice_line(1,-430,500), line_invoice_line1]
 
-           , line_invoice_line2
-
-        
+           , line_invoice_line2(1,-430,500)  
              
-
 	] )
     
 ] ).
@@ -749,8 +746,7 @@ set(regexp_cross_word_boundaries)
 %=======================================================================
 i_line_rule_cut( line_invoice_line_new, [
 %=======================================================================
-	
-	
+		
 set(regexp_cross_word_boundaries)
 
 , set(reverse_punctuation_in_numbers)
@@ -849,11 +845,13 @@ i_line_rule_cut( line_invoice_line3, [
 
     , generic_item( [ line_dummy, d, tab ] )
 
-    , generic_item( [ line_dummy1, d, tab ] )
-
     , generic_item( [ line_dummy2, d, tab ] )
 
     , generic_item( [ line_dummy3, d, tab ] )
+
+    , generic_item( [ line_dummy4, d, tab ] )
+
+    , q10( generic_item( [ line_dummy5, d, tab ] ) )
     
     , generic_item( [ line_quantity, d, [a(w), tab] ] )
     
