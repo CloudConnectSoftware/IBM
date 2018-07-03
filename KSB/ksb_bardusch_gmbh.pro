@@ -55,7 +55,7 @@ i_rule_list( [
 
     %,  get_freight_line 
 
-   % , get_line_net
+    , get_line_net
 
 ] ).
 
