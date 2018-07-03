@@ -132,7 +132,7 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 
       or([
-          `67206` ,`67208`, `06110` ])
+          `67206` ,`67208`, `06110`, `67209` ])
 
       ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ] )
 
@@ -514,9 +514,9 @@ i_line_rule_cut( line_item_line, [
 % Created on   - February 12, 2018
 % Updated by   - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - 3 July 2018
+% Updated by   -  Thejaswi
+% Changes made   -  Buyer party
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
