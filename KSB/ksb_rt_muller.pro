@@ -363,9 +363,6 @@ i_section( get_invoice_lines, [
 
             		
 		 [q10(line_dummy_line),q10(line_po_line),line_invoice_line]
-         
-  
-   
              
 			, line
 
@@ -409,20 +406,19 @@ i_line_rule_cut( line_end_line,[
 
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
-	
-       
+	       
             
        set(regexp_cross_word_boundaries)
 
-       , set(reverse_punctuation_in_numbers)
+      , set(reverse_punctuation_in_numbers)
 
-       , generic_item( [ line_item,s1, tab ] )
+      , generic_item( [ line_item,s1, tab ] )
 
       , generic_item( [ line_descr, s1, tab ] )
 
-      , generic_item( [ line_quantity, d, tab ] )
+      , generic_item( [ line_quantity, d, [ q10(a(w)), tab] ] )
 
       , generic_item( [ line_unit_amount, d, tab ] )
 
