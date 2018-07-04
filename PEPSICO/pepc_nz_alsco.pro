@@ -68,11 +68,11 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-	sender_name(`GRG CONSULTING ENGINEERS PTY LTD`)
+	sender_name(`Alsco NZ - Auckland`)
 
-    , supplier_party(`GRG CONSULTING ENGINEERS PTY LTD`)
+    , supplier_party(`Alsco NZ - Auckland`)
       
-	,supplier_vat_number(`11099978239`)
+	,supplier_vat_number(`22505521`)
 
 
 ] ).
@@ -112,7 +112,7 @@ i_line_rule( line_suppadd_line, [
    
     q0n(anything)
 
-    , read_ahead( [`31`, `/`] )
+    , read_ahead( [`Alsco`] )
 
     , trace( [ `Found SUPPLIER Line`] )
  
@@ -125,6 +125,45 @@ i_line_rule( line_suppadd_line, [
 ] ).
 
 
+%=======================================================================
+i_line_rule( line_suppadd_line, [
+%=======================================================================
+   
+     read_ahead( [`Alsco`] )
+
+    , trace( [ `Found SUPPLIER Line`] )
+ 
+    ,  generic_item( [ supplier_party, s1, tab ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_suppadd_line_2, [
+%=======================================================================
+  
+   generic_append( [  supplier_address_line, s1, tab, `,`, ``  ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_suppadd_line_3, [
+%=======================================================================
+
+  generic_item( [ supplier_street, s1, tab ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_suppadd_line_4, [
+%=======================================================================
+  
+  ,  generic_item( [ supplier_city, w ] )
+
+    ,  generic_item( [ supplier_postcode, d, tab ] )
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET BUYER PARTY DETAILS
