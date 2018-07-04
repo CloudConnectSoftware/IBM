@@ -159,7 +159,7 @@ i_line_rule( line_suppadd_line_3, [
 i_line_rule( line_suppadd_line_4, [
 %=======================================================================
   
-  ,  generic_item( [ supplier_city, w ] )
+     generic_item( [ supplier_city, w ] )
 
     ,  generic_item( [ supplier_postcode, d, tab ] )
 
