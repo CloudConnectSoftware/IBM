@@ -363,7 +363,7 @@ i_rule( get_buyer_party, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-    read_ahead([  `Gregory`, `Jones` ] )
+    read_ahead([  `Pepsico` ] )
 
     ,trace( [ `Found BUYER ADDRESS`] )
 
@@ -409,15 +409,13 @@ i_line_rule( line_add_line_5, [
 %=======================================================================
 
 
-    generic_item( [ buyer_dummy_line3, s1, tab ] )
+    generic_item( [ buyer_dummy_line3, w, tab ] )
     
-    , generic_item( [buyer_city, s, [q10(tab), check(buyer_city(end) < -327)] ] )
+    , generic_item( [buyer_city, w,  `,`] )
 
-    , generic_item( [dummy_line_1, s, [q10(tab), check(dummy_line_1(end) < -306)] ] ) 
+    , generic_item( [buyer_state, w,`,` ] )
 
-    , generic_item( [buyer_state, s,[q10(tab), check(buyer_state(end) < -266)] ] )
-
-    , generic_item( [buyer_postcode, s1, tab] )
+    , generic_item( [buyer_postcode, d, tab] )
 
 
 ] ).
