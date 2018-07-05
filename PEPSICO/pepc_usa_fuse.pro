@@ -70,6 +70,8 @@ i_rule( get_supplier_detail, [
 
     sender_name( `FUSE LLC` )
 
+    , supplier_vat_number(`3-0348762`)
+
     
 ] ).
 
