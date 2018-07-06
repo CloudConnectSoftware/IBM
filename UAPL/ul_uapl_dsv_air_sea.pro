@@ -25,7 +25,7 @@ i_rule_list( [
 
     , get_bank_accountnumber
                 
-    , get_invoice_number
+    %, get_invoice_number
     
     , get_invoice_date
 
