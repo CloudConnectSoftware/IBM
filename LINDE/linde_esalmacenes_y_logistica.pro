@@ -234,7 +234,7 @@ i_rule( get_due_date, [
 
    , or([
     
-       generic_horizontal_details( [ [ `Venciments` ], due_date, date ] )
+       generic_horizontal_details( [ [ `Venciments` ], due_date, date , q10(tab)] )
 
     ])
   
@@ -296,7 +296,7 @@ i_rule(get_total_net, [
     
     , or([
 
-       generic_vertical_details( [ [ `Bases`, `imponibles` ], `Base`, q(0,1), (end,10,10), total_net, d, tab ] ) 
+       generic_vertical_details( [ [ `Bases`, `imponibles` ], `Bases`, q(0,1), (end,10,10), total_net, d, tab ] ) 
 
     ])
 
@@ -347,7 +347,7 @@ i_rule(get_total_invoice, [
 
    , or([
  
-    generic_horizontal_details( [ [ `TOTAL`, `Factura`, tab ], total_invoice, d, [`€`, tab ] ] ) 
+    generic_horizontal_details( [ [ `Total`, `Factura`, tab ], total_invoice, d, [`€`, tab] ] ) 
    
     ])
     
@@ -411,20 +411,14 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
+    
+     generic_item( [ line_descr, s1, newline ] )
 
-     q10( [ 
-	
-	 with( line,line_descr_capture, Descr ) % TO Capture the first value of line_descr_capture (line_desc_line)
-
-	, generic_item( [ line_descr, Descr ] ) % To stores the value in line_descr for the current line
-		
-    ] )
+     , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
     , generic_item( [ line_quantity, d, tab ] )
 
     , generic_item( [ line_quantity_uom_code, s1, tab ] )
-
-    , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
     , generic_item( [ line_unit_amount,d , tab ] )
 
@@ -433,24 +427,6 @@ i_line_rule_cut( line_invoice_line, [
     , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
 
 ] ).
-
-%=======================================================================
-i_line_rule_cut( line_descr_capture, [
-%=======================================================================
-
-     generic_item( [ line_descr_capture, s1, newline ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_descr_append_line, [
-%=======================================================================
-
-    generic_append( [ line_descr_capture, s1, newline, ` - `, ` `  ] )
-
-
-] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
