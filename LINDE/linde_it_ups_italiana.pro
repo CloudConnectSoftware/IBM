@@ -110,14 +110,12 @@ i_line_rule( line_add_line, [
      
     , or([
 
-      [ check(buyer_party = `Linde Medical`) ,generic_item( [ buyer_registration_number, `LM` ] ) ] 
-
-    , [ check(buyer_party = `Linde Medicale Srl`) ,generic_item( [ buyer_registration_number, `LM` ] ) ] 
-
-    , [ check(buyer_party = ` Linde Gas Italie`) ,generic_item( [ buyer_registration_number, `LCO` ] ) ] 
-
-    , [ check(buyer_party = `LINDE GAS ITALIA SRL`) ,generic_item( [ buyer_registration_number, `LCO` ] ) ]
       
+     [ check(buyer_party = `LINDE MEDICALE S.R.L.`) ,generic_item( [ buyer_registration_number, `LM` ] ), supplier_id(`52000261`) ] 
+
+    , [ check(buyer_party = `LINDE GAS ITALIA SRL`) ,generic_item( [ buyer_registration_number, `LCO` ] ), supplier_id(`92001690`) ]
+
+          
         ])
 
 ] ).
