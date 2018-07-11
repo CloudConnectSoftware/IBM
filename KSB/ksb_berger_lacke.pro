@@ -451,11 +451,11 @@ i_section( get_invoice_lines, [
 	,qn0( [ peek_fails(line_end_line)
 		
 		,or( [
-
             		
-			 line_invoice_line , line_descs_line,line_descs_append
+			 
+             [ test(credit_note), line_credit_line ]
 
-            ,line_credit_line
+             , line_invoice_line 
 
 
 			, line
@@ -510,34 +510,27 @@ i_line_rule_cut( line_invoice_line, [
         ,generic_item([ line_reference , d  ])
 
         ,or([
-            generic_item([line_item , w , [q10(line_item(end)< -295)]  ] )
+            generic_item([line_item , w ,  [q10(tab), check(line_item(end)< -295)]  ] )
 
-            , generic_item([line_item , w , [q10(line_item(end)< -299)]  ] )
+            , generic_item([line_item , w , [ q10(tab), check(line_item(end)< -299)]  ] )
 
-            , generic_item([line_item , w , [q10(line_item(end)< -301)]  ] )
+            , generic_item([line_item , w , [ q10(tab), check(line_item(end)< -301)]  ] )
 
-            , generic_item([line_item , w , [q10(line_item(end)< -397)]  ] )
+            , generic_item([line_item , w , [ q10(tab), check(line_item(end)< -397)]  ] )
 
         ])
 
         ,generic_item([line_descr , s1,tab ] )
 
-        ,generic_item([line_quantity_dummy1, d  ] )
+        ,generic_item([line_quantity_dummy1, s1, tab  ] )
 
-        ,generic_item([line_quantity_uom_code_dummy1 , w , q10(tab)  ] )
+        , generic_item([line_quantity_dummy2, s1, tab ] )
 
-        ,generic_item([line_quantity_dummy2, d  ] )
+        , q10( generic_item([line_quantity_dummy3, s1, tab ] ) )
 
-        ,generic_item([line_quantity_uom_code_dummy3 , w , tab  ] )
-
-        , generic_item([line_quantity, d , tab  ] )
-
-        ,generic_item([line_quantity_dummy, d  ] )
-
-        ,generic_item([line_quantity_uom_code_dummy , w, tab  ] )
-
+        , generic_item([line_quantity, d ,[ q10([a(w) ] ), tab]  ] )
+       
        , generic_item([ line_net_amount , d , newline ] )
-
 
        ,clear(regexp_cross_word_boundaries)
 
@@ -576,7 +569,11 @@ i_line_rule_cut( line_credit_line, [
 
         ,generic_item([ line_reference , d  ])
 
-        ,generic_item([line_item , w , [q10(tab), check(line_item(end) < -284)  ]  ] )
+        , or( [ generic_item([line_item , w , [q10(tab), check(line_item(end) < -284)  ]  ] )
+
+        , generic_item([line_item , w , [q10(tab), check(line_item(end) < -397)  ]  ] )
+
+        ] )
 
         ,generic_item([line_descr , s1,tab ] )
 

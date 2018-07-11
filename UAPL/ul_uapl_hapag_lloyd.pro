@@ -125,7 +125,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    ,[ generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
+    , or([
+
+        generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(0,1), (end,100,700), total_invoice, d, generic_item( [ currency, w, newline] ) ] )
+
+    , generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
+
+    ])
 
         , check( total_invoice = TotInv )
 
@@ -133,7 +139,7 @@ i_rule( get_total_invoice, [
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) ]
+        , trace( [ `Total net` , total_net] ) 
 
          , q10( [  check( q_sys_comp_str_le( total_invoice, `0` ) )   
 
@@ -170,11 +176,11 @@ i_rule( get_currency, [
 i_rule(get_bank_accountnumber, [
 %=======================================================================
 
-    q0n(line)
-
-    , with( invoice, currency, Currency )
+     with( invoice, currency, Currency )
 
     ,trace( [ `currency is`, Currency ] )
+
+    , q0n(line)
 
     , or([
         [check( Currency = `USD` ) ,generic_horizontal_details( [ [`BANK`, `ACCOUNT`, `NO`, tab, `:`, tab, `001`, `-` ], supplier_bank_account_number_raw, w, [`(`, `USD`, `)`] ] )]

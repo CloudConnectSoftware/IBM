@@ -342,8 +342,11 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule( line_desc_line, [
 %=======================================================================
-  
- generic_item( [ line_descr_capture, s1, newline ] )
+ `|`
+ 
+, generic_item( [ line_descr_capture, s1, tab ] )
+
+ , generic_append( [ line_descr_capture, s1, [`|`, tab, `|`, tab, `|`, tab, `|`, tab, `|`,  newline ], `  -  `, ``  ] )
         
 ] ).
 
@@ -359,15 +362,17 @@ q10( [
 		
 ] )
 
-, generic_append( [ line_descr, s1, tab, ` - `, ``  ] )
+ , `|`, tab,
 
-, generic_item( [ line_quantity, d, tab ] )
+, generic_append( [ line_descr, s1, [tab, `|`, tab ], ` - `, ``  ] )
 
-, generic_item( [ line_unit_amount_dummy, d, tab ] )
+, generic_item( [ line_net_amount, d, [`|`, tab] ] )
 
-, generic_item( [ line_unit_amount_dummy, d, tab ] )
+, generic_item( [ line_vat_amount, d, [ `|`, q10(tab)] ] )
 
-, generic_item( [ line_net_amount, d, newline ] )
+, generic_item( [ line_vat_rate, d, [`|`, tab] ] )
+
+, generic_item( [ line_net_amount, d, [`|`,  newline ] ] )
 
 
 ] ).

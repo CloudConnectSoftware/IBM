@@ -231,7 +231,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-    q0n(line)
+    qn0(line)
 
      , or([
 

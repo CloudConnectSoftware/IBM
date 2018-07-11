@@ -68,6 +68,8 @@ i_rule( get_supplier_detail, [
 
    , supplier_country_code(`US`)
 
+   , currency(`USD`)
+
 
 ] ).
 
@@ -142,6 +144,36 @@ i_line_rule( line_add_line_3, [
 ] ).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`CREDIT`, `AMOUNT`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -321,6 +353,16 @@ q(0,30,line)
 
 
      , generic_horizontal_details( [ [`TOTAL`, `AMOUNT`, `DUE`, tab, generic_item( [ total_net, d ] ), tab ],  total_invoice, d, newline ] )
+
+     , [generic_horizontal_details( [ [`TOTAL`, `AMOUNT`, `DUE`, tab ],  total_invoice, d, [`-`, tab ] ] )
+
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net ] )]
 
 ] )
 

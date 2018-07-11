@@ -103,7 +103,20 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party ,s1, tab ] )
+     , generic_item( [buyer_party_raw , s1, or([ tab, newline ]) ])
+
+      , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
    
 ] ).
 
@@ -111,9 +124,16 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line2, [
 %=======================================================================
 
-      `91257`
+      or([
 
-      ,generic_item( [ buyer_city , w , tab ] )
+            [`D`, `-`, `67206`], [`820`, `15`, tab  ], [`92635`], [`67206`], [`67227` ], [`DE`, `-`, `06110`], [`92635`]
+
+          , [`66424`], [`DE`, `-`, `67206`], [`F`, `59482`], [`F`, `-`, `92635`], [`36004`], [`91253`], [`92635 `], `91257`
+         
+
+      ] )
+
+      ,generic_item( [ buyer_city , w , or([tab, newline]) ] )
 
 ] ).
 

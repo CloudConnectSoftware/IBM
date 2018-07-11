@@ -19,8 +19,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-   % , get_supplier_address
-
+   , get_bill_to_address
   
     , get_bank_accountnumber
                      
@@ -65,6 +64,71 @@ i_rule( get_supplier_detail, [
    
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Buyer ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bill_to_address, [
+%=======================================================================
+
+  q(0,30,line)
+
+   , line_add_line
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        read_ahead(`Linde`)
+        
+         ]) 
+
+        , trace( [ `Found address`] )
+
+        , or([
+
+          generic_item( [ buyer_party, s1, or([ tab, newline ]) ] )
+
+        
+        ])
+
+
+     , or([
+
+        [ check(buyer_party = `LINDE FRANCE S A`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ] 
+
+        , [ check(buyer_party = `Linde France SA`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ] 
+
+        , [ check(buyer_party = `LINDE FRANCE SA`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ] 
+
+        , [ check(buyer_party = `LINDE FRANCE`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ] 
+
+        , [ check(buyer_party = `LINDE HOMECARE FRANCE`) ,generic_item( [ buyer_registration_number, `FR30` ] ) ] 
+
+        , [ check(buyer_party = `LINDE FRANCE S.A.`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ] 
+
+        , [ check(buyer_party = `LINDE FRANCE S.A`) ,generic_item( [ buyer_registration_number, `FR10` ] ) ]
+
+        , [ check(buyer_party = `LINDE HOMECARE FRANCE SAS`) ,generic_item( [ buyer_registration_number, `FR30` ] ) ]
+
+        , [ check(buyer_party = `LINDE HOME CARE France SAS`) ,generic_item( [ buyer_registration_number, `FR30` ] ) ]
+
+     
+           ])
+
+]).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

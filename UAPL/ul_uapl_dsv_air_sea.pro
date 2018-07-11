@@ -4,13 +4,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_dsv_air_sea, `17,July 2017` ).
+i_version( ul_uapl_dsv_air_sea, `14 June 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
+
+i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -23,7 +25,7 @@ i_rule_list( [
 
     , get_bank_accountnumber
                 
-    , get_invoice_number
+    %, get_invoice_number
     
     , get_invoice_date
 
@@ -188,7 +190,7 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,200,line)
 	
     , generic_horizontal_details( [ [ `SUBTOTAL`, tab ],  total_net, d, newline ] )
 
@@ -205,7 +207,7 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,200,line)
 	
     , generic_horizontal_details( [ [`GST`, tab],  total_vat, d, newline ] )
 
@@ -223,7 +225,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q(0,50,line)
+	q(0,200,line)
 	
     , generic_horizontal_details( [ [`TOTAL`, `USD`, tab ],  total_invoice, d, newline ] )
 
@@ -285,6 +287,20 @@ i_rule( get_invoice_lines, [
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
 
+
+% Created on   - 17 July, 2017
+% Updated by   - 
+
+% Updated on   - 13 June 2018
+% Updated by   - Thejaswi
+% Changes made   - PDF parameter for supporting document
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

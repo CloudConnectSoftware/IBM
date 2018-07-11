@@ -21,10 +21,12 @@ i_rule_list( [
 	get_supplier_details
 
     , get_bank_accountnumber
+
+    , set_credit_note
 	
 	, get_invoice_number
 	
-	, get_invoice_date
+	, get_invoice_datep
 
     , get_order_number
 
@@ -58,6 +60,37 @@ i_rule( get_supplier_details, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`Credit`, `Note`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT DETAILS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,9 +117,9 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q0n(line)
+    q(0,20,line)
 
-   , generic_horizontal_details( [ [ `Invoice`, `No`, `.`, q10(tab) ],  invoice_number, s1, newline ] )
+   , generic_horizontal_details( [ [ q10(`Invoice`), `No`, `.`, q10(tab) ],  invoice_number, s1, newline ] )
 	
 	
 ] ).
@@ -103,7 +136,12 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [`Date`, `:`, q10(tab) ], invoice_date, date, newline ] )
+    , or([
+        generic_horizontal_details( [ [`Date`, `:`, q10(tab) ], invoice_date, date, newline ] )
+
+        , generic_horizontal_details( [ [`Date`, `:`, q10(tab) ], invoice_date, date, `-` ] )
+
+    ])
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,6 +208,8 @@ i_section( get_invoice_lines, [
 
             [line_invoice_line, q10(line_invoice_line2)]
 
+            , line_invoice_line4
+
             ,line_invoice_line_po
 
             , line_invoice_line3
@@ -192,6 +232,8 @@ i_line_rule_cut( line_header_line, [
     
 
     [ `Garden`, `Mark`]
+
+    , [`Description`, tab, `Value` ]
 
     ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
@@ -247,6 +289,18 @@ i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
      generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [line_net_amount , d , newline ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
+
+     , generic_append( [ line_descr, s1, tab, ` - `, ``  ] )
 
     , generic_item( [line_net_amount , d , newline ] )
 

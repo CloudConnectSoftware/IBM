@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_nbe, `12 February 2018` ).
+i_version( ksb_nbe, `1 June 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -132,7 +132,7 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 
       or([
-          `67206` ,`67208` ])
+          `67206` ,`67208`, `06110`, `67209` ])
 
       ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ] )
 
@@ -233,7 +233,21 @@ i_rule( get_order_number, [
 
       , generic_horizontal_details( [ [`Bestell`, `-`, `Nr`, `.`], order_number, d,  or([tab,newline]) ] )
 
-        ])
+       , find_order_number
+
+      ])
+
+] ).
+
+
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,10) , end ] ] )
 
 ] ).
 
@@ -500,9 +514,9 @@ i_line_rule_cut( line_item_line, [
 % Created on   - February 12, 2018
 % Updated by   - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - 3 July 2018
+% Updated by   -  Thejaswi
+% Changes made   -  Buyer party
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

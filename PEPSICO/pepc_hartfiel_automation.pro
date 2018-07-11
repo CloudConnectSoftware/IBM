@@ -10,7 +10,7 @@ i_version( pepc_hartfiel_automation , `22 May 2018` ).
 
 i_date_format( _ ).
 
-i_date_language( dutch ).
+i_date_language( english ).
 
 i_trace_lists.
 
@@ -76,9 +76,6 @@ i_rule( get_supplier_detail, [
 
 	,supplier_vat_number(``)
 
-    ,buyer_dept(``)
-
-    ,buyer_registration_number(``)
 
 ] ).
 
