@@ -345,6 +345,8 @@ i_rule( get_currency, [
 
        , generic_horizontal_details( [ [`7`, `%`, `On`], currency, w, dummy_net(d)] )
 
+       , generic_vertical_details( [ [ `Amount`], `Amount`, q(0,1), (end,40,40), currency,w,   newline ] )
+
        , [generic_vertical_details( [ [ `Amount`], `Amount`, q(0,1), (end,40,40), currency_raw,w, [`)`,  newline] ] )
 
         , check( currency_raw = CurrencyRaw )
@@ -359,12 +361,27 @@ i_rule( get_currency, [
 
     , trace( [ `New Currency` , currency ] )]
 
+
     , generic_vertical_details( [ [ `Amount`], `Amount`, q(1,0), (end,40,40), currency,w,newline ] )
 
 
-      ])
+    , invoice_currency
 
-      
-                
+    ])
+
 ] ).
 
+%=======================================================================
+i_line_rule( invoice_currency, [
+%=======================================================================
+
+    q0n(anything)
+
+    , `SGD`
+
+,currency( `SGD` )
+
+,trace( [ `currency found` ] )
+
+
+] ).
