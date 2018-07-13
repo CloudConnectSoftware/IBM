@@ -86,17 +86,15 @@ i_rule( get_supplier_detail, [
 i_rule( get_supplier_address, [
 %=======================================================================
    
-    last_line
-
-    , q(0,50,up)
+    q(0,100,line)
 
     , line_add_line
 
-    , q(0,1,line)
+    , q(1,2,line)
 
     , line_add_line_2
 
-    , q(1,2,line)
+    , q(0,2,line)
 
     , line_add_line_3
 
@@ -110,7 +108,7 @@ i_line_rule( line_add_line, [
 
     q0n(anything)
 
-    , read_ahead([`Fuse`])
+    , check_text(`Fuse`)
     
     , trace( [ `Found address`] )
 
@@ -137,7 +135,7 @@ i_line_rule( line_add_line_3, [
 
     , generic_item( [ supplier_state, w ] )
 
-    , generic_item( [ supplier_postcode, w, tab ] )
+    , generic_item( [ supplier_postcode, s1, tab ] )
 
 ] ).
 
@@ -276,7 +274,7 @@ i_line_rule( line_remit_line3, [
 
     , generic_item( [ remit_to_state, w  ] )
 
-    , generic_item( [ remit_to_postcode, s , tab  ] )
+    , generic_item( [ remit_to_postcode, s1 , tab  ] )
 
 ] ).
    
@@ -295,9 +293,9 @@ i_rule( get_bank_accountnumber, [
      
     last_line
 	
-    ,q(0,20,up)
+    ,q(0,30,up)
 
-    , generic_horizontal_details( [ [`Account`, `Number`, `:`],  remit_to_bank_account_number, s1,tab ] ) 
+    , generic_horizontal_details( [ [`Account`, `Number`, `:`],  remit_to_bank_account_number, d,newline ] ) 
 
 ] ).
 
@@ -316,7 +314,7 @@ i_rule( get_bank_swif_no, [
 
     , q(0,20,up)
 
-    , generic_horizontal_details( [ [`Swift`, `Code `  ], remit_to_swift_code, w, newline ] )
+    , generic_horizontal_details( [ [`Swift`, `Code `  ], remit_to_swift_code, w, tab ] )
  
 ] ).
 
