@@ -84,11 +84,6 @@ i_rule( get_supplier_detail, [
     
     , supplier_postcode(`46260`)
 
-	,supplier_vat_number(``)
-
-    ,buyer_dept(``)
-
-    ,buyer_registration_number(``)
 
 ] ).
 
@@ -166,21 +161,6 @@ i_rule( get_supplier_address, [
    ,q(0,1,line)
 
    ,line_suppadd_line_2
-
-   ,q(0,1,line)
-
-   ,line_suppadd_line_3
-
-   ,q(0,1,line)
-
-   ,line_suppadd_line_4
-
-   
-   ,q(0,1,line)
-
-   ,line_suppadd_line_5
-
-
     
 ] ).
 
@@ -189,7 +169,7 @@ i_line_rule( line_suppadd_line, [
 %=======================================================================
    
 
-    read_ahead( [`xxxx`] )
+    read_ahead( [`Goodby`] )
 
     ,trace( [ `Found SUPPLIER Line`] )
 
@@ -202,29 +182,19 @@ i_line_rule( line_suppadd_line, [
 i_line_rule( line_suppadd_line_1, [
 %=======================================================================
 
-      generic_item( [ dummy_line2, s1, tab ] )
-
+       generic_item( [ supplier_address_line,s1, newline ] )
    
 ] ).
 %=======================================================================
-i_line_rule( line_suppadd_line_1, [
+i_line_rule( line_suppadd_line_2, [
 %=======================================================================
 
-    generic_item( [ supplier_address_line,s1, newline ] )
+   
+   generic_item( [ supplier_city, s,`,` ] )
 
-] ).
+  , generic_item( [ supplier_state, w ] )
 
-%=======================================================================
-i_line_rule( line_suppadd_line_3, [
-%=======================================================================
-
-   generic_item( [ supplier_city, s,[q10(tab), check(supplier_city(end) < -405)] ] )
-
-  , generic_item( [ dummy_line1, s,[q10(tab), check(dummy_line1(end) < -390)] ] )
-
-  , generic_item( [ supplier_state, s,[q10(tab), check(supplier_state(end) < -346)] ] )
-
-  , generic_item( [ supplier_postcode, s1, newline ] )
+  , generic_item( [ supplier_postcode, d, newline ] )
 
    
 ] ).
@@ -251,19 +221,7 @@ i_rule( get_remit_supplier, [
 
    ,line_remitsupp_line_2
 
-   ,q(0,1,line)
-
-   ,line_remitsupp_line_3
-
-   ,q(0,1,line)
-
-   ,line_remitsupp_line_4
-
-   
-   ,q(0,1,line)
-
-   ,line_remitsupp_line_5
-
+  
 
     
 ] ).
@@ -273,7 +231,7 @@ i_line_rule( line_remitsupp_line, [
 %=======================================================================
    
 
-    read_ahead( [`xxxx`] )
+    read_ahead( [`Goodby`] )
 
     ,trace( [ `Found SUPPLIER Line`] )
 
@@ -286,7 +244,7 @@ i_line_rule( line_remitsupp_line, [
 i_line_rule( line_remitsupp_line_1, [
 %=======================================================================
 
-      generic_item( [ remit_dummy_line2, s1, tab ] )
+      generic_item( [ remit_to_address_line, s1, newline ] )
 
    
 ] ).
@@ -294,21 +252,11 @@ i_line_rule( line_remitsupp_line_1, [
 i_line_rule( line_remitsupp_line_2, [
 %=======================================================================
 
- generic_item( [ remit_to_address_line, s1, newline ] )
+   generic_item( [ remit_to_city, s,`,`] )
 
-] ).
+  , generic_item( [ remit_to_state, w ] )
 
-%=======================================================================
-i_line_rule( line_remitsupp_line_3, [
-%=======================================================================
-
-   generic_item( [ remit_to_city, s,[q10(tab), check(remit_to_city(end) < -405)] ] )
-
-  , generic_item( [ dummy_line1, s,[q10(tab), check(dummy_line1(end) < -390)] ] )
-
-  , generic_item( [ remit_to_state, s,[q10(tab), check(remit_to_state(end) < -346)] ] )
-
-  , generic_item( [ remit_to_postcode, s1, newline ] )
+  , generic_item( [ remit_to_postcode, d, newline ] )
 
    
 ] ).
