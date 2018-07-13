@@ -23,7 +23,6 @@ i_rule_list( [
     , get_buyer_reg_no
 
     ,set_credit_note
-
    
 	, get_invoice_number
 
@@ -418,7 +417,7 @@ qn0(line)
 
      ,or([
 
-         generic_vertical_details( [ [`Tax`, `Rate` ], `Rate`, q(0,1), (start,50,100), default_vat_rate, d, `%` ] )
+         generic_vertical_details( [ [`Tax`, `Rate` ], `Rate`, q(0,1), (start,50,100), default_vat_rate, d, or([ tab,`%` ]) ] )
 
              ])
    
