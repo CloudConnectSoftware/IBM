@@ -230,15 +230,13 @@ i_line_rule_cut( line_header_line, [
     or( [
 
     
-
-    [`Description`, tab, `Value` ]
+    [`Garden`, `Mark`, tab, `Grade` ]
 
     ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
     ,[`PO`, `No`, tab, `Supplier`]
 
         
-
       ] )
 
 ] ).
