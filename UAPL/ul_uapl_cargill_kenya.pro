@@ -231,7 +231,7 @@ i_line_rule_cut( line_header_line, [
 
     
 
-    [`Description`, tab, `Value` ]
+    [`Garden`, `Mark`, tab, `Grade` ]
 
     ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
