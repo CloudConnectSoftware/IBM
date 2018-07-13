@@ -116,6 +116,10 @@ i_line_rule( line_add_line, [
 
         , [ check(buyer_party = `LINDE HOMECARE FRANCE SAS`) ,generic_item( [ buyer_registration_number, `FR30` ] ) ]
 
+        , [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ), supplier_id(`21002223`) ] 
+
+   
+
      
     ])
 
@@ -240,11 +244,31 @@ i_rule( get_order_number, [
     ,or([
         generic_horizontal_details( [ [`Ihre`, `Bestellnummer`, `:`, tab ], order_number, d, `vom` ] )
 
-    , generic_horizontal_details( [ [`Your`, `Purchase`, `Order`, `:`, tab ], order_number, d, `vom` ] )
+        , find_order_number
     
-])
+   ])
 
-]).
+] ).
+ 
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+
+        generic_item( [ order_number , [ begin, q(dec("8"),1,1) , q(dec("1"),1,1) , q(dec,8,8) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("9"),1,1) , q(dec("1"),1,1) , q(dec,8,8) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("9"),1,1) , q(dec("0"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -360,7 +384,7 @@ i_section( get_invoice_lines, [
 
     , or( [
               
-            line_invoice_line, line_invoice_line_2, line_po_line,  line_delivery_line
+            line_invoice_line, line_invoice_line_2, line_po_line,  line_delivery_line, line_invoice_line_3
 
             , line
 
@@ -400,6 +424,25 @@ i_line_rule_cut( line_end_line, [
   , trace( [ `Found End line` ] )
 
   
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_3, [
+%=======================================================================
+
+    set(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)
+ 
+    ,  generic_item( [ line_descr, s1, tab ] )
+  
+    , generic_item( [ line_net_amount, d, newline ] )
+
+    , clear(regexp_cross_word_boundaries)
+
+    , clear(reverse_punctuation_in_numbers)
+
 ] ).
 
 
