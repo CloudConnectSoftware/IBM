@@ -26,7 +26,7 @@ i_rule_list( [
 	
 	, get_invoice_number
 	
-	, get_invoice_datep
+	, get_invoice_date
 
     , get_order_number
 
@@ -208,7 +208,7 @@ i_section( get_invoice_lines, [
 
             [line_invoice_line, q10(line_invoice_line2)]
 
-            , line_invoice_line4
+            %, line_invoice_line4
 
             ,line_invoice_line_po
 
@@ -231,9 +231,7 @@ i_line_rule_cut( line_header_line, [
 
     
 
-    [ `Garden`, `Mark`]
-
-    , [`Description`, tab, `Value` ]
+    [`Description`, tab, `Value` ]
 
     ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
@@ -279,6 +277,8 @@ i_line_rule_cut( line_invoice_line, [
     , generic_item( [line_kg_net ,d, tab ] )
 
     , generic_item( [line_unit_amount_dummy , d , tab ] )
+
+    , q10( generic_item( [line_unit_amount_dummy_2 , d , tab ] ) )
 
     , generic_item( [line_net_amount , d , newline ] )
 
