@@ -23,7 +23,7 @@ i_rule_list( [
     
     get_supplier_detail
 
-    %, get_supplier_address
+   , get_bill
 
    , get_bank_accountnumber
                      
@@ -103,6 +103,65 @@ q(0,200,line)
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Buyer ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bill_to_address, [
+%=======================================================================
+
+  q(0,15,line)
+
+   , line_add_line
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        read_ahead(`Ocap`)
+
+        , read_ahead(`Linde`)
+        
+    ]) 
+
+        , trace( [ `Found address`] )
+
+        , or([
+
+          generic_item( [ buyer_party, s1, tab ] )
+
+        ])
+
+     , or([
+
+        [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ) ] 
+
+        , [ check(buyer_party = `Linde Gas Cryoservices BV`), generic_item( [ buyer_registration_number, `NL15` ] ) ] 
+
+        , [ check(buyer_party = `Linde Gas Therapautics`), generic_item( [ buyer_registration_number, `NL20` ] ) ] 
+                
+        , [ check(buyer_party = `Linde Home care Benelux`), generic_item( [ buyer_registration_number, `NL25` ] ) ] 
+
+        , [ check(buyer_party = `OCAP`), generic_item( [ buyer_registration_number, `NL80` ] ) ] 
+
+        , [ check(buyer_party = `Linde Electronics`), generic_item( [ buyer_registration_number, `NL95` ] ) ] 
+
+        , [ check(buyer_party = `LINDE GAS BELGIUM`), generic_item( [ buyer_registration_number, `BE10` ] ) ] 
+
+        , [ check(buyer_party = `Linde Homecare Belgium`), generic_item( [ buyer_registration_number, `BE30` ] ) ] 
+        
+      
+        ])
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
