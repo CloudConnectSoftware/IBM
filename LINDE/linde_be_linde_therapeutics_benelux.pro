@@ -142,21 +142,21 @@ i_line_rule( line_add_line, [
 
      , or([
 
-        [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ) ] 
+        [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ), buyer_dept(`NL`) ] 
 
-        , [ check(buyer_party = `Linde Gas Cryoservices BV`), generic_item( [ buyer_registration_number, `NL15` ] ) ] 
+        , [ check(buyer_party = `Linde Gas Cryoservices BV`), generic_item( [ buyer_registration_number, `NL15` ] ), buyer_dept(`NL`) ] 
 
-        , [ check(buyer_party = `Linde Gas Therapautics`), generic_item( [ buyer_registration_number, `NL20` ] ) ] 
+        , [ check(buyer_party = `Linde Gas Therapautics`), generic_item( [ buyer_registration_number, `NL20` ] ), buyer_dept(`NL`) ] 
                 
-        , [ check(buyer_party = `Linde Home care Benelux`), generic_item( [ buyer_registration_number, `NL25` ] ) ] 
+        , [ check(buyer_party = `Linde Home care Benelux`), generic_item( [ buyer_registration_number, `NL25` ] ), buyer_dept(`NL`) ] 
 
-        , [ check(buyer_party = `OCAP`), generic_item( [ buyer_registration_number, `NL80` ] ) ] 
+        , [ check(buyer_party = `OCAP`), generic_item( [ buyer_registration_number, `NL80` ] ), buyer_dept(`NL`) ] 
 
-        , [ check(buyer_party = `Linde Electronics`), generic_item( [ buyer_registration_number, `NL95` ] ) ] 
+        , [ check(buyer_party = `Linde Electronics`), generic_item( [ buyer_registration_number, `NL95` ] ), buyer_dept(`NL`) ] 
 
-        , [ check(buyer_party = `LINDE GAS BELGIUM`), generic_item( [ buyer_registration_number, `BE10` ] ) ] 
+        , [ check(buyer_party = `LINDE GAS BELGIUM`), generic_item( [ buyer_registration_number, `BE10` ] ), buyer_dept(`BE`) ] 
 
-        , [ check(buyer_party = `Linde Homecare Belgium`), generic_item( [ buyer_registration_number, `BE30` ] ) ] 
+        , [ check(buyer_party = `Linde Homecare Belgium`), generic_item( [ buyer_registration_number, `BE30` ] ), buyer_dept(`BE`) ] 
         
       
         ])
