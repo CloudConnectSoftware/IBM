@@ -116,7 +116,7 @@ i_line_rule( line_add_line, [
 
         , [ check(buyer_party = `LINDE HOMECARE FRANCE SAS`) ,generic_item( [ buyer_registration_number, `FR30` ] ) ]
 
-        , [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ), supplier_id(`21002223`) ] 
+        , [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ), supplier_id(`21002223`), buyer_dept(`NL`)  ] 
 
    
 
@@ -384,7 +384,7 @@ i_section( get_invoice_lines, [
 
     , or( [
               
-            line_invoice_line, line_invoice_line_2, line_po_line,  line_delivery_line, line_invoice_line_3
+            line_invoice_line, line_po_line,  line_delivery_line, line_invoice_line_3
 
             , line
 
@@ -549,9 +549,9 @@ i_line_rule_cut( line_po_line, [
 % Updated by   - Rohini
 % Changes made - Line details udpated
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 15 July 2018
+% Updated by   - Thejaswi
+% Changes made - Line and bill to
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
