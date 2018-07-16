@@ -645,11 +645,11 @@ i_line_rule_cut( line_descs_append, [
 i_rule( get_freight_line, [
 %=======================================================================
     
-    last_line
+     q(0,100,line) 
 
-   , q(0,0,up) 
+     , check_text(`FRACHT`)
 
-   , generic_vertical_details( [ [ `FRACHT` ], `FRACHT`, q(0,2), (end,30,30), line_net_amount, d, tab ] )
+   , generic_vertical_details( [ [ `FRACHT` ], `FRACHT`, q(0,2), (end,500,50), line_net_amount, d, tab ] )
 
     , generic_item( [ line_descr, `FRACHT` ] )
 
