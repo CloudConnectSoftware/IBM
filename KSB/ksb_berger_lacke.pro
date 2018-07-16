@@ -50,6 +50,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    , get_freight_line
+
 ] ).
 
 
@@ -577,9 +579,7 @@ i_line_rule_cut( line_credit_line, [
 
         ,generic_item([line_descr , s1,tab ] )
 
-        ,generic_item([line_quantity_dummy1, d  ] )
-
-        ,generic_item([line_quantity_uom_code_dummy1 , w , tab  ] )
+        ,generic_item([line_quantity_dummy1, d, [a(w),tab]  ] )
 
         , generic_item([line_quantity, d , tab  ] )
 
@@ -633,6 +633,30 @@ i_line_rule_cut( line_descs_append, [
         
 ] ).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HANDLING/SHIPPING CHARGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_freight_line, [
+%=======================================================================
+    
+    last_line
+
+   , q(0,0,up) 
+
+   , generic_vertical_details( [ [ `FRACHT` ], `FRACHT`, q(0,2), (end,30,30), line_net_amount, d, tab ] )
+
+    , generic_item( [ line_descr, `FRACHT` ] )
+
+    
+ 
+	
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
