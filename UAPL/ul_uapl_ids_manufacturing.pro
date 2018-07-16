@@ -411,20 +411,12 @@ qn0(line)
 
 
 
-    , [set(reverse_punctuation_in_numbers)
-
-    , set(regexp_cross_word_boundaries)
-
      ,or([
 
          generic_vertical_details( [ [`Tax`, `Rate` ], `Rate`, q(0,1), (start,50,100), default_vat_rate, d, or([ tab,`%` ]) ] )
 
              ])
    
-    , clear(reverse_punctuation_in_numbers)
-
-    , clear(regexp_cross_word_boundaries)]
-
 
 ]).
 
