@@ -159,7 +159,7 @@ i_line_rule_cut( find_order_number, [
 
     q0n(anything)
 
-    , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,10) , end ] ] )
+    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
 
 ] ).
 
