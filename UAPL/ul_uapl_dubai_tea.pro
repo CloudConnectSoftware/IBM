@@ -50,8 +50,7 @@ i_rule( get_supplier_details, [
      
     sender_name(`DUBAI TEA TRADING CENTRE DMCC`)
 
-    , currency( `USD` )
-
+    
     , set(reverse_punctuation_in_numbers)
 
     ]).
@@ -166,7 +165,11 @@ i_rule( get_total_invoice, [
 
     qn0(line)
      
-     , generic_horizontal_details( [ [ `TOTAL`, `:`],200,  total_invoice, d, newline ] )
+     , or([ generic_horizontal_details( [ [ `TOTAL`, `:`],200,  total_invoice, d, newline ] )
+
+      , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`,`(`, generic_item( [ currency, w, `)` ] ), tab ],200,  total_invoice, d, newline ] )
+
+     ])
                                  
         , check( total_invoice = TotInv )
 
