@@ -84,7 +84,13 @@ i_rule_cut( get_invoice_number, [
     
     qn0(line)
 
-      , generic_horizontal_details( [ [ `Invoice`, `Number`, tab, `:` , tab ], invoice_number, d, newline ] )
+      , or([
+          
+          generic_horizontal_details( [ [ `Invoice`, `Number`, tab, `:` , tab ], invoice_number, d, newline ] )
+
+         , generic_horizontal_details( [ [ `Tax`, `Invoice`, `No`, `.` ], invoice_number, d, newline ] )
+
+      ])
 
       ] ).
 
@@ -100,7 +106,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `Date`, tab, `:`, tab  ],  invoice_date, date, newline ] )
+    , generic_horizontal_details( [ [ q10(`Invoice`), `Date`, q10(tab), `:`, q10(tab)  ],  invoice_date, date, newline ] )
 
 	
 ] ).
@@ -139,19 +145,24 @@ i_rule_cut( get_order_number, [
         generic_horizontal_details( [ [ `PO`, `No`, `:`], 20, order_number, w, `L1` ] )
 
         , generic_horizontal_details( [ [ `Our`, `Ref`, tab, `:`, `PO`, `#`],  order_number, w, newline ] )
+    
+        , find_order_number
 
-    ])
+      ])
 
-    , check(order_number = OrdNo)
-
-    , trace([`Order Number Capital Varaible` , OrdNo])
-
-    , line_buyers_order_number(OrdNo)
-
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , line_buyers_order_number ])
-
-	
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,10) , end ] ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,7 +178,7 @@ i_rule( get_total_invoice, [
      
      , or([ generic_horizontal_details( [ [ `TOTAL`, `:`],200,  total_invoice, d, newline ] )
 
-      , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`,`(`, generic_item( [ currency, w, `)` ] ), tab ],200,  total_invoice, d, newline ] )
+      , generic_horizontal_details( [ [ `TOTAL`,`AMOUNT`,`(`, generic_item( [ currency, w, `)` ] )],800,  total_invoice, d, newline ] )
 
      ])
                                  
@@ -195,7 +206,13 @@ i_rule( get_line_total_amount, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [`TOTAL`,  `:` ],200, line_total_amount, d, newline ] )
+    , or([
+        
+        generic_horizontal_details( [ [`TOTAL`,  `:` ],200, line_total_amount, d, newline ] )
+
+        , generic_horizontal_details( [ [`Total`, `Amount`, `(`, `AED`, `)`, tab], line_total_amount, d, newline ] )
+
+    ])
 
 
     ] ).
