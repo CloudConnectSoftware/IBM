@@ -657,6 +657,8 @@ i_rule( get_freight_line, [
 
     , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)
 
+    , line_vat_rate(`19`)
+
     
  
 	
