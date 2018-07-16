@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `10/05/2018 10:31:23` ).
+i_version( p_ibm_pepsico, `16/07/2018 12:20:19` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -792,8 +792,6 @@ i_analyse_duplicate_invoice
 						, date_compare( RAW_DATE, =, DATE_LOOKUP_RAW )
 
 						, wordcat( [ `Duplicate invoice rejected:`, SENDER, RECEIVER, INVOICE, TOTAL, DATE_LOOKUP ], E_MSG )
-
-						, assertz_derived_data( invoice, force_sub_result, `duplicate_invoice`, i_analyse_duplicate_invoice )
 
 						, sys_assertz( grammar_set( i_analyse_duplicate ) )
 
