@@ -6,7 +6,7 @@
 
 i_version(linde_bn_engie_serviceswest, `14 June, 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -14,24 +14,23 @@ i_trace_lists.
 
 i_pdf_parameter( same_line, 7 ).
 
-i_date_language( english ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     
-    get_supplier_detail
+      get_supplier_detail
 
-    ,get_bill_to_address
+    , get_bill_to_address
 
-   , get_supplier_vat_number 
+    , get_supplier_vat_number 
 
-   , get_currency
+    , get_currency
 
-   , get_bank_accountnumber
+    , get_bank_accountnumber
 
-   , set_credit_note
+    , set_credit_note
                      
     , get_invoice_number
     
@@ -45,7 +44,7 @@ i_rule_list( [
 
     , get_total_net
 
-   , get_total_vat
+    , get_total_vat
 
     , get_total_invoice
 
@@ -53,11 +52,10 @@ i_rule_list( [
 
     , get_invoice_lines
 
-   ,get_payment_terms
-
-
+    , get_payment_terms
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,91 +67,85 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `ENGIE Services West B.V.` )
+      sender_name( `ENGIE Services West B.V.` )
 
-    ,supplier_party( `ENGIE Services West B.V.` )
+    , supplier_party( `ENGIE Services West B.V.` )
 
     , supplier_vat_number(`NL003790289B01`)
 
-    , buyer_dept(``)
-
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Buyer ADDRESS
+% BUYER REGISTRATION 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
 i_rule( get_bill_to_address, [
 %=======================================================================
-
-  q(0,30,line)
+  
+    q(0,15,line)
 
    , line_add_line
-
-
+ 
 ] ).
 
 %=======================================================================
 i_line_rule( line_add_line, [
 %=======================================================================
+    
+        q0n(anything)
 
-    q0n(anything)
-
-    , or([
-        read_ahead(`OCAP`)
-
-        , read_ahead(`Linde`)
-        
-    ]) 
-
-        , trace( [ `Found address`] )
-
+        ,  read_ahead(`Linde`)
+       
+        , generic_item( [ buyer_party, s1, newline ] )
+     
         , or([
 
-          generic_item( [ buyer_party, s1, newline ] )
+        [ [ check(buyer_party = `Linde Gas Benelux B.V.`), generic_item( [ buyer_registration_number, `NL10` ] ) ] 
 
-          , generic_item( [ buyer_party, s1, tab ] )
-        
-        ])
+        , generic_item( [ buyer_dept, `NL` ] )]
+
+        , [[ check(buyer_party = `Linde Gas Cryoservices BV`), generic_item( [ buyer_registration_number, `NL15` ] ) ] 
+
+        , generic_item( [ buyer_dept, `NL` ] )]
 
 
-     , or([
+        , [[ check(buyer_party = `Linde Gas Therapeutics Benelux B.V.`), generic_item( [ buyer_registration_number, `NL20` ] ) ] 
 
-     [ check(buyer_party = `Linde Gas Benelux`) ,generic_item( [ buyer_registration_number, `NL10` ] ) ] 
+         , generic_item( [ buyer_dept, `NL` ] )]
 
-    , [ check(buyer_party = `Linde Gas Benelux B.V.`) ,generic_item( [ buyer_registration_number, `NL10` ] ) ] 
+                
+        , [[ check(buyer_party = `Linde Homecare Benelux B.V.`), generic_item( [ buyer_registration_number, `NL25` ] ) ] 
 
-    , [ check(buyer_party = `Linde Gas Therapautics`) ,generic_item( [ buyer_registration_number, `NL20` ] ) ] 
+         , generic_item( [ buyer_dept, `NL` ] )]
 
-    , [ check(buyer_party = `Linde Home care Benelux`) ,generic_item( [ buyer_registration_number, `NL25` ] ) ] 
 
-    , [ check(buyer_party = `LINDE HOMECARE BENELUX B.V.`) ,generic_item( [ buyer_registration_number, `NL25` ] ) ] 
+        , [[ check(buyer_party = `OCAP`), generic_item( [ buyer_registration_number, `NL80` ] ) ] 
 
-    , [ check(buyer_party = `LINDE HOMECARE BENELUX BV.`) ,generic_item( [ buyer_registration_number, `NL25` ] ) ] 
+         , generic_item( [ buyer_dept, `NL` ] )]
 
-    , [ check(buyer_party = `LINDE HOMECARE BENELUX BV`) ,generic_item( [ buyer_registration_number, `NL25` ] ) ] 
 
-    , [ check(buyer_party = `LINDE HOMECARE BENELUX B.V`) ,generic_item( [ buyer_registration_number, `NL25` ] ) ] 
+        , [[ check(buyer_party = `Linde Electronics`), generic_item( [ buyer_registration_number, `NL95` ] ) ] 
 
-    , [ check(buyer_party = `Linde Gas Cryoservice`) ,generic_item( [ buyer_registration_number, `NL15` ] ) ] 
+         , generic_item( [ buyer_dept, `NL` ] )]
 
-    , [ check(buyer_party = `OCAP`) ,generic_item( [ buyer_registration_number, `NL80` ] ) ] 
 
-    , [ check(buyer_party = `Linde Electronics`) ,generic_item( [ buyer_registration_number, `NL95` ] ) ] 
+        , [[ check(buyer_party = `Linde Gas Belgium`), generic_item( [ buyer_registration_number, `BE10` ] ) ] 
 
-    , [ check(buyer_party = `Linde Gas Belgium`) ,generic_item( [ buyer_registration_number, `BE10` ] ) ] 
+         , generic_item( [ buyer_dept, `BE` ] )]
 
-    , [ check(buyer_party = `Linde Homecare Belgium`) ,generic_item( [ buyer_registration_number, `BE30` ] ) ] 
-        
+
+        , [[ check(buyer_party = `LINDE HOMECARE BELGIUM`), generic_item( [ buyer_registration_number, `BE30` ] ) ] 
+
+         , generic_item( [ buyer_dept, `BE` ] )]
+
       
         ])
 
 ]).
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,24 +158,12 @@ i_line_rule( line_add_line, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
         
-    q(0,80,line)
+      q(0,80,line)
 
-     , [generic_horizontal_details( [ [`Bank`, `:`, `ABN`, `-`, `AMRO`, generic_item( [ supplier_iban_raw, s ] ), `,`, `SWIFT`, `:`],  supplier_swift_code,s1, newline ] )
-
-
-     , check( supplier_iban_raw = IBanRaw )
-
-    , trace( [ `supplier_iban_raw` , IBanRaw ] )
-
-    , check(string_string_replace( IBanRaw, ` `, ``, IBANstrip ))
-
-    , trace( [ `IBAN  Stripped Space` , IBANstrip ] )
-
-    , supplier_iban(IBANstrip)
-
-    ]
-
+  , generic_horizontal_details( [ [ `Bank`, `:`, `ABN`, `-`, `AMRO`, generic_item( [ supplier_iban, s ] ), `,`, `SWIFT`, `:`  ], supplier_swift_code, s1, newline ] )
+  
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,6 +180,7 @@ i_rule( get_invoice_number, [
     , generic_horizontal_details( [ [ `Invoice`, `number`, tab, `:` ], invoice_number, s1, newline ] )
           
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -224,7 +205,7 @@ i_rule( get_invoice_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Payment Term
+% PAYMENT TERMS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -232,11 +213,9 @@ i_rule( get_invoice_date, [
 i_rule( get_payment_terms, [
 %=======================================================================
 
-    
-
      q0n(line)
 
-   , or([
+    , or([
     
       [generic_horizontal_details( [ [`Payment`, `within`], payment_terms, d, `days` ] ) ]
 
@@ -245,10 +224,9 @@ i_rule( get_payment_terms, [
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE PO Number
+% ORDER NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -259,7 +237,7 @@ i_rule( get_order_number, [
 
      q(0,40,line)
 
-   , or([
+    , or([
     
     [generic_horizontal_details( [ [  `Your`, `reference`, tab], order_number, d, tab ] ) ]
 
@@ -269,10 +247,9 @@ i_rule( get_order_number, [
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Currecny
+% CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -284,7 +261,7 @@ i_rule( get_currency, [
 
     , or([
 
-    generic_horizontal_details( [ [ `Amount`, `in` ], currency, w, newline ] )
+     generic_horizontal_details( [ [ `Amount`, `in` ], currency, w, newline ] )
 
    , currency_alternate
 
@@ -303,11 +280,13 @@ i_line_rule( currency_alternate, [
 
     , [ `Euro`, `'`, `s`]
     
-    ])
+     ])
 
     , generic_item( [ currency, `EUR` ] )
 
 ] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL NET AMOUNT
@@ -318,7 +297,7 @@ i_line_rule( currency_alternate, [
 i_rule(get_total_net, [
 %=======================================================================
 
-   q(0,100,line)
+      q(0,100,line)
     
     , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
@@ -331,7 +310,7 @@ i_rule(get_total_net, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOTAL Vat AMOUNT
+% TOTAL VAT AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -339,13 +318,13 @@ i_rule(get_total_net, [
 i_rule(get_total_vat, [
 %=======================================================================
 
-   q(0,100,line)
+     q(0,100,line)
     
     , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
     , generic_horizontal_details( [ [ `VAT`, tab, generic_item( [ default_vat_rate,d ] ), `,`, dummy_1(d), `%`, `on`,dummy_2(d), `.`, dummy_4(d), `,`,dummy(d), tab], total_vat, d, newline ] )
 
-   , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
+    , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
 
 ] ).
 
@@ -360,15 +339,16 @@ i_rule(get_total_vat, [
 i_rule(get_total_invoice, [
 %=======================================================================
 
-   q(0,100,line)
-
-   , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
+      q(0,100,line)
+ 
+    , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
     
     , generic_horizontal_details( [ [`Total`, `amount`, `due`, `in`, dummy_curr(w), tab], total_invoice, d, newline ] )
 
     , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
    
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -380,15 +360,13 @@ i_rule(get_total_invoice, [
 i_section( get_invoice_lines, [
 %=======================================================================
 
-    line_header_line
+     line_header_line
 
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
               
-        [line_invoice_line 
-
-        , line_invoice_line_1, line_invoice_line_append]
+        [line_invoice_line , q10(line_invoice_line_append), q10(line_invoice_line_append)  ]
 
        , line
 
@@ -403,7 +381,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 or([
 
-[`Item`, `no`, `.`, tab, `Description`, tab, `Amount`, `in`, `EUR`,  newline]
+[`Item`, `no`, `.`, tab, `Description`, tab, `Amount`, `in`, `EUR`,  newline ]
 
 
 ])
@@ -429,37 +407,28 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
  
-     generic_item( [ line_reference, d,tab ] )
+       generic_item( [ line_item, d,tab ] )
 
      , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
-     , generic_item( [ line_dummy, s1,tab ] )
+     , generic_item( [ line_descr, s1,tab ] )
           
-     , generic_item( [ line_net_amount, d, newline] )
+     , generic_item( [ line_net_amount, d, newline ] )
 
-    , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
+     , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
 
      
 ] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_1, [
-%=======================================================================
- 
-     generic_item( [ line_descr, s1, newline ] )   
-     
-     
-] ).
-
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line_append, [
 %=======================================================================
  
     generic_append( [ line_descr, s1, newline, `-`, ``  ] )
-      
-     
+       
 ] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
