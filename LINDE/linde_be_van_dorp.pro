@@ -123,14 +123,45 @@ i_line_rule( line_add_line, [
                 
      , or([
 
-      [ check(buyer_party = `Linde Gas Benelux B.V. `) ,generic_item( [ buyer_registration_number, `NL10` ] ) ] 
 
-    , [ check(buyer_party = `Linde Gas Therapeutics B.V.`) ,generic_item( [ buyer_registration_number, `NL20` ] ) ] 
+     [ check(buyer_party = `Linde Gas Benelux`) ,generic_item( [ buyer_registration_number, `NL10` ] ), buyer_dept(`NL`) ]  
 
-    , [ check(buyer_party = `Linde Home care Benelux`) ,generic_item( [ buyer_registration_number, `NL25` ] ) ] 
+    , [ check(buyer_party = `Linde Gas Benelux B.V.`) ,generic_item( [ buyer_registration_number, `NL10` ] ) , buyer_dept(`NL`) ]  
 
-    , [ check(buyer_party = `LINDE HOMECARE BELGIUM N.V.`) ,generic_item( [ buyer_registration_number, `BE30` ] ) ] 
+    , [ check(buyer_party = `LINDE GAS BENELUX B.V.`) ,generic_item( [ buyer_registration_number, `NL10` ] ), buyer_dept(`NL`) ]  
 
+    , [ check(buyer_party = `Linde Gas Benelux BV`) ,generic_item( [ buyer_registration_number, `NL10` ] ) , buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `Linde Gas Therapautics`) ,generic_item( [ buyer_registration_number, `NL20` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `Linde Home care Benelux`) ,generic_item( [ buyer_registration_number, `NL25` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `Linde Gas Therapeutics Benelux B.V.`) ,generic_item( [ buyer_registration_number, `NL20` ] ) , buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `LINDE HOMECARE BENELUX B.V.`) ,generic_item( [ buyer_registration_number, `NL25` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `LINDE HOMECARE BENELUX BV.`) ,generic_item( [ buyer_registration_number, `NL25` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `LINDE HOMECARE BENELUX BV`) ,generic_item( [ buyer_registration_number, `NL25` ] ) , buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `LINDE HOMECARE BENELUX B.V`) ,generic_item( [ buyer_registration_number, `NL25` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `Linde Gas Cryoservices B.V.`) ,generic_item( [ buyer_registration_number, `NL15` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `OCAP`) ,generic_item( [ buyer_registration_number, `NL80` ] ), buyer_dept(`NL`) , buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `OCAP CO2 b.v.`) ,generic_item( [ buyer_registration_number, `NL80` ] ) , buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `Linde Electronics`) ,generic_item( [ buyer_registration_number, `NL95` ] ), buyer_dept(`NL`) ]  
+
+    , [ check(buyer_party = `Linde Gas Belgium`) ,generic_item( [ buyer_registration_number, `BE10` ] ) , buyer_dept(`BE`) ]  
+
+    , [ check(buyer_party = `Linde Homecare Belgium`) ,generic_item( [ buyer_registration_number, `BE30` ] ) , buyer_dept(`BE`) ]  
+
+    , [ check(buyer_party = `LINDE HOMECARE BELGIUM N.V.`) ,generic_item( [ buyer_registration_number, `BE30` ] ) , buyer_dept(`BE`) ]  
+
+    , [ check(buyer_party = `Linde Homecare Belgium bvba`) ,generic_item( [ buyer_registration_number, `BE30` ] ) , buyer_dept(`BE`) ]  
+        
   ])
 
 ]).
@@ -149,10 +180,10 @@ i_rule( get_bank_accountnumber, [
 
     q(0,200,line)
 
-    , [ generic_horizontal_details( [ [ `BIC`, `:`,generic_item( [ supplier_bank_code, s] ), `Bank`, `:`, `Rabobank`, generic_item( [ supplier_iban_raw_1, s1 ] ), tab, `G`, `-`, `rek`, `.`, `:`, `Rabobank`],  supplier_iban_raw_2,s, newline] )
+    , [ generic_horizontal_details( [ [  `BIC`, `:` ], supplier_swift_code, s, [ `Bank`, `:`, generic_item( [ supplier_iban_raw, s1 ] ), tab, `G`, `-`, `rek`, `.`, `:`,generic_item( [ supplier_iban_raw_1, s1 ] ),  newline] ] )
 
              
-    , check( supplier_iban_raw_1 = IBanRaw )
+    , check( supplier_iban_raw = IBanRaw )
 
     , trace( [ `Bank_raw` , IBanRaw ] )
 
@@ -162,7 +193,7 @@ i_rule( get_bank_accountnumber, [
 
     , supplier_iban(IBANstrip)
 
-    , check( supplier_iban_raw_2 = IBanRaw2 )
+    , check( supplier_iban_raw_1 = IBanRaw2 )
 
     , trace( [ `supplier_iban_raw` , IBanRaw2 ] )
 
