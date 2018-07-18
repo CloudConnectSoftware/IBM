@@ -70,10 +70,6 @@ i_rule( get_supplier_detail, [
 
    , supplier_vat_number(`DE118564125`)
 
- 
-
-    
-
 ] ).
 
 
@@ -119,10 +115,6 @@ i_line_rule( line_add_line, [
 
          [ check(buyer_party = `Linde Gas Benelux B.V.`) ,generic_item( [ buyer_registration_number, `NL10` ] ) , supplier_id(`10038761`), supplier_party( `HEROSE GMBH` ), sender_name( `HEROSE GMBH` ), buyer_dept(`NL`)]
 
-
-     
-
-
            ])
 
 ]).
@@ -160,7 +152,6 @@ q0n(anything)
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT DETAILS
@@ -178,7 +169,6 @@ i_rule( get_bank_accountnumber, [
     , check( supplier_bank_account_number_raw = BankRaw )  , check(string_string_replace( BankRaw, ` `, ``, BankStrip )), supplier_bank_account_number(BankStrip), trace( [ `Bank account Number` , supplier_bank_account_number ] )
     
     , check( supplier_bank_code_raw = BankRaw2 ) , check(string_string_replace( BankRaw2, ` `, ``, BankStrip2 )), supplier_bank_code(BankStrip2) , trace( [ `Bank account Number2` , supplier_bank_code ] )
-
 
 ] ).
 
@@ -226,6 +216,7 @@ i_rule( get_invoice_date, [
 %=======================================================================
 i_rule( get_due_date, [
 %=======================================================================
+    
     q(0,135,line)
 
     ,or([
@@ -258,6 +249,7 @@ q(0,20,line)
 
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Delivery Date
@@ -280,13 +272,11 @@ q(0,20,line)
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %=======================================================================
 i_rule(get_total_invoices, [
@@ -307,9 +297,6 @@ i_rule(get_total_invoices, [
     , generic_horizontal_details( [ [ `Final`, `amount`, tab,  generic_item( [ currency, w, tab ] ) ],  total_invoice, d, newline  ] )
 
 ] ).
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
