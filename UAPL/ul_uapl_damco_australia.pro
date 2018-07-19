@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_damco_australia, `16/02/2017` `6:15:05` ).
+i_version( ul_uapl_damco_australia, `19/07/2018`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -104,7 +104,9 @@ i_line_rule( invoice_or_credit_note_line, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-		q(0,250,line)
+		q(10,100,line)
+
+    ,or([ check_text(`Payment`), check_text(`Account`) ])
 
 
      , with( invoice, currency, Currency )
@@ -113,6 +115,7 @@ i_rule( get_bank_account_no, [
   
 [ check( Currency = `AUD` ) , generic_horizontal_details( [ [ `Payment`, `in`, `AUD`, `:`, `Bank`, `Name`, `:`, `Citibank`, `,`, `Branch`, `:`, `242`, `-`, `000`, `,`, `Account`, `No`, `:` ],  supplier_bank_account_number, w, newline ] ) ]
 
+, [ check( Currency = `AUD` ) , generic_horizontal_details( [ [  `Account`,q10(tab)],  supplier_bank_account_number, w, tab ] ) ]
 
 , [ check( Currency = `USD` ), generic_horizontal_details( [ [`Payment`, `in`, `USD`, `:`, `Bank`, `Name`, `:`, `Citibank`, `,`, `Branch`, `:`, `242`, `-`, `000`, `,`, `Account`, `No`, `:`],  supplier_bank_account_number, w, [`,`, `Swift`, `:`, `CITIAU2X`,  newline] ] ) ] 
                 
@@ -137,7 +140,7 @@ i_rule_cut( get_invoice_number, [
 
        , or([
 
-      generic_horizontal_details( [ [ `TAX`, `INVOICE`, tab ], invoice_number, w, newline ] )
+      generic_horizontal_details( [ [ `TAX`, `INVOICE`, q10(tab) ], invoice_number, w, newline ] )
 
      , generic_horizontal_details( [ [ `ENTRY`, `NO`, `.` ], invoice_number, w, or([ `PRINT` , newline ]) ] )
 
@@ -246,9 +249,16 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_vat, [
 %=======================================================================
   
-  q(0,250,line)
+  q(0,100,line)
 
-    , generic_horizontal_details( [ [ `Standard`, `Rate`, `GST` ], 750, total_net, d, tab ] )
+   , or([ check_text(`STANDARD`) , check_text(`GST`)  ])
+
+    , or([
+        generic_horizontal_details( [ [ `Standard`, `Rate`, `GST` ], 750, total_net, d, tab ] )
+
+        ,  generic_horizontal_details( [ [  `GST`, `ADD` ], 750, total_net, d, newline ] )
+
+    ])
   
 ] ).
 
@@ -263,9 +273,16 @@ i_rule( get_total_vat, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     q(0,250,line)
+     q(0,100,line)
 
-    , generic_horizontal_details( [ [ `Net`, `Value` ], 800, total_net, d, newline ] )
+    , or([ check_text(`SUBTOTAL`) , check_text(`Net`)  ])
+
+    , or([
+        generic_horizontal_details( [ [ `Net`, `Value` ], 800, total_net, d, newline ] )
+
+        , generic_horizontal_details( [ [ `SUBTOTAL` ], 800, total_net, d, newline ] )
+
+    ])
 
 ] ).
 
@@ -280,13 +297,17 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q(0,250,line)
+     q(0,100,line)
+
+     ,  or([ check_text(`AMOUNT`) , check_text(`TOTAL`)  ])
 
         , or([
 
       generic_horizontal_details( [ [ `Amount`,`Due`,  tab ], total_invoice, d, newline ] )  
 
-    , [ generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, `PAYABLE`, `*`, `*`, `*`, tab ], total_invoice, d, or([`*`, `*`, `*` , newline ]) ] )
+    , generic_horizontal_details( [ [ `TOTAL`,`AUD`,  tab ], total_invoice, d, newline ] )    
+
+    , [ generic_horizontal_details( [ [  `AMOUNT`, `PAYABLE`, `*`, `*`, `*`, tab ], total_invoice, d, or([`*`, `*`, `*` , newline ]) ] )
 
       , check( total_invoice = TotInv )
 
