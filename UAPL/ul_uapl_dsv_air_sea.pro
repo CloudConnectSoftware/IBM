@@ -25,7 +25,7 @@ i_rule_list( [
 
     , get_bank_accountnumber
                 
-    %, get_invoice_number
+    , get_invoice_number
     
     , get_invoice_date
 
@@ -122,7 +122,7 @@ i_rule( get_invoice_number, [
    q(0,5,line)
 	
 
-    , generic_horizontal_details( [ [`TAX`, `INVOICE`],  invoice_number, w, or([newline,tab]) ] )
+    , generic_horizontal_details( [ [`TAX`, `INVOICE`],  invoice_number, w, or([tab,newline]) ] )
   
 
 ] ).
