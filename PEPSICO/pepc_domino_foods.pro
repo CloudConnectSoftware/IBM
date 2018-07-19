@@ -74,7 +74,6 @@ i_rule( get_supplier_detail, [
    ,supplier_party( `DOMINO FOODS, INC.` )
 
    ,supplier_vat_number(` `) 
-
    
 ] ).
 
