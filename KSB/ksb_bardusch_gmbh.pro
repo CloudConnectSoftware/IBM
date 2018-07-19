@@ -34,6 +34,8 @@ i_rule_list( [
 	, get_invoice_number
 
     , get_order_number
+
+    , get_set_consolidated_npo
 	
 	, get_invoice_date
 
@@ -364,6 +366,21 @@ i_line_rule_cut( find_order_number, [
     , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,10) , end ] ] )
 
 ] ).
+
+
+%=======================================================================
+i_rule( get_set_consolidated_npo, [
+%=======================================================================
+
+     or([
+         with( invoice, order_number, Po )
+
+       , [ set(consolidate_lines_non_po)   , trace( [ `PO line not FOUND` ] )]
+
+    ])
+        
+    ] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
