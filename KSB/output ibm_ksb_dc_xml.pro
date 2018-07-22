@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_ksb_dc_xml, `15/05/2018 12:17:25` ).
+i_version( output_ibm_ksb_dc_xml, `20/07/2018 16:25:08` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47,7 +47,7 @@ i_op_param( xml_transform( customer_comments, In ), _, _, _, Out ) :- size_restr
 
 i_op_param( xml_transform( line_buyers_order_number, In ), _, _, _, Out ) :- size_restrict_text( In, 10, Out ).
 
-i_op_param( xml_transform( line_delivery_note_number, In ), _, _, _, Out ) :- size_restrict_text( In, 10, Out ).
+i_op_param( xml_transform( line_delivery_note_number, In ), _, _, _, Out ) :- size_restrict_text( In, 16, Out ).
 
 i_op_param( xml_transform( line_item, In ), _, _, _, Out ) :- size_restrict_text( In, 18, Out ).
 
