@@ -355,27 +355,23 @@ i_line_rule_cut( line_invoice_line4, [
 %=======================================================================
 i_rule( get_total_invoice, [
 %=======================================================================
+    q(0,150,line)
 
-    or([
-
-   [ q0n(line)
-
+    ,
+    check_text(`Cargill`)
+   
     , or([
 
-     generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+   
+        generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
 
     , generic_vertical_details( [ [ `Cargill`, `Financial`, `Services`, `International`, `,`, `Inc` ], `Cargill`, q(0,2,up), (start,0,800), total_invoice, d,newline ] )
 
-     ])
-    ]
     
-    ,[ last_line
-    
-    , q0n(up)
-        
+      
     ,generic_vertical_details( [ [ `Cargill`, `Kenya`, `Limited` ], `Limited`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
     
-    ]
+  
     
     ])
      
