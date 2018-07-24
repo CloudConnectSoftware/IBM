@@ -261,7 +261,7 @@ q(0,100,line)
 
 , or([
 	
-	 generic_horizontal_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],100, line_total_amount, d, newline ] )
+	 generic_horizontal_details( [ [`Invoice`, `Total`, `Incl`, `.`, `GST`, tab ], line_total_amount, d, newline ] )
 
 	, generic_vertical_details( [ [ `Invoice`, `Total`, `Incl`, `.`, `GST` ],  `GST`, q(0,1,up), (start,850,850), line_total_amount, d, newline ] )
  
