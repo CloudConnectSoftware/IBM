@@ -8,7 +8,7 @@ i_version( ul_uapl_wec_lines, `08/03/2017` `4:50:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `m/d/y`).
 
 i_trace_lists.
 
@@ -68,9 +68,16 @@ i_rule( get_supplier_details, [
 i_rule(get_currency, [
 %=======================================================================
 
-    q(0,100,line)
+    last_line
 
-    , generic_vertical_details( [ [ `Unit`, `Price` ], `Unit`, q(0,1), (start,0,20),currency, w, dummy_word(d) ] )
+    , q(0,100,up)
+
+    , or([
+        generic_vertical_details( [ [ `Unit`, `Price` ], `Unit`, q(0,1), (start,0,20),currency, w, dummy_word(d) ] )
+
+        , generic_horizontal_details( [ [ `total`  ], currency, w,tab ] )
+
+    ])
     
    
    ] ).
@@ -118,7 +125,12 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Invoice`, `Nr`, `:` ], invoice_number, w, tab ] )
+    , or([
+        generic_horizontal_details( [ [ `Invoice`, `Nr`, `:` ], invoice_number, w, tab ] )
+
+        , generic_vertical_details( [ [ `INVOICE`, `NUMBER` ], `Number`, q(0,1), (start,20,20), invoice_number, w, newline] )
+
+    ])
 	
 	] ).
 
@@ -136,7 +148,12 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , generic_horizontal_details( [ [ `Date`, `:`], invoice_date, date , newline ] )
+    , or([
+        generic_horizontal_details( [ [ `Date`, `:`], invoice_date, date , newline ] )
+
+        , generic_vertical_details( [ [ `ISSUE`, `DATE` ], `Date`, q(0,2), (start,40,40),date , tab ] )
+
+    ])
 
 
 ] ).
@@ -171,7 +188,18 @@ i_rule( get_invoice_totals, [
 
 qn0(line)
 
-, generic_horizontal_details( [ [ `Sub`, `-`, `Total`, tab , generic_item( [ total_net, d ] ), tab, generic_item( [ total_vat, d ] ), tab ], total_invoice, d, newline ] )
+, or([
+    generic_horizontal_details( [ [ `Sub`, `-`, `Total`, tab , generic_item( [ total_net, d ] ), tab, generic_item( [ total_vat, d ] ), tab ], total_invoice, d, newline ] )
+
+    , [generic_horizontal_details( [ [ `Subtotal`, `excl`, tab ], total_net, d, newline ] )
+
+    , q(0,3,line)
+
+    , generic_horizontal_details( [ [ `Total`, `USD`, tab ], total_invoice, d, newline ] )
+
+    ]
+
+])
 
 
 ] ).
