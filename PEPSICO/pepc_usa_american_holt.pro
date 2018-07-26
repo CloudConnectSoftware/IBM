@@ -24,9 +24,7 @@ i_rule_list( [
     , get_remit_address
 
     , get_buyer_address
-
-    , get_bank_accountnumber
-                     
+                   
     , get_invoice_number
     
     , get_invoice_date
@@ -68,22 +66,6 @@ i_rule( get_supplier_detail, [
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER BANK ACCOUNT DETAILS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_bank_accountnumber, [
-%=======================================================================
-   
-   qn0(line)
-
-  , generic_horizontal_details( [ [ `Account`, `No`, `.` ],  remit_to_bank_account_number, d, newline ] )
-
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,8 +78,7 @@ i_rule( get_bank_accountnumber, [
 i_rule( get_supplier_address, [
 %=======================================================================
 
-
-   q(0,10,line)
+   q(0,5,line)
 
    , line_add_line
 
@@ -108,7 +89,6 @@ i_rule( get_supplier_address, [
    , q(0,1,line)
 
    , line_add_line_3
-
   
 ] ).
 
@@ -116,11 +96,11 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-      `A`, `/`, `P`, `Dept`, `:`
+      read_ahead(`American`)
 
     , trace( [ `Found address`] )
 
-    , generic_item( [ supplier_party, s1, tab ] )
+    , generic_item( [ supplier_party, s, `Invoice` ] )
 
 
 ] ).
@@ -339,7 +319,7 @@ i_rule( get_invoice_date, [
 
     q(0,20,line)
 
-    , generic_vertical_details( [ [`Due,` `Date`], `Due`, q(0,1), (end,10,10) invoice_date, date, newline ] )
+    , generic_vertical_details( [ [`Due`, `Date`], `Due`, q(0,1), (end,10,10), invoice_date, date, newline ] )
 
 
 ] ).
