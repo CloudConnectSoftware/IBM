@@ -120,7 +120,7 @@ i_line_rule( line_add_line2, [
 i_line_rule( line_add_line2, [
 %=======================================================================
   
-  generic_item( [ buyer_address_line , s1 , tab ] )
+  generic_item( [ buyer_address_line , s1 , newline ] )
 
 ] ).
 
@@ -133,7 +133,7 @@ i_line_rule( line_add_line3, [
 
   , generic_item( [ buyer_state, w  ] )
      
-  , generic_item( [ buyer_postcode, d, tab ] )
+  , generic_item( [ buyer_postcode, d, newline ] )
 
 ] ).
 
@@ -259,7 +259,7 @@ i_rule(get_total_net, [
 
     , q(0,30,up)
 
-    , generic_horizontal_details( [ [ `Total`,  `for`,  tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [`Job`, `/`, `Component`, `:`, tab], total_net, d, newline ] )
 
 ] ).
 
@@ -273,11 +273,6 @@ i_rule(get_total_net, [
 i_rule(get_total_vat, [
 %=======================================================================
 
-   last_line
-
-  , q(0,30,up)
-
-  ,  generic_horizontal_details( [ [ `Tax`, `Rate`, tab, generic_item( [ default_vat_rate, d] ), tab ], total_vat, d, newline ] )
 ] ).
 
 
@@ -296,7 +291,7 @@ i_rule(get_total_invoice, [
 
   , q(0,30,up)
 
-  ,  generic_horizontal_details( [ [ `TOTAL`, `Due`, tab ], total_invoice, d, newline ] )
+  ,  generic_horizontal_details( [ [ `Total`, tab, `$`], total_invoice, d, newline ] )
 
 
 ] ).
@@ -382,8 +377,6 @@ i_line_rule_cut( line_invoice_line, [
 
      generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
 
-    , generic_item( [ line_unit_amount, d, tab  ] )
-
     , generic_item( [ line_net_amount, d, newline  ] )
 
 ] ).
@@ -392,7 +385,9 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_item( [ line_descr, s1, newline ] ) 
+    generic_item( [ line_descr, s1, tab ] ) 
+
+    , generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
 ] ).
 
