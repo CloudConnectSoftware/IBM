@@ -1,5 +1,5 @@
 
-i_version( output_ibm_linde_rapid_xml, `06/03/2018 14:51:42` ).
+i_version( output_ibm_linde_rapid_xml, `26/07/2018 11:56:59` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -276,6 +276,8 @@ write_line___( LID )
 			write_field( `L_POLineNumber`, LID, line_order_line_number ),
 
 			write_field( `L_LineAmount`, LID, line_total_amount ),
+			
+			write_field( `L_LineNet`, LID, line_net_amount ),
 			
 			write_field( `L_TaxRate`, LID, line_vat_rate ),
 			
