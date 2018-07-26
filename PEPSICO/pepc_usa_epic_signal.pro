@@ -112,7 +112,7 @@ i_line_rule( line_add_line2, [
   
   `Attn`, `:
   `
-  generic_item( [ requestor , s1 , tab ] )
+  , generic_item( [ requestor , s1 , tab ] )
 
 ] ).
 
@@ -185,8 +185,8 @@ i_rule( get_invoice_number, [
     q(0,30,line)
 
     , or([
-            
-         generic_vertical_details( [ [ `Invoice`, `Number`], `Invoice`, q(0,1), (end,20,20), invoice_number, d, tab ] )
+                 
+         generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], invoice_number, d, newline ] )
 
     ])
 
@@ -206,7 +206,7 @@ q(0,25,line)
 
     , or([
             
-         generic_vertical_details( [ [ `Invoice`, `Date`], `Invoice`, q(0,1), (end,20,20), invoice_date, date, tab ] )
+           generic_horizontal_details( [ [ `Date`,`:` ],  invoice_date, date, tab ] )
 
     ])
 
@@ -224,8 +224,7 @@ i_rule( get_due_date, [
 
     q(0,5,line)
 
-    , generic_vertical_details( [ [ `Due`, `Date`], `Due`, q(0,1), (end,20,20), due_date, date, tab ] )
-
+    , generic_horizontal_details( [ [ `Due`,`:` ], due_date, date, newline ] )
 
 ] ).
 
@@ -242,7 +241,7 @@ i_rule( get_order_number, [
 
 q(0,50,line)
 
-, generic_vertical_details( [ [ `Customer`, `PO`], `Customer`, q(0,1), (end,10,20), order_number, w, tab ] )
+,  generic_horizontal_details( [ [ `Client`, `PO`, `:`], order_number, d, newline ] )
   
 ] ). 
 
@@ -260,7 +259,7 @@ i_rule(get_total_net, [
 
     , q(0,30,up)
 
-    , generic_horizontal_details( [ [ `Sub`,  `TOTAL`,  tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`,  `for`,  tab ], total_net, d, newline ] )
 
 ] ).
 
@@ -335,7 +334,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-                line_invoice_line          
+                [ line_descr_line, line_append_line, line_invoice_line ]      
 
               , line
 
@@ -350,7 +349,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 or([
     
-  [`Line`, tab, `Quantity`,tab, `Part`, `#`]
+  [`Current`, newline]
 
 ] )
 
@@ -366,9 +365,8 @@ i_line_rule_cut( line_end_line, [
  
  or([
 
-     [`Line`, tab, `Quantity`,tab, `Part`, `#`]
+     [`Total`,  `for `, `Job`, `/`]
 
-    , [`Sub`, `TOTAL`]
 
  ])
 
@@ -382,13 +380,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_order_line_number, d , tab ] )
-
-    , generic_item( [ line_quantity, d  ] )
-
-    , generic_item( [ line_quantity_uom_code, w  ] )
-  
-    , generic_item( [ line_descr, s1, tab ] ) 
+     generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
 
     , generic_item( [ line_unit_amount, d, tab  ] )
 
@@ -396,13 +388,28 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, newline ] ) 
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_append_line, [
+%=======================================================================
+
+    generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
 
-% Mapped on - May 23, 2018
+% Mapped on - July 25, 2018
 % Mapped by - Thejaswi K 
 
 % Updated on   - 
