@@ -84,6 +84,8 @@ i_rule( get_supplier_detail, [
     
     , supplier_postcode(`46260`)
 
+    , supplier_vat_number(`N/A`)
+
 
 ] ).
 
