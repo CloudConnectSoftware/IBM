@@ -28,6 +28,8 @@ i_rule_list( [
     , get_bill_to_address  
   
     , get_bank_accountnumber
+
+    , get_bank_accountnumber_2
                      
     , get_invoice_number
     
@@ -98,6 +100,8 @@ i_line_rule( line_add_line, [
 
     , or([
         read_ahead(`Linde`)
+
+        , read_ahead(`Abello`)
         
          ]) 
 
@@ -107,13 +111,13 @@ i_line_rule( line_add_line, [
 
            generic_item( [ buyer_party, s1, or([ tab, newline ]) ] )
 
-        
         ])
-
 
      , or([
 
          [ check(buyer_party = `Linde Gas Benelux B.V.`) ,generic_item( [ buyer_registration_number, `NL10` ] ) , supplier_id(`10038761`), supplier_party( `HEROSE GMBH` ), sender_name( `HEROSE GMBH` ), buyer_dept(`NL`)]
+
+         , [ check(buyer_party = `Abello Linde S.A.`) ,generic_item( [ buyer_registration_number, `ES10` ] ) , supplier_id(`10066234`), supplier_party( `HEROSE GMBH` ), sender_name( `HEROSE GMBH` ), buyer_dept(`ES`)]
 
            ])
 
@@ -170,6 +174,26 @@ i_rule( get_bank_accountnumber, [
     
     , check( supplier_bank_code_raw = BankRaw2 ) , check(string_string_replace( BankRaw2, ` `, ``, BankStrip2 )), supplier_bank_code(BankStrip2) , trace( [ `Bank account Number2` , supplier_bank_code ] )
 
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber_2, [
+%=======================================================================
+
+    last_line
+
+    , q(0,30,up)
+
+    ,generic_horizontal_details( [ [ `UniCredit`, `Bank`, `AG`, tab ], supplier_iban_raw, s, [ generic_item( [ supplier_swift_code,  wf, newline ] )] ] )
+    
+    , check( supplier_iban_raw = BankRaw )  , check(string_string_replace( BankRaw, ` `, ``, BankStrip )), supplier_iban(BankStrip), trace( [ `Bank account Number` , supplier_bank_account_number ] )
+    
 ] ).
 
 
