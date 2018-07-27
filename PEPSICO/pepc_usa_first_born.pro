@@ -96,20 +96,11 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
      
-      read_ahead([`FIRSTBORN`])
+      read_ahead([`32`])
 
      , trace( [ `Found address`] )
 
-    , generic_item( [ supplier_party, s1,tab ] )
-
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line_2, [
-%=======================================================================
-
-     generic_item( [ supplier_address_line, s1 , newline ] )
+     , generic_item( [ supplier_address_line, s1 , newline ] )
 
 ] ).     
 
@@ -121,7 +112,7 @@ i_line_rule( line_add_line_3, [
 
       , generic_item( [ supplier_city, w ] )
 
-    , generic_item( [ supplier_postcode, s1 , newline ] )
+    , generic_item( [ supplier_postcode, s1 , tab ] )
 
 ] ).
 
@@ -140,7 +131,7 @@ i_rule( get_buyer_address, [
 
    , line_buyer_add_line
 
-  , q(0,1,line)
+  , q(2,3,line)
 
    , line_buyer_add_line_2
 
@@ -172,7 +163,7 @@ i_line_rule( line_buyer_add_line_2, [
 
     q0n(anything)
 
-    , generic_item( [ buyer_address_line, s1, newline ] )
+    , generic_item( [ buyer_address_line, s1, tab ] )
    
 ] ).
 
@@ -190,6 +181,76 @@ i_line_rule( line_buyer_add_line_3, [
     , generic_item( [ buyer_postcode, d , newline ] )
 
 ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REMIT TO ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_remit_address, [
+%=======================================================================
+
+   last_line
+
+   , q(0,10,up)
+
+   , line_remit_line
+
+   , q(2,3,line)
+
+   , line_remit_line2
+
+   , q(0,1,line)
+
+   , line_remit_line3
+
+   , q(1,2,line)
+
+   , line_remit_line4
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_remit_line, [
+%=======================================================================
+    
+    q0n(anything)
+
+    , read_ahead([`Firstborn`])
+
+    , trace( [ `Found address`] )
+
+    , generic_item( [ remit_to_party, s1, tab ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_remit_line2, [
+%=======================================================================
+
+     generic_item( [ remit_to_address_line, s1 , tab  ] )
+
+] ).
+    
+
+%=======================================================================
+i_line_rule( line_remit_line3, [
+%=======================================================================
+
+       generic_item( [ remit_to_city, s, `,`   ] )
+     
+     , generic_item( [ remit_to_country, w  ] )
+
+     , generic_item( [ remit_to_postcode, s1 , newline  ] )
+
+] ).
+
 
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
