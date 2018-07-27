@@ -1,16 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GARDEN STATE SERVICE SOLUTIONS INC
+% FIRSTBORN MULTIMEDIA CORP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pepc_usa_garden_state_service, `July 26 , 2018` ).
+i_version( pepc_usa_first_born, `July 26 , 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
+
+i_pdf_parameter( font_size, 50).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -56,7 +58,7 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `GARDEN STATE SERVICE SOLUTIONS INC` )
+    sender_name( `FIRSTBORN MULTIMEDIA CORP` )
 
    ,supplier_vat_number(`N/A`) 
    
@@ -92,7 +94,7 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
      
-      read_ahead([`Garden`])
+      read_ahead([`FIRSTBORN`])
 
      , trace( [ `Found address`] )
 
