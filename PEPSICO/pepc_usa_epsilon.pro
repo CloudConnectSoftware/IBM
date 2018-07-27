@@ -58,7 +58,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `ARROW LAB SOLUTIONS INC` )
 
-   ,supplier_vat_number(`N/A`) 
+   ,supplier_vat_number(`04-3290326`) 
    
 ] ).
 
