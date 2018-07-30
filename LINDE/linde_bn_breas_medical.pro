@@ -413,12 +413,13 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-         [line_invoice_line, q10(line_invoice_line_append),  q10(line_invoice_line_append),q10(line_invoice_line_disc), q10(line_invoice_line_append)]
+        [line_invoice_line, q10(line_invoice_line_append),  q10(line_invoice_line_append)]
+     
+        ,line_invoice_line_disc
 
-       , [line_invoice_line,  q10(line_invoice_line_append), q10(line_invoice_line_append), q10(line_invoice_line_disc1), q10(line_invoice_line_append)]
+       , line_invoice_line_disc1
 
-       , [line_invoice_line,  q10(line_invoice_line_append), q10(line_invoice_line_append), q10(line_invoice_line_disc2), q10(line_invoice_line_append)]
-   
+          
        , line
 
         ] )
@@ -516,27 +517,10 @@ i_line_rule_cut( line_invoice_line_disc1, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line_disc2, [
-%=======================================================================
-
-      generic_item( [ line_dummy_disc,w , tab ] )
-
-    , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
-
-    , generic_item( [ line_dummy_discount, s1, tab ] )
-
-    , generic_item( [ line_net_amount, d, q10(tab) ] )
-
-    , generic_item( [ line_dummy_net, d, newline ] )
- 
-    , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
-    
-] ).
-%=======================================================================
 i_line_rule_cut( line_invoice_line_append, [
 %=======================================================================
 
-    generic_append( [ line_descr, s1, newline, `:-` , ``  ] )    
+    generic_append( [ line_descr, s1, newline, ` ` , ``  ] )    
 ] ).
 
 
