@@ -413,7 +413,9 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-         [line_invoice_line, line_invoice_line_disc, line_invoice_line_append]
+         [line_invoice_line, q10(line_invoice_line_append), line_invoice_line_disc, q10(line_invoice_line_append)]
+
+       , [line_invoice_line,  q10(line_invoice_line_append), line_invoice_line_disc1, q10(line_invoice_line_append)]
    
        , line
 
@@ -428,7 +430,9 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 or([
 
-[`Pos`, `.`, tab, `P`, `/`, `N`, tab, `Description`, tab, `Qty`, `.`, `Qty`, `.`, tab ]
+   [`Pos`, `.`, tab, `P`, `/`, `N`, tab, `Description`, tab, `Qty`, `.`, `Qty`, `.`, tab ]
+
+, [`Pos`, `.`, `P`, `/`, `N`, tab, `Description`, tab ]
 
 
 ])
@@ -464,13 +468,13 @@ i_line_rule_cut( line_invoice_line, [
 
     , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
-    , generic_item( [ line_quantity, d ] )
+    , generic_item( [ line_quantity, d, q10(tab)] )
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
     , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
-    , generic_item( [ line_net_amount, d ] )
+    , generic_item( [ line_net_amount, d, q10(tab) ] )
 
     , generic_item( [ line_dummy_rate, d, newline ] )
  
@@ -487,7 +491,23 @@ i_line_rule_cut( line_invoice_line_disc, [
 
     , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
-    , generic_item( [ line_dummy_discount, d, [`%`,  newline ] ] )
+    , generic_item( [ line_net_amount, n, [`%`,  newline ] ] )
+ 
+    , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
+    
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_disc1, [
+%=======================================================================
+
+      generic_item( [ line_dummy_disc,w , tab ] )
+
+    , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
+
+    , generic_item( [ line_dummy_discount, s1, tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ] )
  
     , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
     
@@ -509,9 +529,9 @@ i_line_rule_cut( line_invoice_line_append, [
 % Mapped on - June 13, 2018
 % Mapped by - Roopesh 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - July 30, 2018
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 % Updated on   - 
 % Updated by   -
