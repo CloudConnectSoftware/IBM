@@ -528,6 +528,8 @@ i_rule_cut( get_total_vat, [
 %=======================================================================
 
     last_line, q(0,500,up)
+
+    , check_text(`+`)
   
    , [set(reverse_punctuation_in_numbers)
 
