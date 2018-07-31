@@ -494,8 +494,9 @@ i_rule( get_line_net, [
 i_rule_cut( get_net_amount, [
 %=======================================================================
 
-	last_line, q0n(up)
+	last_line, q(0,500,up)
   
+    ,check_text(`Nettobetrag`)
 
     , [set(reverse_punctuation_in_numbers)
 
@@ -526,7 +527,9 @@ i_rule_cut( get_net_amount, [
 i_rule_cut( get_total_vat, [
 %=======================================================================
 
-    last_line, q0n(up)
+    last_line, q(0,500,up)
+  
+    ,check_text(`Mehrwertsteuer`)
 
     , [set(reverse_punctuation_in_numbers)
 
@@ -534,7 +537,7 @@ i_rule_cut( get_total_vat, [
 
      ,or([
 
-        generic_horizontal_details( [ [gen_beof,`+`, `Mehrwertsteuer`, generic_item( [ default_vat_rate, d , `%` ] ), q10(tab), `(`, dummy_num(d), `EUR`, `)`, tab ], total_vat, d, [q10(tab),`EUR`,  newline ] ] )
+        generic_horizontal_details( [ [gen_beof, `Mehrwertsteuer`, generic_item( [ default_vat_rate, d , `%` ] ), q10(tab), `(`, dummy_num(d), `EUR`, `)`, tab ], total_vat, d, [q10(tab),`EUR`,  newline ] ] )
 
         ])
 
@@ -556,7 +559,9 @@ i_rule_cut( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-    last_line, q0n(up)
+    last_line, q(0,500,up)
+  
+    ,check_text(`Bruttobetrag`)
   
     , [set(reverse_punctuation_in_numbers)
 
