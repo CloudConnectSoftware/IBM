@@ -233,13 +233,34 @@ i_rule( get_order_number, [
 
    q(0,50,line)
 
+   , set(regexp_allow_partial_matching)
+
     , or([
       
       generic_horizontal_details( [ [`Best`, `.`, `-`, `Nr`, `.`, `:`, tab ], order_number, d, newline ] )
 
-        ])
+      ,  find_order_number
+
+   ])
+
+   , clear(regexp_allow_partial_matching)
 
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
