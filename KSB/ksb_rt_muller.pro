@@ -234,11 +234,25 @@ i_rule( get_order_number, [
       
       generic_horizontal_details( [ [ `Best`, `Nr` ], order_number, d, `/` ] )
 
+    ,  find_order_number
 
-        ])
+   ])
 
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
