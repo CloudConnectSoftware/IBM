@@ -22,15 +22,9 @@ i_rule_list( [
 
     , get_supplier_address
 
-    , get_supplier_address1
-
     , get_remit_address
 
-    , get_remit_address1
-
     , get_buyer_address
-
-    , get_buyer_address1
 
     , get_bank_accountnumber
                      
@@ -114,7 +108,7 @@ i_line_rule( line_add_line, [
 
     , trace( [ `Found address`] )
 
-    , generic_item( [ supplier_party, [ `.``As`]  ] )
+    , generic_item( [ supplier_party, [ `.`,`As`]  ] )
 
 ] ).
 
@@ -191,7 +185,7 @@ i_line_rule( line_add_line3, [
   
     generic_item( [ buyer_city, w ] )
 
-  , generic_item( [ buyer_state, w , tab] )
+  , generic_item( [ buyer_state, w , newline] )
 
 
 
