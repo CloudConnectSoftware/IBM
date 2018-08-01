@@ -73,7 +73,7 @@ i_rule( get_supplier_detail, [
 
    ,supplier_party( `DOMINO FOODS, INC.` )
 
-   ,supplier_vat_number(` `) 
+   ,supplier_vat_number(`N/A`) 
    
 ] ).
 
@@ -87,6 +87,7 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 i_rule( get_remit_address, [
 %=======================================================================
+    
     last_line
     
     , q(0,20,up)
@@ -97,9 +98,6 @@ i_rule( get_remit_address, [
 
    , remit_address_line_2
   
-
-
-
 
 ] ).
 %=======================================================================
@@ -184,19 +182,15 @@ i_line_rule( line_add_line_2, [
 %=======================================================================
   
    generic_item( [ buyer_address_dummy , s1 , tab ] )
-   
-   
          
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_add_line_3, [
 %=======================================================================
-    
-   
+       
 generic_item( [ buyer_address_line , s1 , newline ] )
-
-
        
 ] ).
 
@@ -276,8 +270,13 @@ i_rule( get_order_number, [
 
   q(0,50,line)
 
-, generic_horizontal_details( [ [`Purchase`, `Order`, `#`, `:`, tab ], order_number, s1, newline ] )
+, or([
+    
+    generic_horizontal_details( [ [`Purchase`, `Order`, `#`, `:`, tab ], order_number,d, `-` ] )
 
+    , generic_horizontal_details( [ [`Purchase`, `Order`, `#`, `:`, tab ], order_number, d, newline ] )
+
+])
       
 ] ).
 
@@ -295,7 +294,6 @@ i_rule( get_payment_terms, [
   q(0,50,line)
 
 , generic_horizontal_details( [ [ `Date`, `of`, `Invoice`, `)`, `:`], payment_terms, s1,newline ] )
-
       
 ] ).
 
