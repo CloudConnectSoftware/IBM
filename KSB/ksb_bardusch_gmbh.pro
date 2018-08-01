@@ -53,11 +53,11 @@ i_rule_list( [
 
     , get_total_invoice
 
-    %, get_invoice_lines
+    , get_invoice_lines
 
     %,  get_freight_line 
 
-   % , get_line_net
+    , get_line_net
 
 ] ).
 
@@ -512,12 +512,6 @@ i_rule_cut( get_net_amount, [
     , clear(reverse_punctuation_in_numbers)
 
     , clear(regexp_cross_word_boundaries)]
-    
-    , check(total_net =TotNet)
-
-    , trace([`Total Net ` , TotNet])
-
-    , line_net_amount(TotNet)
 
     
 ]).
@@ -581,8 +575,6 @@ i_rule( get_total_invoice, [
 
 
         ])
-
-        
 
 
     , clear(reverse_punctuation_in_numbers)
