@@ -67,9 +67,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Ardent Mills, LLC` )
+    sender_name( `BEMIS COMPANY, LLC` )
 
-   ,supplier_vat_number(`12380098210`) 
+   ,supplier_vat_number(`071000013`) 
    
 
 ] ).
