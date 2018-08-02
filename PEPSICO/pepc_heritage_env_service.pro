@@ -6,7 +6,7 @@
 
 i_version( pepc_heritage_env_service , `25 May 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -42,11 +42,11 @@ i_rule_list( [
 
     , get_vat_rate
 
-    ,get_total_vat
+    , get_total_vat
 
     , get_invoice_lines
 
-   , get_supplier_vat_code
+    , get_supplier_vat_code
 
     , get_remit_supplier
 
@@ -64,7 +64,7 @@ i_rule_list( [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET SUPPLIER Detail
+% GET SUPPLIER DETAIL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -76,14 +76,9 @@ i_rule( get_supplier_detail, [
 
     ,supplier_party(`HERITAGE ENVIRONMENTAL SERVICES LLC`)
 
-	,supplier_vat_number(``)
-
-    ,buyer_dept(``)
-
-    ,buyer_registration_number(``)
+	,supplier_vat_number(`N/A`)
 
 ] ).
-
 
 
 
@@ -99,16 +94,11 @@ i_rule( get_currency, [
 
     q(0,50,line)
 
-
    , or([
 
    [generic_horizontal_details( [ [ `Invoice`, `Total`, tab ],  currency, w,tab] )]
-
    
-
-    
   ,currency_alternate
-
 
     ])
 
@@ -153,24 +143,23 @@ i_rule( get_supplier_address, [
 
    , q(0,1,line)
 
-   ,line_suppadd_line_1
+   , line_suppadd_line_1
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
-   ,line_suppadd_line_2
+   , line_suppadd_line_2
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
-   ,line_suppadd_line_3
+   , line_suppadd_line_3
 
-   ,q(0,1,line)
+   , q(0,1,line)
 
-   ,line_suppadd_line_4
-
+   , line_suppadd_line_4
    
-   ,q(0,1,line)
+   , q(0,1,line)
 
-   ,line_suppadd_line_5
+   , line_suppadd_line_5
 
 
     
