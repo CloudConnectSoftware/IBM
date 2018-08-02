@@ -255,8 +255,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
+or([
 
 [`Details`, tab, `Amount` ]
+
+, [`Category`, tab, `Description` ]
+
+])
 
 , trace( [ `Found Start line` ] )
 
@@ -277,7 +282,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
  
- generic_item( [ line_descr, s1, tab ] )
+ generic_item( [ line_descr_dummy, s1, tab ] )
+
+ ,generic_item( [ line_descr, s1, tab ] )
 
 ,generic_item( [ line_net_amount, d, newline ] )
 
