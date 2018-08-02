@@ -141,7 +141,7 @@ i_line_rule( line_add_line_3, [
 i_line_rule( line_add_line_4, [
 %=======================================================================
 
-      generic_item( [ supplier_city, w, `,` ] )
+      generic_item( [ supplier_city, s, `,` ] )
 
       , generic_item( [ supplier_city, w ] )
 
