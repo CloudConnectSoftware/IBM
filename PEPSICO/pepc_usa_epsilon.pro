@@ -102,7 +102,7 @@ i_rule( get_supplier_address, [
 
    , line_add_line_3
 
-   , q(0,2,line)
+   , q(1,2,line)
 
    , line_add_line_4
   
