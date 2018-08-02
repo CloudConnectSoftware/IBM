@@ -108,7 +108,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-      generic_item( [ supplier_city, w, `,` ] )
+      generic_item( [ supplier_city, s, `,` ] )
 
       , generic_item( [ supplier_city, w ] )
 
@@ -200,7 +200,7 @@ i_rule( get_remit_address, [
 
    , line_remit_line
 
-   , q(2,3,line)
+   , q(1,2,line)
 
    , line_remit_line2
 
@@ -247,7 +247,7 @@ i_line_rule( line_remit_line3, [
      
      , generic_item( [ remit_to_country, w  ] )
 
-     , generic_item( [ remit_to_postcode, s1 , newline  ] )
+     , generic_item( [ remit_to_postcode, s1 , tab  ] )
 
 ] ).
 
