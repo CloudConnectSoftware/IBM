@@ -191,9 +191,13 @@ i_rule( get_remit_address, [
 i_line_rule( line_remit_line, [
 %=======================================================================
 
-      read_ahead([`Remit`, `checks`])
+    q0n(anything)
+    
+    , read_ahead(`TLP`)
 
     , trace( [ `Found address`] )
+
+    , generic_item( [ remit_to_party, s, `.` ] )
 
     , generic_item( [ remit_to_dummy, s1, newline ] )
 
@@ -278,7 +282,7 @@ i_rule( get_order_number, [
 
      q(0,20,line)
      
-    , generic_horizontal_details( [ [`Client`, `Reference`, tab ], order_number, s1, newline ] )
+    , generic_horizontal_details( [ [`Client`, `Reference`, tab ], order_number, s, `(` ] )
 
 ] ).
 
