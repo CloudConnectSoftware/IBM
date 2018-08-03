@@ -363,8 +363,6 @@ i_rule( get_payment_terms, [
 ] ).
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT DETAILS
@@ -377,11 +375,11 @@ i_rule( get_bank_accountnumber, [
 
        q(0,40,line)
 
-      , generic_horizontal_details( [ [ `Account`, `#` ], remit_to_bank_account_number, w, tab ] )
+      , generic_horizontal_details( [ [ `Account`, `#` ], remit_to_bank_account_number, w, newline ] )
 
      , q(0,4,line)
 
-     , generic_horizontal_details( [ [  `SWIFT`, `CODE`,  `:`], remit_to_swift_code, w, tab ] )
+     , generic_horizontal_details( [ [  `SWIFT`, `CODE`,  `:`], remit_to_swift_code, w, newline ] )
 
     
 ] ).
