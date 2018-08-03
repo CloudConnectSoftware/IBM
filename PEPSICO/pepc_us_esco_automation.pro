@@ -6,9 +6,9 @@
 
 i_version( pepc_us_esco_automation , `26 July 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(`m/d/y` ).
+i_date_format(_).
 
 i_trace_lists.
 
@@ -41,6 +41,8 @@ i_rule_list( [
 	, get_invoice_date
 
     , get_payment_terms
+
+    , get_contact_person
 
     , get_invoice_due_date
 	
@@ -78,7 +80,7 @@ i_rule( get_supplier_detail, [
 
 	sender_name(`ESCO Automation`)
   
-	,supplier_vat_number(``)
+	,supplier_vat_number(`N/A`)
 
 ] ).
 
@@ -437,7 +439,7 @@ i_rule( get_payment_terms, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Payment Term
+% Due date
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -449,6 +451,22 @@ i_rule( get_invoice_due_date, [
 	
     , generic_horizontal_details( [ [ `Invoice`, `Due`, `Date`, `:`, tab ], due_date, date, newline ] )
    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Buyer contact
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_contact_person, [
+%=======================================================================
+
+     q(0,50,line)
+
+  , generic_horizontal_details( [ [ `Attention`, `:`, tab ], buyer_contact, s1, newline ] )
+
 ] ).
 
 
@@ -592,9 +610,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - July 26, 2018
 % Mapped by - Roopesh 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - Aug 3, 2018
+% Updated by   - Rohini
+% Changes made - Buyer contact, Invoice date
 
 % Updated on   - 
 % Updated by   -
