@@ -12,6 +12,10 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_date_format(`m/d/y` ). 
+
+i_op_param( us_invoice, _, _, _, _).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,6 +28,8 @@ i_rule_list( [
     , get_supplier_address
 
     , get_buyer_address
+
+    , get_remit_address
 
     , get_bank_accountnumber
                      
@@ -133,19 +139,9 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead(`SHI`)
+       read_ahead(`Federal`)
 
      , trace( [ `Found address`] )
-
-     , generic_item( [ supplier_party, s1, tab ] )
-
-     , generic_item( [ supplier_dummy, s1, tab ] )
-
-     , generic_item( [ supplier_dummy1, s1, tab ] )
-
-     , generic_item( [ supplier_dummy2, s1, newline ] )
-
-
 
 ] ).
 
@@ -155,39 +151,90 @@ i_line_rule( line_add_line_2, [
 
        generic_item( [ supplier_address_line, s1, tab ] )
 
-     , generic_item( [ supplier_dummy3, s1, newline ] )
-
-
-
 ] ).
 
 
 %=======================================================================
 i_line_rule( line_add_line_3, [
 %=======================================================================
- 
-       generic_append( [ supplier_address_line, s1, tab, `, `, ` `  ] )
-
-     , generic_item( [ supplier_dummy5, s1, tab ] )
-
-     , generic_item( [ supplier_dummy4, s1, newline ] )
-
-
     
+    generic_item( [ supplier_city, s , `,` ] )
+
+    , generic_item( [ supplier_state, w ] )
+
+    , generic_item( [ supplier_postcode, s1, tab ] )
+
 ] ).
 
 
 
-%=======================================================================
-i_line_rule( line_add_line_4, [
-%=======================================================================
- 
-       generic_append( [ supplier_address_line, s1, tab, `, `, ` `  ] )
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REMIT TO ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-     , generic_item( [ supplier_dummy6, s1, newline ] )
+%=======================================================================
+i_rule( get_remit_address, [
+%=======================================================================
 
-    
+     last_line
+
+    , q(0,50,line)
+
+    , line_remit_line
+
+    , q(0,1,line)
+
+    , line_remit_line2
+
+    , q(0,1,line)
+
+    , line_remit_line3
+
 ] ).
+
+
+%=======================================================================
+i_line_rule( line_remit_line, [
+%=======================================================================
+    
+    q0n(anything)
+
+    , read_ahead([`SHI`])
+    
+    , trace( [ `Found address`] )
+
+    , generic_item( [ remit_to_party, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_remit_line2, [
+%=======================================================================
+       
+    q0n(anything)
+
+   , generic_item( [ remit_to_address_line, s1 , tab  ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_remit_line3, [
+%=======================================================================
+
+     q0n(anything)
+
+    ,  generic_item( [ remit_to_city, s, `,`  ] )
+
+    , generic_item( [ remit_to_state, w  ] )
+
+    , generic_item( [ remit_to_postcode, s1 , newline  ] )
+
+] ).
+    
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,32 +377,15 @@ i_rule( get_bank_accountnumber, [
 
        q(0,40,line)
 
-     ,[ generic_horizontal_details( [ [`Sort`, `Code`, `:`, generic_item( [ supplier_bank_code_raw, s, [`,`, `Chaps`, `Code`, `:`] ] )], supplier_chaps_code, s1, newline ] )
-
-     , check(supplier_bank_code_raw=AccRaw)
-
-     , check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
-
-     , remit_to_bank_code(AccNew), trace( [ `Supplier Bank Code without special characters`, remit_to_bank_code ] )]
-
-  
-     , q(0,1,line)
-
-     , generic_horizontal_details( [ [ `Account`, `Number` ], remit_to_bank_account_number, w, tab ] )
-
+      , generic_horizontal_details( [ [ `Account`, `#` ], remit_to_bank_account_number, w, tab ] )
 
      , q(0,4,line)
 
-     , generic_horizontal_details( [ [ `BIC`, `(`, `SWIFT`, `CODE`, `)`, `:`], remit_to_swift_code, s1, newline ] )
+     , generic_horizontal_details( [ [  `SWIFT`, `CODE`,  `:`], remit_to_swift_code, w, tab ] )
 
-
-     , q(0,2,line)
-
-     , generic_horizontal_details( [ [`IBAN`, `#` ], remit_to_iban, s1, newline ] )
-
-     
     
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -476,10 +506,7 @@ i_rule(get_total_vat, [
 
     , q(0,20,up)
 
-    , generic_horizontal_details( [ [ `VAT`, tab ], total_vat, d, newline ] )
-
-    , generic_item( [ default_vat_rate, `20` ] )
-
+    , generic_horizontal_details( [ [ `Sales`,`tax`, tab ], total_vat, d, newline ] )
 
 ] ).
 
