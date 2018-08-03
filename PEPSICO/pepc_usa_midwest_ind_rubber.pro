@@ -215,7 +215,7 @@ i_rule( get_remit_address, [
 
      last_line
 
-     q(0,50,line)
+     , q(0,50,line)
 
     , line_remit_line
 
