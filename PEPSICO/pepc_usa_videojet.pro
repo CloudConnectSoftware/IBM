@@ -12,6 +12,10 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_op_param( us_invoice, _, _, _, _).
+
+i_date_format(`m/d/y` ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,20 +87,10 @@ i_rule( get_supplier_detail, [
 i_rule( get_supplier_address, [
 %=======================================================================
    
-    q(0,30,line)
+    q(0,50,line)
 
    , line_add_line
 
-   , q(0,1,line)
-
-   , line_add_line_2
-
-   , q(1,2,line)
-
-   , line_add_line_3
-
- 
-   
 ] ).
 
 %=======================================================================
@@ -105,34 +99,17 @@ i_line_rule( line_add_line, [
 
     q0n(anything)
 
-    , read_ahead([`VIDEOJET`])
+    , read_ahead([`1500`])
     
     , trace( [ `Found address`] )
 
-    , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_address_line, s, [q10(tab) , check(supplier_address_line(end) < -330 )  ] ] )
 
-] ).
+     , generic_item( [ supplier_city, s, [q10(tab) , check(supplier_city(end) < -261 ) ] ] )
 
-%=======================================================================
-i_line_rule( line_add_line_2, [
-%=======================================================================
-    q0n(anything)
+     , generic_item( [ supplier_state, w ] )
 
-    , generic_item( [ supplier_address_line, s1, newline ] )
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line_3, [
-%=======================================================================
-   
-    q0n(anything)
-
-    , generic_item( [ supplier_city, w ] )
-
-    , generic_item( [ supplier_state, w ] )
-
-    , generic_item( [ supplier_postcode, d, newline ] )
+    , [`U`, `.`, `S`, `.`, `A`, `.`,  newline]
 
 ] ).
 
@@ -176,11 +153,11 @@ i_rule( get_buyer_address, [
 i_line_rule( line_add_line1, [
 %=======================================================================
 
-        read_ahead([`Pepsi`])
+        read_ahead([`Frito`])
 
      , trace( [ `Found address`] )
 
-    ,  generic_item( [buyer_party , s1, tab ] )
+    ,  generic_item( [buyer_party , s1, newline ] )
 
 ] ).
 
@@ -188,7 +165,7 @@ i_line_rule( line_add_line1, [
 i_line_rule( line_add_line2, [
 %=======================================================================
   
-  generic_item( [ buyer_address_line , s1 , tab ] )
+  generic_item( [ buyer_address_line , s1 , newline ] )
 
 ] ).
 
@@ -200,7 +177,7 @@ i_line_rule( line_add_line3, [
 
   , generic_item( [ buyer_state, w  ] )
      
-  , generic_item( [ buyer_postcode, d, tab ] )
+  , generic_item( [ buyer_postcode, s1, newline ] )
 
 ] ).
 
@@ -404,7 +381,7 @@ i_rule( get_due_date, [
 
     q(0,5,line)
 
-    , generic_vertical_details( [ [ `Due`, `Date`], `Date`, q(0,1), (end,10,20), due_date, date, tab ] )
+    , generic_vertical_details( [ [ `Due`, `Date`], `Date`, q(0,2), (end,10,20), due_date, date, tab ] )
 
 
 ] ).
@@ -422,7 +399,13 @@ i_rule( get_order_number, [
 
 q(0,50,line)
 
- ,  generic_vertical_details( [ [ `YOUR`,  `PO`, `No`  ], `PO`, q(0,1), (end,10,10), order_number, d, tab ] )
+ , or([
+     
+     generic_vertical_details( [ [ `YOUR`,  `PO`, `No`  ], `PO`, q(0,1), (end,10,10), order_number, d, tab ] )
+     
+     , [ set(regexp_allow_partial_matching), generic_horizontal_details( [ [ `AV` ], order_number, d, tab ] ), clear(regexp_allow_partial_matching) ]
+
+ ])
   
 ] ). 
 
@@ -515,8 +498,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-                [line_invoice_line, line_description_skip_line, line_description_line,line_description_skip_line, line_append_line 
-                , line_description_skip_line, line_append_line  ]               
+                [line_invoice_line,  line_description_line  ]               
 
                 
 
@@ -553,6 +535,8 @@ i_line_rule_cut( line_end_line, [
 
     , [`Subtotal`]
 
+     , `Note`
+
  ])
 
   , trace( [ `Found End line` ] )
@@ -567,7 +551,11 @@ i_line_rule_cut( line_invoice_line, [
 
       generic_item( [ line_no, d, tab ] )
 
-     , generic_item( [ line_desc_dumy, s1, tab ] )
+     , generic_item( [ line_item, d, tab ] )
+
+     ,  generic_item( [ line_quantity_uom_code, w, tab  ] )
+
+     ,  generic_item( [ line_quantity, d, tab  ] )
 
      ,  generic_item( [ line_unit_amount, d, tab  ] )
 
