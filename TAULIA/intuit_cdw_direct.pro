@@ -14,6 +14,8 @@ i_trace_lists.
 
 i_pdf_parameter( same_line, 7 ).
 
+i_date_format(`m/d/y` ). 
+
 i_op_param( us_invoice, _, _, _, _).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
