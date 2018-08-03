@@ -21,6 +21,8 @@ i_rule_list( [
 
     , get_supplier_address
 
+    , get_buyer_address
+
     , get_bank_accountnumber
                      
     , get_invoice_number
@@ -37,7 +39,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    % , get_currency (not provided on Invoice, not mapped)
+     , get_currency 
 
     , get_invoice_lines
 
@@ -55,8 +57,6 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 
      sender_name( `MEYER MATERIAL HANDLING PRODUCTS` )
-
-
 
 ] ).
 
@@ -94,11 +94,7 @@ i_line_rule( line_add_line, [
 
     , trace( [ `Found address`] )
 
-    , generic_item( [ supplier_party, s1, tab ] )
-
-     , generic_item( [ supplier_dummy1, s1, newline ] )
-
-
+    , generic_item( [ supplier_party, s1,  tab ] )
 
 ] ).
 
@@ -106,13 +102,10 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-    generic_item( [ supplier_address_line, s1, tab ] )
-
-    , generic_item( [ supplier_dummy3, s1, newline ] )
-
-
+    generic_item( [ supplier_address_line, s1, newline ] )
 
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_add_line_3, [
@@ -195,7 +188,7 @@ i_line_rule( line_add_line4, [
 
   , generic_item( [ buyer_state, w  ] )
      
-  , generic_item( [ buyer_postcode, s1, tab ] )
+  , generic_item( [ buyer_postcode, s1, newline ] )
 
 ] ).
 
@@ -212,11 +205,10 @@ i_rule( get_invoice_number, [
 
       q(0,10,line)
 
-    , generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `#` ], invoice_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `INVOICE`, q10(`NUMBER`), q10(`#`) ], invoice_number, s1, newline ] )
 
 
 ] ).    
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -233,6 +225,35 @@ i_rule( get_invoice_date, [
 
     , generic_horizontal_details( [ [`DATE`, `:` ],  invoice_date, date, newline ] )
 
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET CURRENCY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+q(0,50,line)
+
+    , currency_line
+
+]).
+
+%=======================================================================
+i_line_rule( currency_line, [
+%=======================================================================
+
+    q0n(anything)
+
+   , [ `$`, a(d)]
+
+    , currency(`USD`)
 
 ] ).
 
@@ -357,7 +378,7 @@ i_section( get_invoice_lines, [
 
     , or( [
               
-              [line_invoice_line , q10(line_append_line), q10(line_append_line)]
+              [line_invoice_line ]
 
               , line
 
@@ -371,10 +392,17 @@ i_section( get_invoice_lines, [
 %=======================================================================
 i_line_rule_cut( line_header_line, [
 %=======================================================================
+   or([
 
    [`Ordered`, tab, `Shipped`, tab, `Back`]
 
+   , [`QUANTITY`, tab,`DESCRIPTION`]
+
+   ])
+
    , trace( [ `Found Start line` ] )
+
+   
 
 ] ).
 
@@ -383,7 +411,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-    [`Net`, `Invoice`, `:`, tab ]
+    or([
+        
+        [`Net`, `Invoice`, `:`, tab ]
+
+        , `Note`
+
+    ])
 
     , trace( [ `Found End line` ] )
 
@@ -394,15 +428,28 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-  generic_item( [ line_quantity_dummy, d, tab ] )
+  q10(generic_item( [ line_quantity_dummy, d, tab ] ))
 
 , generic_item( [ line_quantity, d, tab ] )
 
-, generic_item( [ line_order_dummy, d, [ tab, `/`] ] )
+, q10(generic_item( [ line_order_dummy, d, [ tab, `/`] ] ))
 
 , generic_item( [ line_descr, s1, tab ] )
 
-, generic_item( [ line_unit_amount, d, tab ] )
+, q10(generic_item( [ line_unit_amount, d, tab ] ))
+
+, generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_negetive_line, [
+%=======================================================================
+
+  generic_item( [ line_quantity, d, tab ] )
+
+, generic_item( [ line_descr, s1, [ tab, `-`, `$`] ] )
 
 , generic_item( [ line_net_amount, d, newline ] )
 
