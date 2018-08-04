@@ -10,14 +10,17 @@ i_version( pepc_usa_sunbelt, `22 May 2018 ` ).
 
 i_date_format( _ ).
 
+i_date_format(`m/d/y` ). 
+
+i_op_param( us_invoice, _, _, _, _).
+
 i_trace_lists.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    
-      get_supplier_detail
+     get_supplier_detail
 
     , get_supplier_address
 
@@ -66,6 +69,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `URSCHEL LABORATORIES INC` )
 
+    , supplier_vat_number(`35-0726105`)
     
 ] ).
 
@@ -94,8 +98,6 @@ i_rule( get_supplier_address, [
 
    %, line_add_line_3
 
- 
-   
 ] ).
 
 %=======================================================================
@@ -112,6 +114,7 @@ i_line_rule( line_add_line, [
 
 ] ).
 
+
 %=======================================================================
 i_line_rule( line_add_line_2, [
 %=======================================================================
@@ -120,6 +123,7 @@ i_line_rule( line_add_line_2, [
     , generic_item( [ supplier_address_line, s1, tab ] )
 
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_add_line_3, [
@@ -160,12 +164,13 @@ i_rule( get_buyer_address, [
 
 ] ).
 
+
 %=======================================================================
 i_line_rule( line_add_line1, [
 %=======================================================================
 
       or([
-          read_ahead([`Fritto`])
+          read_ahead([`Frito`])
           
           , read_ahead([`PEPSICO`])
       ])
@@ -210,11 +215,11 @@ i_rule( get_remit_address, [
 
      last_line
 
-     , q(0,50,line)
+    , q(0,50,line)
 
     , line_remit_line
 
-     , q(0,1,line)
+    , q(0,1,line)
 
     , line_remit_line2
 
@@ -222,22 +227,20 @@ i_rule( get_remit_address, [
 
     , line_remit_line3
 
-
-
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_remit_line, [
 %=======================================================================
     
-      q0n(anything)
+    q0n(anything)
 
     , read_ahead([`Sunbelt`])
     
     , trace( [ `Found address`] )
 
     , generic_item( [ remit_to_party, s1, newline ] )
-
 
 ] ).
 
@@ -268,7 +271,6 @@ i_line_rule( line_remit_line3, [
 ] ).
     
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER BANK ACCOUNT DETAILS
@@ -278,11 +280,7 @@ i_line_rule( line_remit_line3, [
 %=======================================================================
 i_rule( get_bank_accountnumber, [
 %=======================================================================
-
-     q(0,100,line)
-
-   
-    
+ 
 ] ).
 
 %=======================================================================
@@ -310,7 +308,7 @@ i_rule( get_payment_terms, [
 
     q(0,50,line)
 
-    , generic_horizontal_details( [ [ `Terms`, q10(tab)], payment_terms, s1, tab ] )
+    , generic_horizontal_details( [ [ `Terms`, q10(tab)], payment_terms, s1, newline ] )
 
 ] ).
 
@@ -344,11 +342,11 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-q(0,5,line)
+q(0,15,line)
 
     , or([
             
-         generic_horizontal_details( [ [`DATE`, tab], invoice_date, tab  ] )
+         generic_horizontal_details( [ [`DATE`, tab], invoice_date,date, tab  ] )
 
     ])
 
@@ -368,7 +366,6 @@ i_rule( get_due_date, [
 
     , generic_vertical_details( [ [ `Due`, `Date`], `Due`, q(0,1), (end,10,20), due_date, date, newline ] )
 
-
 ] ).
 
 
@@ -384,7 +381,11 @@ i_rule( get_order_number, [
 
 q(0,50,line)
 
- ,   generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `#`, tab ], order_number, w , newline ] )
+, set(regexp_allow_partial_matching)
+
+ ,  generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `#`, tab, `AV` ], order_number, w , newline ] )
+
+ , clear(regexp_allow_partial_matching)
   
 ] ). 
 
