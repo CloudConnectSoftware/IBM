@@ -10,6 +10,8 @@ i_version( pepc_usa_sunbelt, `22 May 2018 ` ).
 
 i_date_format( _ ).
 
+i_date_format(`m/d/y` ).
+
 i_trace_lists.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
