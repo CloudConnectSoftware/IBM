@@ -6,9 +6,9 @@
 
 i_version( pepc_us_bulk_solutioninc , `04 June 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
@@ -40,11 +40,11 @@ i_rule_list( [
 
     , get_vat_rate
 
-    ,get_total_vat
+    , get_total_vat
 
     , get_invoice_lines
 
-   , get_supplier_vat_code
+    , get_supplier_vat_code
 
     , get_remit_supplier
 
@@ -293,7 +293,7 @@ i_rule( get_buyer_party, [
 
    , line_add_line
 
-   , q(0,1,line)
+   , q(1,2,line)
 
    ,line_add_line_1
 
@@ -304,68 +304,44 @@ i_rule( get_buyer_party, [
    ,q(0,1,line)
 
    ,line_add_line_3
-
-   
-   ,q(0,1,line)
-
-   ,line_add_line_4
-
-   
-   ,q(0,1,line)
-
-   ,line_add_line_5
-
-   ,q(0,1,line)
-
-   ,line_add_line_6     
-
-
-    
+ 
+  
 ] ).
 
 %=======================================================================
 i_line_rule( line_add_line, [
 %=======================================================================
 
-    read_ahead([ `Tropicana`  ] )
+   
+    read_ahead([ `Tropicana`] )
 
     ,trace( [ `Found BUYER ADDDRESS line`] )
 
-   ,generic_item( [ buyer_party, s1,tab ] )
+   ,generic_item( [ buyer_party, s1,newline ] )
 
   
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_add_line_1, [
 %=======================================================================
 
- generic_item( [ buyer_address_line_dummy, s,  `:` ] )
- 
- ,generic_item( [ requestor, s1, newline ] )
+      generic_item( [ buyer_address_line, s1, tab ] )
+
+    , generic_item( [ buyer_address_dummy, s1, newline ] )
 
 
 ] ).
+
 
 %=======================================================================
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-    generic_item( [ buyer_address_line, s1, tab ] )
+    generic_item( [buyer_city, w, `,` ] )
 
-
-
-
-] ).
-
-
-%=======================================================================
-i_line_rule( line_add_line_3, [
-%=======================================================================
-
-    generic_item( [buyer_city, s, `,` ] )
-
-   , generic_item( [buyer_state, s, [q10(tab), check(buyer_state(end) < -272)] ] )
+   , generic_item( [buyer_state, w ] )
 
    , generic_item( [buyer_postcode,d, newline ] )
 
