@@ -8,7 +8,7 @@ i_version( pepc_usa_arrow_lab, `July 26 , 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format(`m/d/y` ).
 
 i_trace_lists.
 
