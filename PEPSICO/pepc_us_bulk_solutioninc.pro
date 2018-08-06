@@ -77,13 +77,9 @@ i_rule( get_supplier_detail, [
 	sender_name(`Bulk Solutions Inc`)
 
     ,supplier_party(`Bulk Solutions Inc`)
-
     
 	,supplier_vat_number(``)
 
-    ,buyer_dept(``)
-
-    ,buyer_registration_number(``)
 
 ] ).
 
