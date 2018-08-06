@@ -143,7 +143,19 @@ i_line_rule( line_add_line_1, [
        ])
 
                
-     , generic_item( [ buyer_city ,s,`-`] )
+     , generic_item( [ buyer_city_raw ,s,`-`] )
+
+     
+      
+      ,or([
+
+         [ check(buyer_city_raw = Buyer_raw) ,check(Buyer_raw = `- FRANKENTHAL`) ,generic_item( [ buyer_city, `Frankenthal` ] ) ] 
+
+       , [ check(buyer_city_raw = Buyer_raw) ,check(Buyer_raw = `GENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
+ 
+       ,[ check(buyer_city_raw = City_raw) ,generic_item( [ buyer_city, City_raw ] ) ] 
+
+     ] )
 
 
 ] ).
