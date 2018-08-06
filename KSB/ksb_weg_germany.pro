@@ -110,7 +110,20 @@ i_line_rule( line_add_line, [
     ])
     , trace( [ `Found BUYER ADDRESS`] )
 
-   ,generic_item( [ buyer_party, s1, tab ] )
+   ,generic_item( [ buyer_party_raw, s1, tab ] )
+
+   , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        , [ check(buyer_party_raw = `KSB SE & Co. KGa`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & CO. KGAA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
 
 ] ).
 

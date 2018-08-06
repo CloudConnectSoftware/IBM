@@ -178,9 +178,7 @@ i_line_rule( line_add_line_3, [
 i_rule( get_remit_address, [
 %=======================================================================
 
-     last_line
-
-    , q(0,50,line)
+     q(0,5,line)
 
     , line_remit_line
 
@@ -295,11 +293,7 @@ i_line_rule( line_add_line1, [
 i_line_rule( line_add_line2, [
 %=======================================================================
   
-   generic_item( [ buyer_address_line , s1 , tab ] )
-
-       , generic_item( [ buyer_dummy, s1, newline ] )
-
-
+       generic_item( [ buyer_address_line , s1 , tab ] )
 
 ] ).
 
@@ -307,24 +301,22 @@ i_line_rule( line_add_line2, [
 i_line_rule( line_add_line3, [
 %=======================================================================
   
-     generic_item( [ buyer_city, s1, tab ] )
-
-   ,   generic_item( [ buyer_city_dummy, s1, newline ] )
-
-
+       generic_item( [ buyer_city_dummy, s1, tab ] )
 
 ] ).
+
 %=======================================================================
 i_line_rule( line_add_line4, [
 %=======================================================================
-  
-     generic_item( [ buyer_postcode, s1, tab ] )
+      
+     generic_item( [ buyer_city, w, `,` ] )
 
-   ,   generic_item( [ buyer_city_dummy1, s1, newline ] )
+     , generic_item( [ buyer_state,w ] )
 
-
+     , generic_item( [ buyer_postcode, s1, tab ] )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -337,13 +329,11 @@ i_rule( get_buyer_vat, [
 %=======================================================================
 
      q(0,20,line)
-
-
      
     ,generic_horizontal_details( [ [ `Customer`, `VAT`, `#`, tab ], buyer_vat_number, s1, newline ] )
 
-
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
