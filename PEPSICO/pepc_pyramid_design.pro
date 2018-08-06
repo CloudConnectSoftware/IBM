@@ -10,7 +10,7 @@ i_version( pepc_pyramid_design , `22 May 2018` ).
 
 i_date_format( _ ).
 
-i_date_language( english ).
+i_date_format(`m/d/y` ).
 
 i_trace_lists.
 
