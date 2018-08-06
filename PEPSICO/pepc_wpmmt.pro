@@ -78,10 +78,6 @@ i_rule( get_supplier_detail, [
 
 	,supplier_vat_number(``)
 
-    ,buyer_dept(``)
-
-    ,buyer_registration_number(``)
-
 ] ).
 
 
