@@ -80,11 +80,8 @@ i_rule( get_supplier_detail, [
 
     ,remit_to_party(`ANDERSON ELECTRIC`)
 
-	,supplier_vat_number(``)
+	,supplier_vat_number(`N/A`)
 
-    ,buyer_dept(``)
-
-    ,buyer_registration_number(``)
 
 ] ).
 
