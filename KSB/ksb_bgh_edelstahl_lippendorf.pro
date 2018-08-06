@@ -133,7 +133,7 @@ i_line_rule( line_add_line2, [
 
       `67206`
 
-      ,generic_item( [ buyer_city , s1 , tab ] )
+      ,generic_item( [ buyer_city , s1 , or([ tab, newline ]) ] )
 
 ] ).
 
@@ -190,7 +190,7 @@ i_rule( get_bank_iban_no, [
    q(0,150,line)
 	
 
-   ,  [generic_horizontal_details( [ [ `Deutsche`, `Bank`, `AG`, tab, `DEUTDEDK460`, tab, `IBAN`, `:`], supplier_bank_iban_raw, s1, newline ] )
+   ,  [generic_horizontal_details( [ [ `IBAN`, `-`, `Nr`, `.`], supplier_bank_iban_raw, s1, newline ] )
   
     , check( supplier_bank_iban_raw = BankRaw1 )
 
@@ -204,59 +204,6 @@ i_rule( get_bank_iban_no, [
 
     , trace( [ `Bank account Number1` , supplier_bank_iban ] ) ]
    
-  , q(0,1,line)
-	
-
-   ,  [generic_horizontal_details( [ [ `Commerzbank`, `AG`, tab, `COBADEFFXXX`, tab, `IBAN`, `:` ], supplier_bank_iban_raw2, s1, newline ] )
-
-      , check( supplier_bank_iban_raw2 = BankRaw5 )
-
-    , trace( [ `Bank number raw5` , BankRaw5 ] )
-
-    , check(string_string_replace( BankRaw5, ` `, ``, BankStrip5 ))
-
-    , trace( [ `Bank Stripped Space5` , BankStrip5] )
-
-    , supplier_bank_iban_2(BankStrip5)
-
-     , trace( [ `Bank account Number5` , supplier_bank_iban_2 ] ) ]
-
-   
-   , q(0,1,line)
-	
-
-   ,  [generic_horizontal_details( [ [ `Sparkasse`, tab, `WELADED1SIE`, tab, `IBAN`, `:`], supplier_bank_iban_raw3, s1, newline  ] )
-
-         , check( supplier_bank_iban_raw3 = BankRaw8 )
-
-    , trace( [ `Bank number raw8` , BankRaw8 ] )
-
-    , check(string_string_replace( BankRaw8, ` `, ``, BankStrip8 ))
-
-    , trace( [ `Bank Stripped Space8` , BankStrip8] )
-
-    , supplier_bank_iban_3(BankStrip8)
-
-    , trace( [ `Bank account Number8` , supplier_bank_iban_3 ] )  ]
-
-   , q(0,1,line)
-	
-
-   ,  [generic_horizontal_details( [ [ `HypoVereinsbank`, tab, `HYVEDEMM429`, tab, `IBAN`, `:`], supplier_bank_iban_raw4, s1, newline  ] )
-  
-        , check( supplier_bank_iban_raw4 = BankRaw )
-
-    , trace( [ `Bank number raw` , BankRaw ] )
-
-    , check(string_string_replace( BankRaw, ` `, ``, BankStrip ))
-
-    , trace( [ `Bank Stripped Space` , BankStrip] )
-
-    , supplier_bank_iban_4(BankStrip)
-
-    , trace( [ `Bank account Number` , supplier_bank_iban_4 ] )  ]
-
-
   ] ).  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,6 +221,8 @@ q(0,25,line)
    ,  or([
         
         generic_vertical_details( [ [  `Rechnung`], `Rechnung`, q(0,1), (start,50,100), invoice_number, s1, newline ] )
+
+        , generic_horizontal_details( [ [ `Rechnung`, `Nr`, `.`, tab], invoice_number, s1, newline ] )
 
         ])
 ] ).
@@ -336,11 +285,28 @@ i_rule( get_order_number, [
     , or([
       
       generic_horizontal_details( [ [`Ihre`, `Referenz`, `:`, tab ], order_number, d, newline ] )
+ , find_order_number
 
-        ])
+   ])
+
 
 ] ).
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
 
+    q0n(anything)
+
+    , or([
+        
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -360,7 +326,7 @@ i_rule( get_net_amount, [
 
     , set(regexp_cross_word_boundaries)
 
-    ,  generic_horizontal_details( [ [ `Gesamt`, `(`, `exkl`, `.`, `MwSt`, `.`, `)`, `:`, tab ], total_net, d, newline ] )
+    ,  generic_horizontal_details( [ [  `Nettobetrag`, tab ], total_net, d, [`EUR`,  newline] ] )
 
     , clear(reverse_punctuation_in_numbers)
 
@@ -390,10 +356,10 @@ qn0(line)
 
          [set(reverse_punctuation_in_numbers)
 
-    , set(regexp_cross_word_boundaries)
+        , set(regexp_cross_word_boundaries)
 
 
-      ,  generic_horizontal_details( [ [ `MwSt`, `.`, `gesamt`, tab  ], total_vat, d, newline ] )
+      ,  generic_horizontal_details( [ [ `MwSt`, `.` ,tab  ], total_vat, d, [`EUR`,  newline] ] )
 
     , generic_item( [ default_vat_rate, `19` ] )
     
@@ -424,7 +390,7 @@ i_rule( get_total_invoice, [
 
     , set(regexp_cross_word_boundaries)
 
-     ,  generic_horizontal_details( [ [`Gesamt`, `(`, `inkl`, `.`, `MwSt`, `.`, `)`, `:`, tab ], total_invoice, d, newline ] )
+     ,  generic_horizontal_details( [ [ `Bruttobetrag`, tab ], total_invoice, d, [`EUR`,  newline] ] )
 
     , clear(reverse_punctuation_in_numbers)
 
@@ -469,8 +435,9 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
+          line_invoice_line_2
             		
-			[line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line) , q10(line_append_line)  ]
+			, [line_invoice_line, q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line), q10(line_append_line) , q10(line_append_line)  ]
 
 			, line
 
@@ -490,6 +457,8 @@ i_line_rule_cut( line_start_line,[
 	or([
 
         [`Pos`, `.`, tab, `Nr`, `.`, `/`, `Beschreibung`]
+
+        , [`Re`, `-`, `Pos`, `.`, `01`, `:`, tab]
 
       ])
 
@@ -554,11 +523,35 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
+
+
 %=======================================================================
-i_line_rule_cut( line_descr_line, [
+i_line_rule_cut( line_invoice_line_2, [
 %=======================================================================
 
-     generic_item([ line_descr,s1 ,newline ])
+
+   set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+    
+    ,  `Menge`, `:`, tab
+
+     , generic_item([ line_quantity_dummy, d ])
+
+      , generic_item([ line_quantity_uom_code, w ,tab ])
+      
+       , `P`, `r`, `e`, `i`, `s`, `:`, tab,
+       
+        generic_item([ line_unit_amount, d ,[ `EUR`, `/`, a(w) ] ])
+        
+         ,tab, `Betrag`, `:`, tab
+        
+        , generic_item([ line_net_amount , d , [`EUR`,  newline] ] )
+
+        , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
         
 ] ).
 
