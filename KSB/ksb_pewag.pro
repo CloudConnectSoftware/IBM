@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_pewag, `13 February 2018` ).
+i_version( ksb_pewag, `6 Aug 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -573,9 +573,9 @@ i_line_rule_cut( line_invoice_line2, [
 % Updated by   - Rohini
 % Changes made   - Line level format
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - Aug 6,2018
+% Updated by   - THejaswi
+% Changes made   - Line level capture
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
