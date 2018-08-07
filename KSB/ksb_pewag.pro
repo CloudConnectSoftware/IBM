@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_pewag, `13 February 2018` ).
+i_version( ksb_pewag, `6 Aug 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -362,7 +362,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-           [line_invoice_line, q(0, 2,line_append_line1), line_invoice_line2, trace( [ `1`] )]
+           [line_invoice_line, q(0, 4,line_append_line1), line_invoice_line2, trace( [ `1`] )]
 		
            , [q10(line_item_line),line_invoice_line, line_invoice_line1, trace( [ `2`] )]
 
@@ -402,6 +402,8 @@ i_line_rule_cut( line_end_line,[
 	  or([
 		 
          [`Summe`, `netto`]
+
+         , `DVR`
 
          , [`POS`, `.`, tab, `BESTELL`, `-`, tab, `EH`, tab, `LIEFER`, `-`, tab ]
 
@@ -571,9 +573,9 @@ i_line_rule_cut( line_invoice_line2, [
 % Updated by   - Rohini
 % Changes made   - Line level format
 
-% Updated on   - 
-% Updated by   - 
-% Changes made   - 
+% Updated on   - Aug 6,2018
+% Updated by   - THejaswi
+% Changes made   - Line level capture
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
