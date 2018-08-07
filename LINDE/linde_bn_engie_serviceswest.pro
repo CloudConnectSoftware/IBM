@@ -322,8 +322,13 @@ i_rule(get_total_vat, [
     
     , set(reverse_punctuation_in_numbers) ,set(regexp_cross_word_boundaries)
 
-    , generic_horizontal_details( [ [ `VAT`, tab, generic_item( [ default_vat_rate,d ] ), `,`, dummy_1(d), `%`, `on`,dummy_2(d), `.`, dummy_4(d), `,`,dummy(d), tab], total_vat, d, newline ] )
+    , or([
 
+     generic_horizontal_details( [ [ `VAT`, tab, generic_item( [ default_vat_rate,d ] ), `,`, dummy_1(d), `%`, `on`,dummy_2(d), `.`, dummy_4(d), `,`,dummy(d), tab], total_vat, d, newline ] )
+
+  , generic_horizontal_details( [ [ `VAT`, tab, generic_item( [ default_vat_rate, d ] ), `,`, `00`, `%`, `on`, dummy_num(d), tab ], total_vat, d, newline ] )
+
+ ] )
     , clear(reverse_punctuation_in_numbers) ,clear(regexp_cross_word_boundaries)
 
 ] ).
@@ -436,9 +441,9 @@ i_line_rule_cut( line_invoice_line_append, [
 % Mapped on - June 14, 2018
 % Mapped by - Roopesh 
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   -  Aug 7,2018
+% Updated by   - Rohini
+% Changes made - Total VAT
 
 % Updated on   - 
 % Updated by   -
