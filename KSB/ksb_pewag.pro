@@ -362,7 +362,7 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-           [line_invoice_line, q(0, 2,line_append_line1), line_invoice_line2, trace( [ `1`] )]
+           [line_invoice_line, q(0, 4,line_append_line1), line_invoice_line2, trace( [ `1`] )]
 		
            , [q10(line_item_line),line_invoice_line, line_invoice_line1, trace( [ `2`] )]
 
@@ -402,6 +402,8 @@ i_line_rule_cut( line_end_line,[
 	  or([
 		 
          [`Summe`, `netto`]
+
+         , `DVR`
 
          , [`POS`, `.`, tab, `BESTELL`, `-`, tab, `EH`, tab, `LIEFER`, `-`, tab ]
 
