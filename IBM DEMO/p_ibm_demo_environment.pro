@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_demo_environment, `17/12/2017 22:53:51` ).
+i_version( p_ibm_demo_environment, `08/08/2018 14:43:59` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -148,6 +148,42 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( Net, VAT, X ),
 		sys_calculate_str_add( X, Sub_3, Total ),
 		assertz_derived_data( invoice, total_invoice, Total, i_analyse_total_invoice )
+
+	),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% INVOICE TYPE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_invoice_type___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_type___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	sys_retractall( result( _, invoice, invoice_type, _ ) ),
+
+	(
+		grammar_set( credit_note ),
+
+		assertz_derived_data( invoice, invoice_type, `CN`, i_analyse_invoice_type )
+
+		;
+
+		result( _, invoice, order_number, _ ),
+
+		assertz_derived_data( invoice, invoice_type, `PO`, i_analyse_invoice_type )
+
+		;
+
+		assertz_derived_data( invoice, invoice_type, `NP`, i_analyse_invoice_type )
 
 	),
 
