@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( u_supporting_document_new, `14:54 13 December 2016` ).
+i_version( u_supporting_document_new, `08/08/2018 11:00:06` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -119,6 +119,10 @@ i_analyse_attachment_delay___
 		sys_assertz( grammar_set( ignore_enquire ) ),
 		assertz_derived_data( invoice, force_sub_result, `i_analyse_supporting_document`, i_analyse_supporting_document ),
 		assertz_derived_data( invoice, force_result, `defect`, i_forced_defect )
+
+		;
+
+		set_imail_data( `non_supporting_document`, `true` )
 		
 	),
 	
