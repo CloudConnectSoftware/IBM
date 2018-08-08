@@ -129,6 +129,8 @@ i_line_rule( invoice_number_line, [
 
 	[`INVOICE` , `NO`	, tab]
 
+	, [`INVOICE` , `Number`, `:`	, tab]
+
 	, [`I`, `N`, `V`, `OI`, `CE`, `N`, `O`, tab]
 
 	])
@@ -181,7 +183,7 @@ i_line_rule( invoice_date_line, [
 
 	q0n(anything)
 
-	,or([ [ `DATE` , tab ]
+	,or([ [ `Invoice`,`DATE`, q10(`:`) , tab ]
 
 	, [`DA`, `T`, `E`, tab]
 

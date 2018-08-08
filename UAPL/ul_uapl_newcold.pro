@@ -139,7 +139,9 @@ i_rule( get_invoice_number, [
 
     ,or([
       
-      generic_horizontal_details( [ [`Invoice`, `Number`, `:`, tab ], invoice_number,s1, newline ] )
+      [ generic_horizontal_details( [ [`Credit`,`Memo`, `Number`, `:`, tab ], invoice_number,s1, newline ] ), set(credit_note) ]
+
+      , generic_horizontal_details( [ [`Invoice`, `Number`, `:`, tab ], invoice_number,s1, newline ] )
 
 
        ])
@@ -160,7 +162,7 @@ i_rule( get_invoice_date, [
 
      ,or([
       
-     generic_horizontal_details( [ [`Invoice`, `Date`, `:`, tab ], invoice_date, date, newline ] )
+     generic_horizontal_details( [ [q10(`Invoice`), `Date`, `:`, tab ], invoice_date, date, newline ] )
 
      , generic_vertical_details( [ [ `Invoice`, `Date`, `:` ], `Date`, q(0,1), (end,100,100), invoice_date, date, tab ] )
 
@@ -256,8 +258,10 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-        line_invoice_line
-
+              line_invoice_credit_line
+        
+               , line_invoice_line
+        
         , line_invoice_line1
 
               , line
@@ -277,7 +281,7 @@ or([
   
   [`Description`, tab, `Unit`, `of`, `Measure`]
 
-  , [`Description`, tab, `Units`, tab, `Unit`]
+  , [`Description`, tab, `Units`]
 
 ])
 
@@ -313,6 +317,23 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_credit_line, [
+%=======================================================================
+
+   generic_item( [ line_descr, s1, tab ] )
+   
+  , generic_item( [ line_quantity_uom_code, s1, tab ] )
+
+  , q10(generic_item( [ line_quantity, d, tab ] ))
+
+  , q10(generic_item( [ line_unit_amount, d, [ tab, `-`] ] ))
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line1, [
@@ -324,7 +345,7 @@ i_line_rule_cut( line_invoice_line1, [
 
   , generic_item( [ line_quantity_dummy, s1, tab ] )
 
-  , generic_item( [ line_unit_dummy, s1, tab ] )
+  , generic_item( [ line_unit_dummy, s1, [ tab, `-`] ] )
 
   , generic_item( [ line_net_amount, d, newline ] )
 
