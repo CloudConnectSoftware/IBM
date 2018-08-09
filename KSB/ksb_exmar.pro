@@ -108,7 +108,20 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [buyer_party ,  s1 , tab  ] )
+     , generic_item( [buyer_party_raw ,  s1 , tab  ] )
+   
+     , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
    
 ] ).
 
@@ -116,7 +129,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line2, [
 %=======================================================================
 
-      `67227`
+      or([ `67227`, `67206` ])
 
       ,generic_item( [ buyer_city , s1 , tab ] )
 
@@ -350,8 +363,6 @@ i_rule( get_freight, [
 
        , line_descr(`Anteil Fracht`)
 	
-	
-
 ]).
 
 
