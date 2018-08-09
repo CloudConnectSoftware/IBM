@@ -49,8 +49,6 @@ i_rule_list( [
 %=======================================================================
 i_rule( get_supplier_details, [
 %=======================================================================
-
-   
 	 
 	 sender_name( `LEOCATAS TRANSPORT ` )
     
@@ -129,7 +127,7 @@ i_line_rule( invoice_number_line, [
 
 	[`INVOICE` , `NO`	, tab]
 
-	, [`INVOICE` , `Number`, `:`	, tab]
+	, [`INVOICE` , `Number`, `:`	, q10(tab) ]
 
 	, [`I`, `N`, `V`, `OI`, `CE`, `N`, `O`, tab]
 
@@ -157,9 +155,28 @@ i_rule( get_order_number, [
 
 	 , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `NO`, `.` ], order_number, w , newline ] )
 
-	 ])
+	 , find_order_number
+
+   ])
+
 
 ] ).
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,6 +204,8 @@ i_line_rule( invoice_date_line, [
 
 	, [`DA`, `T`, `E`, tab]
 
+	, [`Invoice`, `Date`, `:`]
+	
 	])
 
 	, generic_item( [ invoice_date , date , newline ] )
@@ -219,6 +238,8 @@ i_line_rule( total_net_line, [
 
 	, [`SUBTOTAL` 	, 	tab]
 
+	, [`Sub`, `Total`, `(`, `ex`, `GST`, `)`, `:`, `$`]
+
 	, generic_item( [ total_net , d , newline ] )
 
   ] ).
@@ -246,7 +267,15 @@ i_rule( get_total_vat, [
 i_line_rule( total_vat_line, [
 %=======================================================================
 
-	q0n(anything) , `GST` , `AMOUNT` , 	tab
+	q0n(anything) , 
+	
+	or([
+		
+		[`GST` , `AMOUNT` , 	tab]
+
+		, [`GST`, `:`, `$`]
+
+	])
 
 	, generic_item( [ total_vat , d , newline ] )
 
@@ -286,7 +315,7 @@ i_line_rule( total_invoice_line, [
 
 	 [ `A`, `/`, `C`, `No`, `:`, `2909`, `-`, `25975`, tab, `03`, `)`, `5824`, `2135`, tab, `TOTAL`, tab, `$`]
 
-	 
+	 , [`Total`, `(`, `inc`, `GST`, `)`, `:`, `$`]
 
 	])
 
@@ -319,7 +348,9 @@ i_section( get_invoice_lines, [
 			
 			, line_desr_line
 
-			,line_surcharge
+			, line_net_line_2
+
+			%,line_surcharge
 
 			, line
 
@@ -339,6 +370,8 @@ i_line_rule( line_start_line, [
 
 	, [`DA`, `T`, `E`, tab, `Y`, `OU`, `R`, `REF`, `.`]
 
+	, [`Description`, tab, `Units`, `Unit`, `Price`]
+
 	])
 
     , trace([`found the start line`])
@@ -357,6 +390,8 @@ i_line_rule( line_end_line, [
 
 		 , [`SUB`, `TOTA`, `L`]
 
+		 , [`Bank`, `Details`, `:`, `ANZ`]
+
 	 ])
 
      , trace([`found the end line`])
@@ -366,7 +401,7 @@ i_line_rule( line_end_line, [
 
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
 	generic_item( [ line_date, date, tab ] )
@@ -389,21 +424,36 @@ i_line_rule( line_invoice_line, [
     
 ] ).
 
+
 %=======================================================================
-i_line_rule( line_surcharge, [
+i_line_rule_cut( line_surcharge, [
 %=======================================================================
-	
 	
 	 generic_item( [ line_descr, s1, tab ] )
 
-	, generic_item( [ line_vat_rate, d, [`%`, tab ] ]  )
+	, generic_item( [ line_vat_rate, d, tab ]  )
 
 	, generic_item( [ line_vat_amount, d, tab ] )
 
 	, generic_item( [ line_net_amount, d, newline ] )
-
-    
+   
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_net_line_2, [
+%=======================================================================
+	
+	 generic_item( [ line_descr, s1, tab ] )
+
+	, generic_item( [ line_quantity, d, tab ]  )
+
+	, generic_item( [ line_unit_amount, d, tab ] )
+
+	, generic_item( [ line_net_amount, d, newline ] )
+   
+] ).
+
 
 %=======================================================================
 i_line_rule( line_dummy_line, [
