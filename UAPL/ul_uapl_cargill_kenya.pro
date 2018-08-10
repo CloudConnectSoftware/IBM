@@ -207,6 +207,8 @@ i_section( get_invoice_lines, [
 
             %, line_invoice_line4
 
+            , line_invoice_line_new
+
             ,line_invoice_line_po
 
             , line_invoice_line3
@@ -227,7 +229,7 @@ i_line_rule_cut( line_header_line, [
     or( [
 
     
-    [`Garden`, `Mark`, tab, `Grade` ]
+    [`Garden`, `Mark` ]
 
     ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
@@ -330,6 +332,24 @@ i_line_rule_cut( line_invoice_line_po, [
      ,generic_append( [ line_descr, s1, tab, ` - `, ``  ] )
 
      , generic_item( [ line_amount_dummy, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+
+]).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_new, [
+%=======================================================================
+
+      generic_item( [ line_descr, s1, tab ] )
+
+     ,generic_item( [ line_descr, s1, tab ] )
+    
+     ,generic_append( [ line_descr, s1, tab, ` - `, ``  ] )
+
+     , generic_item( [ line_amount_dummy, d, tab ] )
+
+     , generic_item( [ line_unit_amount, d, tab ] )
 
      , generic_item( [ line_net_amount, d, newline ] )
 
