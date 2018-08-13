@@ -200,7 +200,7 @@ i_line_rule( invoice_date_line, [
 
 	q0n(anything)
 
-	,or([ [ `Invoice`,`DATE`, q10(`:`) , tab ]
+	,or([ [ q10(`Invoice`),`DATE`, q10(`:`) , tab ]
 
 	, [`DA`, `T`, `E`, tab]
 
