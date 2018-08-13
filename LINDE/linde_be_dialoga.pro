@@ -249,7 +249,7 @@ i_rule(get_total_net, [
 
    , set(regexp_cross_word_boundaries)
 
-   , generic_horizontal_details( [ [  `Total`, `:`, tab, `0`, `.`, `0000`, tab, dummy_num(d), tab, dummy_num1(d), tab  ], total_net, d, newline ] )
+   , generic_horizontal_details( [ [  `TOTAL`, `Amount`, `Due`, `:`, tab, `EUR` ], total_net, d, [`00`,  newline] ] )
   
    , check( total_net = TotNet)
 
@@ -310,7 +310,7 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 
-      [`Number`, tab, `Set`, `up`, `(`, `EUR`, `)`, `Usage`, `Charge` ]
+      [`Number`, tab, `Set`, `up`, `(`, `EUR`, `)` ]
 
      , trace( [ `Found Start line` ] )
 
@@ -343,11 +343,11 @@ i_line_rule_cut( line_invoice_line, [
       
    , generic_item( [ line_amount_dummy, d , q10(tab) ] )
 
-   , generic_item( [ line_amount_dummy1, d , tab ] )
+   , generic_item( [ line_net_amount, d ,[`0000`,  tab]  ] )
    
-   , generic_item( [ line_amount_dummy2, d , tab ] )
+   , generic_item( [ line_amount_dummy2, d , [`0000`,  tab] ] )
    
-   , generic_item( [ line_net_amount, d , newline ] )
+   , generic_item( [ line_net_amount_dummy, d , newline ] )
      
    , clear(regexp_cross_word_boundaries)
  
