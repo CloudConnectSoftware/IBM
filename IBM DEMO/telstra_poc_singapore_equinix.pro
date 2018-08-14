@@ -58,9 +58,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `PricewaterhouseCoopers LLP` )
+    sender_name( `Equinix Singapore Pte Ltd` )
 
-   , supplier_party( `PricewaterhouseCoopers LLP` )
+   , supplier_party( `Equinix Singapore Pte Ltd` )
 
    , supplier_vat_number(`134008324`)
     
