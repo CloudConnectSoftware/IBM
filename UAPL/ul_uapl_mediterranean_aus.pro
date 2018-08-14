@@ -136,6 +136,8 @@ i_rule_cut( get_invoice_number, [
 
 	q(0,500,line)
 
+	, check_text(`Invoice`)
+
 	, or([
 		generic_horizontal_details( [ [ `Invoice` , `Number` , `:`, q10(tab) ],  invoice_number, w , newline ] )
 
@@ -157,6 +159,8 @@ i_rule_cut( get_invoice_date, [
 %=======================================================================
 
 	q(0,500,line)
+
+	, check_text(`Invoice`)
 
 	,or([
 		 generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ], 100 , invoice_date , date , newline ] )
