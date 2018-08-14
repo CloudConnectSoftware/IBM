@@ -85,9 +85,9 @@ q0n(anything)
 
 ,or([
 
-     `tax`, `Invoice`, `-`, `Credit`,  newline
+    [ `tax`, `Invoice`, `-`, `Credit`,  newline]
 
-	 , `INVOICE`, `-`, `CREDIT`,  newline
+	 ,[ `INVOICE`, `-`, `CREDIT`,  newline]
 
 ])
 
@@ -244,15 +244,8 @@ i_rule_cut( get_invoice_totals, [
 		]
 
 
-		, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
-
-		, check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net] )]
+		, generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+]
 
 		])
 
