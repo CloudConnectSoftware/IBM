@@ -166,7 +166,7 @@ i_rule_cut( get_invoice_date, [
     
           generic_horizontal_details( [ [ `Date`, tab, q10( `:`) ] , invoice_date_raw, s1 , newline ] )
 
-          , generic_vertical_details( [ [ `Invoice`, `date`], `No`, q(0,3), (end,10,10), invoice_date, date, tab ] )
+          , generic_vertical_details( [ [ `Invoice`, `date`], `date`, q(0,3), (end,10,10), invoice_date_raw, date, tab ] )
 
         , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `Box`, `:`, tab, `1`, tab, `:` ], invoice_date_raw, s1 , newline ] )
 
@@ -265,6 +265,9 @@ i_rule( get_total_invoice, [
          ,[ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
 
          ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
+         
+         ,[ peek_fails(test(exportinv_found)),  generic_vertical_details( [ [  `TOTAL`, `(`, `SGD`, `)`,  newline ], `TOTAL`, q(0,3), (end,30,30), total_invoice, d, newline ] )  ]
+		
      
      ])
 
