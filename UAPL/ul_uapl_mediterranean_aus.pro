@@ -85,9 +85,9 @@ q0n(anything)
 
 ,or([
 
-     `tax`, `Invoice`, `-`, `Credit`,  newline
+    [ `tax`, `Invoice`, `-`, `Credit`,  newline]
 
-	 , `INVOICE`, `-`, `CREDIT`,  newline
+	 ,[ `INVOICE`, `-`, `CREDIT`,  newline]
 
 ])
 
@@ -134,7 +134,9 @@ q(0,250,line)
 i_rule_cut( get_invoice_number, [
 %=======================================================================
 
-	q(0,30,line)
+	q(0,500,line)
+
+	, check_text(`Invoice`)
 
 	, or([
 		generic_horizontal_details( [ [ `Invoice` , `Number` , `:`, q10(tab) ],  invoice_number, w , newline ] )
@@ -156,7 +158,9 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-	q(0,30,line)
+	q(0,500,line)
+
+	, check_text(`Invoice`)
 
 	,or([
 		 generic_horizontal_details( [ [ `Invoice` , `Date` , `:` ], 100 , invoice_date , date , newline ] )
@@ -244,15 +248,8 @@ i_rule_cut( get_invoice_totals, [
 		]
 
 
-		, [generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
+		, generic_horizontal_details( [ [ `Total` , `Payable` , q10(tab), generic_item( [ currency , w ] ) ], 100 , total_invoice, d , newline ] )
 
-		, check( total_invoice = TotInv )
-
-        , trace( [ `Total Inv` , TotInv] )
-
-        , total_net(TotInv)
-
-        , trace( [ `Total net` , total_net] )]
 
 		])
 
