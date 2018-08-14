@@ -32,6 +32,8 @@ i_rule_list( [
 
     , get_due_date
 
+    , get_payment_terms
+
     , get_order_number
     
     , get_total_net
@@ -136,9 +138,29 @@ i_rule( get_due_date, [
 
    q(0,15,line)
 
-   , generic_horizontal_details( [ [ `PAYMENT`, `DUE`, `Date`  ], due_date, date, newline ] )
+   , generic_horizontal_details( [ [ `Payment`, `Due`, `Date`, tab], due_date, date, newline ] )
 
 ]).
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PAYMENT TERMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_payment_terms, [
+%=======================================================================
+
+    q(0,80,line)
+
+    , or([
+    
+    generic_horizontal_details( [ [ `Payment`, `Terms`, tab, `Net`], payment_terms, d, newline ] )
+
+    ])
+  
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
