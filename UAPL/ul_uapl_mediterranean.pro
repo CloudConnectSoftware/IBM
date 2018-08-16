@@ -138,6 +138,8 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
+    , or([ check_text(`Invoice`) , check_text(`Document`) ])
+
     , or([
         generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab,  `:` ] , 100 , invoice_number, w , newline ] )
    
@@ -161,6 +163,8 @@ i_rule_cut( get_invoice_date, [
 %=======================================================================
 
     q0n(line)
+
+    , ,or([ check_text(`Invoice`), check_text(`Date`), check_text(`Unilever`)])
 
     , or( [ 
     
@@ -247,6 +251,8 @@ i_rule( get_total_invoice, [
 
      q(0,50,line)
 
+     ,or([ check_text(`Amount`), check_text(`Total`)])
+  
     ,or( [
                          
 
