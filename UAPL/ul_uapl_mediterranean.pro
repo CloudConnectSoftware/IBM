@@ -138,10 +138,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
+    , or([ check_text(`Invoice`) , check_text(`Document`) ])
+
     , or([
         generic_horizontal_details( [ [ `INVOICE`, `NO`, `.`, tab,  `:` ] , 100 , invoice_number, w , newline ] )
    
     , generic_horizontal_details( [ [ `Document`, `Number`,  q10(tab),  `:` , q10(tab) ] , invoice_number, w , newline ] )
+
+    , generic_vertical_details( [ [ `Invoice`, `No`], `No`, q(0,3), (end,10,10), invoice_number, w, tab ] )
 
     ])
 	
@@ -160,9 +164,13 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
+    , ,or([ check_text(`Invoice`), check_text(`Date`), check_text(`Unilever`)])
+
     , or( [ 
     
           generic_horizontal_details( [ [ `Date`, tab, q10( `:`) ] , invoice_date_raw, s1 , newline ] )
+
+          , generic_vertical_details( [ [ `Invoice`, `date`], `date`, q(0,3), (end,10,10), invoice_date_raw, date, tab ] )
 
         , generic_horizontal_details( [ [ `P`, `.`, `O`, `.`, `Box`, `:`, tab, `1`, tab, `:` ], invoice_date_raw, s1 , newline ] )
 
@@ -243,6 +251,8 @@ i_rule( get_total_invoice, [
 
      q(0,50,line)
 
+     ,or([ check_text(`Amount`), check_text(`Total`)])
+  
     ,or( [
                          
 
@@ -261,6 +271,9 @@ i_rule( get_total_invoice, [
          ,[ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
 
          ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
+         
+         ,[ peek_fails(test(exportinv_found)),  generic_vertical_details( [ [  `TOTAL`, `(`, `SGD`, `)`,  newline ], `TOTAL`, q(0,3), (end,30,30), total_invoice, d, newline ] )  ]
+		
      
      ])
 
