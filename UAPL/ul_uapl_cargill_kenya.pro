@@ -377,14 +377,14 @@ i_rule( get_total_invoice, [
     
       q(0,500,line)
 
-    ,    check_text(`Bank`)
+    ,    check_text(`Please`)
    
     , or([
 
    
       %  generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
 
-     generic_vertical_details( [ [ `Bank`, `Account` ], `Account`, q(0,2,up), (start,0,800), total_invoice, d,newline ] )
+     generic_vertical_details( [ [ `Please`, `remit`, `to`, `below`, `bank`, `acccount` ], `acccount`, q(0,2,up), (start,0,1000), total_invoice, d,newline ] )
 
     
       
