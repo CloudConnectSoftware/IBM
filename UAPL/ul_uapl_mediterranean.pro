@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_mediterranean, `25/10/2016` ).
+i_version( ul_uapl_mediterranean, `17/08/2018 11:51:47` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -164,7 +164,7 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-    , ,or([ check_text(`Invoice`), check_text(`Date`), check_text(`Unilever`)])
+    ,or([ check_text(`Invoice`), check_text(`Date`), check_text(`Unilever`)])
 
     , or( [ 
     
