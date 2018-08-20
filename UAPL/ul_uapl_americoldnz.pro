@@ -458,7 +458,7 @@ i_line_rule_cut( line_credit_note_new, [
 
 	, generic_item( [ line_dummy4 , w , tab ])            
 
-	, generic_item( [ line_unit_amount , n , tab ])
+	, generic_item( [ line_unit_amount_dummy , n , tab ])
 
 	, generic_item( [ line_quantity_dummy , n ,  [ tab ,`-` , q10(tab) ]  ] )
 
