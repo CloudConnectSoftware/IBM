@@ -412,7 +412,7 @@ i_line_rule_cut( line_invoice_line, [
 	
 	, generic_item( [ line_descr, s1, tab ] )
 
-	, generic_item( [ line_quantity, d, tab ] )
+	, generic_item( [ line_quantity_dummy, d, tab ] )
 
 	, generic_item( [ line_vat_rate_dummy, d, tab ] )
 
@@ -446,7 +446,7 @@ i_line_rule_cut( line_net_line_2, [
 	
 	 generic_item( [ line_descr, s1, tab ] )
 
-	, generic_item( [ line_quantity, d, tab ]  )
+	, generic_item( [ line_quantity_dummy, d, tab ]  )
 
 	, generic_item( [ line_unit_amount, d, tab ] )
 
@@ -478,3 +478,22 @@ i_line_rule_cut( line_desr_line, [
 
 ] ).
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - Aug 20, 2018
+% Updated by   - Rohini
+% Changes made - line details
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
