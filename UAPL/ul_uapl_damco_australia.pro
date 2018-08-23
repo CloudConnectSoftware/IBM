@@ -278,7 +278,7 @@ i_rule( get_total_vat, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     q(0,100,line)
+     q(0,500,line)
 
     , or([ check_text(`SUBTOTAL`) , check_text(`Net`) , check_text(`Amount`) ])
 
