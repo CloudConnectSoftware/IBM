@@ -375,18 +375,18 @@ i_line_rule_cut( line_invoice_line4, [
 i_rule( get_total_invoice, [
 %=======================================================================
     
-      q(0,500,line)
-
-    ,    check_text(`Please`)
+     last_line
+     
+    , q(0,500,up)
    
     , or([
 
    
-      %  generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
+      generic_vertical_details( [ [ `Cargill`, `Kenya`, `Ltd` ], `Ltd`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
 
-     generic_vertical_details( [ [ `Please`, `remit`, `to`, `below`, `bank`, `acccount` ], `acccount`, q(0,2,up), (start,0,1000), total_invoice, d,newline ] )
+    , generic_vertical_details( [ [ `Please`, `remit`, `to`, `below`, `bank`, `acccount` ], `acccount`, q(0,2,up), (start,0,1000), total_invoice, d,newline ] )
 
-    
+    , generic_vertical_details( [ [ `P`, `.`, `O`, `.`, `Box` ], `Box`, q(0,1,up), (start,0,1000), total_invoice, d,newline ] )
       
    % ,generic_vertical_details( [ [ `Cargill`, `Kenya`, `Limited` ], `Limited`, q(0,2,up), (end,750,800), total_invoice, d,newline ] )
     
@@ -422,10 +422,14 @@ i_rule( get_total_invoice, [
 % Changes made - added line for capture invoice total
 
 
+% Updated on   - Aug 21, 2018
+% Updated by   - Rohini
+% Changes made - Total amount
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
