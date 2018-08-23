@@ -196,6 +196,8 @@ i_rule( get_order_number, [
       
       generic_horizontal_details( [ [ `Ihre`, `Bestellung`, `:`, tab ], order_number, d,  `vom` ] )
 
+     ,generic_horizontal_details( [ [ `Ihre`, `Bestellung`, `:`, tab ], order_number, d ] ) 
+
         ])
 
 ] ).
