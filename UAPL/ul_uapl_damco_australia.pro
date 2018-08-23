@@ -104,9 +104,9 @@ i_line_rule( invoice_or_credit_note_line, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-		q(10,100,line)
+		q(10,500,line)
 
-    ,or([ check_text(`Payment`), check_text(`Account`) ])
+       ,or([ check_text(`Payment`), check_text(`Account`) ])
 
 
      , with( invoice, currency, Currency )
@@ -136,7 +136,9 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
     
-    q(0,50,line)
+    q(0,500,line)
+
+    , check_text(`tax`)
 
        , or([
 
@@ -166,22 +168,23 @@ i_rule_cut( get_order_number, [
 
     , or([
 
-       generic_horizontal_details( [ [ `PO`,`#` ], 20, order_number, d, `,` ] )
+        find_order_number
 
-       , generic_horizontal_details( [ [ `PO`, `#` ], order_number, w, newline ] )
+   ])
 
-      , generic_horizontal_details( [ [ `O`, `/`, `REF`, tab, `:` ],  order_number, d, tab ] )
+] ).
 
-       ])
-    
-     , check(order_number = OrdNo)
 
-    , trace([`Order Number Capital Varaible` , OrdNo])
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
 
-    , line_buyers_order_number(OrdNo)
+    q0n(anything)
 
-    , trace( [ `THIS IS NOW THE LINE ORDER Number` , OrdNo ])
+    , or([
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
 
+    ])
 
 ]).
 
@@ -196,7 +199,9 @@ i_rule_cut( get_order_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-    q(0,50,line)
+    q(0,500,line)
+
+    ,  check_text(`Invoice`)
 
      , or([
 
@@ -249,7 +254,7 @@ i_rule_cut( get_due_date, [
 i_rule( get_total_vat, [
 %=======================================================================
   
-  q(0,100,line)
+  q(0,500,line)
 
    , or([ check_text(`STANDARD`) , check_text(`GST`)  ])
 
@@ -273,14 +278,16 @@ i_rule( get_total_vat, [
 i_rule( get_total_net, [
 %=======================================================================
 
-     q(0,100,line)
+     q(0,500,line)
 
-    , or([ check_text(`SUBTOTAL`) , check_text(`Net`)  ])
+    , or([ check_text(`SUBTOTAL`) , check_text(`Net`) , check_text(`Amount`) ])
 
     , or([
         generic_horizontal_details( [ [ `Net`, `Value` ], 800, total_net, d, newline ] )
 
         , generic_horizontal_details( [ [ `SUBTOTAL` ], 800, total_net, d, newline ] )
+
+        , generic_horizontal_details( [ [ `Amount`,`Due`,  tab ], total_invoice, d, newline ] )
 
     ])
 
@@ -297,7 +304,7 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-     q(0,100,line)
+     q(0,700,line)
 
      ,  or([ check_text(`AMOUNT`) , check_text(`TOTAL`)  ])
 
