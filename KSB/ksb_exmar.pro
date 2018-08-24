@@ -152,6 +152,8 @@ q(0,15,line)
         
        generic_horizontal_details( [ [`Rechnung`], invoice_number, d, tab ] )
 
+       , [ generic_horizontal_details( [ [`Gutschrift`], invoice_number, d, tab ] ), set(credit_note)]
+
         ])
 ] ).
 
@@ -194,13 +196,28 @@ i_rule( get_order_number, [
 
     , or([
       
-      generic_horizontal_details( [ [ `Ihre`, `Bestellung`, `:`, tab ], order_number, d,  `vom` ] )
+       find_order_number
 
-     ,generic_horizontal_details( [ [ `Ihre`, `Bestellung`, `:`, tab ], order_number, d ] ) 
+   ])
 
-        ])
 
 ] ).
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("1"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -423,7 +440,7 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			[line_invoice_line, q10(line_descr_line), q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_append_line1), q10(line_append_line),line_invoice_line1]
+			[line_invoice_line, q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
 
             , [q10(line_append_line),line_invoice_line1]
 
@@ -471,7 +488,7 @@ i_line_rule_cut( line_end_line,[
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 	
         set(regexp_cross_word_boundaries)
@@ -519,7 +536,7 @@ i_line_rule( line_append_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line1, [
+i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 	
         
