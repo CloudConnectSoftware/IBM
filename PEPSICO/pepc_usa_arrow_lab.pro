@@ -8,6 +8,8 @@ i_version( pepc_usa_arrow_lab, `July 26 , 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+i_date_format( _ ).
+
 i_date_format(`m/d/y` ).
 
 i_trace_lists.
@@ -58,7 +60,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `ARROW LAB SOLUTIONS INC` )
 
-   ,supplier_vat_number(`N/A`) 
+   ,supplier_vat_number(``) 
+
+   , currency(`USD`)
    
 ] ).
 
