@@ -62,6 +62,10 @@ i_rule( get_supplier_detail, [
 
     sender_name( `EPIC SIGNAL` )
 
+    ,supplier_vat_number(` `) 
+
+   , currency(`USD`)
+
     
 ] ).
 

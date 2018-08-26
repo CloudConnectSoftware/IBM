@@ -58,7 +58,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `GARDEN STATE SERVICE SOLUTIONS INC` )
 
-   ,supplier_vat_number(`N/A`) 
+   ,supplier_vat_number(` `) 
+   
+   , currency(`USD`)
    
 ] ).
 
