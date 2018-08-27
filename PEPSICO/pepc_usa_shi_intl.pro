@@ -229,7 +229,7 @@ i_line_rule( line_remit_line3, [
 
     , generic_item( [ remit_to_state, w  ] )
 
-    , generic_item( [ remit_to_postcode, s1 , newline  ] )
+    , generic_item( [ remit_to_postcode, s , tab  ] )
 
 ] ).
     
