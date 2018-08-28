@@ -63,6 +63,8 @@ i_rule( get_supplier_detail, [
    ,buyer_party(`FRITO LAY-PEPSIC`)
 
    ,supplier_vat_number(` `)
+
+   , currency(`USD`)
   
 
 ] ).
