@@ -509,7 +509,7 @@ i_rule( get_freight_line, [
 
     , generic_horizontal_details( [ [`Shipping`, `and`, `Handling`, tab], line_net_amount, d, newline ] )
 
-    , generic_item( [ line_descr, `Shipping` ] )
+    , generic_item( [ line_descr, `Shipping and Handling` ] )
 
 ]).
 
