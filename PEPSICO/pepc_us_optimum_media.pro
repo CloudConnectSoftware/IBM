@@ -396,9 +396,10 @@ i_rule( get_due_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-   q(0,25,line)
+   q(0,30,line)
 
-  ,generic_horizontal_details( [ [  `order`, `number` ],  order_number, w, newline ] )
+  ,   generic_vertical_details( [ [`PO`, `#`], `PO`, q(0,1), (end,50,50), order_number, d , newline ] )
+
 
 ] ).
 
