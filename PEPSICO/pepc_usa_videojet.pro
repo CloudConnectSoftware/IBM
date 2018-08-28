@@ -55,6 +55,8 @@ i_rule_list( [
 
     , get_invoice_lines
 
+    , get_freight_line
+
 ] ).
 
 
@@ -426,6 +428,16 @@ i_rule(get_total_invoice, [
   ,  generic_horizontal_details( [ [ `Invoice`, `Total`, `In`, `USD`, tab], total_invoice, d, newline ] )
 
 
+, q10([  % LINE VAT Rate Calculation
+
+       with( invoice , total_vat , VAT )  , trace( [ `vat tot`, VAT ] )
+
+    , with( invoice , total_invoice , TOT ) , trace( [ `total`, TOT ] ) 
+
+  , check(sys_calculate_str_subtract( TOT, VAT, SUB))  ,total_net(SUB) , trace( [ `Total net` , total_net ] )
+
+])
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -480,6 +492,26 @@ last_line
   ,  generic_horizontal_details( [ [ `Invoice`, `Total`, `In`], currency, w, tab ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET get Freight
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_freight_line, [
+%=======================================================================
+    
+    last_line
+
+    , q(0,50,up)
+
+    , generic_horizontal_details( [ [`Shipping`, `and`, `Handling`, tab], line_net_amount, d, newline ] )
+
+    , generic_item( [ line_descr, `Shipping and Handling` ] )
+
+]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
