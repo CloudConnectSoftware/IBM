@@ -251,7 +251,7 @@ i_rule( get_total_invoice, [
 
      q(0,50,line)
 
-     ,or([ check_text(`Amount`), check_text(`Total`)])
+     ,or([ check_text(`Amount`), check_text(`Total`), check_text(`Grand`) ])
   
     ,or( [
                          
@@ -270,9 +270,9 @@ i_rule( get_total_invoice, [
         ]
          ,[ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
 
-         ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
+         ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Grand` ,  `Total`, `:` ], 800, total_invoice, d , `USD`] )]
          
-         ,[ peek_fails(test(exportinv_found)),  generic_vertical_details( [ [  `TOTAL`, `(`, `SGD`, `)`,  newline ], `TOTAL`, q(0,3), (end,30,30), total_invoice, d, newline ] )  ]
+        % ,[ peek_fails(test(exportinv_found)),  generic_vertical_details( [ [  `TOTAL`, `(`, `SGD`, `)`,  newline ], `TOTAL`, q(0,3), (end,30,30), total_invoice, d, newline ] )  ]
 		
      
      ])
