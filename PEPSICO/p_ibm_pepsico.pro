@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_pepsico, `16/07/2018 12:20:19` ).
+i_version( p_ibm_pepsico, `29/08/2018 09:38:17` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1171,7 +1171,6 @@ i_analyse_reason_code___
 			required_data_item( Data_Item_Name, _, _, _, _, `Flag As Fail and Post`, _, _, _, Variable, Dependency ),
 			sys_call( Dependency ),
 			any_lines_present,
-			not( missed_data_items_condition ),
 			not( q_sys_sub_string( Variable, 1, _, `line_` ) ),
 			sys_string_atom( Variable, Var ),
 			not( result( _, invoice, Var, _ ) ),
@@ -1192,7 +1191,6 @@ i_analyse_reason_code___
 			required_data_item( Data_Item_Name, _, _, _, _, `Flag As Fail and Post`, _, _, _, Variable, Dependency ),
 			sys_call( Dependency ),
 			any_lines_present,
-			not( missed_data_items_condition ),
 			q_sys_sub_string( Variable, 1, _, `line_` ),
 			sys_string_atom( Variable, Var ),
 			sys_findall(
