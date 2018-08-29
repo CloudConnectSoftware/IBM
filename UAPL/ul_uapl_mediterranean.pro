@@ -33,7 +33,6 @@ i_rule_list( [
     , get_currency
 
     , get_total_invoice
-
    
     , get_credit_note
 
@@ -84,16 +83,16 @@ i_line_rule( invoice_or_credit_note_line, [
 i_rule( get_bank_account_no, [
 %=======================================================================
 
-	q0n(line)
+     with( invoice, currency, Currency )
 
-    , with( invoice, currency, Currency )
+    , trace( [ `currency is`, Currency ] )
 
-    ,trace( [ `currency is`, Currency ] )
+    , q0n(line) 
 
 	, or([
-        [check( Currency = `USD` ) , generic_horizontal_details( [ [ `Account`, `No`, `:`],  supplier_bank_raw, s, [`(`, `USD`, `)`, `/`] ] )]
+        [check( Currency = `USD` ) , generic_horizontal_details( [ [ `Account`, `No`,q10(tab), `:`,q10(tab)],  supplier_bank_raw, s, [`(`, `USD`, `)`, `/`] ] )]
 
-        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`, `:`, dummy_account(w), `(`, `USD`, `)`, `/` ],  supplier_bank_raw, w, [`(`, `SGD`, `)`,  newline ] ] )]
+        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [ `Account`, `NO`,q10(tab), `:`,q10(tab), dummy_account(w), `(`, `USD`, `)`, `/` ],  supplier_bank_raw, w, [`(`, `SGD`, `)`,  newline ] ] )]
        
     ])
 
