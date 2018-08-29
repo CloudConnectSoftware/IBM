@@ -30,10 +30,11 @@ i_rule_list( [
 
    , import_or_elsewhere_inv
 
-    , get_total_invoice
-
     , get_currency
 
+    , get_total_invoice
+
+   
     , get_credit_note
 
     ,get_bank_account_no
@@ -248,8 +249,12 @@ i_line_rule( import_or_elsewhere_inv_line, [
 %=======================================================================
 i_rule( get_total_invoice, [
 %=======================================================================
+    
+     with( invoice, currency, Currency )
 
-     q(0,50,line)
+    ,trace( [ `currency is`, Currency ] )
+
+    ,q(0,50,line)
 
      ,or([ check_text(`Amount`), check_text(`Total`), check_text(`Grand`) ])
   
@@ -268,11 +273,11 @@ i_rule( get_total_invoice, [
             ] )
 
         ]
-         ,[ peek_fails(test(importinv_found)),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
+         ,[ peek_fails(test(importinv_found)),check( Currency = `USD` ),  generic_horizontal_details( [ [ `Amount` , `Due` , `:` ], 800, total_invoice, d , or([ tab , newline ]) ] )]
 
-         ,[ peek_fails(test(exportinv_found)),  generic_horizontal_details( [ [ `Grand` ,  `Total`, `:` ], 800, total_invoice, d , `USD`] )]
+         ,[ peek_fails(test(exportinv_found)),check( Currency = `USD` ),  generic_horizontal_details( [ [ `Grand` ,  `Total`, `:` ], 800, total_invoice, d , `USD`] )]
          
-        % ,[ peek_fails(test(exportinv_found)),  generic_vertical_details( [ [  `TOTAL`, `(`, `SGD`, `)`,  newline ], `TOTAL`, q(0,3), (end,30,30), total_invoice, d, newline ] )  ]
+       % ,[ peek_fails(test(exportinv_found)) ,check( Currency = `SGD` ),  generic_vertical_details( [ [  `TOTAL`, `(`, `SGD`, `)`,  newline ], `TOTAL`, q(0,3), (end,30,30), total_invoice, d, newline ] )  ]
 		
      
      ])
@@ -314,12 +319,17 @@ i_rule_cut( get_currency, [
 
     , or([
         [[ `Total`, `In`, `Words`, `:`, tab, `SINGAPORE`, `DOLLAR`] , currency( `SGD` ), trace( [ `Currency is SGD` ] )]
+    
+    , [[ `Total`, `In`, `Words`, `:`, tab, `USD`] , currency( `USD` ), trace( [ `Currency is USD` ] )]
    
     ,  [ [`Total`, `In`, `Words`, `:`, tab, `USD`, `DOLLAR` ] , currency( `USD` ) ,trace( [ `Currency is USD` ] )]
 
     ,  [ [ `US`, `DOLLAR`, dummy_amount_words(s1) ] , currency( `USD` ) ,trace( [ `Currency is USD` ] )]
 
     ,  [ [ `Singapore`, `DOLLAR`, dummy_amount_words(s1) ] , currency( `SGD` ) ,trace( [ `Currency is SGD` ] )]
+
+    , [[ `Total`, `In`, `Words`, `:`, tab, `SGD`] , currency( `SGD` ), trace( [ `Currency is SGD` ] )]
+   
 
     ])
 
