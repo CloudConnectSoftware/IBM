@@ -226,23 +226,9 @@ q(0,100,line)
 i_rule( get_currency, [
 %=======================================================================
 
-q(0,50,line)
+    q(0,50,line)
 
-,invoice_currency
-
-] ).
-
-%=======================================================================
-i_line_rule( invoice_currency, [
-%=======================================================================
-
-q0n(anything)
-
-,[tab, `$`, tab ]
-
-,currency( `USD` ) 
-
-,trace( [ `currency found`] )
+    , generic_horizontal_details( [ [`Currency`, tab], currency, w, newline ] )
 
 ] ).
 
