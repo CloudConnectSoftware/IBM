@@ -40,21 +40,21 @@ i_rule_list( [
 
 ] ).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER DETAILS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-   sender_name( `Equinix Singapore Pte Ltd` )
+    sender_name( `Equinix Singapore Pte Ltd` )
 
-   , supplier_party( `Equinix Singapore Pte Ltd` )
+    , supplier_party( `Equinix Singapore Pte Ltd` )
 
-   , supplier_vat_number(`134008324`)
+    , supplier_vat_number(`134008324`)
     
  ] ).
 
@@ -68,25 +68,22 @@ i_rule( get_supplier_detail, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-  q(0,50,line)
+    q(0,50,line)
+    
+    , generic_horizontal_details( [ [`Account`, `#`, tab], remit_to_bank_account_number, d, newline ] )
 
+    , q(0,1,line)
 
-  , generic_horizontal_details( [ [`Account`, `#`, tab], remit_to_bank_account_number, d, newline ] )
-
-
-  , q(0,1,line)
-
-
-  ,  generic_horizontal_details( [ [ `SWIFT`, `/`, `BIC`, `#`, tab ], remit_to_swift_code, s1, newline ] )  
+    ,  generic_horizontal_details( [ [ `SWIFT`, `/`, `BIC`, `#`, tab ], remit_to_swift_code, s1, newline ] )  
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_invoice_number, [
 %=======================================================================
@@ -107,7 +104,7 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-     q(0,15,line)
+    q(0,15,line)
 
    , generic_horizontal_details( [ [`INVOICE`, `DATE`, tab ], invoice_date, date, newline ] )
 
@@ -119,14 +116,13 @@ i_rule( get_invoice_date, [
 % DUE DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_due_date, [
 %=======================================================================
 
-   q(0,15,line)
+    q(0,15,line)
 
-   , generic_horizontal_details( [ [ `Payment`, `Due`, `Date`, tab], due_date, date, newline ] )
+    , generic_horizontal_details( [ [ `Payment`, `Due`, `Date`, tab], due_date, date, newline ] )
 
 ]).
 
@@ -163,13 +159,13 @@ i_rule( get_order_number, [
 
    last_line
 
-   , q(0,30,up)
+    , q(0,30,up)
 
-   , set(regexp_allow_partial_matching)
+    , set(regexp_allow_partial_matching)
 
-  , generic_horizontal_details( [ [ `PO` ], order_number, d, tab ] )
+    , generic_horizontal_details( [ [ `PO` ], order_number, d, tab ] )
 
-  , clear(regexp_allow_partial_matching)
+    , clear(regexp_allow_partial_matching)
 
 ] ).
 
@@ -183,9 +179,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,100,line)
+    q(0,100,line)
 
- , generic_horizontal_details( [ [ `Total`, `Charges`,  tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Charges`,  tab ], total_net, d, newline ] )
 
 ] ).
 
@@ -199,7 +195,7 @@ q(0,100,line)
 i_rule( get_total_vat, [
 %=======================================================================
     
-   q(0,100,line)
+    q(0,100,line)
 	
     , generic_horizontal_details( [ [ `GST`, `at`,generic_item( [ default_vat_rate, d, `%` ] ), `on`, tab ],total_vat, d, newline ] )
 	
@@ -210,9 +206,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,100,line)
+    q(0,100,line)
 
-, generic_horizontal_details( [ [ `Invoice`, `Total`, `Due`, tab ], total_invoice, d, tab ] )
+    , generic_horizontal_details( [ [ `Invoice`, `Total`, `Due`, tab ], total_invoice, d, tab ] )
 
 ] ).
 
