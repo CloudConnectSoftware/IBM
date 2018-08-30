@@ -58,7 +58,7 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `PricewaterhouseCoopers LLP` )
 
-   , supplier_vat(`134008324`)
+   , supplier_vat_number(`134008324`)
     
 ] ).
 
