@@ -21,9 +21,11 @@ i_rule_list( [
 	
       get_supplier_detail
 
-      , get_currency
+    , get_currency
 
     , get_bank_accountnumber
+
+    , set_credit_note
                 
     , get_invoice_number
     
@@ -111,6 +113,37 @@ i_rule( get_bank_accountnumber, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    , [`CREDIT`, `NOTE`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,10 +152,15 @@ i_rule( get_bank_accountnumber, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-   q(0,5,line)
+   q(0,20,line)
 	
+   , or([
 
-    , generic_horizontal_details( [ [`TAX`, `INVOICE`],  invoice_number, w, or([tab,newline]) ] )
+    generic_horizontal_details( [ [`TAX`, `INVOICE`],  invoice_number, w, or([tab,newline]) ] )
+
+   , generic_horizontal_details( [ [`TAX`,`CREDIT`, `NOTE`],  invoice_number, s1, or([tab,newline]) ] )
+
+    ])
   
 
 ] ).
@@ -137,10 +175,15 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-   q(0,5,line)
+   q(0,20,line)
 	
-   	,generic_horizontal_details( [ [`INVOICE`, `DATE`, q10(`:`)],  invoice_date, date, newline ] )
+   , or([
 
+   	generic_horizontal_details( [ [`INVOICE`, `DATE`, q10(`:`)],  invoice_date, date, newline ] )
+
+    , generic_horizontal_details( [ [ `DATE`, q10(`:`)],  invoice_date, date, newline ] )
+
+   ])
 
 ] ).
 
@@ -173,10 +216,31 @@ i_rule( get_due_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-   q(0,20,line)
+   q(0,50,line)
 	
-   	,generic_horizontal_details( [ [`PO`, `#`, `:`, `,`],  order_number, w, [`,`, `GL`] ] )
+    , or([
 
+    generic_horizontal_details( [ [`PO`, `#`, `:`, `,`],  order_number, w, [`,`, `GL`] ] )
+
+     
+    , find_order_number
+    
+   ])
+
+
+] ).
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+
+      generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+        ])
 
 ] ).
 
@@ -298,6 +362,10 @@ i_rule( get_invoice_lines, [
 % Updated on   - 13 June 2018
 % Updated by   - Thejaswi
 % Changes made   - PDF parameter for supporting document
+
+% Updated on   - 20 August 2018
+% Updated by   - Roopesh
+% Changes made   - Credit Not rule mapped
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

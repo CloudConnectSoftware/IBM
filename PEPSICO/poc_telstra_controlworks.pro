@@ -73,17 +73,15 @@ i_rule( get_supplier_detail, [
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
-     q(0,50,line)
+     q(0,100,line)
+
+    , check_text(`Account`)
 
     , generic_horizontal_details( [ [ `Account`, `BSB`, `:`, tab ], supplier_bank_code_raw,s1, tab ] )
 
     , check( supplier_bank_code_raw = BankRaw )
 
-    , trace( [ `Bank number raw` , BankRaw ] )
-
     , check(string_string_replace( BankRaw, `-`, ``, BankStrip ))
-
-    , trace( [ `Bank Stripped Space` , BankStrip ] )
 
     , remit_to_bank_code(BankStrip)
 
@@ -94,8 +92,6 @@ i_rule( get_bank_accountnumber, [
     , generic_horizontal_details( [ [ `Account`, `Number`, `:`, tab ], supplier_bank_account_raw,s1, tab ] )
 
     , check( supplier_bank_account_raw = BankRaw1 )
-
-    , trace( [ `Bank number raw` , BankRaw1 ] )
 
     , check(string_string_replace( BankRaw1, `-`, ``, BankStrip1 ))
 
@@ -117,7 +113,9 @@ i_rule( get_bank_accountnumber, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-     q(0,50,line)
+     q(0,100,line)
+
+    , check_text(`Invoice`)
 
     , generic_horizontal_details( [ [ `Invoice`, `#`, `:` ], invoice_number,s1, newline ] )
 
@@ -135,6 +133,8 @@ i_rule( get_invoice_date, [
 
     q(0,50,line)
 
+    , check_text(`Invoice`)
+
    , generic_horizontal_details( [ [ `Invoice`, `date`, `:` ], invoice_date , date , newline ] )
 
 ] ).
@@ -151,6 +151,8 @@ i_rule( get_due_date, [
 
     q(0,50,line)
 
+    , check_text(`Date`)
+
    , generic_horizontal_details( [ [ `Date`, `due`, `:` ], due_date , date , newline ] )
 
 ] ).
@@ -165,7 +167,9 @@ i_rule( get_due_date, [
 i_rule( get_payment_terms, [
 %=======================================================================
 
-    q(0,50,line)
+    q(0,100,line)
+
+    , check_text(`Payment`)
 
    , generic_horizontal_details( [ [`Payment`, `Terms`, `:` ], payment_terms , d , `days` ] )
 
@@ -183,6 +187,8 @@ i_rule( get_order_number, [
 
     q(0,50,line)
 
+    , check_text(`PO`)
+
     , generic_horizontal_details( [ [  `PO`, `-` ], order_number , s1 , newline ] )
 
 ] ).
@@ -197,7 +203,9 @@ i_rule( get_order_number, [
 i_rule(get_total_net, [
 %=======================================================================
 
-    q(0,200, line )
+    q(0,200,line)
+
+    , check_text(`Totals`)
  
     , generic_horizontal_details( [ [`Totals`, `(`, `AUD`, `)`, tab, generic_item( [ total_net, d ] ), tab,generic_item( [ total_vat, d ] ), tab ], total_invoice, d , newline ] )
 
@@ -217,7 +225,9 @@ i_rule(get_total_net, [
 i_rule( get_currency, [
 %=======================================================================
 
-    q(0,50,line)
+    q(0,100,line)
+
+    , check_text(`Totals`)
 
     , generic_horizontal_details( [ [`Totals`, `(` ], currency , w , `)` ] )
 
