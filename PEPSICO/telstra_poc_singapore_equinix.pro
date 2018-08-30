@@ -69,6 +69,8 @@ i_rule( get_bank_accountnumber, [
 %=======================================================================
 
     q(0,50,line)
+
+    , check_text(`Account`)
     
     , generic_horizontal_details( [ [`Account`, `#`, tab], remit_to_bank_account_number, d, newline ] )
 
@@ -88,7 +90,9 @@ i_rule( get_bank_accountnumber, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-     q(0,10,line)
+    q(0,20,line)
+
+    , check_text(`Invoice`)
       
     , generic_horizontal_details( [ [`INVOICE`, `#`, tab ], invoice_number, s1, newline ] )
 
@@ -104,7 +108,9 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
 
-    q(0,15,line)
+    q(0,20,line)
+
+    , check_text(`Invoice`)
 
    , generic_horizontal_details( [ [`INVOICE`, `DATE`, tab ], invoice_date, date, newline ] )
 
@@ -136,7 +142,7 @@ i_rule( get_due_date, [
 i_rule( get_payment_terms, [
 %=======================================================================
 
-    q(0,80,line)
+    q(0,30,line)
 
     , or([
     
@@ -181,6 +187,8 @@ i_rule( get_total_invoice, [
 
     q(0,100,line)
 
+    , check_text(`Total`)
+
     , generic_horizontal_details( [ [ `Total`, `Charges`,  tab ], total_net, d, newline ] )
 
 ] ).
@@ -196,6 +204,8 @@ i_rule( get_total_vat, [
 %=======================================================================
     
     q(0,100,line)
+
+    , check_text(`GST`)
 	
     , generic_horizontal_details( [ [ `GST`, `at`,generic_item( [ default_vat_rate, d, `%` ] ), `on`, tab ],total_vat, d, newline ] )
 	
@@ -207,6 +217,8 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
     q(0,100,line)
+
+    , check_text(`Invoice`)
 
     , generic_horizontal_details( [ [ `Invoice`, `Total`, `Due`, tab ], total_invoice, d, tab ] )
 

@@ -16,12 +16,8 @@ i_rule_list( [
     
     get_supplier_detail
 
-    , get_supplier_address
-
     , get_bank_accountnumber
- 
-    , set_credit_note
-                     
+                       
     , get_invoice_number
     
     , get_invoice_date
@@ -30,15 +26,9 @@ i_rule_list( [
 
     , get_order_number
     
-    , get_total_net
-
-    , get_total_vat
-
     , get_total_invoice
 
     , get_currency
-
-    , get_contact_person
 
     , get_invoice_lines
 
@@ -132,7 +122,6 @@ i_rule( get_invoice_date, [
 % DUE DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_due_date, [
 %=======================================================================
@@ -169,7 +158,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-    q(0,30,line)
+    q(0,100,line)
+
+    , check_text(`Total`)
 
     , generic_horizontal_details( [ [ `Total`, `Invoice`, `Due`, `By`, dummy_num(s1), tab, `$`, tab ], total_invoice, d, newline ] )
 
