@@ -180,8 +180,9 @@ i_rule( get_order_number, [
 i_rule( get_currency, [
 %=======================================================================
 
-q0n(line)
+    q0n(line)
 
+    
     , generic_vertical_details( [ [ `Value` ], `Value`, q(0,1), (start,10,10), currency, w, newline ] )
 
 ]).
@@ -203,7 +204,9 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-            [line_invoice_line, q10(line_invoice_line2)]
+            line_invoice_line_1
+
+           , [line_invoice_line, q10(line_invoice_line2)]
 
             %, line_invoice_line4
 
@@ -231,9 +234,12 @@ i_line_rule_cut( line_header_line, [
     
     [`Garden`, `Mark` ]
 
-    ,[`Movement`, `No`, `.`, `/`, `PO`, `No`]
+    , [`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
-    ,[`PO`, `No`, tab, `Supplier`]
+    , [`PO`, `No`, tab, `Supplier`]
+    
+    , [`Cargill`, `Kenya`, `Limited`]
+    
 
         
       ] )
@@ -255,6 +261,8 @@ i_line_rule_cut( line_end_line, [
     ,[ `Total`, `invoice`]
 
     , [`Garden`, `Mark` ]
+
+    , [`Total`, `Invoice`, `Value`, tab]
 
     ] )
 
@@ -356,6 +364,29 @@ i_line_rule_cut( line_invoice_line_new, [
      , generic_item( [ line_net_amount, d, newline ] )
 
 ]).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+
+      generic_item( [ line_descr, s1, tab ] )
+
+    , generic_append( [ line_descr, s1, tab, ` - `, `` ] )
+    
+    , generic_append( [ line_descr, s1, tab, ` - `, ``  ] )
+
+    , generic_item( [ line_year_dummy, d,tab ] )
+   
+    , generic_item( [ line_month_dummy, s1, tab ] )
+  
+    , generic_item( [ line_amount_dummy, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+
+]).
+
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line4, [
