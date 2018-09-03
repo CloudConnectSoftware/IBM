@@ -103,6 +103,7 @@ i_line_rule( line_add_line, [
     , read_ahead( [`25`, `The`, `Village`)
  
     , trace( [ `FOUND SUPPLIER ADDRESS`] )
+    
 
     , generic_item( [ supplier_address_line, s1, [q10(tab), check(supplier_address_line(end) < -297)] ] )
 
