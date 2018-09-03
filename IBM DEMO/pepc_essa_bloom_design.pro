@@ -100,7 +100,7 @@ i_line_rule( line_add_line, [
 
     q0n([anything ])
  
-    , read_ahead( [`25`, `The`, `Village`)
+    , read_ahead( [`25`, `The`, `Village`])
  
     , trace( [ `FOUND SUPPLIER ADDRESS`] )
 
@@ -182,7 +182,7 @@ i_line_rule( line_buyer_add_line_3, [
 i_line_rule( line_buyer_add_line_4, [
 %=======================================================================
 
-     ,generic_item( [ buyer_city, s1, newline ] )
+     generic_item( [ buyer_city, s1, newline ] )
    
 ] ).
 
