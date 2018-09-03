@@ -64,11 +64,6 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`GB243164091`)
 
-   ,buyer_dept(`PCIL`)
-
-   ,buyer_registration_number(`PCIL`)
-
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,7 +153,7 @@ i_line_rule( line_add_line_4, [
 i_line_rule( line_add_line_5, [
 %=======================================================================
 
-        generic_append( [ supplier_address_line, s1, tab,  `  `, ``  ] )
+        generic_item( [ supplier_postcode, s1, tab  ] )
 
       , generic_item( [ supplier_dummy6, s1 , tab ] )
 
@@ -182,7 +177,7 @@ i_rule( get_buyer_address, [
 
    , line_buyer_add_line
 
-  , q(0,1,line)
+  , q(1,2,line)
 
    , line_buyer_add_line_2
 
@@ -276,7 +271,7 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-    ,generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ],  invoice_number, w, newline ] )
+    ,generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ],  invoice_number, d, newline ] )
 
 
 ] ).
