@@ -14,14 +14,10 @@ i_trace_lists.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-      get_supplier_detail
-
-    , get_supplier_address
+    get_supplier_detail
 
     , get_bank_accountnumber
- 
-    , set_credit_note
-                     
+                       
     , get_invoice_number
     
     , get_invoice_date
@@ -30,15 +26,9 @@ i_rule_list( [
 
     , get_order_number
     
-    , get_total_net
-
-    , get_total_vat
-
     , get_total_invoice
 
     , get_currency
-
-    , get_contact_person
 
     , get_invoice_lines
 
@@ -50,7 +40,6 @@ i_rule_list( [
 % SUPPLIER DETAILS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_supplier_detail, [
 %=======================================================================
@@ -59,7 +48,7 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `PricewaterhouseCoopers LLP` )
 
-   , supplier_vat(`134008324`)
+   , supplier_vat_number(`134008324`)
     
 ] ).
 
@@ -69,18 +58,17 @@ i_rule( get_supplier_detail, [
 % SUPPLIER BANK ACCOUNT NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_bank_accountnumber, [
 %=======================================================================
 
     q(0,50,line)
 
-    , generic_horizontal_details( [ [`Account`, `#`, `:`], supplier_bank_account_number, d, newline ] )
+    , generic_horizontal_details( [ [`Account`, `#`, `:`], remit_to_bank_account_number, d, newline ] )
 
     , q(0,1,line)
 
-    ,  generic_horizontal_details( [ [`ABA`, `#`, `:`, generic_item( [ supplier_bank_code, d ] ), `:`, `Swift`, `#`, `:`], supplier_swift_code, s1, newline ] )  
+    ,  generic_horizontal_details( [ [`ABA`, `#`, `:`, generic_item( [ remit_to_bank_code, d ] ), `:`, `Swift`, `#`, `:`], supplier_swift_code, s1, newline ] )  
 
 ] ).
 
@@ -134,14 +122,13 @@ i_rule( get_invoice_date, [
 % DUE DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_due_date, [
 %=======================================================================
 
    q(0,15,line)
 
-   , generic_horizontal_details( [ [ `PAYMENT`, `DUE`, `:` ], due_date, date, newline ] )
+    , generic_horizontal_details( [ [ `PAYMENT`, `DUE`, `:` ], due_date, date, newline ] )
 
 ]).
 
@@ -157,7 +144,7 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-  ,   generic_horizontal_details( [ [ `PO`, `#` ], po_number, d, newline ] )
+    , generic_horizontal_details( [ [ `PO`, `#` ], po_number, d, newline ] )
 
 ] ).
 
@@ -171,7 +158,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-    q(0,30,line)
+    q(0,100,line)
+
+    , check_text(`Total`)
 
     , generic_horizontal_details( [ [ `Total`, `Invoice`, `Due`, `By`, dummy_num(s1), tab, `$`, tab ], total_invoice, d, newline ] )
 
@@ -235,7 +224,7 @@ i_section( get_invoice_lines, [
               
            line_invoice_line, line_append_line
 
-              , line
+            , line
 
         ] )
 
