@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_chep_australia, `6 Sep 2018` ).
+i_version( pepc_au_chep_australia, `6 Sep 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -27,7 +27,13 @@ i_rule_list( [
 
     , get_due_date
 
+    , get_total_vat
+
+    , get_net_invoice
+
     , get_total_invoice
+
+    , get_line_total_amount
 
     , get_line_total_amount
 
@@ -243,6 +249,8 @@ i_rule( get_net_invoice, [
 
       q(50,150, line )
 
+   , check_text(`Total`)   
+
    ,  generic_horizontal_details( [ [ `TOTAL`,  tab ], total_invoice, d, newline ] ) 
 
       
@@ -256,12 +264,14 @@ i_rule( get_net_invoice, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_invoice, [
+i_rule( get_total_vat, [
 %=======================================================================
 
-      q(50,150, line )
+      q(30,150, line )
 
-   ,  generic_horizontal_details( [ [  `GST`, tab ], total_invoice, d, newline ] ) 
+    , check_text(`GST`)
+
+   ,  generic_horizontal_details( [ [  `GST`, tab ], total_invoice, d, [[q10(`−`),  newline]] ] ) 
 
       
 ] ).
@@ -277,13 +287,11 @@ i_rule( get_total_invoice, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-      q(0,50, line )
+      q(0,150, line )
 
-   ,  generic_horizontal_details( [ [ `TOTAL`,`Inc` , `GST`, tab ], total_invoice, d, newline ] ) 
-
+   ,  generic_horizontal_details( [ [ `TOTAL`,`Inc` , `GST`, tab ], total_invoice, d, [q10(`−`),  newline]] ) 
       
 ] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -296,10 +304,10 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-      q(0,50, line )
+      q(0,150, line )
 
 
-    ,  generic_horizontal_details( [ [ `TOTAL`,  tab ], line_total_amount, d, newline ] ) 
+    ,  generic_horizontal_details( [ [ `TOTAL`,  tab ], line_total_amount, d,[q10(`−`),  newline] ] ) 
 
       
    ] ).
@@ -332,9 +340,11 @@ i_rule( get_invoice_lines, [
 i_rule( get_line_net_amount, [
 %=======================================================================
 
-      q(50,150, line )
+      q(0,150, line )
 
-   ,  generic_horizontal_details( [ [ `TOTAL`,  tab ], line_net_amount, d, newline ] ) 
+   , check_text(`Total`)   
+
+   ,  generic_horizontal_details( [ [ `TOTAL`,  tab ], line_net_amount, d, [q10(`−`),  newline] ] ) 
 
       
 ] ).
