@@ -135,7 +135,9 @@ i_rule( get_bank_account_no, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-   q0n(line)
+   last_line
+   
+   , q0n(up)
 	
    	, generic_horizontal_details( [ [ `Invoice`, `No`, tab ], invoice_number, d , newline ] )
   
@@ -151,8 +153,10 @@ i_rule( get_invoice_number, [
 %=======================================================================
 i_rule( get_invoice_date, [
 %=======================================================================
-
-   q0n(line)
+  
+   last_line
+   
+   , q0n(up)
 	
 	 	, generic_horizontal_details( [ [ `Date`, tab ], invoice_date, date , newline ] )
 
@@ -169,8 +173,10 @@ i_rule( get_invoice_date, [
 %=======================================================================
 i_rule( get_order_number, [
 %=======================================================================
-
-q0n(line)
+  
+   last_line
+   
+   , q0n(up)
 	
     , generic_horizontal_details( [ [ `CUSTOMER`, `ORDER`, q10(tab), `:`,q10(tab) ], order_number, d, newline ] )
 
@@ -186,8 +192,10 @@ q0n(line)
 %=======================================================================
 i_rule( get_total_invoice, [
 %=======================================================================
-
-	qn0(line)
+  
+   last_line
+   
+   , q0n(up)
 	
      , or([
          generic_horizontal_details( [ [ `TOTAL`, tab ],  total_invoice, d, newline ] )
@@ -217,7 +225,10 @@ i_rule( get_total_invoice, [
 i_rule( get_line_total_amount, [
 %=======================================================================
 
-     qn0(line)
+      
+   last_line
+   
+   , q0n(up)
 
     , or([
         
@@ -238,8 +249,10 @@ i_rule( get_line_total_amount, [
 %=======================================================================
 i_rule( get_currency, [
 %=======================================================================
-
-q0n(line)
+  
+   last_line
+   
+   , q0n(up)
 	
     , generic_vertical_details( [ [ `Amount` ],`Amount`, q(0,1), (start,20,20), currency, w, newline ] )
 ] ).
@@ -254,7 +267,9 @@ q0n(line)
 i_rule( get_invoice_lines, [
 %=======================================================================
    
-   q0n(line)
+   last_line
+   
+   , q0n(up)
     
     , line_descr( `Goods and Services` )
 
