@@ -177,7 +177,7 @@ i_line_rule( line_add_line_2, [
     
     q0n(anything)
 
-    , generic_item( [buyer_street,d, newline ] )
+    , generic_item( [buyer_street,s1, newline ] )
 
 ] ).
 
@@ -188,7 +188,7 @@ i_line_rule( line_add_line_3, [
     
     q0n(anything)
     
-    , generic_item( [ buyer_city, s1,newline ] )
+    , generic_item( [ buyer_city, s1, newline ] )
 
 ] ).
 
