@@ -95,10 +95,45 @@ i_rule( get_supplier_vat_code, [
 
     ,generic_horizontal_details( [ [`VAT`, `no`, `.`, tab],supplier_vat_number, s1, newline ] )
    
-
-
-
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET BANK ACCOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_bank_details, [
+%=======================================================================
+q(0,200,line)
+
+ , generic_horizontal_details( [ [ `Konto` ], remit_to_bank_account_number, w, tab ] )
+     
+            
+     , q(0,1,line)
+
+   
+     ,generic_horizontal_details( [ [ `BLZ` ], remit_bank_code_code, w, tab] )
+
+     , q(0,1,line)
+   
+     ,generic_horizontal_details( [ [ `BIC` ], remit_to_swift_code, w, newline] )
+
+     , q(0,1,line)
+   
+     ,generic_horizontal_details( [ [ `IBAN` ], bank_raw, s1, tab] )
+
+     , check(bank_raw  =SupNo)
+
+     ,check(strip_string2_from_string1( SupNo, ` `, SupNoNew ))
+
+     ,remit_to_iban(SupNoNew)
+
+       
+]).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
