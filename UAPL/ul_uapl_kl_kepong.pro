@@ -135,9 +135,7 @@ i_rule( get_bank_account_no, [
 i_rule( get_invoice_number, [
 %=======================================================================
 
-   last_line
-   
-   , q0n(up)
+    q0n(line)
 	
    	, generic_horizontal_details( [ [ `Invoice`, `No`, tab ], invoice_number, d , newline ] )
   
@@ -154,9 +152,7 @@ i_rule( get_invoice_number, [
 i_rule( get_invoice_date, [
 %=======================================================================
   
-   last_line
-   
-   , q0n(up)
+     q0n(line)
 	
 	 	, generic_horizontal_details( [ [ `Date`, tab ], invoice_date, date , newline ] )
 
@@ -174,9 +170,7 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
   
-   last_line
-   
-   , q0n(up)
+   q0n(line)
 	
     , generic_horizontal_details( [ [ `CUSTOMER`, `ORDER`, q10(tab), `:`,q10(tab) ], order_number, d, newline ] )
 
@@ -195,8 +189,10 @@ i_rule( get_total_invoice, [
   
    last_line
    
-   , q0n(up)
-	
+     , q(0,500,up)
+	    
+     , check_text(`Total`)
+
      , or([
          generic_horizontal_details( [ [ `TOTAL`, tab ],  total_invoice, d, newline ] )
 
@@ -226,9 +222,11 @@ i_rule( get_line_total_amount, [
 %=======================================================================
 
       
-   last_line
-   
-   , q0n(up)
+    last_line
+     
+    , q(0,500,up)
+
+    , check_text(`Total`)
 
     , or([
         
