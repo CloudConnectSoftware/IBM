@@ -79,6 +79,8 @@ i_rule( get_supplier_details, [
 
     , supplier_vat_number(`DE811440472`) 
 
+    , set(consolidate_lines_non_po)
+
        
 ] ).
 
