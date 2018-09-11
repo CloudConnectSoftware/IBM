@@ -275,7 +275,6 @@ i_line_rule_cut( line_end_line, [
 
     [ `Total`, `Excluding`, `tax` ]
 
-    , [`Subtotal`, tab]
 
     ])
 
