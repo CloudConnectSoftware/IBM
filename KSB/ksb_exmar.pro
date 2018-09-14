@@ -41,7 +41,6 @@ i_rule_list( [
 
     , get_freight
 
-
     , get_currency
 
     % ,get_net_amount
@@ -52,7 +51,7 @@ i_rule_list( [
 
     , get_invoice_lines
 
-    ,  get_freight_line
+    , get_additional_amount
 
 ] ).
 
@@ -594,6 +593,35 @@ i_line_rule( line_append_line1, [
     
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE TOTAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_additional_amount, [
+%=======================================================================
+
+	q0n(line)
+
+    , set(reverse_punctuation_in_numbers)
+
+    , set(regexp_cross_word_boundaries)
+
+    ,  generic_horizontal_details( [ [`Mindestwertzuschlag`, tab ], line_net_amount, d,  newline ] )
+
+    , generic_item( [ line_descr,`Mindestwertzuschlag` ] )
+
+    , clear(reverse_punctuation_in_numbers)
+
+    , clear(regexp_cross_word_boundaries)
+   	
+	
+
+]).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -607,9 +635,16 @@ i_line_rule( line_append_line1, [
 % Changes made   - Bank details hardcoded and line details updated
 
 
+% Updated on   - Sep 14, 2018
+% Updated by   - Rohini
+% Changes made   - Additonal charges mapped
+
+
+
 % Updated on   - 
 % Updated by   - 
 % Changes made   - 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
