@@ -16,8 +16,6 @@ i_trace_lists.
 
 i_pdf_parameter( same_line, 7 ).
 
-i_op_param( us_invoice, _, _, _, _). 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -46,7 +44,7 @@ i_rule_list( [
 
     ,get_total_vat
 
-    , get_invoice_lines
+  %  , get_invoice_lines
 
    , get_supplier_vat_code
 
@@ -87,8 +85,6 @@ i_rule( get_supplier_detail, [
     , supplier_postcode(`46260`)
 
     , supplier_vat_number(`N/A`)
-
-    
 
 
 ] ).
@@ -460,8 +456,16 @@ i_rule( get_total_net, [
 
 ,generic_horizontal_details( [ [ `Sub`,`-`, `Total`, tab ], total_net, d, newline ] )
 
-, total_vat(`0`)
-   
+, check(total_net =TotNet)
+
+    , trace([`Total Net ` , TotNet])
+
+    , line_net_amount(TotNet)
+
+    , line_vat_amount(`0`)
+    
+    , total_vat(`0`)
+     
 ] ).
 
 
@@ -480,8 +484,11 @@ i_rule( get_total_invoices, [
 
 ,generic_horizontal_details( [ [ `Total`, `Due`, tab ], total_invoice, d, newline ] )
 
-,  total_vat(`0`)
-   
+, check(total_invoice =ToInv)
+
+    , trace([`Total Net ` , ToInv])
+
+    , line_total_amount(ToInv)
    
 ] ).
 
@@ -588,10 +595,6 @@ i_line_rule_cut( line_invoice_line, [
   ,generic_item( [line_dummy_numeber , d,tab ]  )
 
   , generic_item( [line_net_amount , d, newline ]  )
-
-  , q10(line_total_amount(`445.09`))
-
-  , q10(line_vat_amount(`0`))
 
 ] ).
 
