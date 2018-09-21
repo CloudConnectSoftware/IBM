@@ -44,7 +44,7 @@ i_rule_list( [
 
     ,get_total_vat
 
-    , get_invoice_lines
+  %  , get_invoice_lines
 
    , get_supplier_vat_code
 
@@ -56,7 +56,7 @@ i_rule_list( [
 
     , get_total_net
 
-    , get_freight_line
+   % , get_freight_line
 
     , get_buyer_vat_number
 	
@@ -454,8 +454,18 @@ i_rule( get_total_net, [
  q(0,60,line)
 
 
-,generic_horizontal_details( [ [ `Order`, `Total`, tab ], total_net, d, newline ] )
-   
+,generic_horizontal_details( [ [ `Sub`,`-`, `Total`, tab ], total_net, d, newline ] )
+
+, check(total_net =TotNet)
+
+    , trace([`Total Net ` , TotNet])
+
+    , line_net_amount(TotNet)
+
+    , line_vat_amount(`0`)
+    
+    , total_vat(`0`)
+     
 ] ).
 
 
@@ -473,6 +483,12 @@ i_rule( get_total_invoices, [
 
 
 ,generic_horizontal_details( [ [ `Total`, `Due`, tab ], total_invoice, d, newline ] )
+
+, check(total_invoice =ToInv)
+
+    , trace([`Total Net ` , ToInv])
+
+    , line_total_amount(ToInv)
    
 ] ).
 
