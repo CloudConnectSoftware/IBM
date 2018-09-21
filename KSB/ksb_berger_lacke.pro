@@ -457,7 +457,9 @@ i_section( get_invoice_lines, [
 			 
              [ test(credit_note), line_credit_line ]
 
-             , line_invoice_line 
+             , line_invoice_line1 
+
+             , line_invoice_line
 
 
 			, line
@@ -524,13 +526,13 @@ i_line_rule_cut( line_invoice_line, [
 
         ,generic_item([line_descr , s1,tab ] )
 
-        ,generic_item([line_quantity_dummy1, s1, tab  ] )
+        , q10(generic_item([line_quantity_dummy1, s1, tab  ] ))
 
-        , generic_item([line_quantity_dummy2, s1, tab ] )
+        , q10(generic_item([line_quantity_dummy2, s1, tab ] ))
 
-        , q10( generic_item([line_quantity, s1, tab ] ) )
+        , q10( generic_item([line_quantity, d, tab ] ) )
 
-        , generic_item([line_unit_amount, d ,[ q10([a(w) ] ), tab]  ] )
+        , generic_item([line_unit_dummy, d ,[ q10([a(w) ] ), tab]  ] )
        
        , generic_item([ line_net_amount , d , newline ] )
 
@@ -560,6 +562,62 @@ i_line_rule_cut( line_invoice_line, [
          
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line1, [
+%=======================================================================
+	
+        set(reverse_punctuation_in_numbers)
+
+        , set(regexp_cross_word_boundaries)
+
+        ,generic_item([ line_reference , d  ])
+
+        ,or([
+            generic_item([line_item , w ,  [q10(tab), check(line_item(end)< -295)]  ] )
+
+            , generic_item([line_item , w , [ q10(tab), check(line_item(end)< -299)]  ] )
+
+            , generic_item([line_item , w , [ q10(tab), check(line_item(end)< -301)]  ] )
+
+            , generic_item([line_item , w , [ q10(tab), check(line_item(end)< -397)]  ] )
+
+        ])
+
+        ,generic_item([line_descr , s1,tab ] )
+
+        , q10(generic_item([line_quantity_dummy2, s1, tab ] ))
+
+        , q10( generic_item([line_quantity, d, tab ] ) )
+
+        , generic_item([line_unit_dummy, d ,[ q10([a(w) ] ), tab]  ] )
+       
+       , generic_item([ line_net_amount , d , newline ] )
+
+       ,clear(regexp_cross_word_boundaries)
+
+       ,clear(reverse_punctuation_in_numbers)
+
+        ,q10([	% LINE VAT Rate Calculation
+  
+       with( invoice , total_vat , VAT )
+
+      , with( invoice , total_net , Net )
+
+      , trace( [ `vat tot`, VAT ] )
+
+     , trace( [ `sub total`, Net ] )
+
+     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+     , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+       ])
+         
+] ).
 
 %=======================================================================
 i_line_rule_cut( line_credit_line, [
@@ -585,7 +643,7 @@ i_line_rule_cut( line_credit_line, [
 
         ,generic_item([line_quantity_dummy3, d  ] )
 
-        ,generic_item([line_unit_amount ,d, tab  ] )
+        ,generic_item([line_unit_dummy ,d, tab  ] )
 
        , generic_item([ line_net_amount , d , newline ] )
 
@@ -673,6 +731,10 @@ i_rule( get_freight_line, [
 % Updated on   - Feb 23, 2018
 % Updated by   - Thejaswi
 % Updates     - Bank details
+
+% Updated on   - Sep 20, 2018
+% Updated by   - Rohini
+% Updates     - Line quantity
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
