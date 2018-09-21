@@ -16,8 +16,6 @@ i_trace_lists.
 
 i_pdf_parameter( same_line, 7 ).
 
-i_op_param( us_invoice, _, _, _, _). 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -58,7 +56,7 @@ i_rule_list( [
 
     , get_total_net
 
-   % , get_freight_line
+    , get_freight_line
 
     , get_buyer_vat_number
 	
@@ -87,8 +85,6 @@ i_rule( get_supplier_detail, [
     , supplier_postcode(`46260`)
 
     , supplier_vat_number(`N/A`)
-
-    
 
 
 ] ).
@@ -458,9 +454,7 @@ i_rule( get_total_net, [
  q(0,60,line)
 
 
-,generic_horizontal_details( [ [ `Sub`,`-`, `Total`, tab ], total_net, d, newline ] )
-
-, total_vat(`0`)
+,generic_horizontal_details( [ [ `Order`, `Total`, tab ], total_net, d, newline ] )
    
 ] ).
 
@@ -479,9 +473,6 @@ i_rule( get_total_invoices, [
 
 
 ,generic_horizontal_details( [ [ `Total`, `Due`, tab ], total_invoice, d, newline ] )
-
-,  total_vat(`0`)
-   
    
 ] ).
 
@@ -588,10 +579,6 @@ i_line_rule_cut( line_invoice_line, [
   ,generic_item( [line_dummy_numeber , d,tab ]  )
 
   , generic_item( [line_net_amount , d, newline ]  )
-
-  , q10(line_total_amount(`445.09`))
-
-  , q10(line_vat_amount(`0`))
 
 ] ).
 
