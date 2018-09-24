@@ -231,11 +231,11 @@ i_rule( get_bank_accountnumber, [
 
     q(0,150,line)
     
-    , generic_horizontal_details( [ [  `BSB`, `:` ], remit_to_bank_code, d, newline ] )
+    , generic_horizontal_details( [ [  `BSB`, `:` ], remit_to_bank_code, s1, newline ] )
 
     , q(0,1,line)    
    
-    , generic_horizontal_details( [ [`ACCOUNT`, `No`, `.`, `:`], remit_to_bank_account_number, s, newline ] )
+    , generic_horizontal_details( [ [`ACCOUNT`, `No`, `.`, `:`], remit_to_bank_account_number, s1, newline ] )
    
 
 ] ).
