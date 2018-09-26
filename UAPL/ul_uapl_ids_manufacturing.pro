@@ -510,6 +510,8 @@ or([
 
 [`FOR`, `GST`, `PURPOSE`, `USE`, `ONLY`, tab, `Sub`, `Total`, tab, `:`, tab ]
     
+       , [`Sub`, `Total`]
+
        , [`Total`, `Quantity`, `:`]
 
        , [`page`]
