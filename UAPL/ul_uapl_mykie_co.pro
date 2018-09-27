@@ -69,6 +69,8 @@ i_rule(get_invoice_number, [
         
         generic_horizontal_details( [ [ `INV`, `.`, `NO`, `:` ],  invoice_number, s1, newline ] )
 
+        , generic_horizontal_details( [ [ `Debit`, `Note`, `No`, `.`, `:`],  invoice_number, s1, tab ] ) 
+
         , generic_vertical_details( [ [ `Debit`, `Note`], `Note`, q(0,3), (end,10,10), invoice_number, w, newline ] )
 
 
@@ -90,7 +92,7 @@ i_rule( get_invoice_date, [
 
     , or([
         
-        generic_horizontal_details( [ [ `DATE`, `:` ],  invoice_date, date, newline ] )
+        generic_horizontal_details( [ [ `DATE`, `:`, q10(tab) ],  invoice_date, date, newline ] )
 
         ,  generic_vertical_details( [ [ `Date`], `Date`, q(0,3), (end,10,10), invoice_date, date, tab ] )
 
@@ -132,7 +134,8 @@ q(0,100,line)
 
      generic_horizontal_details( [ [ `TOTAL`, tab ],  total_net, d, newline ] )
 
-
+     , generic_horizontal_details( [ [ `TOTAL`,`Price`, `(`  , generic_item( [ currency, w , `)` ] ), tab], total_net , d, newline ] )
+    
     ])
 
 ] ).
@@ -180,6 +183,8 @@ q(0,100,line)
     ,generic_vertical_details( [ [ `TOTAL`, `AMOUNT`, `IN`, `WORDS`, `:` ], `words`, q(0,1,up), (end,1000,1000), total_invoice, d, newline ] )
 
     , generic_horizontal_details( [ [ `Grand`, `TOTAL`, tab ],  total_invoice, d, newline ] )
+
+    ,  generic_horizontal_details( [ [ `TOTAL`, `Price`, `(`  , generic_item( [ currency, w , `)` ] ), tab], total_invoice , d, newline ] )
 
 
     ])
@@ -248,9 +253,10 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
 or([
+
     [`Description`,tab,`Quantity`, tab, `Unit`, `price`]
 
-    ,[`Item`, tab, `Description`, `of`, `Goods`]
+    ,[`Item`, tab, `Description`]
 
 ])
 
@@ -261,10 +267,8 @@ or([
 %=======================================================================
 i_line_rule_cut( line_end_line, [
 %=======================================================================
-
   
-    [`TOTAL`, `AMOUNT`]
-
+    [`TOTAL`]
 
   , trace( [ `Found End line` ] )
 
