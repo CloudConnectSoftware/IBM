@@ -18,6 +18,8 @@ i_rule_list( [
 
     
       get_supplier_detail
+
+    , set_debit_note  
                      
     , get_invoice_number
     
@@ -50,6 +52,40 @@ i_rule( get_supplier_detail, [
    sender_name( `MYKIE CO LTD` )
 
    ,supplier_vat_number(`101-345844-1`)
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_debit_note, [
+%=======================================================================
+
+    q(0,50,line)
+
+    , debit_note_line
+
+    
+] ).
+
+%=======================================================================
+i_line_rule( debit_note_line, [
+%=======================================================================
+
+q0n(anything)
+
+
+    ,`DEBIT`, `NOTE`
+
+    , set(debit_note)
+
+    , trace( [ `DEBIT NOTE FOUND` ] )
 
 ] ).
 
@@ -95,6 +131,24 @@ i_rule( get_invoice_date, [
         generic_horizontal_details( [ [ `DATE`, `:`, q10(tab) ],  invoice_date, date, newline ] )
 
         ,  generic_vertical_details( [ [ `Date`], `Date`, q(0,3), (end,10,10), invoice_date, date, tab ] )
+
+      ,  [  generic_horizontal_details( [ [ `DATE`, `:`, q10(tab) ],  invoice_date_raw, s1, newline ] )
+        
+        
+    , check( invoice_date_raw = Dateraw )
+
+    , trace( [ `Invoie date raw` , Dateraw ] )
+
+    , check(string_string_replace( Dateraw, `'`, ``, DateNew ))
+
+    , trace( [ `Date  Stripped ` , DateNew ] )
+
+    , invoice_date(DateNew)
+
+    , trace( [ `Invoice date Number` , invoice_date ] )
+        
+        
+        ]
 
     ])
 
