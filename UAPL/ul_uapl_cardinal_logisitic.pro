@@ -175,7 +175,9 @@ i_rule( get_invoice_date, [
 i_rule( get_total_net, [
 %=======================================================================
 
-	q(0,100,line)
+	last_line
+
+   , q(0,100,up)
 
 	, or([
 
@@ -197,7 +199,9 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-	q(0,100,line)
+	last_line
+
+    , q(0,100,up)
 
     ,  generic_horizontal_details( [ [  `Plus`, `GST`, tab ] , total_vat, d, newline ] )
 
@@ -215,7 +219,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q(0,100,line)
+	last_line
+
+    , q(0,100,up)
 
 	, or([
 
@@ -257,7 +263,9 @@ i_rule( get_currency, [
 i_rule( get_invoice_lines, [
 %=======================================================================
 
-q(0,100,line)
+last_line
+
+, q(0,100,up)
 
 , or([
 	
