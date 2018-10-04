@@ -392,6 +392,8 @@ qn0(line)
     generic_horizontal_details( [ [ `Total`, `GST`, tab, `:`],200, total_vat, d , newline] )
 
     ,generic_horizontal_details( [ [ `Total`, `GST`,`:`],200, total_vat, d , newline] )
+
+    ,generic_horizontal_details( [ [ `Total`, `SST`, tab, `:`, tab], total_vat, d , newline] )
 ])
 
   
@@ -588,6 +590,19 @@ i_line_rule_cut( credit_note_line, [
 
       , generic_item( [line_net_amount , d , newline] )
 
+    ,   q10([  % LINE VAT Rate Calculation
+
+       with( invoice , total_vat , VAT )  , trace( [ `vat tot`, VAT ] )
+
+    , with( invoice , total_net , Net ) , trace( [ `sub total`, Net ] )  
+
+     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE)) , trace( [ `VAT Rate`, VAT_RATE ] )
+
+     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) , generic_item( [ line_vat_rate , VAT_PERCENT ] )    
+
+       ]) 
+
+
 ] ).
 
 
@@ -601,6 +616,19 @@ i_line_rule( line_invoice_debit_credit_note, [
      , generic_item([ line_tax_code , w ,  tab  ] )
 	 
 	 , generic_item([ line_net_amount , d , [ newline, check( line_net_amount(start) > 250 ) ] ] ) 
+
+     , q10([  % LINE VAT Rate Calculation
+
+       with( invoice , total_vat , VAT )  , trace( [ `vat tot`, VAT ] )
+
+     , with( invoice , total_net , Net ) , trace( [ `sub total`, Net ] )  
+
+     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE)) , trace( [ `VAT Rate`, VAT_RATE ] )
+
+     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) , generic_item( [ line_vat_rate , VAT_PERCENT ] )    
+
+       ]) 
+
      
 ]).
 

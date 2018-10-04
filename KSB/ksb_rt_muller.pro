@@ -428,7 +428,7 @@ i_line_rule_cut( line_invoice_line, [
 
       , set(reverse_punctuation_in_numbers)
 
-      , generic_item( [ line_item,s1, tab ] )
+      , generic_item( [ line_item,s,  [q10(tab), check(line_item(end) < -210)] ] )
 
       , generic_item( [ line_descr, s1, tab ] )
 
