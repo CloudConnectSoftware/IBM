@@ -27,7 +27,7 @@ i_rule( new_invoice_page_rule, [ q0n(line), new_invoice_page_line ] ).
 i_line_rule( new_invoice_page_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    q0n(anything), `Page`, `1`, `of`, a(d)
+    q0n(anything), `PAGE`, `:`, tab, `1`, `OF`
  
     , new_invoice_page 
 
