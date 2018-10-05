@@ -27,7 +27,7 @@ i_rule( new_invoice_page_rule, [ q0n(line), new_invoice_page_line ] ).
 i_line_rule( new_invoice_page_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    q0n(anything), `PAGE`, `:`, tab, `1`, `OF`
+    q0n(anything), `PAGE`, `NO`, `:`, tab, `1`, tab, `OF`, a(d), newline
  
     , new_invoice_page 
 
@@ -65,7 +65,7 @@ i_rule_list( [
 
     , get_exchange_rate
     
-    , get_total_vat
+    , get_total_net
 
     , get_total_invoice
 
@@ -428,10 +428,31 @@ i_line_rule_cut( find_item_number, [
     , generic_item( [ po_item, w, newline ] )
 
 
-
-
 ]).
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL INVOICE AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_net, [
+%=======================================================================
+   
+    last_line
+
+   , q(0,50,up)
+
+   , or([ check_text(`SUB`)  ])
+
+   , generic_horizontal_details( [ [`SUB`, `TOTAL`, `:`,  tab ],  total_net, d,  newline ] )
+     
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL INVOICE AMOUNT
@@ -448,16 +469,8 @@ i_rule(get_total_invoice, [
 
    , or([ check_text(`TOTAL`)  ])
 
-   , generic_horizontal_details( [ [`TOTAL`, `AMOUNT`, `:`,  q10(tab) ],  total_net, d,  newline ] )
+   , generic_horizontal_details( [ [`TOTAL`,`:`,  q10(tab), `USD`, q10(tab) ],  total_invoice, d,  newline ] )
      
-    , check(total_net =TotNet)
-
-    , trace([`Total Net ` , TotNet])
-
-    , total_invoice(TotNet)
-
-    , trace( [ `Total Invoice` , total_invoice ])
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
