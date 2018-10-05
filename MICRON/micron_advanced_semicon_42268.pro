@@ -27,7 +27,7 @@ i_rule( new_invoice_page_rule, [ q0n(line), new_invoice_page_line ] ).
 i_line_rule( new_invoice_page_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    q0n(anything), `PAGE`, `NO`, `:`, tab, `1`, tab, `OF`
+    q0n(anything), `PAGE`, `:`, tab, `1`, `OF`, a(d)
  
     , new_invoice_page 
 
@@ -152,9 +152,36 @@ i_line_rule( line_add_line_3, [
 %=======================================================================
 
         generic_item( [ swiss_supplier_country, `CHN` ] )
-
         
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+    
+     q0n(line)
+
+
+    , generic_horizontal_details( [ [ `BANK`, `NAME`, tab, `:`],supplier_bank_name  , s1, newline ] )
+
+
+    , q(0,3,line)
+
+    , generic_horizontal_details( [ [`ACCOUNT`, `NO`, `.`, tab, `:` ],supplier_bank_account_number  , d, newline ] )
+
+    ,q(0,5,line)
+
+    , generic_horizontal_details( [ [ `SWIFT`, `CODE`, tab, `:`],  supplier_bank_swift, w, newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -577,7 +604,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_buyers_order_number, d, `-` ]  )
  
-    , generic_item( [ po_item, d,  newline ] )
+    , generic_item( [ line_po_item, d,  newline ] )
 
    
     , q10( [ 
