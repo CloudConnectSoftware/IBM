@@ -71,13 +71,17 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-        
-     sender_name( `KMH HITECH(XI'AN)CO., LTD` )
+     
+     supplier_party( `KMH HITECH(XI'AN)CO., LTD` )
+
+    , sender_name( `KMH HITECH(XI'AN)CO., LTD` )
 
     , bill_from( `KMH HITECH(XI'AN)CO., LTD` )
 
-    ,   supplier_vat_number(``)
+    , supplier_vat_number(`NA`)
 
+    , swiss_supplier_country(`CHN`)
+    
 ] ).
 
 
