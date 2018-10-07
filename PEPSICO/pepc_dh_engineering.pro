@@ -190,20 +190,19 @@ i_rule( get_bank_accountnumber, [
 
     , q(0,1,line)
 
-    , generic_horizontal_details( [ [`Account`, `#`, `:`, tab  ], remit_to_bank_accountraw,  s1, newline ] )
+    , generic_horizontal_details( [ [`Account`, `#`, `:`, tab ], remit_to_bank_accountraw,  s1, newline ] )
+   
+    , check( remit_to_bank_accountraw = BankRaw1 )
 
-           
-    , check( remit_to_bank_accountraw = BankRaw )
+    , trace( [ `Bank number raw1` , BankRaw1 ] )
 
-    , trace( [ `Bank number raw` , BankRaw ] )
+    , check(string_string_replace( BankRaw1, ` `, ``, BankStrip1 ))
 
-    , check(string_string_replace( BankRaw, ` `, ``, BankStrip ))
+    , trace( [ `Bank Stripped Space1` , BankStrip1 ] )
 
-    , trace( [ `Bank Stripped Space` , BankStrip ] )
+    , remit_to_bank_account_number(BankStrip1)
 
-    , remit_to_bank_code(BankStrip)
-
-    , trace( [ `Bank account Number` , remit_to_bank_account_number ] ) 
+    , trace( [ `Bank account Number1` , remit_to_bank_account_number ] ) 
 
 ] ).
 
@@ -268,7 +267,7 @@ i_rule( get_order_number, [
 i_rule( get_payment_terms, [
 %=======================================================================
 
-     q(0,20,line)
+     q(0,120,line)
      
    , generic_horizontal_details( [ [ `PAYMENT`, `TERMS`, `ARE`, `NET` ], payment_terms, s1, tab ] )
 
