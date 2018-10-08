@@ -357,9 +357,9 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ lin_sender_line, s, [q10(tab), check(lin_sender_line(end) < 35)] ] )
 
-    , generic_item( [ line_receiver_line, s,  [q10(tab), check(line_receiver_line(end) < 126)] ] )
+    , generic_item( [ line_receiver_line, s,  [q10(tab), check(line_receiver_line(end) < 106)] ] )
 
-    , generic_item( [ line_service_line, w, tab ] ) 
+    , q10(generic_item( [ line_service_line, w, tab ] ) )
 
     , generic_item( [ line_reference, w, q10(tab) ] ) 
 
@@ -367,7 +367,7 @@ i_line_rule_cut( line_invoice_line, [
     
     , generic_item( [ line_quantity, d, [tab, `$`] ] ) 
 
-    , generic_item( [ line_net_amount, d, [tab, `$`] ] ) 
+    , generic_item( [ line_net_amount, d, [q10(tab), `$`] ] ) 
 
     , generic_item( [ line_vat_amount, d, [q10(tab), `$`] ] ) 
 
