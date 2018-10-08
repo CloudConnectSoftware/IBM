@@ -50,7 +50,7 @@ i_rule_list( [
     , get_invoice_lines
 
     , get_due_date
-    
+
 
 ] ).
 
@@ -359,9 +359,9 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_service_line, w, tab ] ) 
 
-    , generic_item( [ line_reference, w, tab ] ) 
+    , generic_item( [ line_reference, w, q10(tab) ] ) 
 
-    , generic_item( [ line_unit_line, s1, tab ] )
+    , generic_item( [ line_unit_line, s1, q10(tab) ] )
     
     , generic_item( [ line_quantity, d, [tab, `$`] ] ) 
 
