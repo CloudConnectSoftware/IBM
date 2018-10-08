@@ -4,13 +4,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(ul_uapl_insightzclub_pte, `October 8, 2018` ).
+i_version(ul_uapl_gold_tiger_logistics, `October 8, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
+
+i_include_partner_attachments_image_only.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -50,7 +52,7 @@ i_rule_list( [
     , get_invoice_lines
 
     , get_due_date
-    
+
 
 ] ).
 
@@ -355,17 +357,17 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ lin_sender_line, s, [q10(tab), check(lin_sender_line(end) < 35)] ] )
 
-    , generic_item( [ line_receiver_line, s,  [q10(tab), check(line_receiver_line(end) < 126)] ] )
+    , generic_item( [ line_receiver_line, s,  [q10(tab), check(line_receiver_line(end) < 106)] ] )
 
-    , generic_item( [ line_service_line, w, tab ] ) 
+    , q10(generic_item( [ line_service_line, w, tab ] ) )
 
-    , generic_item( [ line_reference, w, tab ] ) 
+    , generic_item( [ line_reference, w, q10(tab) ] ) 
 
-    , generic_item( [ line_unit_line, s1, tab ] )
+    , generic_item( [ line_unit_line, s1, q10(tab) ] )
     
     , generic_item( [ line_quantity, d, [tab, `$`] ] ) 
 
-    , generic_item( [ line_net_amount, d, [tab, `$`] ] ) 
+    , generic_item( [ line_net_amount, d, [q10(tab), `$`] ] ) 
 
     , generic_item( [ line_vat_amount, d, [q10(tab), `$`] ] ) 
 
