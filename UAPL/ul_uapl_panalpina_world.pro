@@ -121,8 +121,15 @@ i_rule_cut( get_order_number, [
 
     q0n(line)
 
+     , or([ check_text(`PO`), check_text(`PO`) ])
+     , or([
+         
+         generic_horizontal_details( [ [ `YOUR`,`REF`, `.`, tab, `PO` ], 20, order_number, d, newline ] )
+
+       , generic_horizontal_details( [ [ `PO`,`#`, `:` ], order_number, d, newline ] )
+
+     ])
      
-     , generic_horizontal_details( [ [ `YOUR`,`REF`, `.`, tab, `PO` ], 20, order_number, d, newline ] )
      
     
      , check(order_number = OrdNo)
@@ -171,10 +178,7 @@ i_rule_cut( get_invoice_date, [
 i_rule_cut( get_currency, [
 %=======================================================================
 
-    q0n(line)
-
-    , generic_horizontal_details( [ [ `TO`, `YOUR`, `DEBIT`  ], 380, currency, w , tab ] )
-
+   
 
 ] ).
 
@@ -189,6 +193,8 @@ i_rule( get_total_net, [
 %=======================================================================
   
   qn0(line)
+
+  , or([ check_text(`ORIGIN`), check_text(`Total`) ])
 
   ,or([
 
@@ -213,9 +219,11 @@ i_rule( get_total_vat, [
 
      q0n(line)
 
+     , or([ check_text(`GST`), check_text(`VAT`) ])
+
      ,or([
 
-     generic_horizontal_details( [ [ `GST`, tab, `0`, `.`, `000`, `%`, `OF`, tab, dummy_number(d), tab, dummy_num1(w), tab ],total_vat, d, newline ] )
+     generic_horizontal_details( [ [ `GST`, tab, a(d), `%`, `OF`, tab, dummy_number(d), tab, dummy_num1(w), tab ],total_vat, d, newline ] )
 
     , generic_horizontal_details( [ [ `VAT`, `0`, `%`, `of`, dummy_num2(d), tab, dummy_num3(w) , tab ], total_vat, d, newline ] )
 
@@ -235,6 +243,8 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
      q0n(line)
+
+     , or([ check_text(`To`), check_text(`Total`) ])
 
       ,or([
 
