@@ -72,6 +72,8 @@ i_rule( get_bank_accountnumber, [
 
     q(0,400,line)
 
+    , check_text(`Account`)
+
     ,generic_horizontal_details( [ [ `Account`, `No`, `.`, `:`],  supplier_bank_account_number_raw, w, `(` ] )
 
      ,check(supplier_bank_account_number_raw=AccRaw)
@@ -79,8 +81,7 @@ i_rule( get_bank_accountnumber, [
     ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
 
     ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number] )
-
-    
+   
 
 ] ).
 
@@ -97,6 +98,8 @@ i_rule_cut( get_invoice_number, [
 
     
     q0n(line)
+
+    , check_text(`Tax`)
 
     ,or([
 
@@ -200,7 +203,7 @@ i_rule( get_total_net, [
 
     generic_vertical_details( [ [ `ORIGIN`, `FEE` ], `FEE`, q(1,5), (end,550,550),total_net, d, newline ] )
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `net`, `)`, tab, dummy_num(w), tab ], total_net, d, newline ] )
+    , generic_horizontal_details( [ [ `Total`, `Amount`, `(`, `net`, `)`, q10([tab, dummy_num(w)]), tab ], total_net, d, newline ] )
 
 ] )
   
@@ -223,7 +226,7 @@ i_rule( get_total_vat, [
 
      ,or([
 
-     generic_horizontal_details( [ [ `GST`, tab, a(d), `%`, `OF`, tab, dummy_number(d), tab, dummy_num1(w), tab ],total_vat, d, newline ] )
+     generic_horizontal_details( [ [ `GST`, q10(tab), a(d), `%`, `OF`, q10(tab), dummy_number(d), tab, dummy_num1(w), tab ],total_vat, d, newline ] )
 
     , generic_horizontal_details( [ [ `VAT`, `0`, `%`, `of`, dummy_num2(d), tab, dummy_num3(w) , tab ], total_vat, d, newline ] )
 
