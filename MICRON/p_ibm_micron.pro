@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `15/05/2018 13:06:48` ).
+i_version( p_ibm_micron, `15/10/2018 16:18:25` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -49,8 +49,9 @@ i_user_field( invoice, credit_note_flag, `Credit Note Flag` ).
 i_user_field( line, line_po_item, `line_po_item` ).
 i_user_field( line, line_packing_list, `line_packing_list` ).
 i_user_field( line, line_proforma, `line_proforma` ).
-i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
-i_user_field( line, line_gl, `Line GL` ).
+i_user_field( line, line_internal_order_number, `line_internal_order_number` ).
+i_user_field( line, line_gl, `line_gl` ).
+i_user_field( line, line_lot_number, `line_lot_number` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

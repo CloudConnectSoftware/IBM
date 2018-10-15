@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `24/04/2018 11:52:18` ).
+i_version( output_ibm_micron_dc_xml, `15/10/2018 16:18:17` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -324,6 +324,7 @@ write_line___( LID )
 		write_variable_as_tag( LID, line_internal_order_number, `InternalOrder` ),
 		write_variable_as_tag( LID, line_gl, `GLAccount` ),
 		write_variable_as_tag( LID, line_descr, `Description` ),
+		write_variable_as_tag( LID, line_lot_number, `LotNumber` ),
 
 	write_end_element,
 
