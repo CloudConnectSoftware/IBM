@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Universal Scientific Industrial (Shanghai) Co., Ltd.
+% Advanced Semiconductor Engineering Inc. Vendor number 1042268
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_version(micron_advanced_semiconductor_042268, `24 September 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -600,7 +600,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_item, d, tab ] )
 
-    , generic_item( [ line_lot_no, w, tab ] )
+    , generic_item( [ line_lot_number, s , [ `.`, dummy_num(d), tab ] ] )
 
     , generic_item( [ line_buyers_order_number, d, `-` ]  )
  
@@ -658,9 +658,9 @@ i_line_rule_cut( line_invoice_line_2, [
 % Mapped on - September 24, 2018
 % Mapped by - Thejaswi
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - Oct 16, 2018
+% Updated by   - Rohini
+% Changes made - Lot number for line level details updated
 
 % Updated on   - 
 % Updated by   -
