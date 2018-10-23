@@ -6,7 +6,7 @@
 
 i_version( micron_kmh_hitech, `04 October 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -384,7 +384,7 @@ i_line_rule( line_supplier_name, [
 
     , trace( [ `Reading Supplier name rule` ] )
 
-    , generic_item( [ swiss_supplier_address_1, s1 , or([tab, newline]) ] )
+    , generic_item( [ swiss_supplier_name, s1 , or([tab, newline]) ] )
 
     
     ] ).
@@ -496,6 +496,9 @@ i_line_rule_cut( line_invoice_append, [
 % Mapped by   - Roopesh
 % Changes made -  
 
+% Updated on   - October 22, 2018
+% Updated by   - Rohini 
+% Changes made   - Supplier name
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
