@@ -87,11 +87,11 @@ i_rule( get_supplier_details, [
 i_rule( get_buyer_address, [
 %=======================================================================
   
-     q(0,10,line)
+     q(0,15,line)
 
    , line_add_line
 
-   , q(1,4,line)
+   , q(1,5,line)
 
     ,line_add_line2
 
@@ -120,6 +120,8 @@ i_line_rule( line_add_line, [
 
         , [ check(buyer_party_raw = `KSB SE & Co.KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
 
+        , [ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
         , [ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
 
     
@@ -132,16 +134,17 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 
       or([
-          `67206` ,`67208`, `06110`, `67209`, `06720` ])
+          `67206` ,`67208`, `06110`, `67209`, `067206` ])
+          
 
-      ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ] )
+      ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ])
 
       
       ,or([
 
-         [ check(buyer_city_raw = buyer_city) ,check(buyer_city = `Frabnkenthal`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
+         [ check(buyer_city_raw = buyer_city1) ,check(buyer_city1 = `Frabnkenthal`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
 
-       , [ check(buyer_city_raw = buyer_city) ,check(buyer_city = `GENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
+       , [ check(buyer_city_raw = buyer_city1) ,check(buyer_city1 = `GENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
  
        ,[ check(buyer_city_raw = City_raw) ,generic_item( [ buyer_city, City_raw ] ) ] 
 
