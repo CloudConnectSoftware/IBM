@@ -246,11 +246,11 @@ i_rule( line_invoice_line_rule, [
 
 or([
  
-      [line_invoice_line3, line_invoice_append]
+     % [line_invoice_line3, line_invoice_append]
     
-     , line_invoice_line2
+      line_invoice_line2
 
-     , line_invoice_line
+    % , line_invoice_line
 
    ])
 
@@ -299,8 +299,7 @@ i_line_rule_cut( line_invoice_line2, [
 	
      
 
-     q10(generic_item([ line_material , s1 , tab ]))
-
+     generic_item([ line_item , w , tab ])
 
      , generic_item([ line_descr , s1 , tab ])
 
@@ -310,18 +309,15 @@ i_line_rule_cut( line_invoice_line2, [
 
      , generic_item([ line_quantity_dummy , d ] )
 
-         , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
+     , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
 
-	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`, line_num(w)] ] )
-
-     
-     , q10(generic_item( [ line_UOM_dummy, w, tab ] ))
+	 , generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`, line_num(w), q10(tab)] ] )
 
         , generic_item([ line_net_amount , d , q10(tab) ] )
 
         , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,q10(tab) ] ] ))
 
-        , q10(generic_item([ line_vat_amount , d , tab ] ))
+        , generic_item([ line_vat_amount , d , tab ] )
 
 	 , generic_item([ line_total_amount , d , newline ] ) 
      
@@ -336,7 +332,7 @@ i_line_rule_cut( line_invoice_line3, [
 	
      
 
-      q10(generic_item([ line_item , s1 , tab ]))
+      q10(generic_item([ line_item , w , tab ]))
 
 
      , generic_item([ line_descr , s1 , tab ])
