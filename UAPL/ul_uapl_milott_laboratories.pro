@@ -427,6 +427,8 @@ i_section( get_invoice_lines, [
             , [line_invoice_line , q10( line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line ) , q10(line_desr_line )]
 
             , line_invoice_line3
+
+            , line_invoice_line_4
      
             
 
@@ -569,6 +571,23 @@ i_line_rule_cut( line_invoice_line3, [
      , generic_item( [ line_descr, s1, [ tab, `*`] ] )
 
      , generic_item( [ line_unit_price, d, tab ] )
+
+     , generic_item( [ line_net_amount , d , newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_4, [
+%=======================================================================
+          
+       generic_item( [ line_quantity, d, tab ] ) 
+
+     , generic_item( [ line_descr, s1, tab ] )
+
+     , generic_append( [ line_descr, s, [q10(tab), check(line_descr(end) < 154)], ` `, `` ] )
+
+     , generic_item( [ line_unit_price_dummy, d, tab ] )
 
      , generic_item( [ line_net_amount , d , newline ] )
 
