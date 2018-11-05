@@ -230,9 +230,13 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 		 
-		  [`Total`, `:`, `(`, `AUD`, `)` ]
+		  
 
-          ,[`Total`, `:`, tab, `Carried`, tab, `Forward`]
+          [`Total`, `:`, tab, `Carried`, tab, `Forward`]
+
+          , [`ABN`, `53`, `084`, `809`, `450`, tab ]
+
+          , [`Total`, `:`, `(`, `AUD`, `)` ]
 
                ])
 
@@ -247,8 +251,12 @@ i_rule( line_invoice_line_rule, [
 or([
  
      % [line_invoice_line3, line_invoice_append]
+
+     [line_invoice_line4, q10(line_item_append)]
     
-      line_invoice_line2
+    , line_invoice_line2
+
+   
 
     % , line_invoice_line
 
@@ -384,6 +392,50 @@ i_line_rule( line_invoice_append, [
     
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line4, [
+%=======================================================================
+	
+     
+
+      generic_item([ line_item , s1 , tab ])
+
+     , generic_item([ line_descr , s1 , tab ])
+
+     , q10(generic_item([ line_customer_dummy2 , s1 , tab])) 
+
+     , generic_item([ line_quantity_dummy , d ] )
+
+     , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
+
+	 , generic_item([ line_unit_amount_dummy ,s1, tab ] )
+
+     , generic_item([ line_net_amount , d , q10(tab) ] )
+
+     ,generic_item([ line_vat_rate_dummy, d ,  `%` ] )
+
+     ,generic_item([ line_vat_amount, d , tab ] )
+
+	 , generic_item([ line_total_amount , d , newline ] ) 
+     
+    
+] ).
+
+%=======================================================================
+i_line_rule( line_item_append, [
+%=======================================================================
+	
+     generic_append( [ line_item, w, tab, ` `, ``  ] )
+
+   , q10(generic_item( [ line_dummy, s1, tab ] ))
+
+   , generic_item([ line_dummy1 , s1 , newline ] ) 
+     
+    
+] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -393,10 +445,13 @@ i_line_rule( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made - Line format 
 
+% Updated on   - Oct 31, 2018
+% Updated by   - Rohini
+% Changes made - Line level data
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

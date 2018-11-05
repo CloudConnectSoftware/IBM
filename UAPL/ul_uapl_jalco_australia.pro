@@ -197,7 +197,9 @@ q(0,50,line)
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	q(0,100,line)
+	last_line
+
+  , q(0,50,up)
 	
 	, or([
         [generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab, `(` ,generic_item( [ total_net, d ] ), `)`, tab , `(`,  generic_item( [ total_vat, d ] ), `)`, tab, `(` ],total_invoice, d, [`)`,newline] ] ), set(credit_note), trace( [ `This is a credit note` ] )]
@@ -222,7 +224,9 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-   q(0,100,line)
+   last_line
+
+  , q(0,50,up)
    
     , generic_horizontal_details( [ [ `Total`, `:`, `(`  ],  currency, w, `)` ] )
 
@@ -238,8 +242,9 @@ i_rule( get_currency, [
 %=======================================================================
 i_rule( get_line_total_amount, [
 %=======================================================================
-   
-  q(0,100,line)
+   last_line
+
+  , q(0,50,up)
   
         , or([
             generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , `(` ,  dummy_number1(d) ,`)`, tab , `(`, dummy_num2(d),`)`, tab , `(` ],line_total_amount, d, [`)`,newline ] ] )
