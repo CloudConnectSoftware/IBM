@@ -411,6 +411,8 @@ i_line_rule_cut( line_end_line,[
 
           [`Total`, `EUR`, `ohne`, `MwSt`, `.`, tab ]
 
+          , [`Nr`, `.`, tab, `Beschreibung`, tab, `Menge` ]
+
 
         ])
 
