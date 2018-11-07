@@ -165,6 +165,8 @@ i_line_rule_cut( find_order_number, [
     , or([
         generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) ,q(dec,5,15) , end ] ] )
 
+        , generic_item( [ order_number , [ begin, q(alpha("P"),1,1) , q(alpha("O"),1,1) ,q(dec,5,15) , end ] ] )
+
         ,[generic_item( [ po_number, w ] ) , generic_item( [ po_number2, w, [tab, `Total`, `Amount`, tab ] ] )
         
         , generic_item( [ total_value_dummy, d, [`USD`,  newline ] ] ) 
