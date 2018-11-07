@@ -208,7 +208,7 @@ i_section( get_invoice_lines, [
 
            , [line_invoice_line, q10(line_invoice_line2)]
 
-            %, line_invoice_line4
+            , line_invoice_line4
 
             , line_invoice_line_new
 
@@ -233,6 +233,8 @@ i_line_rule_cut( line_header_line, [
 
     
     [`Garden`, `Mark` ]
+
+    , [`Description`, tab, `Value`]
 
     , [`Movement`, `No`, `.`, `/`, `PO`, `No`]
 
@@ -307,7 +309,7 @@ i_line_rule_cut( line_invoice_line4, [
 
      generic_item( [ line_descr, s1, tab ] )
 
-     , generic_append( [ line_descr, s1, tab, ` - `, ``  ] )
+     , q10(generic_append( [ line_descr, s1, tab, ` - `, ``  ] ))
 
     , generic_item( [line_net_amount , d , newline ] )
 
@@ -456,6 +458,10 @@ i_rule( get_total_invoice, [
 % Updated on   - Aug 21, 2018
 % Updated by   - Rohini
 % Changes made - Total amount
+
+% Updated on   - Nov 7, 2018
+% Updated by   - Rohini
+% Changes made - Line level data
 
 
 % Updated on   - 
