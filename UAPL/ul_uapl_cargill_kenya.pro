@@ -208,11 +208,11 @@ i_section( get_invoice_lines, [
 
            , [line_invoice_line, q10(line_invoice_line2)]
 
-            , line_invoice_line4
+            %, line_invoice_line4
 
             , line_invoice_line_new
 
-            ,line_invoice_line_po
+            , line_invoice_line_po
 
             , line_invoice_line3
 
@@ -463,6 +463,9 @@ i_rule( get_total_invoice, [
 % Updated by   - Rohini
 % Changes made - Line level data
 
+% Updated on   - Nov 13, 2018
+% Updated by   - Rohini
+% Changes made - Line level data
 
 % Updated on   - 
 % Updated by   -
