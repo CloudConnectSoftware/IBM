@@ -81,7 +81,7 @@ i_rule( get_supplier_details, [
 i_rule( get_bankaccount_number, [
 %=======================================================================
 
-     q(0,100,line)
+     q0n(line)
 
    , generic_horizontal_details( [ [`Sort`, `Code`, generic_item( [ bank_sort_raw,s ] ), `,`, `US`, `Dollar`, `a`, `/`, `c`, `no`, `.` ], supplier_bank_account_raw, s1, newline ] )
 
@@ -142,7 +142,13 @@ i_rule( get_invoice_date, [
 
    q(0,25,line)
 
- , generic_horizontal_details( [ [`INVOICE`, `DATED`, `:` ], invoice_date, date, newline ] )
+  , or([
+
+    generic_horizontal_details( [ [`INVOICE`, `DATE`, `:` ], invoice_date, date, newline ] )
+
+  , generic_horizontal_details( [ [`INVOICE`, `DATED`, `:` ], invoice_date, date, newline ] )
+
+ ] )
 
 ] ).
 
@@ -157,7 +163,7 @@ i_rule( get_invoice_date, [
 i_rule( get_due_date, [
 %=======================================================================
 
-   q(0,100,line)
+   q0n(line)
 
  , generic_horizontal_details( [ [`Payment`, `due`, `:`], due_date, date, newline ] )
 
@@ -176,7 +182,13 @@ i_rule( get_order_number, [
 
     q(0,25,line)
 
+ , or([
+
+   generic_horizontal_details( [ [`PO` ], order_number, d, [`/`, `DN`] ] )
+
  , generic_horizontal_details( [ [`UAPL`, `-`, `PO`, `:` ], order_number, d, newline ] )
+
+] )
 
 ] ).
 
