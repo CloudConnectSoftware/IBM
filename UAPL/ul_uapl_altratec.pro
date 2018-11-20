@@ -363,6 +363,8 @@ i_rule( get_total_vat, [
 
      , generic_horizontal_details( [ [ `Add`, `Tax`, tab ], total_vat, d, newline ] )
 
+     , generic_horizontal_details( [ [ `Add`, `GST`, `@`, `6`, `%`, tab ], total_vat, d, newline ] )
+
      
     ])
 
@@ -853,7 +855,7 @@ i_line_rule_cut( line_credit_line, [
 
 % Updated on   - Nov 20, 2018
 % Updated by   - Rohini
-% Changes made - Line Vat
+% Changes made - Line Vat and total vat
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
