@@ -103,15 +103,16 @@ i_rule( get_bank_account_no, [
 
 	q(0,250,line)
 
+    , set(regexp_cross_word_boundaries)
 
-     , with( invoice, currency, Currency )
-
-     , or( [
+    , or( [
   
- [  generic_horizontal_details( [ [  `Account`, `NO`, `.`, tab, `:` ],  supplier_bank_account_number_raw, w, [`(`, `S`, `$`, `A`, `/`, `C`, `)`] ] ) ]
+ [  generic_horizontal_details( [ [  `Account`, `No`, `.`, tab, `:`, tab ],  supplier_bank_account_number_raw, w, [`(`, `S`, `$`, `A`, `/`, `C`, `)`] ] ) ]
 
         
  ] )
+
+ , clear(regexp_cross_word_boundaries)
 
 
 ] ).
