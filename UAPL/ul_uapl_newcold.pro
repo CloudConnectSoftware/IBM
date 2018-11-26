@@ -36,7 +36,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
+   % , get_currency
   
     , get_invoice_lines
 
@@ -57,6 +57,8 @@ i_rule( get_supplier_details, [
       , supplier_vat_number(`81609728083`)
 
       , buyer_registration_number(`AU00`)
+
+      , currency( `AUD` )
 
 ] ).
 
@@ -237,7 +239,7 @@ i_rule(get_total_invoice, [
 %=======================================================================
 
    q(0,50,line)
-
+   
    ,generic_horizontal_details( [ [`Total`, `incl`, `.`, `GST`, tab, generic_item( [ currency, w ] ), tab ], total_invoice, d, newline  ] )
 
 ] ).
