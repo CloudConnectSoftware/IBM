@@ -181,12 +181,17 @@ i_rule( get_invoice_date, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-	line_line
+	last_line
 
     , q(0,25,up)
 
 	
-	, generic_horizontal_details( [ [ `Total`, tab, q10([`SGD`, tab]) ],total_invoice, d, newline ] )
+	, or([
+        generic_horizontal_details( [ [ `Total`, tab, `SGD`, tab ],total_invoice, d, newline ] )
+
+        , generic_horizontal_details( [ [ `Total`, q10(tab) ],total_invoice, d, newline ] )
+
+    ])
 
      , currency( `SGD` )
 ] ).
