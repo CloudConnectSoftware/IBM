@@ -304,7 +304,7 @@ i_line_rule( line_invoice_line, [
 
      , q10(generic_append( [ line_descr, s1, tab, `_`, ``  ] ))
 
-	 , generic_item([ line_total_amount , d , newline ] ) 
+	 , generic_item([ line_net_amount , d , newline ] ) 
          
 
 ] ).
@@ -315,7 +315,7 @@ i_line_rule( line_invoice_line_2, [
    
    generic_item([ line_descr , s1, tab ])
 
-	 , generic_item([ line_total_amount , d , newline ] ) 
+	 , generic_item([ line_net_amount , d , newline ] ) 
          
 
 ] ).
