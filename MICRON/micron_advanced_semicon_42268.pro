@@ -552,6 +552,8 @@ i_section( get_invoice_lines, [
 
              [ line_invoice_line,line_invoice_line_2]
 
+             , [line_invoice_line_1,line_invoice_line_2 ]
+
              , line
 
         ])
@@ -616,6 +618,31 @@ i_line_rule_cut( line_invoice_line, [
 
       
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+
+      generic_item( [ line_item, d, tab ] )
+
+    , generic_item( [ line_lot_number, s , [ `.`, dummy_num(d), tab ] ] )
+
+    , generic_item( [ line_buyers_order_number, d, `-` ]  )
+ 
+    , generic_item( [ line_po_item, d,  newline ] )
+
+   
+    , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       ])
+
+      
+] ).
+
 
 %=======================================================================
 i_line_rule( line_append_line, [
