@@ -105,7 +105,13 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-      , generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,1), (start,20,20), invoice_number, w, or([ tab , newline ]) ] )
+      , or([
+          
+          generic_vertical_details( [ [ `Invoice`, `Number` ], `Invoice`, q(0,1), (start,20,20), invoice_number, w, or([ tab , newline ]) ] )
+
+        , generic_vertical_details( [ [ `Credit`,`Note`, `Number` ], `Note`, q(0,1), (start,20,20), invoice_number, w, newline ] )
+
+        ])
 
       ] ).
 
@@ -237,12 +243,23 @@ i_rule( get_total_invoice, [
 i_rule( get_currency, [
 %=======================================================================
 
-     q0n(line)
-    
-       , generic_horizontal_details( [ [`TOTAL`  ], currency, w, tab ] )
+q0n(line)
 
-    
-    ] ).
+    , currency_line
+
+]).
+
+%=======================================================================
+i_line_rule( currency_line, [
+%=======================================================================
+
+    q0n(anything)
+
+   , or([ [ `CNY`   , currency(`CNY`)]
+
+   ,  [ `IDR`   , currency(`INR`)] ])
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
