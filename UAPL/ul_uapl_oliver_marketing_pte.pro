@@ -122,7 +122,25 @@ i_rule_cut( get_invoice_date, [
 
     q0n(line)
 
-      , generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,1), (start,20,20), invoice_date, date, or([ tab , newline ]) ] )
+      , or([
+          
+          generic_vertical_details( [ [ `Invoice`, `Date` ], `Invoice`, q(0,1), (start,20,20), invoice_date, date, or([ tab , newline ]) ] )
+
+        , [ generic_horizontal_details( [ [ `TAX`, `CREDIT`, `NOTE`, tab], invoice_date_raw, s1, tab ] )
+
+   , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice Date Raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `Nov`, `November`, DateStrip1 ))
+
+    , trace( [ `Date Stripped Coma` , DateStrip1 ] )
+
+    , invoice_date(DateStrip1)
+
+    , trace( [ `Invoice Date` , invoice_date ] ) ]
+
+   ])
 
       ] ).
 
