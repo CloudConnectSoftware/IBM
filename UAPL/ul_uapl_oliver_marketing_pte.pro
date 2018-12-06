@@ -255,9 +255,9 @@ i_line_rule( currency_line, [
 
     q0n(anything)
 
-   , or([ [[ `AMOUNT`, `CNY` ]  , currency(`CNY`)] ])
+   , or([ [ `CNY`   , currency(`CNY`)]
 
-   , or([ [[ `AMOUNT`, `IDR` ]  , currency(`INR`)] ])
+   ,  [ `IDR`   , currency(`INR`)] ])
 
 ] ).
 
