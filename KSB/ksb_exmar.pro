@@ -441,7 +441,8 @@ i_section( get_invoice_lines, [
 		,or( [
 
             		
-			[line_invoice_line, q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
+			
+             [line_invoice_line, q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
 
             , [q10(line_append_line),line_invoice_line1]
 
@@ -481,6 +482,7 @@ i_line_rule_cut( line_end_line,[
 		 
         , [`Waren`, `-`, `/`, `Nettowert`, tab ]
 
+         , [`Pos`, tab, `Artikelnummer`, tab, `Urspr`]
 
         ])
 
