@@ -21,6 +21,8 @@ i_rule_list( [
     
       get_supplier_detail
 
+    , get_supplier_party
+
     , get_invoice_number
     
     , get_invoice_date
@@ -70,19 +72,55 @@ i_rule_list( [
 %=======================================================================
 i_rule( get_supplier_detail, [
 %=======================================================================
-
-     
-     supplier_party( `KMH HITECH(XI'AN)CO., LTD` )
-
-    , sender_name( `KMH HITECH(XI'AN)CO., LTD` )
-
-    , bill_from( `KMH HITECH(XI'AN)CO., LTD` )
-
-    , supplier_vat_number(`NA`)
-
-    , swiss_supplier_country(`CHN`)
+    
+      supplier_vat_number(`NA`)
     
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BUYER REGISTRATION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_party, [
+%=======================================================================
+  
+      q(0,15,line)
+
+   , line_add_line
+
+ 
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+    
+         or([
+
+           read_ahead(`KMH`)
+
+        ])
+
+          , or([
+        
+           generic_item( [ supplier_party, s1, tab ] )
+
+           ])
+     
+        , or([
+         
+         [ check(supplier_party = `KMH HITECH(XI'AN)CO., LTD`) ,generic_item( [ sender_name, `KMH HITECH(XI'AN)CO., LTD` ] ), generic_item( [ bill_from, `KMH HITECH(XI'AN)CO., LTD` ] ), generic_item( [ swiss_supplier_country, `CHN` ] ) ] 
+
+        , [ check(supplier_party = `KMH HITECH CO.,LTD`) ,generic_item( [ sender_name, `KMH HITECH CO.,LTD` ] ), generic_item( [ bill_from, `KMH HITECH CO.,LTD` ] ), generic_item( [ swiss_supplier_country, `KOR` ] ) ] 
+
+    
+        ])
+
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -438,7 +476,13 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    [ `GOODS`, `AND`, `DESCRIPTION`, tab, `Q`, `'`, `ty`, tab ]
+    or([
+        
+      [ `GOODS`, `AND`, `DESCRIPTION`, tab, `Q`, `'`, `ty`, tab ]
+
+    , [`SHIPPING`, `MARKS`, tab, `GOODS`, `AND`, `DESCRIPTION`, tab ]
+
+] )
 
     , trace( [ `Found Start line` ] )
 
@@ -499,6 +543,12 @@ i_line_rule_cut( line_invoice_append, [
 % Updated on   - October 22, 2018
 % Updated by   - Rohini 
 % Changes made   - Supplier name
+
+
+% Updated on   - Dec 11, 2018
+% Updated by   - Rohini 
+% Changes made   - New Vendor KHM HITECH Format added
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
