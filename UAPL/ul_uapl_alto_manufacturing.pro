@@ -273,6 +273,8 @@ i_line_rule_cut( line_end_line,[
 		 
 		  [`Total`, `:`, `(`, `AUD`, `)` ]
 
+         ,[`Material`, tab, `Material`, tab, `Customer`, tab, `Customer`, tab, `Sales`] 
+
           ,[`Total`, `:`, tab, `Carried`, tab, `Forward`]
 
                ])
@@ -295,9 +297,9 @@ i_line_rule_cut( line_invoice_line, [
 
 	    , generic_item([ line_sales_order_number , d, tab ])
 
-        , generic_item([ line_quantity_dummy , d ] )  
+        , generic_item([ line_quantity_dummy , d1 ] )  
 
-         , generic_item([ line_quantity_uom_code , w , tab ] )
+         , generic_item([ line_quantity_uom_code , w ,q10( tab) ] )
 
 	    %, generic_item([ line_unit_amount_dummy ,d, [`AUD`, `/`] ] )
 
