@@ -199,8 +199,14 @@ i_rule( get_total_invoice, [
 %=======================================================================
 
 	q0n(line)
+
+    , or([
+
+    generic_horizontal_details( [ [`Total`, `:`, `(`, `AUD`, `)`, tab, generic_item( [ total_net, d ] ), tab ],total_invoice, d, newline  ] )
 	
 	, generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab  ,generic_item( [ total_net, d ] ), tab,  generic_item( [ total_vat, d ] ), tab ],total_invoice, d, newline ] )
+
+] )
 
 ] ).
 
@@ -234,10 +240,14 @@ i_rule( get_line_total_amount, [
 %=======================================================================
    
    q0n(line)
+
+   , or([
+
+        generic_horizontal_details( [ [`Total`, `:`, `(`, `AUD`, `)`, tab, generic_item( [ line_net_amount, d ] ), tab ],line_total_amount, d, newline  ] )
   
         , generic_horizontal_details( [ [ `Total`, `:`, `(`, `AUD`, `)` , tab , dummy_number1(d) , tab, dummy_num2(d), tab ],line_total_amount, d, newline ] )
          
-    
+    ] ) 
      ] ).
 
 
@@ -256,3 +266,15 @@ i_section( get_invoice_lines, [
     , invoice_lines( `Service Charges` )
 
 ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - Dec 20, 2018
+% Updated by   - Rohini
+% Changes made   - Invoice total
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
