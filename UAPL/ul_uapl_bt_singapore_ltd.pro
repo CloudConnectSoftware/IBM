@@ -357,7 +357,15 @@ i_line_rule_cut( find_order_number, [
 
     q0n(anything)
 
-    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+    , or([ check_text(`PO`), check_text(`DO`) ])
+
+    , or([
+        
+        generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+
+        , generic_item( [ order_number , [ begin, q(alpha("P"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+
+    ])
 
 ] ).
 
