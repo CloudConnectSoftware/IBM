@@ -70,6 +70,8 @@ i_rule( get_supplier_detail, [
 
     , supplier_vat_number(`IT08537690151`)
 
+    ,buyer_dept(`IT`)
+
 ] ).
 
 
