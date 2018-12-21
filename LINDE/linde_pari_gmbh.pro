@@ -72,8 +72,6 @@ i_rule( get_supplier_detail, [
 
    ,supplier_vat_number(`DE83375911`)
 
-   ,buyer_dept(``)
-
 
    
 ] ).
