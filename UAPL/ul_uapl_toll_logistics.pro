@@ -21,7 +21,7 @@ i_rule_list( [
 
 	get_supplier_details
 
-    ,get_currency
+   % ,get_currency
 
     ,get_bank_account_no
 
@@ -61,6 +61,8 @@ i_rule( get_supplier_details, [
    , supplier_vat_number(`M20129625X`)
 
     , set(freight_vendor)
+
+    , currency( `SGD` )
 
   ] ).
 
