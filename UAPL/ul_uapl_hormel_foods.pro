@@ -173,6 +173,8 @@ i_rule( get_total_invoice, [
 
               ,generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WGT`, tab, dummy_num1(d) , tab, dummy_num2(s1), tab, dummy_num3(s1) , tab, set( regexp_cross_word_boundaries ) ], total_invoice  , d , newline ] )
 
+              , generic_horizontal_details( [ [  `TOTAL`, `GROSS`, `WGT`, tab, dummy(d), `LBS`, tab, dummy(d), tab, dummy(d), tab ], total_invoice, d, newline ] ) 
+
           ])
           
 
@@ -209,6 +211,8 @@ i_rule( get_line_total_amount, [
         generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WEIGHT`, dummy_num4(d) , tab, dummy_num5(s1), tab, dummy_num6(s1) , tab ], line_total_amount_raw  , s1 , newline ] )
 
        , generic_horizontal_details( [ [ `TOTAL`, `GROSS`, `WGT`, tab , dummy_num4(d) , tab, dummy_num5(s1), tab, dummy_num6(s1) , tab ], line_total_amount_raw  , s1 , newline ] )
+
+       , generic_horizontal_details( [ [  `TOTAL`, `GROSS`, `WGT`, tab, dummy(d), `LBS`, tab, dummy(d), tab, dummy(d), tab ], line_total_amount_raw, d, newline ] ) 
 
     ])
 
