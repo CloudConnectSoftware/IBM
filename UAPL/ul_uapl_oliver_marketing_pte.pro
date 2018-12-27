@@ -163,10 +163,23 @@ i_rule_cut( get_order_number, [
 
     q0n(line)
 
-      , generic_vertical_details( [ [ `Reference` ], `Reference`, q(0,1), (start,20,20), order_number, w, or([ tab , newline ]) ] )
+     % , generic_vertical_details( [ [ `Reference` ], `Reference`, q(0,1), (start,20,20), order_number, w, or([ tab , newline ]) ] )
 
-      ] ).
-     
+   , find_order_number
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+     q0n(anything)
+
+    , generic_item( [ order_number , [ begin, q(alpha("D"),1,1) , q(alpha("O"),1,1) , q(dec,5,15) , end ] ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
