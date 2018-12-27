@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `15/10/2018 16:18:25` ).
+i_version( p_ibm_micron, `27/12/2018 08:28:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -339,7 +339,7 @@ i_analyse_invoice_type___
 
 		;
 
-		result( _, invoice, tax_invoice, _ ),
+		grammar_set( tax_invoice ),
 
 		assertz_derived_data( invoice, invoice_type, `Tax Invoice`, i_analyse_invoice_type )
 
