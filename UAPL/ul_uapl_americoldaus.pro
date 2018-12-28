@@ -256,7 +256,7 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_start_line, [
 %=======================================================================
 	
-	  `Charge`, `Code`, `Charge`, `Description`, tab, `Charge`, `Units`, tab, `Invoice`, `Units`, tab, `Charge`, `Price`, tab, `GST`,  newline
+	 [ `Charge`, `Code`, `Charge`, `Description`, tab, `Charge`, `Units`, tab, `Invoice`, `Units`]
 
 	, trace( [ `FOUND LINE HEADER LINE`])
 
@@ -278,7 +278,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-	generic_item( [ line_charge , d, tab ] )
+	generic_item( [ line_item, d, q10(tab) ] )
 
 	
 	, generic_item( [ line_descr , s1, tab ] )
@@ -296,12 +296,9 @@ i_line_rule_cut( line_invoice_line, [
 	, generic_item( [ line_unit_amount , d , [tab , `$` , tab ] ])
 
 	
-	, generic_item( [ line_net_amount, d , tab ] )
+	, generic_item( [ line_net_amount, d , [tab, a(w),  newline] ] )
 
-	
-	, generic_item( [ line_gstdummy , w , newline ] )
-
-] ).
+	] ).
 
 %=======================================================================
 i_line_rule_cut( line_invoice_adj_line, [
