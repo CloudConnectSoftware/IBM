@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `07/01/2019 15:33:48` ).
+i_version( output_ibm_micron_dc_xml, `08/01/2019 09:25:38` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,7 +48,7 @@ i_op_param( xml_empty_tags( _ ), _, _, _, `` ).
 i_override_2dp_amount( total_net ).
 i_override_2dp_amount( total_vat ).
 i_override_2dp_amount( total_invoice ).
-i_override_4dp_amount( total_local_vat ).
+i_override_2dp_amount( total_local_vat ).
 
 i_override_4dp_amount( line_quantity ).
 i_override_2dp_amount( line_unit_amount ).
