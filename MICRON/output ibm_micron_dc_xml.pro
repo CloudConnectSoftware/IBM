@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `08/01/2019 09:25:38` ).
+i_version( output_ibm_micron_dc_xml, `09/01/2019 11:48:12` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,7 +48,6 @@ i_op_param( xml_empty_tags( _ ), _, _, _, `` ).
 i_override_2dp_amount( total_net ).
 i_override_2dp_amount( total_vat ).
 i_override_2dp_amount( total_invoice ).
-i_override_2dp_amount( total_local_vat ).
 
 i_override_4dp_amount( line_quantity ).
 i_override_2dp_amount( line_unit_amount ).
@@ -182,7 +181,7 @@ write_header___
 		write_variable_as_tag( invoice, erp_ref_number, `ERP_Ref_Number` ),
 
 		( result( _, invoice, total_local_vat, _ )
-			->	write_ibm_number_variable_as_tag( invoice, total_local_vat, `VAT_Local_Amount`, '4dp_' ) % Only for foreign invoices with UK VAT
+			->	write_ibm_number_variable_as_tag( invoice, total_local_vat, `VAT_Local_Amount`, '2dp_' ) % Only for foreign invoices with UK VAT
 			;	write_element_string( `VAT_Local_Amount`, `0` )
 		),
 		write_ibm_number_variable_as_tag( invoice, total_discount, `Discount_Amount`, '4dp_' ),
