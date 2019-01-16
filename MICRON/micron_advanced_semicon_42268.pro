@@ -41,7 +41,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_bill_to
+    %, get_bill_to
 
     , get_ship_to
       
@@ -246,7 +246,7 @@ i_line_rule( line_b_add_line_2, [
 
     , trace( [ `Found address`] )
     
-    ,generic_item( [ swiss_buyer_name, s1, tab ] )  
+    ,generic_item( [ bill_to, s1, tab ] )  
        
 ] ).
 
@@ -255,7 +255,7 @@ i_line_rule( line_b_add_line_2, [
 i_line_rule( line_b_add_line_3, [
 %=======================================================================
       
-       generic_item( [ swiss_buyer_address_1, s1, tab ] ) 
+       generic_append( [ bill_to, s1, tab, ` `, ` ` ] )  
 
 ] ).
 
@@ -263,7 +263,7 @@ i_line_rule( line_b_add_line_3, [
 i_line_rule( line_b_add_line_4, [
 %=======================================================================
        
-       generic_item( [ swiss_buyer_address_2, s1, tab ] ) 
+       generic_item( [ swiss_buyer_address_1, s1, tab ] ) 
  
 ] ).
 
@@ -271,7 +271,7 @@ i_line_rule( line_b_add_line_4, [
 i_line_rule( line_b_add_line_5, [
 %=======================================================================
        
-       generic_item( [ swiss_buyer_address_3, s1, tab ] ) 
+       generic_item( [ swiss_buyer_address_2, s1, tab ] ) 
 
    
 ] ).
