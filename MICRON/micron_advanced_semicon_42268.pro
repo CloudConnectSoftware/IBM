@@ -255,7 +255,9 @@ i_line_rule( line_b_add_line_2, [
 i_line_rule( line_b_add_line_3, [
 %=======================================================================
       
-       generic_append( [ bill_to, s1, tab, ` `, ` ` ] )  
+      read_ahead(`Operations`)
+
+      , generic_append( [ bill_to, s1, tab, ` `, ` ` ] )  
 
 ] ).
 
