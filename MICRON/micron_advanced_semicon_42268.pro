@@ -223,7 +223,7 @@ i_rule( get_buyer_address, [
 
    , q(0,1,line)
 
-   , line_b_add_line_3
+   , q10(line_b_add_line_3)
    
    , q(0,1,line)
 
