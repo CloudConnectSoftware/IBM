@@ -327,6 +327,8 @@ i_rule( get_invoice_number, [
 
      q(0,15,line)
 
+    , check_text(`invoice`) 
+
     ,  generic_horizontal_details( [ [`INVOICE`, q10(`No`), `:`  ],100, invoice_number, s1, newline ] )
 
 ] ).
@@ -342,6 +344,8 @@ i_rule( get_invoice_date, [
 %=======================================================================
 
       q(0,20,line)
+
+    , check_text(`Date`) 
 
     ,  or([
         
@@ -376,6 +380,9 @@ i_rule( get_delivery_note_number, [
 %=======================================================================
 
     q(0,100,line)
+
+    , check_text(`DN`) 
+
 
     , generic_horizontal_details( [ [`DN`, `No`, `:`, tab ], delivery_note_number,d, newline ] )
  
@@ -515,6 +522,7 @@ i_rule( get_currency, [
 q0n(line)
 
     , currency_line
+    
 
 ]).
 
