@@ -307,7 +307,6 @@ i_rule( get_ship_to, [
 
      q(0,20,line)
 
-
     ,  generic_horizontal_details( [ [  `SHIP`, `TO`, `:`,q10(tab) ], ship_to, s1, or([tab, newline]) ])
       
     , q(0,1,line)  
