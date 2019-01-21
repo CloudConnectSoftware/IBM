@@ -652,7 +652,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_item, d, tab ] )
 
-    , generic_item( [ line_lot_number, s , [ `.`, dummy_num(d), tab ] ] )
+    , generic_item( [ line_lot_number, s , [ `.`, dummy_num(w), tab ] ] )
 
     , generic_item( [ line_buyers_order_number, d, `-` ]  )
  
