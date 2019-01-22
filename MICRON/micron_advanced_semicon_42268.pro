@@ -480,6 +480,8 @@ i_rule( get_po_line, [
 
      q(0,100,line)
 
+     , or([ check_text(`45`), check_text(`55`) ])
+
     ,or([
        
       % generic_horizontal_details( [ [  `PO`,`item`, `:` ], po_item, w, newline ] )
