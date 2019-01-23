@@ -35,7 +35,7 @@ invoice_or_credit_note
 
     , get_currency
 
-    ,get_bank_acct
+    , get_bank_acct
 
     , get_order_number
 
@@ -197,10 +197,11 @@ i_rule( get_total_net, [
 
              generic_horizontal_details( [ [ q10(`1`), q10(`CS`), q10(tab) , `TOTAL`, tab ] , total_net , d , newline ] )
 
-             , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_net , d , newline ] )
+            , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_net , d , newline ] )
+
+            , generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, tab, `BANGKOK`, tab ] , total_net , d , newline ] )
             
-        ])
-     
+        ])    
 
 ] ).
 
@@ -249,6 +250,17 @@ i_rule( get_total_invoice, [
 
 
         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`], 400, total_invoice, d, newline ] ) 
+          
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
+        
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, tab, `BANGKOK`, tab ], total_invoice, d, newline ] ) 
           
         , check( total_invoice = TotInv )
 
@@ -603,7 +615,9 @@ i_line_rule_cut( line_invoice_line_4, [
 % Updated by   - Thejaswi
 % Changes made - New Format
 
-
+% Updated on   - Jan 23, 2019
+% Updated by   - Thejaswi
+% Changes made - Total Invoice
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
