@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Advanced Semiconductor Engineering Inc. Vendor number 1042268
+%(Chung-Li) Branch
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -87,27 +88,29 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Advanced Semiconductor Engineering Inc.` )
 
-   ,supplier_party( `Advanced Semiconductor Engineering Inc.` )
+   , supplier_party( `Advanced Semiconductor Engineering Inc.` )
 
-   ,bill_from(`Advanced Semiconductor Engineering Inc.`)
+   , bill_from(`Advanced Semiconductor Engineering Inc.`)
 
-   ,supplier_vat_number(`NA`)
+   , supplier_vat_number(`NA`)
 
    , swiss_supplier_name(`Advanced Semiconductor Engineering Inc.`)
+
+   , swiss_supplier_country(`TWN`)
 
       
 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % GET TAX INVOICE
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET TAX INVOICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %=======================================================================
+%=======================================================================
     i_rule( set_Invoice_tax, [
-    %=======================================================================
+%=======================================================================
 
         q(0, 10, line)
         
@@ -115,9 +118,9 @@ i_rule( get_supplier_detail, [
 
     ] ).
 
-    %=======================================================================
+%=======================================================================
     i_line_rule( invoice_tax_line, [
-    %=======================================================================
+%=======================================================================
 
        q0n(anything)
 
@@ -127,7 +130,7 @@ i_rule( get_supplier_detail, [
 
         , trace( [ `Found Tax Invoice` ] )
 
-    ] ).
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,7 +175,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-       generic_item( [ swiss_supplier_address_2, s1, tab ] )
+       generic_item( [ swiss_supplier_address_2, s1, newline ] )
 
     
 ] ).
@@ -181,7 +184,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-        generic_item( [ swiss_supplier_country, `CHN` ] )
+        generic_item( [ swiss_supplier_address_3,s1, newline  ] )
         
 ] ).
 
@@ -350,9 +353,14 @@ i_line_rule( ship_to_line, [
 %=======================================================================
      q0n(anything) 
 
-     , read_ahead(`Operations`)
+    , read_ahead(`Operations`)
 
-      , generic_append( [ bill_to, s1, newline, ` `, ` ` ] )  
+    , generic_append( [ bill_to, s1, newline, ` `, ` ` ] )  
+      
+    , check( swiss_buyer_name = BuyName)
+
+    , generic_item( [ bill_to , BuyName ] )
+
 
 ] ).
 
@@ -466,6 +474,8 @@ i_line_rule_cut( find_order_number, [
     , or([
         
     generic_item( [ order_number , [ begin, q(dec("5"),1,1) , q(dec("5"),1,1), q(dec("0"),1,1) , q(dec,7,7) , end ] ] )
+
+  , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1), q(dec("0"),1,1) , q(dec,7,7) , end ] ] )
 
     ])
 
@@ -660,7 +670,9 @@ i_line_rule_cut( line_invoice_line, [
       
     , generic_item( [ line_descr, s1 , tab ]  )
 
-    , generic_item( [ line_item, d, tab ] )
+    , q10(generic_item( [ line_descr_dummy, s1 , tab ]  ))
+
+    , q10(generic_item( [ line_item, d, tab ] ))
 
     , generic_item( [ line_lot_number, s , [ `.`, dummy_num(w), tab ] ] )
 
@@ -776,6 +788,10 @@ i_line_rule_cut( line_invoice_line_3, [
 % Updated on   - Oct 16, 2018
 % Updated by   - Rohini
 % Changes made - Lot number for line level details updated
+
+% Updated on   - Jan 25, 2019
+% Updated by   - Rohini
+% Changes made - Line details, Order number
 
 % Updated on   - 
 % Updated by   -
