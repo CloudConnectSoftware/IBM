@@ -4,13 +4,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `11/01/2018 12:57:22` ).
+i_version( p_taulia, `19/06/2018 12:01:20` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_rules_file( `d_taulia_compliance.pro` ).
 i_rules_file( `d_zip_against_state.pro` ).
-i_rules_file( `d_taulia_ibm.pro` ).
+i_rules_file( `d_taulia.pro` ).
 i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` )
@@ -300,6 +300,7 @@ i_final_rule( [
 .
 
 forced_no_reply_addresses( `noreply@inexchange.se` ).
+forced_no_reply_addresses( `payments-noreply@google.com` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -355,9 +356,9 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( VAT, Sub_3, X ),
 		sys_calculate_str_subtract( Total, X, Net ),
 		assertz_derived_data( invoice, total_net, Net, i_analyse_total_net )
-		
+
 		;
-		
+
 		not( result( _, invoice, total_vat, _ ) ),
 		result( _, invoice, total_net, Net ),
 		(
@@ -369,9 +370,9 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( Net, Sub_3, X ),
 		sys_calculate_str_subtract( Total, X, VAT ),
 		assertz_derived_data( invoice, total_vat, VAT, i_analyse_total_vat )
-		
+
 		;
-		
+
 		not( result( _, invoice, total_invoice, _ ) ),
 		result( _, invoice, total_net, Net ),
 		result( _, invoice, total_vat, VAT ),
@@ -383,9 +384,9 @@ i_analyse_missing_invoice_totals___
 		sys_calculate_str_add( Net, VAT, X ),
 		sys_calculate_str_add( X, Sub_3, Total ),
 		assertz_derived_data( invoice, total_invoice, Total, i_analyse_total_invoice )
-		
+
 	),
-	
+
 	!
 .
 
@@ -432,9 +433,9 @@ i_analyse_discount_flag___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	result( _, invoice, total_discount, _ ),
-	
+
 	sys_assertz( grammar_set( discount_has_been_mapped ) ),
-	
+
 	!
 .
 
@@ -470,6 +471,35 @@ i_analyse_taulia_emails
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% TRUNCATE CUSTOMER COMMENTS TO 1000 CHARACTERS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_customer_comments___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_customer_comments___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, invoice, customer_comments, Comments ),
+
+	sys_string_length( Comments, Length ),
+	
+	Length > 1024,
+
+	q_sys_sub_string( Comments, 1, 1024, Comments_1024 ),
+
+	sys_retractall( result( _, invoice, customer_comments, _ ) ),
+
+	assertz_derived_data( invoice, customer_comments, Comments_1024, i_analyse_customer_comments___ ),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % TRUNCATE LINE DESCR TO 1000 CHARACTERS
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -483,8 +513,8 @@ i_cut_descriptions_1000_characters( LID )
 :-
 	result( _, LID, line_descr, Descr ),																%% Bring through the result of line descr and call it Descr
 	sys_string_length( Descr, DescrLen ),																%% Determine the length of Descr, call it DescrLen
-	DescrLen > 200,																					%% Is DescrLen more than 1000?
-	q_sys_sub_string( Descr, 1, 200, Descr1000 ),														%% Define Descr1000 as the first 1000 characters
+	DescrLen > 1000,																					%% Is DescrLen more than 1000?
+	q_sys_sub_string( Descr, 1, 1000, Descr1000 ),														%% Define Descr1000 as the first 1000 characters
 	sys_retractall( result( _, LID, line_descr, _ ) ),													%% Remove current line description
 	assertz_derived_data( LID, line_descr, Descr1000, i_cut_descriptions_1000_characters ),				%% Insert our Descr1000 as new line description
 	!
@@ -493,7 +523,31 @@ i_cut_descriptions_1000_characters( LID )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% TRUNCATE LINE DESCR TO 1000 CHARACTERS
+% TRUNCATE ADDITIONAL LINE DESCR TO 255 CHARACTERS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_first( LID ):- i_cut_additional_descriptions_256_characters( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_cut_additional_descriptions_256_characters( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_descr, Descr ),																%% Bring through the result of line descr and call it Descr
+	result( _, LID, line_type, `extra` ),																%% Check it is an additional line
+	sys_string_length( Descr, DescrLen ),																%% Determine the length of Descr, call it DescrLen
+	DescrLen > 255,																					%% Is DescrLen more than 1000?
+	q_sys_sub_string( Descr, 1, 255, Descr1000 ),														%% Define Descr1000 as the first 1000 characters
+	sys_retractall( result( _, LID, line_descr, _ ) ),													%% Remove current line description
+	assertz_derived_data( LID, line_descr, Descr1000, i_cut_additional_descriptions_256_characters ),				%% Insert our Descr1000 as new line description
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% DEFAULT UOMS
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -528,26 +582,26 @@ i_analyse_total_discount___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
 	not( grammar_set( discount_has_been_mapped ) ),
-	
+
 	sys_findall( Line_Amount_Discount, result( _, LID, line_amount_discount, Line_Amount_Discount ), List_of_Line_Discounts_Raw ),
-	
+
 	i_force_list( List_of_Line_Discounts_Raw, List_of_Line_Discounts ),
-	
+
 	i_user_check( sum_string_list, List_of_Line_Discounts, Sum_of_Line_Discounts ),
-	
+
 	(
 		result( _, invoice, rounding_amount, Rounding_Amount )
-		
+
 		;
-		
+
 		not( result( _, invoice, rounding_amount, _ ) ),
-		
+
 		Rounding_Amount = `0`
-		
+
 	),
-	
+
 	!,
-	
+
 	(
 		result( _, invoice, header_discount, Header_Discount )
 
@@ -566,9 +620,9 @@ i_analyse_total_discount___
 	sys_calculate_str_subtract( Line_and_Header_Discount, Rounding_Amount, Total_Discount ),
 
 	sys_retractall( result( _, invoice, total_discount, _ ) ),
-	
+
 	assertz_derived_data( invoice, total_discount, Total_Discount, i_analyse_total_discount ),
-	
+
 	!
 .
 
@@ -907,6 +961,14 @@ taulia_uom_code( `TN`, `STN` ).
 taulia_uom_code( `STN_US`, `STN` ).
 taulia_uom_code( `MT`, `MTR` ).
 taulia_uom_code( `CYL`, `CYL` ).
+taulia_uom_code( `PK`, `PK` ).
+taulia_uom_code( `TNE`, `TNE` ).
+taulia_uom_code( `WU`, `WU` ).
+taulia_uom_code( `TON`, `TON` ).
+taulia_uom_code( `LTR`, `LTR` ).
+taulia_uom_code( `KGM`, `KGM` ).
+taulia_uom_code( `RL`, `RL` ).
+taulia_uom_code( `CT`, `CT` ).
 taulia_uom_code( _ , `EA` ).
 
 %-----------------------------------------------------------------------
