@@ -25,7 +25,7 @@ i_rule_list( [
  
     , set_credit_note
                      
-    , get_invoice_number
+    %, get_invoice_number
     
     , get_invoice_date
 
