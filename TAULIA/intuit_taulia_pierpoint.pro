@@ -66,6 +66,8 @@ i_rule( get_supplier_detail, [
 
    , buyer_registration_number(`N/A`)
 
+   , supplier_registration_number(`ignacio.martin@pierpoint.com`)
+
 
 ] ).
 
