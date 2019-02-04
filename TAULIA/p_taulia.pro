@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `29/01/2019 14:06:26` ).
+i_version( p_taulia, `04/02/2019 10:10:35` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -300,6 +300,7 @@ i_final_rule( [
 .
 
 forced_no_reply_addresses( `noreply@inexchange.se` ).
+forced_no_reply_addresses( `payments-noreply@google.com` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -512,8 +513,8 @@ i_cut_descriptions_1000_characters( LID )
 :-
 	result( _, LID, line_descr, Descr ),																%% Bring through the result of line descr and call it Descr
 	sys_string_length( Descr, DescrLen ),																%% Determine the length of Descr, call it DescrLen
-	DescrLen > 200,																					%% Is DescrLen more than 1000?
-	q_sys_sub_string( Descr, 1, 200, Descr1000 ),														%% Define Descr1000 as the first 1000 characters
+	DescrLen > 1000,																					%% Is DescrLen more than 1000?
+	q_sys_sub_string( Descr, 1, 1000, Descr1000 ),														%% Define Descr1000 as the first 1000 characters
 	sys_retractall( result( _, LID, line_descr, _ ) ),													%% Remove current line description
 	assertz_derived_data( LID, line_descr, Descr1000, i_cut_descriptions_1000_characters ),				%% Insert our Descr1000 as new line description
 	!
@@ -522,7 +523,31 @@ i_cut_descriptions_1000_characters( LID )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% TRUNCATE LINE DESCR TO 1000 CHARACTERS
+% TRUNCATE ADDITIONAL LINE DESCR TO 255 CHARACTERS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_first( LID ):- i_cut_additional_descriptions_256_characters( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_cut_additional_descriptions_256_characters( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_descr, Descr ),																%% Bring through the result of line descr and call it Descr
+	result( _, LID, line_type, `extra` ),																%% Check it is an additional line
+	sys_string_length( Descr, DescrLen ),																%% Determine the length of Descr, call it DescrLen
+	DescrLen > 255,																					%% Is DescrLen more than 1000?
+	q_sys_sub_string( Descr, 1, 255, Descr1000 ),														%% Define Descr1000 as the first 1000 characters
+	sys_retractall( result( _, LID, line_descr, _ ) ),													%% Remove current line description
+	assertz_derived_data( LID, line_descr, Descr1000, i_cut_additional_descriptions_256_characters ),				%% Insert our Descr1000 as new line description
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% DEFAULT UOMS
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -936,6 +961,14 @@ taulia_uom_code( `TN`, `STN` ).
 taulia_uom_code( `STN_US`, `STN` ).
 taulia_uom_code( `MT`, `MTR` ).
 taulia_uom_code( `CYL`, `CYL` ).
+taulia_uom_code( `PK`, `PK` ).
+taulia_uom_code( `TNE`, `TNE` ).
+taulia_uom_code( `WU`, `WU` ).
+taulia_uom_code( `TON`, `TON` ).
+taulia_uom_code( `LTR`, `LTR` ).
+taulia_uom_code( `KGM`, `KGM` ).
+taulia_uom_code( `RL`, `RL` ).
+taulia_uom_code( `CT`, `CT` ).
 taulia_uom_code( _ , `EA` ).
 
 %-----------------------------------------------------------------------
