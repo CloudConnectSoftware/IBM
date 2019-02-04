@@ -62,11 +62,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Pierpoint International LLC` )
     
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
-
-   , supplier_registration_number(`ignacio.martin@pierpoint.com`)
+    , supplier_registration_number(`ignacio.martin@pierpoint.com`)
 
 
 ] ).

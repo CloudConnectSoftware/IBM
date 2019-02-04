@@ -25,7 +25,7 @@ i_rule_list( [
  
     , set_credit_note
                      
-    %, get_invoice_number
+    , get_invoice_number
     
     , get_invoice_date
 
@@ -66,10 +66,6 @@ i_rule( get_supplier_detail, [
   %  ,supplier_state(`IL`)
     
   %  ,supplier_street(`29973 Network Place`)
-
-  
-   , supplier_registration_number(`rohinimr@in.ibm.com`)
-
    
 
 ] ).
