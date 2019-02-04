@@ -105,7 +105,6 @@ i_line_rule( line_add_line, [
 
      , generic_item( [ supplier_party, s1, newline ] )
 
-
 ] ).
 
 %=======================================================================
@@ -113,7 +112,6 @@ i_line_rule( line_add_line_2, [
 %=======================================================================
 
        generic_item( [ supplier_street, s1, newline ] )
-
 
 ] ).
 
@@ -150,7 +148,6 @@ i_rule( get_invoice_number, [
 
        ,  generic_horizontal_details( [ [`BILL`, `TO`, tab ], invoice_number, s1, newline ] )
 
-
 ] ).
 
 
@@ -169,16 +166,13 @@ i_rule( get_invoice_date, [
    , generic_horizontal_details( [ [ tab, `DATE` ], invoice_date, date, tab ] )
 
    
-      , check( invoice_date = Deliverydate )
+    , check( invoice_date = Deliverydate )
 
-        , trace( [ `Delivery date` , Deliverydate] )
+    , trace( [ `Delivery date` , Deliverydate] )
 
-        , delivery_date(Deliverydate)
+    , delivery_date(Deliverydate)
 
-        , trace( [ `Delivery Date` , delivery_date ] )
-
-
-
+    , trace( [ `Delivery Date` , delivery_date ] )
 
 ] ).
 
@@ -197,7 +191,6 @@ i_rule( get_due_date, [
 
    , generic_horizontal_details( [ [`DUE`, `DATE` ], due_date, date, newline ] )
 
-
 ] ).
 
 
@@ -215,7 +208,6 @@ i_rule( get_order_number, [
 
   ,   generic_vertical_details( [ [  `P`, `.`, `O`, `.`, `NUMBER` ], `NUMBER`, q(0,1), (start,10,10), po_number, d, newline ] )
 
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -228,22 +220,19 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
- q(0,50,line)
+   q(0,50,line)
 
   , [generic_horizontal_details( [ [  `TOTAL`, `DUE`, tab, `$` ],  total_invoice, d, newline ] )
 
-
    , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+   , trace( [ `Total Inv` , TotInv] )
 
-        , total_net(TotInv)
+    , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] )
+    , trace( [ `Total net` , total_net ] )
 
 ]
-
-
 
 ] ).
 
@@ -340,8 +329,6 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
-
-
    
     generic_item( [ line_descr, s1, tab ] )
 
@@ -351,7 +338,6 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_net_amount, d, newline ] )
 
-  
 ] ).
 
 
@@ -359,18 +345,14 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-
   generic_item( [ line_descr, s1, newline ] )
-
   
 ] ).
-
 
 
 %=======================================================================
 i_line_rule_cut( line_descr_line1, [
 %=======================================================================
-
 
   generic_item( [ line_descr, s1, tab ] )
 
@@ -388,9 +370,9 @@ i_line_rule_cut( line_descr_line1, [
 % Mapped on - Feb 6, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - Feb 4, 2018
+% Updated by   - Thejaswi k
+% Changes made - Hardcoded supplier Registration Number to ignacio.martin@pierpoint.com
 
 % Updated on   - 
 % Updated by   -
