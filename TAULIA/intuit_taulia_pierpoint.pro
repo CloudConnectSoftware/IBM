@@ -121,12 +121,13 @@ i_line_rule( line_add_line_3, [
 
      generic_item( [supplier_city , s , [`,`,q10(tab), check(supplier_city(end) < -116)] ] )
 
-          , generic_item( [ supplier_state, w ] )
+     , generic_item( [ supplier_state, w ] )
 
      , generic_item( [ supplier_postcode, d ] )
 
      , or([generic_item( [ supplier_country_code, w, newline ] )
-            , generic_item( [ supplier_country_code, `US` ] )
+
+      , generic_item( [ supplier_country_code, `US` ] )
 
      ])
 
