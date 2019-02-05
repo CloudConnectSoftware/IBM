@@ -146,9 +146,31 @@ i_rule( get_order_number, [
 
     q(0,100,line)
 
-    , generic_horizontal_details( [ [ `PO` , `:` ], 100, order_number, d, newline ] )
+    , or([
+    
+     generic_horizontal_details( [ [ `PO` , `:` ], 100, order_number, d, newline ] )
+    
+    , find_order_number
 
-] ).
+   ])  
+
+    ] ).
+
+
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+        
+    generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,9 +272,9 @@ i_rule( line_invoice_line_rule, [
 
 or([
  
-     % [line_invoice_line3, line_invoice_append]
+      [line_invoice_line3, line_item_append]
 
-     [line_invoice_line4, q10(line_item_append)]
+    , [line_invoice_line4, q10(line_item_append)]
     
     , line_invoice_line2
 
@@ -345,15 +367,17 @@ i_line_rule_cut( line_invoice_line3, [
 
      , generic_item([ line_descr , s1 , tab ])
 
-     , generic_item([ line_buyers_order_number , d ])
+     , generic_item([ line_customer_order_number , d, q10(tab) ])
 
-     , q10(generic_item([ line_customer_dummy , s1 , tab])) 
+     , generic_item([ line_buyers_order_number , d , q10(tab)])
+
+     , generic_item( [ line_sale_order, s1, tab] )
 
      , generic_item([ line_quantity , d ] )
 
      , generic_item([ line_quantity_uom_code , w , q10(tab) ] )
 
-	 , generic_item([ line_unit_amount ,d ] )
+	 , generic_item([ line_unit_amount_dummy ,d ] )
 
      , q10(generic_item( [ line_UOM_dummy, s1, tab ] ))
 
@@ -361,7 +385,7 @@ i_line_rule_cut( line_invoice_line3, [
 
      , q10(generic_item([ line_vat_rate_dummy, d , [ `%` ,q10(tab) ] ] ))
 
-     , generic_item([ line_vat_amount , d ] )
+     , generic_item([ line_vat_amount , d,q10(tab) ] )
 
 	 , generic_item([ line_total_amount , d , newline ] ) 
      
@@ -426,7 +450,7 @@ i_line_rule_cut( line_invoice_line4, [
 i_line_rule( line_item_append, [
 %=======================================================================
 	
-     generic_append( [ line_item, w, tab, ` `, ``  ] )
+    q10( generic_append( [ line_item, w, tab, ` `, ``  ] ) )
 
    , q10(generic_item( [ line_dummy, s1, tab ] ))
 
