@@ -274,9 +274,9 @@ or([
  
       [line_invoice_line3, line_item_append]
 
-     %[line_invoice_line4, q10(line_item_append)]
+    , [line_invoice_line4, q10(line_item_append)]
     
-   % , line_invoice_line2
+    , line_invoice_line2
 
    
 
