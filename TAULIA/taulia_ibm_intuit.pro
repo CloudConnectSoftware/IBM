@@ -270,6 +270,8 @@ i_line_rule( buyer_id_line, [
 
 	  , [ check_text( `483043581006` ), set( chain, `intuit_taulia_bpn` ), trace( [ `This is a BPN WW INC Document` ] ) ]
 
+	  , [ check_text( `602-415-1111` ), set( chain, `intuit_taulia_secure_one` ), trace( [ `This is aSecure one Outsource Soulutions Document` ] ) ]
+
 
 	] )
 	
