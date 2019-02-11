@@ -8,7 +8,7 @@ i_version( intuit_artsmentor, `15 December 2017` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format(`m/d/y`).
 
 i_trace_lists.
 
