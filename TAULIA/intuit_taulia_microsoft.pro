@@ -8,7 +8,7 @@ i_version( intuit_taulia_microsoft, `11 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format(`m/d/y` ).
 
 i_trace_lists.
 
