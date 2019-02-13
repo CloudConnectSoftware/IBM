@@ -64,8 +64,6 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Clarity Consultants ` )
        
-     , supplier_country_code(`US`)
-
 ] ).
 
 
@@ -100,15 +98,12 @@ i_rule( get_supplier_address, [
 %=======================================================================
 i_line_rule( line_add_line, [
 %=======================================================================
-
            
-         read_ahead([`Clarity`, `Consultants`])
-
+      read_ahead([`Clarity`, `Consultants`])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
-
+     , generic_item( [ supplier_party, s1, tab ] )
 
 ] ).
 
@@ -116,9 +111,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-
      generic_item( [ supplier_street, s1, newline ] )
-
    
 ] ).
 
@@ -126,9 +119,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-
      generic_item( [ supplier_address_line, s1, newline ] )
-
    
 ] ).
 
@@ -138,14 +129,20 @@ i_line_rule( line_add_line_4, [
 
      generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -83)] ] )
 
-     , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < -57)] ] )
-
-     , generic_item( [ supplier_state,  s , [q10(tab), check(supplier_state(end) < -13)] ] )
+     , generic_item( [ supplier_state,  w , [q10(tab), check(supplier_state(end) < -13)] ] )
 
      , generic_item( [ supplier_postcode, s1, newline ] )
-
-
    
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_5, [
+%=======================================================================
+
+     `United`, `States`
+
+    , generic_item( [ supplier_country_code, `US` ] )
+  
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
