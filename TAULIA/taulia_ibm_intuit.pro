@@ -142,7 +142,9 @@ i_line_rule( buyer_id_line, [
 
 		, [ check_text( `1852748811` ), set( chain, `intuit_taulia_altimetrik` ), trace( [ `This is a Altimetrik Corporation Document` ] ) ]
 
-	    , [ check_text( `4072028` ), set( chain, `intuit_taulia_analytics8` ), trace( [ `This is a Analytics8 Document` ] ) ]
+	    , [ check_text( `20-3185454` ), set( chain, `intuit_taulia_analytics8` ), trace( [ `This is a Analytics8 Document` ] ) ]
+
+		, [ check_text( `4072028` ), set( chain, `intuit_taulia_analytics8` ), trace( [ `This is a Analytics8 Document` ] ) ]
 
 	    , [ check_text( `83-0472793` ), set( chain, `intuit_taulia_cloudpay` ), trace( [ `This is a CloudPay Solutions Inc Document` ] ) ]
 

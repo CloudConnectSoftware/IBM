@@ -112,14 +112,11 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-        
      generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -330)] ] )
 
      , generic_item( [ supplier_state, w ] )
 
      , generic_item( [ supplier_postcode, d, newline ] )
-
-
 
 ] ).
 
@@ -146,7 +143,6 @@ i_rule( get_bank_accountnumber, [
   , generic_horizontal_details( [ [`Account`, `:` ], bank_account_number, d, newline ] )
 
 ] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,18 +175,17 @@ i_rule( get_invoice_date, [
      q(0,15,line)
 
    , generic_horizontal_details( [ [`DATE`, `:`], invoice_date, date, newline ] )
-
    
-      , check( invoice_date = Deliverydate )
+    , check( invoice_date = Deliverydate )
 
-        , trace( [ `Delivery date` , Deliverydate] )
+    , trace( [ `Delivery date` , Deliverydate] )
 
-        , delivery_date(Deliverydate)
+    , delivery_date(Deliverydate)
 
-        , trace( [ `Delivery Date` , delivery_date ] )
-
+    , trace( [ `Delivery Date` , delivery_date ] )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
