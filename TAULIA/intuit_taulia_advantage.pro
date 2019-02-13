@@ -23,9 +23,9 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_supplier_address
+   % , get_supplier_address - Not provided in the invoice
 
-    , get_bank_accountnumber
+    %, get_bank_accountnumber - Not in invoice
  
     , set_credit_note
                      
@@ -65,13 +65,92 @@ i_rule( get_supplier_detail, [
     sender_name( `Advantage Technical Resorucing` )
 
    , supplier_party( `Advantage Technical Resorucing` )
-    
-   , buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
-
+   , supplier_country_code(`US`)
+   
 
 ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,5,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+   
+    , q(0,1,line)
+
+   , line_add_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`Adobe`, `Systems`, `Incorporated`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, tab ] )
+
+       , generic_item( [ supplier_dummy, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+       generic_item( [ supplier_street, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+
+     or([
+       generic_item( [supplier_city , s , [ q10(`,`), check(supplier_city(end) < -299)] ] )
+
+       , generic_item( [supplier_city , s , [ q10(`,`), check(supplier_city(end) < -255)] ] )
+
+     ])
+
+     , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, s1, tab ] )
+   
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_4, [
+%=======================================================================
+
+    `United`, `States`, tab
+
+     , generic_item( [supplier_country_code, `US` ] )
+
+   
+] ).
+
 
 
 
