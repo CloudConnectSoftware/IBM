@@ -34,7 +34,7 @@ i_rule_list( [
 
     ,get_freight_flag
 
-    , get_total_vat
+    %, get_total_vat
 
     , get_total_net
 
@@ -110,8 +110,6 @@ i_rule( get_bankdetails, [
 
 	q(0,50,line)
 
-
-
      , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, tab, `:` ],100, supplier_bank_account_number_raw, w, newline ] )
 
     ,check(supplier_bank_account_number_raw=AccRaw)
@@ -119,8 +117,6 @@ i_rule( get_bankdetails, [
     ,check(strip_string2_from_string1( AccRaw, `-`, AccNew ))
 
     ,supplier_bank_account_number(AccNew), trace( [ `Supplier account number without special characters`, supplier_bank_account_number ] )
-
-
     
 ] ).
 
@@ -188,7 +184,6 @@ i_line_rule( bill_to_line2, [
 %=======================================================================
 i_rule_cut( get_invoice_number, [
 %=======================================================================
-
     
     q0n(line)
 
@@ -236,7 +231,6 @@ i_rule_cut( get_invoice_date, [
     , or([
 
          generic_horizontal_details( [ [ `Invoice` , `Date` ,  q10(tab) , q10(`:`) ],100, invoice_date, date, newline ] )
-
         
        , [  
            
@@ -256,7 +250,6 @@ i_rule_cut( get_invoice_date, [
     
     ]
 
-	
     , generic_horizontal_details([ [  `Date` , `:`  ], invoice_date, date, newline ] )
    
 
@@ -296,7 +289,6 @@ i_rule( get_freight_flag, [
 q(0,100,line)
 
 ,set_line_freight
-
    
 ] ).
 
@@ -311,7 +303,6 @@ q0n(anything)
 
 , trace( [ `Found Freight Total` ] )
 
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -319,8 +310,6 @@ q0n(anything)
 % GET  Line Freight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 %=======================================================================
 i_rule( get_freight_line, [
 %=======================================================================
@@ -364,13 +353,10 @@ i_rule( get_total_vat, [
      , generic_horizontal_details( [ [ `Add`, `Tax`, tab ], total_vat, d, newline ] )
 
      , generic_horizontal_details( [ [ `Add`, `GST`, `@`, `6`, `%`, tab ], total_vat, d, newline ] )
-
      
     ])
 
-
 ] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -396,9 +382,7 @@ i_rule( get_total_net, [
 
         , generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_net, d, newline ] )
 
-        , generic_horizontal_details( [ [  `Total`, `:`, tab ],  total_net, d, newline ] )
-
-         
+        , generic_horizontal_details( [ [  `Total`, `:`, tab ],  total_net, d, newline ] )      
 
     ])
 
@@ -421,8 +405,6 @@ i_rule( get_total_invoice, [
 
             [ test(debit_note),test(tot_debit_vat), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )]
               
-              
-
               ,[ test(debit_note), generic_horizontal_details( [ [ `Total`,q10(`:`), tab ] , total_invoice, d, newline ] )
               
                , check( total_invoice = TotInv )
@@ -445,21 +427,16 @@ i_rule( get_total_invoice, [
         
              , generic_vertical_details( [ [ `E`, `&`, `O`, `.`, `E`, tab, `for`, `ALTRATEC`, `SDN`, `.`, `BHD`], `BHD`, q(0,3,up),(end,25,25), total_invoice, d, newline ] )
      
-             
              ,  generic_horizontal_details( [ [ `Total`, q10(`:`), tab ] , total_invoice, d, newline ] )
-
 
              , [ generic_horizontal_details( [ [ `Total`, `Financial`, `uplift`, `(`, `RM`, `)`, tab ] , total_invoice, d, newline ] )
 
              ,  check(total_invoice = TotInv), trace([`Total Capital Varaible` , TotInv])
 
-             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ]
-
-             
+             , line_total_amount(TotInv) , trace( [ `THIS IS NOW THE LINE TOTAL` , TotInv ]) ] 
 
     ])
 
-    
 ] ).
 
 
@@ -468,7 +445,6 @@ i_rule( get_total_invoice, [
 % GET CURRENCY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %=======================================================================
 i_rule( get_currency, [
 %=======================================================================
@@ -494,23 +470,17 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-
              [line_invoice_line2,  q10(line_descr_line)]
 
              , [line_invoice_line3,  q10(line_descr_line)]
 
             ,[line_credit_line , q10(line_descr_line) , q10(line_descr_line)]
       
-
             ,[ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
-
         
            ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
-           ,line_debit_line
-
-
-           
+           ,line_debit_line         
 
             , line
 
