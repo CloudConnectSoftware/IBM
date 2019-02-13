@@ -41,6 +41,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    %, get_total_invoice_1
+
     , get_currency
 
     , get_contact_person
@@ -63,11 +65,12 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `LexisNexis Risk Solutions` )
     
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+   %, buyer_registration_number(`N/A`)
 
    , supplier_country_code(`US`)
+   
 
 ] ).
 
@@ -108,9 +111,14 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [supplier_street , s1 , tab ] )
+     , or([
 
-     , generic_item( [ supplier_dummy, s1, newline ] )
+      generic_item( [supplier_street , s1 , tab ] )
+
+     , generic_item( [supplier_street , s1 , newline ] ) 
+
+     ])
+     %, generic_item( [ supplier_dummy, s1, newline ] )
     
 ] ).
 
@@ -118,18 +126,32 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line1, [
 %=======================================================================
 
-       generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -343)] ] )
+   generic_item( [supplier_city , w, q10(`,`) ] ) 
 
-     , generic_item( [ supplier_dummy1, s,  [q10(tab), check(supplier_dummy1(end) < -329)] ] )
+  %, generic_item( [ supplier_dummy1, s,  [q10(tab), check(supplier_dummy1(end) < -329)] ] )
 
-     , generic_item( [ supplier_state, s, [q10(tab), check(supplier_state(end) < -289)]] )
+  , generic_item( [ supplier_state, w, [q10(tab), check(supplier_state(end) < -289)]] )
 
-     , generic_item( [ supplier_postcode, s1, tab ] )
-
-     , generic_item( [ supplier_dummy2, s1, newline ] )
+  , generic_item( [ supplier_postcode, s1, tab ] )
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONTACT PERSON
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_contact_person, [
+%=======================================================================
+
+     q(0,30,line)
+
+  , generic_horizontal_details( [ [ `Representative`, tab ], buyer_contact, s1, newline ] )
+
+    
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -269,13 +291,42 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
- q(0,100,line)
 
-,generic_horizontal_details( [ [ `Total`, tab, `$`],  total_invoice, d, newline ] )
+     last_line
+
+   , q(0,300,up)
+
+   , or([
+
+    [ generic_horizontal_details( [ [ `Total`, `Due`, tab, `$` ], total_invoice, d, newline ] )
+
+    
+      , check( total_invoice = TotInv )
+
+      , trace( [ `Total Inv` , TotInv] )
+
+      , total_net(TotInv)
+
+      , trace( [ `Total net` , total_net ] )    ]
 
 
+    , generic_horizontal_details( [ [ `Total`, tab, `$`],  total_invoice, d, newline ] )
+
+   ])
+
+  ] ).
+
+
+%=======================================================================
+i_rule( get_total_invoice_1, [
+%=======================================================================
+
+   q(0,100,line)
+
+  , generic_horizontal_details( [ [ `Total`, tab, `$`],  total_invoice, d, newline ] )
+
+  
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -315,6 +366,7 @@ i_section( get_invoice_lines, [
 
          , [line_invoice_line1,line_invoice_line2]
 
+         , line_invoice_line
 
          , line_invoice_line3
 
@@ -336,6 +388,8 @@ i_line_rule_cut( line_header_line, [
 
     ,  [`Date`, tab, `Tax`, tab, `Description`]
 
+    , [ `Invoice`, `Activity`, tab, `PO`, `#`]
+
      ] )
 
     , trace( [ `Found Start line` ] )
@@ -351,6 +405,8 @@ i_line_rule_cut( line_end_line, [
          [`8`, `/`, `31`, `/`, `2017`, tab, `OL`, tab, `Tax`, `OL`, `-`, `Online`, `subscriptions`]
            
        , [ `Total`, `Charges`, tab, `$`]
+
+       , [`Total`, tab, `$`]
 
 
 
