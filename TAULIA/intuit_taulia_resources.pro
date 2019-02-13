@@ -64,11 +64,13 @@ i_rule( get_supplier_detail, [
 
     sender_name( `RESOURCES GLOBAL PROFESSIONALS ` )
        
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+   %, buyer_registration_number(`N/A`)
 
    , supplier_party( `RESOURCES GLOBAL PROFESSIONALS ` )
+
+   , supplier_country_code(`US`)
 
 ] ).
 
