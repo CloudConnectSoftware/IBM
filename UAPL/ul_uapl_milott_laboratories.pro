@@ -122,6 +122,8 @@ i_rule_cut( get_invoice_number, [
                 
                  generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,3,up), (end,300,300), invoice_number , d , tab ] )
 
+                , generic_vertical_details( [ [ `UNILEVER`, `(`, `M`, `)`, `HOLDINGS`, `SDN`, `.`, `BHD`, `.`,  newline ], `BHD`, q(0,3,up), (end,300,300), invoice_number , d , tab ] ) 
+
                 , generic_horizontal_details( [ [ `NO`, `.`, tab],invoice_number, d , newline ] )
 
 
@@ -175,6 +177,8 @@ i_rule_cut( get_invoice_date, [
         generic_horizontal_details( [ [`DATE`, tab],invoice_date, date , newline ] )
 
        , generic_vertical_details( [ [ `Unilever`, `Asia`, `Private`, `Limited` ], `Limited`, q(0,2,up), (end , 300 , 300), invoice_date , date , newline ] )
+
+        , generic_vertical_details( [ [ `UNILEVER`, `(`, `M`, `)`, `HOLDINGS`, `SDN`, `.`, `BHD`, `.`,  newline ], `BHD`, q(0,3,up), (end,300,300), invoice_date , date , newline ] ) 
 
    ])
 
