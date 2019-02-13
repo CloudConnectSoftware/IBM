@@ -20,7 +20,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_supplier_address
+   % , get_supplier_address - supplier address not on the invoice
 
     , get_bank_accountnumber
  
@@ -62,10 +62,6 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `Connectivity Based Integration` )
     
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
-
 ] ).
 
 
