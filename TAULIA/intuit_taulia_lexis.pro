@@ -497,9 +497,9 @@ i_line_rule_cut( line_invoice_line4, [
 % Mapped on - Feb 2, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - Feb 13, 2019 
+% Updated by   - Roopesh
+% Changes made - address & line updated
 
 % Updated on   - 
 % Updated by   -
