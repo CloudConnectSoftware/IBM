@@ -60,10 +60,6 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Facebook Inc` )
     
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
-
    , supplier_country_code(`US`)
 
 
