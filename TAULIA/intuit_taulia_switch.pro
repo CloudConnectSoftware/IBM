@@ -60,9 +60,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Switch, Ltd ` )
        
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+   %, buyer_registration_number(`N/A`)
 
    , supplier_country_code(`US`)
 
@@ -145,7 +145,7 @@ i_rule( get_bank_accountnumber, [
 
      q(0,50,line)
 
-    , generic_horizontal_details( [ [ `Account`, `No`, `.`, `:`, generic_item( [ bank_account_number, d ] ), tab, `Routing`, `:`, generic_item( [ bank_number, w ] ), `SWIFT`, `:` ], swift_bic_number, s1, newline ] )
+    , generic_horizontal_details( [ [ `Account`, `No`, `.`, `:`, generic_item( [ bank_account_number, w ] ), tab, `Routing`, `:`, generic_item( [ bank_number, w ] ), `SWIFT`, `:` ], swift_bic_number, s1, newline ] )
 
 
 ] ).
@@ -277,8 +277,8 @@ i_section( get_invoice_lines, [
         , or( [
               
            line_invoice_line
-
-
+           
+         
               , line
     
         ] )
