@@ -61,9 +61,6 @@ i_rule( get_supplier_detail, [
 
    , supplier_party(`Gerould & Player, LLP`)
     
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
 
 ] ).
 

@@ -60,9 +60,6 @@ i_rule( get_supplier_detail, [
 
     sender_name( `EM Marketing` )
     
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
 
 ] ).
 
