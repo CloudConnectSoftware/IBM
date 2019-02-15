@@ -202,9 +202,9 @@ i_line_rule( line_add_ship_line_3, [
 
      , generic_item( [delivery_city, s, `,` ] )
 
-     , generic_item( [ supplier_state, w ] )
+     , generic_item( [ delivery_state, w ] )
 
-     , generic_item( [ supplier_postcode, d, newline ] )
+     , generic_item( [ delivery_postcode, d, newline ] )
 
         
 ] ).
