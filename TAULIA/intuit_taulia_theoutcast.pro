@@ -62,9 +62,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `The OutCast Agency LLC` )
     
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+   %, buyer_registration_number(`N/A`)
 
    , supplier_party(`The OutCast Agency LLC`)
 
