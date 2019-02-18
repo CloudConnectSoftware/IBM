@@ -25,6 +25,8 @@ i_rule_list( [
 
     , get_supplier_address
 
+    , get_shipto_address
+
     , get_bank_accountnumber
  
     , set_credit_note
@@ -65,9 +67,9 @@ i_rule( get_supplier_detail, [
     
    , buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+  % , buyer_registration_number(`N/A`)
 
- , supplier_country_code(`US`)
+  % , supplier_country_code(`US`)
 
 
 ] ).
@@ -142,6 +144,104 @@ i_line_rule( line_add_line_3, [
    
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIP TO ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_shipto_address, [
+%=======================================================================
+  
+     q(0,20,line)
+
+   , line_shipto_line
+
+   , q(0,1,line)
+
+   , line_shipto_line1
+
+   , q(0,1,line)
+
+   , line_shipto_line2
+
+   , q(0,1,line)
+
+   , line_shipto_line3
+
+   , q(0,1,line)
+
+   , line_shipto_line4
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line, [
+%=======================================================================
+
+       read_ahead([`BILL`, `TO`, `:`, tab, `SHIP`, `TO` ])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ shipto_dummy, s1, tab ] )
+
+     , generic_item( [ shipto_dummy1, s1, tab ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line1, [
+%=======================================================================
+
+      generic_item( [ shipto__dummy, s1, tab ] )
+
+     , generic_item( [ buyer_contact, s1, tab ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line2, [
+%=======================================================================
+
+       generic_item( [ shipto__dummy1, s1, tab ] )
+       
+     , generic_item( [ delivery_party, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line3, [
+%=======================================================================
+
+
+       generic_item( [ shipto__dummy1, s1, tab ] )
+     
+     , generic_item( [ delivery_street, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_shipto_line4, [
+%=======================================================================
+
+        or([
+               
+      generic_item( [delivery_city , w   ] )
+   
+    ,  generic_item( [delivery_city , s , [q10(tab), check(delivery_city(end) < 123)] ] )
+
+     ] )
+
+      ,  generic_item( [ delivery_state, w ] )
+
+
+     , generic_item( [ delivery_code, d, tab ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,7 +260,7 @@ i_rule( get_bank_accountnumber, [
   , q(0,50,up)
 
 
-  , generic_horizontal_details( [ [`Wire`, `Transfers`, `:`, `HSBC`, `BANK`, `USA`, `,`, `ACCT`, generic_item( [ bank_account_number, d ] ), `,`, `ABA`, generic_item( [ bank_number, d ] ), `(`, `Domestic`, `)`, `,`, `SWIFT`], swift_bic_number, s, [`(`, `International`, `)`,  newline ] ] )
+  , generic_horizontal_details( [ [`Wire`, `Transfers`, `:`, `HSBC`, `BANK`, `USA`, `,`, `ACCT`, generic_item( [ bank_account_number, s] ), `,`, `ABA`, generic_item( [ bank_number, s ] ), `(`, `Domestic`, `)`, `,`, `SWIFT`], swift_bic_number, s, [`(`, `International`, `)`,  newline ] ] )
 
 
 
@@ -345,7 +445,7 @@ i_section( get_invoice_lines, [
               
           [line_invoice_line,q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_append_line)]
 
-          ,line_invoice_line1
+        %  ,line_invoice_line1
 
 
               , line
@@ -405,6 +505,25 @@ i_line_rule_cut( line_invoice_line, [
   , generic_item( [ line_net_amount, d, newline ] )
 
   
+    , q10([	% LINE VAT Rate Calculation
+  
+     with( invoice , total_vat , VAT )
+
+    , with( invoice , total_net , Net )
+
+    , trace( [ `vat tot`, VAT ] )
+
+    , trace( [ `sub total`, Net ] )
+
+    , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+    , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+    , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+    , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+       ])
 ] ).
 
 %=======================================================================
@@ -434,9 +553,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - Feb 9, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - Feb 18, 2019
+% Updated by   - Rohini
+% Changes made - Ship to
 
 % Updated on   - 
 % Updated by   -
