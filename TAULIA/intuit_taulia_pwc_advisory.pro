@@ -22,7 +22,7 @@ i_rule_list( [
     
       get_supplier_detail
 
-    , get_supplier_address
+    , get_supplier_address % Remittance address mapped since no supplier address
 
     , get_bank_accountnumber
  
@@ -64,12 +64,71 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `PricewaterhouseCoopers Advisory Services LLC` )
     
-   , buyer_dept(`N/A`)
+  % , buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+  % , buyer_registration_number(`N/A`)
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+  
+     q(0,5,line)
+
+   , line_add_line
+
+   , q(0,1,line)
+
+   , line_add_line_2
+
+   , q(0,1,line)
+
+   , line_add_line_3
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line, [
+%=======================================================================
+
+       read_ahead([`PricewaterhouseCoopers`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ supplier_party, s1, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+         generic_item( [ supplier_street, s1, newline ] )
+] ).
+
+%=======================================================================
+i_line_rule( line_add_line_3, [
+%=======================================================================
+
+      generic_item( [buyer_contact , s1 , tab ] )
+
+     , generic_item( [ supplier_city, s, `,` ] )
+
+     , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, s1, newline ] )
+
+   
+] ).
 
 
 
