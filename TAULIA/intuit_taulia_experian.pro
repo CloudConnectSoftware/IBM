@@ -6,12 +6,11 @@
 
 i_version( intuit_taulia_experianmarketing, `11 Feb, 2018` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format(`m/d/y` ).
 
 i_trace_lists.
-
 
 i_op_param( us_invoice, _, _, _, _).
 
@@ -74,11 +73,11 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `Experian Marketing Solutions, LLC` )
     
-   , buyer_dept(`N/A`)
+  %  , buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+  % , buyer_registration_number(`N/A`)
 
- , supplier_country_code(`US`)
+   , supplier_country_code(`US`)
 
 
 ] ).
