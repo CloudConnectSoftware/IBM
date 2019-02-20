@@ -24,6 +24,8 @@ i_rule_list( [
 
     , get_supplier_address
 
+    , get_ship_to
+
     , get_bank_accountnumber
  
     , set_credit_note
@@ -62,9 +64,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Tangoe, Inc` )
     
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+   %, buyer_registration_number(`N/A`)
 
    , supplier_country_code(`US`)
 
@@ -165,6 +167,75 @@ i_line_rule( line_add_line_3, [
    
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_ship_to, [
+%=======================================================================
+  
+     q(0,20,line)
+
+   , line_add_ship_line
+
+   , q(0,1,line)
+
+   , line_add_ship_line_2
+
+   , q(0,1,line)
+
+   , line_add_ship_line_3
+
+   , q(0,1,line)
+
+   , line_add_ship_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_ship_line,[
+%=======================================================================
+
+       read_ahead([ `Intuit`, `,`, `Inc`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ delivery_party_dummy, s1, tab ] )
+     
+     , generic_item( [ delivery_party, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_ship_line_2, [
+%=======================================================================
+
+     generic_item( [ship_to_dummy, s1, tab ] )
+
+    , generic_item( [delivery_address_line, s1, newline ] )
+
+   
+] ).
+
+%=======================================================================
+i_line_rule( line_add_ship_line_3, [
+%=======================================================================
+
+     generic_item( [ship_to_dummy, s1, tab ] )
+
+     , generic_item( [delivery_city, s, `,` ] )
+
+     , generic_item( [ delivery_state, w ] )
+
+     , generic_item( [ delivery_postcode, d, newline ] )
+
+        
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

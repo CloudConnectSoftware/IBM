@@ -64,17 +64,17 @@ i_rule( get_supplier_detail, [
 
     sender_name( `PCC Network Solutions` )
 
-   ,supplier_party( `PCC Network Solutions` )
+  % ,supplier_party( `PCC Network Solutions` )
 
-   ,supplier_city(`Chatsworth`)
+  % ,supplier_city(`Chatsworth`)
     
     ,supplier_country_code(`US`)
 
-    ,supplier_postcode(`91311`)
+   % ,supplier_postcode(`91311`)
     
-    ,supplier_state(`CA`)
+   % ,supplier_state(`CA`)
     
-    ,supplier_street(`20717 Prairie Street`)
+   % ,supplier_street(`20717 Prairie Street`)
 
     ,currency( `USD` )
 
@@ -115,9 +115,7 @@ i_line_rule( line_add_line, [
 
     , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_part_dummy, w, `:` ] )
-
-     , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_party, s1, tab ] )
 
 
 
@@ -128,9 +126,6 @@ i_line_rule( line_stree_line, [
 %=======================================================================
 
        generic_item( [ supplier_street, s1, tab ] )
-
-       ,generic_item( [ supplier_street_dummy, s1,newline  ] )
-
 
 
 ] ).
@@ -143,9 +138,7 @@ i_line_rule( line_add_line_2, [
     
        ,generic_item( [supplier_state, w ] )
 
-       ,generic_item( [supplier_postcode, [ begin, q(dec,5,10) , end ], tab ] )
-
-       ,generic_item( [supplier_state_dummy, s1, newline ] )
+       ,generic_item( [supplier_postcode, d, tab ] )
 
 ] ).
 

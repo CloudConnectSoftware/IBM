@@ -69,6 +69,8 @@ i_rule( select_buyer, [
 
     ,  [ q0n(line), wieden_identify_rule ]
 
+	,  [ q0n(line), direct_marketing_solution_rule ]
+
 	
 
 
@@ -273,6 +275,8 @@ i_line_rule( buyer_id_line, [
 	  , [ check_text( `483043581006` ), set( chain, `intuit_taulia_bpn` ), trace( [ `This is a BPN WW INC Document` ] ) ]
 
 	  , [ check_text( `602-415-1111` ), set( chain, `intuit_taulia_secure_one` ), trace( [ `This is aSecure one Outsource Soulutions Document` ] ) ]
+
+	  
 
 
 	] )
@@ -1424,4 +1428,42 @@ i_line_rule( wieden_rule_21, [
 i_line_rule( wieden_rule_31, [
 %=======================================================================
    [`PRODUCT`, `COR`, tab ]
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Direct Marketing soluiton
+%=======================================================================
+i_rule(  direct_marketing_solution_rule, [
+%=======================================================================
+     direct_marketing_solution
+	, direct_marketing_solution_1
+	,  direct_marketing_solution_2
+	, direct_marketing_solution_3
+
+    , set(chain,`intuit_taulia_direct_market`)
+    , trace( [ `This is a Direct  Marketing Solutions` ] )
+] ).
+%=======================================================================
+i_line_rule( direct_marketing_solution, [
+%=======================================================================
+   [ `Please`, `remit`, `payment`, `before`, `due`, `date`, `given`, `above`, `to`, `:`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( direct_marketing_solution_1, [
+%=======================================================================
+   [`Direct`, `Marketing`, `Solutions`,  newline ]
+] ).
+%=======================================================================
+i_line_rule( direct_marketing_solution_2, [
+%=======================================================================
+   [`8534`, `NE`, `Alderwood`, `Rd`, `.`,  newline ]
+] ).
+
+%=======================================================================
+i_line_rule( direct_marketing_solution_3, [
+%=======================================================================
+   [`Portland`, `,`, `OR`, `97220`,  newline ]
 ] ).

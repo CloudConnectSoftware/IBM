@@ -60,9 +60,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Microsoft Online, Inc.` )
     
-   , buyer_dept(`N/A`)
+  % , buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+  % , buyer_registration_number(`N/A`)
 
 ] ).
 
@@ -287,9 +287,17 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,30,line)
+q0n(line)
 
-,[generic_vertical_details( [ [ `Net`, `credit`, `amount` ], `credit`, q(0,2), (start,100,300), total_invoice, d, newline ] )
+, or([
+
+
+   generic_vertical_details( [ [ `Net`, `credit`, `amount` ], `credit`, q(0,2), (start,100,300), total_invoice, d, newline ] )
+
+   , generic_horizontal_details( [ [ `Total`, `amount`, `(`, dummy(w), `)`, tab ], total_invoice, d, newline ] )
+
+
+] )
 
    , check( total_invoice = TotInv )
 
@@ -299,7 +307,7 @@ q(0,30,line)
 
         , trace( [ `Total net` , total_net ] )
 
-]
+
 
 ] ).
 
@@ -314,9 +322,15 @@ q(0,30,line)
 i_rule( get_currency, [
 %=======================================================================
 
-     q(0,50,line)
+     q(0,150,line)
+
+     , or([
+
+    generic_horizontal_details( [ [`Total`, `amount`, `(` ], currency, w, [ `)`,  tab ] ] )
 
    ,generic_horizontal_details( [ [`Net`, `credit`, `amount`, `(` ], currency, w, [ `)`,  newline ] ] )
+
+] )
 
 ] ).
 
@@ -365,7 +379,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
+      or([
+
        [`Net`, `credit`, `amount` ]
+
+       , [`Total`, `amount` ]
+      
+      ])
 
      , trace( [ `Found End line` ] )
 

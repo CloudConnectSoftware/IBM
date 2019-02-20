@@ -62,9 +62,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Wieden + Kennedy` )
     
-   , buyer_dept(`N/A`)
+  % , buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+  % , buyer_registration_number(`N/A`)
 
    , supplier_country_code(`US`)
 
@@ -301,7 +301,7 @@ i_rule( get_bank_accountnumber, [
 
     , trace( [ `Bank number raw` , BankRaw ] )
 
-    , check(string_string_replace( BankRaw, `_`, ``, BankStrip ))
+    , check(string_string_replace( BankRaw, `-`, ``, BankStrip ))
 
     , trace( [ `Bank Stripped Space` , BankStrip ] )
 
@@ -315,7 +315,7 @@ i_rule( get_bank_accountnumber, [
 
     , trace( [ `Bank number raw` , BankRaw ] )
 
-    , check(string_string_replace( BankRaw, `_`, ``, BankStrip ))
+    , check(string_string_replace( BankRaw, `-`, ``, BankStrip ))
 
     , trace( [ `Bank Stripped Space` , BankStrip ] )
 

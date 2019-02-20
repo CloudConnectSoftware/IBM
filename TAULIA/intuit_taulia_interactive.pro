@@ -8,7 +8,7 @@ i_version( intuit_taulia_interactive, `5 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format(`m/d/y` ).
 
 i_trace_lists.
 
@@ -23,6 +23,8 @@ i_rule_list( [
       get_supplier_detail
 
     , get_supplier_address
+    
+    , get_ship_to
 
     , get_bank_accountnumber
  
@@ -62,9 +64,9 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Interactive Intelligence` )
     
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
-   , buyer_registration_number(`N/A`)
+   %, buyer_registration_number(`N/A`)
 
    , supplier_party(`Interactive Intelligence`)
 
@@ -136,6 +138,77 @@ i_line_rule( line_add_line_2, [
 
    
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_ship_to, [
+%=======================================================================
+  
+     q(0,20,line)
+
+   , line_add_ship_line
+
+   , q(0,1,line)
+
+   , line_add_ship_line_2
+
+   , q(0,1,line)
+
+   , line_add_ship_line_3
+
+   , q(0,1,line)
+
+   , line_add_ship_line_4
+
+] ).
+
+%=======================================================================
+i_line_rule( line_add_ship_line,[
+%=======================================================================
+
+       read_ahead([ `Intuit`, `,`, `Inc`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ delivery_party_dummy, s1, tab ] )
+     
+     , generic_item( [ delivery_party, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_add_ship_line_2, [
+%=======================================================================
+
+     generic_item( [ship_to_dummy, s1, tab ] )
+
+    , generic_item( [delivery_address_line, s1, newline ] )
+
+   
+] ).
+
+%=======================================================================
+i_line_rule( line_add_ship_line_3, [
+%=======================================================================
+
+     generic_item( [ship_to_dummy, s1, tab ] )
+
+     , generic_item( [delivery_city, s, `,` ] )
+
+     , generic_item( [ delivery_state, w ] )
+
+     , generic_item( [ delivery_postcode, d, newline ] )
+
+        
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -370,7 +443,7 @@ i_line_rule_cut( line_invoice_line, [
     
   , generic_item( [ line_descr, s1, [tab, `$`] ] )
 
-  , generic_item( [ line_unit_amount, d, [tab, `$`] ] )
+  , generic_item( [ line_unit_amount_dummy, d, [tab, `$`] ] )
 
   , generic_item( [ line_amount_discount, d, [tab, `$`]] )
 
