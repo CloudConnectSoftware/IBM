@@ -612,8 +612,14 @@ i_line_rule_cut( line_invoice_line5, [
 %=======================================================================
 
     generic_item( [ line_invoice_line_dummy , d , [ `)` ] ] )
-    
+
+    , or([
+
+     generic_item( [ line_descr , s ] )
+
     , generic_item( [ line_descr , s1, tab ] )
+
+    ])
      
     , generic_item( [ line_item , d, q10(tab) ])
     
@@ -865,6 +871,10 @@ i_line_rule_cut( line_credit_line, [
 % Updated on   - Nov 20, 2018
 % Updated by   - Rohini
 % Changes made - Line Vat and total vat
+
+% Updated on   - Feb 25, 2019
+% Updated by   - Thejaswi
+% Changes made - Line details - line_invoice_line5
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
