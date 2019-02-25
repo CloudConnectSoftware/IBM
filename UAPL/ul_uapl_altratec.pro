@@ -110,7 +110,7 @@ i_rule( get_bankdetails, [
 
 	q(0,50,line)
 
-     , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, tab, `:` ],100, supplier_bank_account_number_raw, w, newline ] )
+     , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, q10(tab), `:` ],100, supplier_bank_account_number_raw, s1, or([ tab, newline ]) ] )
 
     ,check(supplier_bank_account_number_raw=AccRaw)
 
@@ -470,17 +470,21 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-             [line_invoice_line2,  q10(line_descr_line)]
+            line_invoice_line5
+
+            , [line_invoice_line2,  q10(line_descr_line)]
 
              , [line_invoice_line3,  q10(line_descr_line)]
 
-            ,[line_credit_line , q10(line_descr_line) , q10(line_descr_line)]
-      
+            ,[test(credit_note),line_credit_line , q10(line_descr_line) , q10(line_descr_line)]
+                  
             ,[ line_invoice_line, q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
         
            ,[ line_invoice_line2 , q10(line_descr_line) , q10(line_po_line) , q10(line_po_line) ]
 
-           ,line_debit_line         
+           ,line_debit_line   
+
+              
 
             , line
 
@@ -604,6 +608,42 @@ i_line_rule_cut( line_po_line, [
 
 
 %=======================================================================
+i_line_rule_cut( line_invoice_line5, [
+%=======================================================================
+
+    generic_item( [ line_invoice_line_dummy , d , [ `)` ] ] )
+    
+    , generic_item( [ line_descr , s1, tab ] )
+     
+    , generic_item( [ line_item , d, q10(tab) ])
+    
+    , generic_item( [ line_net_amount, d , newline ] )
+
+
+   , q10([	% LINE VAT Rate Calculation
+  
+    with( invoice , total_vat , VAT )
+
+   , with( invoice , total_net , Net )
+
+   , trace( [ `vat tot`, VAT ] )
+
+   , trace( [ `sub total`, Net ] )
+
+   , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+   , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+   , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+   , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+   ])
+
+] ).
+
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
@@ -641,9 +681,8 @@ i_line_rule_cut( line_invoice_line2, [
 
    ])
 
-   
-
 ] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line3, [
