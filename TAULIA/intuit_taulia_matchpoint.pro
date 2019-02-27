@@ -240,11 +240,12 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
  
- 
- q(0,50,line)
 
+  qn0(line)
+
+  ,  or([ check_text(`Total` ), check_text(`BALANCE`) ]), trace( [ `Check Text Found`, total ] )
  
- ,generic_horizontal_details( [ [ `Total`, tab, `USD` ],  total_net, d, newline ] )
+  , generic_horizontal_details( [ [ `Total`, tab, `USD` ],  total_net, d, newline ] )
 
 
 ] ).
@@ -261,9 +262,11 @@ i_rule( get_total_net, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
- q(0,50,line)
+  qn0(line)
 
-,generic_horizontal_details( [ [ `Balance`, `Due`, tab, generic_item( [ currency, w ] ) ],  total_invoice, d, newline ] )
+  ,  or([ check_text(`Total` ), check_text(`BALANCE`) ]), trace( [ `Check Text Found`, total ] )
+
+  , generic_horizontal_details( [ [ `Balance`, `Due`, tab, generic_item( [ currency, w ] ) ],  total_invoice, d, newline ] )
 
 
 ] ).
@@ -363,6 +366,14 @@ i_line_rule_cut( line_append_line, [
 
 % Mapped on - Feb 2, 2018
 % Mapped by - Rohini 
+
+% Updated on   - Feb, 11, 2019
+% Updated by   - Roopesh
+% Changes made - freeze buyer dept and buyer reg
+
+% Updated on   - Feb, 27, 2019
+% Updated by   - Roopesh
+% Changes made - Total edited with check text
 
 % Updated on   - 
 % Updated by   - 
