@@ -521,6 +521,9 @@ i_line_rule_cut( line_item_line, [
 % Updated by   -  Thejaswi
 % Changes made   -  Buyer party
 
+% Updated on   - 1 March,  2019
+% Updated by   -  Roopesh
+% Changes made   -  Buyer party
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
