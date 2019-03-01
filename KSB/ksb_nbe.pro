@@ -107,7 +107,7 @@ i_line_rule( line_add_line, [
 
      , or([
          
-         generic_item( [buyer_party_raw , s1 ,  newline ] )   
+         generic_item( [buyer_party_raw , s1 ,  or([ tab, newline ])  ] )   
          
           ])
 
@@ -134,7 +134,7 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 
       or([
-          `67206` ,`67208`, `06110`, `67209`, `067206`, `67227` ])
+          `67206` ,`67208`, `06110`, `67209`, `067206`, `67227`, `06227 ` ])
           
 
       ,generic_item( [ buyer_city_raw , s1 , or([tab, newline]) ])
