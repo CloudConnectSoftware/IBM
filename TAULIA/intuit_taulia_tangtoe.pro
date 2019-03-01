@@ -76,27 +76,6 @@ i_rule( get_supplier_detail, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SUPPLIER DETAILS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule( get_supplier_detail, [
-%=======================================================================
-
-    sender_name( `Tangoe, Inc.` )
-    
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
-
-   , supplier_country_code(`US`)
-
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUPPLIER ADDRESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,10 +330,11 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
  
- 
- q(0,50,line)
+  qn0(line)
 
- 
+  ,  or([ check_text(`Subtotal` ), check_text(`BALANCE`) ]), trace( [ `Check Text Found`, total ] )
+
+
  ,generic_horizontal_details( [ [ `Subtotal`, tab, `$` ],  total_net, d, newline ] )
 
 
@@ -391,7 +371,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
- q(0,50,line)
+last_line
+
+, q(0,500,up)
 
 ,generic_horizontal_details( [ [`Invoice`, `Total`, tab, `$` ],  total_invoice, d, newline ] )
 
@@ -533,6 +515,14 @@ i_line_rule_cut( line_append_line, [
 
 % Mapped on - Feb 7, 2018
 % Mapped by - Rohini 
+
+% Updated on   - Feb, 15, 2019
+% Updated by   - Roopesh
+% Changes made - freeze buyer dept and buyer reg
+
+% Updated on   - March 1,  2019
+% Updated by   - Roopesh
+% Changes made - Total edited with check text
 
 % Updated on   - 
 % Updated by   - 
