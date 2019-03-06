@@ -12,6 +12,7 @@ i_date_format( `m/d/y`).
 
 i_trace_lists.
 
+i_format_postcode( X, X ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -82,6 +83,10 @@ i_rule( get_supplier_address, [
 
    , line_add_line
 
+   , q(0,1,line)
+
+   , line_add_line_2
+
  
  ] ).
 
@@ -89,23 +94,26 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`150`, `Broadway`, `,`, `Cambridge`])
+       read_ahead([`150`, `Broadway`])
 
      , trace( [ `Found address`] )
 
-     , generic_item( [supplier_street , s , [q10(tab), check(supplier_street(end) < 48)] ] )
-
-     , generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < 73)] ] )
-
-     , generic_item( [ supplier_state, w ] )
-
-     , generic_item( [ supplier_postcode, s1, newline ] )
-
-
+     , generic_item( [supplier_street , s1 , tab ] )
 
 ] ).
 
 
+%=======================================================================
+i_line_rule( line_add_line_2, [
+%=======================================================================
+
+     generic_item( [supplier_city , w , [q10(tab), check(supplier_city(end) < 73)] ] )
+
+     , generic_item( [ supplier_state, w ] )
+
+     , generic_item( [ supplier_postcode, d, or([ `USA`,tab ]) ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,7 +127,7 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
-    , generic_horizontal_details( [ [`INVOICE`, `NUMBER`, `:`, tab ], invoice_number, d, newline ] )
+    , generic_horizontal_details( [ [`INVOICE`, `NUMBER`, `:`, tab ], invoice_number, d, or([tab,newline]) ] )
 
 ] ).
 
@@ -136,7 +144,7 @@ i_rule( get_invoice_date, [
 
      q(0,15,line)
 
-   , generic_horizontal_details( [ [`INVOICE`, `DATE`, `:`, tab ], invoice_date, date, newline ] )
+   , generic_horizontal_details( [ [`INVOICE`, `DATE`, `:`, tab ], invoice_date, date, or([tab,newline]) ] )
 
    
       , check( invoice_date = Deliverydate )
@@ -163,7 +171,7 @@ i_rule( get_due_date, [
 
      q(0,15,line)
 
-   , generic_horizontal_details( [ [`INVOICE`, `DUE`, `DATE`, `:`, tab ], due_date, date, newline ] )
+   , generic_horizontal_details( [ [`INVOICE`, `DUE`, `DATE`, `:`, tab ], due_date, date, or([tab,newline]) ] )
 
 ] ).
 
@@ -345,6 +353,10 @@ i_line_rule_cut( line_end_line, [
            
         [`Total`, `Charges`, `:`]
 
+        , [`*`, `Type`, `code`, `:`]
+
+        , ['REMITTANCE', `INFORMATION`]
+
        ] )
 
      , trace( [ `Found End line` ] )
@@ -400,9 +412,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - January 24, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 6, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID, Line levle details and Invoice date and Number
 
 % Updated on   - 
 % Updated by   -
