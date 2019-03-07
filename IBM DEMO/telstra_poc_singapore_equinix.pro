@@ -16,6 +16,8 @@ i_rule_list( [
     
     get_supplier_detail
 
+    , get_supplier_address
+
     , get_bank_accountnumber
                     
     , get_invoice_number
@@ -54,9 +56,49 @@ i_rule( get_supplier_detail, [
 
     , supplier_party( `Equinix Singapore Pte Ltd` )
 
-    , supplier_vat_number(`134008324`)
+    , supplier_vat_number(`M90370388`)
     
  ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%=======================================================================
+i_rule( get_supplier_address, [
+%=======================================================================
+           
+    q(0,50,line)
+
+    , line_sup_party_line
+
+    , q(0,1,line)
+
+    , line_sup_addres_line
+    
+] ).
+
+%=======================================================================
+i_line_rule( line_sup_party_line, [
+%=======================================================================
+   
+     `Equinix`, `Singapore`, `Pte`, `Ltd`, `,`
+
+    , trace( [ `Found SUPPLIER Line`] )
+
+    , generic_item( [ swiss_supplier_address_1, s1, newline] )  
+
+] ).
+
+%=======================================================================
+i_line_rule( line_sup_addres_line, [
+%=======================================================================
+   
+    generic_item( [ swiss_supplier_address_2, s1, newline] )  
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,11 +114,11 @@ i_rule( get_bank_accountnumber, [
 
     , check_text(`Account`)
     
-    , generic_horizontal_details( [ [`Account`, `#`, tab], remit_to_bank_account_number, d, newline ] )
+    , generic_horizontal_details( [ [`Account`, `#`, tab ], supplier_bank_account_number, d, newline ] )
 
     , q(0,1,line)
 
-    ,  generic_horizontal_details( [ [ `SWIFT`, `/`, `BIC`, `#`, tab ], remit_to_swift_code, s1, newline ] )  
+    ,  generic_horizontal_details( [ [ `SWIFT`, `/`, `BIC`, `#`, tab ], supplier_swift_code, s1, newline ] )  
 
 ] ).
 
