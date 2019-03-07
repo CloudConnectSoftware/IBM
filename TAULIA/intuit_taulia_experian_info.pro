@@ -8,7 +8,7 @@ i_version( intuit_taulia_experian_info, `11 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(`m/d/y` ).
+i_date_format( _ ).
 
 i_trace_lists.
 
@@ -181,7 +181,8 @@ i_rule( get_invoice_date, [
      q(0,25,line)
 
 
-     , generic_horizontal_details( [ [  tab, `DATE`, `:` ], invoice_date, date, newline ] )
+     , generic_horizontal_details( [ [  tab, `DATE`, `:` ], invoice_date, s1, newline ] )
+
 
           , check( invoice_date = Deliverydate )
 
