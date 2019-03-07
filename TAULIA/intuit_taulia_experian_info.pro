@@ -124,8 +124,6 @@ i_line_rule( line_add_line, [
      , trace( [ `Found address`] )
 
      ,   generic_item( [ supplier_street, s1, tab ] )
-
-    , generic_item( [ supplier_street_dummy, s1, [tab, `Invoice`] ] )
     
 
 ] ).
@@ -140,10 +138,7 @@ i_line_rule( line_add_line_2, [
 
      , generic_item( [supplier_state , w ] )
 
-     , generic_item( [ supplier_postcode, d, tab ] )
-
-     , generic_item( [ supplier_postcode_dummy, s1, newline ] )
-
+     , generic_item( [ supplier_postcode, d, [tab,  `INVOICE`] ] )
 
 ] ).
 
