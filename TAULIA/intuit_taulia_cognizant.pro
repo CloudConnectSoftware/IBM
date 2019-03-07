@@ -8,10 +8,11 @@ i_version( intuit_taulia_cognizant, `25 January, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(`m/d/y` ).
+i_date_format( _ ).
 
 i_trace_lists.
 
+i_format_postcode( X, X ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -21,6 +22,8 @@ i_rule_list( [
       get_supplier_detail
 
     , get_supplier_address
+
+    , get_shipto_address_1
 
     , get_bank_accountnumber
  
@@ -61,6 +64,8 @@ i_rule( get_supplier_detail, [
     sender_name( `Cognizant Technology Solutions` )
     
    , supplier_country_code(`US`)
+
+   , supplier_registration_number(`teamreceivables@cognizant.com`)
 
 ] ).
 
@@ -137,6 +142,72 @@ i_line_rule( line_add_line_4, [
    
 ] ).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIP To ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_shipto_address_1, [
+%=======================================================================
+  
+     q(0,20,line)
+
+   , line_shipto_line_alt
+
+   , q(0,1,line)
+
+   , line_shipto_line1_alt
+
+   , q(0,1,line)
+
+   , line_shipto_line2_alt
+
+   , q(0,1,line)
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line_alt, [
+%=======================================================================
+
+    q0n(anything)
+
+    , read_ahead([`Intuit`, `Inc`, `.`, tab, `Invoice` ])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ delivery_party, s1, [tab, `Invoice` ] ] )
+
+    ] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line1_alt, [
+%=======================================================================
+
+      q0n(anything)
+
+      , `Accounts`,`Payable`, tab
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line2_alt, [
+%=======================================================================
+
+    q0n(anything)
+
+    ,  generic_item( [delivery_city , s , [q10(tab), check(delivery_city(end) < -98)]  ] )
+
+    , generic_item( [ delivery_state, w, [q10(tab), check(delivery_state(end) < -77)] ] )
+
+    , generic_item( [ delivery_postcode, w, [tab, `Payment`] ] )
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -285,9 +356,8 @@ q(0,30,line)
 
 , or([
 
-  generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [ tab, generic_item( [ currency, w ] ),  newline ] ] )
+  generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [ q10(tab), generic_item( [ currency, w ] ),  newline ] ] )
 
-,generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [`USD`,  newline ] ] )
 
 ] )
 
@@ -447,6 +517,11 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - April 8, 2018
 % Updated by   - Rohini
 % Changes made - Total amount and currency
+
+% Updated on   - March 7 , 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted Email ID as supplier reg number and currency
+
 
 % Updated on   - 
 % Updated by   -

@@ -409,9 +409,10 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - Feb 11, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 7 , 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted Email ID as supplier reg number 
+
 
 % Updated on   - 
 % Updated by   -
