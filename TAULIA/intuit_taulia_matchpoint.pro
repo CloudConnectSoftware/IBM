@@ -12,6 +12,7 @@ i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
+i_format_postcode( X, X ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -374,6 +375,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - Feb, 27, 2019
 % Updated by   - Roopesh
 % Changes made - Total edited with check text
+
+% Updated on   -  March 07, 2019
+% Updated by   - Roopesh
+% Changes made -  Post code rule (i_format_postcode( X, X ).) updated
 
 % Updated on   - 
 % Updated by   - 
