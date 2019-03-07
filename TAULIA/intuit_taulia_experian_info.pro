@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Experian Marketing Solutions, LLC
+% Experian Information Solutions, LLC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_experianmarketing, `11 Feb, 2018` ).
+i_version( intuit_taulia_experian_info, `11 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,8 @@ i_date_format(`m/d/y` ).
 i_trace_lists.
 
 i_op_param( us_invoice, _, _, _, _).
+
+i_format_postcode( X, X ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,16 +71,13 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Experian Marketing Solutions, LLC` )
+    sender_name( `EXPERIAN INFORMATION SOLUTIONS INC` )
 
-   , supplier_party( `Experian Marketing Solutions, LLC` )
+   , supplier_party( `EXPERIAN INFORMATION SOLUTIONS INC` )
     
-  , supplier_registration_number(`acctreccostamesa@experian.com`)
-
-
-  % , buyer_registration_number(`N/A`)
-
    , supplier_country_code(`US`)
+
+   , supplier_registration_number(`meghan.leonard@experian.com`)
 
 
 ] ).
@@ -115,15 +114,19 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`955`, `American`, `Lane`])
+       or([
+           read_ahead([`955`, `American`, `Lane`])
+
+           , read_ahead([`475`, `Anton`])
+
+       ])
 
      , trace( [ `Found address`] )
 
      ,   generic_item( [ supplier_street, s1, tab ] )
 
-    , generic_item( [ supplier_street_dummy, s1, tab ] )
+    , generic_item( [ supplier_street_dummy, s1, [tab, `Invoice`] ] )
     
-    , generic_item( [ supplier_street_dummy1, s1, newline ] )
 
 ] ).
 
@@ -159,7 +162,7 @@ i_rule( get_invoice_number, [
 
      q(0,20,line)
 
-     , generic_horizontal_details( [ [ `INVOICE`, `:` ],invoice_number, d, newline ] )
+     , generic_horizontal_details( [ [ `INVOICE`, `:`, q10(tab) ],invoice_number, d, newline ] )
 
 
 ] ).
@@ -225,8 +228,12 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-     , generic_horizontal_details( [ [ tab, `PO`, `:` ], po_number, d, [`I`,  newline ] ] )
-   
+     , or([
+         generic_horizontal_details( [ [ tab, `PO`, `:` ], po_number, d, [`I`,  newline ] ] )
+
+         , generic_horizontal_details( [ [ `PO` ], po_number, d,   [`I`,  newline] ] )
+
+     ])   
 
 ] ).
 
