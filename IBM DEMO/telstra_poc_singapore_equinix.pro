@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PricewaterhouseCoopers LLP
+% Equinix Singapore Pte Ltd
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_version( telstra_poc_singapore_equinix, `6 Aug, 2018` ).
@@ -205,15 +205,9 @@ i_rule( get_payment_terms, [
 i_rule( get_order_number, [
 %=======================================================================
 
-   last_line
+     q(0,20,line)
 
-    , q(0,30,up)
-
-    , set(regexp_allow_partial_matching)
-
-    , generic_horizontal_details( [ [ `PO` ], order_number, d, tab ] )
-
-    , clear(regexp_allow_partial_matching)
+     , generic_horizontal_details( [ [ `Purchase`, `Order`, `#`, tab ], order_number, d, newline ] )
 
 ] ).
 
