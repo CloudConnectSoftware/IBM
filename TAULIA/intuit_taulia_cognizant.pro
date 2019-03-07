@@ -12,6 +12,7 @@ i_date_format( _ ).
 
 i_trace_lists.
 
+i_format_postcode( X, X ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -21,6 +22,8 @@ i_rule_list( [
       get_supplier_detail
 
     , get_supplier_address
+
+    , get_shipto_address_1
 
     , get_bank_accountnumber
  
@@ -139,6 +142,72 @@ i_line_rule( line_add_line_4, [
    
 ] ).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIP To ADDRESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_shipto_address_1, [
+%=======================================================================
+  
+     q(0,20,line)
+
+   , line_shipto_line_alt
+
+   , q(0,1,line)
+
+   , line_shipto_line1_alt
+
+   , q(0,1,line)
+
+   , line_shipto_line2_alt
+
+   , q(0,1,line)
+
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line_alt, [
+%=======================================================================
+
+    q0n(anything)
+
+    , read_ahead([`Intuit`, `Inc`, `.`, tab, `Invoice` ])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ delivery_party, s1, [tab, `Invoice` ] ] )
+
+    ] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line1_alt, [
+%=======================================================================
+
+      q0n(anything)
+
+      , `Accounts`,`Payable`, tab
+
+] ).
+
+%=======================================================================
+i_line_rule( line_shipto_line2_alt, [
+%=======================================================================
+
+    q0n(anything)
+
+    ,  generic_item( [delivery_city , s , [q10(tab), check(delivery_city(end) < -98)]  ] )
+
+    , generic_item( [ delivery_state, w, [q10(tab), check(delivery_state(end) < -77)] ] )
+
+    , generic_item( [ delivery_postcode, w, [tab, `Payment`] ] )
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
