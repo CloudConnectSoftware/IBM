@@ -73,7 +73,8 @@ i_rule( get_supplier_detail, [
 
    , supplier_party( `Experian Marketing Solutions, LLC` )
     
-  %  , buyer_dept(`N/A`)
+  , supplier_registration_number(`acctreccostamesa@experian.com`)
+
 
   % , buyer_registration_number(`N/A`)
 
