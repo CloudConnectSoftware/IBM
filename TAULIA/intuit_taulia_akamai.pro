@@ -66,6 +66,8 @@ i_rule( get_supplier_detail, [
     
    , supplier_country_code(`US`)
 
+   , supplier_registration_number(`bcohen@akamai.com`)
+
 ] ).
 
 
