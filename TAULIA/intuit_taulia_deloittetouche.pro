@@ -60,9 +60,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Deloitte & Touche LLP` )
     
-   , buyer_dept(`N/A`)
-
-   , buyer_registration_number(`N/A`)
+   , supplier_registration_number(`sfields@evolytics.com`)
 
    , supplier_country_code(`US`)
 
@@ -391,9 +389,9 @@ i_line_rule_cut( line_descr_line, [
 % Mapped on - January 29, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 8, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID
 
 % Updated on   - 
 % Updated by   -
