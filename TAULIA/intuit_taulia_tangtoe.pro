@@ -14,6 +14,8 @@ i_trace_lists.
 
 i_op_param( us_invoice, _, _, _, _).
 
+i_format_postcode( X, X ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -69,6 +71,8 @@ i_rule( get_supplier_detail, [
    %, buyer_registration_number(`N/A`)
 
    , supplier_country_code(`US`)
+
+   , supplier_registration_number(`ipv.directpay@tangoe.com`)
 
 
 ] ).
@@ -523,6 +527,12 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - March 1,  2019
 % Updated by   - Roopesh
 % Changes made - Total edited with check text
+
+
+% Updated on   -  March 11, 2019
+% Updated by   - Roopesh
+% Changes made -  Post code rule (i_format_postcode( X, X ).) updated,  supplier registeration hardcoded
+
 
 % Updated on   - 
 % Updated by   - 
