@@ -12,6 +12,8 @@ i_date_format( `m/d/y` ).
 
 i_trace_lists.
 
+i_format_postcode( X, X ). 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
