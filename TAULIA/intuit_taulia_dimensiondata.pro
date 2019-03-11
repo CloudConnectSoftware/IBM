@@ -12,9 +12,9 @@ i_date_format( _ ).
 
 i_trace_lists.
 
-
 i_op_param( us_invoice, _, _, _, _).
 
+i_format_postcode( X, X ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -561,7 +561,7 @@ i_line_rule_cut( line_append_line, [
 
 % Updated on   - March 11, 2019
 % Updated by   - Rohini
-% Changes made - Supplier Registration number
+% Changes made - Supplier Registration number and  pdf parameter for Postcode
 
 
 % Updated on   - 
