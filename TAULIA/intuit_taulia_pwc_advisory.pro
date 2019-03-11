@@ -14,6 +14,7 @@ i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
+i_format_postcode( X, X ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -67,6 +68,8 @@ i_rule( get_supplier_detail, [
   % , buyer_dept(`N/A`)
 
   % , buyer_registration_number(`N/A`)
+
+  , supplier_registration_number(`blake.fox@pwc.com`)
 
 ] ).
 
@@ -394,6 +397,11 @@ i_line_rule_cut( line_append_line, [
 
 % Mapped on - Feb 9, 2018
 % Mapped by - Rohini 
+
+
+% Updated on   - March 08, 2019
+% Updated by   - Rohini
+% Changes made - Supplier Registration number and  pdf parameter for Postcode
 
 % Updated on   - 
 % Updated by   - 
