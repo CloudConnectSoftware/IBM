@@ -63,6 +63,10 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 
     sender_name( `Clarity Consultants ` )
+
+    supplier_party( `Clarity Consultants ` )
+
+    , supplier_registration_number(`accounting@clarityconsultants.com`)
        
 ] ).
 
@@ -383,9 +387,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - Feb 5, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 8, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID
 
 % Updated on   - 
 % Updated by   -

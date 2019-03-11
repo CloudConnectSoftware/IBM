@@ -62,6 +62,8 @@ i_rule( get_supplier_detail, [
     
      , supplier_country_code(`US`)
 
+     , supplier_registration_number(`michelle@brandglue.com`)
+
 ] ).
 
 
@@ -305,9 +307,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - January 25, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 8, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID
 
 % Updated on   - 
 % Updated by   -

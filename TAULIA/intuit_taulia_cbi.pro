@@ -61,6 +61,8 @@ i_rule( get_supplier_detail, [
     sender_name( `Connectivity Based Integration` )
 
    , supplier_party( `Connectivity Based Integration` )
+
+   , supplier_registration_number(`pete@cbi-inc.net`)
     
 ] ).
 
@@ -285,9 +287,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - January 25, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 8, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID 
 
 % Updated on   - 
 % Updated by   -
