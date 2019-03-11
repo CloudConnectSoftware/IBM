@@ -12,6 +12,8 @@ i_date_format( `m/d/y`).
 
 i_trace_lists.
 
+i_format_postcode( X, X ). 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,6 +62,8 @@ i_rule( get_supplier_detail, [
     sender_name( `Gerould & Player, LLP` )
 
    , supplier_party(`Gerould & Player, LLP`)
+
+   , supplier_registration_number(`paula@gerouldplayer.com`)
     
 
 ] ).
@@ -276,9 +280,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - January 30, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 11, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID
 
 % Updated on   - 
 % Updated by   -
