@@ -71,6 +71,7 @@ i_rule( get_supplier_detail, [
 
   % , supplier_country_code(`US`)
 
+  , supplier_registration_number(`jacqueline.moore@dimensiondata.com`)
 
 ] ).
 
@@ -557,11 +558,15 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Rohini
 % Changes made - Ship to
 
+
+% Updated on   - March 11, 2019
+% Updated by   - Rohini
+% Changes made - Supplier Registration number
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
