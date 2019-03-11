@@ -67,6 +67,8 @@ i_rule( get_supplier_detail, [
    , supplier_party( `Advantage Technical Resorucing` )
 
    , supplier_country_code(`US`)
+
+   , supplier_registration_number(`michael.bousquet@advantageresourcing.com`)
    
 
 ] ).
@@ -350,9 +352,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - Feb 8, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 8, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID
 
 % Updated on   - 
 % Updated by   -
