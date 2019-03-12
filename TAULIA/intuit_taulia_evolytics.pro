@@ -81,7 +81,7 @@ i_rule( get_supplier_address, [
 
    , line_add_line
 
-   , q(1,2,line)
+   , q(0,1,line)
 
    , line_add_line_2
 
@@ -119,13 +119,11 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -281)] ] )
-
-     , generic_item( [supplier_city_dummy , s , [q10(tab), check(supplier_city_dummy(end) < -250)] ] )
+     generic_item( [supplier_city , w, `,`] )
 
      , generic_item( [ supplier_state, w ] )
 
-     , generic_item( [ supplier_postcode, d, newline ] )
+     , generic_item( [ supplier_postcode, d, or([tab, newline]) ] )
    
 ] ).
 
