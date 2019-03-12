@@ -207,7 +207,9 @@ i_rule( get_total_net, [
 %=======================================================================
  
  
- q(0,50,line)
+ q(0,5000,line)
+
+ , check_text(`Services`)
 
  
  ,generic_horizontal_details( [ [ `Services`, tab, `$` ],  total_net, d, newline ] )
@@ -226,8 +228,9 @@ i_rule( get_total_vat, [
 %=======================================================================
  
  
- q(0,50,line)
+ q(0,5000,line)
 
+ , check_text(`Tax`)
  
  ,generic_horizontal_details( [ [ `Tax`, tab ],  total_vat, d, newline ] )
 
@@ -244,7 +247,9 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
- q(0,50,line)
+ q(0,5000,line)
+
+ , check_text(`Total`)
 
 ,generic_horizontal_details( [ [ `Total`, tab, `$` ],  total_invoice, d, newline ] )
 
@@ -355,6 +360,10 @@ i_line_rule_cut( line_end_line, [
        or( [
            
         [`Total`, `Charges`, `:`]
+
+        , [`Akmai`]
+
+        , [ `PERIOD`, tab, `PRODUCT`, tab, `UOM`, tab ]
 
         , [`*`, `Type`, `code`, `:`]
 
