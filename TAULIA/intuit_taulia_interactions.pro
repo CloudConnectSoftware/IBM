@@ -12,6 +12,8 @@ i_date_format( `m/d/y`).
 
 i_trace_lists.
 
+i_format_postcode( X, X ). 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,6 +68,8 @@ i_rule( get_supplier_detail, [
    , supplier_country_code(`US`)
 
    , delivery_code(`US`)
+
+   , supplier_registration_number(`billing@interactions.com`)
 
 ] ).
 
@@ -534,9 +538,9 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - January 30, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - March 12, 2019
+% Updated by   - Thejaswi
+% Changes made - Whitelisted email ID
 
 % Updated on   - 
 % Updated by   -
