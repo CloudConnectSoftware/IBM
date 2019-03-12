@@ -328,7 +328,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-           [line_invoice_line, q10(line_append_line), q10(line_append_line)]
+           [line_invoice_line]
 
 
               , line
@@ -391,7 +391,7 @@ i_line_rule_cut( line_invoice_line, [
   
   , generic_item( [ line_type_dummy, s1, tab ] )
 
-  , generic_item( [ line_quantity, d, tab ] )
+  , generic_item( [ line_quantity_dummy, d, tab ] )
 
 
   , generic_item( [ line_unit_amount, d, tab ] )
@@ -400,7 +400,7 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_vat_amount, d, tab ] )
 
-  , generic_item( [ line_total_amount, d, newline ] )
+  , generic_item( [ line_total_dummy, d, newline ] )
 
   
 ] ).
