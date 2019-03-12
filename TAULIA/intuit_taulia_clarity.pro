@@ -108,7 +108,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, tab ] )
+     , generic_item( [ supplier_party, s1, or([tab, newline]) ] )
 
 ] ).
 
@@ -132,9 +132,9 @@ i_line_rule( line_add_line_3, [
 i_line_rule( line_add_line_4, [
 %=======================================================================
 
-     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -83)] ] )
+     generic_item( [supplier_city , s , [`,`]  ] )
 
-     , generic_item( [ supplier_state,  w , [q10(tab), check(supplier_state(end) < -13)] ] )
+     , generic_item( [ supplier_state,  w , [q10(tab), check(supplier_state(end) < -54)] ] )
 
      , generic_item( [ supplier_postcode, s1, newline ] )
    
