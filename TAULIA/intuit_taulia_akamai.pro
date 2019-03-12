@@ -391,12 +391,24 @@ i_line_rule_cut( line_invoice_line, [
   
   , generic_item( [ line_type_dummy, s1, tab ] )
 
-  , generic_item( [ line_quantity, d, tab ] )
+  , generic_item( [ line_quantity_raw, d, tab ] )
 
 
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , [ generic_item( [ line_unit_amount_raw, d, tab ] ) ]
 
-  , generic_item( [ line_net_amount, d, tab ] )
+   
+
+  , [generic_item( [ line_net_amount, d, tab ] )
+
+  , q10([
+      or([
+      [ check(line_unit_amount_raw = U_raw) ,check(U_raw = `0` ), check(line_net_amount = N_raw) ,generic_item( [ line_quantity, `1` ] ) ,generic_item( [ line_unit_amount, N_raw ] ) ] 
+
+      , [ check(line_unit_amount_raw = U_raw) ,generic_item( [ line_unit_amount, U_raw ] ) ] 
+
+  ]) ])
+  
+  ]
 
   , generic_item( [ line_vat_amount, d, tab ] )
 
