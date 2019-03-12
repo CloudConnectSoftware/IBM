@@ -65,7 +65,7 @@ i_rule( get_supplier_detail, [
 
     sender_name( `Clarity Consultants ` )
 
-    supplier_party( `Clarity Consultants ` )
+    , supplier_party( `Clarity Consultants ` )
 
     , supplier_registration_number(`accounting@clarityconsultants.com`)
        
