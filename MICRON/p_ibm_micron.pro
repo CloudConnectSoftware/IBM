@@ -7,7 +7,7 @@
 i_version( p_ibm_micron, `27/12/2018 08:28:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+,,,,,,,,,,,,,,,,,,,,,,, % Syntax error to crash instances as they need to be shut down and I cannot access server right now - will fix later today
 i_rules_file( `u_json_forms_new.pro` ).
 i_rules_file( `d_ibm_micron.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
