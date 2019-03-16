@@ -7,7 +7,7 @@
 i_version( p_ibm_unilever_uapl, `28/02/2018 12:28:58` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-,,,,,,,,,,,,,,,,,,,,,,, % Syntax error to crash instances as they need to be shut down and I cannot access server right now - will fix later today
+
 i_rules_file( `d_ibm_unilever_uapl.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_json_forms_new.pro` ).

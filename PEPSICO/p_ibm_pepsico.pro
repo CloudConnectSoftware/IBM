@@ -7,7 +7,7 @@
 i_version( p_ibm_pepsico, `29/08/2018 09:38:17` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-,,,,,,,,,,,,,,,,,,,,,,, % Syntax error to crash instances as they need to be shut down and I cannot access server right now - will fix later today
+
 i_include_partner_attachments_image_only
 :-
 	i_mail( subject, Subject ),

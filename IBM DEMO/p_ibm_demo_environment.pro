@@ -7,7 +7,7 @@
 i_version( p_ibm_demo_environment, `08/08/2018 14:43:59` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-,,,,,,,,,,,,,,,,,,,,,,, % Syntax error to crash instances as they need to be shut down and I cannot access server right now - will fix later today
+
 i_rules_file( `d_ibm_demo_environment.pro` ).
 i_rules_file( `d_ibm_demo_extra_variables.pro` ).
 i_rules_file( `u_json_forms_new.pro` ).
