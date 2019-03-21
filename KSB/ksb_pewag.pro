@@ -166,7 +166,11 @@ q(0,15,line)
 	
    ,  or([
         
-      [ generic_vertical_details( [ [ `RECHNUNG`, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number_raw, s1, newline ] )
+       generic_vertical_details( [ [ `RECHNUNG`, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number_raw, s1, newline ] )
+
+        , [ generic_vertical_details( [ [ `GUTSCHRIFT `, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number_raw, s1, newline ] )
+            , set(credit_note)]
+      ])
 
      , check( invoice_number_raw = InvoiceRaw )
 
@@ -178,10 +182,9 @@ q(0,15,line)
 
     , invoice_number(InvoiceStrip)
 
-, trace( [ `Invoice Number` , invoice_number ] )  ]
+, trace( [ `Invoice Number` , invoice_number ] )  
 
 
-        ])
 ] ).
 
 
