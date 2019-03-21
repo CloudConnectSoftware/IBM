@@ -38,7 +38,7 @@ i_rule_list( [
     , get_delivery_note_nr
 
 
-    , get_currency
+   % , get_currency
 
     ,get_net_amount
 
@@ -69,6 +69,8 @@ i_rule( get_supplier_details, [
     ,supplier_party( `Pewag Deutschland GmbH` )
 
     , supplier_vat_number(`DE248918483`)
+
+    , currency( `EUR` )
     
       
 ] ).
@@ -424,11 +426,11 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_item([ line_number , d ,tab ])
 
-      ,  generic_item([ line_quantity , d ,tab ])
+      ,  q10(generic_item([ line_quantity , d ,tab ]))
 
       , generic_item([ line_quantity_uom_code , w ,tab ])
 
-      , generic_item([ line_quantity_dummy , d ,tab ])
+      , q10(generic_item([ line_quantity_dummy , d ,tab ]))
 
       ,  q10(generic_item([ line_item , d  ]))
 
