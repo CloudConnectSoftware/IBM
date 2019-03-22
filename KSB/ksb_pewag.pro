@@ -166,23 +166,23 @@ q(0,15,line)
 	
    ,  or([
         
-       generic_vertical_details( [ [ `RECHNUNG`, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number_raw, s1, newline ] )
+       generic_vertical_details( [ [ `RECHNUNG`, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number, s1, newline ] )
 
-        , [ generic_vertical_details( [ [ `GUTSCHRIFT `, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number_raw, s1, newline ] )
+        , [ generic_vertical_details( [ [ `GUTSCHRIFT `, `NR`, `.` ], `RECHNUNG`, q(0,1), (start,200,300), invoice_number, s1, newline ] )
             , set(credit_note)]
       ])
 
-     , check( invoice_number_raw = InvoiceRaw )
+    % , check( invoice_number_raw = InvoiceRaw )
 
-    , trace( [ `Invoice number raw` , InvoiceRaw ] )
+    %, trace( [ `Invoice number raw` , InvoiceRaw ] )
 
-    , check(string_string_replace( InvoiceRaw, ` `, ``, InvoiceStrip ))
+    %, check(string_string_replace( InvoiceRaw, ` `, ``, InvoiceStrip ))
 
-    , trace( [ `Invoice Stripped Space` , InvoiceStrip ] )
+   % , trace( [ `Invoice Stripped Space` , InvoiceStrip ] )
 
-    , invoice_number(InvoiceStrip)
+   % , invoice_number(InvoiceStrip)
 
-, trace( [ `Invoice Number` , invoice_number ] )  
+%, trace( [ `Invoice Number` , invoice_number ] )  
 
 
 ] ).
