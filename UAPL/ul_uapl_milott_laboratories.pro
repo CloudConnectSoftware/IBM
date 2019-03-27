@@ -203,7 +203,7 @@ i_rule( get_total_net, [
 
             , generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_net , d , newline ] )
 
-            , generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, tab, `BANGKOK`, tab ] , total_net , d , newline ] )
+            , generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, tab, `LAEM`, tab, `CHABANG`, tab ] , total_net , d , newline ] )
             
         ])    
 
@@ -274,7 +274,7 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
-        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, q10(`.`), `BANGKOK`], 400, total_invoice, d, newline ] ) 
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, tab, `LAEM`, tab, `CHABANG`, tab], 400, total_invoice, d, newline ] ) 
 
         , check( total_invoice = TotInv )
 
