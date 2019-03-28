@@ -146,7 +146,7 @@ i_line_rule( line_add_line2, [
 
        , [ check(buyer_city_raw = buyer_city1) ,check(buyer_city1 = `GENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
  
-        , [ check(buyer_city_raw = buyer_city1) ,check(buyer_city1 = `Frankentha`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
+        , [ check(buyer_city_raw = `Frankentha`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
 
 
        ,[ check(buyer_city_raw = City_raw) ,generic_item( [ buyer_city, City_raw ] ) ] 
@@ -527,6 +527,11 @@ i_line_rule_cut( line_item_line, [
 % Updated on   - 1 March,  2019
 % Updated by   -  Roopesh
 % Changes made   -  Buyer party
+
+% Updated on   - 28 March 2018
+% Updated by   -  Thejaswi
+% Changes made   -  Buyer City Frankatha
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
