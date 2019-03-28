@@ -146,7 +146,7 @@ i_line_rule( line_add_line2, [
 
        , [ check(buyer_city_raw = buyer_city1) ,check(buyer_city1 = `GENNEVILLIERS`) ,generic_item( [ buyer_city, `GENNEVILLIERS` ] ) ] 
  
-        , [ check(buyer_city_raw = buyer_city1) ,check(buyer_city1 = `Frankentha`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
+        , [ check(buyer_city_raw = `Frankentha`) ,generic_item( [ buyer_city, `FRANKENTHAL` ] ) ] 
 
 
        ,[ check(buyer_city_raw = City_raw) ,generic_item( [ buyer_city, City_raw ] ) ] 
