@@ -76,7 +76,7 @@ i_rule( get_supplier_details, [
 
     , supplier_party(`Makandi Tea and Coffee Estates Limited`)
 
-   ,buyer_dept(`3009 `)
+   ,buyer_registration_number(`3009 `)
 
    ,supplier_vat_number(`20106432`)
 
