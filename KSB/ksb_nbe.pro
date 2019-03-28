@@ -528,5 +528,10 @@ i_line_rule_cut( line_item_line, [
 % Updated by   -  Roopesh
 % Changes made   -  Buyer party
 
+% Updated on   - 28 March 2018
+% Updated by   -  Thejaswi
+% Changes made   -  Buyer City Frankatha
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
