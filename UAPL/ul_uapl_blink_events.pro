@@ -99,7 +99,9 @@ i_rule_cut( get_invoice_number, [
        
        generic_horizontal_details( [ [ `REF`, `NO`,  `:` ], invoice_number, s1, newline ] )
 
-       , [ set(regexp_allow_partial_matching), generic_horizontal_details( [ [ `INVO` ],  invoice_number, s1, `ice` ] ), clear(regexp_allow_partial_matching)]
+       , [ set(regexp_allow_partial_matching), generic_horizontal_details( [ [ `INVO` ],  invoice_number, s, `ice` ] ), clear(regexp_allow_partial_matching)]
+
+        , [ set(regexp_allow_partial_matching), generic_horizontal_details( [ [ `INVO` ],  invoice_number, s1, newline ] ), clear(regexp_allow_partial_matching)]
 
        ])
 	
