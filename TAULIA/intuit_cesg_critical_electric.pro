@@ -78,7 +78,7 @@ i_rule( get_supplier_detail, [
 
     ,supplier_postcode(`75074`)
     
-    ,delivery_country_code(`US`)
+    ,delivery_code(`US`)
     
     %,supplier_street(`704 Central Pkwy. East, 1200A`)
 
@@ -510,9 +510,9 @@ i_line_rule_cut( line_descr_append_line, [
 % Mapped on - December 6, 2017
 % Mapped by - Thejaswi
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - April 12, 2019
+% Updated by   - Roopesh
+% Changes made - delivery_country_code change to _delivery_code
 
 % Updated on   - 
 % Updated by   -
