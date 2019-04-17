@@ -512,7 +512,7 @@ i_line_rule_cut( line_descr_append_line, [
 
 % Updated on   - April 12, 2019
 % Updated by   - Roopesh
-% Changes made - delivery_country_code change to _delivery_code
+% Changes made - delivery_country_code
 
 % Updated on   - 
 % Updated by   -
