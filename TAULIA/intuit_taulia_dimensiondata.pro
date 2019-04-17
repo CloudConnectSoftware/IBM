@@ -239,7 +239,7 @@ i_line_rule( line_shipto_line4, [
       ,  generic_item( [ delivery_state, w ] )
 
 
-     , generic_item( [ delivery_code, d, tab ] )
+     , generic_item( [ delivery_country_code, d, tab ] )
 
 ] ).
 
