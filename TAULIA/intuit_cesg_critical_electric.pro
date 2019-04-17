@@ -78,7 +78,7 @@ i_rule( get_supplier_detail, [
 
     ,supplier_postcode(`75074`)
     
-    ,delivery_code(`US`)
+    ,delivery_country_code(`US`)
     
     %,supplier_street(`704 Central Pkwy. East, 1200A`)
 
