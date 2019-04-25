@@ -304,6 +304,16 @@ i_rule( get_total_invoice, [
 
         , trace( [ `Total net` , total_net] ) ]
 
+        , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, dummy(w), tab ], total_invoice, d, newline ] ) 
+
+        , check( total_invoice = TotInv )
+
+        , trace( [ `Total Inv` , TotInv] )
+
+        , total_net(TotInv)
+
+        , trace( [ `Total net` , total_net] ) ]
+
         , [generic_horizontal_details( [ [`TOTAL`, `EX`, `-`, `FACTORY`], 500, total_invoice, d, newline ] ) 
 
         , check( total_invoice = TotInv )
@@ -622,6 +632,12 @@ i_line_rule_cut( line_invoice_line_4, [
 % Updated on   - Jan 23, 2019
 % Updated by   - Thejaswi
 % Changes made - Total Invoice
+
+
+% Updated on   - April 25, 2019
+% Updated by   - Rohini
+% Changes made - Total Invoice updated to new format
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
