@@ -207,6 +207,8 @@ i_line_rule( line_shipto_line2_alt, [
 
     , generic_item( [ delivery_postcode, w, [tab, `Payment`] ] )
 
+    , generic_item( [ delivery_country_code, `US` ] )
+
 ] ).
 
 
@@ -318,7 +320,7 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-  ,  generic_horizontal_details( [ [`PO`, `:`, tab ], po_number, d, newline ] )
+  ,  generic_horizontal_details( [ [`PO`, tab,`:`], po_number, d, or([ `&`, newline]) ] )
 
 
 ] ).

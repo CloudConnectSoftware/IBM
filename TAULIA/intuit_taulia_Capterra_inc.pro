@@ -65,6 +65,8 @@ i_rule( get_supplier_detail, [
    , supplier_party( `Capterra, Inc` )
 
    , supplier_registration_number(`ortner@capterra.com`)
+
+   , supplier_country_code(`US`)
     
 ] ).
 
@@ -123,7 +125,29 @@ i_line_rule( line_add_line_new, [
 
      , generic_item( [supplier_state , w  ] )
 
-     , generic_item( [ supplier_postcode, s1, tab ] )
+     , generic_item( [ supplier_postcode, s1, or([ tab, newline]) ] )
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SUPPLIER BANK ACCOUNT DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_bank_accountnumber, [
+%=======================================================================
+   
+   q(0,100,line)
+
+	, generic_horizontal_details( [ [ `Account`, `Number`, `:`],  bank_account_number, w, newline  ] )
+
+    , q(0,2,line)
+
+	, generic_horizontal_details( [ [ `SWIFT`, `Code`, `:`],  swift_bic_number, w, newline  ] )
 
 ] ).
 
@@ -198,7 +222,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,30,line)
+last_line
+
+, q(0,30,up)
 
 ,[generic_horizontal_details( [ [`Total`, tab, `$` ],  total_invoice, d, newline ] )
 
@@ -225,7 +251,9 @@ q(0,30,line)
 i_rule( get_currency, [
 %=======================================================================
 
-q(0,50,line)
+last_line
+
+, q(0,30,up)
 
 ,invoice_currency
 
@@ -275,9 +303,8 @@ i_section( get_invoice_lines, [
 %=======================================================================
 i_line_rule_cut( line_header_line, [
 %=======================================================================
-
     
-    [`QTY`, tab, `Item`, `Code`, tab ]
+    [`Quantity`, tab, `Description`, tab, `Rate` ]
 
     , trace( [ `Found Start line` ] )
 
@@ -287,7 +314,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-      [`Total`, tab, `$`]
+    or([
+        
+      [`USD`, `Total`, tab]
+
+      , [`Quantity`, tab, `Description`, tab, `Rate` ]
+
+    ])
 
      , trace( [ `Found End line` ] )
 
@@ -298,7 +331,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_quantity, d ] )
+    generic_item( [ line_quantity, d, tab ] )
 
   , generic_item( [ line_descr, s1, tab ] )
 
@@ -314,7 +347,7 @@ i_line_rule_cut( line_invoice_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
 
-% Mapped on - January 04, 2019
+% Mapped on - April 1, 2019
 % Mapped by - Thejaswi 
 
 % Updated on   - 
