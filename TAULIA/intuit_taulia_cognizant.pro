@@ -318,7 +318,7 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-  ,  generic_horizontal_details( [ [`PO`, `:`, tab ], po_number, d, newline ] )
+  ,  generic_horizontal_details( [ [`PO`, tab,`:`], po_number, d, or([ `&`, newline]) ] )
 
 
 ] ).
