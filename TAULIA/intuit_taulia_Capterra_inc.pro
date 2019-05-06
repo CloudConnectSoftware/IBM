@@ -222,7 +222,9 @@ i_rule( get_order_number, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,30,line)
+last_line
+
+, q(0,30,up)
 
 ,[generic_horizontal_details( [ [`Total`, tab, `$` ],  total_invoice, d, newline ] )
 
@@ -249,7 +251,9 @@ q(0,30,line)
 i_rule( get_currency, [
 %=======================================================================
 
-q(0,50,line)
+last_line
+
+, q(0,30,up)
 
 ,invoice_currency
 
