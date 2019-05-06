@@ -65,6 +65,8 @@ i_rule( get_supplier_detail, [
    , supplier_party( `Capterra, Inc` )
 
    , supplier_registration_number(`ortner@capterra.com`)
+
+   , supplier_country_code(`US`)
     
 ] ).
 
