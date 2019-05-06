@@ -303,7 +303,6 @@ i_section( get_invoice_lines, [
 %=======================================================================
 i_line_rule_cut( line_header_line, [
 %=======================================================================
-
     
     [`Quantity`, tab, `Description`, tab, `Rate` ]
 
@@ -315,7 +314,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
+    or([
+        
       [`USD`, `Total`, tab]
+
+      , [`Quantity`, tab, `Description`, tab, `Rate` ]
+
+    ])
 
      , trace( [ `Found End line` ] )
 
