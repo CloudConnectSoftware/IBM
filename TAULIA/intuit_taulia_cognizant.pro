@@ -102,7 +102,7 @@ i_rule( get_supplier_address, [
 i_line_rule( line_add_line, [
 %=======================================================================
 
-       read_ahead([`Cognizant`, `Technology`])
+       read_ahead([`Cognizant`])
 
      , trace( [ `Found address`] )
 
@@ -340,7 +340,6 @@ i_rule( get_contact_person, [
 
   ,  generic_vertical_details( [ [ `Customer`, `Contact`, `:` ], `Customer`, q(0,1), (start, 10,10), buyer_contact, s1, tab ] )
 
-
 ] ).
 
 
@@ -354,26 +353,24 @@ i_rule( get_contact_person, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-q(0,30,line)
+q(0,100,line)
 
 , or([
 
   generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab ],  total_invoice, d, [ q10(tab), generic_item( [ currency, w ] ),  newline ] ] )
 
-
 ] )
 
    , check( total_invoice = TotInv )
 
-        , trace( [ `Total Inv` , TotInv] )
+   , trace( [ `Total Inv` , TotInv] )
 
-        , total_net(TotInv)
+   , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net ] )
-
-
+   , trace( [ `Total net` , total_net ] )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -385,14 +382,17 @@ q(0,30,line)
 i_rule( get_currency, [
 %=======================================================================
 
-
   q(0,30,line)
 
- , generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab, dummy_num(d), `USD` ],  currency, w, newline ] )
+ , or([
+   
+  generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab, dummy_num(d), `USD` ],  currency, w, newline ] )
 
+  , generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab  ],  currency, w, [q10(tab),`USD` ] ] )
+
+ ])
 
 ] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -443,8 +443,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-     
-      or( [
+    or( [
 
      [`Total`, `Amount`, `Due`]
 
