@@ -18,8 +18,7 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-invoice_or_credit_note
+    invoice_or_credit_note
 
 	, get_supplier_details
 	
@@ -149,11 +148,11 @@ i_rule_cut( get_bank_acct, [
 
      ,[ generic_horizontal_details( [ [ `A`, `/`, `C`],supplier_bank_account_number_raw, s1 , newline ] )]
 
-        ])
+    ])
                      
-     ,check(supplier_bank_account_number_raw=SupplierAccount)
+    , (supplier_bank_account_number_raw=SupplierAccount)
     
-   , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
+    , check(strip_string2_from_string1( SupplierAccount, `-`, SupplierAccount1 ))
 
     ,supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 
@@ -216,19 +215,15 @@ i_rule( get_total_net, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %=======================================================================
 i_rule( get_total_vat, [
 %=======================================================================
 
-
-qn0(line)
+ qn0(line)
 
 , [generic_horizontal_details( [ [ `VAT7`, `.`, `00`, `%`, tab ] , total_vat , d , newline ] )
 
 , generic_item( [ default_vat_rate, `7` ] ) ]
-
-
 
 ] ).
 
@@ -244,14 +239,11 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-     , or([ 
-
-                  
+     , or([                  
 
         [generic_horizontal_details( [ [ `GRAND` , `TOTAL`, tab ] , total_invoice , d , newline ] )
 
         ]
-
 
         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, `SADAO`], 400, total_invoice, d, newline ] ) 
           
@@ -262,7 +254,6 @@ i_rule( get_total_invoice, [
         , total_net(TotInv)
 
         , trace( [ `Total net` , total_net] ) ]
-
         
         , [generic_horizontal_details( [ [`TOTAL`, `F`, `.`, `O`, `.`, `B`, `.`, tab, `BANGKOK`, tab ], total_invoice, d, newline ] ) 
           
@@ -493,6 +484,8 @@ i_line_rule_cut( line_end_line, [
    or([ 
    
          [`TI`, `NO`, `.`]
+
+        , [[`CS`, tab , `USD` , tab , `USD`]]
 
          ,[`MLC`,`No`, `.`]
 
