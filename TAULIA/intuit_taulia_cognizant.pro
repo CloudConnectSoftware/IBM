@@ -65,7 +65,7 @@ i_rule( get_supplier_detail, [
     
    , supplier_country_code(`US`)
 
-   , supplier_registration_number(`thejaswk@in.ibm.com`) %(`teamreceivables@cognizant.com`)
+   , supplier_registration_number(`teamreceivables@cognizant.com`) %(`teamreceivables@cognizant.com`)
 
    , currency( `USD` )
 
@@ -209,7 +209,7 @@ i_line_rule( line_shipto_line2_alt, [
 
     , generic_item( [ delivery_postcode, w, [tab, `Payment`] ] )
 
-    , generic_item( [ delivery_code, `US` ] )
+    , generic_item( [ delivery_country_code, `US` ] )
 
 ] ).
 
@@ -524,9 +524,9 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Thejaswi
 % Changes made - Whitelisted Email ID as supplier reg number and currency
 
-% Updated on   - March 31 , 2019
+% Updated on   - April 16 , 2019
 % Updated by   - Thejaswi
-% Changes made - Delivery Country Code mapped
+% Changes made - Delivery Country Code (delivery_country_code from delivery_code)
 
 
 % Updated on   - 
