@@ -525,6 +525,10 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Thejaswi
 % Changes made - Whitelisted Email ID as supplier reg number and currency
 
+% Updated on   - March 31 , 2019
+% Updated by   - Thejaswi
+% Changes made - Delivery Country Code mapped
+
 
 % Updated on   - 
 % Updated by   -
