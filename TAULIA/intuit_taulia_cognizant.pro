@@ -65,7 +65,7 @@ i_rule( get_supplier_detail, [
     
    , supplier_country_code(`US`)
 
-   , supplier_registration_number(`thejaswk@in.ibm.com`)  %(`teamreceivables@cognizant.com`)
+   , supplier_registration_number(`thejaswk@in.ibm.com`) %(`teamreceivables@cognizant.com`)
 
    , currency( `USD` )
 
@@ -389,6 +389,7 @@ i_rule( get_currency, [
  , or([
    
   generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab, dummy_num(d) ],  currency, w, newline ] )
+
 
  ])
 
