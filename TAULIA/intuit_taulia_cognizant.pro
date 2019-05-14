@@ -43,7 +43,7 @@ i_rule_list( [
 
     , get_total_invoice
 
-    , get_currency
+   % , get_currency
 
     , get_contact_person
 
@@ -66,6 +66,8 @@ i_rule( get_supplier_detail, [
    , supplier_country_code(`US`)
 
    , supplier_registration_number(`teamreceivables@cognizant.com`)
+
+   , currency( `USD` )
 
 ] ).
 
