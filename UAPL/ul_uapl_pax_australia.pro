@@ -353,7 +353,7 @@ i_line_rule_cut( line_invoice_line_2, [
 
     , q10(generic_item( [line_quantity_uom_code_dummy , w , tab ] ))
 
-    , generic_item( [line_gst_code , d , tab ])
+    , generic_item( [line_vat_code , d , tab ])
 
     
     , generic_item( [line_net_amount , d , newline ] )
