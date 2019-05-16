@@ -78,8 +78,13 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 	
-   	, generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, tab ], invoice_number, w , newline ] )
-  
+   	, or([
+           
+           generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ], invoice_number, w ,[ `/`, generic_item([invocie_date, date, newline ] )] ] )
+
+           , generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, tab ], invoice_number, w , newline ] )
+
+       ])  
 
 ] ).
 
@@ -112,7 +117,7 @@ i_rule( get_total_invoice, [
 
     q(0,50,line)
 
-    ,[generic_horizontal_details( [ [`Total`, `:`, tab ],  total_invoice, d, tab ] )
+    ,[generic_horizontal_details( [ [`Total`, q10(`:`), tab ],  total_invoice, d, or([ tab, newline ]) ] )
 
     , check( total_invoice = TotInv )
 
@@ -158,7 +163,7 @@ i_rule( get_currency, [
 
 q0n(line)
 	
-    , generic_vertical_details( [ [ `Amount`,  newline ],`Amount`, q(0,2), (start,300,400), currency_raw, w, [`)`,  newline ] ] )
+    , generic_vertical_details( [ [ `Amount`,  newline ],`Amount`, q(0,2), (start,300,400), currency_raw, w, [`)` ] ] )
 
         , check( currency_raw = CurRaw )
 
