@@ -80,7 +80,7 @@ i_rule( get_invoice_number, [
 	
    	, or([
            
-           generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ], invoice_number, w ,[ `/`, generic_item([invocie_date, date, newline ] )] ] )
+           generic_horizontal_details( [ [ `Invoice`, `No`, `.`, tab ], invoice_number, w ,[ `/`, generic_item([invoice_date, date, newline ] )] ] )
 
            , generic_horizontal_details( [ [ `Invoice`, `No`, `.`, `:`, tab ], invoice_number, w , newline ] )
 
@@ -145,7 +145,7 @@ i_rule( get_line_total_amount, [
     
     q(0,50,line)
 
-    ,generic_horizontal_details( [ [`Total`, `:`, tab ],  line_total_amount, d, tab ] )
+    ,generic_horizontal_details( [ [`Total`, q10(`:`), tab ],  line_total_amount, d, or([tab,newline]) ] )
 
 
 ] ).
@@ -163,7 +163,7 @@ i_rule( get_currency, [
 
 q0n(line)
 	
-    , generic_vertical_details( [ [ `Amount`,  newline ],`Amount`, q(0,2), (start,300,400), currency_raw, w, [`)` ] ] )
+    , generic_vertical_details( [ [ `Amount` ],`Amount`, q(0,2), (start,300,400), currency_raw, w, [`)` ] ] )
 
         , check( currency_raw = CurRaw )
 
@@ -192,21 +192,23 @@ q0n(line)
 i_rule(get_bank_accountnumber, [
 %=======================================================================
 
-    q0n(line)
-
-    , with( invoice, currency, Currency )
+    with( invoice, currency, Currency )
 
     ,trace( [ `currency is`, Currency ] )
+
+    , q0n(line)
 
     , or([
         [check( Currency = `SGD` ) , generic_horizontal_details( [ [`SGD`, `Account`, `No`, `.`, `:` ],  supplier_bank_account_number, s1, newline ] )]
 
-       ,[check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `Account`, `No`, `.`, `:` ],  supplier_bank_account_number, s1, newline ] )]
-
+        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [`SGD`, `A`, `/`, `C`, `NO`, `.`, `:` ],  supplier_bank_account_number, s1, newline ] )]
        
+        , [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `Account`, `No`, `.`, `:` ],  supplier_bank_account_number, s1, newline ] )]
+        
+        , [check( Currency = `USD` ) , generic_horizontal_details( [ [`USD`, `A`, `/`, `C`, `NO`, `.`, `:` ],  supplier_bank_account_number, s1, newline ] )]
+
     ])
     
-
 ] ).
 
 
