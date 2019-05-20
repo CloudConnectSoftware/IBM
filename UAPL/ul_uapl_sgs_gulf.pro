@@ -240,3 +240,14 @@ i_rule( get_invoice_lines, [
 ]).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Created on   - 6 Feb 2017
+% Updated by   - Thejaswi
+
+% Updated on   - May 28, 2019
+% Updated by   - Thejas
+% Changes made   - Order Number
