@@ -152,7 +152,13 @@ i_rule( get_order_number, [
 	q0n(line)
 	
 
-    , generic_horizontal_details( [ [ `UAPL`, `Po`, `.`, `No`, `.` ], order_number, s1, newline ] )
+    , or([ 
+		
+		generic_horizontal_details( [ [ `UAPL`, `Po`, `.`, `No`, `.` ], order_number, s1, newline ] )
+
+		, generic_horizontal_details( [ [  `Po`, `:` ], order_number, w, newline ] )
+
+	])
 
 
 ] ).
@@ -234,3 +240,14 @@ i_rule( get_invoice_lines, [
 ]).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Created on   - 6 Feb 2017
+% Updated by   - Thejaswi
+
+% Updated on   - May 28, 2019
+% Updated by   - Thejas
+% Changes made   - Order Number
