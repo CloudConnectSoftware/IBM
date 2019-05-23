@@ -44,7 +44,7 @@ i_rule_list( [
 
     , get_currency
 
-    ,get_net_amount
+    , get_net_amount
 
     , get_total_vat
 
@@ -715,7 +715,7 @@ i_rule( get_freight_line, [
 
     , clear(reverse_punctuation_in_numbers)  , clear(regexp_cross_word_boundaries)
 
-    , line_vat_rate(`19`)
+   % , line_vat_rate(`19`)
 
     	
 ]).
