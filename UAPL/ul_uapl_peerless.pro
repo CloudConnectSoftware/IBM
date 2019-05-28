@@ -59,7 +59,6 @@ i_rule( get_supplier_details, [
 i_rule( supplier_registration_number, [
 %=======================================================================
  
-
     supplier_registration_number(`UNIMARN0`)
 
     , supplier_vat_number(`ABN 74 004 280 979`)
@@ -150,7 +149,6 @@ i_rule( get_total_invoice, [
      q0n(line)
 
     , generic_horizontal_details( [ [ `TOTAL`,`:` ], 200, total_invoice, d, newline ] )  
-
 
 ] ).
 
