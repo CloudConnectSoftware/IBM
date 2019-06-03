@@ -60,9 +60,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Capterra, Inc` )
+    sender_name( `CAPTERRA INC` )
 
-   , supplier_party( `Capterra, Inc` )
+   , supplier_party( `CAPTERRA INC` )
 
    , supplier_registration_number(`ortner@capterra.com`)
 

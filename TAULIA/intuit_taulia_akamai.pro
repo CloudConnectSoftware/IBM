@@ -62,9 +62,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `AKAMAI TECHNOLOGIES, INC` )
+    sender_name( `AKAMAI TECHNOLOGIES INC` )
 
-   , supplier_party(`AKAMAI TECHNOLOGIES, INC`)
+   , supplier_party(`AKAMAI TECHNOLOGIES INC`)
     
    , supplier_country_code(`US`)
 
