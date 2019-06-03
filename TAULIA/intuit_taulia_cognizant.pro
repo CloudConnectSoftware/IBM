@@ -61,7 +61,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Cognizant Technology Solutions` )
+    sender_name( `COGNIZANT TECHNOLOGY SOLUTIONS` )
+
+   , supplier_party(`COGNIZANT TECHNOLOGY SOLUTIONS`)
     
    , supplier_country_code(`US`)
 
@@ -108,7 +110,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_party_dummy, s1, newline ] )
 
 
 ] ).
@@ -489,13 +491,11 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
-
      generic_item( [ line_number, d, tab ] )
 
   , generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_net_amount, d, newline ] )
-
   
 ] ).
 
@@ -527,6 +527,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - May  6 , 2019
 % Updated by   - Thejaswi
 % Changes made - Delivery Country Code (delivery_country_code from delivery_code)
+
+% Updated on   - June 3, 2019
+% Updated by   - Thejaswi
+% Changes made - Name changed to COGNIZANT TECHNOLOGY SOLUTIONS from COGNIZANT TECHNOLOGY SOLUTIONS US
 
 
 % Updated on   - 
