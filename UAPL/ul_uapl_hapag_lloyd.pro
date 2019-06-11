@@ -169,9 +169,9 @@ i_rule( get_total_invoice, [
 
     , or([
 
-        generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(0,1), (end,100,700), total_invoice, d, generic_item( [ currency, w, newline] ) ] )
+      %  generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(0,1), (end,100,700), total_invoice, d, generic_item( [ currency, w, newline] ) ] )
 
-    , generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
+     generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
 
     ])
 
