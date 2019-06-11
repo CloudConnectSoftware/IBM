@@ -65,11 +65,11 @@ i_rule( get_supplier_detail, [
 
     sender_name( `DIMENSION DATA NORTH AMERICA, INC` )
     
-   , buyer_dept(`N/A`)
+   %, buyer_dept(`N/A`)
 
   % , buyer_registration_number(`N/A`)
 
-  % , supplier_country_code(`US`)
+   , supplier_country_code(`US`)
 
   , supplier_registration_number(`jacqueline.moore@dimensiondata.com`)
 
@@ -84,63 +84,34 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 i_rule( get_supplier_address, [
 %=======================================================================
+    
+    last_line
   
-     q(0,5,line)
+  , q(0,5,up)
 
-   , line_add_line
-
-   , q(0,1,line)
-
-   , line_add_line_2
-
-   , q(0,1,line)
-
-   , line_add_line_3
-
-   , q(0,1,line)
-
-   , line_add_line_4
+   , line_adddress_line
 
 ] ).
 
 %=======================================================================
-i_line_rule( line_add_line, [
+i_line_rule( line_adddress_line, [
 %=======================================================================
 
        read_ahead([ `DIMENSION` ])
 
      , trace( [ `Found address`] )
 
-     , or([
+     , generic_item( [ supplier_party, s, `;` ] )
 
-         generic_item( [ supplier_party, s1, tab ] )
+    , generic_item( [ supplier_street, s, `;` ] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
+    , generic_item( [ supplier_address_line, s, `;` ] )
 
-] )
-] ).
+     , generic_item( [supplier_city , s , `,` ] )
 
-%=======================================================================
-i_line_rule( line_add_line_2, [
-%=======================================================================
+     , generic_item( [supplier_state , w  ] )
 
-       generic_item( [ supplier_street, s1, tab ] )
-
-    , generic_item( [ supplier_street_dummy, s1, newline ] )
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line_3, [
-%=======================================================================
-
-     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < 71)] ] )
-
-     , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < 94)] ] )
-
-     , generic_item( [supplier_state , s , [q10(tab), check(supplier_state(end) < 134)] ] )
-
-     , generic_item( [ supplier_postcode, s1, newline ] )
+     , generic_item( [ supplier_postcode, d, newline ] )
 
    
 ] ).
@@ -279,8 +250,13 @@ i_rule( get_invoice_number, [
 
      q(0,10,line)
 
-     , generic_vertical_details( [ [ `Invoice`,  newline ], `Invoice`, q(0,2), (start,100,100 ), invoice_number, d, newline ] )
+     , or([
+       
+       % generic_vertical_details( [ [ `Invoice`,  newline ], `Invoice`, q(0,2), (start,100,100 ), invoice_number, d, newline ] )
 
+        generic_horizontal_details( [ [`Invoice`, tab], invoice_number, d, tab ] )
+
+     ])
 
 ] ).
 
@@ -298,15 +274,19 @@ i_rule( get_invoice_date, [
      q(0,15,line)
 
 
-     , generic_vertical_details( [ [`DATE`, tab ], `DATE`, q(0,1), (start,100,300 ), invoice_date, date, tab ] )
+     , or([
+       
+       generic_horizontal_details( [ [`Invoice`, `DATE`, tab ],  invoice_date, date, tab ] )
+
+       , generic_vertical_details( [ [`DATE`, tab ], `DATE`, q(0,1), (start,100,300 ), invoice_date, date, tab ] )
+
+     ])  
    
       , check( invoice_date = Deliverydate )
 
         , trace( [ `Delivery date` , Deliverydate] )
 
         , delivery_date(Deliverydate)
-
-
 
 ] ).
 
@@ -323,9 +303,7 @@ i_rule( get_due_date, [
 
      q(0,25,line)
 
-
      , generic_vertical_details( [ [`DUE`, `DATE`, tab ], `DATE`, q(0,1), (start,100,300 ), due_date, date, tab ] )
-
 
 ] ).
 
@@ -344,8 +322,8 @@ i_rule( get_order_number, [
 
      , generic_vertical_details( [ [`PURCHASE`, `ORDER` ], `PURCHASE`, q(0,1), (start,100,300 ), po_number,d, newline ] )
    
-
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -356,13 +334,18 @@ i_rule( get_order_number, [
 %=======================================================================
 i_rule( get_total_net, [
 %=======================================================================
- 
- 
+  
  last_line
  
  ,q(0,50,up)
  
- ,generic_vertical_details( [ [ `UNIT`, `TOTAL` ], `TOTAL`, q(0,1), (start,10,50), total_net, d, tab ] )
+ , or([
+
+   generic_horizontal_details( [ [ `Total`, `Excl`, `.`, tab ], total_net, d, newline ] )
+   
+  ,  generic_vertical_details( [ [ `UNIT`, `TOTAL` ], `TOTAL`, q(0,1), (start,10,50), total_net, d, tab ] )
+
+ ])
 
 ] ).
 
@@ -402,7 +385,13 @@ i_rule( get_total_invoice, [
  
  ,q(0,50,up)
 
+ , or([
+
+   generic_horizontal_details( [ [ `Total` ,tab	,	`USD` 	], total_invoice, d, newline ] )
+   
  ,generic_vertical_details( [ [ `GRAND`, `TOTAL` ], `TOTAL`, q(0,1), (start,300,400), total_invoice, d, newline ] )
+
+ ])
 
 ] ).
 
@@ -420,12 +409,15 @@ i_rule( get_currency, [
  
  ,q(0,50,up)
 
+, or([
 
-, generic_horizontal_details( [ [ `Currency`, `:` ], currency, w, newline ] )
+ generic_horizontal_details( [ [ `Total`, `:` ], currency, w, tab ] )
 
+  , generic_horizontal_details( [ [ `Currency`, `:` ], currency, w, newline ] )
+
+])
 
 ] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -446,7 +438,7 @@ i_section( get_invoice_lines, [
               
           [line_invoice_line,q10(line_append_line), q10(line_append_line), q10(line_append_line),q10(line_append_line)]
 
-        %  ,line_invoice_line1
+        , [ line_invoice_line_1, line_descr_line1]
 
 
               , line
@@ -461,8 +453,12 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-        
+  or([      
         [`DESCRIPTION`, tab, `PO`, tab, `Back`]
+
+        , [`Item`,  `code`, tab, `Qty`]
+
+    ])
 
 
     , trace( [ `Found Start line` ] )
@@ -479,12 +475,13 @@ i_line_rule_cut( line_end_line, [
 
      , [`Tax`, `Summary`, `by`, `Tax`, `Name`]
 
+     ,   [`Item`,  `code`, tab, `Qty`]
+
      ] )
 
      , trace( [ `Found End line` ] )
 
 ] ).
-
 
 
 %=======================================================================
@@ -525,6 +522,47 @@ i_line_rule_cut( line_invoice_line, [
     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
        ])
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+
+    generic_item( [ line_order_line_number, d, tab ] )
+
+  , generic_item( [ line_item, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+  , generic_item( [ line_period, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  
+    , q10([	% LINE VAT Rate Calculation
+  
+     with( invoice , total_vat , VAT )
+
+    , with( invoice , total_net , Net )
+
+    , trace( [ `vat tot`, VAT ] )
+
+    , trace( [ `sub total`, Net ] )
+
+    , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+    , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+    , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+    , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+       ])
+       
 ] ).
 
 %=======================================================================
@@ -534,9 +572,17 @@ i_line_rule_cut( line_invoice_line1, [
     generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_vat_amount, d, newline ] )
-
   
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line1, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, newline ] )
+  
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_append_line, [
