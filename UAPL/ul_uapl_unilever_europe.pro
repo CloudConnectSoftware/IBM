@@ -471,9 +471,7 @@ i_line_rule_cut( line_invoice_line_new1, [
 
     , generic_item( [ line_country, s1, tab ] )
  
-    
     , generic_item( [ line_gross_weight, s1, newline] )
-
 
     , trace( [ `line_invoice_line` ] )
 
@@ -523,7 +521,6 @@ i_line_rule_cut( line_invoice_line_new, [
 i_line_rule_cut( line_invoice_line2, [
 %=======================================================================
 
-
        set(regexp_allow_partial_matching)
 
     , generic_item( [ line_quantity , d ])
@@ -550,7 +547,6 @@ i_line_rule_cut( line_invoice_line2, [
 
     , generic_item( [ line_vat_amount, d, newline ] )
         
-
     , trace( [ `line_invoice_line2` ] )
 
  
@@ -603,8 +599,6 @@ i_line_rule_cut( line_invoice_crossword, [
     , clear(reverse_punctuation_in_numbers)
 
     , trace( [ `line_invoice_line cross` ] )
-
-  
 
 ]).
 
