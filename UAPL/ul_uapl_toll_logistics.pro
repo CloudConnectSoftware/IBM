@@ -76,7 +76,7 @@ i_rule( get_supplier_details, [
 i_rule_cut( get_supporting, [
 %=======================================================================
 
-    q(0, 150, line)
+    q(0, 50, line)
     
         , supporting_doc_line
 
@@ -94,7 +94,7 @@ q0n(anything)
 
     ,[`QUOTATION`]
 
-     ,[`CARGO`, `CLEARANCE`, `PERMI`]
+     ,[`CARGO`, `CLEARANCE`, `PERMIT`]
 
 
 ])
