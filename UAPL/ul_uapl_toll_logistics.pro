@@ -90,11 +90,13 @@ q0n(anything)
 
 , or([
     
-    [`packing` , `list`]
+    [`ARRIVAL` , `NOTICE`]
 
-    ,[`QUOTATION`]
+    ,[`Sea`, `WayBill`]
 
      ,[`CARGO`, `CLEARANCE`, `PERMIT`]
+
+     , [`Bill`, `Of`, `Lading`]
 
 
 ])
