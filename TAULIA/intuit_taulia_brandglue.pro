@@ -59,7 +59,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `BrandGlue` )
+    sender_name( `BRANDGLUE COM` )
+
+    , sender_name( `BRANDGLUE COM` )
     
      , supplier_country_code(`US`)
 
@@ -102,9 +104,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
-
-
+     , generic_item( [ supplier_party_dummy, s1, newline ] )
 
 ] ).
 
@@ -113,7 +113,6 @@ i_line_rule( line_add_line_2, [
 %=======================================================================
 
        generic_item( [ supplier_street, s1, newline ] )
-
 
 ] ).
 

@@ -60,6 +60,8 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 
     sender_name( `EVOLYTICS LLC` )
+
+    , supplier_party( `EVOLYTICS LLC` )
     
    , supplier_registration_number(`sfields@evolytics.com`) 
 
@@ -103,7 +105,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_party_dummy, s1, newline ] )
 
 
 ] ).
