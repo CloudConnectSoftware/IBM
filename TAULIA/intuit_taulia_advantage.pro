@@ -64,9 +64,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Advantage Technical Resorucing` )
+    sender_name( `ADVANTAGE TECHNICAL RESOURCING INC` )
 
-   , supplier_party( `Advantage Technical Resorucing` )
+   , supplier_party( `ADVANTAGE TECHNICAL RESOURCING INC` )
 
    , supplier_country_code(`US`)
 
@@ -113,7 +113,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, tab ] )
+     , generic_item( [ supplier_party_dummy, s1, tab ] )
 
        , generic_item( [ supplier_dummy, s1, newline ] )
 
@@ -132,6 +132,7 @@ i_line_rule( line_add_line_3, [
 %=======================================================================
 
      or([
+       
        generic_item( [supplier_city , s , [ q10(`,`), check(supplier_city(end) < -299)] ] )
 
        , generic_item( [supplier_city , s , [ q10(`,`), check(supplier_city(end) < -255)] ] )
@@ -152,10 +153,7 @@ i_line_rule( line_add_line_4, [
 
      , generic_item( [supplier_country_code, `US` ] )
 
-   
-] ).
-
-
+   ] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -171,8 +169,6 @@ i_rule( get_invoice_number, [
      q(0,10,line)
 
     , generic_vertical_details( [ [ `INVOICE`, `NUMBER`],  `INVOICE` , q(0,1), (start,200,300), invoice_number, d , newline ] )
-
-
 
 ] ).
 
@@ -191,18 +187,15 @@ i_rule( get_invoice_date, [
 
    ,  generic_vertical_details( [ [ `INVOICE`, `DATE` ], `INVOICE`  , q(0,1), (start,100,300), invoice_date, date , newline ] )
 
-   
-      , check( invoice_date = Deliverydate )
+   , check( invoice_date = Deliverydate )
 
-        , trace( [ `Delivery date` , Deliverydate] )
+    , trace( [ `Delivery date` , Deliverydate] )
 
-        , delivery_date(Deliverydate)
+    , delivery_date(Deliverydate)
 
-        , trace( [ `Delivery Date` , delivery_date ] )
-
+    , trace( [ `Delivery Date` , delivery_date ] )
 
 ] ).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,7 +211,6 @@ i_rule( get_order_number, [
      q(0,30,line)
 
   ,   generic_vertical_details( [ [`PURCHASE`, `ORDER`, `NO`], `PURCHASE`, q(0,1), (start,10,100), po_number, d , tab ] )
-
 
 ] ).
 
@@ -280,7 +272,6 @@ q0n(anything)
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  INVOICE LINES
@@ -299,7 +290,7 @@ i_section( get_invoice_lines, [
               
            line_invoice_line
 
-              , line
+           , line
 
         ] )
 
@@ -311,7 +302,6 @@ i_section( get_invoice_lines, [
 i_line_rule_cut( line_header_line, [
 %=======================================================================
 
-    
     [`TYPE`, tab, `HOURS`, tab, `RATE`, tab, `TOTAL`, `BILL`]
 
     , trace( [ `Found Start line` ] )
@@ -322,9 +312,9 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-       [`TOTAL`, `:`, tab, `$` ]
+  [`TOTAL`, `:`, tab, `$` ]
 
-     , trace( [ `Found End line` ] )
+  , trace( [ `Found End line` ] )
 
 ] ).
 
@@ -332,7 +322,6 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
-
 
     generic_item( [ line_descr, s1, tab ] )
 
@@ -357,6 +346,10 @@ i_line_rule_cut( line_invoice_line, [
 % Updated on   - March 8, 2019
 % Updated by   - Thejaswi
 % Changes made - Whitelisted email ID
+
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
 % Updated on   - 
 % Updated by   -
