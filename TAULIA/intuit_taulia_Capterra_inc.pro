@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_Capterra_inc, `25 January, 2018` ).
+i_version( intuit_taulia_Capterra_inc, `June 21, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,7 +103,7 @@ i_line_rule( line_add_line_1, [
 
        `ACH`, `/`, `Wire`, `payment`, `info`, `:`, tab
 
-     , generic_item( [ supplier_party, s1 , newline ] )
+     , generic_item( [ supplier_party_dummy, s1 , newline ] )
 
 ] ).
 
@@ -349,6 +349,11 @@ i_line_rule_cut( line_invoice_line, [
 
 % Mapped on - April 1, 2019
 % Mapped by - Thejaswi 
+
+% Updated on   - June 21, 2019
+% Updated by   - Rohini
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
+
 
 % Updated on   - 
 % Updated by   -
