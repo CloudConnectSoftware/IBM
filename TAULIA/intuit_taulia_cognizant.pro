@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_cognizant, `25 January, 2018` ).
+i_version( intuit_taulia_cognizant, `21 June, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -17,7 +17,6 @@ i_format_postcode( X, X ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
     
       get_supplier_detail
 
@@ -532,6 +531,9 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Thejaswi
 % Changes made - Name changed to COGNIZANT TECHNOLOGY SOLUTIONS from COGNIZANT TECHNOLOGY SOLUTIONS US
 
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
 % Updated on   - 
 % Updated by   -
