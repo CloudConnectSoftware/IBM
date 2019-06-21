@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_artsmentor, `15 December 2017` ).
+i_version( intuit_artsmentor, `21 JUNE, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,7 +28,7 @@ i_rule_list( [
  
     , set_credit_note
                      
-    , get_invoice_number
+   % , get_invoice_number
     
     , get_invoice_date
 
@@ -59,11 +59,11 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `UNITEDHEALTH GROUP` )
+    sender_name( `UNITED HEALTHCARE INSURANCE COMPANY` )
 
-   ,supplier_party( `UNITEDHEALTH GROUP` )
+   ,supplier_party( `UNITED HEALTHCARE INSURANCE COMPANY` )
 
-   ,supplier_vat_number(`N/A`)
+   , supplier_country_code(`US`)
 
    ,currency( `USD` )
 ] ).
@@ -325,6 +325,10 @@ i_line_rule_cut( line_descr_append_line, [
 
 % Mapped on - December 7, 2017
 % Mapped by - Rohini 
+
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan) 
 
 
 % Updated on   - 

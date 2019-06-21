@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_access_telecomm, `24 January, 2018` ).
+i_version( intuit_taulia_access_telecomm, `21 JUNE, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -59,7 +59,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Access Telecomm Systems, Inc` )
+    sender_name( `ACCESS TELECOMM SYSTEMS INC` )
+
+    , supplier_party( `ACCESS TELECOMM SYSTEMS INC` )
     
    , supplier_country_code(`US`)
 
@@ -136,7 +138,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_party_dummy, s1, newline ] )
 
 
 ] ).
@@ -451,6 +453,10 @@ i_line_rule_cut( line_invoice_line2, [
 
 % Mapped on - January 24, 2018
 % Mapped by - Rohini 
+
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan) 
 
 % Updated on   - 
 % Updated by   - 
