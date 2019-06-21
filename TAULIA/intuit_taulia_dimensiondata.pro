@@ -63,17 +63,16 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `DIMENSION DATA NORTH AMERICA, INC` )
+  sender_name( `DIMENSION DATA NORTH AMERICA INC` )
+
+  , supplier_party(`DIMENSION DATA NORTH AMERICA INC`)
     
-   %, buyer_dept(`N/A`)
-
-  % , buyer_registration_number(`N/A`)
-
-   , supplier_country_code(`US`)
+  , supplier_country_code(`US`)
 
   , supplier_registration_number(`jacqueline.moore@dimensiondata.com`)
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,11 +100,11 @@ i_line_rule( line_adddress_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s, `;` ] )
+     , generic_item( [ supplier_party_dummy, s, `;` ] )
 
-    , generic_item( [ supplier_street, s, `;` ] )
+     , generic_item( [ supplier_street, s, `;` ] )
 
-    , generic_item( [ supplier_address_line, s, `;` ] )
+     , generic_item( [ supplier_address_line, s, `;` ] )
 
      , generic_item( [supplier_city , s , `,` ] )
 
@@ -187,7 +186,6 @@ i_line_rule( line_shipto_line2, [
 i_line_rule( line_shipto_line3, [
 %=======================================================================
 
-
        generic_item( [ shipto__dummy1, s1, tab ] )
      
      , generic_item( [ delivery_street, s1, newline ] )
@@ -199,7 +197,7 @@ i_line_rule( line_shipto_line3, [
 i_line_rule( line_shipto_line4, [
 %=======================================================================
 
-        or([
+     or([
                
       generic_item( [delivery_city , w   ] )
    
@@ -207,8 +205,7 @@ i_line_rule( line_shipto_line4, [
 
      ] )
 
-      ,  generic_item( [ delivery_state, w ] )
-
+      , generic_item( [ delivery_state, w ] )
 
      , generic_item( [ delivery_country_code, d, tab ] )
 
@@ -224,17 +221,12 @@ i_line_rule( line_shipto_line4, [
 %=======================================================================
 i_rule( get_bank_accountnumber, [
 %=======================================================================
-
   
    last_line
 
-
   , q(0,50,up)
 
-
   , generic_horizontal_details( [ [`Wire`, `Transfers`, `:`, `HSBC`, `BANK`, `USA`, `,`, `ACCT`, generic_item( [ bank_account_number, s] ), `,`, `ABA`, generic_item( [ bank_number, s ] ), `(`, `Domestic`, `)`, `,`, `SWIFT`], swift_bic_number, s, [`(`, `International`, `)`,  newline ] ] )
-
-
 
 ] ).
 
@@ -273,8 +265,7 @@ i_rule( get_invoice_date, [
 
      q(0,15,line)
 
-
-     , or([
+      , or([
        
        generic_horizontal_details( [ [`Invoice`, `DATE`, tab ],  invoice_date, date, tab ] )
 
@@ -284,9 +275,9 @@ i_rule( get_invoice_date, [
    
       , check( invoice_date = Deliverydate )
 
-        , trace( [ `Delivery date` , Deliverydate] )
+      , trace( [ `Delivery date` , Deliverydate] )
 
-        , delivery_date(Deliverydate)
+      , delivery_date(Deliverydate)
 
 ] ).
 
@@ -363,10 +354,8 @@ i_rule( get_total_vat, [
  last_line
  
  ,q(0,50,up)
-
  
  ,generic_vertical_details( [ [ `TAX`, `TOTAL` ], `TOTAL`, q(0,1), (start,100,200), total_vat, d, tab ] )
-
 
 ] ).
 
@@ -521,7 +510,7 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
 
-       ])
+    ])
 
 ] ).
 
@@ -609,6 +598,9 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Rohini
 % Changes made - Supplier Registration number and  pdf parameter for Postcode
 
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
 % Updated on   - 
 % Updated by   -

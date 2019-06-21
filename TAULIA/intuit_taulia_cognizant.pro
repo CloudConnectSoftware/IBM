@@ -25,8 +25,6 @@ i_rule_list( [
     , get_shipto_address_1
 
     , get_bank_accountnumber
- 
-    , set_credit_note
                      
     , get_invoice_number
     
@@ -391,7 +389,6 @@ i_rule( get_currency, [
    
   generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, tab, dummy_num(d) ],  currency, w, newline ] )
 
-
  ])
 
 ] ).
@@ -468,7 +465,6 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-
      generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_descr_dummy, s1, tab ] )
@@ -533,7 +529,7 @@ i_line_rule_cut( line_append_line, [
 
 % Updated on   - June 21, 2019
 % Updated by   - Thejaswi
-% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan) 
 
 % Updated on   - 
 % Updated by   -
