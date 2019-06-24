@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pepc_usa_deloittetouche, `today` ).
+i_version( pepc_usa_deloittetouche, `21 JUNE, 2019 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,7 +66,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Deloitte & Touche LLP` )
+    sender_name( `DELOITTE & TOUCHE LLP` )
+
+    , supplier_party(`DELOITTE & TOUCHE LLP`)
    
    , supplier_country_code(`US`)
 
@@ -106,7 +108,7 @@ i_line_rule( line_sadd_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_party_dummy, s1, newline ] )
 
 ] ).
 
@@ -507,6 +509,10 @@ i_line_rule_cut( line_descr_line, [
 
 % Mapped on - May 1, 2018
 % Mapped by - Thejaswi
+
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
 % Updated on   - 
 % Updated by   - 

@@ -71,9 +71,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `EXPERIAN INFORMATION SOLUTIONS INC` )
+    sender_name( `EXPERIAN MARKETING SOLUTIONS LLC` )
 
-   , supplier_party( `EXPERIAN INFORMATION SOLUTIONS INC` )
+   , supplier_party( `EXPERIAN MARKETING SOLUTIONS LLC` )
     
    , supplier_country_code(`US`)
 

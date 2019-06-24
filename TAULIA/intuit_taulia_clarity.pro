@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(intuit_taulia_clarity, `5 Feb, 2018` ).
+i_version(intuit_taulia_clarity, `21 JUNE, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -63,9 +63,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Clarity Consultants ` )
+    sender_name( `CLARITY CONSULTANTS` )
 
-    , supplier_party( `Clarity Consultants ` )
+    , supplier_party( `CLARITY CONSULTANTS` )
 
     , supplier_registration_number(`accounting@clarityconsultants.com`)
        
@@ -108,7 +108,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, or([tab, newline]) ] )
+     , generic_item( [ supplier_party_dummy, s1, or([tab, newline]) ] )
 
 ] ).
 
@@ -391,6 +391,10 @@ i_line_rule_cut( line_invoice_line, [
 % Updated on   - March 8, 2019
 % Updated by   - Thejaswi
 % Changes made - Whitelisted email ID
+
+% Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
 % Updated on   - 
 % Updated by   -
