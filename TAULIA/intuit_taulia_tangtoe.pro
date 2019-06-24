@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_tangtoe, `7 Feb, 2018` ).
+i_version( intuit_taulia_tangtoe, `June 21, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format(`m/d/y` ).
 
@@ -64,7 +64,9 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-    sender_name( `Tangoe, Inc` )
+    sender_name( `TANGOE US INC` )
+
+   , supplier_party( `TANGOE US INC` )
     
    %, buyer_dept(`N/A`)
 
@@ -114,7 +116,7 @@ i_line_rule( line_add_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ supplier_party, s1, newline ] )
+     , generic_item( [ supplier_party_dummy, s1, newline ] )
 
 
 ] ).
@@ -533,10 +535,9 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Roopesh
 % Changes made -  Post code rule (i_format_postcode( X, X ).) updated,  supplier registeration hardcoded
 
-
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - June 21, 2019
+% Updated by   - Rohini
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
 % Updated on   - 
 % Updated by   -
