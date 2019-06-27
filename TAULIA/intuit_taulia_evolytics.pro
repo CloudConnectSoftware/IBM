@@ -114,7 +114,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-         generic_item( [ supplier_street, s1, newline ] )
+         generic_item( [ supplier_street, s1, or([tab,newline]) ] )
 ] ).
 
 %=======================================================================
