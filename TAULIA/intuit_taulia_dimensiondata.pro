@@ -311,8 +311,13 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-     , generic_vertical_details( [ [`PURCHASE`, `ORDER` ], `PURCHASE`, q(0,1), (start,100,300 ), po_number,d, newline ] )
+     , or([
+
+        generic_horizontal_details( [ [ `Your`, `Reference`, tab], po_number,d, newline ] )
+        
+        , generic_vertical_details( [ [`PURCHASE`, `ORDER` ], `PURCHASE`, q(0,1), (start,100,300 ), po_number,d, newline ] )
    
+     ])
 ] ).
 
 
@@ -396,11 +401,13 @@ i_rule( get_currency, [
 
  last_line
  
- ,q(0,50,up)
+ ,q(0,100,up)
 
 , or([
 
- generic_horizontal_details( [ [ `Total`, `:` ], currency, w, tab ] )
+ generic_horizontal_details( [ [ `Total`, `:`, q10(tab) ], currency, w, tab ] )
+
+ , generic_horizontal_details( [ [ `Total`, q10(tab) ], currency, w, tab ] )
 
   , generic_horizontal_details( [ [ `Currency`, `:` ], currency, w, newline ] )
 
