@@ -372,11 +372,11 @@ i_rule( get_total_invoice, [
 
  last_line
  
- ,q(0,50,up)
+ ,q(0,100,up)
 
  , or([
 
-   generic_horizontal_details( [ [ `Total` ,tab	,	`USD` 	], total_invoice, d, newline ] )
+   generic_horizontal_details( [ [ `Total` ,tab	,	`USD` , q10(tab)	], total_invoice, d, newline ] )
    
  ,generic_vertical_details( [ [ `GRAND`, `TOTAL` ], `TOTAL`, q(0,1), (start,300,400), total_invoice, d, newline ] )
 
