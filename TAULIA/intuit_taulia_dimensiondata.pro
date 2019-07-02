@@ -311,8 +311,13 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-     , generic_vertical_details( [ [`PURCHASE`, `ORDER` ], `PURCHASE`, q(0,1), (start,100,300 ), po_number,d, newline ] )
+     , or([
+
+        generic_horizontal_details( [ [ `Your`, `Reference`, tab], po_number,d, newline ] )
+        
+        , generic_vertical_details( [ [`PURCHASE`, `ORDER` ], `PURCHASE`, q(0,1), (start,100,300 ), po_number,d, newline ] )
    
+     ])
 ] ).
 
 
@@ -372,11 +377,11 @@ i_rule( get_total_invoice, [
 
  last_line
  
- ,q(0,50,up)
+ ,q(0,100,up)
 
  , or([
 
-   generic_horizontal_details( [ [ `Total` ,tab	,	`USD` 	], total_invoice, d, newline ] )
+   generic_horizontal_details( [ [ `Total` ,tab	,	`USD` , q10(tab)	], total_invoice, d, newline ] )
    
  ,generic_vertical_details( [ [ `GRAND`, `TOTAL` ], `TOTAL`, q(0,1), (start,300,400), total_invoice, d, newline ] )
 
@@ -396,11 +401,13 @@ i_rule( get_currency, [
 
  last_line
  
- ,q(0,50,up)
+ ,q(0,100,up)
 
 , or([
 
- generic_horizontal_details( [ [ `Total`, `:` ], currency, w, tab ] )
+ generic_horizontal_details( [ [ `Total`, `:`, q10(tab) ], currency, w, tab ] )
+
+ , generic_horizontal_details( [ [ `Total`, q10(tab) ], currency, w, tab ] )
 
   , generic_horizontal_details( [ [ `Currency`, `:` ], currency, w, newline ] )
 
@@ -599,6 +606,10 @@ i_line_rule_cut( line_append_line, [
 % Changes made - Supplier Registration number and  pdf parameter for Postcode
 
 % Updated on   - June 21, 2019
+% Updated by   - Thejaswi
+% Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
+
+% Updated on   - July 1, 2019
 % Updated by   - Thejaswi
 % Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
