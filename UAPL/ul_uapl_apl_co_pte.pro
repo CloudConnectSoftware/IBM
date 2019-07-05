@@ -178,7 +178,13 @@ i_rule( get_currency, [
 
 	q0n(line)
 	
-	, generic_horizontal_details( [ [ `Amount`, `in` ],  currency, w, newline ] )
+	, or([
+        
+        generic_horizontal_details( [ [ `Amount`, `in` ],  currency, w, newline ] )
+
+      , generic_horizontal_details( [ [ `Amount`, `Due`,`:`, q10(tab), a(d), q10(tab) ],  currency, w, newline ] )
+
+    ])
 
 
 ] ).
