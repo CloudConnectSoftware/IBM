@@ -169,7 +169,7 @@ i_rule( get_total_invoice, [
 
     , or([
 
-      %  generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(0,1), (end,100,700), total_invoice, d, generic_item( [ currency, w, newline] ) ] )
+      %  generic_vertical_details( [ [ `TOTAL` ], `TOTAL`, q(0,1), (end,100,700), total_invoice, d, generic_item( [ currency, w, newline] ) ] ) - freezed as this rule captures incorrect amount
 
      generic_horizontal_details( [ [ `TOTAL`], 700, total_invoice, d, `USD` ] ) 
 
@@ -250,6 +250,10 @@ i_rule(get_bank_accountnumber, [
 % Updated on   - 25, Jan 2018
 % Updated by   - Thejaswi K
 % Changes made - Bank details
+
+% Updated on   - June 11, 2019
+% Updated by   - Thejaswi K
+% Changes made - Invoice totals
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
