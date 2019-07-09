@@ -132,7 +132,6 @@ i_rule( get_due_date, [
 
      ,generic_vertical_details( [ [ `Due`, `Date` ], `Date`, q(0,1), (end, 200,200), due_date, date, tab ] )
 
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
