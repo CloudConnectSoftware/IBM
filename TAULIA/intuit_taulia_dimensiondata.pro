@@ -654,6 +654,10 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Thejaswi
 % Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
 
+% Updated on   - July 9, 2019
+% Updated by   - Thejaswi
+% Changes made - Line details and description mapped
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
