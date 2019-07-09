@@ -43,6 +43,8 @@ i_rule_list( [
 
     , get_total_vat
 
+    ,get_line_descr
+
     , get_total_invoice
 
     , get_currency
@@ -343,6 +345,14 @@ i_rule( get_total_net, [
 
  ])
 
+      , check( total_net = TotNet )
+
+        , trace( [ `Total Net amount` , TotNet ] )
+
+        , line_net_amount(TotNet)
+
+        , trace( [ `Line_net` , line_net_amount ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -355,12 +365,43 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
  
- 
  last_line
  
  ,q(0,50,up)
  
  ,generic_vertical_details( [ [ `TAX`, `TOTAL` ], `TOTAL`, q(0,1), (start,100,200), total_vat, d, tab ] )
+
+        , check( total_vat = TotVat )
+
+        , trace( [ `Total Vat` , TotVat] )
+
+        , line_vat_amount(TotVat)
+
+        , trace( [ `Total VAT` , line_vat_amount ] )
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE VAT AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+%=======================================================================
+    i_rule(get_line_descr, [
+%=======================================================================
+    
+    last_line
+       
+    , q(0,50,up)
+
+    ,  or([
+
+      generic_vertical_details( [ [ `Description`, newline ], `Description`, q(1,2), (end,100,100), line_descr, s1, newline ] )
+
+ ] )
 
 ] ).
 
@@ -612,6 +653,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - July 1, 2019
 % Updated by   - Thejaswi
 % Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
+
+% Updated on   - July 9, 2019
+% Updated by   - Thejaswi
+% Changes made - Line details and description mapped
 
 % Updated on   - 
 % Updated by   -
