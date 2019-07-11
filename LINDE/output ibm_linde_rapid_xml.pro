@@ -1,5 +1,5 @@
 
-i_version( output_ibm_linde_rapid_xml, `26/07/2018 11:56:59` ).
+i_version( output_ibm_linde_rapid_xml, `11/07/2019 14:40:10` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -324,7 +324,8 @@ write_field___( Name, Type, Var )
 	
 					write_field( Name, Val_date_s )
 	
-				;	write_field( Name, Val )
+				;    ( qq_op_param( xml_transform( Var, Val ), ValAdjusted ) -> true ; ValAdjusted = Val ),
+                write_field( Name, ValAdjusted )
 
 			)
 
