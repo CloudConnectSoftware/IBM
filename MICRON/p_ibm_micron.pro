@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `27/12/2018 08:28:51` ).
+i_version( p_ibm_micron, `11/07/2019 10:23:38` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -14,6 +14,8 @@ i_rules_file( `d_iso_currency_codes.pro` ).
 i_rules_file( `u_supporting_document_new.pro` ).
 i_rules_file( `u_invoice_number_validation_2.pro` ).
 i_rules_file( `u_numerical_validation.pro` ).
+i_rules_file( `u_invoice_date_validation.pro` ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User Fields
