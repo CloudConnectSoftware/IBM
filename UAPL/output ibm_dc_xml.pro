@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ibm_xml_output, `14/06/2017 13:07:30` ).
+i_version( output_ibm_dc_xml, `22/07/2019 11:13:25` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,6 +123,8 @@ write_header___
 		write_element_string( `Plant_Code`, PlantCode ), %Four characters
 
 		write_variable_as_tag( invoice, invoice_number, `Invoice_Num` ),
+
+		write_variable_as_tag( invoice, bol_number, `BOL_Number` ),
 
 		write_ibm_number_variable_as_tag( invoice, total_invoice, `Total_Amount`, '2dp_' ),
 		write_ibm_number_variable_as_tag( invoice, total_vat, `Tax_Amount`, '2dp_' ),
