@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `11/07/2019 10:23:59` ).
+i_version( p_ibm_unilever_uapl, `22/07/2019 11:16:06` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -31,6 +31,7 @@ i_op_param( unique_id, _, To, _, Scan_ID )
 % User Fields
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_user_field( invoice, plant_code, `Plant Code` ).
+i_user_field( invoice, bol_number, `Bill Of Lading Number` ).
 i_user_field( invoice, total_local_vat, `Total Local VAT` ).
 i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
