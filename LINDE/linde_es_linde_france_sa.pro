@@ -143,7 +143,7 @@ i_line_rule( line_add_line, [
 
         , [ check(buyer_party = `LINDE MEDICINAL S.L`) ,generic_item( [ buyer_registration_number, `ES20` ] ) ]
 
-        , [ check(buyer_party = `LINDE MEDICA SL`) ,generic_item( [ buyer_registration_number, `ES20` ] ) ]
+        , [ check(buyer_party = `LINDE MEDICA SL`) ,generic_item( [ buyer_registration_number, `ES50` ] ) ]
 
         , [ check(buyer_party = `LINDE MEDICA, S.L.`) ,generic_item( [ buyer_registration_number, `ES20` ] ) ]
 
