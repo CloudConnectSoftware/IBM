@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_rcl_feeder, `26/10/2016`  ).
+i_version( ul_uapl_rcl_feeder, `August 09, 2019`  ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -237,6 +237,8 @@ i_line_rule_cut( line_invoice_line, [
             
           [read_ahead( [ q(0,5,word)  , `CAIU3881844`, tab, `20`, `GP`, tab, `1`, `SGD`] )]
 
+          , [read_ahead( [ q(0,5,word)  , `CAIU3880621`, tab, `20`, `GP`, tab, `1`, `SGD`, tab ] )]
+
           , [read_ahead( [ q(0,5,word)  , `TML` , `HANDLING`, q10(`-`) ,q10(tab) , generic_item( [ size_dummy , s1 , tab ])   , generic_item( [ line_qty_dummy , d , q10(tab) ] ), `SGD`] )]
 
          ,[read_ahead( [q(0,5,word)  , `TML` , `HANDLING` , q10(`-`),q10(tab) , generic_item( [ size_dummy , s1 , tab ] ) , generic_item( [ line_qty_dummy , d , q10(tab) ] ) , `VND` ] ) ]
@@ -308,3 +310,14 @@ i_rule( get_currency, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+
+% Updated on   - August 09, 2019
+% Updated by   - Rohini 
+% Changes made - Invoice amount details updated
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
