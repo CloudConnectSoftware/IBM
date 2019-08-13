@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_pwc_advisory, `9 Feb, 2018` ).
+i_version( intuit_taulia_pwc_advisory, `August 13, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format(_):- not( grammar_set( alternate_date_format ) ).
 
@@ -70,6 +70,8 @@ i_rule( get_supplier_detail, [
   % , buyer_registration_number(`N/A`)
 
   , supplier_registration_number(`blake.fox@pwc.com`)
+
+  ,  supplier_country_code(`US`)
 
 ] ).
 
@@ -402,6 +404,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - March 08, 2019
 % Updated by   - Rohini
 % Changes made - Supplier Registration number and  pdf parameter for Postcode
+
+% Updated on   - August 13, 2019
+% Updated by   - Rohini
+% Changes made - Supplier Country code hardcoded
 
 % Updated on   - 
 % Updated by   - 
