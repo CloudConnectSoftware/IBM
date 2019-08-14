@@ -351,16 +351,13 @@ i_rule( get_ship_to, [
 %=======================================================================
 i_line_rule( ship_to_line, [
 %=======================================================================
+     
      q0n(anything) 
 
     , read_ahead(`Operations`)
 
-    , generic_append( [ bill_to, s1, newline, ` `, ` ` ] )  
+    , generic_append( [ ship_to, s1, newline, ` `, ` ` ] )  
       
-    , check( swiss_buyer_name = BuyName)
-
-    , generic_item( [ bill_to , BuyName ] )
-
 
 ] ).
 
