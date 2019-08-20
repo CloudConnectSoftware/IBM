@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_apl_co_pter ,`April 29, 2019` ).
+i_version( ul_uapl_apl_co_pte ,`August 20, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -52,7 +52,7 @@ i_rule( get_supplier_details, [
 
 	sender_name(`APL CO. PTE LTD`)
 
-    , supplier_vat_number(`M90000669L`)
+    , supplier_vat_number(`199604017Z`) % New VAT number updated
 
     , buyer_registration_number(`3009`)
 
@@ -233,6 +233,9 @@ i_rule( get_bank_account_no, [
 % Mapped by   - Roopesh
 
 
+% Updated on   - August 20, 2019
+% Updated by   - ROhini
+% Changes made - Chain file updated
 
 % Updated on   - 
 % Updated by   -
