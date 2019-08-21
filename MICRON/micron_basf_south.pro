@@ -217,6 +217,11 @@ i_line_rule( line_b_add_line_4, [
      
         generic_item( [ swiss_buyer_address_2, s1, tab ] )    
     
+          
+    ,  check( swiss_buyer_name = BillTo)
+
+    , generic_item( [ bill_to , BillTo ] )
+    
 ] ).
 
 
