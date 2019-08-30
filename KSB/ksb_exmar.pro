@@ -450,9 +450,9 @@ i_section( get_invoice_lines, [
            % [line_invoice_line_npo,q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
           		
 			
-             [line_invoice_line, q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
+             [line_invoice_line, q10(line_append_line), q(10,0,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
 
-            , [q10(line_append_line),line_invoice_line1]
+            , [q10(line_descr_line),line_invoice_line1]
 
             
 			, line
@@ -529,7 +529,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule( line_descr_line, [
 %=======================================================================
 	
-  generic_item( [ line_deline_descrscr_dummy, s1, newline  ] )
+  generic_item( [ line_descr, s1, newline  ] )
 
     
 ] ).
@@ -550,14 +550,11 @@ i_line_rule_cut( line_invoice_line1, [
 	
         
         
-        [`Position`, `Nettowert` ]
-        
+       [ `Position`, `Nettowert`, tab ]
         
       ,  set(regexp_cross_word_boundaries)
 
       , set(reverse_punctuation_in_numbers)
-
-      ,  q10(generic_append([ line_descr , s1 ,tab, ` `, ` ` ]))
 
       ,  generic_item([ line_unit_amount , d ,tab ])
 
