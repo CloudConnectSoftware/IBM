@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `04/02/2019 10:10:35` ).
+i_version( p_taulia, `04/09/2019 09:33:09` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -908,6 +908,83 @@ i_user_check( check_for_valid_state, State ):-
 		, trace( `State Abbreviation` )
 
 	)
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PREDICATES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------------------------------
+% Taulia Sum Net Discrepancy
+%-----------------------------------------------------------------------
+i_error_taulia_sum_net_discrepancy:- i_error_taulia_sum_net_discrepancy( `0.01` ).
+
+i_error_taulia_sum_net_discrepancy( Tolerance ):- i_error_taulia_sum_net_discrepancy( _, _, Tolerance ).
+
+i_error_taulia_sum_net_discrepancy( Sum_of_nets, Total_net ):- i_error_taulia_sum_net_discrepancy( Sum_of_nets, Total_net, `0.01` ).
+
+i_error_taulia_sum_net_discrepancy( Sum_of_nets, Total_net, Tolerance )
+:-
+	not( qq_op_param( us_invoice, _ ) ),
+	sys_findall(
+		Net,
+		(
+			result( _, LID, line_net_amount, Net ),
+			sys_string_number( Net, _ ),
+			not( result( _, LID, line_type, _ ) )
+		),
+		List_of_nets_Raw
+	),
+	
+	i_force_list( List_of_nets_Raw, List_of_nets ),
+	
+	i_user_check( sum_string_list, List_of_nets, Sum_of_nets ),
+	
+	(
+		i_correlate_amounts_total_to_use( total_net, Variable )
+		-> result( _, invoice, Variable, Total_net )
+		;
+		result( _, invoice, total_net, Total_net )
+	),
+	
+	!,
+	
+	(
+		result( _, invoice, header_discount, Header_Discount )
+		;
+		not( result( _, invoice, header_discount, _ ) ),
+		Header_Discount = `0`
+	),
+	
+	!,
+	
+	sys_calculate_str_subtract( Sum_of_nets, Header_Discount, Sum_of_nets_Discount ),
+	
+	!,
+	
+	sys_calculate_str_subtract( Total_net, Sum_of_nets_Discount, Diff ),
+	
+	(
+		q_sys_comp_str_gt( `0`, Diff ),
+		sys_calculate_str_multiply( Diff, `-1`, Difference )
+		
+		;
+		
+		Diff = Difference
+		
+	),
+	
+	q_sys_comp_str_gt( Difference, Tolerance ),
+	
+	strcat_list( [ `Total Net: `, Total_net, `, Sum of Line Nets minus header discount: `, Sum_of_nets_Discount, `, Difference: `, Diff ], Trace ),
+	
+	trace( [ Trace ] ),
+	
+	!
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
