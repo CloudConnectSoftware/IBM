@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_exmar, `14 February 2018` ).
+i_version( ksb_exmar, `August 29, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -423,7 +423,6 @@ q0n(anything)
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  INVOICE LINES
@@ -431,8 +430,15 @@ q0n(anything)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
+i_section_control( get_invoice_lines, first_one_only ).
+%=======================================================================
+i_section_end( get_invoice_lines, line_section_end_line ).
+%=======================================================================
+i_line_rule( line_section_end_line, [ [`Rechnung`] ] ).
+%=======================================================================
 i_section( get_invoice_lines, [
 %=======================================================================
+%=============================================
 
 	line_start_line
 	
@@ -440,11 +446,13 @@ i_section( get_invoice_lines, [
 		
 		,or( [
 
-            		
-			
-             [line_invoice_line, q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
 
-            , [q10(line_append_line),line_invoice_line1]
+           % [line_invoice_line_npo,q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
+          		
+			
+             [line_invoice_line, q10(line_append_line), q(10,0,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
+
+            , [q10(line_descr_line),line_invoice_line1]
 
             
 			, line
@@ -478,11 +486,9 @@ i_line_rule_cut( line_end_line,[
 
 	  or([
 
-          [`Rechnung`]
+        
 		 
-        , [`Waren`, `-`, `/`, `Nettowert`, tab ]
-
-         , [`Pos`, tab, `Artikelnummer`, tab, `Urspr`]
+         [`Waren`, `-`, `/`, `Nettowert`, tab ]
 
         ])
 
@@ -500,9 +506,9 @@ i_line_rule_cut( line_invoice_line, [
 
       , generic_item( [line_number , d , [q10(tab), check(line_number(end) < -354)] ] )
       
-      ,  generic_item([ line_item , s1 , tab ])
+      ,  q10(generic_item([ line_item , s1 , tab ]))
 
-     , q10(generic_item( [ line_descr_dummy, s1, tab ] ))
+     , generic_item( [ line_descr, s1, tab ] )
 
      ,  generic_item( [ line_quantity, d, q10(tab) ] )
 
@@ -523,7 +529,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule( line_descr_line, [
 %=======================================================================
 	
-  generic_item( [ line_descr_dummy, s1, newline  ] )
+  generic_item( [ line_descr, s1, newline  ] )
 
     
 ] ).
@@ -533,7 +539,7 @@ i_line_rule( line_descr_line, [
 i_line_rule( line_append_line, [
 %=======================================================================
 	
-  generic_append( [ line_descr_dummy, s1, newline, ` `, ` `  ] )
+  generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
     
 ] ).
@@ -544,13 +550,11 @@ i_line_rule_cut( line_invoice_line1, [
 	
         
         
-        [`Position`, `Nettowert`, tab ]
-        
+       [ `Position`, `Nettowert`, tab ]
         
       ,  set(regexp_cross_word_boundaries)
 
       , set(reverse_punctuation_in_numbers)
-
 
       ,  generic_item([ line_unit_amount , d ,tab ])
 
@@ -595,6 +599,42 @@ i_line_rule( line_append_line1, [
     
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_npo, [
+%=======================================================================
+	
+        set(regexp_cross_word_boundaries)
+
+      , set(reverse_punctuation_in_numbers)
+
+      , generic_item([ line_reference , d , q10(tab) ])
+      
+      ,  generic_item([ line_descr , s1 , tab ])
+
+      ,  generic_item([ line_descr_dummy , s1 , tab ])
+
+     ,  generic_item( [ line_quantity, d, q10(tab) ] )
+
+     ,  generic_item( [ line_quantity_uom_code,s1, tab ] )
+
+      ,  generic_item([ line_unit_amount_dummy , d ,tab ])
+
+      ,  generic_item([ line_net_amount_dummy , d ,newline ])
+
+       , clear(reverse_punctuation_in_numbers)
+
+       , clear(regexp_cross_word_boundaries)
+
+    
+] ).
+%=======================================================================
+i_line_rule( line_append_line_npo, [
+%=======================================================================
+	
+  generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+
+    
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -641,6 +681,10 @@ i_rule( get_additional_amount, [
 % Updated by   - Rohini
 % Changes made   - Additonal charges mapped
 
+
+% Updated on   - August 29, 2019
+% Updated by   - Rohini
+% Changes made   - Line details updated
 
 
 % Updated on   - 
