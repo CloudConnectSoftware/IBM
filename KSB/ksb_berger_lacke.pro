@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_berger_lacke, `5 February 2018` ).
+i_version( ksb_berger_lacke, `16 September, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -20,11 +20,11 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   
-	get_supplier_details
+	  get_supplier_details
 
     , get_buyer_address 
 
-    ,set_credit_note
+    , set_credit_note
 
     , get_attention
   
@@ -66,9 +66,9 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-    sender_name( `Berger-Lacke GmbH` )
+      sender_name( `Berger-Lacke GmbH` )
 
-    ,supplier_party( `Berger-Lacke GmbH` )
+    , supplier_party( `Berger-Lacke GmbH` )
 
     , supplier_vat_number(`DE149695428`)
     
@@ -118,7 +118,7 @@ i_rule( set_credit_note, [
 i_line_rule( credit_note_line, [
 %=======================================================================
 
-q0n(anything)
+    q0n(anything)
 
     , `G`, `u`, `t`, `s`, `c`, `h`, `r`, `i`, `f`, `t`
 
@@ -183,6 +183,7 @@ i_line_rule( line_add_line1, [
 %=======================================================================
 i_line_rule( line_add_line2, [
 %=======================================================================
+      
       q0n(anything)
 
       , or([
@@ -214,16 +215,17 @@ i_line_rule( line_add_line2, [
 %=======================================================================
 i_rule( get_bank_account_no, [
 %=======================================================================
-last_line
+        
+        last_line
 
- ,q(0,200,up)
+      , q(0,200,up)
 
- , or([
+      , or([
 
        generic_horizontal_details( [ [  `IBAN`], supplier_bank_iban, w, newline ] )
  
- ])
-
+   ])
+ 
 ]).
 
 
@@ -237,7 +239,7 @@ last_line
 i_rule( get_invoice_number, [
 %=======================================================================
 
-q(0,25,line)
+    q(0,25,line)
 	
    ,  or([
         
@@ -279,6 +281,8 @@ i_line_rule( find_order_number, [
     , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,5,15) , end ] ] )
 
 ] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET Delivery Note
@@ -329,18 +333,15 @@ q(0,25,line)
 i_rule( get_total_vat, [
 %=======================================================================
 
-q0n(line)
+    q0n(line)
 
-,set(regexp_cross_word_boundaries)
+    , set(regexp_cross_word_boundaries)
 
-    ,or([
-    
-    
-    generic_vertical_details( [ [ `%`,`MWST` ], `MWST`, q(0,10), (end,60,60), total_vat, d, tab ] )
+    , generic_vertical_details( [ [ `%`,`MWST` ], `MWST`, q(0,10), (end,60,60), total_vat, d, tab ] )
 
-    ])
-    
-    ,clear(regexp_cross_word_boundaries)
+    , generic_item( [  default_vat_rate, `19` ] )
+
+    , clear(regexp_cross_word_boundaries)
 
 ]).
 
@@ -735,6 +736,10 @@ i_rule( get_freight_line, [
 % Updated on   - Sep 20, 2018
 % Updated by   - Rohini
 % Updates     - Line quantity
+
+% Updated on   - Sep 16, 2019
+% Updated by   - Rohini
+% Updates     - Vat rate updated
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
