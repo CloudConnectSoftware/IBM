@@ -615,11 +615,13 @@ i_section( get_invoice_lines, [
 
     , or([
 
-             [ line_invoice_line,line_invoice_line_2]
+              [line_invoice_line_3, q10(line_append_line),line_invoice_line_2]
+
+             , [ line_invoice_line,line_invoice_line_2]
 
              , [line_invoice_line_1,line_invoice_line_2 ]
 
-             , [line_invoice_line_3, line_invoice_line_2]
+           
 
              , line
 
@@ -755,8 +757,14 @@ i_line_rule_cut( line_invoice_line_3, [
       generic_item( [ line_order_line_number, d, tab ] )
 
     , generic_item( [ line_packing_list, s1, tab ] )  
-      
-    , generic_item( [ line_descr, s1 , tab ]  )
+    
+    ,or([
+
+     % generic_item( [ line_descr, s1 , tab ]  )
+    
+     generic_item( [line_descr , s , [q10(tab), check(line_descr(end) < -141)] ] )
+
+      ])
 
     , generic_item( [ line_lot_number, s , [ `.`, dummy_num(w), tab ] ] )
 

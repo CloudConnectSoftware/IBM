@@ -1,5 +1,5 @@
 
-i_version( output_ibm_amat_rapid_xml, `03/09/2019 13:53:10` ).
+i_version( output_ibm_amat_rapid_xml, `25/09/2019 11:30:22` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -176,56 +176,39 @@ write_invoice_fields___
 :-
 %===============================================================================
 
+	write_field( `S_DocID`, invoice, ct_id ),
+	write_field( `S_BatchID`, invoice, batch_id ),
+	write_field( `S_RecDate`, invoice, receipt_date ),
+	write_field( `S_ScanDate`, invoice, scan_date ),
+	write_field( `S_IndexNo`, invoice, barcode ),
+	write_field( `D_SysDocT2`, invoice, system_doc_type ),
+	write_field( `D_ProcType`, invoice, document_sub_type ),
 	write_field( `D_BillName`, invoice, buyer_party ),
-	
 	write_field( `D_BillCode`, invoice, buyer_dept ),
-	
 	write_field( `D_IBMDeliv`, invoice, ibm_delivery_centre ),
-	
 	write_field( `D_Country`, invoice, country ),
-	
 	write_field( `D_ERPSysT2`, invoice, erp_system_id ),
-	
 	write_field( `D_SendIXOS`, invoice, send_posted_to_ixos ),
-	
 	write_field( `D_RTVPost`, invoice, rtv_post ),
-
 	write_field( `I_InvLang`, invoice, invoice_language ),
-	
 	write_field( `I_Currency`, invoice, currency ),
-	
+	write_field( `S_CaptID2`, invoice, scan_service_center ),
 	write_field( `I_InvNo`, invoice, invoice_number ),
-
 	write_field( `I_InvDate`, invoice, date ),
-	
 	write_field( `D_ERPFisca`, invoice, fiscal_year ),
-	
 	write_field( `I_DueDate`, invoice, processed_due_date ),
-	
 	write_field( `I_PONo`, invoice, order_number ),
-	
 	write_field( `I_TaxAmt`, invoice, total_vat ),
-	
 	write_field( `I_InvAmt`, invoice, total_invoice ),
-	
 	write_field( `I_VendIBAN`, invoice, supplier_iban ),
-	
 	write_field( `I_VendTaxID`, invoice, supplier_vat_number ),
-	
 	write_field( `I_VendSwift`, invoice, supplier_swift_code ),
-	
 	write_field( `I_VendNo`, invoice, buyers_code_for_supplier ),
-	
 	write_field( `S_ScanDate`, invoice, ct_capture_time ),
-	
 	write_field( `S_To`, invoice, ct_email_to ),
-
 	write_field( `S_From`, invoice, ct_email_from ),
-
 	write_field( `S_Subject`, invoice, ct_email_subject ),
-
 	write_field( `S_IndexNo`, invoice, ct_pages ),
-
 	write_field( `S_ArchID`, invoice, ct_reason )
 .
 

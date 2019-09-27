@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_cognizant, `21 JUNE, 2019` ).
+i_version( intuit_taulia_cognizant, `23 September, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -116,7 +116,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line_2, [
 %=======================================================================
 
-        generic_item( [ supplier_street, s1, newline ] )
+        generic_item( [ supplier_address_line, s1, newline ] )
 
 ] ).
 
@@ -124,7 +124,7 @@ i_line_rule( line_add_line_2, [
 i_line_rule( line_add_line_3, [
 %=======================================================================
 
-        generic_append( [supplier_street, s1, newline, `,` , ` `  ] )
+        generic_item( [ supplier_street, s1, newline ] )
 
    
 ] ).
@@ -134,11 +134,11 @@ i_line_rule( line_add_line_3, [
 i_line_rule( line_add_line_4, [
 %=======================================================================
  
-     generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < 264)] ] )
+     generic_item( [supplier_city , w ] )
 
      , generic_item( [ supplier_state, w ] )
 
-     , generic_item( [ supplier_postcode, d, newline ] )
+     , generic_item( [ supplier_postcode, s1, newline ] )
 
    
 ] ).
@@ -432,6 +432,8 @@ i_line_rule_cut( line_header_line, [
 
    , [`Line`, tab, `DDeessccrriippttiioonn`]
 
+   , [ `Description`, tab, `Net`, `Billing`,  newline ]
+
    ] )
 
     , trace( [ `Found Start line` ] )
@@ -486,7 +488,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line1, [
 %=======================================================================
 
-     generic_item( [ line_number, d, tab ] )
+     q10(generic_item( [ line_number, d, tab ] ))
 
   , generic_item( [ line_descr, s1, tab ] )
 
@@ -531,10 +533,13 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Thejaswi
 % Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan) 
 
+% Updated on   - Sep 23, 2019
+% Updated by   - Rohini
+% Changes made - Start line updated for Line details, Supplier Address updated
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
