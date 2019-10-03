@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_consumerinfo, `11 Feb, 2018` ).
+i_version( intuit_taulia_experianconsumer, `11 Feb, 2018` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -122,43 +122,18 @@ i_line_rule( line_add_line, [
 
      ,   generic_item( [ supplier_street, s1, tab ] )
 
-    , generic_item( [ supplier_street_dummy, s1, tab ] )
-    
-    , generic_item( [ supplier_street_dummy1, s1, newline ] )
-
 ] ).
 
 %=======================================================================
 i_line_rule( line_add_line_2, [
 %=======================================================================
+     
+      generic_item( [ supplier_city, s, `,` ] )
 
-        or([
-            
-            generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -374)] ] )
+    , generic_item( [ supplier_state, w ] )
 
-            , generic_item( [supplier_city , s , [q10(tab), check(supplier_city(end) < -304)] ] )
-
-         ] )
-
-    , or([
-
-       generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < -279)] ] )
-
-     , generic_item( [supplier_dummy , s , [q10(tab), check(supplier_dummy(end) < -356)] ] )
-
-       ] )
-
-     , generic_item( [supplier_state , w ] )
-
-     ,or([
-
-          generic_item( [ supplier_postcode, d, newline ] )
-
-     , generic_item( [ supplier_postcode, d, tab ] )
-
-     ] )
-
-     , q10(generic_item( [ supplier_postcode_dummy, s1, newline ] ))
+    , generic_item( [ supplier_postcode, d, tab ] )
+      
 
 
 ] ).
@@ -334,7 +309,13 @@ i_rule( get_invoice_date, [
 
         , trace( [ `Delivery Date` , delivery_date ] )
 
+      , q10( [
 
+        check( q_sys_sub_string( invoice_date, _, _, `,` ) )
+
+      , set( alternate_date_format )
+
+      ] )
 
 
 ] ).
@@ -360,6 +341,13 @@ i_rule( get_delivery_date, [
 
      ] )
 
+      , q10( [
+
+        check( q_sys_sub_string( delivery_date, _, _, `,` ) )
+
+      , set( alternate_date_format )
+
+      ] )
 ] ).
 
 
@@ -383,6 +371,14 @@ i_rule( get_due_date, [
      , generic_horizontal_details( [ [`DUE`, `DATE`, `:` ], due_date, date, tab ] )
 
 ] )
+
+      , q10( [
+
+        check( q_sys_sub_string( due_date, _, _, `,` ) )
+
+      , set( alternate_date_format )
+
+      ] )
 
 ] ).
 
