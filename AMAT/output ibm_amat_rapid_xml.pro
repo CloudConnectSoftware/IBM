@@ -1,5 +1,5 @@
 
-i_version( output_ibm_amat_rapid_xml, `25/09/2019 11:30:22` ).
+i_version( output_ibm_amat_rapid_xml, `03/10/2019 09:00:28` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -234,7 +234,7 @@ write_line___( LID )
 
 		),
 		
-		strcat_list( [ Client_Code, `_`, `LINE01` ], LineType ),
+		strcat_list( [ Client_Code, `_F_APFin` ], LineType ),
 		
 		write_attribute_string( `type`, LineType ),
 
