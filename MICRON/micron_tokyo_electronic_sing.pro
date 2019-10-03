@@ -404,15 +404,33 @@ i_rule(get_total_invoice, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_exchange_rate, [
+i_rule(get_exchange_rate, [
 %=======================================================================
+  
+    q(0,100,line)
 
-     q(0,100,line)
+    , set(regexp_cross_word_boundaries)
 
-    , check_text(`tax`)  
+   ,  get_exchange_rate_line
 
-    , generic_horizontal_details( [ [ `Tax`, `@`, `7`, `.`, `00`, `=`, `(`, `JPY`, `)`, `7`, `,`, `664`, `@`], exchange_rate, d, [ q10(`=`), `(`]] )
-   
+   , set(regexp_cross_word_boundaries)
+
+] ).
+
+%=======================================================================
+i_line_rule(get_exchange_rate_line, [
+%=======================================================================
+  
+    q0n(anything)
+
+   ,  `Tax`, `@`, `7`, `.`, `00`, `=`, `(`, `JPY`, `)`, a(d), `@`
+
+    , generic_item( [ exchange_rate, d, [ `=`, `(`, `SGD`, `)`] ]  ) 
+
+    , trace( [ exchange_rate ] ) 
+
+    , generic_item( [ total_local_vat, d, [tab] ]  ) 
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

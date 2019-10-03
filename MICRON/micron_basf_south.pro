@@ -390,10 +390,29 @@ i_rule(get_currency, [
 i_rule(get_exchange_rate, [
 %=======================================================================
   
-    q(0,30,line)
+    q(0,100,line)
 
-   ,  generic_horizontal_details( [ [`GST`, `(`, `SGD`, `equiv`, `.`, `@` ], exchange_rate, d, [`)`, tab ] ] )
+    , set(regexp_cross_word_boundaries)
 
+   ,  get_exchange_rate_line
+
+   , set(regexp_cross_word_boundaries)
+
+] ).
+
+%=======================================================================
+i_line_rule(get_exchange_rate_line, [
+%=======================================================================
+  
+    q0n(anything)
+
+   ,  `Items`, `Total`, `(`, `SGD`, `equiv`, `.`, `@`
+
+    , generic_item( [ exchange_rate, d, [  `)`, tab, `SGD`, tab] ]  ) 
+
+    , trace( [ exchange_rate ] ) 
+
+    , generic_item( [ total_local_vat, d, [newline] ]  ) 
 
 ] ).
 
