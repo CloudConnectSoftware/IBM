@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_micron_dc_xml, `17/09/2019 12:44:25` ).
+i_version( output_ibm_micron_dc_xml, `10/10/2019 10:39:54` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -302,7 +302,7 @@ write_line___( LID )
 
 		write_ibm_number_variable_as_tag( LID, line_vat_amount, `Tax_Amount`, '2dp_' ),
 
-		write_variable_as_tag( LID, line_vat_code, `Tax_Code` ),
+		write_variable_as_tag( LID, line_vat_code_xml, `Tax_Code` ),
 
 		write_variable_as_tag( LID, line_buyers_order_number, `PO_Number` ),
 
