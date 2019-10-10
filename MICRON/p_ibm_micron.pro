@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_micron, `11/07/2019 10:23:38` ).
+i_version( p_ibm_micron, `10/10/2019 10:38:15` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,6 +54,7 @@ i_user_field( line, line_proforma, `line_proforma` ).
 i_user_field( line, line_internal_order_number, `line_internal_order_number` ).
 i_user_field( line, line_gl, `line_gl` ).
 i_user_field( line, line_lot_number, `line_lot_number` ).
+i_user_field( line, line_vat_code_xml, `line_vat_code_xml` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -350,6 +351,52 @@ i_analyse_invoice_type___
 		assertz_derived_data( invoice, invoice_type, `Invoice`, i_analyse_invoice_type )
 
 	),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% LINE VAT CODE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If line_vat_code contains a VAT code that is not one of the standard codes built into gramatica, then the line will not appear in the XML
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_first( LID ):- i_analyse_line_vat_code___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_vat_code___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	result( _, LID, line_vat_code, Code ),
+
+	sys_retractall( result( _, LID, line_vat_code, _ ) ),
+
+	assertz_derived_data( LID, line_vat_code_xml, Code, i_analyse_line_vat_code ),
+
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% LINE VAT CODE XML
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This rule ensures that the code still appears in the XML
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_last( LID ):- i_analyse_line_vat_code_xml___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_vat_code_xml___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	not( result( _, LID, line_vat_code_xml, _ ) ),
+	
+	result( _, LID, line_vat_code, Code ),
+
+	assertz_derived_data( LID, line_vat_code_xml, Code, i_analyse_line_vat_code_xml ),
 
 	!
 .
