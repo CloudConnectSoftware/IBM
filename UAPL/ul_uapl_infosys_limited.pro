@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_infosys_limited, `30/01/2017` `01:40:05` ).
+i_version( ul_uapl_infosys_limited, `16 October , 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -153,7 +153,13 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-       , generic_vertical_details( [ [ `PO`, `Number`, `:` ], `Number`, q(0,1,up), (end,380,380), total_invoice, d, newline ] )
+     , or([
+
+        generic_vertical_details( [ [ `PO`, `Number`, `:` ], `Number`, q(0,1,up), (end,380,380), total_invoice, d, newline ] )
+
+       , generic_vertical_details( [ [  `Project`, `Code`, `:` ], `Project`, q(0,1,up), (start,900,900), total_invoice, d, newline ] )
+    
+    ] )
     
        , check( total_invoice = TotInv )
 
@@ -177,7 +183,14 @@ i_rule( get_line_total_amount, [
 
       qn0(line)
 
-       , generic_vertical_details( [ [ `PO`, `Number`, `:` ], `Number`, q(0,1,up), (end,380,380 ), line_total_amount, d, newline ] )
+     , or([
+
+        generic_vertical_details( [ [ `PO`, `Number`, `:` ], `Number`, q(0,1,up), (end,380,380), line_total_amount, d, newline ] )
+
+       , generic_vertical_details( [ [  `Project`, `Code`, `:` ], `Project`, q(0,1,up), (start,900,900), line_total_amount, d, newline ] )
+    
+    ] )
+    
 
    ] ).
 
@@ -222,17 +235,17 @@ i_rule(get_bank_accountnumber, [
     ,trace( [ `currency is`, Currency ] )
 
     , or([
-        [check( Currency = `EUR` ) , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
+        [check( Currency = `EUR` ) , generic_horizontal_details( [ [`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, s1, newline ] )]
 
-        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [`SGD`,`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, w, newline ] )]
-       
+        , [check( Currency = `SGD` ) , generic_horizontal_details( [ [`SGD`,`Bank`, `Account`, `Number`, `:`],  supplier_bank_account_number, s1, newline ] )]
+
+       , generic_horizontal_details( [ [ `Bank`, `Account`, `Number`, `:` ],  supplier_bank_account_number, s1, newline ] )
+
+
     ])
     
 
 ] ).
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,3 +263,20 @@ i_rule( get_invoice_lines, [
     , line_descr(`Line Charges`)
 
 ]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - October 16, 2019
+% Updated by   -  Rohini
+% Changes made -  Invoice amount and line amount udpated
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
