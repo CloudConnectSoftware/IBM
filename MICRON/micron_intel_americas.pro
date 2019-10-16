@@ -224,7 +224,7 @@ i_rule( get_invoice_number, [
 
      q(0,25,line)
 
-    ,  generic_vertical_details( [ [ `Date`, tab, `Invoice`, `#` ], `Date`, q(0,1), (start,10,500), invoice_date, s1, [tab, generic_item( [ invoice_number, d ] ),  newline ] ] )
+    ,  generic_vertical_details( [ [ `Date`, tab, `Invoice`, `#` ], `Date`, q(0,1), (start,10,500), invoice_date, date, [tab, generic_item( [ invoice_number, d ] ),  newline ] ] )
 
 ] ).
 
