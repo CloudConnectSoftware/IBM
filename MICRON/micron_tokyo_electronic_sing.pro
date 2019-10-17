@@ -193,7 +193,8 @@ i_rule( get_delivery_note_number, [
 
 q(0,100,line)
 
-   , generic_horizontal_details( [ [ `DO`, `-` ], delivery_note_number, w, `/` ] )
+
+   , generic_vertical_details( [ [ `Remarks`, newline ], `Remarks`, q(1,2), (end,30,30), delivery_note_number, w, `/` ] )
 
 ] ).
 
