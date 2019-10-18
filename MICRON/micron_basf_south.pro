@@ -390,7 +390,9 @@ i_rule(get_currency, [
 i_rule(get_exchange_rate, [
 %=======================================================================
   
-    q(0,100,line)
+    last_line
+
+    , q(0,100,up)
 
     , set(regexp_cross_word_boundaries)
 
@@ -406,11 +408,9 @@ i_line_rule(get_exchange_rate_line, [
   
     q0n(anything)
 
-   ,  `Items`, `Total`, `(`, `SGD`, `equiv`, `.`, `@`
+   ,  `GST`, `Total`, `(`, `SGD`, `equiv`, `.`, `@`
 
     , generic_item( [ exchange_rate, d, [  `)`, tab, `SGD`, tab] ]  ) 
-
-    , trace( [ exchange_rate ] ) 
 
     , generic_item( [ total_local_vat, d, [newline] ]  ) 
 
@@ -486,7 +486,7 @@ i_line_rule( line_invoice_line, [
 
     , generic_item( [ line_quantity_uom_code, w, tab ] )
 
-    , generic_item( [ line_unit_amount, d,  `USD` ]  )
+    , generic_item( [ line_unit_amount_dummy, d,  `USD` ]  )
 
     ,  generic_item( [ line_descr_dummy1, s1, tab ]  )
 
