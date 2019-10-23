@@ -408,7 +408,7 @@ i_line_rule(get_exchange_rate_line, [
   
     q0n(anything)
 
-   ,  `GST`, `Total`, `(`, `SGD`, `equiv`, `.`, `@`
+   ,  `GST`,  `(`, `SGD`, `equiv`, `.`, `@`
 
     , generic_item( [ exchange_rate, d, [  `)`, tab, `SGD`, tab] ]  ) 
 
