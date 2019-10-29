@@ -29,6 +29,10 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_total_net
+
+    , get_line_net_amount
+
     , get_line_total_amount
 
     , get_invoice_lines
@@ -126,7 +130,14 @@ i_rule_cut( get_invoice_number, [
     q(0,50,line)
 
        
-        ,  generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, tab ], invoice_number, s1, newline ] )
+        ,  or([
+            
+            generic_horizontal_details( [ [ `TAX`, `INVOICE`, `NO`, `.`, tab ], invoice_number, s1, newline ] )
+
+          ,generic_vertical_details( [ [ `INVOICE`, `NUMBER`], `INVOICE`, q(0,1), (end,10,10), invoice_number, d, newline ] )
+
+        ])
+
 
 	
 ] ).
@@ -143,7 +154,7 @@ i_rule_cut( get_invoice_date, [
 
     q(0,50,line)
 
-         , generic_horizontal_details( [ [ `INVOICE`, `DATE`, tab ], invoice_date, date, newline ] )
+         , generic_horizontal_details( [ [ `INVOICE`, `DATE`, `:` ,tab ], invoice_date, date, newline ] )
 
    
 ] ).
@@ -171,28 +182,134 @@ i_rule_cut( get_due_date, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_invoice, [
+i_rule( get_total_net, [
 %=======================================================================
 
       q(0,50, line )
 
-   ,  generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], total_invoice, d, newline ] ) 
+      , set(regexp_cross_word_boundaries)
 
-    
+      ,  or([
+       
+       [generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], total_invoice, d, newline ] ) 
+
         , check( total_invoice = TotInv )
 
         , trace( [ `Total Inv` , TotInv] )
 
         , total_net(TotInv)
 
-        , trace( [ `Total net` , total_net] ) 
+        , trace( [ `Total net` , total_net] ) ]
 
+        , [ get_total_net_line , q(0,1,line), get_total_net_line2 ]
+
+       ])
+
+        , clear(regexp_cross_word_boundaries)
+
+]).     
+
+
+%=======================================================================
+i_line_rule( get_total_net_line, [
+%=======================================================================
+
+        q0n(anything)  
+       
+
+        , `Total`, `ex`, `GST`,  newline
+
+   
+] ).
+
+
+%=======================================================================
+i_line_rule( get_total_net_line2, [
+%=======================================================================
+
+        q0n(anything)  
+       
+
+        , `$`, generic_item( [ total_net, d, [ `ex`, `GST`,  newline] ] )
+
+  
+   ]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_invoice, [
+%=======================================================================
+
+    q(0,150,line)
+
+  , or([
       
+      generic_horizontal_details( [ [ `GST`, tab, `$` ], total_invoice, d, [`inc`, `GST`,  newline] ] )
+      
+    
+  ])
+
 ] ).
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET LINE TOTAL AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_line_net_amount, [
+%=======================================================================
+
+
+      q(0,50, line )
+
+      , set(regexp_cross_word_boundaries)
+
+      ,  or([
+     
+    [ get_line_total_net_line , q(0,1,line), get_line_total_net_line2 ]
+
+       ])
+
+        , clear(regexp_cross_word_boundaries)
+
+]).     
+
+
+%=======================================================================
+i_line_rule( get_line_total_net_line, [
+%=======================================================================
+
+        q0n(anything)  
+       
+
+        , `Total`, `ex`, `GST`,  newline
+
+   
+] ).
+
+
+%=======================================================================
+i_line_rule( get_line_total_net_line2, [
+%=======================================================================
+
+        q0n(anything)  
+       
+
+        , `$`, generic_item( [ line_net_amount, d, [ `ex`, `GST`,  newline] ] )
+
+  
+   ]).
+
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,7 +322,11 @@ i_rule( get_line_total_amount, [
       q(0,50, line )
 
 
-    ,  generic_horizontal_details( [ [ `TOTAL`, `AMOUNT`, tab ], line_total_amount, d, newline ] ) 
+    ,  or([
+
+        generic_horizontal_details( [ [ `GST`, tab, `$` ], line_total_amount, d, [`inc`, `GST`,  newline] ] )
+      
+    ])
 
       
    ] ).
