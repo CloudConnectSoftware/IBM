@@ -119,6 +119,8 @@ i_line_rule( line_add_line, [
 
         ,[ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
 
+        ,[ check(buyer_party_raw = `KSB Service GmbH`) ,generic_item( [ buyer_party, `KSB Service GmbH` ] ) ] 
+
          ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
 
     
@@ -130,7 +132,7 @@ i_line_rule( line_add_line, [
 i_line_rule( line_add_line2, [
 %=======================================================================
 
-      or([ `67227`, `67206` ])
+      or([ `67227`, `67206` , `6 7 2 2 7`])
 
       ,generic_item( [ buyer_city , s1 , or([ tab, newline]) ] )
 
@@ -148,6 +150,8 @@ i_rule( get_invoice_number, [
 %=======================================================================
 
 q(0,15,line)
+
+  , set(regexp_cross_word_boundaries)
 	
    ,  or([
         
@@ -156,6 +160,10 @@ q(0,15,line)
        , [ generic_horizontal_details( [ [`Gutschrift`], invoice_number, d, tab ] ), set(credit_note)]
 
         ])
+
+
+        , clear(regexp_cross_word_boundaries)
+
 ] ).
 
 
@@ -472,7 +480,7 @@ i_line_rule_cut( line_start_line,[
 	
 	or([
 
-        [`Pos`, tab, `Artikelnummer`, tab, `Urspr`]
+        [`Bezeichnung`, `/`, `Beschreibung`, tab]
 
       ])
 
@@ -485,10 +493,10 @@ i_line_rule_cut( line_end_line,[
 %=======================================================================
 
 	  or([
-
-        
-		 
+	 
          [`Waren`, `-`, `/`, `Nettowert`, tab ]
+
+         , [`Pos`, tab, `Artikelnummer`, tab, `Urspr`]
 
         ])
 
