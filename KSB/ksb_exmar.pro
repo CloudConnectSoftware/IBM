@@ -184,6 +184,14 @@ q(0,15,line)
         
           generic_horizontal_details( [ [ `Bad`, `Nauheim`, `,` ], invoice_date, date, `/` ] )
 
+          , [ generic_horizontal_details( [ [ `Bad`, `Nauheim`, `,` ], invoice_date_raw, s1, `/` ] )
+
+          , check( invoice_date_raw = DateRaw ), trace( [ `Invoice date raw` , DateRaw ] )
+
+    ,check(string_string_replace( DateRaw, ` ` , `` , MonthNew )), trace( [ `Replaced Month` , MonthNew])
+
+    , invoice_date(MonthNew)    , trace( [ `Invoice Date` , invoice_date ] ) ]
+
         ])
 
 ] ).
@@ -458,7 +466,7 @@ i_section( get_invoice_lines, [
            % [line_invoice_line_npo,q10(line_descr_line), q(0,10,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
           		
 			
-             [line_invoice_line, q10(line_append_line), q(10,0,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
+             [line_invoice_line,  q(10,0,line_append_line), q10(line_append_line1), q10(line_append_line),line_invoice_line1]
 
             , [q10(line_descr_line),line_invoice_line1]
 
@@ -495,6 +503,8 @@ i_line_rule_cut( line_end_line,[
 	  or([
 	 
          [`Waren`, `-`, `/`, `Nettowert`, tab ]
+
+         , [`E`, `XMA`, `R`, `GmbH`, `,`, `Am`, `Taubenbaum`]
 
          , [`Pos`, tab, `Artikelnummer`, tab, `Urspr`]
 
