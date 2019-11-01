@@ -184,7 +184,7 @@ q(0,15,line)
         
           generic_horizontal_details( [ [ `Bad`, `Nauheim`, `,` ], invoice_date, date, `/` ] )
 
-          , [ generic_horizontal_details( [ [ `Bad`, `Nauheim`, `,` ], invoice_date_raw, s1, `/` ] )
+          , [ generic_horizontal_details( [ [ `Bad`, `Nauheim`, `,` ], invoice_date_raw, s, `/` ] )
 
           , check( invoice_date_raw = DateRaw ), trace( [ `Invoice date raw` , DateRaw ] )
 
