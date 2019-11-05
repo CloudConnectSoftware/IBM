@@ -53,7 +53,7 @@ i_rule( get_supplier_details, [
 
      , currency( `USD` )
 
-     , supplier_registration_number(`208734194`)
+     , supplier_registration_number(`IE8264562O`)
    
      , set(freight_vendor)
 
