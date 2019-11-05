@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_chep_australia, `17 November 2016` ).
+i_version( ul_uapl_chep_australia, `05 November 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -30,6 +30,8 @@ i_rule_list( [
     , get_total_invoice
 
     , get_total_net
+
+    , get_total_vat
 
     , get_line_net_amount
 
@@ -200,8 +202,10 @@ i_rule( get_total_net, [
         , total_net(TotInv)
 
         , trace( [ `Total net` , total_net] ) ]
+        
 
         , [ get_total_net_line , q(0,1,line), get_total_net_line2 ]
+
 
        ])
 
@@ -237,6 +241,31 @@ i_line_rule( get_total_net_line2, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL VAT AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_vat, [
+%=======================================================================
+
+    q(0,150,line)
+
+  , or([
+      
+     generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), total_vat, d, [`GST`,  newline ] ] ) 
+
+    , generic_vertical_details( [ [  `GST`,  newline ], `GST`, q(0,1), (start,100,500), total_vat, d, [`GST`,  newline  ] ] ) 
+    
+    
+  ])
+
+] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,6 +279,8 @@ i_rule(get_total_invoice, [
   , or([
       
       generic_horizontal_details( [ [ `GST`, tab, `$` ], total_invoice, d, [`inc`, `GST`,  newline] ] )
+
+    ,    generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1), (start,900,900), total_invoice, d, [`inc`, `GST`,  newline ] ] ) 
       
     
   ])
@@ -276,6 +307,10 @@ i_rule( get_line_net_amount, [
       ,  or([
      
     [ get_line_total_net_line , q(0,1,line), get_line_total_net_line2 ]
+
+  ,  generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,900), line_vat_amount, d, [`GST`,  newline ] ] ) 
+
+   , generic_vertical_details( [ [  `GST`,  newline ], `GST`, q(0,1), (start,100,500), total_vat, d, [`GST`,  newline  ] ] ) 
 
        ])
 
@@ -309,7 +344,7 @@ i_line_rule( get_line_total_net_line2, [
   
    ]).
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET LINE TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -325,6 +360,8 @@ i_rule( get_line_total_amount, [
     ,  or([
 
         generic_horizontal_details( [ [ `GST`, tab, `$` ], line_total_amount, d, [`inc`, `GST`,  newline] ] )
+
+    ,   generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1), (start,900,900), line_total_amount, d, [`inc`, `GST`,  newline ] ] ) 
       
     ])
 
@@ -348,3 +385,17 @@ i_rule( get_invoice_lines, [
     , line_descr(`line Total`)
 
 ]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Updated on   - 05 November, 2019
+% Updated by   - Rohini
+% Changes made   - Invoice Total Amount updated
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
