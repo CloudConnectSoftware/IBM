@@ -8,7 +8,7 @@ i_version( ul_uapl_globoforce_ltd, `5 November 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `m/d/y` ).
+i_date_format( _ ).
 
 i_trace_lists.
 
@@ -25,8 +25,6 @@ i_rule_list( [
     , get_supplier_bank_account_number
 
  	, get_invoice_date
-
-    , get_invoice_date
     
     , get_order_number
 
