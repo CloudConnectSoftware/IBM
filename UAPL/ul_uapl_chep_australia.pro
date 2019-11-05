@@ -257,7 +257,7 @@ i_rule(get_total_vat, [
 
     , generic_vertical_details( [ [  `GST`,  newline ], `GST`, q(0,1), (start,100,500), total_vat, d, [`GST`,  newline  ] ] ) 
     
-    , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), total_net, d, [`GST`,  newline ] ] ) 
+    , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), total_invoice, d, [ `inc`, `GST`,  newline ] ] ) 
     
   ])
 
@@ -283,7 +283,7 @@ i_rule(get_total_invoice, [
 
     ,  generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1), (start,900,900), total_invoice, d, [`inc`, `GST`,  newline ] ] ) 
       
-    , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), total_invoice, d, newline ] ) 
+    , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1), (start,100,100), total_net, d, newline ] ) 
     
   ])
 
@@ -314,7 +314,7 @@ i_rule( get_line_net_amount, [
 
   , generic_vertical_details( [ [  `GST`,  newline ], `GST`, q(0,1), (start,100,500), total_vat, d, [`GST`,  newline  ] ] ) 
 
-  , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), line_net_amount, d, [`GST`,  newline ] ] ) 
+  , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), line_total_amount, d, [ `inc`, `GST`,  newline ] ] ) 
 
        ])
 
@@ -367,7 +367,7 @@ i_rule( get_line_total_amount, [
 
     ,   generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1), (start,900,900), line_total_amount, d, [`inc`, `GST`,  newline ] ] ) 
 
-     , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1,up), (start,900,100), line_total_amount, d, newline ] )   
+     , generic_vertical_details( [ [ `Total`, `ex`, `GST` ], `Total`, q(0,1), (start,100,100), line_net_amount, d, newline ] )   
     ])
 
       
