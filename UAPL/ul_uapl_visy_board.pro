@@ -4,23 +4,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( visy_board, `20/09/2016` `7:45:05` ).
+i_version( visy_board, `October 05, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
 i_trace_lists.
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	  get_supplier_details
 	
-    ,get_bank_accountnumber
+    , get_bank_accountnumber
 
 	, get_invoice_number
 
@@ -51,7 +50,7 @@ i_rule( get_supplier_details, [
   
    sender_name(`VISY BOARD PTY LTD (HPC)`)
 
-  , supplier_vat_number(`58 005 787 913`)
+  , supplier_vat_number(`58005787913`)
 
   , currency( `AUD` )
 
