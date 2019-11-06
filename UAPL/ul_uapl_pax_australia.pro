@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( pax_transport, `29/05/2017` ).
+i_version( pax_transport, `November 06, 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -115,7 +115,7 @@ i_rule_cut( get_invoice_number, [
     
     q(0,30,line)
     
-    , generic_vertical_details( [ [ `Invoice` , `No` , newline ], `Invoice`, q(0,1), (end,10,10), invoice_number, d, newline ] )
+    , generic_vertical_details( [ [ `Invoice` , `No` , newline ], `Invoice`, q(0,1), (end,10,10), invoice_number, s1, newline ] )
 	
 	] ).
 
@@ -131,8 +131,14 @@ i_rule( get_order_number, [
 
     q0n(line)
 
-    , generic_vertical_details( [ [ `Cust` , `Order` , `No` ], `Cust`, q(0,1), (start,100,100), order_number, s1, tab ] )
+    , or([
 
+      generic_vertical_details( [ [ `Cust` , `Order` , `No` ], `Cust`, q(0,1), (start,100,100), order_number, s1, tab ] )
+
+    , generic_vertical_details( [ [`Our`, `Ref` ], `Our`, q(0,1), (start,100,100), order_number, d, tab ] )
+
+  ] )
+  
     , check(order_number = OrdNo)
 
     , trace([`Order Number Capital Varaible` , OrdNo])
@@ -405,6 +411,13 @@ i_sum_all_line_nets
 % Updated on   - December 19, 2017
 % Updated by   - Rohini
 % Changes made - Invoice Line amount
+
+
+
+% Updated on   - November 06, 2019
+% Updated by   - Rohini
+% Changes made - Invoice number and order number updated
+
 
 % Updated on   - 
 % Updated by   -
