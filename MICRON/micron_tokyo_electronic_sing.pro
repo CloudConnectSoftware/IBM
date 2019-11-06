@@ -571,7 +571,7 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
       
      generic_item( [ line_order_line_number, d, tab ] ) 
@@ -601,7 +601,7 @@ i_line_rule( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_invoice_line_1, [
+i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
       
      generic_item( [ line_item_dummy ,s1, tab ] ) 
@@ -626,7 +626,7 @@ i_line_rule( line_invoice_line_1, [
 
 
 %=======================================================================
-i_line_rule( line_dummy_line, [
+i_line_rule_cut( line_dummy_line, [
 %=======================================================================
 
     generic_item( [ line_dummy, s1, newline ] )
@@ -635,7 +635,7 @@ i_line_rule( line_dummy_line, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_append_line, [
+i_line_rule_cut( line_append_line, [
 %=======================================================================
 
     generic_append( [ line_descr, s1, tab, ` , `, ` ` ] )
@@ -644,7 +644,7 @@ i_line_rule( line_append_line, [
 
 
 %=======================================================================
-i_line_rule( line_append_line_2, [
+i_line_rule_cut( line_append_line_2, [
 %=======================================================================
 
     generic_append( [ line_descr, s1, newline, ` , `, ` ` ] )
@@ -652,7 +652,7 @@ i_line_rule( line_append_line_2, [
 ] ).
 
 %=======================================================================
-i_line_rule( line_item_line, [
+i_line_rule_cut( line_item_line, [
 %=======================================================================
 
     
