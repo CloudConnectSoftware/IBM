@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ksb_berger_lacke, `16 September, 2019` ).
+i_version( ksb_berger_lacke, `13 November, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -139,29 +139,13 @@ i_line_rule( credit_note_line, [
 i_rule( get_buyer_address, [
 %=======================================================================
   
-     q(0,9,line)
-
-   , line_add_line
-
-   , q(0,6,line)
+     q(0,10,line)
 
    , line_add_line1
 
    , q(0,5,line)
 
     ,line_add_line2
-
-] ).
-
-%=======================================================================
-i_line_rule( line_add_line, [
-%=======================================================================
-
-    q0n(anything)
-
-     ,  read_ahead([`Berger`])
-
-     , trace( [ `Found address`] )
 
 ] ).
 
@@ -175,7 +159,30 @@ i_line_rule( line_add_line1, [
 
      , trace( [ `Found address Buyer`] )
 
-     , generic_item( [buyer_party , s1, tab ])
+     , or([
+
+      generic_item( [buyer_party_raw , s1, newline ])
+
+     , generic_item( [buyer_party_raw , s1, tab ])
+
+ 
+        ])
+
+     , or([
+         
+        [ check(buyer_party_raw = `KSB S.A.S`) ,generic_item( [ buyer_party, `KSB S.A.S.` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ]
+
+        ,[ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+        ,[ check(buyer_party_raw = `KSB SE & Co. KGaA`) ,generic_item( [ buyer_party, `KSB SE & Co. KGaA` ] ) ] 
+
+         ,[ check(buyer_party_raw = Buyer_raw) ,generic_item( [ buyer_party, Buyer_raw ] ) ] 
+
+    
+        ])
+
 
 ] ).
 
@@ -187,7 +194,9 @@ i_line_rule( line_add_line2, [
       q0n(anything)
 
       , or([
-          `67206`
+          
+           `67206`
+
           ,`92635`
 
       ])
@@ -196,7 +205,7 @@ i_line_rule( line_add_line2, [
           
           generic_item( [ buyer_city , w , `cedex` ] )
 
-          , generic_item( [ buyer_city , w , or([newline,tab]) ] )
+          , generic_item( [ buyer_city , w , or([newline,tab ]) ] )
 
       ])
 
@@ -740,6 +749,11 @@ i_rule( get_freight_line, [
 % Updated on   - Sep 16, 2019
 % Updated by   - Rohini
 % Updates     - Vat rate updated
+
+
+% Updated on   - November 13, 2019
+% Updated by   - Rohini
+% Updates     - Buyer City details
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
