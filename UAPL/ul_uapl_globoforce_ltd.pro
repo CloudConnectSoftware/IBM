@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_globoforce_ltd, `5 November 2019` ).
+i_version( ul_uapl_globoforce_ltd, `15 November 2019` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -187,12 +187,14 @@ i_rule( get_total_invoice, [
     qn0(line)
 
           , or([
+
+               generic_horizontal_details( [ [  `Total`, `USD`, tab ], total_invoice  , d , newline ] )
               
-              generic_horizontal_details( [ [ `Amount`, `Due`, `:` ], total_invoice  , d, newline ] )
+              , generic_horizontal_details( [ [ `Amount`, `Due`, `:` ], total_invoice  , d, newline ] )
 
-              , generic_horizontal_details( [ [ `Amount`, `Credited`, `:`, `(` ], total_invoice  , d, `)`] )
+              , generic_horizontal_details( [ [ `Total`, `Credit`, `Amount`, tab, `USD`, tab, `(` ], total_invoice  , d, `)`] )
 
-              ,generic_horizontal_details( [ [  `Total`, `USD`, tab ], total_invoice  , d , newline ] )
+              , generic_horizontal_details( [ [  `Total`, `USD`, tab ], total_invoice  , d , newline ] )
 
           ])
           
@@ -223,7 +225,9 @@ i_rule( get_total_net, [
 
           , or([
               
-              generic_horizontal_details( [ [`Subtotal`, tab ], total_net  , d, newline ] )
+                generic_horizontal_details( [ [ `Total`, `Credit`, `Amount`, tab, `USD`, tab, `(` ], total_net  , d, `)`] )             
+               
+              ,generic_horizontal_details( [ [`Subtotal`, tab ], total_net  , d, newline ] )
 
               ,generic_horizontal_details( [ [   `Totals`, tab, a(d), tab, a1(d), tab, a2(d), tab, a3(d), tab, a4(d), tab ], total_net  , d , newline ] )
 
@@ -287,9 +291,12 @@ i_rule( get_invoice_lines, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
 
-% Updated on   - December 1, 2017
-% Updated by   - Rohini 
-% Changes made - Invoice number
+% Mapped on   - November 07, 2019
+% Mapped by   - Thejas 
+
+% Updated on   -  November 07, 2019
+% Updated by   -  Rohini 
+% Changes made -  Amount details updated for Credit note
 
 % Updated on   - 
 % Updated by   -
