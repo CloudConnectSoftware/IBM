@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_tokyo_electronic_sing, `5 Aug, 2019` ).
+i_version(micron_tokyo_electronic_sing, `25 November, 2019` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -365,6 +365,10 @@ i_rule(get_total_vat, [
        
    ])
 
+      ,  check( total_vat = TotVat)
+
+      , generic_item( [ line_vat_amount , TotVat ] )
+
 ] ).
 
 
@@ -385,11 +389,14 @@ i_rule(get_local_total_vat, [
    , or([
        
    
-    [generic_horizontal_details( [ [ `Tax`, `@`, `7`, `.`, `00`, `=`, `(`, `JPY`, `)`, a(d), `@`, `.`, a(d), `=`, `(`, `SGD`, `)`], total_local_vat, d, tab ] )
+    generic_horizontal_details( [ [ `Tax`, `@`, `7`, `.`, `00`, `=`, `(`, `JPY`, `)`, a(d), `@`, `.`, a(d), `=`, `(`, `SGD`, `)`], total_local_vat, d, tab ] )
    
-    ,  generic_item( [ default_vat_rate, `7` ] ) ]
+    %,  generic_item( [ default_vat_rate, `7` ] ) 
     
+
    ])
+
+   
 
 ] ).
 
@@ -590,13 +597,34 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_net_amount, d, newline ] )
 
-      , q10( [ 
+    %  , q10([	% LINE VAT Rate Calculation
+  
+   %   with( invoice , total_vat , VAT )
+
+   %, with( invoice , total_net , Net )
+
+   %, trace( [ `vat tot`, VAT ] )
+
+  % , trace( [ `sub total`, Net ] )
+
+   %, check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
+
+  % , trace( [ `VAT Rate`, VAT_RATE ] )
+  
+  % , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
+
+ %  , generic_item( [ line_vat_rate , VAT_PERCENT ] )
+
+     %  ])
+          , q10( [ 
 
          with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
 
         , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
     
    ])  
+
+
 
 ] ).
 
@@ -674,9 +702,14 @@ i_line_rule_cut( line_item_line, [
 % Updated by   - Rohini
 % Changes made - Total net updated and line details updated with end line and buyer alternative address mapped
 
+% Updated on   - November 25, 2019
+% Updated by   - Rohini
+% Changes made - Total VAT updated to line level. Total vat updated to line vat since asper confirmation from Delivery the round off amount of VAT was fine and discrepancy to be ignored.
+   % Since its one line level amount updated the total Vat as Line level amount
+
 % Updated on   - 
 % Updated by   -
-% Changes made - 
+% Changes made -
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
