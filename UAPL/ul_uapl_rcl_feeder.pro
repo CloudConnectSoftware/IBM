@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_rcl_feeder, `August 09, 2019`  ).
+i_version( ul_uapl_rcl_feeder, `November 27, 2019`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -269,9 +269,9 @@ i_rule( get_total_invoice, [
 
     , or( [ 
         
-        [ test(tml_found) , generic_horizontal_details( [ [ `Total`, `Amount`, `payable` , `in`, `SGD` ], 200, total_invoice, d, newline ] ) ]
+        [ test(tml_found) , generic_horizontal_details( [ [ `Total`, `Amount`, `Payable`, `in`, `SGD`, tab ],  total_invoice, d, newline ] ) ]
 
-       ,  [ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` ], 200, total_invoice, d, newline ] ) ]
+       ,  [ peek_fails(test(tml_found)) , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD` , tab ],  total_invoice, d, newline ] ) ]
 
     ] )
 
