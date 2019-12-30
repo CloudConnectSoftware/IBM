@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `04/09/2019 09:33:09` ).
+i_version( p_taulia, `03/12/2019 13:36:43` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -564,6 +564,46 @@ i_default_uoms( LID )
 	),
 	taulia_uom_code( UOM, TUOM), trace( tuom( TUOM ) ),
 	assertz_derived_data( LID, line_quantity_uom_code, TUOM, i_default_uoms ),
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% POPULATE SUM OF NEGATIVE VALUES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_sum_of_negative_values___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_sum_of_negative_values___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	i_user_data( sum_of_negative_values( Sum_of_Negative_Values ) ),
+
+	not( q_sys_comp_str_eq( Sum_of_Negative_Values, `0` ) ),
+
+	(
+		result( _, invoice, header_discount, Header_Discount ),
+
+		sys_retractall( result( _, invoice, header_discount, _ ) )
+		
+		;
+		
+		not( result( _, invoice, header_discount, _ ) ),
+		
+		Header_Discount = `0`
+
+	),
+
+	!,
+
+	sys_calculate_str_subtract( Header_Discount, Sum_of_Negative_Values, Header_Discount_New ),
+
+	assertz_derived_data( invoice, header_discount, Header_Discount_New, i_analyse_negative_value ),
+
 	!
 .
 
