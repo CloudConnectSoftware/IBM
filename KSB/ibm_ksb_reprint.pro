@@ -47,6 +47,12 @@ i_line_rule( check_text_id_line, [ or( [
 
 	, [ check_text( `BittebeiZahlungangebe` ), set( chain, `ksb_general_logistics` ), trace( [ `This is a GLS document` ] ) ]
 
+	, [ check_text( `FR92428704654` ), set( chain, `ksb_fonderie_ghm` ), trace( [ `This is a FONDERIE G.H.M. document` ] ) ]
+
+	, [ check_text( `42870465400014` ), set( chain, `ksb_fonderie_ghm` ), trace( [ `This is a FONDERIE G.H.M. document` ] ) ]
+
+	, [ check_text( `33(0)325567373` ), set( chain, `ksb_fonderie_ghm` ), trace( [ `This is a FONDERIE G.H.M. document` ] ) ]
+
 	% , [ check_text( `` ), set( chain, `` ), trace( [ `` ] ) ]
 	
 ] ) ] ).
