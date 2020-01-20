@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_evolytics, `29 January, 2018` ).
+i_version( intuit_taulia_evolytics, `20 Jan, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( `m/d/y` ).
 
@@ -326,9 +326,9 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_descr, s1, tab ] )
 
-  , generic_item( [ line_quantity, d, tab ] )
+  , generic_item( [ line_unit_amount, d, tab ] )
 
-  , generic_item( [ line_unit_amount, d, newline ] )
+  , generic_item( [ line_net_amount, d, newline ] )
   
 ] ).
 
@@ -360,10 +360,13 @@ i_line_rule_cut( line_invoice_line1, [
 % Updated by   - Thejaswi
 % Changes made - Whitelisted email ID
 
+% Updated on   - 20 Jan, 2020
+% Updated by   - Rohini
+% Changes made - Line details updated with line_invoice_line
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
