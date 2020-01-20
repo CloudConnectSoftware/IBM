@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_sgs_gulf,  `06/02/2017` `6:40:00` ).
+i_version( ul_uapl_sgs_gulf,  `20 Jan, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -35,7 +35,6 @@ i_rule_list( [
     , get_invoice_totals
 
     , get_line_total_amount
-
 	
     , get_invoice_lines
 	
@@ -158,10 +157,29 @@ i_rule( get_order_number, [
 
 		, generic_horizontal_details( [ [  `Po`, `:` ], order_number, w, newline ] )
 
+		, find_order_number
+
 	])
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+    , or([
+
+        generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+
+	 , generic_item( [ order_number , [ begin, q(alpha("P"),1,1) , q(alpha("O"),1,1) , q(dec,8,10) , end ] ] )
+
+    ])
+
+]).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -251,3 +269,11 @@ i_rule( get_invoice_lines, [
 % Updated on   - May 28, 2019
 % Updated by   - Thejas
 % Changes made   - Order Number
+
+
+% Updated on   - 20 Jan, 2020
+% Updated by   - Rohini
+% Changes made   - Order Number updated
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
