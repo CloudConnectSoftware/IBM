@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_gorilla_circuits, `12 September, 2019` ).
+i_version(micron_gorilla_circuits, `29 Jan, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -152,9 +152,7 @@ i_rule( get_buyer_address, [
 i_line_rule( line_b_add_line_1, [
 %=======================================================================
     
-      q0n(anything)
-      
-    , read_ahead([`MICRON`, `TECHNOLOGY`])
+      read_ahead([`MICRON`, `TECHNOLOGY`])
 
     , trace( [ `Found address`] )
     
@@ -166,14 +164,27 @@ i_line_rule( line_b_add_line_1, [
 i_line_rule( line_b_add_line_2, [
 %=======================================================================
      
-      generic_item( [ swiss_buyer_address_1, s1, tab ] )    
+     or([
+         
+       generic_item( [ swiss_buyer_address_1, s1, newline ] )  
+
+    ,  generic_item( [ swiss_buyer_address_1, s1, tab ] )    
+
+     ])
     
 ] ).
 %=======================================================================
 i_line_rule( line_b_add_line_3, [
 %=======================================================================
      
-      generic_item( [ swiss_buyer_address_2, s1, newline ] )    
+      or([
+
+       generic_item( [ swiss_buyer_address_2, s1, newline ] )  
+
+    ,  generic_item( [ swiss_buyer_address_2, s1, tab ] )    
+
+     ])
+    
     
     ,  check( swiss_buyer_name = BillTo)
 
@@ -414,9 +425,9 @@ i_line_rule( line_append_line, [
 % Mapped on - 12 September, 2019
 % Mapped by - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - 29 Jan, 2020
+% Updated by   - Rohini
+% Changes made - Bill to name updated
 
 % Updated on   - 
 % Updated by   -
