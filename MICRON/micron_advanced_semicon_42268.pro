@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_advanced_semiconductor_042268, `24 September 2018` ).
+i_version(micron_advanced_semiconductor_042268, `31 Jan, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -613,13 +613,13 @@ i_section( get_invoice_lines, [
 
     , qn0( [ peek_fails(line_end_line)
 
-    , or([
+    , or([     
+               [line_invoice_line_1,line_invoice_line_2_new ]
 
-              [line_invoice_line_3, q10(line_append_line),line_invoice_line_2]
+             , [line_invoice_line_3, q10(line_append_line),line_invoice_line_2]
 
              , [ line_invoice_line,line_invoice_line_2]
 
-             , [line_invoice_line_1,line_invoice_line_2 ]
 
            
 
@@ -697,7 +697,7 @@ i_line_rule_cut( line_invoice_line_1, [
 
       generic_item( [ line_item, d, tab ] )
 
-    , generic_item( [ line_lot_number, s , [ `.`, dummy_num(d), tab ] ] )
+    , generic_item( [ line_lot_number, s , [ `.`, dummy_num(s1), tab ] ] )
 
     , generic_item( [ line_buyers_order_number, d, `-` ]  )
  
@@ -749,6 +749,22 @@ i_line_rule_cut( line_invoice_line_2, [
     
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2_new, [
+%=======================================================================
+
+      generic_item( [ line_descr, s1, tab ] )
+       
+    , generic_item( [ line_quantity, d, tab ] )
+
+     , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ] )
+
+    
+] ).
 
 %=======================================================================
 i_line_rule_cut( line_invoice_line_3, [
@@ -797,6 +813,11 @@ i_line_rule_cut( line_invoice_line_3, [
 % Updated on   - Jan 25, 2019
 % Updated by   - Rohini
 % Changes made - Line details, Order number
+
+% Updated on   - 31 Jan, 2020
+% Updated by   - Rohini
+% Changes made - line_invoice_line_2_new details updated
+
 
 % Updated on   - 
 % Updated by   -
