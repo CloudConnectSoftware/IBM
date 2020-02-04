@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_securitas_security, `October 24, 2019` ).
+i_version(micron_securitas_security, `04 Feb, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -307,9 +307,9 @@ i_rule(get_total_net, [
 % Mapped on - October 24, 2019
 % Mapped by - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - 04 Feb, 2020
+% Updated by   - Rohini
+% Changes made - Chain file updated
 
 % Updated on   - 
 % Updated by   -
