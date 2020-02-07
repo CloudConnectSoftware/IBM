@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_apl_co_pte ,`August 20, 2019` ).
+i_version( ul_uapl_apl_co_pte ,`07 Feb, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -71,8 +71,15 @@ i_rule( get_invoice_number, [
 %=======================================================================
 
 	q0n(line)
+
+    , or([
+
+        generic_vertical_details( [ [ `CREDIT`, `NOTE` ], `CREDIT`, q(0,1), (start, 40, 200), invoice_number, s1, tab] )
+
+	  , generic_vertical_details( [ [ `INVOICE`, tab ], `INVOICE`, q(0,1), (start, 40, 200), invoice_number, s1, newline] )
 	
-	, generic_vertical_details( [ [ `INVOICE`, tab ], `INVOICE`, q(0,1), (start, 40, 200), invoice_number, w, newline] )
+    ] )
+  
 
 ] ).
 
@@ -236,6 +243,10 @@ i_rule( get_bank_account_no, [
 % Updated on   - August 20, 2019
 % Updated by   - ROhini
 % Changes made - Chain file updated
+
+% Updated on   - 07 Feb, 2020
+% Updated by   - ROhini
+% Changes made - Credit note Number updated
 
 % Updated on   - 
 % Updated by   -
