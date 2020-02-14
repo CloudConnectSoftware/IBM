@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_sgs_gulf,  `20 Jan, 2020` ).
+i_version( ul_uapl_sgs_gulf,  `14 Feb, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,7 +20,7 @@ i_rule_list( [
 	
 	  get_supplier_details
 
-	  , get_currency
+	, get_currency
 
 	, get_bank_accountnumber
 	
@@ -114,8 +114,27 @@ i_rule( get_invoice_date, [
 
 	q0n(line)
 
-    , generic_vertical_details( [ [ `Date`, tab ], `Date`, q(0,1), (end,150,150), invoice_date, date, newline ] )
+	, or([
 
+	 generic_vertical_details( [ [ `Date`, tab ], `Date`, q(0,1), (end,150,150), invoice_date, date, newline ] )
+
+    , [generic_vertical_details( [ [ `Date`,  newline ], `Date`, q(0,1), (end,150,150), invoice_date_raw, s1, newline ] )
+	
+	, check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice Date Raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `-`, ` `, DateStrip ))
+
+	, check(string_string_replace( DateStrip, `: `, ``, DateStrip1 ))
+
+    , invoice_date(DateStrip1)
+
+    , trace( [ `Invoice Date` , invoice_date ] )]
+
+
+
+] )
 
 ] ).
 
@@ -275,5 +294,8 @@ i_rule( get_invoice_lines, [
 % Updated by   - Rohini
 % Changes made   - Order Number updated
 
+% Updated on   - 14 Feb, 2020
+% Updated by   - Rohini
+% Changes made   - Invoice date updated
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
