@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_apl_co_pte ,`07 Feb, 2020` ).
+i_version( ul_uapl_apl_co_pte ,`17 Feb, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -142,6 +142,8 @@ i_rule( get_total_invoice, [
     , check( total_invoice = TotInv)
 
     , generic_item( [ line_total_amount , TotInv ] )
+
+    , generic_item( [ line_descr , `Invoice Charges` ] )
 
 ] ).
 
