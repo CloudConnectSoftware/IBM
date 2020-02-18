@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_apl_co_pte ,`07 Feb, 2020` ).
+i_version( ul_uapl_apl_co_pte ,`17 Feb, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,8 @@ i_date_format( _ ).
 i_trace_lists.
 
 i_include_partner_attachments_image_only.
+
+i_pdf_parameter( x_tolerance_100, 100 ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -139,6 +141,12 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `Total`, `Including`, `Tax`, tab ], total_invoice, d, newline ] )
 
+    , check( total_invoice = TotInv)
+
+    , generic_item( [ line_total_amount , TotInv ] )
+
+    , generic_item( [ line_descr , `Invoice Charges` ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,6 +162,10 @@ i_rule( get_total_net, [
     qn0(line)
 
     , generic_horizontal_details( [ [ `Total`, `Excluding`, `Tax`, tab ], total_net, d, newline ] )
+ 
+    , check( total_net = TotNet)
+
+    , generic_item( [ line_net_amount , TotNet ] )
 
 ] ).
 
@@ -171,6 +183,11 @@ i_rule( get_total_vat, [
     qn0(line)
 
     , generic_horizontal_details( [ [ `Total`, `GST`, tab ], total_vat, d, newline ] )
+
+    , check( total_vat = TotVat)
+
+    , generic_item( [ line_vat_amount , TotVat ] )
+
 
 ] ).
 
@@ -247,6 +264,11 @@ i_rule( get_bank_account_no, [
 % Updated on   - 07 Feb, 2020
 % Updated by   - ROhini
 % Changes made - Credit note Number updated
+
+
+% Updated on   - 14 Feb, 2020
+% Updated by   - Rohini
+% Changes made - Line details mapped
 
 % Updated on   - 
 % Updated by   -
