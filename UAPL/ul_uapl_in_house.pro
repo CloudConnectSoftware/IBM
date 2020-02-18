@@ -158,7 +158,7 @@ i_rule_cut( get_invoice_date, [
 
     , check(q_sys_sub_string( DateRaw, 3,9 , Substring2 ))    , trace( [ `Date raw2` , Substring2 ] )
 
-    , check(q_sys_sub_string( DateRaw, 10, 14 , Substring3 ))   , trace( [ `Date raw3` , Substring3 ] )
+    , check(q_sys_sub_string( DateRaw, 13, 4 , Substring3 ))   , trace( [ `Date raw3` , Substring3 ] )
 
     , check(strcat_list( [ Substring1,` ` , Substring2,` `, Substring3 ], DateNew ))   , trace( [ `New Date Format` , DateNew ] ) 
     
