@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - IN HOUSE PRINTING
+% GRAMATICA - IN HOUSE PRINTING - Refer to new mapping rule  - ul_uapl_inhouse_printing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -337,6 +337,8 @@ i_line_rule_cut( line_invoice_line, [
    
 ] ).
 
+
+% Refer to new mapping ul_uapl_inhouse_printing % whihc was a duplicate rule
 
 
 
