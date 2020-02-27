@@ -80,7 +80,7 @@ i_rule( get_supplier_detail, [
 
    , swiss_supplier_country(`US`)
 
-      
+   , currency( `USD` )   
 
 ] ).
 
@@ -313,7 +313,7 @@ i_rule( get_invoice_number, [
 
     , check_text(`invoice`) 
 
-    ,  generic_horizontal_details( [ [`INVOICE`, `#`, q10(tab)  ], invoice_number, d, newline ] )
+    , generic_vertical_details( [ [ `INVOICE`, `#` ], `Invoice`, q(0,1), (start,30,30), invoice_number, d, newline ] )
 
 ] ).
 
@@ -401,6 +401,8 @@ i_line_rule_cut( find_order_number, [
     , or([
         
      generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1), q(dec("0"),1,1) , q(dec,7,7) , end ] ] )
+
+     , generic_item( [ order_number , [ begin, q(dec("3"),1,1) , q(dec("5"),1,1), q(dec("0"),1,1) , q(dec,7,7) , end ] ] )
 
     ])
 
@@ -559,7 +561,11 @@ i_line_rule_cut( line_invoice_line, [
 
    , generic_item( [ line_unit_amount, d, tab ] )
 
-  , generic_item( [ line_net_amount, d , newline ] )
+    ,  set(regexp_allow_partial_matching)
+
+  , generic_item( [ line_net_amount, d , [`T`, newline] ] )
+
+    , clear(regexp_allow_partial_matching)
 
    
     , q10( [ 
