@@ -563,7 +563,7 @@ i_line_rule_cut( line_invoice_line, [
 
     ,  set(regexp_allow_partial_matching)
 
-  , generic_item( [ line_net_amount, d , [`T`, newline] ] )
+  , generic_item( [ line_net_amount, d , [q10(`T`), newline] ] )
 
     , clear(regexp_allow_partial_matching)
 
