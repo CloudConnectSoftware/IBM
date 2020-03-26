@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_gorilla_circuits, `29 Jan, 2020` ).
+i_version(micron_gorilla_circuits, `26 March, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -396,7 +396,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule( line_invoice_line, [
 %=======================================================================
  
-      generic_item( [ line_quantity_dummy, d, tab ] )
+      q10(generic_item( [ line_quantity_dummy, d, tab ] ))
 
     , generic_item( [ line_quantity, d, q10(tab) ] )
 
@@ -428,6 +428,10 @@ i_line_rule( line_append_line, [
 % Updated on   - 29 Jan, 2020
 % Updated by   - Rohini
 % Changes made - Bill to name updated
+
+% Updated on   - 26 March, 2020
+% Updated by   - Rohini
+% Changes made -  Line details updated
 
 % Updated on   - 
 % Updated by   -
