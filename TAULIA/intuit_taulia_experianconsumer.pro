@@ -34,9 +34,9 @@ i_rule_list( [
  
     , set_credit_note
                      
-    , get_invoice_number
+   % , get_invoice_number % Vendor in query with Delivery since the vendor is based on the PO #
     
-    , get_invoice_date
+    %, get_invoice_date
 
     , get_due_date
 
