@@ -4,11 +4,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_experianconsumer, `11 Feb, 2018` ).
+i_version( intuit_taulia_experianconsumer, `01 April, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(`m/d/y` ).
+
+i_date_format(`m/d/y`):- not( grammar_set( alternate_date_format ) ).
+
+i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -101,14 +104,6 @@ i_rule( get_supplier_address, [
 
    , line_add_line_2
 
-   , q(0,1,line)
-
-   , line_add_line_3
-
-   , q(0,1,line)
-
-   , line_add_line_4
-
 ] ).
 
 %=======================================================================
@@ -116,7 +111,6 @@ i_line_rule( line_add_line, [
 %=======================================================================
 
        read_ahead([`475`, `Anton`, `Blvd` ])
-
 
      , trace( [ `Found address`] )
 
@@ -133,8 +127,6 @@ i_line_rule( line_add_line_2, [
     , generic_item( [ supplier_state, w ] )
 
     , generic_item( [ supplier_postcode, d, tab ] )
-      
-
 
 ] ).
 
@@ -309,13 +301,13 @@ i_rule( get_invoice_date, [
 
         , trace( [ `Delivery Date` , delivery_date ] )
 
-      , q10( [
+    , q10( [
 
-        check( q_sys_sub_string( invoice_date, _, _, `,` ) )
+       check( q_sys_sub_string( invoice_date, _, _, `,` ) )
 
-      , set( alternate_date_format )
+    , set( alternate_date_format )
 
-      ] )
+     ] )
 
 
 ] ).
@@ -395,8 +387,17 @@ i_rule( get_order_number, [
 
      q(0,30,line)
 
-     , generic_horizontal_details( [ [ tab, `PO`, `:` ], po_number, d, [`I`,  newline ] ] )
-   
+     , or([
+
+       generic_horizontal_details( [ [ tab, `PO`, `:` ], po_number, d, [`I`,  newline ] ] )
+
+     , [set(regexp_allow_partial_matching)
+      
+    , generic_horizontal_details( [ [ tab, `PO`, `:` ], po_number, d, [`I`,  newline ] ] )
+
+     , clear(regexp_allow_partial_matching)]
+
+] )
 
 ] ).
 
@@ -702,9 +703,9 @@ i_line_rule_cut( line_credit_line, [
 % Mapped on - Feb 11, 2018
 % Mapped by - Rohini 
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - 01 April, 2020
+% Updated by   -  Rohini
+% Changes made - Supplier city and PO # mapped
 
 % Updated on   - 
 % Updated by   -
