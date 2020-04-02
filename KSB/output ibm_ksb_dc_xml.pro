@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_ksb_dc_xml, `08/08/2018 10:40:13` ).
+i_version( output_ibm_ksb_dc_xml, `01/04/2020 09:15:26` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -177,7 +177,7 @@ write_header___
 			->	write_ibm_number_variable_as_tag( invoice, total_percent_discount, `Discount_Percent`, '2dp_' )
 			;	write_element_string( `Discount_Percent`, `0` )
 		),
-		write_element_string( `Invoice_Exception`, `` ),
+		write_variable_as_tag( invoice, invoice_exception, `Invoice_Exception` ),
 		
 		write_variable_as_date_with_ibm_timestamp( system, today, `Import_Date` ),
 		write_element_string( `Import_Status`, `READY TO IMPORT` ),
