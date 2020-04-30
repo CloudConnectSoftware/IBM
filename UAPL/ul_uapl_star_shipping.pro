@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_star_shipping, `31 Jan, 2020` ).
+i_version( ul_uapl_star_shipping, `30 April, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -107,6 +107,8 @@ i_rule_cut( get_invoice_number, [
      , generic_horizontal_details( [ [ `CREDIT`, `-`, `NOTE`, `:` ], 100 , invoice_number, w , tab ] )
 
      , generic_vertical_details( [ [  `INVOICE`, `NUMBER`  ], `INVOICE`, q(0,1), (start,100,500) , invoice_number, s1 , newline ] )
+     
+     , generic_vertical_details( [ [  `Demurrage`, `final`, `tax`  ], `Demurrage`, q(1,2), (start,100,500) , invoice_number, s1 , newline ] )
 
 
     ] )
@@ -130,6 +132,8 @@ i_rule_cut( get_invoice_date, [
     , or([
 
        generic_horizontal_details( [ [ `Date`, `:` ], 200, invoice_date, date, newline ] )
+
+     , generic_horizontal_details( [ [ `Invoice`, `date`, tab ],  invoice_date, date, newline ] )
 
      , generic_vertical_details( [ [ `ISSUE`, `DATE`  ], `ISSUE`, q(0,2), (start,100,500) , invoice_date, date , tab ] )
 ] )
@@ -174,6 +178,8 @@ i_rule( get_total_invoice, [
 
     , generic_horizontal_details( [ [ `Total`, generic_item( [ currency , w ] ), tab ],  total_invoice, d, newline ] ) 
 
+    , generic_horizontal_details( [ [ `Final`, `amount`, tab ],  total_invoice, d, [ generic_item( [ currency , w ] ),  newline ] ] ) 
+
      ] )
 
     , check( total_invoice = TotInv )
@@ -215,6 +221,8 @@ i_rule( get_currency, [
 % Updated by   - Rohini
 % Changes made  - Invoice format updated for - sample Invoice - SININV20190013/ibm_unilever_uapl (inv 1).t.ping agencies (s) pte ltd-2020-01-29.2020.01.30.01.34.50.076
 
-
+% Updated on   - 30 APril, 2020
+% Updated by   - Rohini
+% Changes made  - Invoice format updated for Demurrage final tax invoice - D1510003164
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
