@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `22/07/2019 11:16:06` ).
+i_version( p_ibm_unilever_uapl, `26/05/2020 11:43:06` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -16,17 +16,6 @@ i_rules_file( `u_numerical_validation.pro` ).
 i_rules_file( `u_invoice_date_validation.pro` ).
 
 
-i_op_param( unique_id, _, To, _, Scan_ID )
-:-
-	not( q_sys_member( To, [ `unilever.uapl@cloud-trade.com`, `unilever.uapl.test@cloud-trade.com` ] ) ),
-	IDS = `Test`,
-	string_pad_left( IDS, 8, `0`, IDPad ),
-	date_get( today, Today ),
-	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
-	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
-	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID )
-.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User Fields
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,6 +25,7 @@ i_user_field( invoice, total_local_vat, `Total Local VAT` ).
 i_user_field( invoice, exchange_rate, `Exchange Rate` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, customer_id, `Customer ID` ).
+i_user_field( invoice, scan_id, `scan_id` ).
 i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
 
 i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
@@ -153,7 +143,7 @@ remaining_rejection_text( Text )
 	!,
 
 	(
-		qq_op_param( unique_id, Scan_ID ),
+		result( _, invoice, scan_id, Scan_ID ),
 
 		strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
 
@@ -239,7 +229,7 @@ remaining_forward_text( Text )
 	!,
 
 	(
-		qq_op_param( unique_id, Scan_ID ),
+		result( _, invoice, scan_id, Scan_ID ),
 
 		strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
 
@@ -505,22 +495,38 @@ i_analyse_midnight_delay___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% POPULATE CUSTOMER ID
+% SCAN ID & CUSTOMER ID
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_invoice_fields_first:- i_analyse_customer_id___.
+i_analyse_invoice_fields_first:- i_analyse_scan_id_and_customer_id___.
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_customer_id___
+i_analyse_scan_id_and_customer_id___
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
-	qq_op_param( unique_id, Scan_ID ),
+	instance( I ),
+	string_to_upper( I, I_U ),
+	(
+		not( q_sys_sub_string( I_U, _, _, `DBG` ) ),
+		i_mail( unique_id, ID ),
+		sys_string_number( IDS, ID )
+		;
+		q_sys_sub_string( I_U, _, _, `DBG` ),
+		IDS = `Test`
+	),
+	string_pad_left( IDS, 8, `0`, IDPad ),
+	date_get( today, Today ),
+	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
+	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
+	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID ),
+
+	sys_retractall( result( _, invoice, scan_id, _ ) ),
+	assertz_derived_data( invoice, scan_id, Scan_ID, i_analyse_scan_id_and_customer_id ),
 
 	sys_retractall( result( _, invoice, customer_id, _ ) ),
-
-	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_customer_id ),
+	assertz_derived_data( invoice, customer_id, Scan_ID, i_analyse_scan_id_and_customer_id ),
 
 	!
 .

@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_ksb_dc_xml, `01/04/2020 09:15:26` ).
+i_version( output_ibm_ksb_dc_xml, `26/05/2020 11:48:52` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,23 +142,15 @@ write_header___
 		write_variable_as_tag( invoice, supplier_vat_number, `Vendor_VAT_Code` ),
 		write_variable_as_tag( invoice, buyer_vat_number, `Buyer_VAT_Code` ),
 		
-		( qq_op_param( unique_id, ScanID )
-		
-			% Below is what the unique_id op_param should do
+		( result( _, invoice, scan_id, ScanID )
+
+			; qq_op_param( unique_id, ScanID )
 			
-			% i_mail( unique_id, ID ),
-			% sys_string_number( IDS, ID ),
-			
-			% date_get( today, Today ),
-			% sys_date_string( Today, 'y-m-d', TodayWithHyphen ),
-			% strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
-			% strcat_list( [ TodayWithHyphen, `_CT`, IDS ], Scan_ID ),
-			
-			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
-			
-			;	instance( Instance ),
-				q_sys_sub_string( Instance, _, _, `DBG` )
+			; ScanID = ``
+
 		),
+
+		write_element_string( `Scan_ID`, ScanID ),
 		
 		( qq_op_param( split_input_transfer_name( _ ), ImageFile )
 			->	true
@@ -318,24 +310,16 @@ write_line___( LID )
 		sys_string_number( LIDS, LID ),
 		sys_calculate_str_multiply( LIDS, `10`, LID10 ),
 	
-		( qq_op_param( unique_id, ScanID )
-		
-			% Below is what the unique_id op_param should do
+		( result( _, invoice, scan_id, ScanID )
+
+			; qq_op_param( unique_id, ScanID )
 			
-			% i_mail( unique_id, ID ),
-			% sys_string_number( IDS, ID ),
-			
-			% date_get( today, Today ),
-			% sys_date_string( Today, 'y-m-d', TodayWithHyphen ),
-			% strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
-			% strcat_list( [ TodayWithHyphen, `_CT`, IDS ], Scan_ID ),
-			
-			->	write_element_string( `Scan_ID`, ScanID ) % ScanID - needs to be YYMMDD_CT* Sequential ID
-			
-			;	instance( Instance ),
-				q_sys_sub_string( Instance, _, _, `DBG` )
+			; ScanID = ``
+
 		),
 
+		write_element_string( `Scan_ID`, ScanID ),
+		
 		( result( _, LID, line_order_line_number, _ )
 			->	write_variable_as_tag( LID, line_order_line_number, `Invoice_Line` )
 			
