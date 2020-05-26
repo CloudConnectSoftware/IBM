@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_advanced_semiconductor_042268, `31 Jan, 2020` ).
+i_version(micron_advanced_semiconductor_042268, `26 May, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -560,7 +560,9 @@ i_rule(get_total_invoice, [
 
    , or([ check_text(`TOTAL`)  ])
 
-   , generic_horizontal_details( [ [`TOTAL`,`:`,  q10(tab), `USD`, q10(tab) ],  total_invoice, d,  newline ] )
+   , [generic_horizontal_details( [ [`TOTAL`,`:`,  q10(tab), `USD`, q10(tab) ],  total_invoice, d,  newline ] )
+
+   , generic_item( [ currency,`USD` ] )]
      
 ] ).
 
@@ -817,6 +819,11 @@ i_line_rule_cut( line_invoice_line_3, [
 % Updated on   - 31 Jan, 2020
 % Updated by   - Rohini
 % Changes made - line_invoice_line_2_new details updated
+
+
+% Updated on   - 26 May, 2020
+% Updated by   - Rohini
+% Changes made -  Currency updated
 
 
 % Updated on   - 
