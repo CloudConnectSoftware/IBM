@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_mcc_transport, `28/02/2018` ).
+i_version( ul_uapl_mcc_transport, `12 June, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -18,15 +18,15 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	  get_supplier_details
 
     , set_credit_note
 
     , get_currency
 
-    ,get_bank_account_no
+    , get_bank_account_no
 
-    ,set_credit_note
+    , set_credit_note
 
     , get_invoice_number
 
@@ -37,7 +37,6 @@ i_rule_list( [
     , get_total_vat
 
     , get_total_invoice
-
     
     , get_invoice_lines
 
@@ -92,7 +91,7 @@ q0n(anything)
 ] ).
 
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % GET BANK ACCOUNT NUMBER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -120,7 +119,7 @@ i_rule( get_bank_account_no, [
          , supplier_bank_account_number(SupplierAccount1), trace( [ `New Bank`, supplier_bank_account_number ] )
 ] ).
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SET CREDIT NOTE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,7 +139,7 @@ i_rule( set_credit_note, [
 i_line_rule( credit_note_line, [
 %=======================================================================
 
-q0n(anything)
+      q0n(anything)
 
     ,`CREDIT`, `NOTE`
 
@@ -167,7 +166,9 @@ i_rule_cut( get_invoice_number, [
         
         generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `:`, tab ],  invoice_number, d, newline ] )
 
-        , generic_horizontal_details( [ [ `CREDIT`, `NOTE`, q10(`Number`), q10(`:`), tab ],  invoice_number, d, newline ] )
+       , generic_horizontal_details( [ [ `Equipment`, `Maintenance`, `Invoice`, tab ],  invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [ `CREDIT`, `NOTE`, q10(`Number`), q10(`:`), tab ],  invoice_number, d, newline ] )
 
     ])
 
@@ -276,6 +277,11 @@ i_rule( get_currency, [
 % Updated on   - Feb 28, 2018
 % Updated by   - Thejaswi
 % Changes made - Invoice Number & Credit Note
+
+% Updated on   - 12 June, 2020
+% Updated by   - Rohini
+% Changes made - Invoice Number updated
+
 
 % Updated on   - 
 % Updated by   -
