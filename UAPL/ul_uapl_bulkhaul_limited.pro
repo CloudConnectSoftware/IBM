@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_bulkhaul_limited, `2/1/2017` ).
+i_version( ul_uapl_bulkhaul_limited, `12 August, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -18,9 +18,11 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	  get_supplier_details
 
-    ,get_bank_account_no
+    , get_bank_account_no
+
+    , set_credit_note
 	
 	, get_invoice_number
 
@@ -51,6 +53,37 @@ i_rule( get_supplier_details, [
   , supplier_vat_number(`GB 927 2732 15`)
  
   , set(freight_vendor)
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+     q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+       q0n(anything)
+
+
+    , [ `INVOICE`,  `TOTAL`,  tab,dummy(d), `-`, `.`,  newline ]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
 
 ] ).
 
@@ -121,8 +154,14 @@ i_rule( get_total_net, [
 
     qn0(line)
 
-    , generic_vertical_details( [ [ `TOTAL`, `NETT`, `GOODS` ], `GOODS`, q(0,1), (end,850,800), total_net, d, [`.` , newline ] ] )
-	
+    , or([
+
+      generic_vertical_details( [ [ `TOTAL`, `NETT`, `GOODS` ], `GOODS`, q(0,1), (end,850,800), total_net, d, [`.` , newline ] ] )
+
+    , generic_vertical_details( [ [ `TOTAL`, `NETT`, `GOODS` ], `GOODS`, q(0,1), (end,850,800), total_net, n, [`-`, `.`,  newline ] ] )
+
+] )
+
 ] ).
 
 
@@ -137,8 +176,14 @@ i_rule( get_total_vat, [
 %=======================================================================
 
      qn0(line)
+
+     , or([
+
+       generic_horizontal_details( [ [ `VAT`, `@`, generic_item( [ vat_percent_dummy , d , `%` ] ), tab ] ,  total_vat , d , newline ] )
   
-    , generic_horizontal_details( [ [ `VAT`, `@`, generic_item( [ vat_percent_dummy , d , `%` ] ), tab ] ,  total_vat , d , newline ] )
+    , generic_horizontal_details( [ [ `VAT`, `@`, generic_item( [ vat_percent_dummy , d , `%` ] ), tab ] ,  total_vat , n , [ `.`,  newline ] ] )
+
+] )
 
 ] ).
 
@@ -155,7 +200,13 @@ i_rule( get_total_invoice, [
 
      qn0(line)
 
-    , generic_horizontal_details( [ [ `INVOICE`, `TOTAL`  ] ,300, total_invoice , d , [`.` , newline ] ] )  
+    , or([
+
+      generic_horizontal_details( [ [ `INVOICE`, `TOTAL`  ] ,300, total_invoice , d , [`.` , newline ] ] )  
+
+    , generic_horizontal_details( [ [ `INVOICE`, `TOTAL`  ] ,300, total_invoice , n , [`-`, `.`,  newline ] ] )  
+
+] )
 
 ] ).
 
@@ -188,3 +239,13 @@ i_line_rule( currency_line, [
 
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Updated on   - 12 August, 2020
+% Updated by   - Rohini
+% Changes made   - Credit note mapped
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
