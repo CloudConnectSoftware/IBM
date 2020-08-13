@@ -66,7 +66,7 @@ i_rule( get_supplier_details, [
 i_rule( set_credit_note, [
 %=======================================================================
 
-     q(0,20,line)
+     q0n(line)
 
     , credit_note_line
 
