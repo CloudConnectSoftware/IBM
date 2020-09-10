@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `03/12/2019 13:36:43` ).
+i_version( p_taulia, `10/09/2020 11:46:08` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -51,6 +51,11 @@ i_user_field( invoice, supplier_tax_country, `Supplier Tax Country` ).
 i_user_field( invoice, supplier_tax_type, `Supplier Tax Type` ).
 i_user_field( invoice, rounding_amount, `Rounding Amount` ).
 i_user_field( invoice, header_discount, `Header Discount` ).
+i_user_field( invoice, file_name, `fileName` ).
+i_user_field( invoice, mime_type, `mimeType` ).
+i_user_field( invoice, attachment_type, `attachmentType` ).
+i_user_field( invoice, alternative_attachment_name_for_output, `alternative_attachment_name_for_output` ).
+
 i_user_field( line, line_tax_exempt_reason, `Line Exempt Reason` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
