@@ -57,12 +57,12 @@ i_user_field( invoice, attachment_type, `attachmentType` ).
 i_user_field( invoice, alternative_attachment_name_for_output, `alternative_attachment_name_for_output` ).
 
 i_user_field( line, line_tax_exempt_reason, `Line Exempt Reason` ).
-
+/*
 :- multifile json_compliance_field_country/1.
 :- multifile json_compliance_field/3.
 :- multifile json_custom_field/2.
 :- multifile json_custom_line_field/2.
-
+*/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % VAT Totals
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
