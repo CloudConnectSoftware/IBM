@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `15/09/2020 15:17:13` ).
+i_version( p_taulia, `16/09/2020 11:16:49` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -338,6 +338,37 @@ i_final_rule( [
 	string_string_replace( SubjectL, ` `, ``, SubjectClean ),
 	q_sys_sub_string( SubjectClean, _, _, `resubmitfrom:` ),
 	q_sys_sub_string( SubjectClean, 14, _, SenderAddr )
+forced_no_reply_addresses( `payments-noreply@google.com` )
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% POPULATE FILE OUTPUT DETAILS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:- i_analyse_file_output_details___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_file_output_details___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	i_mail( attachment, File ),
+
+	(	not( result( _, invoice, file_name, _ ) ),
+		assertz_derived_data( invoice, file_name, File, i_analyse_file_output_details )
+		;	true
+	),
+	(	not( result( _, invoice, mime_type, _ ) ),
+		assertz_derived_data( invoice, mime_type, `application/pdf`, i_analyse_file_output_details )
+		;	true
+	),
+	(	not( result( _, invoice, attachment_type, _ ) ),
+		assertz_derived_data( invoice, attachment_type, `ESEND_INVOICE_IMAGE`, i_analyse_file_output_details )
+		;	true
+	),
+	!
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
