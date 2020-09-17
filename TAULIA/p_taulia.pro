@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `16/09/2020 11:16:49` ).
+i_version( p_taulia, `17/09/2020 08:51:50` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -337,8 +337,7 @@ i_final_rule( [
 	string_to_lower( Subject, SubjectL ),
 	string_string_replace( SubjectL, ` `, ``, SubjectClean ),
 	q_sys_sub_string( SubjectClean, _, _, `resubmitfrom:` ),
-	q_sys_sub_string( SubjectClean, 14, _, SenderAddr )
-forced_no_reply_addresses( `payments-noreply@google.com` )
+	q_sys_sub_string( SubjectClean, 14, _, SenderAddr ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
