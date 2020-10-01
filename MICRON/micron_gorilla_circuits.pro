@@ -31,6 +31,8 @@ i_rule_list( [
 
     , get_order_number
 
+    , get_total_vat
+
     , get_total_net
 
     , get_currency
@@ -287,6 +289,25 @@ i_rule( get_delivery_note_number, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL VAT AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_vat, [
+%=======================================================================
+   
+    q0n(line)
+
+   ,  generic_horizontal_details( [ [ `Tax`, `:`, tab, `$` ], total_vat, d, newline ] )
+
+   , generic_item( [ default_vat_rate, `9.25` ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL NET AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -297,15 +318,9 @@ i_rule(get_total_net, [
    
     q0n(line)
 
-   ,  generic_horizontal_details( [ [ `T`, `O`, `T`, `A`, `L`, tab, `$` ], total_net, d, newline ] )
-        
-    , check( total_net = TotNet)
-
-    , generic_item( [ total_invoice , TotNet ] )
-
+   ,  generic_horizontal_details( [ [ `T`, `O`, `T`, `A`, `L`, tab, `$` ], total_invoice, d, newline ] )
 
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -432,6 +447,10 @@ i_line_rule( line_append_line, [
 % Updated on   - 26 March, 2020
 % Updated by   - Rohini
 % Changes made -  Line details updated
+
+% Updated on   - 01 October, 2020
+% Updated by   - Rohini
+% Changes made -  Total VAT mapped
 
 % Updated on   - 
 % Updated by   -
