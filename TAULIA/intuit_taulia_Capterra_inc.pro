@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( intuit_taulia_Capterra_inc, `June 21, 2019` ).
+i_version( intuit_taulia_Capterra_inc, `05 October, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( `m/d/y` ).
 
@@ -207,8 +207,13 @@ i_rule( get_order_number, [
 
      q(0,20,line)
 
+   , or([
+    
+     generic_horizontal_details( [ [`PO`, `#` ],  po_number, d, newline ] )
+
   ,  generic_vertical_details( [ [`P`, `.`, `O`, `.`, `No`, `.`, newline ], `No`, q(0,1), (start,10,10), po_number, d, newline ] )
 
+] )
 
 ] ).
 
@@ -353,6 +358,11 @@ i_line_rule_cut( line_invoice_line, [
 % Updated on   - June 21, 2019
 % Updated by   - Rohini
 % Changes made - Supplier Name updated as per Oracle (Data provided by Gajanan)
+
+
+% Updated on   - 05 October, 2020
+% Updated by   - Rohini
+% Changes made - Invoice PO # updated
 
 
 % Updated on   - 
