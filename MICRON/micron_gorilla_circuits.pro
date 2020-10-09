@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_gorilla_circuits, `26 March, 2020` ).
+i_version(micron_gorilla_circuits, `09 Oct, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -18,6 +18,8 @@ i_rule_list( [
 
     
       get_supplier_detail
+
+    , set_credit_note
       
     , get_supplier_address
 
@@ -65,6 +67,35 @@ i_rule( get_supplier_detail, [
 ] ).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SET CREDIT NOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+     q(0,20,line)
+
+    , credit_note_line
+
+    
+] ).
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+      q0n(anything)
+
+    , [`Credit`, `Memo`]
+
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -318,7 +349,17 @@ i_rule(get_total_net, [
    
     q0n(line)
 
+   , or([
+
+      [generic_horizontal_details( [ [`T`, `O`, `T`, `A`, `L`, tab, `(`, `$` ], total_invoice, d, [`)`,  newline ] ] )
+        
+   , check( total_invoice = TotNet)
+
+   , generic_item( [ total_net , TotNet ] )]
+
    ,  generic_horizontal_details( [ [ `T`, `O`, `T`, `A`, `L`, tab, `$` ], total_invoice, d, newline ] )
+
+] )
 
 ] ).
 
@@ -345,9 +386,15 @@ i_line_rule( invoice_currency, [
 
     q0n(anything)
 
-    ,[`T`, `O`, `T`, `A`, `L`, tab, `$` ]
+    , or([
 
-    ,currency( `USD` ) 
+       [`T`, `O`, `T`, `A`, `L`, tab, `$` ]
+
+    , [`T`, `O`, `T`, `A`, `L`, tab, `(`, `$` ]
+
+    ] )
+    
+    , currency( `USD` ) 
 
     ,trace( [ `currency found`] )
 
@@ -370,7 +417,9 @@ i_section( get_invoice_lines, [
 
     , or([
 
-             [ line_invoice_line, q10(line_append_line)]
+               [ line_invoice_line, q10(line_append_line)]
+
+             , [line_credit_line, q10(line_append_line), q10(line_append_line)]
 
              , line
 
@@ -423,6 +472,22 @@ i_line_rule( line_invoice_line, [
 
 
 ] ).
+%=======================================================================
+i_line_rule( line_credit_line, [
+%=======================================================================
+ 
+      q10(generic_item( [ line_quantity_dummy, d, tab ] ))
+
+    , generic_item( [ line_quantity, d, q10(tab) ] )
+
+    , generic_item( [ line_descr, s, [ tab, `(`, `$` ] ] )
+      
+    , generic_item( [ line_unit_amount, d, [`)`, tab, `(`, `$` ]] )
+
+    , generic_item( [ line_net_amount, d, [`)`,  newline ] ] )
+
+
+] ).
 
 %=======================================================================
 i_line_rule( line_append_line, [
@@ -452,10 +517,17 @@ i_line_rule( line_append_line, [
 % Updated by   - Rohini
 % Changes made -  Total VAT mapped
 
+% Updated on   - 09 October, 2020
+% Updated by   - Rohini
+% Changes made -  Total VAT mapped
+
+% Updated on   - 09 Oct, 2020
+% Updated by   - Rohini
+% Changes made - Credit note mapped
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
