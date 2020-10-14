@@ -433,8 +433,10 @@ i_section( get_invoice_lines, [
 
     , or([
 
-             [ line_invoice_line, line_append_line, q10(line_append_line), line_item_line ]
-
+               [ line_invoice_line_1, line_append_line, q10(line_append_line), q10(line_append_line),line_item_line ]
+              
+              , [ line_invoice_line, line_append_line, q10(line_append_line), line_item_line ]
+            
              , line
 
         ])
@@ -478,7 +480,7 @@ i_line_rule( line_invoice_line, [
 
     ,  generic_item( [ line_descr_dummy, s1, tab ] )
 
-    , set(regexp_allow_partial_matching)
+      , set(regexp_allow_partial_matching)
 
     , generic_item( [ line_quantity, d, q10(tab) ]  )
     
@@ -521,6 +523,35 @@ i_line_rule( line_item_line, [
    
 ] ).
 
+%=======================================================================
+i_line_rule( line_invoice_line_1, [
+%=======================================================================
+
+       generic_item( [ line_descr, s1, tab ]  )
+
+    ,  generic_item( [ line_descr_dummy, s1, tab ] )
+
+    ,  q10(generic_item( [ line_descr_dummy1, s1, tab ] ))
+
+    , set(regexp_allow_partial_matching)
+
+    , generic_item( [ line_unit_amount, d, q10(tab) ]  )
+    
+    , clear(regexp_allow_partial_matching)
+
+    , generic_item( [ line_quantity_dumy, s1 , tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ]  ) 
+
+    , q10( [ 
+
+         with( invoice, delivery_note_number, Dnote ) % This takes the first value of delivery note no(captured in rule 'get_delivery_note_nr')
+
+        , generic_item( [ line_delivery_note_number, Dnote ] ) % This stores the value in line_delivery_note for the current line
+       ])
+
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -530,9 +561,9 @@ i_line_rule( line_item_line, [
 % Mapped on - August 15, 2019
 % Mapped by - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - 14 Oct, 2020
+% Updated by   -  Rohini
+% Changes made - Line details updated for line_invoice_line_1
 
 % Updated on   - 
 % Updated by   -
