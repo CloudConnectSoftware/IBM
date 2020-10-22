@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_advanced_energy, `22 September, 2020` ).
+i_version(amat_advanced_energy, `22 Oct, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,8 @@ i_date_format(_).
 i_trace_lists.
 
 i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+i_format_postcode( X, X ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -114,7 +116,24 @@ i_line_rule( line_b_add_line_1, [
 i_line_rule( line_b_add_line_2, [
 %=======================================================================
      
-       generic_item( [ delivery_party, s1, newline ] )   
+     generic_item( [ delivery_party, s1, newline ] )   
+
+    , check( delivery_party = DelPar)
+
+    , generic_item( [ delivery_country_dummy , DelPar ] )
+
+
+
+    ,or([
+
+     %  [ check(delivery_country_dummy = Ship_raw) ,check(Ship_raw = `Germany`) ,generic_item( [ delivery_country_code, `DE` ] ) ] 
+
+    %,  [ check(delivery_country_dummy = Ship_raw) ,check(Ship_raw = `SINGAPORE`) ,generic_item( [ delivery_country_code, `SG` ] ) ] 
+
+      [ check(delivery_country_dummy = Ship_raw) ,check(Ship_raw = `APPLIED MATERIALS ISRAEL LTD`) ,generic_item( [ delivery_country_code, `IL` ] ) ]
+
+      
+     ] )
 
 ] ).
 %=======================================================================
@@ -131,18 +150,22 @@ i_line_rule( line_b_add_line_4, [
 %=======================================================================
      
      generic_item( [ delivery_party_dummy1, s1, tab ] )   
-     
-     ,  generic_append( [ delivery_street, s1, newline, ``, `` ] )   
-
+  
+    , generic_append( [ delivery_street, s1, newline, ``, `` ] )   
 
 ] ).
 %=======================================================================
 i_line_rule( line_b_add_line_5, [
 %=======================================================================
      
-      generic_append( [ delivery_street, s1, newline, ``, `` ] )   
+          
+      generic_item( [ delivery_city, w, q10(tab) ] )
 
+    , generic_append( [ delivery_city, w, q10(tab), ` `, `` ] )   
+    
+    , generic_item( [ delivery_postcode, d, newline ] )
 
+       
 ] ).
 
 
@@ -339,6 +362,11 @@ i_line_rule( line_append_line, [
 
 % Mapped on - 22 September, 2020
 % Mapped by - Rohini
+
+
+% Updated on   - 22 Oct, 2020
+% Updated by   - Rohini
+% Changes made - Ship to country code details updated
 
 % Updated on   - 
 % Updated by   - 
