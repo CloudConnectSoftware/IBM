@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `17/09/2020 08:51:50` ).
+i_version( p_taulia, `23/10/2020 14:28:44` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,6 +57,7 @@ i_user_field( invoice, attachment_type, `attachmentType` ).
 i_user_field( invoice, alternative_attachment_name_for_output, `alternative_attachment_name_for_output` ).
 
 i_user_field( line, line_tax_exempt_reason, `Line Exempt Reason` ).
+i_user_field( line, line_credit_indicator, `line_credit_indicator` ).
 
 :- multifile json_compliance_field_country/1.
 :- multifile json_compliance_field/3.
@@ -337,7 +338,8 @@ i_final_rule( [
 	string_to_lower( Subject, SubjectL ),
 	string_string_replace( SubjectL, ` `, ``, SubjectClean ),
 	q_sys_sub_string( SubjectClean, _, _, `resubmitfrom:` ),
-	q_sys_sub_string( SubjectClean, 14, _, SenderAddr ).
+	q_sys_sub_string( SubjectClean, 14, _, SenderAddr )
+.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -610,6 +612,32 @@ i_default_uoms( LID )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% CREDIT INDICATOR
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_line_fields_last( LID ):- i_analyse_credit_indicator___( LID ).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_credit_indicator___( LID )
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	(	result( _, LID, line_credit_indicator, Indicator ),
+		sys_retractall( result( _, LID, line_credit_indicator, Indicator ) )
+		->	(	Indicator = `true`
+				->	Indicator_Final = Indicator
+				;	Indicator_Final = `false`
+			)
+		;	Indicator_Final = `false`
+	),
+	assertz_derived_data( LID, line_credit_indicator, Indicator_Final, i_analyse_credit_indicator ),
+	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % POPULATE SUM OF NEGATIVE VALUES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -646,6 +674,7 @@ i_analyse_sum_of_negative_values___
 
 	!
 .
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -704,6 +733,27 @@ i_analyse_total_discount___
 	assertz_derived_data( invoice, total_discount, Total_Discount, i_analyse_total_discount ),
 	
 	!
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% BTOC ENDORSEMENT NUMBER/TRANSACTION ID
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_last:- i_analyse_transaction_id.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_transaction_id
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+	chained_to(`taulia_ocr.pro`),
+    
+    assertz_derived_data( invoice, customer_id, `OCR`, i_analyse_transaction_id ),
+
+    !
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
