@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_swiss_rankspte, `22 September, 2020` ).
+i_version(amat_swiss_rankspte, `25 Oct, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -118,14 +118,24 @@ i_line_rule( line_b_add_line_3, [
 i_line_rule( line_b_add_line_4, [
 %=======================================================================
      
-     generic_item( [ delivery_party_dummy1, s1, tab ] )   
+       generic_item( [ delivery_party_dummy1, s1, tab ] )   
      
-     ,  generic_append( [ delivery_street, s1, newline, ``, `` ] )   
+     ,  generic_item( [ delivery_country, w, q10(tab) ] )   
 
+     ,  generic_item( [ delivery_postcode, d, newline ] )   
 
+   ,or([
+
+      
+         [ check(delivery_country = Ship_raw) ,check(Ship_raw = `Singapore`) ,generic_item( [ delivery_country_code, `SG` ] ) ] 
+
+    ,  [ check(delivery_country = Ship_raw) ,check(Ship_raw = `ISRAEL`) ,generic_item( [ delivery_country_code, `IL` ] ) ] 
+
+    ,  [ check(delivery_country = Ship_raw) ,check(Ship_raw = `United States`) ,generic_item( [ delivery_country_code, `US` ] ) ] 
+
+      
+     ] )  
 ] ).
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -362,9 +372,9 @@ i_line_rule( line_append_line, [
 % Mapped on - 22 September, 2020
 % Mapped by - Rohini
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - 25 Oct, 2020
+% Updated by   -  Rohini
+% Changes made - Ship to and Line details updated
 
 % Updated on   - 
 % Updated by   -
