@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_vendorpass_inc, `21 Sep, 2020` ).
+i_version(amat_vendorpass_inc, `25 Oct, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -113,13 +113,11 @@ i_line_rule_cut( find_order_number, [
 
     q0n(anything)
 
-    , or([
-        
-          generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )
+ , or( [
+            [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_45) ]
 
-        , generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("4"),1,1) , q(dec,8,10) , end ] ] )
-
-    ])
+          , [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("4"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_44) ]
+    ] )
 
 ] ).
 
@@ -158,9 +156,19 @@ i_rule(get_total_invoice, [
 
   , check_text(`TOTAL` )
 
-  , generic_horizontal_details( [ [`TOTAL`, `AMOUNT`, `DUE`, `:`, tab, `$` ], total_invoice, d , newline ] )
+  , or([
 
-  , generic_item( [ currency, `USD` ] )
+     [generic_horizontal_details( [ [`TOTAL`, `AMOUNT`, `DUE`, `:`, tab, `$` ], total_invoice, d , newline ] )
+
+  , generic_item( [ currency, `USD` ] )]
+
+   , [generic_horizontal_details( [ [`TOTAL`, tab, `$` ], total_net, d , newline ] )
+
+   , check( total_net = TotNet)
+
+   , generic_item( [ total_invoice , TotNet ] )]
+
+] )
 
 
 ] ).
@@ -215,6 +223,8 @@ i_section( get_invoice_lines, [
 
                 , line_invoice_line_1
 
+                , line_invoice_line_2
+
               , line
 
         ] )
@@ -232,6 +242,9 @@ i_line_rule_cut( line_header_line, [
       
       [ `Line`, tab, `W`, `/`, `E`, `Date`, tab, `Associate`, tab ]
 
+      , [`W`, `/`, `E`, `Date`, tab, `Associate`, tab ]
+      
+
 ] )
 
     , trace( [ `Found Start line` ] )
@@ -244,9 +257,11 @@ i_line_rule_cut( line_end_line, [
      
      or([
          
-          [`Please`, `Remit`, `To`, `:`, tab]
+        [`Please`, `Remit`, `To`, `:`, tab]
      
     , [ `Original`, `Invoice`, `No`, `.`, tab ]
+
+    , [`TOTAL`, tab, `$`  ]
 
    ] )
    
@@ -294,6 +309,35 @@ i_line_rule_cut( line_invoice_line_1, [
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+   
+    generic_item( [ line_dummy, s1,  tab ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
+
+  ,  generic_item( [ line_dummy_1, s1, tab ] )
+
+  , q10(generic_append( [ line_descr, s1, tab, ` `, ` `  ] ))
+
+  , q10(generic_item( [ line_quantity, d, tab ] ))
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  , or( [ 
+
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+] )
+
+
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -303,7 +347,7 @@ i_line_rule_cut( line_invoice_line_1, [
 
 % Updated on   - 25 Oct, 2020
 % Updated by   - Rohini
-% Changes made -  Currency updated
+% Changes made -  Currency updated, Invoice amount format and line details updated - line_invoice_line_2
 
 % Updated on   - 
 % Updated by   -
