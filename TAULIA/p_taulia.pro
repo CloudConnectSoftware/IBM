@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `23/10/2020 14:28:44` ).
+i_version( p_taulia, `26/10/2020 17:10:20` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -35,6 +35,9 @@ collect_correct_p_file( File )
 	!
 .
 
+i_rules_file( `u_two_letter_country_code.pro` ).
+i_rules_file( `u_state_codes_lookup.pro` ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % User Fields
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,7 +57,16 @@ i_user_field( invoice, header_discount, `Header Discount` ).
 i_user_field( invoice, file_name, `fileName` ).
 i_user_field( invoice, mime_type, `mimeType` ).
 i_user_field( invoice, attachment_type, `attachmentType` ).
-i_user_field( invoice, alternative_attachment_name_for_output, `alternative_attachment_name_for_output` ).
+i_user_field( invoice, additional_attachment, `additional_attachment` ).
+i_user_field( invoice, additional_attachment_file_name, `additional_attachment_file_name` ).
+i_user_field( invoice, additional_attachment_mime_type, `additional_attachment_mime_type` ).
+i_user_field( invoice, additional_attachment_attachment_type, `additional_attachment_attachment_type` ).
+
+i_user_field( invoice, custom_variable_1, `Custom Field 1` ).
+i_user_field( invoice, custom_variable_2, `Custom Field 2` ).
+i_user_field( invoice, custom_variable_3, `Custom Field 3` ).
+i_user_field( invoice, custom_variable_4, `Custom Field 4` ).
+i_user_field( invoice, custom_variable_5, `Custom Field 5` ).
 
 i_user_field( line, line_tax_exempt_reason, `Line Exempt Reason` ).
 i_user_field( line, line_credit_indicator, `line_credit_indicator` ).
@@ -325,7 +337,9 @@ forced_no_reply_addresses( `payments-noreply@google.com` ).
 i_final_rule( [
 %=======================================================================
 
-	remove( supplier_registration_number )
+	without(buyers_code_for_supplier)
+	
+	, remove( supplier_registration_number )
 
 	, supplier_registration_number( SenderAddr )
 
