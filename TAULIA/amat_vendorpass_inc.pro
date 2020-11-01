@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_vendorpass_inc, `25 Oct, 2020` ).
+i_version(amat_vendorpass_inc, `01 Nov, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -167,6 +167,14 @@ i_rule(get_total_invoice, [
    , check( total_net = TotNet)
 
    , generic_item( [ total_invoice , TotNet ] )]
+
+    , [generic_horizontal_details( [ [`TOTAL`,  tab ], total_net, d , newline ] )
+
+   , check( total_net = TotNet)
+
+   , generic_item( [ total_invoice , TotNet ] )
+   
+   , generic_item( [ currency , `USD` ] ) ]
 
 ] )
 
