@@ -68,7 +68,7 @@ i_rule( get_invoice_number, [
 
      , check_text(`Invoice` )
 
-     , generic_horizontal_details( [ [ `Invoice`, `No`, `:`, tab ], invoice_number, s1, newline ] )
+     , generic_horizontal_details( [ [ `Invoice`, `No`, `:`, q10(tab) ], invoice_number, s1, newline ] )
 
 ] ).
 
@@ -203,7 +203,13 @@ i_line_rule( invoice_currency, [
 
 q0n(anything)
 
-,[`TOTAL`, `$`]
+, or[(
+
+  [ `TOTAL`,  tab, `$`]
+
+, [`TOTAL`, `$`]
+
+] ) 
 
 ,currency( `USD` ) 
 
