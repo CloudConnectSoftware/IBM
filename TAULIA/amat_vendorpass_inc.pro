@@ -203,7 +203,7 @@ i_line_rule( invoice_currency, [
 
 q0n(anything)
 
-, or[(
+, or([
 
   [ `TOTAL`,  tab, `$`]
 
