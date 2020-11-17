@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_advanced_energy, `22 Oct, 2020` ).
+i_version(amat_advanced_energy, `03 November, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -368,9 +368,9 @@ i_line_rule( line_append_line, [
 % Updated by   - Rohini
 % Changes made - Ship to country code details updated
 
-% Updated on   - 
-% Updated by   - 
-% Changes made - 
+% Updated on   - 13 November, 2020
+% Updated by   -  Rohini
+% Changes made - SHip to details updated
 
 % Updated on   - 
 % Updated by   -
