@@ -499,7 +499,11 @@ i_line_rule_cut( line_end_line, [
  
     or( [
 
-     [`Total`, `Amount`, `Due`]
+      
+      [`Amount`,  `before`,  `tax`,  tab ]
+     
+     , [`Total`, `Amount`, `Due`]
+
 
       ] )
 
