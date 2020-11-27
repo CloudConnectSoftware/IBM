@@ -416,7 +416,7 @@ q(0,100,line)
 i_rule_cut( get_total_invoice_1, [
 %=======================================================================
 
-q(0,100,line)
+ q(0,100,line)
 
 , generic_horizontal_details( [ [`Amount`,  `after`,  `tax`,  tab ], total_invoice, d, newline ] )
 
