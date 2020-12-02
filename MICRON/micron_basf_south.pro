@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_basf_south, `15 August, 2019` ).
+i_version(micron_basf_south, `02 Dec, 2020` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -462,9 +462,11 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
  
-    or([
+    or([  
 
-        [ `GST`, tab, `7`, `.`, `00`, `%` ]
+         [ `PLEASE`, `PAY`, `USD` ]
+
+        , [ `GST`, tab, `7`, `.`, `00`, `%` ]
 
       ])
   
@@ -564,6 +566,10 @@ i_line_rule( line_invoice_line_1, [
 % Updated on   - 14 Oct, 2020
 % Updated by   -  Rohini
 % Changes made - Line details updated for line_invoice_line_1
+
+% Updated on   - 02 Dec, 2020
+% Updated by   - Rohini
+% Changes made - Line details updated with end line updation
 
 % Updated on   - 
 % Updated by   -
