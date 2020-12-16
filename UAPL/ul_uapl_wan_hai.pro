@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_wan_hai, `06/10/2016` `1:30:05` ).
+i_version( ul_uapl_wan_hai, `16 Dec, 2020` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -160,6 +160,8 @@ i_rule( get_total_net, [
 
           
           ,generic_horizontal_details( [ [ `GRAND`, `TOTAL`, tab ], total_net, d, newline ] )
+
+          ,generic_horizontal_details( [ [ `TOTAL`, `(`, `$`, `)`, tab ], total_net, d, newline ] )
     ])  
 
 ] ).
@@ -176,10 +178,14 @@ i_rule( get_total_vat, [
 %=======================================================================
 
     q0n(line)
-    
-    , generic_horizontal_details( [ [ `GST`, tab ], total_vat, d, tab ] )
 
+    , or([
+
+    generic_horizontal_details( [ [ `GST`, tab ], total_vat, d, tab ] )
     
+    , generic_horizontal_details( [ [ `GST`, tab ], total_vat, d, newline ] )
+
+ ] )   
 ] ).
 
 
@@ -201,6 +207,8 @@ i_rule( get_total_invoice, [
         ,[set(regexp_allow_partial_matching) ,generic_horizontal_details( [ [ `TOTAL`,tab, `cny`,net_dummy(d), tab, `CNY` ], total_invoice, d, newline ] )  ,clear(regexp_allow_partial_matching)]
 
          ,generic_horizontal_details( [ [ `GRAND`, `TOTAL`, tab ], total_invoice, d, newline ] )
+
+         ,generic_horizontal_details( [ [ `GRAND`, `TTL`, `(`, `$`, `)`, tab ], total_invoice, d, newline ] )
     ])
 ] ).
 
@@ -218,7 +226,9 @@ i_rule( get_currency, [
 
      , or([
          
-    generic_horizontal_details( [ [ `AMOUNT`, `(`,q10(tab) ], currency, w, [`)`,tab ] ])
+    generic_horizontal_details( [ [  `AMOUNT`, `(`  ], currency, w, [`)`,newline ] ])
+
+   ,  generic_horizontal_details( [ [ `AMOUNT`, `(`,q10(tab) ], currency, w, [`)`,tab ] ])
 
    , generic_vertical_details( [ [`Description`, tab, `Amount`],`Amount`, q(0,1), (start,300,500), currency, w, newline ] )
 
@@ -278,6 +288,9 @@ i_rule(get_bank_accountnumber, [
 % Changes made - Credit note mapped
 
 
+% Updated on   - 16 Dec, 2020
+% Updated by   - Rohini
+% Changes made - Invoice amount details updated
 
 % Updated on   - 
 % Updated by   -
