@@ -58,7 +58,7 @@ i_rule( get_supplier_detail, [
 
    , currency(`KRW`)
 
-   , supplier_registration_number(``)
+   , supplier_registration_number(`SYJEON@BST-TECH.CO.KR`)
 
 
 ] ).
