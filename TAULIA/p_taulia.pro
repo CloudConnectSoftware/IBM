@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `26/10/2020 17:10:20` ).
+i_version( p_taulia, `30/12/2020 14:49:03` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,6 +70,7 @@ i_user_field( invoice, custom_variable_5, `Custom Field 5` ).
 
 i_user_field( line, line_tax_exempt_reason, `Line Exempt Reason` ).
 i_user_field( line, line_credit_indicator, `line_credit_indicator` ).
+i_user_field( line, line_vat_type, `line_vat_type` ).
 
 :- multifile json_compliance_field_country/1.
 :- multifile json_compliance_field/3.
