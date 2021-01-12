@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_taulia, `30/12/2020 14:49:03` ).
+i_version( p_taulia, `12/01/2021 10:58:04` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -61,6 +61,7 @@ i_user_field( invoice, additional_attachment, `additional_attachment` ).
 i_user_field( invoice, additional_attachment_file_name, `additional_attachment_file_name` ).
 i_user_field( invoice, additional_attachment_mime_type, `additional_attachment_mime_type` ).
 i_user_field( invoice, additional_attachment_attachment_type, `additional_attachment_attachment_type` ).
+i_user_field( invoice, total_header_taxes, `total_header_taxes` ).
 
 i_user_field( invoice, custom_variable_1, `Custom Field 1` ).
 i_user_field( invoice, custom_variable_2, `Custom Field 2` ).
