@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_ares_green, `15 Jan, 2021` ).
+i_version(amat_ares_green, `27 Jan, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -26,7 +26,7 @@ i_rule_list( [
 
     , get_invoice_number
   
-    , get_invoice_date
+   % , get_invoice_date
 
     , get_order_number
 
@@ -107,9 +107,9 @@ i_rule( get_invoice_number, [
 
      q(0,40,line)
 
-     , check_text(`統一編號` )
+     , check_text(`發票號碼` )
 
-     , generic_horizontal_details( [ [`統一編號`, `：` ], invoice_number, s1, tab ] )
+     , generic_horizontal_details( [ [`發票號碼`, `：` ], invoice_number, s1, [ tab,generic_item( [ invoice_date, date ] ),  tab ] ] )
  
 
 ] ).
