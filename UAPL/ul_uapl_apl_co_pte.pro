@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_apl_co_pte ,`17 Feb, 2020` ).
+i_version( ul_uapl_apl_co_pte ,`27 Jan, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -139,8 +139,19 @@ i_rule( get_total_invoice, [
 
     qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Including`, `Tax`, tab ], total_invoice, d, newline ] )
+    , or([
 
+     generic_horizontal_details( [ [ `Total`, `Including`, `Tax`, tab ], total_invoice, d, newline ] )
+
+    ,[ generic_horizontal_details( [ [  `Total`,  tab ], total_invoice, d, newline ] )
+
+    , check( total_net = TotNet)
+
+    , generic_item( [ total_invoice , TotNet ] )]
+
+
+    ] )
+    
     , check( total_invoice = TotInv)
 
     , generic_item( [ line_total_amount , TotInv ] )
