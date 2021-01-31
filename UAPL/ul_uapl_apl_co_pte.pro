@@ -54,7 +54,7 @@ i_rule( get_supplier_details, [
 
 	sender_name(`CMA CGM ASIA SHIPPING PTE LTD`) % (vendor name changed from `APL CO. PTE LTD`)
 
-    , supplier_vat_number(`199604017Z`) % New VAT number updated
+    , supplier_vat_number(`199604017Z`) % New VAT number updated % M90000669L
 
     , buyer_registration_number(`3009`)
 
