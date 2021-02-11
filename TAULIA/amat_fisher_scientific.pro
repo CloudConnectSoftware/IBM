@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `10 Feb, 2021` ).
+i_version(amat_fisher_scientific, `11 Feb, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -279,6 +279,8 @@ i_section( get_invoice_lines, [
               
                 [ line_item_line,line_invoice_line, q10(line_append_line) , q10(line_append_line) ]
 
+                , [line_invoice_line, q10(line_append_line)]
+
               , line
 
         ] )
@@ -306,8 +308,13 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-    [`MERCHANDISE`, `SUBTOTAL`, tab ]
+    or([
+    
+      [`See`, `reverse`, `side`, `for`, `complete`, `terms`, `and`]
+    
+    , [`MERCHANDISE`, `SUBTOTAL`, tab ]
 
+] )
      , trace( [ `Found End line` ] )
 
 ] ).
@@ -367,6 +374,10 @@ i_line_rule_cut( line_append_line, [
 
 % Mapped on - 10 Feb, 2021
 % Mapped by - Rohini 
+
+% Updated on   - 11 Feb, 2021
+% Updated by   - Rohini
+% Changes made -  Line details updated
 
 
 % Updated on   - 
