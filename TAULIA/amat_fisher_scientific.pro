@@ -230,7 +230,7 @@ i_rule_cut( get_total_net, [
        
       generic_horizontal_details( [ [`MERCHANDISE`, `SUBTOTAL`, tab ], total_net, d, newline ] )
 
-    , generic_horizontal_details( [ [`TOTAL`, `INVOICE`, `AMOUNT`, tab ], total_invoice, d, newline ] )
+    , generic_horizontal_details( [ [`TOTAL`, `INVOICE`, `AMOUNT`, tab ], total_net, d, newline ] )
 
 
   ] )
