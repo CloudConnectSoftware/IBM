@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `11 Feb, 2021` ).
+i_version(amat_fisher_scientific, `24 Feb, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -163,7 +163,13 @@ i_rule_cut( get_invoice_date, [
 
     q(0,50,line)
 
-    , generic_vertical_details( [ [ `INV`, `DATE` ], `INV`, q(0,1), (start,100,100), invoice_date, date, [ tab, generic_item( [ invoice_number, d ] ),  newline ] ] )
+    , or([
+
+      generic_vertical_details( [ [ `INV`, `DATE` ], `INV`, q(0,1), (start,100,100), invoice_date, date, [ tab, generic_item( [ invoice_number, d ] ),  newline ] ] )
+
+    , generic_vertical_details( [ [ `INV`, `.`, `DATE` ], `INV`, q(0,1), (start,100,100), invoice_date, date, [ tab, generic_item( [ invoice_number, d ] ),  newline ] ] )
+
+] )
 
 ] ).
 
@@ -328,7 +334,7 @@ i_line_rule_cut( line_invoice_line, [
 
 	, generic_item( [ line_descr_dummy, s1, tab ] )
 
-	, generic_item( [ line_descr_dummy1, s1, tab ] )
+	, q10(generic_item( [ line_descr_dummy1, s1, tab ] ))
 
     , generic_item( [ line_quantity, d, q10(tab) ] )
 
@@ -378,6 +384,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 11 Feb, 2021
 % Updated by   - Rohini
 % Changes made -  Line details updated
+
+% Updated on   - 24 Feb, 2021
+% Updated by   - Rohini
+% Changes made - Line details updated, Invoice number and date updated
 
 
 % Updated on   - 
