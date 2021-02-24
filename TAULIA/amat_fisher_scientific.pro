@@ -28,12 +28,12 @@ i_rule_list( [
 
     , get_order_number
 
-	, get_total_net
-
 	, get_total_vat
 	
 	, get_total_invoice
 	
+	, get_total_net
+
 	, get_invoice_lines
 
 
@@ -226,7 +226,14 @@ i_rule_cut( get_total_net, [
 	
 	q0n(line)
 
-  , generic_horizontal_details( [ [`MERCHANDISE`, `SUBTOTAL`, tab ], total_net, d, newline ] )
+   , or([
+       
+      generic_horizontal_details( [ [`MERCHANDISE`, `SUBTOTAL`, tab ], total_net, d, newline ] )
+
+    , generic_horizontal_details( [ [`TOTAL`, `INVOICE`, `AMOUNT`, tab ], total_invoice, d, newline ] )
+
+
+  ] )
 	
 ] ).
 
@@ -333,8 +340,6 @@ i_line_rule_cut( line_invoice_line, [
 	  generic_item( [ line_descr, s1, tab ] )
 
 	, generic_item( [ line_descr_dummy, s1, tab ] )
-
-	, q10(generic_item( [ line_descr_dummy1, s1, tab ] ))
 
     , generic_item( [ line_quantity, d, q10(tab) ] )
 
