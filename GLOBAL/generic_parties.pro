@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( parties_rules, `2021-02-12 12:21:59` ).
+i_version( parties_rules, `2021-02-15 10:57:48` ).
 
 :- multifile i_generic_parties_maximum_line_limit_for_initial_search/1.
 :- multifile i_generic_parties_max_address_repetitions/1.
@@ -568,11 +568,11 @@ i_user_check( get_unique_variable_name, PREFIX, ID, ID_S )
 	sys_cntr_inc( 9, UID ),
 
 	(
-		UID < 500
+		UID < 250
 		->	true
 		;	( grammar_set(traced_limit_warning)
 				->	true
-				;	warn("Attempted to build 500 unique variables for capture - system aborting address capture"),
+				;	warn("Attempted to build 250 unique variables for capture - system aborting address capture"),
 					assertz(grammar_set(traced_limit_warning))
 			), !, fail
 	),
@@ -585,12 +585,14 @@ i_user_check( get_unique_variable_name, PREFIX, ID, ID_S )
 .
 
 %=======================================================================
-i_rule( gen1_allocate_address_sentence( [ SENTENCE_NAME_STRING, SENTENCE, STREET, ADDRESS_LINE, CITY, STATE ] ), [
+i_rule( gen1_allocate_address_sentence( [ _, SENTENCE, STREET, ADDRESS_LINE, CITY, STATE ] ), [
 %=======================================================================
 
 	% note, we cannot use (data) here because the sentence has been created through appends
+	check(not(q_sys_sub_string(SENTENCE, _, _, `http:`))),
+	check(not(q_sys_sub_string(SENTENCE, _, _, `https:`))),
 
-	check( i_user_check( gen_string_trim, SENTENCE_NAME, SENTENCE_VALUE ) ),
+	check( i_user_check( gen_string_trim, SENTENCE, SENTENCE_VALUE ) ),
 
 	or( [ 
 		gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS_LINE, CITY, STATE, [] ] ),
@@ -625,8 +627,6 @@ i_rule( gen1_allocate_address_sentence( [ SENTENCE_NAME_STRING, SENTENCE, STREET
 
 :-
 
-	sys_string_atom( SENTENCE_NAME_STRING, SENTENCE_NAME ),
-
 	ASSIGN_TO_CITY =.. [ CITY, SENTENCE_VALUE ],
 
 	ASSIGN_TO_STATE =.. [ STATE, SENTENCE_VALUE ],
@@ -641,9 +641,13 @@ i_rule( gen1_allocate_address_sentence( [ SENTENCE_NAME_STRING, SENTENCE, STREET
 i_rule( gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS_LINE, CITY, STATE, IGNORE_IX_LIST ] ), [
 %=======================================================================
 
+	check(i_user_check(extract_values_from_input_sentence, SENTENCE_VALUE, IGNORE_IX_LIST, HYP_IX, SPECIFIC_VALUE)),
+
 	or( [
 
-		[	gen1_bogus_hyphen_preceding_well_defined_item_1( [ SPECIFIC_VALUE, CITY, STATE ] ),
+		[	
+			
+			gen1_bogus_hyphen_preceding_well_defined_item_1( [ SPECIFIC_VALUE, CITY, STATE ] ),
 
 			q10( [	check( HYP_IX > 1 ), 
 
@@ -658,8 +662,9 @@ i_rule( gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS
 		gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS_LINE, CITY, STATE, [ HYP_IX | IGNORE_IX_LIST ] ] )
 	] )
 
-] )
+] ):- ASSIGN_TO_ADDRESS_LINE =.. [ ADDRESS_LINE, ADDRESS_LINE_VALUE ].
 
+i_user_check(extract_values_from_input_sentence, SENTENCE_VALUE, IGNORE_IX_LIST, HYP_IX, LENGTH_OF_ADDRESS_LINE, SPECIFIC_VALUE)
 :-
 	q_sys_sub_string( SENTENCE_VALUE, HYP_IX, 1, `-` ),
 
@@ -671,11 +676,9 @@ i_rule( gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS
 
 	q_sys_sub_string(SENTENCE_VALUE, START_OF_SPECIFIC, _, SPECIFIC_VALUE_1 ),
 
-	sys_string_trim( SPECIFIC_VALUE_1, SPECIFIC_VALUE ),
+	sys_string_trim( SPECIFIC_VALUE_1, SPECIFIC_VALUE )
 
-	ASSIGN_TO_ADDRESS_LINE =.. [ ADDRESS_LINE, ADDRESS_LINE_VALUE ]
-
-. %end%
+. 
 
 %=======================================================================
 i_rule( gen1_bogus_hyphen_preceding_well_defined_item_1( [ SENTENCE_VALUE, CITY, STATE ] ), [
