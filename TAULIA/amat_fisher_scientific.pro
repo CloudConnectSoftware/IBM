@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `24 Feb, 2021` ).
+i_version(amat_fisher_scientific, `01 March, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -341,7 +341,9 @@ i_line_rule_cut( line_invoice_line, [
 
 	, generic_item( [ line_descr_dummy, s1, tab ] )
 
-    , generic_item( [ line_quantity, d, q10(tab) ] )
+  , q10(generic_item( [ line_descr_dummy1, s1, tab ] ))
+
+  , generic_item( [ line_quantity, d, q10(tab) ] )
 
 	, generic_item( [ line_quantity_uom_code, w, tab ] ) 
 
@@ -394,6 +396,9 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Rohini
 % Changes made - Line details updated, Invoice number and date updated
 
+% Updated on   - 01 March, 2021
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 % Updated on   - 
 % Updated by   -
