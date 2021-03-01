@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(micron_basf_south, `02 Dec, 2020` ).
+i_version(micron_basf_south, `10 Feb, 2021 ` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -292,7 +292,13 @@ i_rule( get_order_number, [
 
      q(0,100,line)
 
-    , generic_horizontal_details( [ [`CUSTOMER`, `P`, `.`, `O`, `.`, `NO`, `.`, tab, `:` ], order_number, d, [ `/`] ] )
+    , or([
+
+     generic_horizontal_details( [ [`CUSTOMER`, `P`, `.`, `O`, `.`, `NO`, `.`, tab, `:` ], order_number, d, [ `/`] ] )
+
+    , generic_horizontal_details( [ [`CUSTOMER`,  `P`, `.`, `O`, `.`,  `NO`, `.`,  tab, `:` ], order_number, d, newline ] )
+
+] )
 
 ] ).
 
@@ -570,6 +576,10 @@ i_line_rule( line_invoice_line_1, [
 % Updated on   - 02 Dec, 2020
 % Updated by   - Rohini
 % Changes made - Line details updated with end line updation
+
+% Updated on   - 10 Feb, 2021
+% Updated by   - Rohini
+% Changes made - PO # updated
 
 % Updated on   - 
 % Updated by   -

@@ -226,9 +226,9 @@ i_rule( get_currency, [
 
      , or([
          
-    generic_horizontal_details( [ [  `AMOUNT`, `(`  ], currency, w, [`)`,newline ] ])
+      generic_horizontal_details( [ [ `AMOUNT`, `(`,q10(tab) ], currency, w, [`)`,tab ] ])
 
-   ,  generic_horizontal_details( [ [ `AMOUNT`, `(`,q10(tab) ], currency, w, [`)`,tab ] ])
+   ,  generic_horizontal_details( [ [  `AMOUNT`, `(`  ], currency, w, [`)`,newline ] ])
 
    , generic_vertical_details( [ [`Description`, tab, `Amount`],`Amount`, q(0,1), (start,300,500), currency, w, newline ] )
 

@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GRAMATICA - APL CO. PTE LTD
+% GRAMATICA - APL CO. PTE LTD /CMA CGM ASIA SHIPPING PTE LTD - Vendor name changed to CMA CGM ASIA SHIPPING PTE LTD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_apl_co_pte ,`17 Feb, 2020` ).
+i_version( ul_uapl_apl_co_pte ,`27 Jan, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,9 +52,9 @@ i_rule_list( [
 i_rule( get_supplier_details, [
 %=======================================================================
 
-	sender_name(`APL CO. PTE LTD`)
+	sender_name(`CMA CGM ASIA SHIPPING PTE LTD`) % (vendor name changed from `APL CO. PTE LTD`)
 
-    , supplier_vat_number(`199604017Z`) % New VAT number updated
+    , supplier_vat_number(`199604017Z`) % New VAT number updated % M90000669L
 
     , buyer_registration_number(`3009`)
 
@@ -92,7 +92,7 @@ i_rule( get_invoice_number, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_date, [
+i_rule_cut( get_invoice_date, [
 %=======================================================================
 
 	q0n(line)
@@ -108,7 +108,7 @@ i_rule( get_invoice_date, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_order_number, [
+i_rule_cut( get_order_number, [
 %=======================================================================
 
 	q0n(line)
@@ -134,13 +134,24 @@ i_line_rule_cut( find_order_number, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_invoice, [
+i_rule_cut( get_total_invoice, [
 %=======================================================================
 
     qn0(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Including`, `Tax`, tab ], total_invoice, d, newline ] )
+    , or([
 
+     generic_horizontal_details( [ [ `Total`, `Including`, `Tax`, tab ], total_invoice, d, newline ] )
+
+    ,[ generic_horizontal_details( [ [  `Total`,  tab ], total_invoice, d, newline ] )
+
+    , check( total_invoice = TotNet)
+
+    , generic_item( [ total_net , TotNet ] )]
+
+
+    ] )
+    
     , check( total_invoice = TotInv)
 
     , generic_item( [ line_total_amount , TotInv ] )
@@ -156,7 +167,7 @@ i_rule( get_total_invoice, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_net, [
+i_rule_cut( get_total_net, [
 %=======================================================================
 
     qn0(line)
@@ -177,7 +188,7 @@ i_rule( get_total_net, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_total_vat, [
+i_rule_cut( get_total_vat, [
 %=======================================================================
 
     qn0(line)
@@ -198,7 +209,7 @@ i_rule( get_total_vat, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_currency, [
+i_rule_cut( get_currency, [
 %=======================================================================
 
 	q0n(line)
@@ -223,7 +234,7 @@ i_rule( get_currency, [
 
 
 %=======================================================================
-i_rule( get_bank_account_no, [
+i_rule_cut( get_bank_account_no, [
 %=======================================================================
 
 	  q(0,250,line)

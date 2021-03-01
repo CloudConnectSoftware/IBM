@@ -4,7 +4,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( parties_rules, `24 August 2015` ).
+i_version( parties_rules, `2021-02-15 10:57:48` ).
+
+:- multifile i_generic_parties_maximum_line_limit_for_initial_search/1.
+:- multifile i_generic_parties_max_address_repetitions/1.
+
+default_max_line_limit(200).
+default_max_repetitions(25).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -161,7 +167,9 @@ i_rule_cut( gen1_address_details( [ LEFT_MARGIN_NAME, START_LINE, PARTY, CONTACT
 i_rule_cut( gen1_address_details_without_names( [ LEFT_MARGIN_NAME, START_LINE, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ), [
 %=======================================================================
 
-	q0n(line),
+	check(sys_cntr_set(9, 0)),
+	clear(traced_limit_warning),
+	q(0,MaxLines,line),
 
 	START_LINE, % which needs to set the left margin data
 	
@@ -175,9 +183,9 @@ i_rule_cut( gen1_address_details_without_names( [ LEFT_MARGIN_NAME, START_LINE, 
 	
 	% Note that without an end point we need to scan from the end backwards (which is expensive)
 
-	or( [ [ qn0( gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
+	or( [ [ q(MaxRepeats,0, gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
 
-		qn0( gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
+		q(MaxRepeats,0, gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
 	] )
 ] )
 
@@ -185,7 +193,15 @@ i_rule_cut( gen1_address_details_without_names( [ LEFT_MARGIN_NAME, START_LINE, 
 
 	POSTCODE = postcode( POSTCODE_VAR, _ ),
 	MARGIN_START =.. [ LEFT_MARGIN_NAME, start ],
-	sys_string_atom( LEFT_MARGIN_NAME_STRING, LEFT_MARGIN_NAME )
+	sys_string_atom( LEFT_MARGIN_NAME_STRING, LEFT_MARGIN_NAME ),
+	(i_generic_parties_maximum_line_limit_for_initial_search(MaxLines)
+		->	true
+		;	default_max_line_limit(MaxLines)
+	),
+	(i_generic_parties_max_address_repetitions(MaxRepeats)
+		->	true
+		;	default_max_repetitions(MaxRepeats)
+	)
 .
 
 %=======================================================================
@@ -202,7 +218,9 @@ i_rule_cut( gen1_address_details_without_names( [ LEFT_MARGIN_NAME, START_LINE, 
 
 %	why oh why was this here: peek_fails( END_LINE ), q0n( [ line, peek_fails( END_LINE ) ] ),
 
-	q0n(line),
+	check(sys_cntr_set(9, 0)),
+	clear(traced_limit_warning),
+	q(0,MaxLines,line),
 
 	START_LINE, % which needs to set the left margin data
 	
@@ -214,9 +232,9 @@ i_rule_cut( gen1_address_details_without_names( [ LEFT_MARGIN_NAME, START_LINE, 
 			
 	] ),
 
-	or( [ [ q0n( gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
+	or( [ [ q(0,MaxRepeats, gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
 
-		q0n( gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
+		q(0,MaxRepeats, gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
 	] ),
 
 	END_LINE
@@ -226,28 +244,46 @@ i_rule_cut( gen1_address_details_without_names( [ LEFT_MARGIN_NAME, START_LINE, 
 
 	POSTCODE = postcode( POSTCODE_VAR, _ ),
 	MARGIN_START =.. [ LEFT_MARGIN_NAME, start ],
-	sys_string_atom( LEFT_MARGIN_NAME_STRING, LEFT_MARGIN_NAME )
+	sys_string_atom( LEFT_MARGIN_NAME_STRING, LEFT_MARGIN_NAME ),
+	(i_generic_parties_maximum_line_limit_for_initial_search(MaxLines)
+		->	true
+		;	default_max_line_limit(MaxLines)
+	),
+	(i_generic_parties_max_address_repetitions(MaxRepeats)
+		->	true
+		;	default_max_repetitions(MaxRepeats)
+	)
 .
 
 %=======================================================================
 i_rule_cut( gen1_address_details( [ LEFT_MARGIN_NAME, START_LINE, PARTY, CONTACT, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ), [
 %=======================================================================
 
-	q0n(line),
+	check(sys_cntr_set(9, 0)),
+	clear(traced_limit_warning),
+	q(0,MaxLines,line),
 
 	gen1_address_part1( [ LEFT_MARGIN_NAME, START_LINE, PARTY, CONTACT ] ),
 
 	% Note that without an end point we need to scan from the end backwards (which is expensive)
 
-	or( [ [ qn0( gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
+	or( [ [ q(MaxRepeats,0, gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
 
-		qn0( gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
+		q(MaxRepeats,0, gen1_address_part2( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
 	] )
 ] )
 
 :-
 
-	POSTCODE = postcode( POSTCODE_VAR, _ )
+	POSTCODE = postcode( POSTCODE_VAR, _ ),
+	(i_generic_parties_maximum_line_limit_for_initial_search(MaxLines)
+		->	true
+		;	default_max_line_limit(MaxLines)
+	),
+	(i_generic_parties_max_address_repetitions(MaxRepeats)
+		->	true
+		;	default_max_repetitions(MaxRepeats)
+	)
 .
 
 
@@ -257,13 +293,15 @@ i_rule_cut( gen1_address_details( [ LEFT_MARGIN_NAME, START_LINE, PARTY, CONTACT
 
 %	why oh why was this here: peek_fails( END_LINE ), q0n( [ line, peek_fails( END_LINE ) ] ),
 
-	q0n(line),
+	check(sys_cntr_set(9, 0)),
+	clear(traced_limit_warning),
+	q(0,MaxLines,line),
 
 	gen1_address_part1( [ END_LINE, LEFT_MARGIN_NAME, START_LINE, PARTY, CONTACT ] ),
 
-	or( [ [ q0n( gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
+	or( [ [ q(0,MaxRepeats, gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) ), with( POSTCODE_VAR ) ],
 
-		q0n( gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
+		q(0,MaxRepeats, gen1_address_part2( [ END_LINE, LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, CITY, STATE, POSTCODE ] ) )
 	] ),
 
 	END_LINE
@@ -271,7 +309,15 @@ i_rule_cut( gen1_address_details( [ LEFT_MARGIN_NAME, START_LINE, PARTY, CONTACT
 
 :-
 
-	POSTCODE = postcode( POSTCODE_VAR, _ )
+	POSTCODE = postcode( POSTCODE_VAR, _ ),
+	(i_generic_parties_maximum_line_limit_for_initial_search(MaxLines)
+		->	true
+		;	default_max_line_limit(MaxLines)
+	),
+	(i_generic_parties_max_address_repetitions(MaxRepeats)
+		->	true
+		;	default_max_repetitions(MaxRepeats)
+	)
 .
 
 
@@ -489,9 +535,9 @@ i_line_rule( gen1_compound_data_line( [ LEFT_MARGIN_NAME, STREET, ADDRESS_LINE, 
 i_rule( gen1_compound_data( [ STREET, ADDRESS_LINE, CITY, STATE, POSTCODE_SEARCHER ] ), [
 %=======================================================================
 
-	qn0( gen1_compound_data_comma( [ STREET, ADDRESS_LINE, CITY, STATE, POSTCODE_SEARCHER ] ) ),
+	q(20,0, gen1_compound_data_comma( [ STREET, ADDRESS_LINE, CITY, STATE, POSTCODE_SEARCHER ] ) ),
 
-	q10( [	check( i_user_check( gen_unique_id, normal_sentence, ID, ID_S ) ),
+	q10( [	check( i_user_check( get_unique_variable_name, normal_sentence, ID, ID_S ) ),
 
 		gen_non_postcode_sentence( [ ID, POSTCODE_SEARCHER ] ),
 
@@ -504,20 +550,49 @@ i_rule( gen1_compound_data( [ STREET, ADDRESS_LINE, CITY, STATE, POSTCODE_SEARCH
 i_rule( gen1_compound_data_comma( [ STREET, ADDRESS_LINE, CITY, STATE, POSTCODE_SEARCHER ] ), [
 %=======================================================================
 
-	check( i_user_check( gen_unique_id, comma_sentence, ID, ID_S ) ),
+	check( i_user_check( get_unique_variable_name, comma_sentence, ID, ID_S ) ),
 
 	gen_non_postcode_commad_sentence( [ ID, POSTCODE_SEARCHER ] ),
 
 	gen1_allocate_address_sentence( [ ID_S, ID, STREET, ADDRESS_LINE, CITY, STATE ] )
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+i_user_check( get_unique_variable_name, PREFIX, ID, ID_S )
+%-----------------------------------------------------------------------
+:-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	sys_string_atom( PREFIX_S, PREFIX ),
+
+	sys_cntr_inc( 9, UID ),
+
+	(
+		UID < 250
+		->	true
+		;	( grammar_set(traced_limit_warning)
+				->	true
+				;	warn("Attempted to build 250 unique variables for capture - system aborting address capture"),
+					assertz(grammar_set(traced_limit_warning))
+			), !, fail
+	),
+
+	sys_string_number( UID_S, UID ),
+
+	sys_strcat( PREFIX_S, UID_S, ID_S ),
+
+	sys_string_atom( ID_S, ID )
+.
+
 %=======================================================================
-i_rule( gen1_allocate_address_sentence( [ SENTENCE_NAME_STRING, SENTENCE, STREET, ADDRESS_LINE, CITY, STATE ] ), [
+i_rule( gen1_allocate_address_sentence( [ _, SENTENCE, STREET, ADDRESS_LINE, CITY, STATE ] ), [
 %=======================================================================
 
 	% note, we cannot use (data) here because the sentence has been created through appends
+	check(not(q_sys_sub_string(SENTENCE, _, _, `http:`))),
+	check(not(q_sys_sub_string(SENTENCE, _, _, `https:`))),
 
-	check( i_user_check( gen_string_trim, SENTENCE_NAME, SENTENCE_VALUE ) ),
+	check( i_user_check( gen_string_trim, SENTENCE, SENTENCE_VALUE ) ),
 
 	or( [ 
 		gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS_LINE, CITY, STATE, [] ] ),
@@ -552,8 +627,6 @@ i_rule( gen1_allocate_address_sentence( [ SENTENCE_NAME_STRING, SENTENCE, STREET
 
 :-
 
-	sys_string_atom( SENTENCE_NAME_STRING, SENTENCE_NAME ),
-
 	ASSIGN_TO_CITY =.. [ CITY, SENTENCE_VALUE ],
 
 	ASSIGN_TO_STATE =.. [ STATE, SENTENCE_VALUE ],
@@ -568,9 +641,13 @@ i_rule( gen1_allocate_address_sentence( [ SENTENCE_NAME_STRING, SENTENCE, STREET
 i_rule( gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS_LINE, CITY, STATE, IGNORE_IX_LIST ] ), [
 %=======================================================================
 
+	check(i_user_check(extract_values_from_input_sentence, SENTENCE_VALUE, IGNORE_IX_LIST, HYP_IX, SPECIFIC_VALUE)),
+
 	or( [
 
-		[	gen1_bogus_hyphen_preceding_well_defined_item_1( [ SPECIFIC_VALUE, CITY, STATE ] ),
+		[	
+			
+			gen1_bogus_hyphen_preceding_well_defined_item_1( [ SPECIFIC_VALUE, CITY, STATE ] ),
 
 			q10( [	check( HYP_IX > 1 ), 
 
@@ -585,8 +662,9 @@ i_rule( gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS
 		gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS_LINE, CITY, STATE, [ HYP_IX | IGNORE_IX_LIST ] ] )
 	] )
 
-] )
+] ):- ASSIGN_TO_ADDRESS_LINE =.. [ ADDRESS_LINE, ADDRESS_LINE_VALUE ].
 
+i_user_check(extract_values_from_input_sentence, SENTENCE_VALUE, IGNORE_IX_LIST, HYP_IX, LENGTH_OF_ADDRESS_LINE, SPECIFIC_VALUE)
 :-
 	q_sys_sub_string( SENTENCE_VALUE, HYP_IX, 1, `-` ),
 
@@ -598,11 +676,9 @@ i_rule( gen1_bogus_hyphen_preceding_well_defined_item( [ SENTENCE_VALUE, ADDRESS
 
 	q_sys_sub_string(SENTENCE_VALUE, START_OF_SPECIFIC, _, SPECIFIC_VALUE_1 ),
 
-	sys_string_trim( SPECIFIC_VALUE_1, SPECIFIC_VALUE ),
+	sys_string_trim( SPECIFIC_VALUE_1, SPECIFIC_VALUE )
 
-	ASSIGN_TO_ADDRESS_LINE =.. [ ADDRESS_LINE, ADDRESS_LINE_VALUE ]
-
-. %end%
+. 
 
 %=======================================================================
 i_rule( gen1_bogus_hyphen_preceding_well_defined_item_1( [ SENTENCE_VALUE, CITY, STATE ] ), [
@@ -661,7 +737,7 @@ i_rule( gen_non_postcode_sentence( [ NAME, POSTCODE_SEARCHER ] ), [
 
 	SET_NAME_TO_EMPTY, 
 
- 	qn1( [ peek_fails( POSTCODE_SEARCHER ), append( SET_NAME_TO_W1, ``, ` ` ) ] )
+ 	q(30,1, [ peek_fails( POSTCODE_SEARCHER ), append( SET_NAME_TO_W1, ``, ` ` ) ] )
 
 ] )
 
@@ -679,7 +755,7 @@ i_rule( gen_non_postcode_commad_sentence( [ NAME, POSTCODE_SEARCHER ] ), [
 
 	SET_NAME_TO_EMPTY,
 
-	q0n( [ peek_fails( POSTCODE_SEARCHER ), append( SET_NAME_TO_W1, ``, ` ` ) ] ),
+	q(0,10, [ peek_fails( POSTCODE_SEARCHER ), append( SET_NAME_TO_W1, ``, ` ` ) ] ),
 
 	append( SET_NAME_TO_COMMA_DELIMITED_WORD, ``, `` )
 ] )
