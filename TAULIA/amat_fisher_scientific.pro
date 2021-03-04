@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `01 March, 2021` ).
+i_version(amat_fisher_scientific, `04 March, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -340,6 +340,8 @@ i_line_rule_cut( line_invoice_line, [
 	  generic_item( [ line_descr, s1, tab ] )
 
 	, generic_item( [ line_descr_dummy, s1, tab ] )
+
+  , q10(generic_item( [ line_descr_dummy1, s1, tab ] ))
 
   , q10(generic_item( [ line_descr_dummy1, s1, tab ] ))
 
