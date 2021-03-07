@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `04 March, 2021` ).
+i_version(amat_fisher_scientific, `07 March, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -294,6 +294,8 @@ i_section( get_invoice_lines, [
 
                 , [line_invoice_line, q10(line_append_line)]
 
+                , line_additional_line
+
               , line
 
         ] )
@@ -325,7 +327,9 @@ i_line_rule_cut( line_end_line, [
     
       [`See`, `reverse`, `side`, `for`, `complete`, `terms`, `and`]
     
-    , [`MERCHANDISE`, `SUBTOTAL`, tab ]
+    % , [`MERCHANDISE`, `SUBTOTAL`, tab ]
+
+    , [ `TOTAL`, `INVOICE`, `AMOUNT`, tab ]
 
 ] )
      , trace( [ `Found End line` ] )
@@ -381,6 +385,23 @@ i_line_rule_cut( line_append_line, [
   
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_additional_line, [
+%=======================================================================
+
+  `DIRECT`, `SHIP`
+  
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline] )
+
+  , line_item(`FREIGHT`)
+
+  , line_type( `extra`)
+
+  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -401,6 +422,12 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 01 March, 2021
 % Updated by   - Rohini
 % Changes made - Line details updated
+
+
+% Updated on   - 07 March, 2021
+% Updated by   - Rohini
+% Changes made - Line details updated with additional line
+
 
 % Updated on   - 
 % Updated by   -
