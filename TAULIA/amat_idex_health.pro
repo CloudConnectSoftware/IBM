@@ -325,6 +325,8 @@ i_rule_cut( get_total_net, [
 
 ] )
 
+  , generic_item( [ currency, `USD` ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -370,7 +372,10 @@ i_rule_cut( get_total_invoice, [
    ,[ generic_horizontal_details( [ [`Total`, `Amount`, `Due`, `:`, `$` ], total_invoice, d, [`-`,  newline ] ] )
 
   , generic_item( [ currency, `USD` ] )]
-	
+
+  , [generic_vertical_details( [ [ `Total`, `Amount`, `Due`, `:` ], `Total`, q(0,1), (start,100,200), total_invoice, d, newline ] )
+  
+  , generic_item( [ currency, `USD` ] )]
 
 ] )
 	
