@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_idex_health, `10 Feb, 2021` ).
+i_version(amat_idex_health, `07 March, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,6 +92,9 @@ i_rule_cut( get_shipto_details, [
 
    , line_add_line_4
 
+   , q(0,1,line)
+
+   , line_add_line_5
 
 ] ).
 
@@ -129,7 +132,7 @@ i_line_rule_cut( line_add_line_2, [
 
         generic_item( [ delivery_dummy4, s1, [ tab, `#` ] ] )
 
-      , generic_item( [ delivery_dummy5, d ] )
+      , generic_item( [ delivery_dummy5, d , q10(tab)] )
           
       , generic_append( [ delivery_street, s1, newline, ` `, `` ] )
 
@@ -139,15 +142,25 @@ i_line_rule_cut( line_add_line_2, [
 i_line_rule_cut( line_add_line_3, [
 %=======================================================================
  
-        generic_item( [ delivery_city, s, q10(tab) ] )
+       generic_item( [ delivery_dummy6,s1, tab ] )
+          
+      , generic_append( [ delivery_street, s1, newline, ` `, `` ] )
       
-      , generic_item( [ delivery_postcode, d, newline ] )
-      
+
+] ).
+%=======================================================================
+i_line_rule_cut( line_add_line_4, [
+%=======================================================================
+ 
+        generic_item( [ delivery_city,s1, tab ] )
+          
+      , generic_item( [ delivery_postcode, s1, newline ] )
+ 
 
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_add_line_4, [
+i_line_rule_cut( line_add_line_5, [
 %=======================================================================
  
         generic_item( [ delivery_dummy, s1, tab ] )
@@ -222,6 +235,8 @@ i_rule_cut( get_invoice_number, [
 
       generic_vertical_details( [ [ `Invoice`, `No`, `:` ], `Invoice`, q(0,1), (start,100,100), invoice_number, d, [ tab, generic_item( [ invoice_date, date ] ),  newline ] ] )
 
+    , generic_vertical_details( [ [ `Invoice`, `No`, `:` ], `Invoice` , q(0,1), (start,100,100), invoice_number, d , newline  ] )
+    
     , generic_horizontal_details( [ [ `Credit`, `Memo`, tab ], invoice_number, d , tab ] )
 
 ] )
@@ -261,7 +276,9 @@ i_rule_cut( get_original_invoice, [
 
     q(0,50,line)
 
-    , or([
+   , test(credit_note)
+   
+   , or([
 
        generic_horizontal_details( [ [ `INV` ], original_invoice_number, d , `RMA` ] )
 
@@ -395,7 +412,9 @@ i_line_rule_cut( line_header_line, [
     
     or([
       
-     [`Line`, tab, `Qty`, `UM`, tab ]
+       [`Line`, tab, `Qty`, `UM`, tab ]
+
+    , [`Line`, tab, `Qty`, tab, `UM`, tab ]
 
 ] )
 
