@@ -138,6 +138,8 @@ i_rule( get_original_invoice, [
 
      q(0,40,line)
 
+     , test(credit_note)
+     
      , check_text(`To` )
 
      , generic_horizontal_details( [ [`To`, `credit`, `invoice` ], original_invoice_number, s, `dated` ] )
