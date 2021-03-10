@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `09 March, 2021` ).
+i_version(amat_fisher_scientific, `10 March, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -350,6 +350,8 @@ i_section( get_invoice_lines, [
 
                 , line_additional_line
 
+                , line_shipping_line
+
               , line
 
         ] )
@@ -457,6 +459,23 @@ i_line_rule_cut( line_additional_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_shipping_line, [
+%=======================================================================
+
+  `SHIPPING`
+  
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline] )
+
+  , line_item(`FREIGHT`)
+
+  , line_type( `extra`)
+
+  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -485,6 +504,10 @@ i_line_rule_cut( line_additional_line, [
 % Updated on   - 09 March, 2021
 % Updated by   - Rohini
 % Changes made - Credit note mapped
+
+% Updated on   - 10 March, 2021
+% Updated by   - Rohini
+% Changes made - Shipping line mapped
 
 % Updated on   - 
 % Updated by   -
