@@ -149,15 +149,17 @@ write_header___
 		write_element_string( `Scan_ID`, ScanID ),
 		
 		( qq_op_param( split_input_transfer_name( _ ), ImageFile )
-			->	true
+			->	write_element_string( `Image_File`, ImageFile )
 			
-			;	i_mail( image_file_name, ImageFile )
+			;	i_mail( image_file_name, ImageFile ), write_element_string( `Image_File`, ImageFile )
 			
 			;	instance( Instance ),
 				q_sys_sub_string( Instance, _, _, `DBG` ),
-				ImageFile = `Test file`
+				ImageFile = `Test file`,
+				write_element_string( `Image_File`, ImageFile )
+
+			; 	true
 		),
-		write_element_string( `Image_File`, ImageFile ), %ImageFile - needs to be the same as the tif
 		
 		write_variable_as_date_with_ibm_timestamp( default, default, `Discount_Date` ),
 
