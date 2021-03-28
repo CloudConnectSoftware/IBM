@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_idex_health, `07 March, 2021` ).
+i_version(amat_idex_health, `28 March, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -402,6 +402,8 @@ i_section( get_invoice_lines, [
 
               , [line_credit_line ,q10(line_append_line) ]
 
+              , line_additional_charge
+
               , line
 
         ] )
@@ -489,6 +491,27 @@ i_line_rule_cut( line_append_line, [
   
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_additional_charge, [
+%=======================================================================
+
+  `UPS`, `Tracking`, `#`
+  
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_append( [ line_descr, s1, tab , ``, ` `] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  , line_item(`FREIGHT`)
+
+  , line_type( `extra`)
+
+  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -498,6 +521,10 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - 10 Feb, 2021
 % Mapped by - Rohini 
 
+
+% Updated on   - 28 March, 2021
+% Updated by   - Rohini
+% Changes made - Line details updated with additional charges
 
 % Updated on   - 
 % Updated by   -
