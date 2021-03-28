@@ -16,6 +16,8 @@ i_format_postcode( X, X ).
 
 i_pdf_parameter( same_line, 7 ).
 
+i_op_param( us_invoice, _, _, _, true).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -501,7 +503,7 @@ i_line_rule_cut( line_additional_charge, [
 
   , generic_append( [ line_descr, s1, tab , ``, ` `] )
 
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , generic_item( [ line_unit_amount_dumy, s1, tab ] )
 
   , generic_item( [ line_net_amount, d, newline ] )
 
