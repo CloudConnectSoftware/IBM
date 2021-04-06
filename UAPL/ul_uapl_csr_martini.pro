@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_csr_martini, `16 March, 2021` ).
+i_version( ul_uapl_csr_martini, `06 April, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -258,9 +258,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
- generic_item( [ line_product_code, w, tab ] )
+   generic_item( [ line_item, s1, tab ] )
 
- , generic_item( [ line_descr, s1, tab ] )
+ , q10(generic_append( [ line_descr, s1, tab, ` `, ` `  ] ))
 
  , generic_item( [ line_quantity, w, tab ] )
 
@@ -303,6 +303,9 @@ generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 % Changes made -  Remapped to 3009 as per UAPL
 
 
+% Updated on   - 06 April, 2021
+% Updated by   - Rohini
+% Changes made -  considered line item product code as line description as per confirmation from UAPL team
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
