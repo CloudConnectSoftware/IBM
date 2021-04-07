@@ -56,8 +56,6 @@ i_rule( get_supplier_detail, [
 
    % Supplier VAT number - 520038514  %
 
-    , currency(`ILS`)
-
 ] ).
 
 
