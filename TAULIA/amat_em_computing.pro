@@ -225,7 +225,7 @@ i_rule_cut( get_invoice_totals_1, [
 %=======================================================================
 
 
-     line_with_text(`החנהירחאריחמ`)
+     line_with_text(`ללוכריחמ`)
 	
 	 , line_total_net_1
 	 
