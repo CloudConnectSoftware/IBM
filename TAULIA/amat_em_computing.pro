@@ -437,7 +437,8 @@ i_line_rule_cut( line_invoice_line, [
 
    	, generic_item( [ dummy_line, d, newline ] )
 
-
+	, remove(dummy_rounding_amount)
+    
 ] ).
 
 
