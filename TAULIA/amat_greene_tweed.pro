@@ -4,11 +4,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_greene_tweed, `06 April, 2021` ).
+i_version(amat_greene_tweed, `19 May, 2021` ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(`m/d/y`).
+i_date_format(`m/d/y`):- not( grammar_set( alternate_date_format ) ).
+
+i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -145,6 +147,22 @@ i_rule_cut( get_invoice_date, [
 
   , generic_vertical_details( [ [  `Billing`, `date` ], `Billing`, q(0,1), (start,100,400), invoice_date, date, newline ] )
  
+   , check( invoice_date = Deliverydate )
+
+   , trace( [ `Delivery date` , Deliverydate] )
+
+    , delivery_date(Deliverydate)
+
+    , trace( [ `Delivery Date` , delivery_date ] )
+
+    , q10( [
+
+      check( q_sys_sub_string( invoice_date, _, _, `.` ) )
+
+    , set( alternate_date_format )
+
+  ] )
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -342,10 +360,13 @@ i_line_rule_cut( line_descr_line, [
 % Mapped on - 19  March, 2021
 % Mapped by - Rohini 
 
+% Updated on   - 19 May, 2021
+% Updated by   - Rohini
+% Changes made - Invoice Date updated
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 
 
