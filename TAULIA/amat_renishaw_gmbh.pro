@@ -14,6 +14,8 @@ i_trace_lists.
 
 i_format_postcode( X, X ).
 
+i_op_param( us_invoice, _, _, _, false).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -261,9 +263,9 @@ i_line_rule_cut( line_append_line, [
 i_section( get_invoice_lines_1, [
 %=======================================================================
 
-    line_header_line
+    line_header_line_1
 
-    , qn0( [ peek_fails(line_end_line)
+    , qn0( [ peek_fails(line_end_line_1)
 
     , or([
 
@@ -279,7 +281,7 @@ i_section( get_invoice_lines_1, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_header_line, [
+i_line_rule_cut( line_header_line_1, [
 %=======================================================================
 
      or([
@@ -292,7 +294,7 @@ i_line_rule_cut( line_header_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_end_line, [
+i_line_rule_cut( line_end_line_1, [
 %=======================================================================
  
     or([
