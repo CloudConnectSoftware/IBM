@@ -143,7 +143,7 @@ i_rule(get_total_vat, [
    
     q0n(line)
 
-   ,  generic_horizontal_details( [ [`VAT`, `(`, `Euro`, `)`, `19`, `.`, `00`, `%`, tab ],  total_vat, d,  newline ] )
+   ,  generic_horizontal_details( [ [`VAT`, `(`, `Euro`, `)`, generic_item( [ line_vat_rate, d ] ), `.`, `00`, `%`, tab ],  total_vat, d,  newline ] )
     
 ] ).
 
@@ -310,16 +310,16 @@ i_line_rule_cut( line_end_line_1, [
 %=======================================================================
 i_line_rule_cut( line_additional_line, [
 %=======================================================================
-
-   a(d), `VER1`
    
-  , generic_item( [ line_descr, s1, tab ] )
-
+     generic_item( [ line_dummy, d, [`VER1`, tab ] ] )
+  
   , generic_item( [ line_quantity, d, q10(tab) ] )
 
   , generic_item( [ line_unit_amount, d, tab ] )
 
   , generic_item( [ line_net_amount, d, newline ] )
+  
+  , generic_item( [ line_descr, `VER1`] )
 
   , line_item(`FREIGHT`)
 
