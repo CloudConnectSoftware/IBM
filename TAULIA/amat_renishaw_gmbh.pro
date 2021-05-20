@@ -38,7 +38,7 @@ i_rule_list( [
 
     , get_invoice_lines
 
-    , get_invoice_lines_1
+   % , get_invoice_lines_1
 
 ] ).
 
@@ -184,7 +184,9 @@ i_section( get_invoice_lines, [
     , or([
 
 
-                [ line_invoice_line, q10(line_append_line) ]
+                [ line_additional_line, q10(line_append_line)]
+               
+               , [ line_invoice_line, q10(line_append_line) ]
 
              , line
 
@@ -215,7 +217,9 @@ i_line_rule_cut( line_end_line, [
 
         [`Amtsgericht`, `Stuttgart`, `,`, `HRB`  ]
 
-      , [ a(d), `VER1` ]
+        , [`Taxable`, `amount`, `(`, `Euro`, `)`, tab ]
+
+    %  , [ a(d), `VER1` ]
 
       ])
   
@@ -252,6 +256,27 @@ i_line_rule_cut( line_append_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_additional_line, [
+%=======================================================================
+   
+     generic_item( [ line_dummy, d, [`VER1`, tab ] ] )
+  
+  , generic_item( [ line_quantity, d, q10(tab) ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+  
+  , generic_item( [ line_descr, `VER1`] )
+
+  , line_item(`FREIGHT`)
+
+  , line_type( `extra`)
+
+  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -299,7 +324,7 @@ i_line_rule_cut( line_end_line_1, [
  
     or([
 
-         [`Taxable`, `amount`, `(`, `Euro`, `)`, tab ]
+         [`PACKAGING`, tab, `19`, `.`, `00`, `%`,  newline ]
 
       ])
   
