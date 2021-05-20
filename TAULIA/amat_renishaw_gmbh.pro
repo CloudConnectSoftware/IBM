@@ -270,11 +270,7 @@ i_line_rule_cut( line_additional_line, [
   
   , generic_item( [ line_descr, `VER1`] )
 
-  , line_item(`FREIGHT`)
-
-  , line_type( `extra`)
-
-  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+  ,  generic_item( [ line_type, `FREIGHT` ] )
 
 ] ).
 
@@ -345,12 +341,8 @@ i_line_rule_cut( line_additional_line, [
   , generic_item( [ line_net_amount, d, newline ] )
   
   , generic_item( [ line_descr, `VER1`] )
-
-  , line_item(`FREIGHT`)
-
-  , line_type( `extra`)
-
-  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+  
+  ,  generic_item( [ line_type, `FREIGHT` ] )
 
 ] ).
 
