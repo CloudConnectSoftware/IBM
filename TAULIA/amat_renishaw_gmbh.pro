@@ -268,7 +268,10 @@ i_line_rule_cut( line_additional_line, [
   
   , generic_item( [ line_descr, `VER1`] )
 
-  ,  generic_item( [ line_type, `FREIGHT` ] )
+  ,  generic_item( [ line_item, `FREIGHT` ] )
+
+  ,  generic_item( [ line_type, `extra` ] )
+
 
 ] ).
 
