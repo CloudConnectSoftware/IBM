@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_renishaw_gmbh, `05 May, 2021` ).
+i_version(amat_renishaw_gmbh, `24 May, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -38,7 +38,6 @@ i_rule_list( [
 
     , get_invoice_lines
 
-   % , get_invoice_lines_1
 
 ] ).
 
@@ -184,7 +183,7 @@ i_section( get_invoice_lines, [
     , or([
 
 
-                [ line_additional_line, q10(line_append_line)]
+                 [ line_additional_line, q10(line_append_line)]
                
                , [ line_invoice_line, q10(line_append_line) ]
 
@@ -231,9 +230,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-       generic_item( [ line_buyers_order_number, s, q10(tab) ] )
+      generic_item( [ line_buyers_order_number, d, q10(tab) ] )
 
-    , generic_item( [ line_descr, s1, tab ] )
+    , generic_item( [ line_item, s1, tab ] )
 
     , generic_item( [ line_quantity, d, tab ] )
 
@@ -248,7 +247,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-      generic_append( [ line_descr, s1, tab, ` `, ` ` ]  )
+      generic_item( [ line_descr, s1, tab ] )
 
     , generic_item( [ line_vat_rate, d, [`%`,  newline ] ] )
 
@@ -258,7 +257,7 @@ i_line_rule_cut( line_append_line, [
 i_line_rule_cut( line_additional_line, [
 %=======================================================================
    
-     generic_item( [ line_dummy, d, [`VER1`, tab ] ] )
+     generic_item( [ line_buyers_order_number, d, [`VER1`, tab ] ] )
   
   , generic_item( [ line_quantity, d, tab ] )
 
@@ -268,82 +267,10 @@ i_line_rule_cut( line_additional_line, [
   
   , generic_item( [ line_descr, `VER1`] )
 
-  ,  generic_item( [ line_item, `FREIGHT` ] )
+  , generic_item( [ line_item, `FREIGHT` ] )
 
-  ,  generic_item( [ line_type, `extra` ] )
+  , generic_item( [ line_type, `extra` ] )
 
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  INVOICE LINES - FREIGHT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_section( get_invoice_lines_1, [
-%=======================================================================
-
-    line_header_line_1
-
-    , qn0( [ peek_fails(line_end_line_1)
-
-    , or([
-
-
-                line_additional_line
-
-             , line
-
-        ])
-
-    ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_header_line_1, [
-%=======================================================================
-
-     or([
-          [ `Line`, tab, `Part`, `Number`, `/`, `Description`, tab ]
-
-     ])  
-
-      , trace( [ `Found Start line` ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_end_line_1, [
-%=======================================================================
- 
-    or([
-
-         [`PACKAGING`, tab, `19`, `.`, `00`, `%`,  newline ]
-
-      ])
-  
-  , trace( [ `Found End line` ] )
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_additional_line, [
-%=======================================================================
-   
-     generic_item( [ line_dummy, d, [`VER1`, tab ] ] )
-  
-  , generic_item( [ line_quantity, d, q10(tab) ] )
-
-  , generic_item( [ line_unit_amount, d, tab ] )
-
-  , generic_item( [ line_net_amount, d, newline ] )
-  
-  , generic_item( [ line_descr, `VER1`] )
-
-  ,  generic_item( [ line_type, `FREIGHT` ] )
 
 ] ).
 
@@ -355,6 +282,9 @@ i_line_rule_cut( line_additional_line, [
 % Mapped on - 05 May, 2021
 % Mapped by - Rohini
 
+% Updated on   - 24 May , 2021
+% Updated by   - Rohini
+% Changes made - Line details udpated
 
 % Updated on   - 
 % Updated by   -
