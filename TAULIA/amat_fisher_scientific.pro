@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `10 March, 2021` ).
+i_version(amat_fisher_scientific, `24 May, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,16 +28,18 @@ i_rule_list( [
 
     , get_shipto_details
 
+    , get_shipto_details_1
+
     , get_invoice_date
 
     , get_order_number
-
-	  , get_total_vat
-	
+	 
 	  , get_total_invoice
 	
-	 % , get_total_net
+	  , get_total_net
 
+    %, get_total_vat
+	
    	, get_invoice_lines
 
 
@@ -162,6 +164,101 @@ i_line_rule_cut( line_add_line_2, [
 
 %=======================================================================
 i_line_rule_cut( line_add_line_3, [
+%=======================================================================
+ 
+       generic_item( [ delivery_dummy6, s1, tab ] )
+      
+      , generic_item( [ delivery_city, w ] )
+      
+      , generic_append( [ delivery_city, w, q10(tab), ` `, `` ] )
+
+      , generic_item( [ delivery_country_dummy, w, q10(tab) ] )
+      
+      , generic_item( [ delivery_postcode, d, tab ] )
+  
+  ,or([
+
+      
+        [ check(delivery_country_dummy = Ship_raw) ,check(Ship_raw = `TX`) ,generic_item( [ delivery_country_code, `US` ] ) ] 
+
+    ,  [ check(delivery_country_dummy = Ship_raw) ,check(Ship_raw = `CA`) ,generic_item( [ delivery_country_code, `US` ] ) ] 
+
+      
+     ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SHIP TO DETAILS ALTERNATIVE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_shipto_details_1, [
+%=======================================================================
+  
+     q(0,25,line)
+
+   , line_add_linenew
+
+   , q(0,1,line)
+
+   , line_add_linenew_1
+   
+   , q(2,3,line)
+
+   , line_add_linenew_2
+
+   , q(0,1,line)
+
+   , line_add_linenew_3
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_linenew, [
+%=======================================================================
+
+       q0n(anything)
+     
+     , read_ahead([`ACCOUNTS`, `PAYABLE`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ delivery_dummy, s1, tab ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_add_linenew_1, [
+%=======================================================================
+
+        generic_item( [ delivery_dummy1, s1, tab ] )
+
+      , generic_item( [ delivery_dummy2, s1, tab ] )
+      
+      , generic_item( [ delivery_party, s1, newline ] )
+      
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_linenew_2, [
+%=======================================================================
+
+        generic_item( [ delivery_dummy4, s1, tab ] )
+
+      , generic_item( [ delivery_dummy5, s1, tab ] )
+          
+      , generic_item( [ delivery_street, s1, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_linenew_3, [
 %=======================================================================
  
        generic_item( [ delivery_dummy6, s1, tab ] )
