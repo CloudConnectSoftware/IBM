@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_ares_green, `28 Jan, 2021` ).
+i_version(amat_ares_green, `22 June, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -202,6 +202,8 @@ i_rule_cut(get_total_vat, [
     q0n(line)
 
   , generic_horizontal_details( [ [`零稅率`, tab, `免稅`, tab], total_vat, d, tab ] )
+
+    , generic_item( [ buyer_tax_type, `VAT` ] )
 
 ] ).
 
@@ -459,7 +461,9 @@ i_line_rule_cut( line_invoice_line_2, [
 % Mapped on - 15 Jan, 2021
 % Mapped by - Rohini 
 
-
+% Updated on   - 22 June,  2021
+% Updated by   - Rohini
+% Changes made -  Buyer tax type mapped to VAT As per request on 17 June, 2021
 
 % Updated on   - 
 % Updated by   -
