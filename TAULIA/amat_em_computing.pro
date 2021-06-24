@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_em_computing, `15 April, 2021` ).
+i_version(amat_em_computing, `24 June, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -405,7 +405,7 @@ i_line_rule_cut( line_invoice_line, [
 		
 		]
 		
-		, generic_item( [ line_net_amount, d, q10(tab) ] )
+		, generic_item( [ line_net_amount, d,[ q10(tab), q10(`$`)] ] )
 		
 	] )
 	
@@ -464,10 +464,13 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Rohini
 % Changes made - Invoice amount format updated
 
+% Updated on   - 24 June, 2021
+% Updated by   - Rohini
+% Changes made -  Line details updated
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
