@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_morgan_korea, `30 June 2021` ).
+i_version(amat_morgan_korea, `01 July, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -251,7 +251,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-                   [line_descr_line ,line_item_line, line_invoice_line_1, line_itemappend_line, q10(line_append_line) ]
+                   [line_descr_line ,q10(line_item_line), line_invoice_line_1, line_itemappend_line, q10(line_append_line) ]
                 
                 , [line_invoice_line, q10(line_append_line) ]
 
