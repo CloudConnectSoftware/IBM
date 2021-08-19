@@ -202,9 +202,9 @@ i_rule( get_total_invoice, [
 
     , or([
 
-      generic_horizontal_details( [ [ `INVOICE`, `TOTAL`  ] ,300, total_invoice , d , [`.` , newline ] ] )  
+      generic_horizontal_details( [ [ `INVOICE`, `TOTAL`, tab  ] , total_invoice , d , [q10(`.`) , newline ] ] )  
 
-    , generic_horizontal_details( [ [ `INVOICE`, `TOTAL`  ] ,300, total_invoice , n , [`-`, `.`,  newline ] ] )  
+    , generic_horizontal_details( [ [ `INVOICE`, `TOTAL`, tab  ] , total_invoice , n , [`-`, `.`,  newline ] ] )  
 
 ] )
 
