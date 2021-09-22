@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_mcc_transport, `12 June, 2020` ).
+i_version( ul_uapl_mcc_transport, `22 Sep, 2021` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -164,11 +164,13 @@ i_rule_cut( get_invoice_number, [
 
     , or([
         
-        generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `:`, tab ],  invoice_number, d, newline ] )
+          generic_horizontal_details( [ [ `INVOICE`, `NUMBER`, `:`, tab ],  invoice_number, d, newline ] )
 
        , generic_horizontal_details( [ [ `Equipment`, `Maintenance`, `Invoice`, tab ],  invoice_number, d, newline ] )
 
        , generic_horizontal_details( [ [ `CREDIT`, `NOTE`, q10(`Number`), q10(`:`), tab ],  invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [`TAX`, `INVOICE`, tab ],  invoice_number, d, newline ] )
 
     ])
 
@@ -282,6 +284,10 @@ i_rule( get_currency, [
 % Updated by   - Rohini
 % Changes made - Invoice Number updated
 
+
+% Updated on   - 22 Sep, 2021
+% Updated by   - Rohini
+% Changes made - Invoice number format updated
 
 % Updated on   - 
 % Updated by   -
