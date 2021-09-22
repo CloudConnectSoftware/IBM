@@ -215,3 +215,87 @@ i_rule( get_currency, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+    line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+        , or( [
+              
+               line_invoice_line
+
+              , line
+
+        ] )
+
+    ] )
+
+] ).
+%=======================================================================
+i_line_rule_cut( line_header_line, [ 
+%=======================================================================
+
+   or([
+   
+      [ `Account`, `Summary`,  newline ]
+
+  % , [ `ORDER`, `NUMBER`, `/`, `REFERENCES`, tab ]
+
+] )  
+
+    , trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+
+
+   or([
+	   
+	   [`Total`, `Charges`, tab ]
+
+	%,  [`We`, `hereby`, `certify`, `that`, `all`, `products` ]
+
+] )
+
+   , trace( [ `Found END line` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line, [
+%=======================================================================
+
+
+% generic_item( [ Variable, Data Type, After ] )
+
+generic_item( [ line_descr, s1, tab ] )
+
+,generic_item( [ line_quantity, d,q10(tab) ] ) % q10(tab) means if tab is after the value, it considers,else it doesnot take any value
+
+,generic_item( [ line_quantity_uom_code, w, tab ] )
+
+, generic_item( [ quantity_dummy, s1, tab ] )
+
+,generic_item( [ line_unit_amount_dummy, d, tab ] )
+
+,generic_item( [ unit_amount_dummy, s, `USD`] )
+
+, generic_item( [ currency_exchange_rate, d, tab ] )
+
+, generic_item( [ line_net_amount, d, [`ILS`,  newline ] ] )
+
+] ).
+
