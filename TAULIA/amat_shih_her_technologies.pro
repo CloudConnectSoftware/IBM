@@ -210,16 +210,8 @@ i_rule_cut(get_total_net_ntd, [
 
     q0n(line)
 
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
-   
   , generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
-    
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching)
-  
+   
   , check( total_net = TotNet)
 
   , generic_item( [ line_net_amount , TotNet ] )  
@@ -254,16 +246,9 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 
     q0n(line)
 
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
    
   , generic_horizontal_details( [ [ `PO`, `.`, dummy(d),  `USD`, `$` ], total_net, d, [ `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
-    
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching)
-  
+
   , check( total_net = TotNet1)
 
   , generic_item( [ line_net_amount , TotNet1 ] )  
