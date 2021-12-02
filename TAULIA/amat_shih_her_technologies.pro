@@ -210,16 +210,8 @@ i_rule_cut(get_total_net_ntd, [
 
     q0n(line)
 
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
-   
   , generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
-    
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching)
-  
+   
   , check( total_net = TotNet)
 
   , generic_item( [ line_net_amount , TotNet ] )  
@@ -254,16 +246,9 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 
     q0n(line)
 
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
    
-  , generic_horizontal_details( [ [ `USD` ], total_net, d, [`/`, `匯率`, generic_item( [ currency_exchange_rate, d ] ), `/`,  newline ] ] )
-    
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching)
-  
+  , generic_horizontal_details( [ [ `PO`, `.`, dummy(d),  `USD`, `$` ], total_net, d, [ `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
+
   , check( total_net = TotNet1)
 
   , generic_item( [ line_net_amount , TotNet1 ] )  
@@ -305,6 +290,8 @@ i_section( get_invoice_lines, [
                  
                  line_invoice_line
 
+              , [line_descr_line, line_invoice_line_1]
+
               , line
 
         ] )
@@ -320,7 +307,7 @@ i_line_rule_cut( line_header_line, [
     
     or([
       
-      [ `品名`, tab, `數量`, tab, `單價`, tab ]
+      [  `品`,  tab, `名`,  tab, `數`,  `量`,  tab ]
 
 
 ] )
@@ -352,6 +339,42 @@ i_line_rule_cut( line_invoice_line, [
   , generic_item( [ line_net_amount_dummy, d ] )
 
   , generic_item( [ line_dummy, s1, newline ] )
+
+  , generic_item( [ line_vat_type, `VAT` ] ) % When tax is 5 %
+
+  , or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
+
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+
+    generic_item( [ line_descr_dummy, d, tab ] )
+
+  ,  generic_item( [ line_descr, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+
+    generic_item( [ line_quantity, d, q10(tab) ] )
+
+  , generic_item( [ line_quantity_uom_code, w, tab ] )
+
+  , generic_item( [ line_unit_amount_dummy, d , [tab, `$` ]] )
+
+  , generic_item( [ line_net_amount_dummy, d, newline ] )
 
   , generic_item( [ line_vat_type, `VAT` ] ) % When tax is 5 %
 
