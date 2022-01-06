@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shih_her_technologies, `03 Nov, 2021` ).
+i_version(amat_shih_her_technologies, `06 Jan, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -210,8 +210,15 @@ i_rule_cut(get_total_net_ntd, [
 
     q0n(line)
 
-  , generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
-   
+  , or([
+
+    generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
+
+  , generic_vertical_details( [ [`幣別`,  `TWD`,  newline ], `幣別`, q(0,1), (start,100,600), total_net, d, tab ] )
+
+    ])
+
+
   , check( total_net = TotNet)
 
   , generic_item( [ line_net_amount , TotNet ] )  
@@ -291,6 +298,8 @@ i_section( get_invoice_lines, [
                  line_invoice_line
 
               , [line_descr_line, line_invoice_line_1]
+
+              , line_invoice_line_2
 
               , line
 
@@ -389,6 +398,26 @@ i_line_rule_cut( line_invoice_line_1, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+
+     generic_item( [ line_quantity, d,tab ] )
+
+  , generic_item( [ line_descr, s1, newline ] )
+
+  , generic_item( [ line_vat_type, `VAT` ] ) % When tax is 5 %
+
+  , or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
+
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
+
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -398,6 +427,10 @@ i_line_rule_cut( line_invoice_line_1, [
 % Mapped by - Rohini 
 
 % Merged  9000183990 and 9000171994 due to USD and NTD Currency
+
+% Updated on   - 06 Jan, 2022
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 
 % Updated on   - 
