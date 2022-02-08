@@ -156,15 +156,15 @@ i_rule( get_ship_to, [
 
    , q(0,1,line)
 
-   , line_add_ship_line_2
+ %  , line_add_ship_line_2
 
-   , q(0,1,line)
+ %  , q(0,1,line)
 
-   , line_add_ship_line_3
+ %  , line_add_ship_line_3
 
-   , q(0,1,line)
+  % , q(0,1,line)
 
-   , line_add_ship_line_4
+  % , line_add_ship_line_4
 
 ] ).
 
