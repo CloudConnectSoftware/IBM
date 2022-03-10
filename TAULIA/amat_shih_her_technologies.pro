@@ -266,7 +266,6 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 
   , generic_horizontal_details( [ [`PO`, `.`,dummy(d),  `USD`, `$` ], total_net, d, [  `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
    
-  , clear(regexp_allow_partial_matching) ]
 
   ] )
   
