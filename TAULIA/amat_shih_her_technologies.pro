@@ -4,10 +4,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shih_her_technologies, `06 Jan, 2022` ).
+i_version(amat_shih_her_technologies, `10 March, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+ 
 i_date_format(_).
 
 i_trace_lists.
@@ -32,7 +32,7 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_total_net_ntd
+    %, get_total_net_ntd -This vendor to be mapped only for USD
 
     , get_total_net_usd
 
@@ -264,6 +264,9 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
    
   , clear(regexp_allow_partial_matching) ]
 
+  , generic_horizontal_details( [ [`PO`, `.`,dummy(d),  `USD`, `$` ], total_net, d, [  `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
+   
+
   ] )
   
   , check( total_net = TotNet1)
@@ -442,6 +445,10 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated by   - Rohini
 % Changes made - Line details updated
 
+
+% Updated on   - 10 March, 2022
+% Updated by   - Rohini
+% Changes made - Freezed NTD value has this vendor needs only USD
 
 % Updated on   - 
 % Updated by   -
