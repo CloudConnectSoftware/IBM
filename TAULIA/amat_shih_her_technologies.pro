@@ -215,6 +215,7 @@ i_rule_cut(get_total_net_ntd, [
     generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
 
   , generic_vertical_details( [ [`幣別`,  `TWD`,  newline ], `幣別`, q(0,1), (start,100,600), total_net, d, tab ] )
+  
 
     ])
 
@@ -390,6 +391,8 @@ i_line_rule_cut( line_descr_line, [
 i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
 
+
+
     generic_item( [ line_quantity, d, q10(tab) ] )
 
   , generic_item( [ line_quantity_uom_code, w, tab ] )
@@ -398,7 +401,7 @@ i_line_rule_cut( line_invoice_line_1, [
 
   , generic_item( [ line_net_amount_dummy, d, newline ] )
 
-  , generic_item( [ line_vat_type, `VAT` ] ) % When tax is 5 %
+  ,q10( generic_item( [ line_vat_type, `VAT` ] )) % When tax is 5 %
 
   , or( [ 
 		
