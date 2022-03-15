@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shih_her_technologies, `10 March, 2022` ).
+i_version(amat_shih_her_technologies, `15 March, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -266,6 +266,8 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
   , clear(regexp_allow_partial_matching) ]
 
   , generic_horizontal_details( [ [`PO`, `.`,dummy(d),  `USD`, `$` ], total_net, d, [  `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
+
+  , generic_horizontal_details( [ [`PO`, `.`, dummy(d),  `USD`, `$` ], total_net, d, [ `匯率`,  newline ] ] )
    
 
   ] )
@@ -453,10 +455,13 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated by   - Rohini
 % Changes made - Freezed NTD value has this vendor needs only USD
 
+% Updated on   - 15 March, 2022
+% Updated by   - Rohini
+% Changes made - USD Value mapped
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
