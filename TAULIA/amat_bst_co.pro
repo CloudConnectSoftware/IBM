@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `08 March, 2022` ).
+i_version(amat_bst_co, `25 March, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -255,9 +255,11 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-                  [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
+                 [line_descr_line, line_invoice_line_4 , q10(line_append_line) ]   
                   
-                 , [line_descr_line , line_invoice_line_1, q10(line_append_line) ]
+                , [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
+                  
+                , [line_descr_line , line_invoice_line_1, q10(line_append_line) ]
 
                 , [line_item_line, line_invoice_line_3 , line_itemappend_line]
 
@@ -455,6 +457,38 @@ i_line_rule_cut( line_invoice_line_2, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_4, [
+%=======================================================================
+
+    generic_item( [ line_month_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
+  
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d,tab ] )
+
+  , generic_item( [ line_net_amount, d, q10(tab) ] )
+
+  , generic_item( [ line_vat_amount, d,newline ] )
+
+
+  , or( [ 
+
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+] )
+
+
+] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -466,6 +500,10 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated on   - 08 March, 2022
 % Updated by   - Rohini
 % Changes made - line_invoice_line_2 mapped
+
+% Updated on   - 25 March, 2022
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 % Updated on   - 
 % Updated by   -
