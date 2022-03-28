@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shih_her_technologies, `15 March, 2022` ).
+i_version(amat_shih_her_technologies, `28th March 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -314,6 +314,8 @@ i_section( get_invoice_lines, [
                  line_invoice_line
 
               , [line_descr_line, line_invoice_line_1]
+          
+              , [line_descr_line ,line_invoice_line_3 ]
 
               , line_invoice_line_2
 
@@ -420,6 +422,7 @@ i_line_rule_cut( line_invoice_line_1, [
 i_line_rule_cut( line_invoice_line_2, [
 %=======================================================================
 
+
      generic_item( [ line_quantity, d,tab ] )
 
   , generic_item( [ line_descr, s1, newline ] )
@@ -436,6 +439,21 @@ i_line_rule_cut( line_invoice_line_2, [
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_3, [
+%=======================================================================
+
+    generic_item( [ line_quantity , d , q10(tab) ] )
+  
+  , generic_item( [ line_quantity_uom_code, w , tab ] )
+
+  , generic_item( [ line_unit_amount, d , [tab, `$`] ] )
+
+  , generic_item( [ line_net_amount, d , newline ] )
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -459,6 +477,10 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated by   - Rohini
 % Changes made - USD Value mapped
 
+
+% Updated on   - 28th March 2022
+% Updated by   - Sushmitha
+% Changes made - added line_invoice_line_3
 
 % Updated on   - 
 % Updated by   -
