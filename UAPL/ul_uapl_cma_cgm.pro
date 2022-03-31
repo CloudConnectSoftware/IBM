@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_cma_cgm, `29/05/2017`  ).
+i_version( ul_uapl_cma_cgm, `31 March 2022`  ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -172,7 +172,13 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
+     ,or([
+
+         generic_horizontal_details( [ [ `Total`, `Including`, `Tax`, tab ], total_invoice, d, newline ] )
+    
     , generic_horizontal_details( [ [ `TOTAL`,  tab ], total_invoice, d, newline ] ) 
+
+     ])
 
         , check( total_invoice = TotInv )
 
@@ -201,3 +207,13 @@ i_rule( get_currency, [
 
     
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Updated on   - 31 March 2022
+% Updated by   - Sushmitha
+% Changes made - Updated inv_tot
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
