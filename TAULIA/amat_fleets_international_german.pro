@@ -205,11 +205,15 @@ i_rule_cut(get_total_vat_rate_zero, [
    
     q0n(line)
 
+ , set(reverse_punctuation_in_numbers)
+ 
  , [generic_horizontal_details( [ [ `0`, `%`], dummy_value , w ,  newline ] )
 
  , generic_item( [ default_vat_rate, `0`] )
  
  , generic_item( [ total_vat, `0`] )]
+
+  , clear(reverse_punctuation_in_numbers)
 
 
 ] ).
