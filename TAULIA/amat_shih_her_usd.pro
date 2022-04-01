@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SHIH HER TECHNOLOGIES INC Merged  9000183990 and 9000171994
+% SHIH HER TECHNOLOGIES INC  - For Invoice with USD Value -  V# 9000183990
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shih_her_technologies, `28th March 2022` ).
+i_version(amat_shih_her_usd, `28th March 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -31,8 +31,6 @@ i_rule_list( [
     , get_invoice_date
 
     , get_order_number
-
-    %, get_total_net_ntd -This vendor to be mapped only for USD
 
     , get_total_net_usd
 
@@ -198,50 +196,6 @@ i_line_rule_cut( find_order_number, [
 ] ).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOTAL  AMOUNT  -NTD CURRENCY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut(get_total_net_ntd, [
-%=======================================================================
-
-    q0n(line)
-
-  , or([
-
-    generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
-
-  , generic_vertical_details( [ [`幣別`,  `TWD`,  newline ], `幣別`, q(0,1), (start,100,600), total_net, d, tab ] )
-  
-
-    ])
-
-
-  , check( total_net = TotNet)
-
-  , generic_item( [ line_net_amount , TotNet ] )  
-
-  , generic_item( [ buyer_tax_type, `VAT` ] )
-
-  , generic_item( [ default_vat_rate, `5` ] )
-
-  , generic_item( [ currency, `NTD` ] )
-  
-  , check( sys_calculate_str_multiply( TotNet, `1.05`, TotalGrossAmount ) )
-  
-	, total_invoice(TotalGrossAmount)
-  
-	, check( sys_calculate_str_multiply( TotNet, `0.05`, TotalVatAmount ) )
-   
-	, line_vat_amout(TotalVatAmount)
-   
-	, total_vat(TotalVatAmount)
-
-
-] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL AMOUNT USD
