@@ -312,7 +312,7 @@ i_line_rule( line_invoice_line, [
 
     , clear(reverse_punctuation_in_numbers)
     
-    , generic_item( [ line_buyers_order_number, `1` ] )
+    , generic_item( [ line_buyers_order_number, `10` ] )
 
 
 
