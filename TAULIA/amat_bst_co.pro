@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `25 March, 2022` ).
+i_version(amat_bst_co, `05 May, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -259,12 +259,13 @@ i_section( get_invoice_lines, [
                   
                   [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
                   
+                , [line_descr_line, line_invoice_line_5 ,q10(line_append_line) ]
+                
                 , [line_descr_line , line_invoice_line_1, q10(line_append_line) ]
 
-                , [line_descr_line, line_invoice_line_2 ,q10(line_append_line) ]
+                , [line_descr_line, line_invoice_line_2 ,q10(line_append_line) ]               
                 
                 , [line_item_line, line_invoice_line_3 , line_itemappend_line]
-
 
                 , [ line_invoice_line_4 , q10(line_append_line) ]
 
@@ -437,13 +438,13 @@ i_line_rule_cut( line_invoice_line_2, [
 
   , generic_append( [line_descr, s1, tab, ` `, ` `  ] )
 
-  , q10(generic_item( [ line_item_dummy, s1, tab ] ))
+  , generic_item( [ line_item_dummy, s1, tab ] )
 
   , generic_item( [ line_quantity, d, tab ] )
 
   , generic_item( [ line_unit_amount, d,tab ] )
 
-  , generic_item( [ line_net_amount, d, q10(tab) ] )
+  , generic_item( [ line_net_amount, d, tab ] )
 
   , generic_item( [ line_vat_amount, d,newline ] )
 
@@ -491,6 +492,37 @@ i_line_rule_cut( line_invoice_line_4, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_5, [
+%=======================================================================
+
+    generic_item( [ line_month_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_dummy, d, q10(tab) ] )
+
+  , generic_append( [line_descr, s1, tab, ` `, ` `  ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d,tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_amount, d,newline ] )
+
+
+  , or( [ 
+
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+] )
+
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -505,6 +537,10 @@ i_line_rule_cut( line_invoice_line_4, [
 % Changes made - line_invoice_line_2 mapped
 
 % Updated on   - 25 March, 2022
+% Updated by   - Rohini
+% Changes made - Line details updated
+
+% Updated on   - 05 May, 2022
 % Updated by   - Rohini
 % Changes made - Line details updated
 
