@@ -510,6 +510,21 @@ i_line_rule_cut( line_invoice_line, [
 
     , generic_item( [ line_net_amount, d, newline ] ) 
 
+    
+    , q10([  % LINE VAT Rate Calculation
+
+     with( invoice , total_vat , VAT )  , trace( [ `vat tot`, VAT ] )
+
+    , with( invoice , total_net , Net ) , trace( [ `sub total`, Net ] )  
+
+    , check(sys_calculate_str_divide( VAT, Net, VAT_RATE)) , trace( [ `VAT Rate`, VAT_RATE ] )
+
+    , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) , generic_item( [ line_vat_rate , VAT_PERCENT ] )    
+
+    , clear(reverse_punctuation_in_numbers) , clear(regexp_cross_word_boundaries)
+
+       ]) 
+
   , or( [ 
 
 
