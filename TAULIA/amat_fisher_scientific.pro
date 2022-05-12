@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_fisher_scientific, `24 May, 2021` ).
+i_version(amat_fisher_scientific, `12 May, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -449,6 +449,8 @@ i_section( get_invoice_lines, [
 
                 , line_shipping_line
 
+                , line_non_standard_line
+
               , line
 
         ] )
@@ -575,6 +577,24 @@ i_line_rule_cut( line_shipping_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_non_standard_line, [
+%=======================================================================
+
+  `NON`, `STANDARD`
+  
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline] )
+
+  , line_item(`FREIGHT`)
+
+  , line_type( `extra`)
+
+  , check(q_sys_comp_str_gt( line_net_amount, `0` ))
+
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -606,6 +626,10 @@ i_line_rule_cut( line_shipping_line, [
 % Updated on   - 10 March, 2021
 % Updated by   - Rohini
 % Changes made - Shipping line mapped
+
+% Updated on   - 12 May, 2022
+% Updated by   - Rohini
+% Changes made - Non Standard additional line updated
 
 % Updated on   - 
 % Updated by   -
