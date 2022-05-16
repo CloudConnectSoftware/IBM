@@ -283,6 +283,8 @@ i_rule_cut( get_line_buyers_order_number, [
 
       ,  generic_horizontal_details( [ [ `PO`, `No`, tab, `:`, tab ], 100, order_number, w, newline ] )
 
+      , generic_horizontal_details( [ [ `PO`, `Ref`, tab, `:`, tab ], order_number, w, newline ] )
+
        ] )
 
        , check(line_buyers_order_number = OrdNo)
