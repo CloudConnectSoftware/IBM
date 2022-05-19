@@ -137,7 +137,7 @@ i_rule( get_invoice_number, [
 
        generic_horizontal_details( [ [`發票號碼`, `:` ], invoice_number, s1, gen_eof ] )
 
-      , generic_horizontal_details( [ [ `發票號碼`, `：`], invoice_number, s1, [tab, `格`,  tab ]   ] )
+      , generic_horizontal_details( [ [ `發票號碼`, `：`], invoice_number, s1, [tab, `格`,  tab ] ] )
 
    ])
 
