@@ -133,7 +133,15 @@ i_rule( get_invoice_number, [
 
      , check_text(`發票號碼` )
 
-     , generic_horizontal_details( [ [`發票號碼`, `:` ], invoice_number, s1, gen_eof ] )
+      , or( [
+
+       generic_horizontal_details( [ [`發票號碼`, `:` ], invoice_number, s1, gen_eof ] )
+
+      , generic_horizontal_details( [ [ `發票號碼`, `：` ], invoice_number, s1, tab   ] )
+
+   ])
+
+     
  
 
 ] ).
@@ -153,8 +161,14 @@ i_rule( get_invoice_date, [
 
      , check_text(`發票號碼` )
 
-     , generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,400), invoice_date, date, newline ] )
+     , or( [
+
+      generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,400), invoice_date, date, newline ] )
+
+    , generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,900), invoice_date , date, newline ] )
         
+        ] )
+
 ] ).
 
 
@@ -213,6 +227,8 @@ i_rule_cut(get_total_net_ntd, [
     generic_horizontal_details( [ [ `NTD` ], total_net, d, `/`  ] )
 
   , generic_vertical_details( [ [`幣別`,  `TWD`,  newline ], `幣別`, q(0,1), (start,100,600), total_net, d, tab ] )
+
+  , generic_horizontal_details( [ [ `總計`,  tab ], total_net, d, [ `統一編號`, `：` ] ] )
   
 
     ])
@@ -283,6 +299,8 @@ i_line_rule_cut( line_header_line, [
       
       [  `品`,  tab, `名`,  tab, `數`,  `量`,  tab ]
 
+      , [`品名`,  tab, `數量`,  tab, `單價`,  tab]
+
 
 ] )
 
@@ -294,7 +312,11 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-   or( [ [`銷`, tab, `售`, tab, `額`, tab ], check_text(`匯率`) ] )
+   or( [
+     
+      [`銷`, tab, `售`, tab, `額`, tab ], check_text(`匯率`) ] )
+
+      , [`銷售額合計`,  tab ]
 
      , trace( [ `Found End line` ] )
 
