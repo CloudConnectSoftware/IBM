@@ -131,13 +131,13 @@ i_rule( get_invoice_number, [
 
      q(0,40,line)
 
-     , check_text(`發票號碼` )
+    % , check_text(`發票號碼` )
 
       , or( [
 
        generic_horizontal_details( [ [`發票號碼`, `:` ], invoice_number, s1, gen_eof ] )
 
-      , generic_horizontal_details( [ [ `發票號碼`, `：` ], invoice_number, s1, tab   ] )
+      , generic_horizontal_details( [ [ `發票號碼`, `：`], invoice_number, s1, [tab, `格`,  tab ]   ] )
 
    ])
 
@@ -165,7 +165,7 @@ i_rule( get_invoice_date, [
 
       generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,400), invoice_date, date, newline ] )
 
-    , generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,900), invoice_date , date, newline ] )
+    , generic_vertical_details( [ [`電子發票證明聯`], `電子發票證明聯`, q(0,1), (start,100,900), invoice_date , date, newline ] )
         
         ] )
 
