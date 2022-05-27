@@ -59,7 +59,7 @@ i_rule_list( [
 i_rule_cut( get_supplier_detail, [
 %=======================================================================
 
-     sender_name( ` GAL SHVAV MECHANICA LTD.` )
+     sender_name( `GAL SHVAV MECHANICA LTD.` )
 
    % Supplier VAT number - 511398760% 
 
