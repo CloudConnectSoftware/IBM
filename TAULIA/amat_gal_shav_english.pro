@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_gal_shav_english, `06 May, 2022` ).
+i_version(amat_gal_shav_english, `02 June, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -257,6 +257,8 @@ i_line_rule_cut( line_header_line, [
           [ `Description`, tab, `Price`,  newline ]
 
         , [`Description`,  newline ]
+
+        , [ `Number`, tab, `Description`, tab, `Price` ]
       
 ] )
 
