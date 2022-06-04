@@ -239,6 +239,8 @@ i_section( get_invoice_lines, [
                
                [line_invoice_line_english , q10(line_append_line)]
 
+            , [line_invoice_line_english_1 , q10(line_append_line)]
+
             , line
 
         ] )
@@ -318,6 +320,40 @@ i_line_rule_cut( line_invoice_line_english, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_english_1, [
+%=======================================================================
+
+	
+		
+	  generic_item( [ line_reference, d, q10(tab) ] )
+
+    , generic_item( [ line_item_dummy, s , q10(tab)] )
+
+    , generic_item( [ dummy_po, [ begin, q(dec,10,10), end ], `-` ] )
+
+    , generic_item( [ line_buyers_order_number_dummy, d ] )
+
+	, generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [ line_descr_dummy, s1, tab ] ) 
+
+	, generic_item( [ line_quantity, d, q10(tab) ] )
+  
+	, generic_item( [ line_quantity_uom_code, w, [ q10(tab), `USD` ] ] )
+
+	, generic_item( [ line_unit_amount_dummy, d , tab ] )
+
+    , generic_item( [ line_net_amount, d, newline   ] )
+
+    , with( line , line_buyers_order_number_dummy , ORDLINE )
+
+    , check(sys_calculate_str_multiply( ORDLINE, `10`, PO_ITEM ))
+
+    , generic_item( [ line_buyers_order_number , PO_ITEM ] )
+   
+
+] ).
 
 %=======================================================================
 i_line_rule_cut( line_append_line, [
