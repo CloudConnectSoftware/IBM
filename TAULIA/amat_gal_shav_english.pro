@@ -193,6 +193,8 @@ i_rule_cut( get_total_discount, [
    generic_horizontal_details( [ [`Overall`,  `Disc`, `.`,  `(`, `-`, generic_item( [  dummy_rate, d ] ), `%`, `)`,  tab ,`-` ],dummy_rounding_amount, n, newline ] )
     
  , generic_horizontal_details( [ [`Overall`,  `Disc`, `.`,  `(`, `-`, generic_item( [  dummy_rate, d ] ), `%`, `)`,  tab ],dummy_rounding_amount, d, newline ] )
+
+ , generic_horizontal_details( [ [`Overall`, `Disc`, `.`, `(`, `-`,  generic_item( [  dummy_rate, d ] ), `%`, `)`, tab, `-` ],dummy_rounding_amount, n, newline ] )
     
     
 ] )
@@ -237,7 +239,9 @@ i_section( get_invoice_lines, [
         , or( [
                 
                
-               [line_invoice_line_english , q10(line_append_line)]
+             [line_invoice_line_english_rounding, q10(line_append_line)]
+             
+             , [line_invoice_line_english , q10(line_append_line)]
 
             , [line_invoice_line_english_1 , q10(line_append_line)]
 
@@ -352,6 +356,62 @@ i_line_rule_cut( line_invoice_line_english_1, [
 
     , generic_item( [ line_buyers_order_number , PO_ITEM ] )
    
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_english_rounding, [
+%=======================================================================
+
+	
+		
+	  generic_item( [ line_reference, d, q10(tab) ] )
+
+    , generic_item( [ line_item_dummy, s , q10(tab)] )
+
+    , generic_item( [ dummy_po, [ begin, q(dec,10,10), end ], `-` ] )
+
+    , generic_item( [ line_buyers_order_number_dummy, d ] )
+
+	, generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [ line_descr_dummy, s1, tab ] ) 
+
+	, generic_item( [ line_quantity, d, q10(tab) ] )
+  
+	, generic_item( [ line_quantity_uom_code, w, [ q10(tab), `USD` ] ] )
+
+	, generic_item( [ line_unit_amount_dummy, d , tab ] )
+
+    
+	  ,	or( [  
+   
+		[
+		
+		with( invoice, dummy_rounding_amount, RoundingAmount )
+		
+		, generic_item( [ line_net_amount_x, d, q10(tab) ] )
+		
+		, check( sys_calculate_str_subtract( line_net_amount_x, RoundingAmount, LineNetAmount ) )
+		
+		, line_net_amount( LineNetAmount )
+	
+		
+		]
+		
+		, generic_item( [ line_net_amount, d, newline ] )
+		
+	] )
+
+    , with( line , line_buyers_order_number_dummy , ORDLINE )
+
+    , check(sys_calculate_str_multiply( ORDLINE, `10`, PO_ITEM ))
+
+    , generic_item( [ line_buyers_order_number , PO_ITEM ] )
+   
+
+	, remove(dummy_rounding_amount)
 
 ] ).
 
