@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% CONTINUOUS LINE TECHNOLOGY LTD 
+% CONTINUOUS LINE TECHNOLOGY LTD  - ENGLISH Version - 9000158304 / CoCd 0003
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -8,15 +8,10 @@ i_version(amat_continuous_line_english, `09 June, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( `d/m/y` ).
+i_date_format(_).
 
-i_op_param( us_invoice, _, _, _, false ).
 
 i_trace_lists.
-
-i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
-
-i_user_field( invoice, dummy_rounding_amount, `dummy_rounding_amount` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -31,8 +26,6 @@ i_rule_list( [
     , get_invoice_date
 
 	, get_order_number
-
-    , get_freight
 		
 	, get_totals_1
 
@@ -81,9 +74,9 @@ i_rule_cut( get_invoice_number, [
 
  , or([
 
-   generic_horizontal_details( [ [`רוקמ`,  `-` ], invoice_number , s , [`תזכרמ`,  `סמ`,  `תינובשח`,  newline ] ] )
+   generic_horizontal_details( [ [`Invoice` ], invoice_number , s , [ `-`, `Copy`,  newline ] ] )
    
- , generic_horizontal_details( [ [ `רוקמ`,  `-` ], invoice_number , s , [ `סמ`,  `תינובשח`,  newline] ] )
+ , generic_horizontal_details( [ [ `Invoice`], invoice_number , s1 , newline ] )
 	
 ] )
 
@@ -101,27 +94,15 @@ i_rule_cut( get_invoice_number, [
 i_rule_cut( get_invoice_date, [ 
 %=======================================================================
 	
-	or([
-		
-	   line_with_text(`תינובשח ךיראת`)
+   q0n(line)
 
-	,  line_with_text(`תינובשחךיראת`)
-	
+ , or([
+
+   generic_horizontal_details( [ [`Invoice`, `Date`, `:` ], invoice_date , date , newline ] )
+   
 
 ] )
 
-	, line_invoice_date
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_date, [ 
-%=======================================================================
-	
-	generic_item( [ invoice_date, date, `:` ] ), q10(tab)
-	
-	,  `תינובשח`,  `ךיראת`, gen_eof
-	
 ] ).
 
 
@@ -176,171 +157,19 @@ i_line_rule( find_order_number, [
 %=======================================================================
 i_rule_cut( get_totals_1, [
 %=======================================================================
+ 
+   q0n(line)
 
-   or([
-	   
-	   line_with_text(`ללוכריחמ`)
+ , or([
 
-	,  line_with_text(`ללוכ ריחמ`)
+   generic_horizontal_details( [ [ `TOTAL`, tab, generic_item( [ currency, w ] )], total_net , d , newline ] ) 
 
-	
-	
-	] )
-	
-	, line_price_before_1
-		 
-	 , q(0,2,line)
-	 
-	 , line_total_net_1
-	 
-	  , q(0,1,line)
-	 
-	 , line_total_vat_1
+] )
+    , check( total_net = TotNet)
+
+    , generic_item( [ total_invoice , TotNet ] )
 
 ] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_price_before_1, [
-%=======================================================================
-
-	generic_item( [ dummy_price_before, d, tab ] )
-   
-   , `ללוכ`, `ריחמ`, gen_eof
-      
-  
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_total_net_1, [
-%=======================================================================
-
-     generic_item( [ total_net, d, tab ] )
-   
-   , `החנה`, `ירחא`, `ריחמ`, gen_eof
-   
-  
-] ).
-%=======================================================================
-i_line_rule_cut( line_total_vat_1, [
-%=======================================================================
-
-	 generic_item( [ total_vat, d, [tab, `(` ] ] )
-	
-	, generic_item( [ default_vat_rate, d, [ `%`, `)` ]  ] )
-
-	, `מ`, `"`, `עמ`, gen_eof
-
-	 , currency(`ILS`)
-  
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE AMOUNTALTERNATIVE (without discount / rounding)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut( get_totals_2, [
-%=======================================================================
-
-   or([
-	   
-	   line_with_text(`ללוכריחמ`)
-
-	,  line_with_text(`ללוכ ריחמ`)
-
-	
-	
-	] )
-	
-	, line_total_net_2
-		 
-	 , q(0,1,line)
-	 
-	 , line_total_vat_2
-     
-	 , q(0,1,line)
-	 
-	 , line_total_vat_21
-
-
-] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_total_net_2, [
-%=======================================================================
-
-	generic_item( [ total_net, d, tab ] )
-   
-   , `ללוכ`, `ריחמ`, gen_eof
-      
-  
-] ).
-%=======================================================================
-i_line_rule_cut( line_total_vat_2, [
-%=======================================================================
-
-	generic_item( [ total_vat, d, tab ] )
-
-  , generic_item( [ dummY_date, s,  `:` ] )
-   
-   , `דע`,  `םולשתל`, gen_eof
-      
-  
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_total_vat_21, [
-%=======================================================================
-
-    `(`
-	
-	
-	, generic_item( [ default_vat_rate, d, [ `%`, `)` ]  ] )
-
-	, `מ`, `"`, `עמ`, gen_eof
-
-	 , currency(`ILS`)
-  
-   
-  
-] ).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% GET FREIGHT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	Invoice Totals Capture
-%=======================================================================
-
-%=======================================================================
-i_rule( get_freight, [
-%=======================================================================
-
-	line_with_text(`תיללכהחנה`)
-	
-	, line_freight
-	
-] ).
-
-%=======================================================================
-i_line_rule( line_freight, [ 
-%=======================================================================
-	
-	 generic_item( [ dummy_rounding_amount, d, tab ] )
-	
-	, `(`, generic_item( [ dummy_rate, d, `%` ] ), `)`
-	
-	, `תיללכ`, `החנה`
-	
-	
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -359,12 +188,9 @@ i_section( get_invoice_lines, [
         , or( [
               
               
-			 [ line_invoice_line_ils, q10(line_append_line), q10(line_append_line)]
-
-			,[ line_invoice_line_ils_1, q10(line_append_line), q10(line_append_line)]
-				
-			 
-              , line
+			  line_invoice_line
+        
+           , line
 
         ] )
 
@@ -378,25 +204,8 @@ i_line_rule_cut( line_header_line, [
 
 	or( [
       
-		[`חולשמל`,  tab, `רצומ`,  tab, `רצומ`,  tab, `חוקל`,  newline  ]
-
-	 % , [`ריחמ`, `כ`, `"`, `הס`, tab, `רעש`, tab, `הדיחיל`, tab, `חולשמל`, tab ]
-
-	%  , [`ריחמ`,  `כ`, `"`, `הס`,  tab, `רעש`,  tab, `הדיחיל`,  `ריחמ`,  tab ]
-
-	%  , [ `ריחמ`,  tab, `רעש`,  tab, `הדיחיל`,  `ריחמ`,  `חולשמל`,  tab ]
-
-	  , [`ריחמ`,  tab, `חולשמל`,  tab, `רצומ`,  tab ]
-
-	  , [`חולשמל`,  tab, `רצומ`,  tab, `רצומל`,  tab ]
-
-	  , [`ריחמ`, tab, `רעש`, tab, `הדיחיל`, tab, `חולשמל`, tab ]
-
-	  , [ `חולשמל`, tab, `רצומ`, tab, `רצומ`,  newline ]
-
-	  , [ `ריחמ`,  tab, `הדיחיל`,  tab, `חולשמל`,  tab ]
-		
-		
+		[`Document`, `Your`, `Order`, `Ln`, `Number`, `Bar` ]
+	
 	] )
 
     , trace( [ `Found Start line` ] )
@@ -409,7 +218,7 @@ i_line_rule_cut( line_end_line, [
 	
 	or( [   
 	  
-		[ `תינובשח`,  `רפסמ`,  `דוקרב`,  newline ]
+		[ `TOTAL`, tab, `USD` ]
 	
 		
 	] )
@@ -420,112 +229,35 @@ i_line_rule_cut( line_end_line, [
 
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line_ils, [
+i_line_rule_cut( line_invoice_line, [
 %=======================================================================
-
-		
-		or( [  
-   
-		[
-		
-		with( invoice, dummy_rounding_amount, RoundingAmount )
-		
-		, generic_item( [ line_net_amount_x, d, q10(tab) ] )
-		
-		, check( sys_calculate_str_subtract( line_net_amount_x, RoundingAmount, LineNetAmount ) )
-		
-		, line_net_amount( LineNetAmount )
-	
-		
-		]
-		
-		, generic_item( [ line_net_amount, d, q10(tab) ] )
-		
-	] )
-
-		 , generic_item( [ currency_exchange_rate, d , `$` ] )
-
-		 , generic_item( [ line_unit_amount_dummy, d ,  `EA` ] )
-
-		 , generic_item( [ line_unit_dummy1, d  ] )
-
-		 , generic_item( [ line_quantity_uom_code, w , q10(tab) ]  )
-
-		 , generic_item( [ line_quantity_dummy, d , tab  ] )
-
-		 , generic_item( [ line_descr, s1 , tab ] )
          
-		 , generic_item( [ line_descr_dummy, s , q10(tab) ] )
-
-		 , generic_item( [ line_buyers_order_number, d ] )
+           generic_item( [ line_item_dummy, s, q10(tab) ] )
 
 		 , generic_item( [ line_PO, d ] )
 
-		 , generic_item( [ line_dummy, s1 , newline ] )
+		 , generic_item( [ line_buyers_order_number, d  ] )
 
-, remove(dummy_rounding_amount)
+         , generic_item( [ line_dummy, s1 , tab ] )
 
-] ).
+         , generic_item( [ line_item, s1 , tab ] )
 
-%=======================================================================
-i_line_rule_cut( line_invoice_line_ils_1, [
-%=======================================================================
+         , generic_item( [ line_dummy, s1 , tab ] )
 
-		
-		or( [  
-   
-		[
-		
-		with( invoice, dummy_rounding_amount, RoundingAmount )
-		
-		, generic_item( [ line_net_amount_x, d, q10(tab) ] )
-		
-		, check( sys_calculate_str_subtract( line_net_amount_x, RoundingAmount, LineNetAmount ) )
-		
-		, line_net_amount( LineNetAmount )
-	
-		
-		]
-		
-		, generic_item( [ line_net_amount, d, q10(tab) ] )
-		
-	] )
-
-		 , generic_item( [ currency_exchange_rate, d , `$` ] )
-
-		 , generic_item( [ line_unit_amount_dummy, d ,  `EA` ] )
-
-		 , generic_item( [ line_unit_dummy1, d  ] )
+         , generic_item( [ line_dummy, s1 , tab ] )
+         
+		 , generic_item( [ line_quantity, d , q10(tab)  ] )
 
 		 , generic_item( [ line_quantity_uom_code, w , q10(tab) ]  )
 
-		 , generic_item( [ line_quantity_dummy, d , tab  ] )
-
-		 , q10(generic_item( [ line_descr_dummy, s1 , tab ] ))
+		 , generic_item( [ line_descr_dummy, s , `USD` ] )
          
-		 , generic_item( [ line_descr, s , q10(tab) ] )
+		 , generic_item( [ line_unit_amount, d, tab ] )
 
-		 , generic_item( [ line_buyers_order_number, d ] )
+		 , generic_item( [ line_net_amount, d , newline ] )
 
-	 	 , generic_item( [ dummy_po, [ begin, q(dec,10,10), end ], q10(tab) ] )
-
-		 , generic_item( [ line_dummy, s1 , newline ] )
-
-
-, remove(dummy_rounding_amount)
 
 ] ).
-
-%=======================================================================
-i_line_rule_cut( line_append_line, [
-%=======================================================================
-
-   	  q10(generic_item( [ line_descr_dummy, s1 , tab ] ))
-        
-    , generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
-  
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
