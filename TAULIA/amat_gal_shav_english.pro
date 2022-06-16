@@ -266,7 +266,7 @@ i_line_rule_cut( line_header_line, [
 
         , [ `Number`, tab, `Description`, tab, `Price` ]
 
-      %  , [`Ln`,  `P`, `.`, `LIST`,  tab, `Your`,  `Order` ]
+        , [`Ln`,  `P`, `.`, `LIST`,  tab, `Your`,  `Order` ]
 
       , [`Number`, tab, `Number`, tab, `Description`,  newline ]
       
