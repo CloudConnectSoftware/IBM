@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_gal_shav_english, `02 June, 2022` ).
+i_version(amat_gal_shav_english, `16 June, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -267,6 +267,8 @@ i_line_rule_cut( line_header_line, [
         , [ `Number`, tab, `Description`, tab, `Price` ]
 
       %  , [`Ln`,  `P`, `.`, `LIST`,  tab, `Your`,  `Order` ]
+
+      , [`Number`, tab, `Number`, tab, `Description`,  newline ]
       
 ] )
 
@@ -433,6 +435,10 @@ i_line_rule_cut( line_append_line, [
 % Updated by   - Rohini
 % Changes made - English language format mapped
 
+
+% Updated on   - 16 June, 2022
+% Updated by   - Rohini
+% Changes made - Line details updated with start line
 
 % Updated on   - 
 % Updated by   -
