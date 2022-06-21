@@ -238,14 +238,13 @@ i_section( get_invoice_lines, [
 
         , or( [
                 
-               
-             [line_invoice_line_english_rounding, q10(line_append_line)]
+           [line_invoice_line_english_rounding, q10(line_append_line)]
              
-             , [line_invoice_line_english , q10(line_append_line)]
+           ,   [line_invoice_line_english , q10(line_append_line)]
 
-            , [line_invoice_line_english_1 , q10(line_append_line)]
+           , [line_invoice_line_english_1 , q10(line_append_line)]
 
-            , [line_invoice_line_english_2, q10(line_append_line)]
+           , [line_invoice_line_english_2, q10(line_append_line)]
 
             , line
 
@@ -266,7 +265,7 @@ i_line_rule_cut( line_header_line, [
 
         , [`Description`,  newline ]
 
-        , [ `Number`, tab, `Description`, tab, `Price` ]
+       , [ `Number`, tab, `Description`, tab, `Price` ]
 
        % , [`Ln`,  `P`, `.`, `LIST`,  tab, `Your`,  `Order` ]
 
@@ -332,8 +331,6 @@ i_line_rule_cut( line_invoice_line_english, [
 i_line_rule_cut( line_invoice_line_english_1, [
 %=======================================================================
 
-	
-		
 	  generic_item( [ line_reference, d, q10(tab) ] )
 
     , generic_item( [ line_item_dummy, s , q10(tab)] )
@@ -463,7 +460,6 @@ i_line_rule_cut( line_append_line, [
      generic_append( [ line_descr, s1, newline, ``,  ` `  ] )
    
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
