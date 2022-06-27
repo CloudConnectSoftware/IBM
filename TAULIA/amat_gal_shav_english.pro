@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_gal_shav_english, `22 June 2022` ).
+i_version(amat_gal_shav_english, `27 June 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -269,7 +269,7 @@ i_line_rule_cut( line_header_line, [
 
         , [`Ln`,  `P`, `.`, `LIST`,  tab, `Your`,  `Order` ]
 
-        , [`Number`, tab, `Number`, tab, `Description`,  newline ]
+      %  , [`Number`, tab, `Number`, tab, `Description`,  newline ]
       
 ] )
 
@@ -480,6 +480,10 @@ i_line_rule_cut( line_append_line, [
 % Changes made - Line details updated with line_invoice_line_english_2
 
 % Updated on   - 21 June 2022
+% Updated by   - Sushmitha
+% Changes made - freezed one header line
+
+% Updated on   - 27 June 2022
 % Updated by   - Sushmitha
 % Changes made - freezed one header line
 
