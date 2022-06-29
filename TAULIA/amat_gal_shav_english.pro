@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_gal_shav_english, `27 June 2022` ).
+i_version(amat_gal_shav_english, `29 June,2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -297,7 +297,6 @@ i_line_rule_cut( line_invoice_line_english, [
 %=======================================================================
 
 	
-		
 	  generic_item( [ line_reference, d, q10(tab) ] )
 
     , generic_item( [ line_item_dummy, s , q10(tab)] )
@@ -420,7 +419,6 @@ i_line_rule_cut( line_invoice_line_english_rounding, [
 i_line_rule_cut( line_invoice_line_english_2, [
 %=======================================================================
 
-	
 		
 	  generic_item( [ line_reference, d, q10(tab) ] )
 
@@ -428,7 +426,7 @@ i_line_rule_cut( line_invoice_line_english_2, [
 
     , generic_item( [ dummy_po, [ begin, q(dec,10,10), end ], q10(tab) ] )
 
-    , generic_item( [ line_buyers_order_number_dummy, d ] )
+    , generic_item( [ line_buyers_order_number_dummy, d , q10(tab) ] )
 
     , generic_item( [ line_item, s1, tab ] )
 
@@ -486,6 +484,14 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 27 June 2022
 % Updated by   - Sushmitha
 % Changes made - freezed one header line
+
+% Updated on   - 29 June,2022
+% Updated by   - Sushmitha
+% Changes made - updated line_invoice_line_english_2
+
+% Updated on   - 
+% Updated by   -
+% Changes made -
 
 % Updated on   - 
 % Updated by   -
