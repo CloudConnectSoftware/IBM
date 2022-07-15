@@ -261,13 +261,16 @@ i_line_rule_cut( line_header_line, [
     
     or([
       
-          [ `Description`, tab, `Price`,  newline ]
+      %  [`Number`,  newline ]
+         
+      %   , [ `Description`, tab, `Price`,  newline ]
 
-      %  , [`Description`,  newline ]
+     %  , [ `Number`, tab, `Description`, tab, `Price` ]
 
-       , [ `Number`, tab, `Description`, tab, `Price` ]
+        [`Ln`, `P`, `.`, `LIST`, tab, `Your`, `Order`, `Ln`, `Part`]
 
-       % , [`Ln`,  `P`, `.`, `LIST`,  tab, `Your`,  `Order` ]
+       %  , [`Description`,  newline ]
+
 
       %  , [`Number`, tab, `Number`, tab, `Description`,  newline ]
       
@@ -282,8 +285,10 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
      
    or([
+
+       [`GAL`, `SHVAV`, `MECHANICS`, `L`, `.`, `T`, `.`, `D`,  newline ]
        
-        [`TOTAL`, tab, `USD` ]
+       , [`TOTAL`, tab, `USD` ]
 
 ] )
 
