@@ -729,16 +729,15 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-               
-                 line_invoice_english_3
+               line_invoice_line_1
+
+                , line_invoice_english_3
                 
                 , line_invoice_english_4
                 
                 , line_invoice_english_5
                  
                 , line_invoice_english_1                
-
-                , line_invoice_line_1
 
                 , line_invoice_english      
 
