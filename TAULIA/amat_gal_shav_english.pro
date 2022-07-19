@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_gal_shav_english, `13 July, 2022` ).
+i_version(amat_gal_shav_english, `19 July, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -269,6 +269,8 @@ i_line_rule_cut( line_header_line, [
 
         [`Ln`, `P`, `.`, `LIST`, tab, `Your`, `Order`, `Ln`, `Part`]
 
+      ,  [ `Ln`, `P`, `.`, `LIST`, tab, `Your`, `Order`, `Ln`, tab ]
+
        %  , [`Description`,  newline ]
 
 
@@ -497,6 +499,10 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 13 July, 2022
 % Updated by   - Sushmitha
 % Changes made - freezed one header line
+
+% Updated on   - 19 July, 2022
+% Updated by   - Sushmitha
+% Changes made - Updated start line
 
 % Updated on   - 
 % Updated by   -
