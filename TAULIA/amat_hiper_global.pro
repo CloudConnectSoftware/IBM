@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `19 April, 2022` ).
+i_version(amat_hiper_global, `19 July,2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1103,6 +1103,10 @@ i_line_rule_cut( line_invoice_line_2, [
 
 % It’s former E&M Computing. New Supplier code for 0026 and 0109 is: 9000195727
 
+
+% Updated on   - 19 July,2022
+% Updated by   - Sushmitha
+% Changes made - updated line_invoice_line_1
 
 % Updated on   - 
 % Updated by   -
