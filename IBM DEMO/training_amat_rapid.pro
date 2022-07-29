@@ -509,7 +509,9 @@ i_line_rule_cut( line_invoice_line_4, [
 % Mapped on -13 June, 2022
 % Mapped by - Sushmitha 
 
-
+% Updated on   - 29, July 2022
+% Updated by   - updating to check git hub clone/fetch
+% Changes made - Sushmitha
 
 % Updated on   - 
 % Updated by   -
