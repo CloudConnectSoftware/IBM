@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_gal_shav_english, `19 July, 2022` ).
+i_version(amat_gal_shav_english, `05 Aug, 2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -503,6 +503,10 @@ i_line_rule_cut( line_append_line, [
 % Changes made - freezed one header line
 
 % Updated on   - 19 July, 2022
+% Updated by   - Sushmitha
+% Changes made - Updated start line
+
+% Updated on   - 05 Aug, 2022
 % Updated by   - Sushmitha
 % Changes made - Updated start line
 
