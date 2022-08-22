@@ -420,8 +420,7 @@ i_line_rule_cut( line_total_invoice_1, [
    
    , generic_item( [ total_invoice, d, tab ] )
    
-   , `ריחמ`,  `כ`, `"`, `הס`,  newline
-
+   , `ריחמ`,  `כ`, `"`, `הס`,  gen_eof
    
   
 ] ).
