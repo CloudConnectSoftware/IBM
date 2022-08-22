@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `19 July,2022` ).
+i_version(amat_hiper_global, `22 Aug,2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -524,9 +524,8 @@ i_rule_cut( get_invoice_totals_3, [
 
     or([
         
-       line_with_text(`ללוכ ריחמ`)
-
-    , line_with_text(`ללוכריחמ`)
+    
+     line_with_text(`ללוכריחמ`)
 
 	
    ] )
@@ -585,6 +584,7 @@ i_line_rule_cut( line_total_invoice_3, [
    , generic_item( [ total_invoice, d, tab ] )
    
    , `ריחמ`,  `כ`, `"`, `הס`,  gen_eof
+
   
 ] ).
 %=======================================================================
@@ -1120,6 +1120,14 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated on   - 19 July,2022
 % Updated by   - Sushmitha
 % Changes made - updated line_invoice_line_1
+
+% Updated on   - 22 Aug,2022
+% Updated by   - Sushmitha
+% Changes made - updated get_invoice_totals_1
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
 
 % Updated on   - 
 % Updated by   -
