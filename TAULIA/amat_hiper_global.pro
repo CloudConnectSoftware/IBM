@@ -347,8 +347,15 @@ i_line_rule_cut( line_total_invoice, [
 i_rule_cut( get_invoice_totals_1, [
 %=======================================================================
 
+    or([
 
-     line_with_text(`ללוכריחמ`)
+        line_with_text(`ללוכריחמ`)
+
+        , line_with_text(`ללוכ ריחמ`)
+
+    ])
+
+    
 	
 	 , line_total_net_1
 	 
