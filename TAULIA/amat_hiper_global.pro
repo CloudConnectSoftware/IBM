@@ -396,7 +396,7 @@ i_line_rule_cut( line_total_vat_1, [
 
    , or([
         
-         generic_item( [ default_vat_rate, d, [`%`, `)`] ] )
+         generic_item( [ default_vat_rate, d, [`)`] ] )
 
         , generic_item( [ default_vat_rate, d, `%` ] )
 
