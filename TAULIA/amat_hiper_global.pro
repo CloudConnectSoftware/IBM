@@ -393,10 +393,17 @@ i_line_rule_cut( line_total_vat_1, [
 	`$`
     
     , generic_item( [ total_vat, d, tab ] ), `(`
-	
-	, generic_item( [ default_vat_rate, d, `%` ] )
 
-    , generic_item( [ dummy_detail1, s1, tab ] )
+   , or([
+        
+         generic_item( [ default_vat_rate, d, [`%`, `)`] ] )
+
+        , generic_item( [ default_vat_rate, d, `%` ] )
+
+    ])
+	
+	
+    , q10(generic_item( [ dummy_detail1, s1, tab ] ))
 
     , generic_item( [ dummy_detail2, s1, newline ] )
  
