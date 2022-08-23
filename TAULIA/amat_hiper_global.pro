@@ -1290,9 +1290,9 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated by   - Sushmitha
 % Changes made - updated get_invoice_totals_1
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 23 Aug,2022
+% Updated by   - Sushmitha
+% Changes made - added get_invoice_totals_1_6
 
 % Updated on   - 
 % Updated by   -
