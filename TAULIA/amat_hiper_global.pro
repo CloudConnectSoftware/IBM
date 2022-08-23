@@ -42,6 +42,8 @@ i_rule_list( [
       
     , get_invoice_totals
 
+    , get_invoice_totals_1_6
+
     , get_invoice_totals_1
 
     , get_invoice_totals_2
@@ -52,8 +54,7 @@ i_rule_list( [
 
     , get_invoice_totals_5 
 
-    , get_invoice_totals_6
-      
+    
     , get_amount_details
 
 	, get_invoice_lines
@@ -785,7 +786,7 @@ i_line_rule_cut( line_total_invoice_5, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut( get_invoice_totals_6, [
+i_rule_cut( get_invoice_totals_1_6, [
 %=======================================================================
 
 or([
@@ -795,21 +796,21 @@ or([
     , line_with_text(`החנהירחאריחמ`)
 ])
     
-	 , line_total_net_6
+	 , line_total_net_1_6
 	 
 	 , q(0,2,line)
 	 
-	 , line_total_vat_6
+	 , line_total_vat_1_6
 	 
 	  , q(0,2,line)
 	 
-	 , line_total_invoice_6	 
+	 , line_total_invoice_1_6	 
 
 ] ).
 
 
 %=======================================================================
-i_line_rule_cut( line_total_net_6, [
+i_line_rule_cut( line_total_net_1_6, [
 %=======================================================================
 
     `$`
@@ -825,7 +826,7 @@ i_line_rule_cut( line_total_net_6, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_total_vat_6, [
+i_line_rule_cut( line_total_vat_1_6, [
 %=======================================================================
 
 	`$`
@@ -842,7 +843,7 @@ i_line_rule_cut( line_total_vat_6, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_total_invoice_6, [
+i_line_rule_cut( line_total_invoice_1_6, [
 %=======================================================================
  
  `$`
