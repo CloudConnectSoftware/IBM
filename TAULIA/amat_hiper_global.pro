@@ -281,9 +281,13 @@ i_rule_cut( get_amount_details, [
 i_rule_cut( get_invoice_totals, [
 %=======================================================================
 
+or([
 
-    line_with_text(`החנהירחאריחמ`)
-	
+    line_with_text(`תיללכ החנה`)
+
+    , line_with_text(`החנהירחאריחמ`)
+])
+    
 	 , line_total_net
 	 
 	 , q(0,2,line)
