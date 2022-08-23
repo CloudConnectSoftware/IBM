@@ -184,10 +184,6 @@ i_rule( get_original_invoice_number, [
 
 	, line_with_text(`תינובשחןיגביקלח`)
     
-    , line_with_text(`תינובשח ןיגב יוכיז`)
-
-    , line_with_text(`תינובשחןיגביוכיז`)
-
 	])
 	
 	, line_original_invoice_number
@@ -211,9 +207,9 @@ i_rule( get_original_invoice_number_1, [
 	
 	 or([
 
-		line_with_text(`תינובשח ןיגב יקלח`)
+		line_with_text(`תינובשח יפל`)
 
-	, line_with_text(`תינובשחןיגביקלח`)
+	, line_with_text(`תינובשחיפל`)
     
 
 	])
@@ -227,12 +223,9 @@ i_line_rule( line_original_invoice_number_1, [
 	
 	generic_item( [ original_invoice_number, s , `:` ] )
 	
-	, generic_item( [ dummy_1, s1, tab ] )
-
-    , generic_item( [ dummy(d), d, newline ] )
+	, `תינובשח`, `יפל`,  newline
 
 
-	 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
