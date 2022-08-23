@@ -787,9 +787,9 @@ i_rule_cut( get_invoice_totals_6, [
 
    or([
 
-        line_with_text(`ללוכריחמ`)
+        line_with_text(`החנה ירחא ריחמ`)
 
-        , line_with_text(`ללוכ ריחמ`)
+        , line_with_text(`החנהירחאריחמ `)
 
     ])
 
