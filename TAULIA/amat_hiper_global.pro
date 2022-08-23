@@ -778,7 +778,6 @@ i_line_rule_cut( line_total_invoice_5, [
   
 ] ).
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE TOTAL AMOUNT
@@ -789,26 +788,23 @@ i_line_rule_cut( line_total_invoice_5, [
 i_rule_cut( get_invoice_totals_6, [
 %=======================================================================
 
-   or([
+or([
 
-        line_with_text(`החנה ירחא ריחמ`)
+    line_with_text(`תיללכ החנה`)
 
-        , line_with_text(`החנהירחאריחמ `)
-
-    ])
-
-
-     , line_total_net_6
+    , line_with_text(`החנהירחאריחמ`)
+])
+    
+	 , line_total_net_6
 	 
 	 , q(0,2,line)
 	 
 	 , line_total_vat_6
 	 
-	 , q(0,2,line)
+	  , q(0,2,line)
 	 
-	 , line_total_invoice_6
+	 , line_total_invoice_6	 
 
-  
 ] ).
 
 
@@ -820,7 +816,11 @@ i_line_rule_cut( line_total_net_6, [
     
    , generic_item( [ total_net, d, tab ] )
    
-   , `החנה`,  `ירחא`,  `ריחמ`,  tab
+  , `החנה`,  `ירחא`,  `ריחמ`,  tab
+
+  ,  generic_item( [ currency_exchange_rate, d ] )
+   
+   , `:`, `ןיפילח`,  `רעש`,  newline
   
 ] ).
 
@@ -832,27 +832,30 @@ i_line_rule_cut( line_total_vat_6, [
     
     , generic_item( [ total_vat, d, [ tab, `(` ] ] )
 	
-	, generic_item( [ default_vat_rate, d, [ `%`, `)`] ] )  
+	, generic_item( [ default_vat_rate, d, [`%`, `)`]] )  
 
-    ,   `מ`, `"`, `עמ`,  tab
-  
+    , generic_item( [ dummy_detail, s1, tab ] )
+   
+    , generic_item( [ dummy_detail_1, s1 , newline ] )
+
+   
 ] ).
 
 %=======================================================================
 i_line_rule_cut( line_total_invoice_6, [
 %=======================================================================
-
-   `$`
+ 
+ `$`
    
    , currency(`USD`)
    
    , generic_item( [ total_invoice, d, tab ] )
-   
-   , `ריחמ`,  `כ`, `"`, `הס`,  gen_eof
 
+   , generic_item( [ dummy_details_2, s1, tab ] )
    
+   , generic_item( [ dummy_details_3, s1, newline ] )
+  
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
