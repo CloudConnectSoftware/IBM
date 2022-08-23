@@ -31,6 +31,8 @@ i_rule_list( [
     , get_invoice_number
 
    	, get_original_invoice_number
+
+    , get_original_invoice_number_1
     
     , get_invoice_date
 	
@@ -181,6 +183,10 @@ i_rule( get_original_invoice_number, [
 		line_with_text(`תינובשח ןיגב יקלח`)
 
 	, line_with_text(`תינובשחןיגביקלח`)
+    
+    , line_with_text(`תינובשח ןיגב יוכיז`)
+
+    , line_with_text(`תינובשחןיגביוכיז`)
 
 	])
 	
@@ -195,7 +201,37 @@ i_line_rule( line_original_invoice_number, [
 	
 	,`תינובשח`,  `ןיגב`,  `יקלח`,  `יוכיז` , gen_eof
 
+
+	 
+] ).
+
+%=======================================================================
+i_rule( get_original_invoice_number_1, [ 
+%=======================================================================
 	
+	 or([
+
+		line_with_text(`תינובשח ןיגב יקלח`)
+
+	, line_with_text(`תינובשחןיגביקלח`)
+    
+
+	])
+	
+	, line_original_invoice_number_1
+
+] ).
+%=======================================================================
+i_line_rule( line_original_invoice_number_1, [ 
+%=======================================================================
+	
+	generic_item( [ original_invoice_number, s , `:` ] )
+	
+	, generic_item( [ dummy_1, s1, tab ] )
+
+    , generic_item( [ dummy(d), d, newline ] )
+
+
 	 
 ] ).
 
