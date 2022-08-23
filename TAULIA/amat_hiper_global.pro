@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `22 Aug,2022` ).
+i_version(amat_hiper_global, `23 Aug,2022` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -40,13 +40,13 @@ i_rule_list( [
 
     , get_freight
 
-    , get_invoice_totals_4
+    , get_invoice_totals_1
 
-    , get_invoice_totals_3
-      
     , get_invoice_totals_2
+      
+    , get_invoice_totals_3
 
-    , get_invoice_totals_1   
+    , get_invoice_totals_4   
     
     , get_invoice_totals
     
