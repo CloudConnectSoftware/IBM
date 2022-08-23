@@ -712,7 +712,7 @@ i_rule_cut( get_invoice_totals_5, [
     
      line_with_text(`ללוכריחמ`)
 
-    	
+        	
    ] )
 
      , line_total_net_5
@@ -788,7 +788,11 @@ i_rule_cut( get_invoice_totals_6, [
 
     or([
         
-     line_with_text(`החנה ירחא ריחמ`)
+    line_with_text(`החנה`,  `ירחא`,  `ריחמ`,  tab )
+
+    , line_with_text(`דע םולשתל`)
+
+    , line_with_text(`דעםולשתל`)
 
 	
    ] )
