@@ -205,7 +205,9 @@ i_rule( get_original_invoice_number_1, [
 i_line_rule( line_original_invoice_number_1, [ 
 %=======================================================================
 	
-     generic_item( [ dummy(date), date, [`:`, `ךיראתמ`, `,`] ] )
+     generic_item( [ dummy(s), s, [`:`] ] )
+
+    , `ךיראתמ`, `,`
     
     , generic_item( [ original_invoice_number, s , `:` ] )
 	
