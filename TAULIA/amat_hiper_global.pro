@@ -785,17 +785,14 @@ i_line_rule_cut( line_total_invoice_5, [
 i_rule_cut( get_invoice_totals_6, [
 %=======================================================================
 
+   or([
 
-    or([
-        
-    line_with_text(`החנה`,  `ירחא`,  `ריחמ`,  tab )
+        line_with_text(`ללוכריחמ`)
 
-    , line_with_text(`דע םולשתל`)
+        , line_with_text(`ללוכ ריחמ`)
 
-    , line_with_text(`דעםולשתל`)
+    ])
 
-	
-   ] )
 
      , line_total_net_6
 	 
