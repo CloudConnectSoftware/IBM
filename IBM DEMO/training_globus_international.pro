@@ -30,9 +30,10 @@ i_rule_list( [
 
     , get_invoice_number
 
+    , get_original_invoice_number_1
+
    	, get_original_invoice_number
 
-    , get_original_invoice_number_1
     
     , get_invoice_date
 	
@@ -140,8 +141,6 @@ i_rule( get_invoice_number, [
 
          line_invoice_number
 
-     %   , line_credit_number
-
     ])
 	
 
@@ -155,24 +154,10 @@ i_line_rule( line_invoice_number, [
 	
 	, `הדועת`, `רפסמ`, gen_eof
 
-	
-	 
-] ).
-
-%=======================================================================
-i_line_rule( line_credit_number, [ 
-%=======================================================================
-	
-	generic_item( [ invoice_number, s, `:` ] ), q10(tab)
-	
-	,`הדועת`, `רפסמ`, tab
-
-	
 	 
 ] ).
 
 
-   
 
 %=======================================================================
 i_rule( get_original_invoice_number, [ 
@@ -210,9 +195,8 @@ i_rule( get_original_invoice_number_1, [
 		line_with_text(`תינובשח יפל`)
 
 	, line_with_text(`תינובשחיפל`)
-    
 
-	])
+    	])
 	
 	, line_original_invoice_number_1
 
@@ -221,9 +205,11 @@ i_rule( get_original_invoice_number_1, [
 i_line_rule( line_original_invoice_number_1, [ 
 %=======================================================================
 	
-	generic_item( [ original_invoice_number, s , `:` ] )
+     generic_item( [ dummy(date), date, [`:`, `ךיראתמ`, `,`] ] )
+    
+    , generic_item( [ original_invoice_number, s , `:` ] )
 	
-	, `תינובשח`, `יפל`,  newline
+	, generic_item( [ dummy_line, s1 , newline ] )
 
 
 ] ).
