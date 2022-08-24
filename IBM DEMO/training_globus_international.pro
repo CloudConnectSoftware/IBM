@@ -235,7 +235,9 @@ i_rule( get_original_invoice_number_1, [
 
 		line_with_text(`תינובשח יפל`)
 
-		, line_with_text(`תינובשחיפל`)
+		,line_with_text(`תינובשחיפל`)
+
+		, line_with_text(`תינובשח`,`יפל`)
 
     	])
 	
