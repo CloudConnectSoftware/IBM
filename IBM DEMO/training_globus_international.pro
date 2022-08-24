@@ -108,10 +108,10 @@ i_line_rule( credit_note_line, [
 	, line_with_text(`יוכיז תינובשח`)
 
 	])
-    , set(credit_note)
 
-    , trace( [ `Credit Note Found` ] )
+	, get_credit_number
 
+    
 ] ).
 
 
@@ -150,6 +150,10 @@ i_line_rule( line_credit_number, [
 	generic_item( [ invoice_number, s, `:` ] ), q10(tab)
 	
 	, `יוכיז`,  `תינובשח`,  newline
+
+	, set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
 
 	 
 ] ).
@@ -248,7 +252,9 @@ i_rule( get_original_invoice_number_1, [
 i_line_rule( line_original_invoice_number_1, [ 
 %=======================================================================
 
-    generic_item( [ dummy(date), s, [`:`, `ךיראתמ`, `,`] ] )
+	 test(credit_note)
+
+   , generic_item( [ dummy(date), s, [`:`, `ךיראתמ`, `,`] ] )
 
     , generic_item( [ original_invoice_number, s , `:` ] )
 	
