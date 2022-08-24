@@ -28,6 +28,8 @@ i_rule_list( [
 
     ,  set_credit_note
 
+	, get_credit_number
+
     , get_invoice_number
 
     , get_original_invoice_number_1
@@ -99,19 +101,59 @@ i_line_rule( credit_note_line, [
 
      q0n(anything)
 
-    , or([
+   , or([
 
-         [`הדועתרפסמ` ]
+		line_with_text(`יוכיזתינובשח`)
 
-          , [`הדועת רפסמ` ]
+	, line_with_text(`יוכיז תינובשח`)
 
-    ])
-
+	])
     , set(credit_note)
 
     , trace( [ `Credit Note Found` ] )
 
 ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CREDIT NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_credit_number, [ 
+%=======================================================================
+	
+	or([
+
+		line_with_text(`יוכיזתינובשח`)
+
+	, line_with_text(`יוכיז תינובשח`)
+
+	])
+	
+    , or([
+
+         line_credit_number
+
+    ])
+	
+
+] ).
+
+%=======================================================================
+i_line_rule( line_credit_number, [ 
+%=======================================================================
+	
+	generic_item( [ invoice_number, s, `:` ] ), q10(tab)
+	
+	, `יוכיז`,  `תינובשח`,  newline
+
+	 
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,7 +200,6 @@ i_line_rule( line_invoice_number, [
 ] ).
 
 
-
 %=======================================================================
 i_rule( get_original_invoice_number, [ 
 %=======================================================================
@@ -190,31 +231,28 @@ i_line_rule( line_original_invoice_number, [
 i_rule( get_original_invoice_number_1, [ 
 %=======================================================================
 	
-	% or([
+	 or([
 
-	%	line_with_text(`תינובשח יפל`)
+		line_with_text(`תינובשח יפל`)
 
-%	, line_with_text(`תינובשחיפל`)
+		, line_with_text(`תינובשחיפל`)
 
-    %	])
+    	])
 	
-	 line_original_invoice_number_1
+	, line_original_invoice_number_1
 
 ] ).
 %=======================================================================
 i_line_rule( line_original_invoice_number_1, [ 
 %=======================================================================
 
-  %   generic_item( [ dummy(date), s, [`:`, `ךיראתמ`, `,`] ] )
+    generic_item( [ dummy(date), s, [`:`, `ךיראתמ`, `,`] ] )
 
-   % , generic_item( [ original_invoice_number, s , `:` ] )
+    , generic_item( [ original_invoice_number, s , `:` ] )
 	
-	%, generic_item( [ dummy_line, s1 , newline ] )
+	, generic_item( [ dummy_line, s1 , newline ] )
 
-	q(0,40,line)
-
-	,generic_horizontal_details( [ [ dummy(date) , `:`, `ךיראתמ`,  `,`], original_invoice_number, s , [`:`, `תינובשח`,  `יפל`,  newline ] ] )
-
+	
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
