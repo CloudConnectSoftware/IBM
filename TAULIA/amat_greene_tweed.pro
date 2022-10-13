@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_greene_tweed, `19 May, 2021` ). 
+i_version(amat_greene_tweed, `13 Oct,2022` ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -319,8 +319,14 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-     [`Total`,  tab ]
+    or([
 
+       [`Goods`, tab, dummy(d), newline ]
+
+       ,  [`Total`,  tab ]
+
+     ])
+    
      , trace( [ `Found End line` ] )
 
 ] ).
@@ -329,7 +335,7 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
-   
+  
     generic_item( [ line_buyers_order_number, d, tab  ] )
 
   , generic_item( [ line_item, s1, tab ] )
@@ -364,10 +370,13 @@ i_line_rule_cut( line_descr_line, [
 % Updated by   - Rohini
 % Changes made - Invoice Date updated
 
+% Updated on   - 13 Oct,2022
+% Updated by   - Sushmitha
+% Changes made - updated end line
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
