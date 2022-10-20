@@ -172,8 +172,15 @@ i_rule( get_order_number, [
 
     q(0,30,line)
 
-    ,generic_horizontal_details( [ [ `Customer`, `P`, `/`, `O`, `Number`, `:`, tab ],  order_number, w, newline ] )
+  ,  or([
 
+             generic_horizontal_details( [ [ `Customer`, `P`, `/`, `O`, `Number`, `:`, tab ],  order_number, w, newline ] )
+
+             , generic_horizontal_details( [ [ `Customer`, `P`, `/`, `O`, `Number`, `:`, tab ], order_number, d , tab ] )
+
+    ])
+
+   
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -385,7 +392,7 @@ generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
 % Updated on   - 20 Oct,2022
 % Updated by   - Sushmitha
-% Changes made -  added line_invoice_line_1 and debit note details.
+% Changes made -  added line_invoice_line_1 and debit note details. Also update order num
 
 % Updated on   - 
 % Updated by   - 
