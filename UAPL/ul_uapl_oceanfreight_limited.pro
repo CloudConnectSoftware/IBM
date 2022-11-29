@@ -26,6 +26,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+   , get_line_total_amount
+
     , get_currency
 
     , get_invoice_lines
@@ -63,7 +65,14 @@ i_rule_cut( get_invoice_number, [
     
     q0n(line)
 
-   , generic_horizontal_details( [ [ `No`, `.`, `:` ], 100 , invoice_number, s1 , newline ] )
+    , or([
+
+        generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], invoice_number, s1 , newline ] )
+
+        , generic_horizontal_details( [ [ `No`, `.`, `:` ], 100 , invoice_number, s1 , newline ] )
+    ])
+
+   
 
 ] ).
 
@@ -97,8 +106,14 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-    , generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`, `:`, tab ],  total_invoice, d, newline ] ) 
+    , or([
 
+         generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`, `:`, tab ],  total_invoice, d, newline ] ) 
+
+      ,  generic_vertical_details( [ [ `Total`, `Amount`,  newline ], `Total`, q(0,1,up), (start,100,900), total_invoice, d, newline  ] )
+    ])
+
+    
     , check( total_invoice = TotInv )
 
     , trace( [ `Total Inv` , TotInv] )
@@ -122,7 +137,72 @@ i_rule( get_currency, [
 
     q0n(line)
     
-    , generic_horizontal_details( [ [ `Amount`,`(` ], currency,  w , `)`] )
+    , generic_horizontal_details( [ [ `Currency`, `:` ], currency,  w , newline ] )
 
     
 ] ).
+
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET LINE TOTAL AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_line_total_amount, [
+%=======================================================================
+
+    q0n(line)
+
+    , or([
+
+         generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`, `:`, tab ],  line_total_amount, d, newline ] ) 
+
+      ,  generic_vertical_details( [ [ `Total`, `Amount`,  newline ], `Total`, q(0,1,up), (start,100,900), line_total_amount, d, newline  ] )
+    ])
+
+
+
+]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_invoice_lines, [
+%=======================================================================
+   
+   q0n(line)
+    
+    , line_descr( `Line Charges` )
+
+]).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Mapped on   - `25/10/2016` `4:30:05`
+% Mapped by   - 
+
+
+
+% Updated on   - 29 Nov,2022
+% Updated by   - Sushmitha
+% Changes made - Updated invoice number, totals, lines,currency
+
+
+% Updated on   - 
+% Updated by   - 
+% Changes made - 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
