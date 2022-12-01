@@ -12,11 +12,16 @@ i_date_format(_).
 
 i_trace_lists.
 
+i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
       get_supplier_detail
+
+    , attachment_type(`LEGAL_INVOICE`)  % This is a requirement 
 
     , get_invoice_number
     
