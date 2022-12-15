@@ -288,8 +288,12 @@ i_final_rule( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_final_rule( [ buyer_registration_number( TO ) ] ) :- i_mail( to, TO ), not( q_taulia_customer_settings( _, `Southern Company`, TO, _, _, _, _, _, _ ) ).
+i_final_rule( [ buyer_registration_number( TO ) ] )
 %=======================================================================
+ :-
+	i_mail( to, TO ),
+	not( q_taulia_customer_settings( _, `Southern Company`, TO, _, _, _, _, _, _ ) ),
+	not( q_taulia_customer_settings( _, `Applied Materials`, TO, _, _, _, _, _, _ ) ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
