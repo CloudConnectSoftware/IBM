@@ -265,7 +265,7 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_quantity_dummy, s , q10(tab) ] )
 
-  , generic_item( [ line_quantity_uom_code, w, tab ] )
+  , generic_item( [ line_quantity_uom_code_dummy, w, tab ] )
 
   , generic_item( [ line_unit_amount, d, tab ] )
 
@@ -300,6 +300,8 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 27 Sep, 2022
 % Updated by   - Rohini
 % Changes made - Supplier registration email ID's added for samples'
+
+% UOM ALWAYS EA 
 
 % Updated on   - 
 % Updated by   -
