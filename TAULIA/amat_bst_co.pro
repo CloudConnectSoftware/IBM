@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `05 May, 2022` ).
+i_version(amat_bst_co, `06 Jan, 2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -125,6 +125,7 @@ i_rule( get_invoice_number, [
 ] ).
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE DATE
@@ -137,12 +138,15 @@ i_rule( get_invoice_date, [
 
      q(0,50,line)
 
-     , check_text(`작성일자` )
+     , or([
 
-     , generic_vertical_details( [ [`작성일자`,  tab], `작성일자`, q(0,1), (start,100,400), invoice_date, date, tab ] )
-        
+       generic_vertical_details( [ [`작성일자`,  tab], `작성일자`, q(0,1), (start,100,400), invoice_date, date, tab ] )
+
+     , generic_vertical_details( [ [`작`,  `성`,  `일`,  `자`,  tab ], `작`, q(0,1), (start,100,400), invoice_date, date, tab ] )
+
+    ] )
+
 ] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -543,6 +547,11 @@ i_line_rule_cut( line_invoice_line_5, [
 % Updated on   - 05 May, 2022
 % Updated by   - Rohini
 % Changes made - Line details updated
+
+
+% Updated on   - 06 Jan, 2023
+% Updated by   - Rohini
+% Changes made - Invoice Date updated
 
 % Updated on   - 
 % Updated by   -
