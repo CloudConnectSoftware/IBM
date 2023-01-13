@@ -941,7 +941,7 @@ i_line_rule_cut( line_header_line, [
     
     or([
       
-       [  `ריחמ`, `כ`, `"`, `הס`, tab, `תומכ` ]
+       [  `ריחמ`, `כ`, `"`, `הס`, tab ]       
 
        , [`Document`, tab, `Order`, tab, `Your`, `Order` ]
 
