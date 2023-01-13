@@ -958,8 +958,10 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
      
    or([
+
+       [`ללוכ`,  `ריחמ`,  newline ]
        
-        [ `Your`,  `Part`,  tab, `Part`,  tab, `Balance`,  newline ]
+     ,   [ `Your`,  `Part`,  tab, `Part`,  tab, `Balance`,  newline ]
     
     , [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
 
