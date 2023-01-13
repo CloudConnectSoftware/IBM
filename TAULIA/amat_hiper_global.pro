@@ -945,7 +945,7 @@ i_line_rule_cut( line_header_line, [
 
        , [`Document`, tab, `Order`, tab, `Your`, `Order` ]
 
-       , [ `הדיחיל`, tab, `םכתנמזהב`,  newline ]
+     %  , [ `הדיחיל`, tab, `םכתנמזהב`,  newline ]
 
 ] )
 
@@ -959,11 +959,11 @@ i_line_rule_cut( line_end_line, [
      
    or([
 
-       [`ללוכ`,  `ריחמ`,  newline ]
-       
-     ,   [ `Your`,  `Part`,  tab, `Part`,  tab, `Balance`,  newline ]
+        [ `Your`,  `Part`,  tab, `Part`,  tab, `Balance`,  newline ]
+
+    , [`$`,  dummy(d),  tab, `(`, dummy(d), `%`, `)`,  `תיללכ`,  `החנה`,  newline ]
     
-    , [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
+   % , [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
 
     ] )
     
