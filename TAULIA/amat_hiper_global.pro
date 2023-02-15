@@ -54,6 +54,7 @@ i_rule_list( [
 
     , get_invoice_totals_5 
 
+    , get_invoice_totals_6
     
     , get_amount_details
 
@@ -786,75 +787,81 @@ i_line_rule_cut( line_total_invoice_5, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut( get_invoice_totals_1_6, [
+i_rule_cut( get_invoice_totals_6, [
 %=======================================================================
 
-or([
-
-    line_with_text(`תיללכ החנה`)
-
-    , line_with_text(`החנהירחאריחמ`)
-])
+    or([
+        
     
-	 , line_total_net_1_6
-	 
-	 , q(0,2,line)
-	 
-	 , line_total_vat_1_6
-	 
-	  , q(0,2,line)
-	 
-	 , line_total_invoice_1_6	 
+     line_with_text(`ללוכריחמ`)
 
+        	
+   ] )
+
+     , line_total_net_6
+	 
+	 , q(0,1,line)
+	 
+	 , line_exchange_rate_6
+
+  	 , q(0,1,line)
+	 
+	 , line_total_vat_6
+	 
+	 , q(0,1,line)
+	 
+	 , line_total_invoice_6	 
+
+  
 ] ).
 
 
 %=======================================================================
-i_line_rule_cut( line_total_net_1_6, [
+i_line_rule_cut( line_total_net_6, [
 %=======================================================================
 
     `$`
     
    , generic_item( [ total_net, d, tab ] )
    
-  , `החנה`,  `ירחא`,  `ריחמ`,  tab
-
-  ,  generic_item( [ currency_exchange_rate, d ] )
-   
-   , `:`, `ןיפילח`,  `רעש`,  newline
+   , `החנה`,  `ירחא`,  `ריחמ`,  gen_eof
   
+] ).
+%=======================================================================
+i_line_rule_cut( line_exchange_rate_6, [
+%=======================================================================
+
+	 generic_item( [ currency_exchange_rate, d ] )
+	
+   , `:`, `ןיפילח`,  `רעש`,  gen_eof
+
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_total_vat_1_6, [
+i_line_rule_cut( line_total_vat_6, [
 %=======================================================================
 
 	`$`
     
     , generic_item( [ total_vat, d, [ tab, `(` ] ] )
 	
-	, generic_item( [ default_vat_rate, d, [`%`, `)`]] )  
+	, generic_item( [ default_vat_rate, d, [ `%`, `)`] ] )  
 
-    , generic_item( [ dummy_detail, s1, tab ] )
-   
-    , generic_item( [ dummy_detail_1, s1 , newline ] )
-
-   
+    ,  `מ`, `"`, `עמ`,  gen_eof
+  
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_total_invoice_1_6, [
+i_line_rule_cut( line_total_invoice_6, [
 %=======================================================================
- 
- `$`
+
+   `$`
    
    , currency(`USD`)
    
    , generic_item( [ total_invoice, d, tab ] )
-
-   , generic_item( [ dummy_details_2, s1, tab ] )
    
-   , generic_item( [ dummy_details_3, s1, newline ] )
+   ,  `ריחמ`,  `כ`, `"`, `הס`,  gen_eof
   
 ] ).
 
@@ -907,7 +914,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-               line_invoice_line_1
+                  line_invoice_line_1
 
                 , line_invoice_english_3
                 
