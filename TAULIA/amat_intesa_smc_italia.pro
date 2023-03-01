@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_intesa_smc_italia, `05 Oct,2022` ).
+i_version(amat_intesa_smc_italia, `01 March, 2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -51,7 +51,7 @@ i_rule_cut( get_supplier_detail, [
 
    % Supplier VAT number -   IT00761490960  %
 
-   , supplier_registration_number(`MARIAROSA.CIVATI@SMCITALIA.IT`)
+   , supplier_registration_number(`fatturazione@smcitalia.it`)
 
 ] ).
 
@@ -303,10 +303,13 @@ i_line_rule_cut( line_append_line, [
 
 % UOM ALWAYS EA 
 
+% Updated on   - 01 March, 2023
+% Updated by   - Rohini
+% Changes made - Supplier registration email ID updated
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
