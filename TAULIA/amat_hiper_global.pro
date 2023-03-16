@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `23 Aug,2022` ).
+i_version(amat_hiper_global, `16 march,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1332,6 +1332,14 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated on   - 23 Aug,2022
 % Updated by   - Sushmitha
 % Changes made - added get_invoice_totals_1_6
+
+% Updated on   - 16 march,2023
+% Updated by   - Sushmitha
+% Changes made - Added line_invoice_english_6
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
 
 % Updated on   - 
 % Updated by   -
