@@ -1234,6 +1234,7 @@ taulia_uom_code( `LTR`, `LTR` ).
 taulia_uom_code( `KGM`, `KGM` ).
 taulia_uom_code( `RL`, `RL` ).
 taulia_uom_code( `CT`, `CT` ).
+taulia_uom_code( `LOT`, `LOT` ).
 taulia_uom_code( _ , `EA` ).
 
 %-----------------------------------------------------------------------
