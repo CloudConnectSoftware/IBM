@@ -292,12 +292,7 @@ i_line_rule_cut( line_invoice_line, [
 
  , generic_item( [ line_quantity_uom_code_dummy, w, q10(tab) ] )
 
-  ,or([
-      
-       [ check(line_quantity_uom_code_dummy = Uom_raw) ,check(Uom_raw =`Stück`) ,generic_item( [ line_quantity_uom_code, `EACH` ] ) ] 
-
-    ] )
-   
+    
   , generic_item( [ line_descr, s1, tab ] )
 
   ,set(regexp_cross_word_boundaries)
@@ -325,6 +320,7 @@ i_line_rule_cut( line_invoice_line, [
 
 % Mapped on - 08 June, 2023
 % Mapped by - Sushmitha 
+% quantity UOM should be EACH , so mapped as dummy
 
 % Updated on   - 
 % Updated by   -
