@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_continuous_line_english, `09 June, 2022` ).
+i_version(amat_continuous_line_english, `13 June, 2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -48,7 +48,7 @@ i_rule( get_supplier_detail, [
 
      sender_name( `CONTINUOUS LINE TECHNOLOGY LTD ` )
 
-   % Supplier VAT number - 935355404  %
+   % Supplier VAT number -512107533 %
 
     , currency(`ILS`)
 
@@ -189,6 +189,8 @@ i_section( get_invoice_lines, [
               
               
 			  line_invoice_line
+
+            , line_invoice_line_1
         
            , line
 
@@ -205,6 +207,8 @@ i_line_rule_cut( line_header_line, [
 	or( [
       
 		[`Document`, `Your`, `Order`, `Ln`, `Number`, `Bar` ]
+
+      , [`Number`, tab, `No`, `.`, tab, `Description`, `Revision`, tab ]
 	
 	] )
 
@@ -259,6 +263,34 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+         
+           generic_item( [ line_item_dummy, s, q10(tab) ] )
+
+		 , generic_item( [ line_PO, d ] )
+
+		 , generic_item( [ line_buyers_order_number, d  ] )
+
+         , generic_item( [ line_item, s1 , tab ] )
+
+         , generic_item( [ line_descr, s1 , tab ] )
+         
+		 , generic_item( [ line_quantity, d , q10(tab)  ] )
+
+		 , generic_item( [ line_quantity_uom_code, w , q10(tab) ]  )
+
+		 , generic_item( [ line_descr_dummy, s , `USD` ] )
+         
+		 , generic_item( [ line_unit_amount, d, tab ] )
+
+		 , generic_item( [ line_net_amount, d , newline ] )
+
+
+] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -266,17 +298,17 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - 26 March 2022
 % Mapped by - Rohini 
 
-
-
 % Updated on   - 25 May, 2022
 % Updated by   - Rohini
 % Changes made - Line details updated
 
-
-
 % Updated on   - 31 May, 2022
 % Updated by   - Rohini
 % Changes made - Line details updated
+
+% Updated on   - 13 June, 2023
+% Updated by   - Rohini
+% Changes made - Line details updated - Start line, line_invoice_line_1 mapped
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
