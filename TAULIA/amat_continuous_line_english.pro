@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_continuous_line_english, `13 June, 2023` ).
+i_version(amat_continuous_line_english, `15 June, 2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -209,6 +209,8 @@ i_line_rule_cut( line_header_line, [
 		[`Document`, `Your`, `Order`, `Ln`, `Number`, `Bar` ]
 
       , [`Number`, tab, `No`, `.`, tab, `Description`, `Revision`, tab ]
+
+      , [`Document`, `Your`, `Order`, `Ln`, `Number`, tab, `Bar` ]
 	
 	] )
 
@@ -309,6 +311,18 @@ i_line_rule_cut( line_invoice_line_1, [
 % Updated on   - 13 June, 2023
 % Updated by   - Rohini
 % Changes made - Line details updated - Start line, line_invoice_line_1 mapped
+
+% Updated on   - 15 June, 2023
+% Updated by   - Sushmitha
+% Changes made - Updated start line
+
+% Updated on   - 
+% Updated by   - 
+% Changes made - 
+
+% Updated on   - 
+% Updated by   - 
+% Changes made - 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
