@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_oceanfreight_limited, `29 Nov,2022` ).
+i_version( ul_uapl_oceanfreight_limited, `15 June,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,6 +70,8 @@ i_rule_cut( get_invoice_number, [
         generic_horizontal_details( [ [ `Invoice`, `Number`, `:` ], invoice_number, s1 , newline ] )
 
         , generic_horizontal_details( [ [ `No`, `.`, `:` ], 100 , invoice_number, s1 , newline ] )
+
+        , generic_vertical_details( [ [ `Invoice`, `no`, `:`, tab ], `Invoice`, q(0,1), (start,100,900), invoice_number, s1, tab ] )
     ])
 
    
@@ -89,7 +91,15 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
-    , generic_horizontal_details( [ [ `Date` ], 100, invoice_date, date, newline ] )
+    , or([
+
+         generic_horizontal_details( [ [ `Date` ], 100, invoice_date, date, newline ] )
+
+        , generic_vertical_details( [ [ `Invoice`, `date`, `:`, tab ], `date`, q(0,1), (start,100,900), invoice_date, date, tab ] )
+
+    ])
+
+    
 	
 ] ).
 
@@ -111,6 +121,8 @@ i_rule( get_total_invoice, [
          generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`, `:`, tab ],  total_invoice, d, newline ] ) 
 
       ,  generic_vertical_details( [ [ `Total`, `Amount`,  newline ], `Total`, q(0,1,up), (start,100,900), total_invoice, d, newline  ] )
+
+      , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab ], total_invoice, d, [`USD`,  newline ] ] )
     ])
 
     
@@ -136,8 +148,16 @@ i_rule( get_currency, [
 %=======================================================================
 
     q0n(line)
+
+    , or([
+
+         generic_horizontal_details( [ [ `Currency`, `:` ], currency,  w , newline ] )
+
+        , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab, dummy(d) ], currency,  w , newline ] )
+
+    ])
     
-    , generic_horizontal_details( [ [ `Currency`, `:` ], currency,  w , newline ] )
+    
 
     
 ] ).
@@ -160,6 +180,9 @@ i_rule( get_line_total_amount, [
          generic_horizontal_details( [ [ `Total`, `Amount`, `in`, `USD`, `:`, tab ],  line_total_amount, d, newline ] ) 
 
       ,  generic_vertical_details( [ [ `Total`, `Amount`,  newline ], `Total`, q(0,1,up), (start,100,900), line_total_amount, d, newline  ] )
+    
+      ,  generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab ], line_total_amount, d, [`USD`,  newline ] ] )
+    
     ])
 
 
@@ -196,6 +219,14 @@ i_rule( get_invoice_lines, [
 % Updated by   - Sushmitha
 % Changes made - Updated invoice number, totals, lines,currency
 
+
+% Updated on   - 15 June,2023
+% Updated by   - Sushmitha
+% Changes made - Updated inv_num,date,total amount and line tot
+
+% Updated on   - 
+% Updated by   - 
+% Changes made - 
 
 % Updated on   - 
 % Updated by   - 
