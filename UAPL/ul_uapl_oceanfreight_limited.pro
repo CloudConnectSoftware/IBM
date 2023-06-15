@@ -123,6 +123,8 @@ i_rule( get_total_invoice, [
       ,  generic_vertical_details( [ [ `Total`, `Amount`,  newline ], `Total`, q(0,1,up), (start,100,900), total_invoice, d, newline  ] )
 
       , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab ], total_invoice, d, [`USD`,  newline ] ] )
+
+       , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab ], total_invoice, d, [`USD`, tab ] ] )
     ])
 
     
@@ -155,6 +157,8 @@ i_rule( get_currency, [
 
         , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab, dummy(d) ], currency,  w , newline ] )
 
+        , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab, dummy(d) ], currency,  w , tab ] )
+
     ])
     
     
@@ -182,6 +186,8 @@ i_rule( get_line_total_amount, [
       ,  generic_vertical_details( [ [ `Total`, `Amount`,  newline ], `Total`, q(0,1,up), (start,100,900), line_total_amount, d, newline  ] )
     
       ,  generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab ], line_total_amount, d, [`USD`,  newline ] ] )
+
+      , generic_horizontal_details( [ [ `Grand`, `total`, `:`, tab ], line_total_amount, d, [`USD`, tab ] ] )
     
     ])
 
