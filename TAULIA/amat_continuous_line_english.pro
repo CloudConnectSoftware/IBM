@@ -188,11 +188,11 @@ i_section( get_invoice_lines, [
         , or( [
               
               
-			  line_invoice_line
-
-            , line_invoice_line_2
+			  line_invoice_line_2
 
             , line_invoice_line_1
+
+            , line_invoice_line
         
            , line
 
