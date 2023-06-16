@@ -188,11 +188,13 @@ i_section( get_invoice_lines, [
         , or( [
               
               
-			  line_invoice_line_2
+			  line_invoice_line_3
+
+           , line_invoice_line_2
 
             , line_invoice_line_1
 
-           ,  line_invoice_line
+          ,  line_invoice_line
         
            , line
 
@@ -248,9 +250,9 @@ i_line_rule_cut( line_invoice_line, [
 
          , generic_item( [ line_dummy, s1 , tab ] )
 
-         , generic_item( [ line_descr, s1 , tab ] )
+         , generic_item( [ line_item, s1 , tab ] )
 
-         , generic_item( [ line_dummy, s , q10(tab) ] )
+         , generic_item( [ line_dummy, s1 , tab ] )
 
          , generic_item( [ line_dummy, s , q10(tab) ] )
          
@@ -309,13 +311,15 @@ i_line_rule_cut( line_invoice_line_2, [
 
          , generic_item( [ line_item, s1 , tab ] )
 
-         , generic_item( [ line_dummy, s1 , tab ] )
+         , generic_item( [ line_dummy1, w , q10(tab) ] )
 
-         , generic_item( [ line_dummy, s1 , tab ] )
+         , q10(generic_item( [ line_dummy2, s , q10(tab) ] ))
          
 		 , generic_item( [ line_quantity, d , q10(tab)  ] )
 
 		 , generic_item( [ line_quantity_uom_code, w , q10(tab) ]  )
+
+       %  ,  q10(generic_item( [ line_dummy3, d, q10(tab) ] ))
 
 		 , generic_item( [ line_descr_dummy, s , `USD` ] )
          
@@ -325,6 +329,40 @@ i_line_rule_cut( line_invoice_line_2, [
 
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_3, [
+%=======================================================================
+        
+           generic_item( [ line_item_dummy, s, q10(tab) ] )
+
+		 , generic_item( [ line_PO, d ] )
+
+		 , generic_item( [ line_buyers_order_number, d  ] )
+
+         , generic_item( [ line_descr, s1 , tab ] )
+
+         , generic_item( [ line_item, s1 , tab ] )
+
+         , generic_item( [ line_dummy1, w , q10(tab) ] )
+
+        % , q10(generic_item( [ line_dummy2, w , q10(tab) ] ))
+         
+		 , generic_item( [ line_quantity, d , q10(tab)  ] )
+
+		 , generic_item( [ line_quantity_uom_code, w , q10(tab) ]  )
+
+       %  ,  q10(generic_item( [ line_dummy3, d, q10(tab) ] ))
+
+		 , generic_item( [ line_descr_dummy, s , `USD` ] )
+         
+		 , generic_item( [ line_unit_amount, d, tab ] )
+
+		 , generic_item( [ line_net_amount, d , newline ] )
+
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,7 +389,7 @@ i_line_rule_cut( line_invoice_line_2, [
 
 % Updated on   - 16 June,2023
 % Updated by   - Sushmitha
-% Changes made - Added line_invoice_line_2
+% Changes made - Added line_invoice_line_2 and line_invoice_line_3
 
 % Updated on   - 
 % Updated by   - 
