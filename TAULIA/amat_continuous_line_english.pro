@@ -215,6 +215,8 @@ i_line_rule_cut( line_header_line, [
       , [`Number`, tab, `No`, `.`, tab, `Description`, `Revision`, tab ]
 
       , [`Document`, `Your`, `Order`, `Ln`, `Number`, tab, `Bar` ]
+
+      , [`Document`, `Your`, `Order`, `Number`, `Bar`]
 	
 	] )
 
