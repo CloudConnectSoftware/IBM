@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_continuous_line_english, `16 June, 2023` ).
+i_version(amat_continuous_line_english, `28 June, 2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,7 +70,7 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 	
 
-   q0n(line)
+   q(11,30,line)
 
  , or([
 
@@ -393,9 +393,14 @@ i_line_rule_cut( line_invoice_line_3, [
 % Updated by   - Sushmitha
 % Changes made - Added line_invoice_line_2 and line_invoice_line_3
 
+% Updated on   - 28 June, 2023
+% Updated by   -  Rohini
+% Changes made -  Invoice number updated
+
 % Updated on   - 
 % Updated by   - 
 % Changes made - 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
