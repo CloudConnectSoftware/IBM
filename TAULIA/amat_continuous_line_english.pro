@@ -74,7 +74,9 @@ i_rule_cut( get_invoice_number, [
 
  , or([
 
-   generic_horizontal_details( [ [`Invoice` ], invoice_number , s , [ `-`, `Copy`,  newline ] ] )
+   generic_horizontal_details( [ [`Invoice` ], invoice_number , s , [ `-`] ] )
+
+ , generic_horizontal_details( [ [`Invoice` ], invoice_number , s , [ `-`, `Copy`,  newline ] ] )
    
  , generic_horizontal_details( [ [ `Invoice`], invoice_number , s1 , newline ] )
 	
@@ -317,7 +319,7 @@ i_line_rule_cut( line_invoice_line_2, [
 
          , q10(generic_item( [ line_dummy2, w , q10(tab) ] ))
          
-		 , generic_item( [ line_quantity, d , q10(tab)  ] )
+		 , generic_item( [ line_quantity_dummy, d , q10(tab)  ] )
 
 		 , generic_item( [ line_quantity_uom_code, w , q10(tab) ]  )
 
