@@ -326,6 +326,10 @@ i_line_rule_cut( line_invoice_line, [
 % Updated by   -
 % Changes made - 
 
+% Updated on   - 
+% Updated by   -
+% Changes made - 
+
 
 
 
