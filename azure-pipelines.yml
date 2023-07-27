@@ -9,9 +9,6 @@ pool:
   demands:
     - rulesagent
 
-variables:
-  gitHubRepoName: "ada-gitfileuploader"
-
 lockBehavior: sequential
 stages:
 - stage: SetupArtifact
