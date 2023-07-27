@@ -1,0 +1,71 @@
+#This is a test 
+trigger:
+- main
+- master
+
+pool:
+  vmImage: windows-latest
+  name: Azure Pipelines
+  demands:
+    - rulesagent
+
+variables:
+  gitHubRepoName: "ada-gitfileuploader"
+
+lockBehavior: sequential
+stages:
+- stage: SetupArtifact
+  jobs:
+  - job: DoThings
+    steps:
+      - checkout: self
+        clean: true
+        persistCredentials: true
+
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            Write-Host "Hello World"
+            $result=$(git diff-tree --no-commit-id --name-status -c -r $(Build.SourceVersion))
+            Write-Host $result
+            if(!([string]::IsNullOrEmpty($result)))
+            {
+              $array=$Result.Split([System.Environment]::NewLine)
+              Write-Host $($array)
+
+              md $(Build.ArtifactStagingDirectory)/temp
+              md $(Build.ArtifactStagingDirectory)/tempdelete
+              Write-Host "Hello World2"
+
+              foreach ($ele in $array)
+              {
+                if ($ele.StartsWith("M") -eq 1 -Or $ele.StartsWith("A") -eq 1)
+                {
+                    $fileName=$ele.Substring(2)
+                    Write-Host "About to Find Source"
+                    $source="$(Build.SourcesDirectory)" + "\" + $fileName
+                    Write-Host $source
+                    $destination="$(Build.ArtifactStagingDirectory)/temp" + "/" + $fileName
+                    $destination=$destination.Replace("/","\")
+                    Write-Host "Destination Found"
+                    New-Item $destination -type file -Force
+                    Write-Host $destination
+                    Copy-Item -Path $source -Destination $destination
+                }
+                if ($ele.StartsWith("D") -eq 1)
+                {
+                  try
+                  {
+                    $fileName="$ele.Substring(2)"
+                    az storage blob delete -c "abc" -n "Rules\IBM\$fileName" --connection-string "$(connectionString)"
+                  }
+                  catch
+                  {
+                    Write-Host "Attempted deletion failed"
+                  }
+                }
+              }
+              az storage blob upload-batch -s $(Build.ArtifactStagingDirectory)/temp -d "rulescontainer/Rules/IBM" --connection-string "$(connectionString)"
+            }
