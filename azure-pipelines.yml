@@ -64,5 +64,5 @@ stages:
                   }
                 }
               }
-              az storage blob upload-batch -s $(Build.ArtifactStagingDirectory)/temp -d "rulescontainer/Rules/IBM" --connection-string "$(connectionString)"
+              az storage blob upload-batch -s $(Build.ArtifactStagingDirectory)/temp -d "rulescontainer/Rules/IBM" --overwrite --connection-string "$(connectionString)"
             }
