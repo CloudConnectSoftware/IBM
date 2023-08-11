@@ -30,8 +30,6 @@ i_rule_list( [
 
     , get_total_net
 
-    , get_total_vat
-
     , get_total_invoice
 
     , get_invoice_lines
@@ -53,8 +51,6 @@ i_rule( get_supplier_detail, [
    % Supplier VAT number - 91310114778504947G % 
 
    , supplier_registration_number(`sunling@absehs.com`)
-
-   , currency(`NTD`)
 
 ] ).
 
@@ -92,22 +88,6 @@ i_rule( get_invoice_number, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_date_yamini, [
-%=======================================================================
- 
-     q(0,50,line)
-
-     , check_text(`开票日期`)
-
-     , generic_horizontal_details( [ [ `开票日期`, `：` ], invoice_date_dummy, date, newline ] )
-
-     , trace( [ `Yamini testing - Invoice Date:` , invoice_date_dummy ] ) 
-
-
-        
-] ).
-
-%=======================================================================
 i_rule( get_invoice_date, [
 %=======================================================================
  
@@ -115,15 +95,15 @@ i_rule( get_invoice_date, [
 
      , check_text(`开票日期`)
 
-     , generic_horizontal_details( [ [ `开票日期`, `：` ], invoice_date_dummy, s1, newline ] )
+     , generic_horizontal_details( [ [ `开票日期`, dummy(s) ], invoice_date_dummy, s1, newline ] )
 
      , check( invoice_date_dummy = DateRaw )
 
     , trace( [ `Invoice date raw` , DateRaw ] )
 
-    , check(string_string_replace( DateRaw, `年`, ``, DateStrip ))
+    , check(string_string_replace( DateRaw, `年`, ` `, DateStrip ))
 
-     , check(string_string_replace( DateStrip, `月`, ``, DateStrip1 ))
+     , check(string_string_replace( DateStrip, `月`, ` `, DateStrip1 ))
 
     , check(string_string_replace( DateStrip1, `日`, ``, DateStrip2 ))
 
@@ -183,37 +163,10 @@ i_rule_cut(get_total_net, [
 
    q0n(line)
 
- ,generic_vertical_details( [ [ `合`, tab ], `合`, q(0,1,up), (start, 100, 500), total_net, d, tab ] )
+ , generic_vertical_details( [ [  `合`, tab, `计`,  newline ], `合`, q(0,1,up), (start, 100, 500), total_net, d, [ tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
 
-  
 
 ] ). 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOTAL VAT AMOUNT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut(get_total_vat, [
-%=======================================================================
- 
-   q0n(line)
-
-, or([
-
-  generic_horizontal_details( [ [ `¥`, generic_item( [ total_net, d ] ), tab, `¥` ], total_vat, d, newline ] )
- 
- , generic_vertical_details( [ [  `计`,  newline ], `计`, q(0,1,up), (start, 100, 500), total_vat, d, newline ] )
-
-  
-])
-  
-
-] ). 
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -230,7 +183,9 @@ i_rule_cut(get_total_invoice, [
 
     , check_text( `价税合计` )
 
-    , generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
+    , [generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
+    
+    , generic_item( [ currency, `RMB` ] )]
 
 
 ] ).
@@ -253,7 +208,7 @@ i_section( get_invoice_lines, [
         , or( [
               
                  
-                 [ line_invoice_line, line_invoice_append]
+                 [ line_invoice_line, q10(line_invoice_append)]
 
               , line
 
