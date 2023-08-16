@@ -310,9 +310,13 @@ i_line_rule_cut( line_invoice_append, [
 % Mapped by - Yamini 
 % Merged - Vendor no- 9000175368  for company codes:0059,0069,0065
 
+% Updated on   - 16 Aug,2023
+% Updated by   - sushmitha
+% Changes made - Added get_total_net1
 
-
-
+% Updated on   - 
+% Updated by   -
+% Changes made - 
 
 % Updated on   - 
 % Updated by   -
