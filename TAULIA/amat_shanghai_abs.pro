@@ -30,6 +30,8 @@ i_rule_list( [
 
     , get_total_net
 
+    , get_total_net1
+
     , get_total_invoice
 
     , get_invoice_lines
@@ -163,9 +165,26 @@ i_rule_cut(get_total_net, [
 
    q0n(line)
 
- , generic_vertical_details( [ [  `合`, tab, `计`,  newline ], `合`, q(0,1,up), (start, 100, 900), total_net, d, [ tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
+ , generic_vertical_details( [ [ `合`, tab, `计`,  newline ], `合`, q(0,1,up), (start, 100, 900), total_net, d, [ tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
 
+                                                                                                                                 
+] ). 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL NET AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut(get_total_net1, [
+%=======================================================================
+ 
+
+   q0n(line)
+
+, generic_horizontal_details( [ [ `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+                                                                                                                                
 ] ). 
 
 
