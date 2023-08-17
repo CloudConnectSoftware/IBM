@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `16 Aug,2023` ).
+i_version(amat_shanghai_abs, `17 Aug,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,9 +70,15 @@ i_rule( get_invoice_number, [
  
      q(0,20,line)
 
-     , check_text(`发票号码` )
+     , or([
 
-     ,  generic_horizontal_details( [ [`发票号码`, dummy(s) ], invoice_number_dummy, s1, newline ] )
+           generic_horizontal_details( [ [`发票号码`, dummy(s) ], invoice_number_dummy, s1, newline ] )
+
+        , generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), invoice_number_dummy, s1, newline ] )
+
+     ])
+
+     
 
      , check( invoice_number_dummy = Invstripnew )
 
@@ -200,11 +206,20 @@ i_rule_cut(get_total_invoice, [
 
     q0n(line)
 
-    , check_text( `价税合计` )
+    ,or([
 
-    , [generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
+         [generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
     
-    , generic_item( [ currency, `RMB` ] )]
+            , generic_item( [ currency, `RMB` ] )]
+
+           , [generic_horizontal_details( [ [ `肆佰肆拾肆圆叁角贰分`,  tab, `¥` ], total_invoice, d, newline ] )
+    
+            , generic_item( [ currency, `RMB` ] )]
+
+
+    ])
+
+    
 
 
 ] ).
@@ -270,7 +285,9 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_descr, s1, tab ] )                     
 
-  , generic_item( [ line_dummy, w, tab ] )
+  , generic_item( [ line_dummy, s1, tab ] )
+
+  , q10(generic_item( [ line_dummy1, s1, tab ] ))
 
   , generic_item( [ line_quantity, d,tab ] )
 
@@ -314,9 +331,9 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - sushmitha
 % Changes made - Added get_total_net1
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 17 Aug,2023
+% Updated by   - Sushmitha
+% Changes made - Updated get_invoice_number, tot_amount,line_invoice_line
 
 % Updated on   - 
 % Updated by   -
