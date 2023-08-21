@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `17 Aug,2023` ).
+i_version(amat_shanghai_abs, `21 Aug,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -156,7 +156,7 @@ i_line_rule_cut( line_date_line_1, [
 i_rule( get_order_number, [
 %=======================================================================
 
-     q(0,50,line)
+     q0n(line)
 
     , find_order_number
 
@@ -191,7 +191,9 @@ i_rule_cut(get_total_net, [
 
    q0n(line)
 
-, generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+, [generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+
+, generic_item( [ currency, `RMB` ] )]
                                                                                                                                 
 ] ). 
 
@@ -210,22 +212,13 @@ i_rule_cut(get_total_invoice, [
 
     ,or([
 
-             [generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
+             generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
     
-           , generic_item( [ currency, `RMB` ] )]
-
-           , [generic_horizontal_details( [ [ `肆佰肆拾肆圆叁角贰分`,  tab, `¥` ], total_invoice, d, newline ] )
+           , generic_horizontal_details( [ [ `肆佰肆拾肆圆叁角贰分`,  tab, `¥` ], total_invoice, d, newline ] )
     
-           , generic_item( [ currency, `RMB` ] )]
-
-           , [generic_horizontal_details( [ [ `捌佰圆零肆分`,  tab, `¥`  ], total_invoice, d, newline ] )
+           , generic_horizontal_details( [ [ `捌佰圆零肆分`,  tab, `¥`  ], total_invoice, d, newline ] )
     
-           , generic_item( [ currency, `RMB` ] )]
-
-
     ])
-
-    
 
 
 ] ).
@@ -341,10 +334,14 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Sushmitha
 % Changes made - Updated get_invoice_number, tot_amount,line_invoice_line
 
+% Updated on   - 21 Aug 2023
+% Updated by   - Rohini
+% Changes made - Invoice amount and Invoice date updated
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
