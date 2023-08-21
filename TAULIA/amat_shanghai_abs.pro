@@ -8,7 +8,7 @@ i_version(amat_shanghai_abs, `17 Aug,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(`y/m/d`).
+i_date_format(_).
 
 i_trace_lists.
 
@@ -96,33 +96,53 @@ i_rule( get_invoice_number, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_date, [
+i_rule_cut( get_invoice_date, [ 
 %=======================================================================
+  
  
      q(0,50,line)
 
-     , check_text(`开票日期`)
+   , line_date_line
 
-     , generic_horizontal_details( [ [ `开票日期`, dummy(s) ], invoice_date_dummy, s1, newline ] )
+   , q(0,1,line)
 
-     , check( invoice_date_dummy = DateRaw )
+   , line_date_line_1
+   
+] ).
 
-    , trace( [ `Invoice date raw` , DateRaw ] )
+%=======================================================================
+i_line_rule_cut( line_date_line, [
+%=======================================================================
 
-    , check(string_string_replace( DateRaw, `年`, ` `, DateStrip ))
+       read_ahead([`开票日期`])
 
-     , check(string_string_replace( DateStrip, `月`, ` `, DateStrip1 ))
+     , trace( [ `Found address`] )
 
-    , check(string_string_replace( DateStrip1, `日`, ``, DateStrip2 ))
+     , generic_item( [ dummy_value, s1, newline ] )
 
-    , trace( [ `Date Stripped Space` , DateStrip2 ] )
-
-    , invoice_date(DateStrip2)
-
-    , trace( [ `Invoice Date` , invoice_date ] )
+] ).
 
 
-        
+%=======================================================================
+i_line_rule_cut( line_date_line_1, [
+%=======================================================================
+
+      generic_item( [ date_raw_1, d, [`年` ] ] )
+
+    ,  generic_item( [ date_raw_2, d, [`月` ] ] )
+
+    ,  generic_item( [ date_raw_3, d, [`日`,  newline ] ] )
+     
+    , check( date_raw_1 = DateRaw )   
+
+    , check( date_raw_2 = DateRaw1 )   
+
+    , check( date_raw_3 = DateRaw2 )   
+
+
+    , check(strcat_list( [ DateRaw,` ` , DateRaw1,` `, DateRaw2 ], DateNew ))   , trace( [ `New Date Format` , DateNew ] ) 
+    
+	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
 ] ).
 
 
