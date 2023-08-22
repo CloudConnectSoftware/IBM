@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `21 Aug,2023` ).
+i_version(amat_shanghai_abs, `22 Aug,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -25,6 +25,8 @@ i_rule_list( [
     , get_invoice_number
   
     , get_invoice_date
+
+    , get_invoice_date_1
 
     , get_order_number
 
@@ -144,6 +146,53 @@ i_line_rule_cut( line_date_line_1, [
     
 	, invoice_date(DateNew)  , trace( [ `Invoice Date Now` , invoice_date ] )
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_1, [ 
+%=======================================================================
+  
+ 
+     q(0,50,line)
+
+   , line_date_line1
+   
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_date_line1, [
+%=======================================================================
+
+       read_ahead([`开票日期`])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ dummy_value1, s, `：` ] )
+
+    ,  generic_item( [ date_raw_11, d, [`年` ] ] )
+
+    ,  generic_item( [ date_raw_21, d, [`月` ] ] )
+
+    ,  generic_item( [ date_raw_31, d, [`日`,  newline ] ] )
+     
+    , check( date_raw_11 = DateRaw1 )   
+
+    , check( date_raw_21 = DateRaw11 )   
+
+    , check( date_raw_31 = DateRaw21 )   
+
+
+    , check(strcat_list( [ DateRaw1,` ` , DateRaw11,` `, DateRaw21 ], DateNew1 ))   , trace( [ `New Date Format` , DateNew1 ] ) 
+    
+	, invoice_date(DateNew1)  , trace( [ `Invoice Date Now` , invoice_date ] )
+] ).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -338,6 +387,9 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made - Invoice amount and Invoice date updated
 
+% Updated on   - 22 Aug 2023
+% Updated by   - Rohini
+% Changes made - Invoice date updated
 
 % Updated on   - 
 % Updated by   -
