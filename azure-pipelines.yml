@@ -3,6 +3,11 @@ trigger:
 - main
 - master
 
+variables:
+  BRANCH_NAME: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  isMainBranch: ${{ or(eq(variables['build.SourceBranchName'], 'master'), eq(variables['build.SourceBranchName'], 'main')) }}
+  isPR: ${{ eq(variables['build.reason'], 'PullRequest') }}
+
 pool:
   vmImage: windows-latest
   name: Azure Pipelines
@@ -14,6 +19,7 @@ stages:
 - stage: SetupArtifact
   jobs:
   - job: DoThings
+    condition: ne(variables['isPR'], 'true')  # Run the job when isPR is false
     steps:
       - checkout: self
         clean: true
@@ -25,8 +31,31 @@ stages:
           script: |
             # Write your PowerShell commands here.
             Write-Host "Hello World"
+            Write-Host "Source Branch:" $(Build.SourceBranchName)
+            Write-Host "Branch:" $(BRANCH_NAME)
             $result=$(git diff-tree --no-commit-id --name-status -c -r $(Build.SourceVersion))
             Write-Host $result
+            $sourceBranch = $env:BUILD_SOURCEBRANCH
+            if ($env:BUILD_REASON -eq "PullRequest") 
+            {
+              # Extract the pull request number from the source branch
+              $pullRequestNumber = ($sourceBranch -split '/')[2]
+              git fetch origin $sourceBranch
+              Write-Host "pullRequestNumber:"  $pullRequestNumber
+              # Get the list of changed files in the pull request
+              $result = git diff --name-status origin/master..$sourceBranch
+              Write-Host "changedFiles:"  $result
+              } 
+              else 
+              {
+                # Get the list of changed files in the current branch/commit
+                $result = git diff --name-status HEAD^ HEAD
+                #$result=$(git diff --name-only $(Build.SourceBranch))
+                Write-Host "Result:"   $result
+              }
+
+              Write-Host "Git Result :" $result
+
             if(!([string]::IsNullOrEmpty($result)))
             {
               $array=$Result.Split([System.Environment]::NewLine)
