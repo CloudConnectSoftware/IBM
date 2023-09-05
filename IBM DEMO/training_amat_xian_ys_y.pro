@@ -193,7 +193,7 @@ i_rule_cut(get_total_invoice, [
 
     q0n(line)
 
-    , [generic_horizontal_details( [ [ `贰拾捌万肆仟壹佰柒拾捌圆玖角捌分`,  tab, `¥` ], total_invoice, d, newline ] )
+    , [generic_horizontal_details( [ [ `贰万零伍佰圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
     , generic_item( [ currency, `RMB` ] ) ]  % the RMB is new currency code for CHINA vendor.
 
