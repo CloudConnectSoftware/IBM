@@ -937,6 +937,8 @@ i_section( get_invoice_lines, [
                 , [line_english_descr_line, line_invoice_english_4, q10(line_append_line) ]
 
                 , line_invoice_english_6
+
+                , line_invoice_english_7
                 
 
                 , line
