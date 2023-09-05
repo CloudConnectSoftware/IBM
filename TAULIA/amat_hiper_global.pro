@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `16 march,2023` ).
+i_version(amat_hiper_global, `05 Sep,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1287,6 +1287,38 @@ i_line_rule_cut( line_invoice_english_6, [
      , generic_item( [ line_net_amount, d, newline ] )
   
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_english_7, [
+%=======================================================================
+
+        generic_item( [ line_dummy,d , q10(tab)] )
+
+     , generic_item( [ line_descr_dummy,w , q10(tab)] )
+
+     , generic_item( [ line_descr_dummy1,w, q10(tab) ] )
+ 
+     , generic_item( [ po_number, d, q10(tab)  ] )
+     
+     , generic_item( [ line_buyers_order_number, d, q10(tab) ] )
+
+     , generic_item( [ line_item, s1, tab ] )
+
+     , generic_item( [ line_descr, s1, tab ] )
+     
+     , generic_item( [ line_descr_dummy, s, q10(tab) ] )
+
+     , generic_item( [ line_quantity, d, [`ea`, q10(tab) ] ] )
+     
+     , generic_item( [ line_quantity_dummy, s, [  `US`, `$` ] ] )
+
+     , generic_item( [ line_unit_amount, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+  
+] ).
+
 %=======================================================================
 i_line_rule_cut( line_invoice_line_2, [
 %=======================================================================
@@ -1339,9 +1371,9 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated by   - Sushmitha
 % Changes made - Added line_invoice_english_6
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 05 Sep, 2023
+% Updated by   - Rohini
+% Changes made - Mapped line_invoice_english_7
 
 % Updated on   - 
 % Updated by   -
