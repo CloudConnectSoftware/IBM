@@ -939,6 +939,8 @@ i_section( get_invoice_lines, [
                 , line_invoice_english_6
 
                 , line_invoice_english_7
+
+                , line_invoice_english_8
                 
 
                 , line
@@ -1347,6 +1349,33 @@ i_line_rule_cut( line_invoice_line_2, [
 ] ).
 
 
+%=======================================================================
+i_line_rule_cut( line_invoice_english_8, [
+%=======================================================================
+
+        generic_item( [ line_dummy,d , q10(tab)] )
+
+     , generic_item( [ line_descr_dummy,w , q10(tab)] )
+
+     , generic_item( [ line_descr_dummy1,w, q10(tab) ] )
+ 
+     , generic_item( [ po_number, d, q10(tab)  ] )
+     
+     , generic_item( [ line_buyers_order_number, d, q10(tab) ] )
+
+     , generic_item( [ line_item, s1, tab ] )
+     
+     , generic_item( [ line_descr, s, q10(tab) ] )
+
+     , generic_item( [ line_quantity_dummy, d, [`ea`, q10(tab) ] ] )
+     
+     , generic_item( [ line_quantity_dummy, s, [ `ea`,  `US`, `$`] ] )
+
+     , generic_item( [ line_unit_amount, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+  
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -1376,6 +1405,11 @@ i_line_rule_cut( line_invoice_line_2, [
 % Updated on   - 05 Sep, 2023
 % Updated by   - Rohini
 % Changes made - Mapped line_invoice_english_7
+
+% Updated on   - 06 Sep, 2023
+% Updated by   - Rohini
+% Changes made - line_invoice_english_8 mapped
+
 
 % Updated on   - 
 % Updated by   -
