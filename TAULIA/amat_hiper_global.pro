@@ -1353,15 +1353,15 @@ i_line_rule_cut( line_invoice_line_2, [
 i_line_rule_cut( line_invoice_english_8, [
 %=======================================================================
 
-        generic_item( [ line_dummy,d , q10(tab)] )
+        generic_item( [ line_dummy,d ] )
 
-     , generic_item( [ line_descr_dummy,w , q10(tab)] )
+     , generic_item( [ line_descr_dummy,w ] )
 
-     , generic_item( [ line_descr_dummy1,w, q10(tab) ] )
+     , generic_item( [ line_descr_dummy1,w  ] )
  
-     , generic_item( [ po_number, d, q10(tab)  ] )
+     , generic_item( [ po_number, d   ] )
      
-     , generic_item( [ line_buyers_order_number, d, q10(tab) ] )
+     , generic_item( [ line_buyers_order_number, d ] )
 
      , generic_item( [ line_item, s1, tab ] )
      
@@ -1376,6 +1376,7 @@ i_line_rule_cut( line_invoice_english_8, [
      , generic_item( [ line_net_amount, d, newline ] )
   
 ] ).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
