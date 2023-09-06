@@ -402,7 +402,7 @@ i_line_rule_cut( line_invoice_append, [
 
 % Updated on   - 06 Sep,2023
 % Updated by   - Sushmitha
-% Changes made - updated get_total_net.
+% Changes made - updated get_total_net..
 
 % Updated on   - 
 % Updated by   -
