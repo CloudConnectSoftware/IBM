@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `22 Aug,2023` ).
+i_version(amat_shanghai_abs, `06 Sep,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -236,13 +236,22 @@ i_line_rule_cut( find_order_number, [
 %=======================================================================
 i_rule_cut(get_total_net, [
 %=======================================================================
- 
+  
 
    q0n(line)
 
-, [generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+, or([
 
-, generic_item( [ currency, `RMB` ] )]
+     [generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+
+    , generic_item( [ currency, `RMB` ] )]
+
+    , [generic_horizontal_details( [ [ `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+
+    , generic_item( [ currency, `RMB` ] )]
+
+
+])
                                                                                                                                 
 ] ). 
 
@@ -390,6 +399,10 @@ i_line_rule_cut( line_invoice_append, [
 % Updated on   - 22 Aug 2023
 % Updated by   - Rohini
 % Changes made - Invoice date updated
+
+% Updated on   - 06 Sep,2023
+% Updated by   - Sushmitha
+% Changes made - updated get_total_net
 
 % Updated on   - 
 % Updated by   -
