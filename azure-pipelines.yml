@@ -58,14 +58,12 @@ stages:
 
             if(!([string]::IsNullOrEmpty($result)))
             {
-              $array=$Result.Split([System.Environment]::NewLine)
-              Write-Host $($array)
+              $files=$Result.Split([System.Environment]::NewLine)
 
               md $(Build.ArtifactStagingDirectory)/temp
               md $(Build.ArtifactStagingDirectory)/tempdelete
-              Write-Host "Hello World2"
 
-              foreach ($ele in $array)
+              foreach ($file in $files)
               {
                 $fileToDelete = ""
                 if($file.StartsWith("R") -eq 1)
@@ -92,12 +90,12 @@ stages:
                   Copy-Item -Path $source -Destination $destination
                   $file = $fileToDelete
                 }
-                if ($ele.StartsWith("D") -eq 1)
+                if ($file.StartsWith("D") -eq 1)
                 {
                   try
                   {
-                    $fileName="$ele.Substring(2)"
-                    az storage blob delete -c "abc" -n "Rules\IBM\$fileName" --connection-string "$(connectionString)"
+                    $fileName=$ele.Substring(2)
+                    az storage blob delete -c "rulescontainer" -n "Rules\Taulia\$file" --connection-string "$(connectionString)"
                   }
                   catch
                   {
