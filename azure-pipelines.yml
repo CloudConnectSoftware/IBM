@@ -58,34 +58,44 @@ stages:
 
             if(!([string]::IsNullOrEmpty($result)))
             {
-              $array=$Result.Split([System.Environment]::NewLine)
-              Write-Host $($array)
+              $files=$Result.Split([System.Environment]::NewLine)
 
               md $(Build.ArtifactStagingDirectory)/temp
               md $(Build.ArtifactStagingDirectory)/tempdelete
-              Write-Host "Hello World2"
 
-              foreach ($ele in $array)
+              foreach ($file in $files)
               {
-                if ($ele.StartsWith("M") -eq 1 -Or $ele.StartsWith("A") -eq 1)
+                $fileToDelete = ""
+                if($file.StartsWith("R") -eq 1)
                 {
-                    $fileName=$ele.Substring(2)
-                    Write-Host "About to Find Source"
-                    $source="$(Build.SourcesDirectory)" + "\" + $fileName
-                    Write-Host $source
-                    $destination="$(Build.ArtifactStagingDirectory)/temp" + "/" + $fileName
-                    $destination=$destination.Replace("/","\")
-                    Write-Host "Destination Found"
-                    New-Item $destination -type file -Force
-                    Write-Host $destination
-                    Copy-Item -Path $source -Destination $destination
+                  Write-Host "Name change detected"
+                  $renameArray = $file.Split("	")
+                  $file = "A " + $renameArray[2]
+                  $fileToDelete = "D " + $renameArray[1]
+                  Write-Host "File to add " + $file
+                  Write-Host "File to delelte " + $fileToDelete
                 }
-                if ($ele.StartsWith("D") -eq 1)
+                if ($file.StartsWith("M") -eq 1 -Or $file.StartsWith("A") -eq 1 -Or $file.StartsWith("C") -eq 1 -Or $file.StartsWith("T") -eq 1)
+                {
+                  $fileName=$file.Substring(2)
+                  Write-Host "About to Find Source"
+                  $source="$(Build.SourcesDirectory)" + "\" + $fileName
+                  Write-Host $source
+                  $destination="$(Build.ArtifactStagingDirectory)/temp" + "/" + $fileName
+                  $destination=$destination.Replace("/","\")
+                  $destination=$destination.Replace("\00", "")
+                  Write-Host "Destination Found" $destination
+                  New-Item $destination -type file -Force
+                  Write-Host $destination
+                  Copy-Item -Path $source -Destination $destination
+                  $file = $fileToDelete
+                }
+                if ($file.StartsWith("D") -eq 1)
                 {
                   try
                   {
-                    $fileName="$ele.Substring(2)"
-                    az storage blob delete -c "abc" -n "Rules\IBM\$fileName" --connection-string "$(connectionString)"
+                    $fileName=$ele.Substring(2)
+                    az storage blob delete -c "rulescontainer" -n "Rules\Taulia\$file" --connection-string "$(connectionString)"
                   }
                   catch
                   {
