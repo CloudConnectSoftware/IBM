@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `05 Sep,2023` ).
+i_version(amat_hiper_global, `25 Sep,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -916,9 +916,9 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-                
-                
-                 line_invoice_line_1
+                line_invoice_english_8
+
+               , line_invoice_line_1
 
                 , line_invoice_english_3
                 
@@ -939,10 +939,7 @@ i_section( get_invoice_lines, [
                 , line_invoice_english_6
 
                 , line_invoice_english_7
-
-                , line_invoice_english_8
                 
-
                 , line
 
         ] )
@@ -1411,6 +1408,9 @@ i_line_rule_cut( line_invoice_english_8, [
 % Updated by   - Rohini
 % Changes made - line_invoice_english_8 mapped
 
+% Updated on   - 25 Sep,2023
+% Updated by   - Sushmitha
+% Changes made - Re-arranged rules set to capture the format. Ex: Inv: EXF231100660
 
 % Updated on   - 
 % Updated by   -
