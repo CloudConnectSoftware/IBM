@@ -918,6 +918,8 @@ i_section( get_invoice_lines, [
               
                 line_invoice_english_8
 
+                , [line_english_descr_line,line_invoice_english_9,q10(line_english_descr_line)]
+
                , line_invoice_line_1
 
                 , line_invoice_english_3
@@ -1374,6 +1376,31 @@ i_line_rule_cut( line_invoice_english_8, [
   
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_english_9, [
+%=======================================================================
+
+        generic_item( [ line_dummy,d ] )
+
+     , generic_item( [ line_descr_dummy,w ] )
+
+     , generic_item( [ line_descr_dummy1,w  ] )
+ 
+     , generic_item( [ po_number, d   ] )
+     
+     , generic_item( [ line_buyers_order_number, d ] )
+
+     , generic_item( [ line_item, s1, tab ] )
+
+     , generic_item( [ line_quantity_dummy, d, [`ea`, q10(tab) ] ] )
+     
+     , generic_item( [ line_quantity_dummy, s, [ `ea`,  `USD`] ] )
+
+     , generic_item( [ line_unit_amount, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+  
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -1411,6 +1438,10 @@ i_line_rule_cut( line_invoice_english_8, [
 % Updated on   - 25 Sep,2023
 % Updated by   - Sushmitha
 % Changes made - Re-arranged rules set to capture the format. Ex: Inv: EXF231100660
+
+% Updated on   - 25 Sep,2023
+% Updated by   - Sushmitha
+% Changes made - Added line_invoice_english_9
 
 % Updated on   - 
 % Updated by   -
