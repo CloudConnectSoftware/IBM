@@ -42,8 +42,6 @@ i_rule_list( [
       
     , get_invoice_totals
 
-    , get_invoice_totals_1_6
-
     , get_invoice_totals_1
 
     , get_invoice_totals_2
@@ -263,13 +261,18 @@ i_rule_cut( get_amount_details, [
 	
       q0n(line)
 
-    , [generic_horizontal_details( [ [`TOTAL`, tab, `US`, `$` ], total_net, d, newline ] )
+    , or([
+
+        generic_horizontal_details( [ [ `TOTAL`,  tab, `USD` ], total_net, d, newline ] )
+
+        , generic_horizontal_details( [ [`TOTAL`, tab, `US`, `$` ], total_net, d, newline ] )
+    ])    
 
     ,  check( total_net = TotNet)
 
     , generic_item( [ total_invoice , TotNet ] )
 
-    , generic_item( [ currency , `USD` ] )]
+    , generic_item( [ currency , `USD` ] )
 
 ] ).
 
@@ -915,8 +918,34 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
-              
-                [line_english_descr_line,line_invoice_english_9]
+                           
+
+                line_invoice_english_8
+
+               , line_invoice_line_1
+
+                , line_invoice_english_3
+                
+                , line_invoice_english_4
+                
+                , line_invoice_english_5
+                 
+                , line_invoice_english_1                
+
+                , line_invoice_english      
+
+                , [ line_invoice_line, q10(line_append_line) ]
+
+                , [line_invoice_line_2, q10(line_append_line)]
+
+                , [line_english_descr_line, line_invoice_english_4, q10(line_append_line) ]
+
+                , line_invoice_english_6
+
+                , line_invoice_english_7
+
+                , [line_english_descr_line,line_invoice_english_9]
+                
               
                 , line
 
@@ -1355,7 +1384,7 @@ i_line_rule_cut( line_invoice_english_8, [
 %=======================================================================
 i_line_rule_cut( line_invoice_english_9, [
 %=======================================================================
- 
+  
         generic_item( [ line_dummy,d ] )
 
      , generic_item( [ line_descr_dummy,w ] )
@@ -1397,10 +1426,6 @@ i_line_rule_cut( line_invoice_english_9, [
 % Updated by   - Sushmitha
 % Changes made - updated get_invoice_totals_1
 
-% Updated on   - 23 Aug,2022
-% Updated by   - Sushmitha
-% Changes made - added get_invoice_totals_1_6
-
 % Updated on   - 16 march,2023
 % Updated by   - Sushmitha
 % Changes made - Added line_invoice_english_6
@@ -1419,7 +1444,7 @@ i_line_rule_cut( line_invoice_english_9, [
 
 % Updated on   - 25 Sep,2023
 % Updated by   - Sushmitha
-% Changes made - Added line_invoice_english_9
+% Changes made - Added line_invoice_english_9, updated get_amount_details
 
 % Updated on   - 
 % Updated by   -
