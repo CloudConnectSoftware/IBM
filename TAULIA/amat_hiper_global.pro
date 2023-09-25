@@ -916,33 +916,8 @@ i_section( get_invoice_lines, [
 
         , or( [
               
+                line_invoice_english_8
                 
-                
-                 line_invoice_line_1
-
-                , line_invoice_english_3
-                
-                , line_invoice_english_4
-                
-                , line_invoice_english_5
-                 
-                , line_invoice_english_1                
-
-                , line_invoice_english      
-
-                , [ line_invoice_line, q10(line_append_line) ]
-
-                , [line_invoice_line_2, q10(line_append_line)]
-
-                , [line_english_descr_line, line_invoice_english_4, q10(line_append_line) ]
-
-                , line_invoice_english_6
-
-                , line_invoice_english_7
-
-                , line_invoice_english_8
-                
-
                 , line
 
         ] )
