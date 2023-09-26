@@ -177,7 +177,7 @@ i_rule_cut( get_original_invoice_number, [
 
   , or([
 
-       generic_horizontal_details( [ [`CERDIT`,  `FOR`,  `INVICE`,  `NO`, `#`],  original_invoice_number, s1, newline ] )
+       generic_horizontal_details( [ [`CREDIT`,  `FOR`,  `INVOICE`,  `NO`, `#`],  original_invoice_number, s1, newline ] )
 ] )
 
 ] ).
@@ -1432,9 +1432,16 @@ i_line_rule_cut( line_invoice_english_10, [
 
      , q10(generic_item( [ line_item_dummy, w ] ))
 
-     , generic_item( [ line_quantity_dummy, d, [`ea` ] ] )
+     , generic_item( [ line_quantity_dummy, d, [`ea`, q10(tab) ] ] )
+
+     , or([
+
+         generic_item( [ line_quantity_dummy, s, [`ea`,  `US`, `$`] ] )
+
+         , generic_item( [ line_quantity_dummy, s, [ `ea`,  `USD`] ] )
+
+     ])     
      
-     , generic_item( [ line_quantity_dummy, s, [ `ea`,  `USD`] ] )
 
      , generic_item( [ line_unit_amount, d, tab ] )
 
