@@ -1416,6 +1416,7 @@ i_line_rule_cut( line_invoice_english_9, [
 i_line_rule_cut( line_invoice_english_10, [
 %=======================================================================
 
+
         generic_item( [ line_dummy,d ] )
 
      , generic_item( [ line_descr_dummy,w ] )
@@ -1432,7 +1433,7 @@ i_line_rule_cut( line_invoice_english_10, [
 
      , q10(generic_item( [ line_item_dummy, w ] ))
 
-     , generic_item( [ line_quantity_dummy, d, [`ea` ] ] )
+     , generic_item( [ line_quantity_dummy, d, [`ea`, q10(tab) ] ] )
      
      , generic_item( [ line_quantity_dummy, s, [ `ea`,  `USD`] ] )
 
