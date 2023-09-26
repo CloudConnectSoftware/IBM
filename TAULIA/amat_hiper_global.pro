@@ -177,7 +177,7 @@ i_rule_cut( get_original_invoice_number, [
 
   , or([
 
-       generic_horizontal_details( [ [`CERDIT`,  `FOR`,  `INVICE`,  `NO`, `#`],  original_invoice_number, s1, newline ] )
+       generic_horizontal_details( [ [`CREDIT`,  `FOR`,  `INVOICE`,  `NO`, `#`],  original_invoice_number, s1, newline ] )
 ] )
 
 ] ).
