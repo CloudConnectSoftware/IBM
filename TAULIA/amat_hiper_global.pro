@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `25 Sep,2023` ).
+i_version(amat_hiper_global, `27 Sep,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -204,6 +204,7 @@ i_rule_cut( get_invoice_date, [
 
     ,  generic_vertical_details( [ [`חוקל`,  `רפסמ`,  tab ], `חוקל`, q(0,1,up), (start, 500,500), invoice_date, date ,  `:` ] )
    
+    , generic_horizontal_details( [ [ `Date`, `:` ], invoice_date, date, newline ] )
 
    ] )
 
@@ -1485,6 +1486,14 @@ i_line_rule_cut( line_invoice_english_10, [
 % Updated on   - 25 Sep,2023
 % Updated by   - Sushmitha
 % Changes made - Added line_invoice_english_9, updated get_amount_details & added line_invoice_english_10
+
+% Updated on   - 27 Sep,2023
+% Updated by   - Sushmitha
+% Changes made - Updated date.
+
+% Updated on   - 
+% Updated by   -
+% Changes made - 
 
 % Updated on   - 
 % Updated by   -
