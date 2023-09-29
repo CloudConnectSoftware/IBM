@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `27 Sep,2023` ).
+i_version(amat_hiper_global, `29 Sep,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -986,6 +986,9 @@ i_line_rule_cut( line_end_line, [
         [ `Your`,  `Part`,  tab, `Part`,  tab, `Balance`,  newline ]
 
     , [`$`,  dummy(d),  tab, `(`, dummy(d), `%`, `)`,  `תיללכ`,  `החנה`,  newline ]
+
+    , [ `TOTAL`,  tab, `USD`,  dummy(d),  newline ]
+
     
    % , [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
 
@@ -1490,6 +1493,10 @@ i_line_rule_cut( line_invoice_english_10, [
 % Updated on   - 27 Sep,2023
 % Updated by   - Sushmitha
 % Changes made - Updated date.
+
+% Updated on   - 29 Sep,2023
+% Updated by   - Yamini
+% Changes made - Updated end line.
 
 % Updated on   - 
 % Updated by   -
