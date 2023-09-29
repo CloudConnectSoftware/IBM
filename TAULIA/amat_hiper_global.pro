@@ -949,7 +949,8 @@ i_section( get_invoice_lines, [
 
                 , line_invoice_english_10
                 
-              
+                , [line_invoice_english_11, q10(line_append_line)]
+
                 , line
 
         ] )
@@ -1136,7 +1137,6 @@ i_line_rule_cut( line_append_line, [
 
 %=======================================================================
 i_line_rule_cut( line_invoice_english, [
-%=======================================================================
 
        generic_item( [ line_descr_dummy, s, q10(tab) ] )
         
@@ -1163,12 +1163,13 @@ i_line_rule_cut( line_invoice_english, [
 %=======================================================================
 i_line_rule_cut( line_invoice_english_1, [
 %=======================================================================
+%=======================================================================
+ 
+       generic_item( [ line_descr_dummy, w, q10(tab) ] )
 
-       generic_item( [ line_descr_dummy,w, q10(tab) ] )
+     , generic_item( [ line_descr_dummy1, w, q10(tab) ] )
 
-     , generic_item( [ line_descr_dummy1,w, q10(tab) ] )
-
-     , generic_item( [ po_number,d, q10(tab) ] )
+     , generic_item( [ po_number, d, q10(tab) ] )
 
      , generic_item( [ line_buyers_order_number, d ] )
      
@@ -1231,9 +1232,9 @@ i_line_rule_cut( line_english_descr_line, [
 i_line_rule_cut( line_invoice_english_3, [
 %=======================================================================
 
-       generic_item( [ line_descr_dummy,w , q10(tab)] )
+       generic_item( [ line_descr_dummy, w, q10(tab)] )
 
-     , generic_item( [ line_descr_dummy1,w, q10(tab) ] )
+     , generic_item( [ line_descr_dummy1, w, q10(tab) ] )
  
      , generic_item( [ po_number, d, q10(tab)  ] )
      
@@ -1452,6 +1453,45 @@ i_line_rule_cut( line_invoice_english_10, [
      , generic_item( [ line_net_amount, d, newline ] )
   
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_english_11, [
+%=======================================================================
+
+        generic_item( [ line_dummy, w, q10(tab) ] )
+
+     , generic_item( [ line_dummy2, w, q10(tab) ] )
+
+     , generic_item( [ po_number, d, q10(tab) ] )
+     
+     , generic_item( [ line_buyers_order_number, d ] )
+
+     , generic_item( [ line_item, s, q10(tab) ] )
+     
+     , generic_item( [ line_descr, s, tab ] )
+
+     , generic_item( [ line_item_dummy, w ] )
+
+     , generic_item( [ line_quantity, d, [ `ea`,  tab ] ] )
+
+     , or([
+
+         generic_item( [ line_quantity_dummy, d, [`ea`,  `US`, `$`] ] )
+
+         , generic_item( [ line_quantity_dummy, d, [ `ea`,  `USD`] ] )
+
+     ])     
+     
+
+     , generic_item( [ line_unit_amount, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+  
+] ).
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -1496,7 +1536,7 @@ i_line_rule_cut( line_invoice_english_10, [
 
 % Updated on   - 29 Sep,2023
 % Updated by   - Yamini
-% Changes made - Updated end line.
+% Changes made - Updated end line and added line_invoice_english_11 to capture format. ex: EXF231100708
 
 % Updated on   - 
 % Updated by   -
