@@ -29,7 +29,7 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_net_amount
+    %, get_net_amount
 
     , get_total_amount     
    
@@ -132,7 +132,7 @@ i_rule_cut(get_net_amount, [
     
    q0n(line)
 
- , or ([
+ , or([
 
    generic_horizontal_details( [ [`Product`,  `Total`,  tab ], total_net_1, d, newline ] )
 
