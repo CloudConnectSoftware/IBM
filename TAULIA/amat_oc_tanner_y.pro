@@ -142,7 +142,7 @@ i_rule_cut(get_net_amount, [
 
  , trace( [ `total_net_2`, Net2 ] )
 
- , check(sys_calculate_str_add( Net2, Net1, NetTot))
+ , check(sys_calculate_str_add( Net1, Net2, NetTot))
 
  , trace( [ `VAT Rate`, NetTot ] )
 
@@ -231,7 +231,7 @@ i_line_rule_cut( line_end_line, [
      
         or([
           
-           [ `Total`,  `Quantity`,  tab ]
+           [`Total`,  `Invoice`,  tab, `Please`,  `pay`,  `this` ]
 
     ] )
     
