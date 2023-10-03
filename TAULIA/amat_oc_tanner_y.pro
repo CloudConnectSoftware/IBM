@@ -130,27 +130,27 @@ i_line_rule_cut( find_order_number, [
 i_rule_cut(get_net_amount, [
 %=======================================================================
     
-    q0n(line)
+   q0n(line)
 
  , generic_horizontal_details( [ [`Product`,  `Total`,  tab ], total_net_1, d, newline ] )
-
-  , trace( [ `Total Net 1`, Net1 ] )
 
  , q(0,1,line)
 
  , generic_horizontal_details( [ [`Shipping`,  `and`,  `Handling`,  tab ], total_net_2, d, newline ] )
 
- , trace( [ `Total Net 2`, Net2 ] )
+ , check( total_net_1= TotNet1 ) 
+ 
+ , trace( [ `Total net Raw 1` ,TotNet1 ] )  
+    
+ , check( total_net_2= TotNet2 ) 
+ 
+ , trace( [ `Total net Raw 2` ,TotNet2 ] )
 
- , with( line, total_net_1 , Net1 )
-
- , with( line , total_net_2, Net2 )
-
- , check(sys_calculate_str_add( Net1, Net2, NetTot))
-
- , trace( [ `Invoice net amount`, NetTot ] )
-
- , generic_item( [ total_net , NetTot ] )    
+ , check(sys_calculate_str_add( TotNet1, TotNet2, TotNetNew))
+ 
+ , total_net(TotNetNew)
+ 
+ , trace( [ `Total net` , total_net ] )
 
 ] ).
 
