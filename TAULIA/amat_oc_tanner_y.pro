@@ -132,11 +132,11 @@ i_rule_cut(get_net_amount, [
     
    q0n(line)
 
- , or([
+ , or ([
 
    generic_horizontal_details( [ [`Product`,  `Total`,  tab ], total_net_1, d, newline ] )
 
- , generic_horizontal_details( [ `Product`,  `Total`,  dummy(s1),  tab ], total_net_1, d, newline ] )
+ , generic_horizontal_details( [ [ `Product`,  `Total`,  dummy(s1),  tab ], total_net_1, d, newline ] )
 
  ] )
  
