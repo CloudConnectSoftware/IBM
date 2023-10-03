@@ -29,7 +29,7 @@ i_rule_list( [
 
     , get_order_number
 
-    %, get_net_amount
+    , get_net_amount
 
     , get_total_amount     
    
@@ -134,16 +134,16 @@ i_rule_cut(get_net_amount, [
 
  , or([
 
-   generic_horizontal_details( [ [`Product`,  `Total`,  tab ], total_net_1, d, newline ] )
+    generic_horizontal_details( [ [ `Product`,  `Total`,  `(`, `includes`,  `GPA`, `)`,  tab ], total_net_1, d, newline ] )
 
- , generic_horizontal_details( [ [ `Product`,  `Total`,  dummy(s1),  tab ], total_net_1, d, newline ] )
+  , generic_horizontal_details( [ [`Product`,  `Total`,  tab ], total_net_1, d, newline ] )
 
  ] )
  
  , q(0,1,line)
 
  , generic_horizontal_details( [ [`Shipping`,  `and`,  `Handling`,  tab ], total_net_2, d, newline ] )
-
+ 
  , check( total_net_1= TotNet1 ) 
  
  , trace( [ `Total net Raw 1` ,TotNet1 ] )  
