@@ -134,17 +134,21 @@ i_rule_cut(get_net_amount, [
 
  , generic_horizontal_details( [ [`Product`,  `Total`,  tab ], total_net_1, d, newline ] )
 
-  , trace( [ `total_net_1`, Net1 ] )
+  , trace( [ `Total Net 1`, Net1 ] )
 
  , q(0,1,line)
 
  , generic_horizontal_details( [ [`Shipping`,  `and`,  `Handling`,  tab ], total_net_2, d, newline ] )
 
- , trace( [ `total_net_2`, Net2 ] )
+ , trace( [ `Total Net 2`, Net2 ] )
+
+ , with( line, total_net_1 , Net1 )
+
+ , with( line , total_net_2, Net2 )
 
  , check(sys_calculate_str_add( Net1, Net2, NetTot))
 
- , trace( [ `VAT Rate`, NetTot ] )
+ , trace( [ `Invoice net amount`, NetTot ] )
 
  , generic_item( [ total_net , NetTot ] )    
 
