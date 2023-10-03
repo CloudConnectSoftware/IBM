@@ -166,7 +166,7 @@ i_rule_cut(get_total_amount, [
     
     q0n(line)
 
- , generic_horizontal_details( [ [`Please`,  `pay`,  `this`,  `amount`, dummy(s1),  tab, `USD`,  tab ], total_amount, d, newline ] )
+ , generic_horizontal_details( [ [`Please`,  `pay`,  `this`,  `amount`, dummy(s1),  tab, `USD`,  tab ], total_invoice, d, newline ] )
 
 ] ).
 
