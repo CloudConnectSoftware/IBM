@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `29 Sep,2023` ).
+i_version(amat_hiper_global, `11 Oct,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1538,6 +1538,10 @@ i_line_rule_cut( line_invoice_english_11, [
 % Updated on   - 29 Sep,2023
 % Updated by   - Yamini
 % Changes made - Updated end line and added line_invoice_english_11 to capture format. ex: EXF231100708
+
+% Updated on   - 11 Oct,2023
+% Updated by   - Yamini
+% Changes made - Updated line_invoice_english_10 rule for line_quantity_dummy added in OR condition
 
 % Updated on   - 
 % Updated by   -
