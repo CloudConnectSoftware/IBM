@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `06 Sep,2023` ).
+i_version(amat_shanghai_abs, `13 Oct,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -86,7 +86,9 @@ i_rule( get_invoice_number, [
 
      , check( q_sys_sub_string( Invstripnew, 5, 16, Inv_new ) )
 
-     , invoice_number(Inv_new)     
+     , invoice_number(Inv_new)  
+
+     , trace( [ `INV Number:`, invoice_number ] )   
 
 ] ).
 
@@ -268,13 +270,15 @@ i_rule_cut(get_total_invoice, [
 
     q0n(line)
 
-    ,or([
+    ,or([            
 
              generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
     
            , generic_horizontal_details( [ [ `肆佰肆拾肆圆叁角贰分`,  tab, `¥` ], total_invoice, d, newline ] )
     
-           , generic_horizontal_details( [ [ `捌佰圆零肆分`,  tab, `¥`  ], total_invoice, d, newline ] )
+           , generic_horizontal_details( [ [ `捌佰圆零肆分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `柒佰捌拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
     
     ])
 
@@ -297,9 +301,10 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
-              
                  
                  [ line_invoice_line, q10(line_invoice_append)]
+
+               , [ line_invoice_line_1, q10(line_invoice_append)] 
 
               , line
 
@@ -325,12 +330,16 @@ i_line_rule_cut( line_end_line, [
 %=======================================================================
      
    or( [ 
+
+        [ `合`,  tab, `计`,  tab ]
        
-       [ `¥`, dummy(d), tab, `¥`, dummy(d),  newline ] 
+      , [ `¥`, dummy(d), tab, `¥`, dummy(d),  newline ] 
 
  %    , [ `合`, tab, `计`,  newline ]    % any line can take
+
+ 
        
-       ] )
+    ] )
 
      , trace( [ `Found End line` ] )
 
@@ -366,6 +375,37 @@ i_line_rule_cut( line_invoice_line, [
 
 
 ] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, tab ] )                     
+
+  , generic_item( [ line_dummy, w, tab ] )
+
+  , generic_item( [ line_quantity, d ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_rate, d, tab ] )
+
+  , generic_item( [ line_vat_amount, d, newline ] )
+
+  , or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
+
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
+
+
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_append, [
@@ -403,6 +443,10 @@ i_line_rule_cut( line_invoice_append, [
 % Updated on   - 06 Sep,2023
 % Updated by   - Sushmitha
 % Changes made - updated get_total_net
+
+% Updated on   - 13 Oct,2023
+% Updated by   - Yamini
+% Changes made - added line_invoice_line_1 and updated get_total_invoice
 
 % Updated on   - 
 % Updated by   -
