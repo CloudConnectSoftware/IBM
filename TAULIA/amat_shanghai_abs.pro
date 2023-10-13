@@ -32,8 +32,6 @@ i_rule_list( [
 
     , get_total_net
 
-    , get_total_net1
-
     , get_total_invoice
 
     , get_invoice_lines
