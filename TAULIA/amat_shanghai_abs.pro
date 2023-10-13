@@ -240,17 +240,17 @@ i_rule_cut(get_total_net, [
 
    q0n(line)
 
-, or([
+, or([  
 
-     [generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
+      [generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
 
-    , generic_item( [ currency, `RMB` ] )]
+        , generic_item( [ currency, `RMB` ] )]
 
     , [generic_horizontal_details( [ [ `¥`, generic_item( [ total_net, d ] ),  tab, `¥` ],  total_vat, d, newline ] )
 
-    , generic_item( [ currency, `RMB` ] )]
+        , generic_item( [ currency, `RMB` ] )]
 
-
+    
 ])
                                                                                                                                 
 ] ). 
@@ -277,6 +277,10 @@ i_rule_cut(get_total_invoice, [
            , generic_horizontal_details( [ [ `捌佰圆零肆分`,  tab, `¥` ], total_invoice, d, newline ] )
 
            , generic_horizontal_details( [ [ `柒佰捌拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+           
+           , generic_horizontal_details( [ [ `陆仟叁佰伍拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `柒万肆仟柒佰捌拾圆整`,  tab, `（`, `小写`, `）`,  `¥` ], total_invoice, d, newline ] )
     
     ])
 
