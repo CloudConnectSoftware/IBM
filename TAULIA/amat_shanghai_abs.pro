@@ -349,14 +349,12 @@ i_section( get_invoice_lines, [
     , qn0( [ peek_fails(line_end_line)
 
         , or( [
-                 
-                 
 
-                 line_invoice_line_1
+               , [line_invoice_line_1, q10(line_invoice_append)]
 
-               , [ line_invoice_line, q10(line_invoice_append)]
+               , [line_invoice_line, q10(line_invoice_append)]
 
-               , [ line_invoice_line_2, q10(line_invoice_append)]  
+               , [line_invoice_line_2, q10(line_invoice_append)]  
 
               , line
 
