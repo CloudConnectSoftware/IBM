@@ -350,7 +350,7 @@ i_section( get_invoice_lines, [
 
         , or( [
 
-               , [line_invoice_line_1, q10(line_invoice_append)]
+                 [line_invoice_line_1, q10(line_invoice_append)]
 
                , [line_invoice_line, q10(line_invoice_append)]
 
