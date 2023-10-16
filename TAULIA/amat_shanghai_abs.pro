@@ -268,7 +268,7 @@ i_rule_cut(get_total_invoice, [
 
     q0n(line)
 
-    ,or([            
+    ,or([           
 
              generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
     
@@ -279,6 +279,8 @@ i_rule_cut(get_total_invoice, [
            , generic_horizontal_details( [ [ `柒佰捌拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
            
            , generic_horizontal_details( [ [ `陆仟叁佰伍拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `贰仟柒佰贰拾伍圆零陆分`,  tab, `¥` ], total_invoice, d, newline ] )
 
            , generic_horizontal_details( [ [ `柒万肆仟柒佰捌拾圆整`,  tab, `（`, `小写`, `）`,  `¥` ], total_invoice, d, newline ] )
     
@@ -357,7 +359,7 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_dummy1, w, tab ] )
 
-  , generic_item( [ line_quantity, d ] )
+  , generic_item( [ line_quantity, d, q10(tab) ] )
 
   , generic_item( [ line_unit_amount, d, tab ] )
 
