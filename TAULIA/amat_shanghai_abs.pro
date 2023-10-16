@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `13 Oct,2023` ).
+i_version(amat_shanghai_abs, `16 Oct,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -271,6 +271,8 @@ i_rule_cut(get_total_invoice, [
     ,or([           
 
              generic_horizontal_details( [ [ `（`, `小写`, `）`, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `叁佰叁拾伍圆玖角玖分`,  tab, `¥` ], total_invoice, d, newline ] )
     
            , generic_horizontal_details( [ [ `肆佰肆拾肆圆叁角贰分`,  tab, `¥` ], total_invoice, d, newline ] )
     
@@ -451,6 +453,10 @@ i_line_rule_cut( line_invoice_append, [
 % Updated on   - 13 Oct,2023
 % Updated by   - Yamini
 % Changes made - added line_invoice_line_1 and updated get_total_invoice
+
+% Updated on   - 16 Oct,2023
+% Updated by   - Yamini
+% Changes made - updated line_invoice_line and get_total_invoice rules
 
 % Updated on   - 
 % Updated by   -
