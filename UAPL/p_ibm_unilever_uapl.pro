@@ -4,281 +4,71 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( p_ibm_unilever_uapl, `26/05/2020 11:43:06` ).
+i_version( p_ibm_unilever_uapl, `02/10/2023 12:11:31` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+i_final_rule( [ check( save_flags_for_completion ) ] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+i_trace_lists.
 
 i_rules_file( `d_ibm_unilever_uapl.pro` ).
 i_rules_file( `d_iso_currency_codes.pro` ).
-i_rules_file( `u_json_forms_new.pro` ).
-i_rules_file( `u_supporting_document_new.pro` ).
-i_rules_file( `u_numerical_validation.pro` ).
-i_rules_file( `u_invoice_date_validation.pro` ).
 
+i_rules_file( `u_process_params_v2.pro` ).
+i_rules_file( `u_predicates_and_lookups_v2.pro` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% User Fields
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-i_user_field( invoice, plant_code, `Plant Code` ).
-i_user_field( invoice, bol_number, `Bill Of Lading Number` ).
-i_user_field( invoice, total_local_vat, `Total Local VAT` ).
-i_user_field( invoice, exchange_rate, `Exchange Rate` ).
-i_user_field( invoice, rounding_amount, `Rounding Amount` ).
-i_user_field( invoice, customer_id, `Customer ID` ).
-i_user_field( invoice, scan_id, `scan_id` ).
-i_user_field( invoice, tax_invoice_flag, `Tax Invoice Flag` ).
+i_rules_file( `u_insert_connection_codes_v2.pro` ).
+i_rules_file( `u_invert_values_v2.pro` ).
+i_rules_file( `u_portal_values_v2.pro` ).
 
-i_user_field( line, line_internal_order_number, `Line Internal Order Number` ).
-i_user_field( line, line_gl, `Line GL` ).
+i_rules_file( `u_invoice_number_validation_v2.pro` ).
+i_rules_file( `u_data_format_validation_v2.pro` ).
+i_rules_file( `u_date_validation_v2.pro` ).
+i_rules_file( `u_supporting_document_v2.pro` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% CUSTOMER INFORMATION
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+i_rules_file( `u_error_detection_v2.pro` ).
+i_rules_file( `u_error_conditions_v2.pro` ).
+i_rules_file( `u_intervention_analysis_v2.pro` ).
+i_rules_file( `u_failure_automation_v2.pro` ).
+i_rules_file( `u_intervention_generation_v2.pro` ).
+i_rules_file( `u_json_functions_v2.pro` ).
 
 %-----------------------------------------------------------------------
 % Intervention Stuff
 %-----------------------------------------------------------------------
-i_op_param( rules_intervention_role, _, _, _, `Unilever UAPL (Technical)` ). % This will be the role for rules intervention
-i_op_param( customer_name, _, _, _, `Unilever UAPL` ). % This will be the role for customer intervention
 i_op_param( default_rts_email_subject, _, _, _, `UAPL Invoice Processing Error` ).
 i_op_param( default_forward_email_subject, _, _, _, `UAPL Invoice Processing Error` ).
 
 %-----------------------------------------------------------------------
-% Customer Forward Address List
+% Unique ID
 %-----------------------------------------------------------------------
-% i_op_param( customer_forward_address_list, _, _, _, `` ).
-
-%-----------------------------------------------------------------------
-% Custom Scenario
-%-----------------------------------------------------------------------
-document_reason_lookup( `Invoice quotes tax but is not a tax invoice`, `failed`, `i_analyse_tax_without_tax_invoice`, _, _ ).
-document_reason_lookup( `Multiple Invoice Document`, `failed`, `i_analyse_multiple_invoice_document`, _, _ ).
-
-%-----------------------------------------------------------------------
-% Email Template Beginning Text
-%-----------------------------------------------------------------------
-beginning_text( Text )
+i_op_param( unique_id, _, _, _, Scan_ID )
 :-
-	Text = `<span style="font-family:times new roman,times,serif;">
-<span style="font-size:13px;">Dear Business Partner,</span><br>
-<br>
-<span style="font-size:15px;"><span style="color:#0000FF;"><strong>
-We regret to inform you that we are unable to process your Invoice/Credit Note for the reason/s mentioned below. In order to receive timely payment, we request you to do the needful corrections and re-submit the invoice via the appropriate invoicing mode as agreed.</span></span></strong><br>
-<br>
-<span style="font-size:13px;">`
+	i_mail( unique_id, ID ),
+	sys_string_number( IDS, ID ),
+	string_pad_left( IDS, 8, `0`, IDPad ),
+	date_get( today, Today ),
+	sys_date_string( Today, 'yyyy-mm-dd', TodayWithHyphen ),
+	strip_string2_from_string1( TodayWithHyphen, `-`, TodayString ),
+	strcat_list( [ TodayString, `_CT`, IDPad ], Scan_ID )
 .
 
 %-----------------------------------------------------------------------
-% Email Template Remaining Rejection Text
+% Order Number Regexp (Must not include beginning and end of string characters)
 %-----------------------------------------------------------------------
-remaining_rejection_text( Text )
-:-
-	(
-		result( _, invoice, sender_name, Sender_Name ),
-
-		strcat_list( [ `Vendor Name: `, Sender_Name, `<br>` ], Sender_Name_Text )
-
-		;
-
-		Sender_Name_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, invoice_number, Invoice_Number ),
-
-		strcat_list( [ `Invoice Number: `, Invoice_Number, `<br>` ], Invoice_Number_Text )
-
-		;
-
-		Invoice_Number_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, invoice_date, Invoice_Date ),
-
-		strcat_list( [ `Invoice Date: `, Invoice_Date, `<br>` ], Invoice_Date_Text )
-
-		;
-
-		Invoice_Date_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, total_invoice, Invoice_Amount ),
-
-		strcat_list( [ `Invoice Amount: `, Invoice_Amount, `<br>` ], Invoice_Amount_Text )
-
-		;
-
-		Invoice_Amount_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, currency, Currency ),
-
-		strcat_list( [ `Invoice Currency: `, Currency, `<br>` ], Currency_Text )
-
-		;
-
-		Currency_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, scan_id, Scan_ID ),
-
-		strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
-
-		;
-
-		Scan_ID_Text = ``
-
-	),
-
-	!,
-
-	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don�t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
-.
+% i_op_param( order_number_regexp, _, _, _, `` ).
 
 %-----------------------------------------------------------------------
-% Email Template Remaining Forward Text
+% Old Date Check Number of Days (i_op_param required for each variable to check)
 %-----------------------------------------------------------------------
-remaining_forward_text( Text )
-:-
-	(
-		result( _, invoice, sender_name, Sender_Name ),
+% i_op_param( old_date_check_number_of_days( invoice_date ), _, _, _, `` ).
 
-		strcat_list( [ `Vendor Name: `, Sender_Name, `<br>` ], Sender_Name_Text )
+%-----------------------------------------------------------------------
+% Future Date Check Number of Days (i_op_param required for each variable to check)
+%-----------------------------------------------------------------------
+i_op_param( future_date_check_number_of_days( invoice_date ), _, _, _, `0` ).
 
-		;
-
-		Sender_Name_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, invoice_number, Invoice_Number ),
-
-		strcat_list( [ `Invoice Number: `, Invoice_Number, `<br>` ], Invoice_Number_Text )
-
-		;
-
-		Invoice_Number_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, invoice_date, Invoice_Date ),
-
-		strcat_list( [ `Invoice Date: `, Invoice_Date, `<br>` ], Invoice_Date_Text )
-
-		;
-
-		Invoice_Date_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, total_invoice, Invoice_Amount ),
-
-		strcat_list( [ `Invoice Amount: `, Invoice_Amount, `<br>` ], Invoice_Amount_Text )
-
-		;
-
-		Invoice_Amount_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, currency, Currency ),
-
-		strcat_list( [ `Invoice Currency: `, Currency, `<br>` ], Currency_Text )
-
-		;
-
-		Currency_Text = ``
-
-	),
-
-	!,
-
-	(
-		result( _, invoice, scan_id, Scan_ID ),
-
-		strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
-
-		;
-
-		Scan_ID_Text = ``
-
-	),
-
-	!,
-
-	strcat_list( [ `<br>See below the invoice details for your easy reference.<br><br>`, Sender_Name_Text, Invoice_Number_Text, Invoice_Date_Text, Invoice_Amount_Text, Currency_Text, Scan_ID_Text, `<br>You can check the status of your Unilever Invoice/Payment by logging into Tungsten Network<br><a href="http://www.tungsten-network.com/unileveriss"><span style="color:#0000CD;">http://www.tungsten-network.com/unileveriss</a></span><br>If you don�t already have access to Tungsten, please register on the above link.<br><br>For other purchase order, Invoice and payment related queries, please contact the Unilever Helpdesk using the contact details available on our Supplier Page<br><a href="http://www.unilever.com/aboutus/supplier/invoiceus"><span style="color:#0000CD;">http://www.unilever.com/aboutus/supplier/invoiceus</a></span><br><br><br><p align="center"><span style="color:#FF0000;">--This is a system generated email. Please do not reply to this email&mdash;</span></p><br>Regards,<br>Accounts Payable<br>IBM Team on behalf of Unilever</span></span>` ], Text )
-.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% PRESERVE TAX INVOICE FLAG
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_final_rule( [
-%=======================================================================
-
-	test( tax_invoice ), tax_invoice_flag( `true` )
-
-] ).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% PRESERVE TAX INVOICE FLAG
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_final_rule( [
-%=======================================================================
-
-	with( invoice, tax_invoice_flag, Flag )
-	
-	, check( Flag = `true` )
-	
-	, set( tax_invoice )
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -597,50 +387,6 @@ i_analyse_missing_invoice_totals___
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% CHECK FOR FUTURE INVOICE DATE
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_invoice_fields_first:- i_analyse_future_invoice_date___.
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-i_analyse_future_invoice_date___
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:-
-	result( _, invoice, invoice_date, Invoice_Date ),
-
-	(
-		i_date_format( Date_Format )
-
-		;
-
-		true
-
-	),
-	
-	!,
-
-	date_string( Date_Invoice, Date_Format, Invoice_Date ),
-	sys_date_1900_days( Date_Invoice, Invoice_Date_Count ),
-
-	date_get( today, Today ),
-	sys_date_1900_days( Today, Today_Count ),
-
-	sys_calculate( Day_Diff, Today_Count - Invoice_Date_Count ),
-
-	Day_Diff < 0,
-
-	sys_assertz( grammar_set( future_dated ) ),
-
-	trace( [ `Date is in the future` ] ),
-
-	!
-.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 % VENDOR ID
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -913,6 +659,55 @@ i_analyse_line_buyers_order_number___( LID )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% EMAIL BODY TEXT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_fields_last:- i_analyse_email_body_text___.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_email_body_text___
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+    (   result( _, invoice, sender_name, Sender_Name )
+		->  strcat_list( [ `Vendor Name: `, Sender_Name, `<br>` ], Sender_Name_Text )
+		;   Sender_Name_Text = ``
+	),
+	(   result( _, invoice, invoice_number, Invoice_Number )
+		->  strcat_list( [ `Invoice Number: `, Invoice_Number, `<br>` ], Invoice_Number_Text )
+		;   Invoice_Number_Text = ``
+	),
+	(   result( _, invoice, invoice_date, Invoice_Date )
+		->  strcat_list( [ `Invoice Date: `, Invoice_Date, `<br>` ], Invoice_Date_Text )
+		;   Invoice_Date_Text = ``
+	),
+	(   result( _, invoice, total_invoice, Invoice_Amount )
+		->  strcat_list( [ `Invoice Amount: `, Invoice_Amount, `<br>` ], Invoice_Amount_Text )
+		;   Invoice_Amount_Text = ``
+	),
+	(   result( _, invoice, currency, Currency )
+		->  strcat_list( [ `Invoice Currency: `, Currency, `<br>` ], Currency_Text )
+		;   Currency_Text = ``
+	),
+	(   result( _, invoice, scan_id, Scan_ID )
+		->  strcat_list( [ `Scan ID: `, Scan_ID, `<br>` ], Scan_ID_Text )
+		;   Scan_ID_Text = ``
+	),
+
+    assertz_derived_data( invoice, sender_name_text, Sender_Name_Text, i_analyse_email_body_text ),
+    assertz_derived_data( invoice, invoice_number_text, Invoice_Number_Text, i_analyse_email_body_text ),
+    assertz_derived_data( invoice, invoice_date_text, Invoice_Date_Text, i_analyse_email_body_text ),
+    assertz_derived_data( invoice, invoice_amount_text, Invoice_Amount_Text, i_analyse_email_body_text ),
+    assertz_derived_data( invoice, currency_text, Currency_Text, i_analyse_email_body_text ),
+    assertz_derived_data( invoice, scan_id_text, Scan_ID_Text, i_analyse_email_body_text ),
+
+    !
+.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % DUPLICATE INVOICE ANALYSIS
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -924,8 +719,6 @@ i_analyse_fields_last:- i_analyse_duplicate_invoice.
 i_analyse_duplicate_invoice
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :-
-	i_mail( receive_type, `imap` ),
-
 	instance( Inst ),
 
 	string_to_upper( Inst, INST ),
@@ -947,7 +740,10 @@ i_analyse_duplicate_invoice
 
 		string_date( Invoice_Date, Invoice_Date_Raw ),
 
-		i_mail( file, FILE ),
+		(   i_mail( pdf_image_file_name, FILE )
+			->	true
+			;	i_mail( file, FILE )
+		),
 
 		(
 			q_gratabase_lookup_one( `ibm_unilever_uapl_invoice_table`, [ `general`, Company_Code, BCFS, Invoice_Number, _, _ ], [ _, _, _, _, DATE_LOOKUP, ORIGINAL ], Available ),
@@ -1149,9 +945,11 @@ i_user_check( check_po_currency, Order_Number, Currency )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % PREDICATES
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
