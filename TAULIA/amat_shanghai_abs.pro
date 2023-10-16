@@ -350,9 +350,11 @@ i_section( get_invoice_lines, [
 
         , or( [
                  
-                 [ line_invoice_line, q10(line_invoice_append)]
+                 
 
-               , [ line_invoice_line_1, q10(line_invoice_append)]
+                 line_invoice_line_1
+
+               , [ line_invoice_line, q10(line_invoice_append)]
 
                , [ line_invoice_line_2, q10(line_invoice_append)]  
 
@@ -383,7 +385,7 @@ i_line_rule_cut( line_end_line, [
 
         [ `合`,  tab, `计`,  tab ]
        
-      , [ `¥`, dummy(d), tab, `¥`, dummy(d),  newline ] 
+    %  , [ `¥`, dummy(d), tab, `¥`, dummy(d),  newline ] 
 
  %   , [ `合`, tab, `计`,  newline ]    % any line can take
 
@@ -430,7 +432,7 @@ i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
-
+ 
     generic_item( [ line_descr, s1, tab ] )                     
 
   , generic_item( [ line_dummy, w, tab ] )
