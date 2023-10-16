@@ -352,7 +352,9 @@ i_section( get_invoice_lines, [
                  
                  [ line_invoice_line, q10(line_invoice_append)]
 
-               , [ line_invoice_line_1, q10(line_invoice_append)] 
+               , [ line_invoice_line_1, q10(line_invoice_append)]
+
+               , [ line_invoice_line_2, q10(line_invoice_append)]  
 
               , line
 
@@ -454,6 +456,35 @@ i_line_rule_cut( line_invoice_line_1, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, tab ] )                     
+
+  , generic_item( [ line_dummy, w, tab ] )
+
+  , generic_item( [ line_quantity, d ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_rate, d, tab ] )
+
+  , generic_item( [ line_vat_amount, d, newline ] )
+
+  , or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
+
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
+
+
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_invoice_append, [
@@ -498,7 +529,7 @@ i_line_rule_cut( line_invoice_append, [
 
 % Updated on   - 16 Oct,2023
 % Updated by   - Yamini
-% Changes made - updated line_invoice_line and get_total_invoice rules
+% Changes made - updated line_invoice_line and get_total_invoice rules and added line_invoice_line_2 rule
 
 % Updated on   - 
 % Updated by   -
