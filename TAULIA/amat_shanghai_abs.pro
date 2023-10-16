@@ -274,6 +274,12 @@ i_rule_cut(get_total_invoice, [
 
             , generic_horizontal_details( [ [ `玖佰肆拾叁圆叁角陆分`,  tab, `¥` ], total_invoice, d, newline ] )
 
+            , generic_horizontal_details( [ [ `玖佰陆拾玖圆捌角捌分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_horizontal_details( [ [ `伍佰陆拾圆壹角陆分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_horizontal_details( [ [ `伍仟伍佰柒拾贰圆壹角贰分`,  tab, `¥` ], total_invoice, d, newline ] )
+
             , generic_horizontal_details( [ [ `捌佰肆拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
             , generic_horizontal_details( [ [ `捌佰圆零肆分`,  tab, `¥` ], total_invoice, d, newline ] )
@@ -283,6 +289,8 @@ i_rule_cut(get_total_invoice, [
            , generic_horizontal_details( [ [ `叁佰贰拾玖圆玖角陆分`,  tab, `¥` ], total_invoice, d, newline ] )
 
            , generic_horizontal_details( [ [ `壹佰壹拾贰圆零叁分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `壹万肆仟贰佰壹拾柒圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
            , generic_horizontal_details( [ [ `壹佰零肆圆玖角玖分`,  tab, `¥` ], total_invoice, d, newline ] )
 
@@ -302,13 +310,25 @@ i_rule_cut(get_total_invoice, [
 
            , generic_horizontal_details( [ [ `贰仟柒佰贰拾伍圆零陆分`,  tab, `¥` ], total_invoice, d, newline ] )
 
+           , generic_horizontal_details( [ [ `贰仟叁佰柒拾壹圆陆角肆分`,  tab, `¥` ], total_invoice, d, newline ] )
+
            , generic_horizontal_details( [ [ `贰佰伍拾贰圆零柒分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `贰仟玖佰玖拾壹圆柒角捌分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+           , generic_horizontal_details( [ [ `贰仟贰佰叁拾圆玖角柒分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_horizontal_details( [ [ `贰仟陆佰玖拾伍圆伍角伍分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_horizontal_details( [ [ `贰仟陆佰零伍圆玖角玖分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_horizontal_details( [ [ `贰佰圆零壹分`,  tab, `¥` ], total_invoice, d, newline ] )
 
            , generic_horizontal_details( [ [ `柒佰捌拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
            , generic_horizontal_details( [ [ `柒万肆仟柒佰捌拾圆整`,  tab, `（`, `小写`, `）`,  `¥` ], total_invoice, d, newline ] )
     
-    ])
+    ])          
 
 
 ] ).
