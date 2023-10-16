@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( output_ibm_dc_xml, `26/05/2020 11:44:34` ).
+i_version( output_ibm_dc_xml, `16/10/2023 10:04:07` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,6 +150,9 @@ write_header___
 		
 		( qq_op_param( split_input_transfer_name( _ ), ImageFile )
 			->	write_element_string( `Image_File`, ImageFile )
+
+			;	strcat_list( [ ScanID, `.pdf` ], ImageFile )
+				->	write_element_string( `Image_File`, ImageFile )
 			
 			;	i_mail( image_file_name, ImageFile ), write_element_string( `Image_File`, ImageFile )
 			
