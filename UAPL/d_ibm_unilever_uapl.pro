@@ -683,4 +683,4 @@ connection_lookup_table( `ul_uapl_wunderman_singapore`, [ ( return_email, `jerem
 connection_lookup_table( `ul_uapl_yang_kee_singapore`, [ ( return_email, `accountsreceivable@yangkee.com`), ( buyers_code_for_supplier, `50539222` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_yang_ming_singapore`, [ ( return_email, `acc-ar@sg.yangming.com`), ( buyers_code_for_supplier, `50527906` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_ych_group`, [ ( return_email, `gp_ychsg_ar@ych.com`), ( buyers_code_for_supplier, `50573931` ) ], ( true ) ).
-connection_lookup_table( `ul_uapl_dp_world`, [ ( buyers_code_for_supplier, `51630551` ), ( return_email, `elvin.wong@dpworld.com` ) ] ).
+connection_lookup_table( `ul_uapl_dp_world`, [ ( return_email, `elvin.wong@dpworld.com`), ( buyers_code_for_supplier, `51630551` ) ], ( true ) ).
