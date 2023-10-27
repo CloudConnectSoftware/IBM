@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `11 Oct,2023` ).
+i_version(amat_hiper_global, `27 Oct,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1039,7 +1039,7 @@ i_line_rule_cut( line_invoice_line, [
 			
 		] )
   
-    , generic_item( [ line_quantity, d, q10(tab) ] )
+    , generic_item( [ line_quantity_dummy, d, q10(tab) ] )
 
 	, generic_item( [ line_descr, s1, tab ] )
 
@@ -1107,7 +1107,7 @@ i_line_rule_cut( line_invoice_line_1, [
 			
 		] )
 
-     , generic_item( [ line_quantity, d, q10(tab) ] )
+     , generic_item( [ line_quantity_dummy, d, q10(tab) ] )
 
 	, generic_item( [ line_descr, s1, tab ] )
 
@@ -1137,6 +1137,7 @@ i_line_rule_cut( line_append_line, [
 
 %=======================================================================
 i_line_rule_cut( line_invoice_english, [
+%=======================================================================
 
        generic_item( [ line_descr_dummy, s, q10(tab) ] )
         
@@ -1148,7 +1149,7 @@ i_line_rule_cut( line_invoice_english, [
 
      , generic_item( [ line_descr, s1, tab ] )
       
-     , generic_item( [ line_quantity, d ] )
+     , generic_item( [ line_quantity_dummy, d ] )
 
      , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -1163,7 +1164,7 @@ i_line_rule_cut( line_invoice_english, [
 %=======================================================================
 i_line_rule_cut( line_invoice_english_1, [
 %=======================================================================
-%=======================================================================
+
  
        generic_item( [ line_descr_dummy, w, q10(tab) ] )
 
@@ -1177,7 +1178,7 @@ i_line_rule_cut( line_invoice_english_1, [
 
      , generic_item( [ line_descr, s1, tab ] )
       
-     , generic_item( [ line_quantity, d ] )
+     , generic_item( [ line_quantity_dummy, d ] )
 
      , generic_item( [ line_quantity_uom_code, w, tab ] )
 
@@ -1293,7 +1294,7 @@ i_line_rule_cut( line_invoice_english_6, [
      
      , generic_item( [ line_descr, s1, tab ] )
 
-     , generic_item( [ line_quantity, d, [`ea`, tab ] ] )
+     , generic_item( [ line_quantity_dummy, d, [`ea`, tab ] ] )
      
      , generic_item( [ line_quantity_dummy, s, [  `US`, `$` ] ] )
 
@@ -1474,7 +1475,7 @@ i_line_rule_cut( line_invoice_english_11, [
 
      , generic_item( [ line_item_dummy, w ] )
 
-     , generic_item( [ line_quantity, d, [ `ea`,  tab ] ] )
+     , generic_item( [ line_quantity_dummy, d, [ `ea`,  tab ] ] )
 
      , or([
 
@@ -1543,9 +1544,9 @@ i_line_rule_cut( line_invoice_english_11, [
 % Updated by   - Yamini
 % Changes made - Updated line_invoice_english_10 rule for line_quantity_dummy added in OR condition
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 27 Oct, 2023
+% Updated by   - Rohini 
+% Changes made - Line quantity updated
 
 % Updated on   - 
 % Updated by   -
