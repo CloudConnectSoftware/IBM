@@ -686,3 +686,4 @@ connection_lookup_table( `ul_uapl_ych_group`, [ ( return_email, `gp_ychsg_ar@ych
 connection_lookup_table( `ul_uapl_dp_world`, [ ( return_email, `elvin.wong@dpworld.com`), ( buyers_code_for_supplier, `51630551` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_pt_alliance`, [ ( return_email, `ppl.ind@alliance-world.com`), ( buyers_code_for_supplier, `51470485` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_evergreen_asia`, [ ( return_email, `bizmta@evergreen-marine.com.sg`), ( buyers_code_for_supplier, `50527903` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_geodis_wilson`, [ ( return_email, `seaimport.ff.sg@geodis.com`), ( buyers_code_for_supplier, `778957` ) ], ( true ) ).
