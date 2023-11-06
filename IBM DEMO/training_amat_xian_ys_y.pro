@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(training_amat_xian_ys_y, `31 Aug, 2023` ).
+i_version(training_amat_xian_ys_y, `06 Nov, 2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -27,6 +27,8 @@ i_rule_list( [
     , get_invoice_number
   
     , get_invoice_date
+
+    , get_invoice_date_1
 
     , get_order_number
 
@@ -111,6 +113,62 @@ i_rule_cut( get_invoice_date, [
     , invoice_date(Dated)
 
     , trace( [ `Invoice Date` , invoice_date ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_1, [
+%=======================================================================
+
+   
+     q(0,25,line)
+
+   , line_add_line_date
+
+   , q(0,1,line)
+
+   , line_add_line_date_1
+   
+ ] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_line_date, [
+%=======================================================================
+
+       q0n(anything)
+     
+     , read_ahead([  `开票日期`, `：` ])
+
+     , trace( [ `Found Date`] )
+
+     , generic_item( [ dummy_date, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_add_line_date_1, [
+%=======================================================================
+
+    generic_item( [ date_1, w, `年` ] )
+
+  , generic_item( [ date_2, w, `月` ] )
+  
+  , generic_item( [ date_3, w, [ `日`,  newline] ] )
+
+  , check(strcat_list( [ date_1,` ` , date_2,` `, date_3 ], DateNew )) 
+
+  , invoice_date(DateNew)  
+  
+  , trace( [ `Invoice Date Now` , invoice_date ] )
+
 
 ] ).
 
@@ -282,6 +340,9 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - 31 Aug, 2023
 % Mapped by - Yamini M 
 
+% Updated on   - 6 Nov, 2023
+% Updated by   - Yamini
+% Changes made - added new get_invoice_date_1 rule for capturing dates.
 
 % Updated on   - 
 % Updated by   -
