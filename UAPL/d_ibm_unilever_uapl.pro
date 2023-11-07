@@ -691,3 +691,4 @@ connection_lookup_table( `ul_uapl_bnt_communication`, [ ( return_email, `invoice
 connection_lookup_table( `ul_uapl_scrub_daddy`, [ ( return_email, `orders@scrubadaddy.com`), ( buyers_code_for_supplier, `51573809` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_kantar_singapore`, [ ( return_email, `Yvonne.Lim@tns-global.com`), ( buyers_code_for_supplier, `516483` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_expeditors_india`, [ ( return_email, `Ashutosh.Nath@tradewin.net`), ( buyers_code_for_supplier, `51435484` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_transmodal`, [ ( return_email, `maricel@transmodalphil.com`), ( buyers_code_for_supplier, `205517` ) ], ( true ) ).
