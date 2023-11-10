@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_toll_logistics, `19 April 2017` ).
+i_version( ul_uapl_toll_logistics, `10 Nov, 2023` ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -314,7 +314,7 @@ i_rule( get_total_net, [
 
           generic_horizontal_details( [ [ `Subtotal` ],350, total_net,d, newline ] )
 
-          ,generic_horizontal_details( [ [ `Amount`, `EXCLUDING`, `GST` ],500, total_net,d, newline ] )
+        ,generic_horizontal_details( [ [`AMT`,  `EXCLUDING`,  `GST`,  tab ], total_net,d, newline ] )
 
      
    ] )
@@ -335,13 +335,10 @@ i_rule( get_total_vat, [
 
      ,  or( [
 
-      
+     
+    generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d), tab ], total_vat, d, newline  ] )
 
-    generic_horizontal_details( [ [ `GST`, `at`, `7`, `%`, `on`, `SGD`, dummy_num(d) ], 250, total_vat, d, newline  ] )
-
-
-    ,generic_horizontal_details( [ [ `GST`, `of`, `7`, `%`, tab, dummy_num(d) ], 250, total_vat, d, newline  ] )
-
+    ,generic_horizontal_details( [ [ `GST`, `of`, dummy(d), `%`, tab, dummy_num(d),tab ],  total_vat, d, newline  ] )
 
     ,generic_horizontal_details( [ [ `ADD`, `GST`, tab ],  total_vat, d, newline ] )
 
@@ -432,3 +429,15 @@ i_line_rule( invoice_currency, [
 
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAPPING AUDIT TRAIL
+
+% Updated on   - 10 Nov, 2023
+% Updated by   - Rohini
+% Changes made - Invoice amount updated
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
