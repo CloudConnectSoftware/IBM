@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( uapl_maersk_as_dba, `15 Feb,2023` ).
+i_version( uapl_maersk_as_dba, `10 Nov,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -77,8 +77,9 @@ i_rule_cut( get_invoice_number, [
 
    , or([
        
-         generic_horizontal_details( [ [ `EX`, `P`, `O`, `R`, `T`, `I`, `N`, `V`, `O`, `I`, `CE`, `N`, `u`, `m`, `b`, `e`, `r`, `:`, tab ], invoice_number, s1, newline ] )
-
+      generic_horizontal_details( [ [ `EX`, `P`, `O`, `R`, `T`, `I`, `N`, `V`, `O`, `I`, `CE`, `N`, `u`, `m`, `b`, `e`, `r`, `:`, tab ], invoice_number, s1, newline ] )
+  
+  ,   generic_horizontal_details( [ [`EXPORT`,  `INVOICE`,  `Number`, `:`,  tab ], invoice_number, s1, newline ] )
        
    ])
 	
@@ -100,13 +101,13 @@ i_rule_cut( get_invoice_date, [
 
     q(0,20,line)
 
-    , generic_horizontal_details( [ [ `I`, `n`, `v`, `oice`, `Dat`, `e`, `:`, tab ], invoice_date , date, newline ] )
+    , or([
+
+    , generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date , date, newline ] )
+
+] )
 
 ] ).
-
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,8 +122,14 @@ i_rule( get_total_invoice, [
 
      q0n(line)
 
-  ,  generic_horizontal_details( [ [`Am`, `o`, `u`, `n`, `t`, `D`, `u`, `e`, tab ],total_invoice, d, newline ] )
+   , or([
 
+      generic_horizontal_details( [ [`Am`, `o`, `u`, `n`, `t`, `D`, `u`, `e`, tab ],total_invoice, d, newline ] )
+
+   ,  generic_horizontal_details( [ [`Amount`,  `Due`,  tab ],total_invoice, d, newline ] )
+
+  ] )
+  
    , generic_item( [ currency, `USD` ] )
   
    , check( total_invoice = TotNet)
@@ -145,8 +152,9 @@ i_rule( get_currency, [
 
     , or([
 
-     generic_horizontal_details( [ [ `T`, `o`, `t`, `a`, `l`, `(` ], 100, currency,  w, [`)`,  newline ] ] )
+      generic_horizontal_details( [ [ `T`, `o`, `t`, `a`, `l`, `(` ], 100, currency,  w, [`)`,  newline ] ] )
     
+   ,  generic_horizontal_details( [ [ `Total`, `(` ], currency,  w, [`)`,  newline ] ] )
    
   ] )  
 
@@ -160,9 +168,14 @@ i_rule( get_currency, [
 % Mapped on  - 15 Feb,2023
 % Mapped by  - Sushmitha
 
+% Updated on   - 10 Nov, 2023
+% Updated by   -  ROhini
+% Changes made   - New format updated
+
 % Updated on   - 
 % Updated by   - 
 % Changes made   - 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
