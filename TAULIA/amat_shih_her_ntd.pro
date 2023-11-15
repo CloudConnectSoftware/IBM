@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SHIH HER TECHNOLOGIES INC  - For Invoice with USD Value -  V# 9000171994
+% SHIH HER TECHNOLOGIES INC  - For Invoice with NTD Value -  V# 9000171994
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -440,7 +440,7 @@ i_line_rule_cut( line_invoice_line_3, [
 
 % Updated on   - 10 March, 2022
 % Updated by   - Rohini
-% Changes made - Freezed NTD value has this vendor needs only USD
+% Changes made - Freezed USD value has this vendor needs only NTD
 
 % Updated on   - 15 March, 2022
 % Updated by   - Rohini
