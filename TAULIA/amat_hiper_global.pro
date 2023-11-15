@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `27 Oct,2023` ).
+i_version(amat_hiper_global, `16 Nov,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1012,7 +1012,7 @@ i_line_rule_cut( line_invoice_line, [
 		
 		with( invoice, dummy_rounding_amount, RoundingAmount )
 		
-		, generic_item( [ line_net_amount_x, d, q10(tab) ] )
+		, generic_item( [ line_net_amount_x, d, [ q10(tab), q10(`$`)] ] )
 		
 		, check( sys_calculate_str_subtract( line_net_amount_x, RoundingAmount, LineNetAmount ) )
 		
@@ -1058,16 +1058,6 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_end_line, [
-%=======================================================================
-     
-    [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
-
-     , trace( [ `Found End line` ] )
-
-] ).
-
-%=======================================================================
 i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
 
@@ -1080,7 +1070,7 @@ i_line_rule_cut( line_invoice_line_1, [
 		
 		with( invoice, dummy_rounding_amount, RoundingAmount )
 		
-		, generic_item( [ line_net_amount_x, d, q10(tab) ] )
+		, generic_item( [ line_net_amount_x, d, [ q10(tab), q10(`$`)] ] )
 		
 		, check( sys_calculate_str_subtract( line_net_amount_x, RoundingAmount, LineNetAmount ) )
 		
@@ -1493,7 +1483,6 @@ i_line_rule_cut( line_invoice_english_11, [
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -1547,6 +1536,10 @@ i_line_rule_cut( line_invoice_english_11, [
 % Updated on   - 27 Oct, 2023
 % Updated by   - Rohini 
 % Changes made - Line quantity updated
+
+% Updated on   - 16 Nov, 2023
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 % Updated on   - 
 % Updated by   -
