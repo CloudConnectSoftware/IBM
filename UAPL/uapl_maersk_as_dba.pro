@@ -140,12 +140,14 @@ i_rule( get_total_invoice, [
   ] )
   
    , generic_item( [ currency, `USD` ] )
+
+   , generic_item( [ line_descr , `Freight Charges` ] )
   
    , check( total_invoice = TotNet)
 
    , generic_item( [ total_net , TotNet ] )
 
-   , generic_item( [ line_descr , `Freight Charges` ] )
+   
 
 ] ).
 
