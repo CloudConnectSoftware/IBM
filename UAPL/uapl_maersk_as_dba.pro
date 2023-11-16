@@ -8,7 +8,9 @@ i_version( uapl_maersk_as_dba, `10 Nov,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format( _ ).
+i_date_format(_):- not( grammar_set( alternate_date_format ) ).
+
+i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -104,8 +106,15 @@ i_rule_cut( get_invoice_date, [
     , or([
 
           generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date , date, newline ] )
-
+ 
     ] )
+                , q10( [
+
+          check( q_sys_sub_string( invoice_date, _, _, `.` ) )
+
+          , set( alternate_date_format )
+
+           ] )
 
 ] ).
 
@@ -135,6 +144,8 @@ i_rule( get_total_invoice, [
    , check( total_invoice = TotNet)
 
    , generic_item( [ total_net , TotNet ] )
+
+   , generic_item( [ line_descr , `Freight Charges` ] )
 
 ] ).
 
