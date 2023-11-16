@@ -35,6 +35,8 @@ i_rule_list( [
 
 	, get_invoice_date
 
+    , get_invoice_date_1
+
     , get_total_invoice
 
     , get_total_net
