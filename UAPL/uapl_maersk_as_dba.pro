@@ -77,10 +77,10 @@ i_rule_cut( get_invoice_number, [
 
    , or([
        
-      generic_horizontal_details( [ [ `EX`, `P`, `O`, `R`, `T`, `I`, `N`, `V`, `O`, `I`, `CE`, `N`, `u`, `m`, `b`, `e`, `r`, `:`, tab ], invoice_number, s1, newline ] )
-  
-  ,   generic_horizontal_details( [ [`EXPORT`,  `INVOICE`,  `Number`, `:`,  tab ], invoice_number, s1, newline ] )
-       
+          generic_horizontal_details( [ [ `EX`, `P`, `O`, `R`, `T`, `I`, `N`, `V`, `O`, `I`, `CE`, `N`, `u`, `m`, `b`, `e`, `r`, `:`, tab ], invoice_number, s1, newline ] )
+        
+        , generic_horizontal_details( [ [`EXPORT`,  `INVOICE`,  `Number`, `:`,  tab ], invoice_number, s1, newline ] )
+            
    ])
 	
 	
@@ -103,9 +103,9 @@ i_rule_cut( get_invoice_date, [
 
     , or([
 
-    , generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date , date, newline ] )
+          generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date , date, newline ] )
 
-] )
+    ] )
 
 ] ).
 
