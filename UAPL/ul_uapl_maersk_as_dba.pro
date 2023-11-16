@@ -182,6 +182,10 @@ i_rule( get_total_invoice, [
 
    , generic_item( [ total_net , TotNet ] )
 
+   , generic_item( [ line_net_amount , TotNet ] )
+
+   , generic_item( [ line_total_amount , TotNet ] )
+
    
 
 ] ).
@@ -198,7 +202,12 @@ i_rule( get_total_net, [
 
      q0n(line)
 
-   , generic_horizontal_details( [ [`Total`,  `Base`,  `Amount`,  tab, `USD`,  tab ],total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [`Total`,  `Base`,  `Amount`,  tab, `USD`,  tab ],total_net, d, newline ] )
+
+    , check( total_net = TotNet1)
+
+   , generic_item( [ line_net_amount , TotNet1 ] )
+
  
 ] ).
 
@@ -219,6 +228,11 @@ i_rule( get_total_invoice_1, [
    , generic_item( [ currency, `USD` ] )
 
    , generic_item( [ line_descr , `Freight Charges` ] )
+ 
+   , check( total_invoice = TotInv)
+
+   , generic_item( [ line_total_amount , TotInv ] )
+
 
 ] ).
 
