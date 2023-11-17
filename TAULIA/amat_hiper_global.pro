@@ -925,6 +925,8 @@ i_section( get_invoice_lines, [
 
                , line_invoice_line_1
 
+               , line_invoice_line_1_hebrew
+
                 , line_invoice_english_3
                 
                 , line_invoice_english_4
@@ -990,8 +992,8 @@ i_line_rule_cut( line_end_line, [
 
     , [ `TOTAL`,  tab, `USD`,  dummy(d),  newline ]
 
-    
-   % , [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
+    , [`$`, dummy(d),  tab, `ללוכ`,  `ריחמ`,  newline  ]
+
 
     ] )
     
@@ -1058,6 +1060,64 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_invoice_line_1_hebrew, [
+%=======================================================================
+
+
+	`$`
+    
+    	, or( [  
+   
+		[
+		
+		with( invoice, dummy_rounding_amount, RoundingAmount )
+		
+		, generic_item( [ line_net_amount_x, d, [ q10(tab), q10(`$`)] ] )
+		
+		, check( sys_calculate_str_subtract( line_net_amount_x, RoundingAmount, LineNetAmount ) )
+		
+		, line_net_amount( LineNetAmount )
+	
+		
+		]
+		
+		, generic_item( [ line_net_amount, d, [`$`] ] )
+		
+	] )
+	
+	, or( [ 
+	
+			[
+			
+			with( invoice, dummy_rounding_amount, DummyRounding )
+			
+			, generic_item( [ dummy_price, d, q10(tab) ] )
+			
+			]
+			
+			, generic_item( [ line_unit_amount, d ] )
+			
+		] )
+  
+    , generic_item( [ line_quantity_dummy, d ] )
+
+	, generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [ line_item, s1, tab ] )
+
+    , generic_item( [ line_dummy, s1, tab ] )
+
+    , generic_item( [ line_buyers_order_number, d, tab ] )
+
+    , generic_item( [ line_dummy1, w ] )
+
+   	, generic_item( [ dummy_line, d, newline ] )
+
+	, remove(dummy_rounding_amount)
+    
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
 
@@ -1097,6 +1157,8 @@ i_line_rule_cut( line_invoice_line_1, [
 			
 		] )
 
+        
+
      , generic_item( [ line_quantity_dummy, d, q10(tab) ] )
 
 	, generic_item( [ line_descr, s1, tab ] )
@@ -1114,6 +1176,8 @@ i_line_rule_cut( line_invoice_line_1, [
 	, remove(dummy_rounding_amount)
     
 ] ).
+
+
 
 
 %=======================================================================
@@ -1540,6 +1604,10 @@ i_line_rule_cut( line_invoice_english_11, [
 % Updated on   - 16 Nov, 2023
 % Updated by   - Rohini
 % Changes made - Line details updated
+
+% Updated on   - 17 Nov, 2023
+% Updated by   - Rohini
+% Changes made - Added line_invoice_line_1_hebrew rule for ref INV: INF232102906
 
 % Updated on   - 
 % Updated by   -
