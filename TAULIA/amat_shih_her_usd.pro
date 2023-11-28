@@ -133,9 +133,15 @@ i_rule( get_invoice_number, [
 
      , check_text(`發票號碼` )
 
-     , generic_horizontal_details( [ [`發票號碼`, `:` ], invoice_number, s1, gen_eof ] )
- 
+     , or([
 
+            generic_horizontal_details( [ [`發票號碼`, `：` ], invoice_number, s1, gen_eof ] )
+
+            , generic_horizontal_details( [ [`發票號碼`, `:` ], invoice_number, s1, gen_eof ] )
+
+     ])
+ 
+      
 ] ).
 
 
@@ -153,7 +159,13 @@ i_rule( get_invoice_date, [
 
      , check_text(`發票號碼` )
 
-     , generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,400), invoice_date, date, newline ] )
+     , or([
+
+              generic_vertical_details( [ [`發票號碼`, `：` ], `發票號碼`, q(0,1,up), (start,100,900), invoice_date, date, newline ] )
+
+            , generic_vertical_details( [ [`發票號碼`, `:` ], `發票號碼`, q(0,1,up), (start,100,900), invoice_date, date, newline ] )
+
+     ])
         
 ] ).
 
@@ -209,9 +221,11 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
     q0n(line)
 
    
-  , or([
+  , or([  
     
      generic_horizontal_details( [ [ `PO`, `.`, dummy(d),  `USD`, `$` ], total_net, d, [ `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
+
+  , generic_horizontal_details( [ [ dummy(d),  `USD`, `$` ], total_net, d, [ `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
 
   ,  [set(regexp_allow_partial_matching)
   
@@ -273,6 +287,8 @@ i_section( get_invoice_lines, [
 
               , line_invoice_line_2
 
+              , line_invoice_line_4
+
               , line
 
         ] )
@@ -289,6 +305,8 @@ i_line_rule_cut( line_header_line, [
     or([
       
       [  `品`,  tab, `名`,  tab, `數`,  `量`,  tab ]
+
+      , [`品名`,  tab, `數量`,  tab ]
 
 
 ] )
@@ -311,9 +329,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_descr, s1,tab ] )
+    generic_item( [ line_descr, s1, tab ] )
 
-  , generic_item( [ line_quantity, d,tab ] )
+  , generic_item( [ line_quantity, d, tab ] )
 
   , generic_item( [ line_unit_amount_dummy, d, tab ] )
 
@@ -408,6 +426,31 @@ i_line_rule_cut( line_invoice_line_3, [
 
 ] ).
 
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_4, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+  , generic_item( [ line_vat_type, `VAT` ] ) % When tax is 5 %
+
+  , or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
+
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
+
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
