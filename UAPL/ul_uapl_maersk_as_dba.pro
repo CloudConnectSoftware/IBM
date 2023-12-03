@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_maersk_as_dba, `16 Nov,2023` ).
+i_version( ul_uapl_maersk_as_dba, `03 Dec,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -90,6 +90,8 @@ i_rule_cut( get_invoice_number, [
         , generic_horizontal_details( [ [`EXPORT`,  `INVOICE`,  `Number`, `:`,  tab ], invoice_number, s1, newline ] )
 
         , generic_horizontal_details( [ [`Invoice`,  `Number`,  tab ], invoice_number, s1, newline ] )
+
+        , generic_horizontal_details( [ [ `INVOICE`,  `Number`, `:`,  tab ], invoice_number, s1, newline ] )
             
    ])
 	
@@ -274,6 +276,10 @@ i_rule( get_currency, [
 % Updated on   - 16 Nov, 2023
 % Updated by   -  Rohini
 % Changes made   - Format mapped Invoice 7504971546
+
+% Updated on   - 03 Dec, 2023
+% Updated by   - Rohini
+% Changes made   - Invoice number updated
 
 % Updated on   - 
 % Updated by   - 
