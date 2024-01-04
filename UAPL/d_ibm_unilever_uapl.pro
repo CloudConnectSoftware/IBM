@@ -696,3 +696,4 @@ connection_lookup_table( `ul_uapl_pt_perusahaan`, [ ( return_email, `wlandiani@m
 connection_lookup_table( `ul_uapl_maersk_as_dba`, [ ( return_email, `Omar.Montes@sealandmaersk.com`), ( buyers_code_for_supplier, `51467517` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_bionic_film`, [ ( return_email, `thebionicfilms@gmail.com`), ( buyers_code_for_supplier, `50483284` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_smollan_india`, [ ( return_email, `viki.maishari@smollan.com`), ( buyers_code_for_supplier, `50041555` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_green_food`, [ ( return_email, `link_lynx@hotmail.com`), ( buyers_code_for_supplier, `51488668` ) ], ( true ) ).
