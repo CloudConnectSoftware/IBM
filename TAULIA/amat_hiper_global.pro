@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_hiper_global, `06 Jan, 2024` ).
+i_version(amat_hiper_global, `16 Nov,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1511,7 +1511,6 @@ i_line_rule_cut( line_invoice_english_10, [
 ] ).
 
 
-
 %=======================================================================
 i_line_rule_cut( line_invoice_english_11, [
 %=======================================================================
@@ -1524,11 +1523,13 @@ i_line_rule_cut( line_invoice_english_11, [
      
      , generic_item( [ line_buyers_order_number, d ] )
 
-     , generic_item( [ line_descr, s, q10(tab) ] )
-     
      , generic_item( [ line_item, s, q10(tab) ] )
+     
+     , generic_item( [ line_descr, s, tab ] )
 
-     , generic_item( [ line_quantity_dummy, d, [ `ea`,  q10(tab) ] ] )
+     , generic_item( [ line_item_dummy, w ] )
+
+     , generic_item( [ line_quantity_dummy, d, [ `ea`,  tab ] ] )
 
      , or([
 
@@ -1608,14 +1609,9 @@ i_line_rule_cut( line_invoice_english_11, [
 % Updated by   - Rohini
 % Changes made - Added line_invoice_line_1_hebrew rule for ref INV: INF232102906
 
-% Updated on   - 06 Jan, 2024
-% Updated by   - Rohini
-% Changes made - Line details updated
-
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
