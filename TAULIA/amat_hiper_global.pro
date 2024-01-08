@@ -951,6 +951,8 @@ i_section( get_invoice_lines, [
                 
                 , [line_invoice_english_11, q10(line_append_line)]
 
+                , [line_english_descr_line, line_invoice_english_12, q10(line_append_line_1)]
+
                 , line
 
         ] )
@@ -1134,6 +1136,15 @@ i_line_rule_cut( line_append_line, [
   
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_append_line_1, [
+%=======================================================================
+
+      generic_item( [ line_desc_dummy, s1, tab ] )
+
+    , generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+  
+] ).
 
 %=======================================================================
 i_line_rule_cut( line_invoice_english, [
@@ -1491,6 +1502,39 @@ i_line_rule_cut( line_invoice_english_11, [
      , generic_item( [ line_net_amount, d, newline ] )
   
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_english_12, [
+%=======================================================================
+
+        generic_item( [ line_dummy, w ] )
+
+     , generic_item( [ line_dummy2, w ] )
+
+     , generic_item( [ po_number, d ] )
+     
+     , generic_item( [ line_buyers_order_number, d ] )
+
+     , generic_item( [ line_item, s1, tab ] )
+     
+     , generic_item( [ line_descr_dummy, w ] )
+
+     , generic_item( [ line_quantity, d, [ `ea`] ] )
+
+     , or([
+
+         generic_item( [ line_quantity_dummy, d, [`ea`,  `US`, `$`] ] )
+
+         , generic_item( [ line_quantity_dummy, d, [ `ea`,  `USD`] ] )
+
+     ])     
+     
+     , generic_item( [ line_unit_amount, d, tab ] )
+
+     , generic_item( [ line_net_amount, d, newline ] )
+  
+] ).
+
 
 
 
