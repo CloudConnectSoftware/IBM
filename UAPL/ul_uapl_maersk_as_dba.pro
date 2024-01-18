@@ -27,7 +27,7 @@ i_rule_list( [
 
 	  get_supplier_details
 
-     , get_currency
+    , get_currency
 
     , get_bank_account_no
 	
@@ -53,14 +53,14 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %=======================================================================
-i_rule( get_supplier_detail, [
+i_rule( get_supplier_details, [
 %=======================================================================
 
-	sender_name(`Maersk A/S DBA Sealand Americas`)
+	 sender_name(`Maersk A/S DBA Sealand Americas`)
 
-   , supplier_party(`Maersk A/S DBA Sealand Americas`)
+    , supplier_party(`Maersk A/S DBA Sealand Americas`)
 
-	,supplier_vat_number(`DK53139655`)
+	, supplier_vat_number(`DK53139655`)
 
     , buyer_registration_number(`3009`)
 
