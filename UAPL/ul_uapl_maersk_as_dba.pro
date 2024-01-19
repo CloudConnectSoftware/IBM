@@ -57,10 +57,10 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %=======================================================================
-i_rule( get_supplier_details, [
+i_rule_cut( get_supplier_details, [
 %=======================================================================
 
-	 sender_name(`Maersk A/S DBA Sealand Americas`)
+	  sender_name(`Maersk A/S DBA Sealand Americas`)
 
     , supplier_party(`Maersk A/S DBA Sealand Americas`)
 
