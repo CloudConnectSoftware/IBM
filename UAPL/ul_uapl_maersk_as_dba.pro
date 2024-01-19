@@ -175,7 +175,7 @@ i_rule_cut( get_invoice_date_2, [
 
        , or([
 
-          generic_horizontal_details( [ [`Invoice`,  `Date`,  tab ], invoice_date_raw , date, newline ] )
+          generic_horizontal_details( [ [`Invoice`,  `Date`,  tab ], invoice_date_raw , s1, newline ] )
 
        , generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date_raw , s1, newline ] )
  
