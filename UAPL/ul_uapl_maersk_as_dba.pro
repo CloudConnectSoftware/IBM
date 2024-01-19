@@ -8,9 +8,11 @@ i_version( ul_uapl_maersk_as_dba, `03 Dec,2023` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(_):- not( grammar_set( alternate_date_format ) ).
+i_date_format(_).
 
-i_date_format(_):- grammar_set( alternate_date_format).
+%i_date_format(_):- not( grammar_set( alternate_date_format ) ).
+
+%i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -36,6 +38,8 @@ i_rule_list( [
 	, get_invoice_date
 
     , get_invoice_date_1
+
+    , get_invoice_date_2
 
     , get_total_invoice
 
@@ -155,6 +159,38 @@ i_rule_cut( get_invoice_date_1, [
            ] )
 
 ] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET INVOICE DATE ALTERNATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_2, [
+%=======================================================================
+
+    q(0,20,line)
+
+    ,[ generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date_raw , s1, newline ] )
+ 
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice Date Raw` , DateRaw ] )
+
+    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
+
+    , trace( [ `Date Stripped Coma` , DateStrip ] )
+
+    , invoice_date(DateStrip)
+
+    , trace( [ `Invoice Date` , invoice_date ] )  ]   
+
+] ).
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
