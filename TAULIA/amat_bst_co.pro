@@ -292,7 +292,9 @@ i_section( get_invoice_lines, [
                 
                 , [line_descr_line , line_invoice_line_1, q10(line_append_line) ]
 
-                , [line_descr_line, line_invoice_line_2 ,q10(line_append_line) ]               
+                , [line_descr_line, line_invoice_line_2 ,q10(line_append_line) ]       
+
+                , [line_descr_line, line_invoice_line_6 ,q10(line_append_line) ]               
                 
                 , [line_item_line, line_invoice_line_3 , line_itemappend_line]
 
@@ -373,8 +375,6 @@ i_line_rule_cut( line_invoice_line_1, [
     generic_item( [ line_month_dummy, d, q10(tab) ] )
 
   , generic_item( [ line_dummy, d, q10(tab) ] )
-
-  , q10(generic_append( [ line_descr, s1, tab, ` `, ` `  ] ))
 
   , generic_item( [ line_unit_amount, d,tab ] )
 
@@ -554,7 +554,34 @@ i_line_rule_cut( line_invoice_line_5, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_6, [
+%=======================================================================
 
+    generic_item( [ line_month_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_dummy, d, q10(tab) ] )
+
+  , generic_append( [line_descr, s1, tab, ` `, ` `  ] )
+
+  , generic_item( [ line_dummy1, s1, tab ] )
+
+  , generic_item( [ line_net_amount, d, q10(tab) ] )
+
+  , generic_item( [ line_vat_amount, d,newline ] )
+
+
+  , or( [ 
+
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+] )
+
+
+] ).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -582,7 +609,7 @@ i_line_rule_cut( line_invoice_line_5, [
 
 % Updated on   - 22 Jan, 2024
 % Updated by   - Rohini
-% Changes made - Original invoice mapped, line details updated
+% Changes made - Original invoice mapped, line details updated line_invoice_line_6
 
 % Updated on   - 
 % Updated by   -
