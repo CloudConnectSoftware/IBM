@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `06 Jan, 2023` ).
+i_version(amat_bst_co, `22 Jan, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -25,6 +25,8 @@ i_rule_list( [
     , set_credit_note
 
     , get_invoice_number
+
+    , get_original_invoice_number
     
    % , get_shipto_details
 
@@ -124,6 +126,29 @@ i_rule( get_invoice_number, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ORIGINAL INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_original_invoice_number, [
+%=======================================================================
+
+     q(0,40,line)
+
+     , test(credit_note)
+     
+     , generic_horizontal_details( [ [ `공`,  `급`,  `받`,  `는`,  `자`,  tab ], invoice_number_raw1, s1, newline ] )
+
+     , check( invoice_number_raw1 = InvRaw1 )
+
+     , check( q_sys_sub_string( InvRaw1, 9, 16, Inv_new1 ) )
+
+     , original_invoice_number(Inv_new1)     
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -349,6 +374,8 @@ i_line_rule_cut( line_invoice_line_1, [
 
   , generic_item( [ line_dummy, d, q10(tab) ] )
 
+  , q10(generic_append( [ line_descr, s1, tab, ` `, ` `  ] ))
+
   , generic_item( [ line_unit_amount, d,tab ] )
 
   , generic_item( [ line_net_amount, d, q10(tab) ] )
@@ -552,6 +579,10 @@ i_line_rule_cut( line_invoice_line_5, [
 % Updated on   - 06 Jan, 2023
 % Updated by   - Rohini
 % Changes made - Invoice Date updated
+
+% Updated on   - 22 Jan, 2024
+% Updated by   - Rohini
+% Changes made - Original invoice mapped, line details updated
 
 % Updated on   - 
 % Updated by   -
