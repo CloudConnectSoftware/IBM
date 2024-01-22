@@ -318,7 +318,7 @@ i_line_rule_cut( line_header_line, [
     
     or([
       
-      [`월`,  `일`,  tab, `품`,  `목`,  tab, `규`,  `격`,  tab ]
+      [`월`,  `일`,  tab, `품`,  `목`,  tab, `규`,  `격`,  tab ] 
 
 
 ] )
