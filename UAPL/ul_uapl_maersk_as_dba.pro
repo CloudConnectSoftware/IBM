@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_maersk_as_dba, `03 Dec,2023` ).
+i_version( ul_uapl_maersk_as_dba, `24 Jan, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -21,6 +21,8 @@ i_include_partner_attachments_image_only.
 i_pdf_parameter( dont_tokenise_on_font_change, 1 ).
 
 i_pdf_parameter( x_tolerance_100, 100 ).
+
+i_pdf_parameter( space, 2 ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -326,10 +328,13 @@ i_rule( get_currency, [
 % Updated by   - Rohini
 % Changes made   - Invoice number updated
 
+% Updated on   -  24 Jan, 2024
+% Updated by   -  Rohini
+% Changes made   - i_pdf_parameter( space, X ). mapped
+
 % Updated on   - 
 % Updated by   - 
 % Changes made   - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
