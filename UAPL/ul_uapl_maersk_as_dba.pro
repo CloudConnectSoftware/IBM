@@ -8,11 +8,11 @@ i_version( ul_uapl_maersk_as_dba, `24 Jan, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_date_format(_).
+%i_date_format(_).
 
-%i_date_format(_):- not( grammar_set( alternate_date_format ) ).
+i_date_format(_):- not( grammar_set( alternate_date_format ) ).
 
-%i_date_format(_):- grammar_set( alternate_date_format).
+i_date_format(_):- grammar_set( alternate_date_format).
 
 i_trace_lists.
 
@@ -37,11 +37,11 @@ i_rule_list( [
 	
 	, get_invoice_number
 
-	%, get_invoice_date
+	, get_invoice_date
 
-   % , get_invoice_date_1
+    , get_invoice_date_1
 
-    , get_invoice_date_2
+   % , get_invoice_date_2
 
     , get_total_invoice
 
