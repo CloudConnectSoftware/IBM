@@ -271,7 +271,7 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_exchange_rate, [
+i_rule_cut( get_exchange_rate, [
 %=======================================================================
 
       q0n(line)
@@ -282,7 +282,7 @@ i_rule( get_exchange_rate, [
  
     generic_horizontal_details( [ [   `匯率` ], currency_exchange_rate,d, newline ] )
 
-  , generic_vertical_details( [ [  `匯率`,  newline ], `匯率`, q(0,1), (start,100,100), currency_exchange_rate,d, newline ] )
+  , generic_vertical_details( [ [`USD`, `$`, dummy(d),  `匯率` ], `匯率`, q(0,1), (start,500,500), currency_exchange_rate,d, newline ] )
 
   ] )
 
