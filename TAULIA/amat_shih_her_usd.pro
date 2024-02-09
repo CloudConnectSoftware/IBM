@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shih_her_usd, `28th March 2022` ).
+i_version(amat_shih_her_usd, `09 Feb, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -33,6 +33,8 @@ i_rule_list( [
     , get_order_number
 
     , get_total_net_usd
+
+    , get_exchange_rate
 
     , get_invoice_lines
 
@@ -236,6 +238,7 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 
   , generic_horizontal_details( [ [`PO`, `.`,dummy(d),  `USD`, `$` ], total_net, d, [  `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
  
+   , generic_horizontal_details( [ [  dummy(d),  `USD`, `$` ], total_net,d, [`匯率`,  newline ] ] )
 
   ] )
   
@@ -260,6 +263,33 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 	, total_vat(TotalVatAmount)
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exchange rate
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_exchange_rate, [
+%=======================================================================
+
+      q0n(line)
+  
+  % Currency exchange rate is always required
+
+  , or([
+ 
+    generic_horizontal_details( [ [   `匯率` ], currency_exchange_rate,d, newline ] )
+
+  , generic_vertical_details( [ [  `匯率`,  newline ], `匯率`, q(0,1), (start,100,100), currency_exchange_rate,d, newline ] )
+
+  ] )
+
+
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -467,7 +497,7 @@ i_line_rule_cut( line_invoice_line_4, [
 
 % Updated on   - 10 March, 2022
 % Updated by   - Rohini
-% Changes made - Freezed NTD value has this vendor needs only USD
+% Changes made - Freezed NTD value has this vendor needs only USD and separate mapping for NTD/TWD
 
 % Updated on   - 15 March, 2022
 % Updated by   - Rohini
@@ -478,8 +508,15 @@ i_line_rule_cut( line_invoice_line_4, [
 % Updated by   - Sushmitha
 % Changes made - added line_invoice_line_3
 
+% Updated on   - 09 Feb, 2024
+% Updated by   - Rohini
+% Changes made - Total net and currency exchange rate updated
+
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
