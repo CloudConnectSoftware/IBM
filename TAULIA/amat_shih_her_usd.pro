@@ -219,7 +219,8 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 %=======================================================================
 
     q0n(line)
-
+  
+  % Currency exchange rate is always required
    
   , or([  
 
@@ -234,8 +235,6 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
         , clear(regexp_allow_partial_matching) ]
 
   , generic_horizontal_details( [ [`PO`, `.`,dummy(d),  `USD`, `$` ], total_net, d, [  `匯率`, generic_item( [ currency_exchange_rate, d ] ),  newline ] ] )
-
-  , generic_horizontal_details( [ [`PO`, `.`, dummy(d),  `USD`, `$` ], total_net, d, [ `匯率`,  newline ] ] )
  
 
   ] )
