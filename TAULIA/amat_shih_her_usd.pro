@@ -274,7 +274,7 @@ i_rule_cut(get_total_net_usd, [ without(total_net),
 i_rule_cut( get_exchange_rate, [
 %=======================================================================
 
-      q0n(line)
+    q0n(line)
   
   % Currency exchange rate is always required
 
@@ -282,7 +282,7 @@ i_rule_cut( get_exchange_rate, [
  
     generic_horizontal_details( [ [   `匯率` ], currency_exchange_rate,d, newline ] )
 
-  , generic_vertical_details( [ [`USD`, `$`, dummy(d),  `匯率` ], `匯率`, q(0,1), (start,500,500), currency_exchange_rate,d, newline ] )
+  , generic_vertical_details( [ [`USD`, `$`, dummy(d),  `匯率` ], `匯率`, q(0,1), (start,200,500), currency_exchange_rate,d, newline ] )
 
   ] )
 
