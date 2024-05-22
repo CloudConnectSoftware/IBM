@@ -95,7 +95,7 @@ stages:
                   try
                   {
                     $fileName=$ele.Substring(2)
-                    az storage blob delete -c "rulescontainer" -n "Rules\Taulia\$file" --connection-string "$(connectionString)"
+                    az storage blob delete -c "rulescontainer" -n "Rules\IBM\$file" --connection-string "$(connectionString)"
                   }
                   catch
                   {
