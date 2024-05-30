@@ -702,3 +702,4 @@ connection_lookup_table( `ul_uapl_quickflo_forwarders`, [ ( return_email, `dinel
 connection_lookup_table( `ul_uapl_sudesan_export`, [ ( return_email, `oaktas@sudesan.com`), ( buyers_code_for_supplier, `51490541` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_bluesun_consumer`, [ ( return_email, `anna.serra@bluesuncb.com`), ( buyers_code_for_supplier, `51234316` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_yusen_logistics`, [ ( return_email, `ylph.ml.ar.collection@ph.yusen-logistics.com`), ( buyers_code_for_supplier, `563033` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_gs1_singapore`, [ ( return_email, `contact@gs1.org.sg`), ( buyers_code_for_supplier, `537600` ) ], ( true ) ).
