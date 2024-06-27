@@ -337,8 +337,14 @@ i_rule( get_currency, [
    last_line
    
    , q0n(up)
-	
+
+    , or([
+
+	  generic_horizontal_details( [ [ `TOTAL`, `:` ],currency, w ] )
+
     , generic_vertical_details( [ [ `Amount` ],`Amount`, q(0,1), (start,20,20), currency, w, newline ] )
+
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
