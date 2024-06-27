@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_kl_kepong, `23 May, 2023` ).
+i_version( ul_uapl_kl_kepong, `27 June, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -252,7 +252,9 @@ i_rule( get_total_invoice, [
      , or([
          generic_horizontal_details( [ [ `TOTAL`, tab ],  total_invoice, d, newline ] )
 
-         ,generic_horizontal_details( [ [ `Total`, `(`, `excluding`, `GST`, `)` ],100,  total_invoice, d, newline ] )
+         , generic_horizontal_details( [ [ `Total`, `(`, `excluding`, `GST`, `)` ],100,  total_invoice, d, newline ] )
+
+         , generic_vertical_details( [ [  `Total`,  newline ], `Total`, q(0,1,up), (start,900,800), total_invoice, d, newline ] )
 
          , generic_vertical_details( [ [  `Total`,  newline ], `Total`, q(0,1), (start,10,800), total_invoice, d, newline ] )
          
@@ -291,6 +293,8 @@ i_rule( get_line_total_amount, [
         ,generic_horizontal_details( [ [`Subtotal`, tab ],  line_total_amount, d, newline ] )
 
         ,generic_horizontal_details( [ [ `Total`, `(`, `excluding`, `GST`, `)` ],100,  line_total_amount, d, newline ] )
+
+        , generic_vertical_details( [ [  `Total`,  newline ], `Total`, q(0,1,up), (start,900,800), line_total_amount, d, newline ] )
 
         ,generic_vertical_details( [ [  `Total`,  newline ], `Total`, q(0,1), (start,10,800), line_total_amount, d, newline ] )
         
@@ -374,6 +378,9 @@ i_rule( get_invoice_lines, [
 % Updated by   - Rohini
 % Changes made - Document format updated with PDF paramater and total vat and net mapped for new format.
 
+% Updated on   - 27 June, 2024
+% Updated by   - Rohini
+% Changes made - Total amount format updated
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
