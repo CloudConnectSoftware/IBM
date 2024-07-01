@@ -344,7 +344,8 @@ i_rule( get_currency, [
 
     , generic_vertical_details( [ [ `Amount` ],`Amount`, q(0,1), (start,20,20), currency, w, newline ] )
 
-
+    ] )
+    
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
