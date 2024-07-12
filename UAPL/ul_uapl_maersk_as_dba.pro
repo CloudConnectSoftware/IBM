@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_maersk_as_dba, `24 Jan, 2024` ).
+i_version( ul_uapl_maersk_as_dba, `12 July, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -251,7 +251,7 @@ i_rule( get_total_net, [
 
      q0n(line)
 
-   , generic_horizontal_details( [ [`Total`,  `Base`,  `Amount`,  tab, `USD`,  tab ],total_net, d, newline ] )
+   , generic_horizontal_details( [ [`Total`,  `Base`,  `Amount`,  tab, generic_item( [ currency, w ] ),  tab ],total_net, d, newline ] )
 
     , check( total_net = TotNet1)
 
@@ -272,10 +272,8 @@ i_rule( get_total_invoice_1, [
 
      q0n(line)
 
-   , generic_horizontal_details( [ [ `Total`,  `Payable`,  `Amount`,  tab, `USD`,  tab ],total_invoice, d, newline ] )
+   , generic_horizontal_details( [ [ `Total`,  `Payable`,  `Amount`,  tab, generic_item( [ currency, w ] ),  tab ],total_invoice, d, newline ] )
  
-   , generic_item( [ currency, `USD` ] )
-
    , generic_item( [ line_descr , `Freight Charges` ] )
  
    , check( total_invoice = TotInv)
@@ -332,9 +330,14 @@ i_rule( get_currency, [
 % Updated by   -  Rohini
 % Changes made   - i_pdf_parameter( space, X ). mapped
 
+% Updated on   - 12 July, 2024
+% Updated by   -  ROhini
+% Changes made   - Total Invoice updated
+
 % Updated on   - 
 % Updated by   - 
 % Changes made   - 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
