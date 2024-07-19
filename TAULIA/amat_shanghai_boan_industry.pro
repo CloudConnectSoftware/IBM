@@ -30,7 +30,7 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_total_net
+  %  , get_total_net
 
     , get_total_net1
 
@@ -105,7 +105,7 @@ i_rule( get_invoice_date_1, [
 
      , or([        
 
-            generic_horizontal_details( [ [ `开票日期`, `：` ], invoice_date, date, newline ] )
+            generic_horizontal_details( [ [ `开票日期`, `：` ], invoice_date, s1, newline ] )
       
      ])
     
@@ -215,7 +215,7 @@ i_rule_cut(get_total_net, [
 
         generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ), newline ] ] )
 
-      , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_net, d, [ tab, `¥`] ] )
+      , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_net, s1, [ tab, `¥`] ] )
      
     ] )
           
@@ -235,10 +235,13 @@ i_rule_cut(get_total_net1, [
 
    q0n(line)
 
- , generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, dummy(s1), newline ] ] )
+   , or( [   
 
- , generic_horizontal_details( [ [ `¥` ], total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
+      generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, dummy(s1), newline ] ] )
 
+    , generic_horizontal_details( [ [ `¥` ], total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
+
+   ])
  
 ] ). 
 
@@ -254,9 +257,13 @@ i_rule_cut(get_total_vat, [
 
    q0n(line)
 
- , generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, dummy(s1),  tab, `¥` ], total_vat, d, newline ] )
+   , or( [ 
 
- , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_vat, d, newline ] )
+        generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, dummy(s1),  tab, `¥` ], total_vat, d, newline ] )
+
+      , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_vat, d, newline ] )
+
+    ])
 
 ] ). 
 
