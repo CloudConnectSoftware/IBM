@@ -30,7 +30,7 @@ i_rule_list( [
 
     , get_order_number
 
-  %  , get_total_net
+    , get_total_net
 
     , get_total_net1
 
