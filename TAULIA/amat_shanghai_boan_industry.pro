@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `02 Jul, 2024` ).
+i_version(amat_shanghai_boan_industry, `19 Jul, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -26,13 +26,15 @@ i_rule_list( [
   
     , get_invoice_date
 
+    , get_invoice_date_1
+
     , get_order_number
 
-    , get_total_net
+  %  , get_total_net
 
-   % , get_total_net1
+    , get_total_net1
 
-  %  , get_total_vat
+    , get_total_vat
 
     , get_total_invoice
 
@@ -86,6 +88,26 @@ i_rule( get_invoice_number, [
      , invoice_number(Inv_new)     
 
      , trace( [ `Invoice Number: ` , invoice_number ] ) 
+    
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_invoice_date_1, [
+%=======================================================================
+
+     q(0,5,line)
+
+     , or([        
+
+            generic_horizontal_details( [ [ `开票日期`, `：` ], invoice_date, s1, newline ] )
+      
+     ])
     
 ] ).
 
@@ -192,6 +214,8 @@ i_rule_cut(get_total_net, [
    , or( [                           
 
         generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ), newline ] ] )
+
+      , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_net, s1, [ tab, `¥`] ] )
      
     ] )
           
@@ -211,8 +235,13 @@ i_rule_cut(get_total_net1, [
 
    q0n(line)
 
- , generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, dummy(s1), newline ] ] )
+   , or( [   
 
+      generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, dummy(s1), newline ] ] )
+
+    , generic_horizontal_details( [ [ `¥` ], total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
+
+   ])
  
 ] ). 
 
@@ -228,8 +257,13 @@ i_rule_cut(get_total_vat, [
 
    q0n(line)
 
- , generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, dummy(s1),  tab, `¥` ], total_vat, d, newline ] )
+   , or( [ 
 
+        generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, dummy(s1),  tab, `¥` ], total_vat, d, newline ] )
+
+      , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_vat, d, newline ] )
+
+    ])
 
 ] ). 
 
@@ -250,6 +284,10 @@ i_rule_cut(get_total_invoice, [
     , or( [                         
 
           [generic_horizontal_details( [ [ `陆佰贰拾玖圆玖角玖分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ]
+
+        , [generic_horizontal_details( [ [ `（`, `小写`, `）`,  `¥` ], total_invoice, d, newline ] )
 
             , generic_item( [ currency, `RMB` ] ) ]
 
@@ -308,6 +346,8 @@ i_line_rule_cut( line_end_line, [
      or( [
 
             [`合`,  tab, `计`,  tab ]
+
+          , [`合`,  tab, `计`,  newline ]
 
      ] )
 
@@ -408,9 +448,9 @@ i_line_rule_cut( line_desc_append_1, [
 % Mapped by - Yamini M 
 
 
-% Updated on   - 
-% Updated by   -
-% Changes made -
+% Updated on   - 19 Jul, 2024
+% Updated by   - Yamini M
+% Changes made - updated invoice date, total net, vat, invoice & end line functions
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
