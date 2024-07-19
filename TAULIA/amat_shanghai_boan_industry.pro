@@ -100,13 +100,9 @@ i_rule( get_invoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
    
-     q(0,25,line)
+     q(0,10,line)
 
    , line_add_line_date
-
- %  , q(0,1,line)
-
-   , line_add_line_date_1
    
  ] ).
 
@@ -116,33 +112,23 @@ i_line_rule_cut( line_add_line_date, [
 
        q0n(anything)
      
-     , read_ahead([ `开票日期`, `：` ])
+     , read_ahead([ `开票日期` ])
 
      , trace( [ `Found address`] )
 
-    % , generic_item( [ dummy_date, s1, newline ] )
+    , generic_item( [ dummy_date, w, [`：`] ] )
 
-] ).
+    , generic_item( [ date_1, w, `年` ] )
 
+    , generic_item( [ date_2, w, `月` ] )
+    
+    , generic_item( [ date_3, w, [ `日`,  newline] ] )
 
-%=======================================================================
-i_line_rule_cut( line_add_line_date_1, [
-%=======================================================================
+    , check(strcat_list( [ date_1,` ` , date_2,` `, date_3 ], DateNew )) 
 
-    generic_item( [ dummy_date, s1, [`：`] ] )
-
-  ,  generic_item( [ date_1, w, `年` ] )
-
-  , generic_item( [ date_2, w, `月` ] )
-  
-  , generic_item( [ date_3, w, [ `日`,  newline] ] )
-
-  , check(strcat_list( [ date_1,` ` , date_2,` `, date_3 ], DateNew )) 
-
-  , invoice_date(DateNew)  
-  
-  , trace( [ `Invoice Date Now` , invoice_date ] )
-
+    , invoice_date(DateNew)  
+    
+    , trace( [ `Invoice Date Now` , invoice_date ] )
 
 ] ).
 
