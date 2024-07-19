@@ -104,7 +104,7 @@ i_rule_cut( get_invoice_date, [
 
    , line_add_line_date
 
-   , q(0,1,line)
+ %  , q(0,1,line)
 
    , line_add_line_date_1
    
@@ -120,7 +120,7 @@ i_line_rule_cut( line_add_line_date, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ dummy_date, s1, newline ] )
+    % , generic_item( [ dummy_date, s1, newline ] )
 
 ] ).
 
@@ -129,7 +129,9 @@ i_line_rule_cut( line_add_line_date, [
 i_line_rule_cut( line_add_line_date_1, [
 %=======================================================================
 
-    generic_item( [ date_1, w, `年` ] )
+    generic_item( [ dummy_date, s1, [`：`] ] )
+
+  ,  generic_item( [ date_1, w, `年` ] )
 
   , generic_item( [ date_2, w, `月` ] )
   
