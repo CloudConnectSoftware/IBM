@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `19 Jul, 2024` ).
+i_version(amat_shanghai_boan_industry, `24 Jul, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,31 @@ i_date_format(_).
 i_trace_lists.
 
 i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+i_user_field( invoice, einvoice_number, `KIDNO` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO1` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO2` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO3` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO4` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO5` ).  
+
+json_custom_field( `KIDNO`, einvoice_number ).
+
+json_custom_field( `KIDNO1`, einvoice_number ).
+
+json_custom_field( `KIDNO2`, einvoice_number ).
+
+json_custom_field( `KIDNO3`, einvoice_number ).
+
+json_custom_field( `KIDNO4`, einvoice_number ).
+
+json_custom_field( `KIDNO5`, einvoice_number ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -23,6 +48,8 @@ i_rule_list( [
     , attachment_type(`LEGAL_INVOICE`)  % This is a requirement 
 
     , get_invoice_number
+
+    , get_einvoice_number
   
     , get_invoice_date
 
@@ -89,6 +116,31 @@ i_rule( get_invoice_number, [
     
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% E INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_einvoice_number, [
+%=======================================================================
+
+     q(0,40,line)
+
+     , or([    
+
+          generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
+        
+      ,  generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
+            
+      ,  generic_horizontal_details( [ [`发票号码`, `：` ], einvoice_number, d, newline ] )    
+
+     ])
+    
+    
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -417,6 +469,10 @@ i_line_rule_cut( line_desc_append_1, [
 % Updated on   - 19 Jul, 2024
 % Updated by   - Yamini M
 % Changes made - updated invoice date, total net, vat, invoice & end line functions
+
+% Updated on   - 24 July, 2024
+% Updated by   - Rohini
+% Changes made - EInvoice number details updated
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
