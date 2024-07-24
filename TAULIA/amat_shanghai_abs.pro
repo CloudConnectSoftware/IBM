@@ -131,9 +131,9 @@ i_rule( get_einvoice_number, [
 
      , or([        
                                
-         generic_horizontal_details( [ [`发票号码`, dummy(s) ], invoice_number_dummy, d, newline ] )
+         generic_horizontal_details( [ [`发票号码`, dummy(s) ], einvoice_number, d, newline ] )
 
-        , generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
+        , generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
 
 
      ])
