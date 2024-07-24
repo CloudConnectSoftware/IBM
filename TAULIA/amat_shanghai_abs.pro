@@ -127,7 +127,7 @@ i_rule( get_invoice_number, [
 i_rule( get_einvoice_number, [
 %=======================================================================
 
-     q(0,5,line)
+     q(0,40,line)
 
      , or([        
                                
