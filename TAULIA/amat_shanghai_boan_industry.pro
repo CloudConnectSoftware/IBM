@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `24 Jul, 2024` ).
+i_version(amat_shanghai_boan_industry, `29 Jul, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,6 +52,8 @@ i_rule_list( [
     , get_einvoice_number
   
     , get_invoice_date
+
+    , get_invoice_date_2
 
     , get_order_number
 
@@ -184,6 +186,46 @@ i_line_rule_cut( line_add_line_date, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut(get_invoice_date_2, [
+%=======================================================================
+
+   q0n(line)
+
+   , or( [                             
+
+        generic_horizontal_details( [ [ `开票日期`, `：`,  tab ], invoice_date_raw, s1, newline ] )
+
+      , generic_vertical_details( [ [ `开票日期`, `：`,  tab ], `开票日期`, q(0,1), (start,500,500),  invoice_date_raw, s1, newline ] )
+
+    ] )
+
+    , check( invoice_date_raw = DateRaw )
+
+    , trace( [ `Invoice Date raw` , DateRaw  ] )
+
+    , check(string_string_replace( DateRaw, `年`, ` `, DateStrip  ))
+    
+    , invoice_date_1(DateStrip )
+
+    , check(string_string_replace( DateStrip, `月`, ` `, DateStrip1  ))
+
+    , invoice_date_2(DateStrip1 )
+
+    , check(string_string_replace( DateStrip1, `日`, ``, DateStrip2  ))
+
+    , invoice_date(DateStrip2 )
+
+    , trace( [ `Invoice Date` , invoice_date ] )  
+
+     
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
