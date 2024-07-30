@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `22 Jan, 2024` ).
+i_version(amat_bst_co, `30 July, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,32 @@ i_date_format(_).
 i_trace_lists.
 
 i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+i_user_field( invoice, einvoice_number, `KIDNO` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO1` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO2` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO3` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO4` ).  
+
+i_user_field( invoice, einvoice_number, `KIDNO5` ).  
+
+json_custom_field( `KIDNO`, einvoice_number ).
+
+json_custom_field( `KIDNO1`, einvoice_number ).
+
+json_custom_field( `KIDNO2`, einvoice_number ).
+
+json_custom_field( `KIDNO3`, einvoice_number ).
+
+json_custom_field( `KIDNO4`, einvoice_number ).
+
+json_custom_field( `KIDNO5`, einvoice_number ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -26,10 +52,10 @@ i_rule_list( [
 
     , get_invoice_number
 
+    , get_einvoice_number
+
     , get_original_invoice_number
     
-   % , get_shipto_details
-
     , get_invoice_date
 
     , get_order_number
@@ -125,6 +151,38 @@ i_rule( get_invoice_number, [
      , invoice_number(Inv_new)     
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% E INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_einvoice_number, [
+%=======================================================================
+
+     q(0,40,line)
+
+     , or([        
+
+     generic_horizontal_details( [ [`승인번호`,  q10(tab) ], einvoice_number_raw, s1, newline ] )
+
+  ] )  
+
+    , check( einvoice_number_raw = EInvRaw )
+
+    , trace( [ `E Invoice Number raw` , EInvRaw ] )
+
+     , check(string_string_replace( EInvRaw,  ` `, ``, EInvstrip ))
+
+     , trace( [ `EInvoice Number Stripped Space`, EInvstrip ] )
+     
+     , einvoice_number(EInvstrip)  
+  
+    
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -597,6 +655,12 @@ i_line_rule_cut( line_invoice_line_6, [
 % Updated on   - 22 Jan, 2024
 % Updated by   - Rohini
 % Changes made - Original invoice mapped, line details updated line_invoice_line_6
+
+
+% Updated on   - 30 July, 2024
+% Updated by   - Rohini
+% Changes made - EInvoice number updated
+
 
 % Updated on   - 
 % Updated by   -
