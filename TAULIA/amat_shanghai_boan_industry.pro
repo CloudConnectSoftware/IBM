@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `30 July, 2024` ).
+i_version(amat_shanghai_boan_industry, `31 July, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -203,6 +203,8 @@ i_rule_cut(get_invoice_date_2, [
         generic_horizontal_details( [ [ `开票日期`, `：`,  tab ], invoice_date_raw, s1, newline ] )
 
       , generic_vertical_details( [ [ `开票日期`, `：`,  tab ], `开票日期`, q(0,1), (start,500,500),  invoice_date_raw, s1, newline ] )
+
+      , generic_vertical_details( [ [ `开票日期`, `：`,  newline ], `开票日期`, q(0,1), (start,500,500),  invoice_date_raw, s1, newline ] )
 
     ] )
 
