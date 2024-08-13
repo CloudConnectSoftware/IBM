@@ -338,7 +338,7 @@ i_rule_cut(get_total_invoice, [
 
     q0n(line)
 
-    , or( [                           
+    , or( [                  
 
           [generic_horizontal_details( [ [ `肆万贰仟叁佰柒拾伍圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
@@ -348,9 +348,33 @@ i_rule_cut(get_total_invoice, [
 
             , generic_item( [ currency, `RMB` ] ) ]
 
-         , [generic_horizontal_details( [ [`壹仟叁佰伍拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+        , [generic_horizontal_details( [ [ `肆万零陆佰叁拾叁圆叁角叁分`,  tab, `¥` ], total_invoice, d, newline ] )
 
-            , generic_item( [ currency, `RMB` ] ) ]    
+            , generic_item( [ currency, `RMB` ] ) ]
+
+        , [generic_horizontal_details( [ [ `贰拾伍万陆仟玖佰陆拾圆零捌分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ]
+
+        , [generic_horizontal_details( [ [ `贰万玖仟陆佰圆壹角捌分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ]
+
+         , [generic_horizontal_details( [ [ `壹仟叁佰伍拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ]  
+
+        , [generic_horizontal_details( [ [ `壹万柒仟陆佰壹拾肆圆伍角伍分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ] 
+
+        , [generic_horizontal_details( [ [ `壹万陆仟伍佰贰拾捌圆零伍分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ] 
+
+        , [generic_horizontal_details( [ [ `壹万零柒佰贰拾陆圆玖角整`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ]  
         
     ] )                 
 
