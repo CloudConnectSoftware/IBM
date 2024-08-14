@@ -344,6 +344,10 @@ i_rule_cut(get_total_invoice, [
 
             , generic_item( [ currency, `RMB` ] ) ]
 
+        , [generic_horizontal_details( [ [ `肆万壹仟壹佰叁拾玖圆玖角捌分`,  tab, `¥` ], total_invoice, d, newline ] )
+
+            , generic_item( [ currency, `RMB` ] ) ]
+
          , [generic_horizontal_details( [ [ `肆仟贰佰玖拾肆圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
             , generic_item( [ currency, `RMB` ] ) ]
