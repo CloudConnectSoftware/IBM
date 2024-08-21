@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `30 July, 2024` ).
+i_version(amat_bst_co, `21 Aug, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -285,7 +285,13 @@ i_rule(get_total_net, [
 
     q0n(line)
 
-  , generic_vertical_details( [ [ `공`,  `급`,  `가`,  `액`,  tab ], `공`, q(0,1), (start,100,900), total_net, d , tab ] )
+  , or([
+
+    generic_vertical_details( [ [ `공`,  `급`,  `가`,  `액`,  tab ], `공`, q(0,1), (start,100,900), total_net, d , tab ] )
+
+  , generic_vertical_details( [ [ `공급가액`,  tab ], `공급가액`, q(0,1), (start,100,900), total_net, d , tab ] )
+
+] )
 
 ] ).
 
@@ -320,7 +326,9 @@ i_rule(get_total_invoice, [
 
     q0n(line)
 
-, generic_vertical_details( [ [ `이`,  `금액을`,  tab ], `이`, q(0,1), (start,10,900), total_invoice, d , [ tab, `[`] ] )
+, or([
+
+  generic_vertical_details( [ [ `이`,  `금액을`,  tab ], `이`, q(0,1), (start,100,900), total_invoice, d , [ tab, `[`] ] )
 
 
 ] ).
@@ -661,6 +669,9 @@ i_line_rule_cut( line_invoice_line_6, [
 % Updated by   - Rohini
 % Changes made - EInvoice number updated
 
+% Updated on   - 21 Aug,2024
+% Updated by   - Rohini
+% Changes made - Invoice amount updated
 
 % Updated on   - 
 % Updated by   -
