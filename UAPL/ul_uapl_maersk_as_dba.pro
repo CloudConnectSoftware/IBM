@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_maersk_as_dba, `12 July, 2024` ).
+i_version( ul_uapl_maersk_as_dba, `30 Aug, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -30,6 +30,8 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	  get_supplier_details
+
+    , set_credit_note
 
     , get_currency
 
@@ -75,6 +77,48 @@ i_rule_cut( get_supplier_details, [
 ] ).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET SUPPLIER DETAILS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( set_credit_note, [
+%=======================================================================
+
+      q(0,50,line)
+
+    , credit_note_line
+
+   ] ).
+
+%=======================================================================
+i_line_rule( credit_note_line, [
+%=======================================================================
+
+     q0n(anything)
+
+    , or([
+
+        [`EXPORTCREDITNOTENumber` ]
+
+    , [`IMPORTCREDITNOTENumber`]
+
+    , [`CREDIT`, `NOTE`]
+
+    , [`EXPORTCREDIT`]
+
+    , [`IMPORTCREDIT` ]
+
+    ])
+    
+    , set(credit_note)
+
+    , trace( [ `Credit Note Found` ] )
+
+]).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,6 +142,47 @@ i_rule_cut( get_invoice_number, [
         , generic_horizontal_details( [ [`Invoice`,  `Number`,  tab ], invoice_number, s1, newline ] )
 
         , generic_horizontal_details( [ [ `INVOICE`,  `Number`, `:`,  tab ], invoice_number, s1, newline ] )
+
+        ,  generic_horizontal_details( [ [ `INVOICE`, `Number`, q10(`:`) ], 800, invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [ `Tax`, `Invoice`, q10(`:`) ], 800, invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [ `CREDIT`, `NOTE`, `Number`, `:`, tab ], 500, invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [ `Equipment`, `Maintenance`, `Invoice`, tab ],  invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORT`, `CREDIT`, `NOTE`, `Number`, `:`, tab ],  invoice_number, d, newline ] )
+
+       , generic_horizontal_details( [ [`EXPORT`, `INVOICE`, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORT`, `INVOICE`, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`EXPORT`, `CREDIT`, `NOTE`, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`EXPORTINVOICENumber`, `:` ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [ `EXPORT`, `INVOICE`, tab, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+  
+       , generic_horizontal_details( [ [ `DETENTION`, `CREDIT`, `NOTE`, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [ `TAX`, `IMPORT`, `CREDIT`, `NOTE`, `NUMBER`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORTINVOICENumber`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`EXPORTCREDITNOTENumber`, `:` ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORTCREDITNOTENumber`, `:` ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`EXPORTCREDIT`, q10(tab), `NOTENumber`, `:`],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORTCREDIT`, q10(tab), `NOTENumber`, `:`],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORT`, tab, `INVOICE`, tab, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [`IMPORT`, `INVOICE`, `Credit`, `Number`, `:`, tab ],  invoice_number, s1, newline ] )
+
+       , generic_horizontal_details( [ [ `EXPORT`, `Credit`, `INVOICE`, `Number`, `:` ],  invoice_number, s1, newline ] )
+   
             
    ])
 	
