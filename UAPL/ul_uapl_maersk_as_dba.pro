@@ -43,7 +43,11 @@ i_rule_list( [
 
     , get_invoice_date_1
 
-   % , get_invoice_date_2
+    , get_invoice_date_2
+
+    , get_invoice_date_3
+
+    , get_credit_date_1
 
     , get_total_invoice
 
@@ -147,6 +151,8 @@ i_rule_cut( get_invoice_number, [
 
        , generic_horizontal_details( [ [ `Tax`, `Invoice`, q10(`:`) ], 800, invoice_number, d, newline ] )
 
+       , generic_horizontal_details( [ [ `Credit`,  `Note`,  `Number`,  tab ], invoice_number, d, newline ] )
+
        , generic_horizontal_details( [ [ `CREDIT`, `NOTE`, `Number`, `:`, tab ], 500, invoice_number, d, newline ] )
 
        , generic_horizontal_details( [ [ `Equipment`, `Maintenance`, `Invoice`, tab ],  invoice_number, d, newline ] )
@@ -218,7 +224,32 @@ i_rule_cut( get_invoice_date, [
            ] )
 
 ] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GET Credit DATE 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%=======================================================================
+i_rule_cut( get_credit_date_1, [
+%=======================================================================
+
+    q(0,20,line)
+
+    , or([
+
+          generic_horizontal_details( [ [`Credit`,  `Note`,  `Date`,  tab ], invoice_date , date, newline ] )
+ 
+    ] )
+                , q10( [
+
+          check( q_sys_sub_string( invoice_date, _, _, `,` ) )
+
+          , set( alternate_date_format )
+
+           ] )
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -266,6 +297,10 @@ i_rule_cut( get_invoice_date_2, [
 
        , generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date_raw , s1, newline ] )
  
+     , generic_horizontal_details( [ [`Invoice`,  `Date`, `:`,  tab ], invoice_date_raw , s1, newline ] )
+
+     , generic_horizontal_details( [ [`Credit`,  `Note`,  `Date`,  tab ], invoice_date_raw , s1, newline ] )
+
     ] )
          
          
@@ -419,10 +454,12 @@ i_rule( get_currency, [
 % Updated by   -  ROhini
 % Changes made   - Total Invoice updated
 
+% Updated on   - 30 Aug, 2024
+% Updated by   -  Rohini
+% Changes made   - credit note mapped
+
 % Updated on   - 
 % Updated by   - 
 % Changes made   - 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
