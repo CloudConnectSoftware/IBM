@@ -705,3 +705,4 @@ connection_lookup_table( `ul_uapl_yusen_logistics`, [ ( return_email, `ylph.ml.a
 connection_lookup_table( `ul_uapl_gs1_singapore`, [ ( return_email, `contact@gs1.org.sg`), ( buyers_code_for_supplier, `537600` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_group_m_media`, [ ( return_email, `Fulcrumcollection.mumbai@Mindshareworld.com`), ( buyers_code_for_supplier, `50032539` ) ], ( true ) ).
 connection_lookup_table( `uapl_konica_minolta_marketing_y`, [ ( return_email, `UnileverFR@ms.konicaminolta.com`), ( buyers_code_for_supplier, `51023179` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_cma_cgm_france`, [ ( return_email, `ssc.psivakumar1@cma-cgm.com`), ( buyers_code_for_supplier, `51145033` ) ], ( true ) ).
