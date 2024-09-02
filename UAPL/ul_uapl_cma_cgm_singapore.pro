@@ -4,9 +4,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_cma_cgm, `31 March 2022`  ).
+i_version( ul_uapl_cma_cgm_singapore, `31 March 2022`  ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format( _ ).
 
@@ -18,11 +18,11 @@ i_include_partner_attachments_image_only.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	get_supplier_details
+	  get_supplier_details
 
-     , get_currency
+    , get_currency
 
-    ,get_bank_account_no
+    , get_bank_account_no
 
     , set_credit_note
 	
@@ -31,7 +31,6 @@ i_rule_list( [
     , get_invoice_date
 
     , get_total_invoice
-
    
     , get_invoice_lines
 
