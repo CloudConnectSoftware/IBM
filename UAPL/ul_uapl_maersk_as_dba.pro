@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( ul_uapl_maersk_as_dba, `30 Aug, 2024` ).
+i_version( ul_uapl_maersk_as_dba, `2024-09-03 15:27:02` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -310,11 +310,7 @@ i_rule_cut( get_invoice_date_2, [
 
     , trace( [ `Invoice Date Raw` , DateRaw ] )
 
-    , check(string_string_replace( DateRaw, `,`, ``, DateStrip ))
-
-    , trace( [ `Date Stripped Coma` , DateStrip ] )
-
-    , invoice_date(DateStrip)
+    , invoice_date(DateRaw)
 
     , trace( [ `Invoice Date` , invoice_date ] )   
 

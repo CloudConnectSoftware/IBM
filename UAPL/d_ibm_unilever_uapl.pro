@@ -317,7 +317,7 @@ connection_lookup_table( ``, [ ( return_email, `liuxiaoxia@chinashipping.com.sg`
 connection_lookup_table( ``, [ ( return_email, `choichew@gmail.com`), ( buyers_code_for_supplier, `86308` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_cip_srl`, [ ( return_email, `silvia.reati@cip4.com`), ( buyers_code_for_supplier, `50058248` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_clean_tech`, [ ( return_email, `howard@cleantech.org.cn`), ( buyers_code_for_supplier, `50524342` ) ], ( true ) ).
-connection_lookup_table( `ul_uapl_cma_cgm`, [ ( return_email, `SSC.JBADIKESAVAN@cma-cgm.com`), ( buyers_code_for_supplier, `519660` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_cma_cgm_singapore`, [ ( return_email, `SSC.JBADIKESAVAN@cma-cgm.com`), ( buyers_code_for_supplier, `519660` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_codedigital_dubai`, [ ( return_email, `carlos@code8.studio`), ( buyers_code_for_supplier, `50559368` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_colep_portugal`, [ ( return_email, `claudia.laranjeira@colep.com`), ( buyers_code_for_supplier, `50580440` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_concord_consumer`, [ ( return_email, `mlumillo@ccrlatam.com`), ( buyers_code_for_supplier, `50163852` ) ], ( true ) ).
@@ -705,3 +705,4 @@ connection_lookup_table( `ul_uapl_yusen_logistics`, [ ( return_email, `ylph.ml.a
 connection_lookup_table( `ul_uapl_gs1_singapore`, [ ( return_email, `contact@gs1.org.sg`), ( buyers_code_for_supplier, `537600` ) ], ( true ) ).
 connection_lookup_table( `ul_uapl_group_m_media`, [ ( return_email, `Fulcrumcollection.mumbai@Mindshareworld.com`), ( buyers_code_for_supplier, `50032539` ) ], ( true ) ).
 connection_lookup_table( `uapl_konica_minolta_marketing_y`, [ ( return_email, `UnileverFR@ms.konicaminolta.com`), ( buyers_code_for_supplier, `51023179` ) ], ( true ) ).
+connection_lookup_table( `ul_uapl_cma_cgm_france`, [ ( return_email, `ssc.psivakumar1@cma-cgm.com`), ( buyers_code_for_supplier, `51145033` ) ], ( true ) ).
