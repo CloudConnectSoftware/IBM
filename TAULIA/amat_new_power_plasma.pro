@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TIANJIN TOYO LINT CO.,LTD. / V # 9000175390 / Compcode: 0059 
+% NEW POWER PLASMA CO, LTD #vendor 9000166319 #compcode 0050
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_tianjin_toyo_lint, `05 Sep, 2024` ).
+i_version(amat_new_power_plasma, `05 Sep, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,6 +13,8 @@ i_date_format(_).
 i_trace_lists.
 
 i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+i_pdf_parameter( x_tolerance_100, 200 ).
 
 i_user_field( invoice, einvoice_number, `KIDNO` ).  
 
@@ -48,17 +50,19 @@ i_rule_list( [
 
     , get_invoice_number
 
+    , get_invoice_number_1
+
     , get_einvoice_number
-  
+    
+   % , get_shipto_details
+
     , get_invoice_date
 
     , get_order_number
 
     , get_total_net
 
-   % , get_total_net1
-
-  %  , get_total_vat
+    , get_total_vat
 
     , get_total_invoice
 
@@ -76,13 +80,14 @@ i_rule_list( [
 i_rule( get_supplier_detail, [
 %=======================================================================
 
-     sender_name( `TIANJIN TOYO LINT CO.,LTD.` )
+     sender_name( `NEW POWER PLASMA CO, LTD` )
 
-   % Supplier VAT number - 91120116764316830X % 
+   % Supplier VAT number - 212-81-44110 %
 
-   , supplier_registration_number(`hanyan@chikuma.co.jp`)
+   , currency(`KRW`)
 
-  
+   , supplier_registration_number(`hkkim@newpower.co.kr`)
+
 ] ).
 
 
@@ -93,28 +98,73 @@ i_rule( get_supplier_detail, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_invoice_number, [
+i_rule_cut( get_invoice_number, [
 %=======================================================================
 
-     q(0,5,line)
+     q(0,40,line)
 
-     , or([
+     , check_text(`승인번호` )
 
-            generic_horizontal_details( [ [ `发票号码`, `：` ], invoice_number_dummy, d, newline ] )
-                                   
-          , generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
+     , generic_horizontal_details( [ [`승인번호`,  q10(tab) ], invoice_number_raw, s1, newline ] )
+          
+    , check( invoice_number_raw = InvRaw )
 
-     ])
-    
-     , check( invoice_number_dummy = Invstripnew )
+    , trace( [ `Invoice Number raw` , InvRaw ] )
 
-     , check( q_sys_sub_string( Invstripnew, 5, 16, Inv_new ) )
+     , check(string_string_replace( InvRaw, ` `, ``, Invstrip ))
+
+     , trace( [ `Invoice Number Stripped Space`, Invstrip ] )
+     
+     , invoice_number_raw1(Invstrip)   
+
+     , check( invoice_number_raw1 = Invstripnew )
+
+     , check( q_sys_sub_string( Invstripnew, 9, 16, Inv_new ) )
 
      , invoice_number(Inv_new)     
 
-     , trace( [ `Invoice Number: ` , invoice_number ] ) 
-    
+     , trace( [ `Invoice Number` , invoice_number ] ) 
+
 ] ).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_number_1, [
+%=======================================================================
+
+     q(0,40,line)
+
+    % , check_text(`승인번호` )
+
+     , generic_horizontal_details( [ [`Approvalnumber` ], invoice_number_raw1, s1, [`ControlNumber`,  dummy(s1),  newline ] ] )
+          
+    , check( invoice_number_raw1 = InvRaw1 )
+
+    , trace( [ `Invoice Number raw` , InvRaw1 ] )
+
+     , check(string_string_replace( InvRaw1, `-`, ``, Invstrip1 ))
+
+     , trace( [ `Invoice Number Stripped Space`, Invstrip1 ] )
+     
+     , invoice_number_raw3(Invstrip1)   
+
+     , check( invoice_number_raw3 = Invstripnew1 )
+
+     , check( q_sys_sub_string( Invstripnew1, 9, 16, Inv_new1 ) )
+
+     , invoice_number(Inv_new1)     
+
+     , trace( [ `Invoice Number` , invoice_number ] ) 
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,21 +178,31 @@ i_rule( get_einvoice_number, [
 
      q(0,40,line)
 
-     , or([    
+     , or([        
 
-        generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
-            
-      , generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
-      
-      , generic_horizontal_details( [ [`发票号码`, `：` ], einvoice_number, d, newline ] )    
+     generic_horizontal_details( [ [`승인번호`,  q10(tab) ], einvoice_number_raw, s1, newline ] )
 
-     ])
-    
+    , generic_horizontal_details( [ [`Approvalnumber` ], einvoice_number_raw, s1, [`ControlNumber`,  dummy(s1),  newline ] ] )
+
+  ] )  
+
+    , check( einvoice_number_raw = EInvRaw )
+
+    , trace( [ `E Invoice Number raw` , EInvRaw ] )
+
+     , check(string_string_replace( EInvRaw, `-`, ``, EInvstrip ))
+
+     , trace( [ `EInvoice Number Stripped Space`, EInvstrip ] )
+     
+     , einvoice_number(EInvstrip)  
+  
     
 ] ).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INVOICE DATE 
+% INVOICE DATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,51 +210,18 @@ i_rule( get_einvoice_number, [
 i_rule_cut( get_invoice_date, [
 %=======================================================================
 
-   
-     q(0,25,line)
 
-   , line_add_line_date
+     q(0,50,line)
 
-   , q(0,1,line)
+     , or([
 
-   , line_add_line_date_1
-   
- ] ).
+       generic_vertical_details( [ [`Date`,  `ofissue`,  `*`,  tab ], `ofissue`, q(0,1), (start,100,900), invoice_date, date, [tab, dummy(d),  tab, dummy(d),  newline ] ] )
 
-%=======================================================================
-i_line_rule_cut( line_add_line_date, [
-%=======================================================================
+     , generic_vertical_details( [ [`작`,  `성`,  `일`,  `자`,  tab ], `작`, q(0,1), (start,100,400), invoice_date, date, tab ] )
 
-       q0n(anything)
-     
-     , read_ahead([ `开票日期`, `：` ])
-
-     , trace( [ `Found address`] )
-
-     , generic_item( [ dummy_date, s1, newline ] )
+  ] )
 
 ] ).
-
-
-%=======================================================================
-i_line_rule_cut( line_add_line_date_1, [
-%=======================================================================
-
-    generic_item( [ date_1, w, `年` ] )
-
-  , generic_item( [ date_2, w, `月` ] )
-  
-  , generic_item( [ date_3, w, [ `日`,  newline] ] )
-
-  , check(strcat_list( [ date_1,` ` , date_2,` `, date_3 ], DateNew )) 
-
-  , invoice_date(DateNew)  
-  
-  , trace( [ `Invoice Date Now` , invoice_date ] )
-
-
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -208,7 +235,8 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
-    , find_order_number
+ ,  find_order_number
+
 
 ] ).
  
@@ -232,33 +260,6 @@ i_line_rule_cut( find_order_number, [
  
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOTAL NET And VAT AMOUNTS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut(get_total_net, [
-%=======================================================================
-
-   q0n(line)
-
-   , or( [                             
-
-        generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ), newline ] ] )
-        
-
-      , generic_horizontal_details( [ [ `¥` ], total_net, d, [ tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
-
-      % , generic_vertical_details( [ [ `合`,  tab, `计`,  newline ], `合`, q(0,1,up), (start,100,900), total_net, d, [tab, `¥`, generic_item( [ total_vat, d ] ),  newline ] ] )
-
-    ] )
-     
-     
-    , generic_item( [ currency, `RMB` ] )
-
-] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -267,15 +268,23 @@ i_rule_cut(get_total_net, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut(get_total_net1, [
+i_rule(get_total_net, [
 %=======================================================================
 
-   q0n(line)
 
- , generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, `¥` ], total_net, d, [tab, dummy(s1), newline ] ] )
+    q0n(line)
 
- 
+  , or([
+
+     generic_vertical_details( [ [ `SupplyPrice`,  `*`,  tab ], `SupplyPrice`, q(0,1), (start,100,900), total_net, d, [tab, dummy(d),  newline ] ] )
+
+  , generic_vertical_details( [ [ `공`,  `급`,  `가`,  `액`,  tab ], `공`, q(0,1), (start,100,900), total_net, d , tab ] )
+
+] )
+
 ] ). 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,15 +293,25 @@ i_rule_cut(get_total_net1, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut(get_total_vat, [
+i_rule(get_total_vat, [
 %=======================================================================
 
-   q0n(line)
+    q0n(line)
 
- , generic_horizontal_details( [ [ `合`,  tab, `计`,  tab, dummy(s1),  tab, `¥` ], total_vat, d, newline ] )
+   , or([
+
+    generic_vertical_details( [ [ `세`,  `액`,  tab ], `세`, q(0,1), (start,100,900), total_vat, d , newline ] )
+
+  ,  generic_vertical_details( [ [ `세액`, tab ], `세액`, q(0,1), (start,100,900), total_vat, d , [ tab, `해당없음`, tab ] ] )
+
+  , generic_vertical_details( [ [`세`,  `액`,  tab], `세`, q(0,1), (start,100,900), total_vat, d , [`계약의`,  `해제` ] ] )
+
+  , generic_vertical_details( [ [ `Tax`, `*`,  newline ], `Tax`, q(0,1), (start,100,900), total_vat, d, newline ] )
 
 
-] ). 
+] ) 
+
+] ).
 
 
 
@@ -303,26 +322,27 @@ i_rule_cut(get_total_vat, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule_cut(get_total_invoice, [
+i_rule(get_total_invoice, [
 %=======================================================================
 
     q0n(line)
 
-    , or( [                           
+, or([
 
-          [generic_horizontal_details( [ [ `壹万零柒佰捌拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+    generic_vertical_details( [ [  `Sum`,  tab, `cash`,  tab ], `Sum`, q(0,1), (start,100,900), total_invoice, d, [ tab, `0`,  tab, `0`,  tab, `0`,  tab, dummy(d),  newline ] ] )
 
-            , generic_item( [ currency, `RMB` ] ) ]
+  , generic_vertical_details( [ [  `합계금액`,  tab ], `합계금액`, q(0,2), (start,10,900), total_invoice, d , newline ] )
 
+  , generic_vertical_details( [ [ `이`,  `금액을`,  tab], `이`, q(0,2), (start,10,900), total_invoice, d , [ tab, `[`] ] )
 
-        , [generic_horizontal_details( [ [ `贰佰肆拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
+  , generic_vertical_details( [ [ `이`,  `금액을`,  tab ], `이`, q(0,1), (start,10,900), total_invoice, d , [ tab, `[`] ] )
 
-            , generic_item( [ currency, `RMB` ] ) ]  % the RMB is new currency code for CHINA vendor.
-        
-    ] )                 
+  , generic_vertical_details( [ [ `이`, `금액을`, `(` ], `이`, q(0,1), (start,10,900), total_invoice, d , newline ] )
+
+] )
 
 ] ).
-
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,9 +360,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-                 [line_invoice_line, q10(line_desc_append)]
-
-               , [line_invoice_line_1, q10(line_desc_append)] 
+                [line_invoice_line, q10(line_append_line) ]
 
               , line
 
@@ -355,8 +373,18 @@ i_section( get_invoice_lines, [
 %=======================================================================
 i_line_rule_cut( line_header_line, [
 %=======================================================================
+
+    
+    or([
       
-        [`项目名称`,  tab, `规格型号`,  tab ]
+      [`월`,  `일`,  tab, `품`,  `목`,  tab, `규`,  `격`,  tab ]
+
+    , [`월`, tab, `일`, tab, `품목`, tab ]
+
+    , [`month`,  `Work`,  tab, `Item`,  `name`,  tab ]
+
+
+] )
 
     , trace( [ `Found Start line` ] )
 
@@ -366,13 +394,17 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-     or( [
+     or([
 
-            [`合`,  tab, `计`,  tab ]
+            [`합계금액`, tab, `현금`, tab ]
+  
+          ,  [`합`,  `계`,  `금`,  `액`,  tab, `현`,  `금`,  tab ]
 
-          , [`合`,  tab, `计`,  newline ]
+          ,  [`합계금액`,  tab, `현`,  `금`,  tab ]
 
-     ] )
+          , [`Sum`,  tab, `cash`,  tab ]
+     ])
+
 
      , trace( [ `Found End line` ] )
 
@@ -382,74 +414,37 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_descr, s1, tab ] )
+    generic_item( [ line_month_dummy, d ] )
 
-  , generic_item( [ line_dummy2, w, tab ] ) 
-  
-  , generic_item( [ line_quantity, d ] )
+  , generic_item( [ line_date_dummy, d ] )
 
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , generic_item( [ line_descr, s1, tab ] )
 
   , generic_item( [ line_net_amount, d, tab ] )
 
-  , generic_item( [ line_vat_rate, d, tab ] ) 
-
   , generic_item( [ line_vat_amount, d, newline ] )
 
-
+  
   , or( [ 
+
 
     [ test(order_number_45), general_count_rule_10 ]
 
   , [ test(order_number_44), general_count_rule_1 ]
 
-  ] )
-  
+] )
 
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_1, [
-%=======================================================================
-
-    generic_item( [ line_descr, s1, tab ] )
-
-  , generic_item( [ line_dummy1, s1, tab ] )
-
-  , generic_item( [ line_dummy2, w, tab ] )  
-  
-  , generic_item( [ line_quantity, d ] )
-
-  , generic_item( [ line_unit_amount, d, tab ] )
-
-  , generic_item( [ line_net_amount, d, tab ] )
-
-  , generic_item( [ line_vat_rate, d, tab ] ) 
-
-  , generic_item( [ line_vat_amount, d, newline ] )
-
-
-  , or( [ 
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-  ] )
-  
 
 ] ).
 
 
 %=======================================================================
-i_line_rule_cut( line_desc_append, [
+i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-      generic_append( [ line_descr, s1, newline, ` `, `` ] )
-
+    generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
   
 ] ).
-
 
 
 
@@ -458,12 +453,12 @@ i_line_rule_cut( line_desc_append, [
 % MAPPING AUDIT TRAIL
 
 % Mapped on - 05 Sep, 2024
-% Mapped by - Yamini M 
+% Mapped by - Yamini 
 
 
 % Updated on   - 
-% Updated by   -
-% Changes made -
+% Updated by   -  
+% Changes made -  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
