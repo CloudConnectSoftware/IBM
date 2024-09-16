@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_new_power_plasma, `05 Sep, 2024` ).
+i_version(amat_new_power_plasma, `16 Sep, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -143,8 +143,9 @@ i_rule_cut( get_invoice_number_1, [
 
     % , check_text(`승인번호` )
 
-     , generic_horizontal_details( [ [`Approvalnumber` ], invoice_number_raw1, s1, [`ControlNumber`,  dummy(s1),  newline ] ] )
-          
+    , generic_horizontal_details( [ [`Approvalnumber` ], invoice_number_raw1, s, [`ControlNumber` ] ] )
+        
+    
     , check( invoice_number_raw1 = InvRaw1 )
 
     , trace( [ `Invoice Number raw` , InvRaw1 ] )
@@ -456,9 +457,14 @@ i_line_rule_cut( line_append_line, [
 % Mapped by - Yamini 
 
 
+% Updated on   - 16 Sep, 2024
+% Updated by   -   Rohini
+% Changes made -   Invoice number updated
+
 % Updated on   - 
 % Updated by   -  
 % Changes made -  
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
