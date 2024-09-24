@@ -86,7 +86,7 @@ i_rule( get_invoice_date, [
 
     , trace( [ `Invoice Date raw` , DateRaw  ] )
 
-    , check(string_string_replace( DateRaw, `.`, ``, DateStrip  ))
+    , check(string_string_replace( DateRaw, `.`, ` `, DateStrip  ))
 
     , trace( [ `Invoice Date Stripped Space`, DateStrip ] )
     
