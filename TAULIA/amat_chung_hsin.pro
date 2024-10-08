@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( amat_chung_hsin, `24 Sep, 2024` ).
+i_version( amat_chung_hsin, `08 Oct, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,9 +150,11 @@ i_section( get_invoice_lines, [
 
     , qn0( [ peek_fails(line_end_line) 
 
-        , or( [
+        , or( [   
 
-                [ line_invoice_line  , q10(line_append_line)]
+                  [line_descr_line, line_invoice_line_1  , q10(line_append_line)]
+
+                , [ line_invoice_line  , q10(line_append_line)]
 
                 , line
 
@@ -195,7 +197,7 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
   
-    generic_item( [ line_po_dummy, s1, tab ] )
+    generic_item( [ line_po_dummy, d, tab ] )
 
   , generic_item( [ line_buyers_order_number, d, tab ] )
 
@@ -208,6 +210,33 @@ i_line_rule_cut( line_invoice_line, [
   , generic_item( [ line_net_amount, d, newline ] )
 
 
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+  
+    generic_item( [ line_dummy, w, tab ] )
+
+  , generic_item( [ line_po_dummy, d, tab ] )
+
+  , generic_item( [ line_buyers_order_number, d, tab ] )
+  
+  , generic_item( [ line_item, s1, tab ] )
+  
+  , generic_item( [ line_quantity, d , tab ] ) 
+
+  , generic_item( [ line_net_amount, d, newline ] )
+
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_descr_line, [
+%=======================================================================
+  
+   generic_item( [ line_descr, s1, newline ] )
+  
 ] ).
 
 %=======================================================================
@@ -225,8 +254,14 @@ i_line_rule_cut( line_append_line, [
 % Mapped on - 24 Sep, 2024
 % Mapped by - Rohini 
 
+% Updated on   - 08 Oct, 2024
+% Updated by   - Rohini
+% Changes made - Line details updated line_invoice_line_1
+
 % Updated on   - 
 % Updated by   -
 % Changes made -
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
