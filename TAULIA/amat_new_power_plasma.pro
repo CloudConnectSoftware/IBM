@@ -431,9 +431,9 @@ i_line_rule_cut( line_end_line, [
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
-    generic_item( [ line_month_dummy, d ] )
+    generic_item( [ line_month_dummy, d, q10(tab) ] )
 
-  , generic_item( [ line_date_dummy, d ] )
+  , generic_item( [ line_date_dummy, d, q10(tab) ] )
 
   , generic_item( [ line_descr, s1, tab ] )
 
