@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_new_power_plasma, `22 Oct, 2024` ).
+i_version(amat_new_power_plasma, `25 Oct, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -188,8 +188,8 @@ i_rule( get_einvoice_number, [
        generic_horizontal_details( [ [`승인번호`,  q10(tab) ], einvoice_number_raw, s1, newline ] )
     
     , generic_horizontal_details( [ [ `Approval`,  `number` ], einvoice_number_raw, s, [`Control` ] ] )
-
-    , generic_horizontal_details( [ [`Approvalnumber` ], einvoice_number_raw, s1, [`ControlNumber`,  dummy(s1),  newline ] ] )
+     
+    , generic_horizontal_details( [ [`Approvalnumber` ], einvoice_number_raw, s, [`ControlNumber`,  dummy(s1),  newline ] ] )
 
   ] )  
 
