@@ -330,6 +330,7 @@ i_rule(get_total_invoice, [
 
   generic_vertical_details( [ [ `이`,  `금액을`,  tab ], `이`, q(0,1), (start,100,900), total_invoice, d , [ tab, `[`] ] )
 
+] )
 
 ] ).
 
