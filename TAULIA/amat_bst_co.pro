@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `21 Aug, 2024` ).
+i_version(amat_bst_co, `06 Dec, 2024` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -143,12 +143,27 @@ i_rule( get_invoice_number, [
      , check_text(`승인번호` )
 
      , generic_horizontal_details( [ [`승인번호`,  q10(tab) ], invoice_number_raw, s1, newline ] )
+          
+    , check( invoice_number_raw = InvRaw )
 
-     , check( invoice_number_raw = InvRaw )
+    , trace( [ `Invoice Number raw` , InvRaw ] )
 
-     , check( q_sys_sub_string( InvRaw, 9, 16, Inv_new ) )
+     , check(string_string_replace( InvRaw, ` `, ``, Invstrip ))
+
+     , trace( [ `Invoice Number Stripped Space`, Invstrip ] )
+     
+     , invoice_number_raw1(Invstrip)   
+
+     , check( invoice_number_raw1 = Invstripnew )
+
+     , check( q_sys_sub_string( Invstripnew, 9, 16, Inv_new ) )
 
      , invoice_number(Inv_new)     
+
+     , trace( [ `Invoice Number` , invoice_number ] ) 
+
+] ).
+
 
 ] ).
 
