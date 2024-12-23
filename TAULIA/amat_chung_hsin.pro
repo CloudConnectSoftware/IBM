@@ -156,7 +156,7 @@ i_section( get_invoice_lines, [
 
                 , [ line_invoice_line  , q10(line_append_line)]
 
-                , [ line_invoice_line_2  , q10(line_append_line)]
+                , [ line_invoice_line_2 ]
 
                 , line
 
