@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `31 July, 2024` ).
+i_version(amat_shanghai_boan_industry, `20 Jan, 2025` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -381,7 +381,9 @@ i_section( get_invoice_lines, [
               
                  [line_invoice_line, q10(line_desc_append)]
 
-               , line_invoice_line_1 
+               ,[ line_invoice_line_1 , q10(line_desc_append)]
+
+               , [line_invoice_line_2, q10(line_desc_append)]
 
                , line
 
@@ -455,9 +457,9 @@ i_line_rule_cut( line_invoice_line_1, [
 
   , generic_item( [ line_dummy1, s1, tab ] )
 
-  , generic_item( [ line_dummy2, w, tab ] )  
+  , generic_item( [ line_dummy2, s1, tab ] )  
   
-  , generic_item( [ line_quantity, d ] )
+  , generic_item( [ line_quantity, d, q10(tab) ] )
 
   , generic_item( [ line_unit_amount, d, tab ] )
 
@@ -479,6 +481,37 @@ i_line_rule_cut( line_invoice_line_1, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+ 
+    generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_dummy1, s1, tab ] )
+
+  , generic_item( [ line_dummy2, s1, tab ] )  
+  
+  , generic_item( [ line_quantity, d, q10(tab) ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_rate, d, [, `%`,  tab ] ] ) 
+
+  , generic_item( [ line_vat_amount, d, newline ] )
+
+
+  , or( [ 
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+  ] )
+  
+
+] ).
 
 %=======================================================================
 i_line_rule_cut( line_desc_append, [
@@ -517,6 +550,12 @@ i_line_rule_cut( line_desc_append_1, [
 % Updated on   - 24 July, 2024
 % Updated by   - Rohini
 % Changes made - EInvoice number details updated
+
+
+% Updated on   - 20 Jan, 2025
+% Updated by   - Rohini
+% Changes made - Line details mapped line_invoice_line_2
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
