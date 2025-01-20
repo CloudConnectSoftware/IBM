@@ -379,11 +379,11 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-                 line_invoice_line
+                 [line_invoice_line, q10(line_desc_append), q10(line_desc_append_1)]
 
-                , line_invoice_line_1
+                , [line_invoice_line_1, q10(line_desc_append), q10(line_desc_append_1)]
 
-                , line_invoice_line_2
+                , [line_invoice_line_2, q10(line_desc_append), q10(line_desc_append_1)]
 
                , line
 
@@ -497,7 +497,7 @@ i_line_rule_cut( line_invoice_line_2, [
 
   , generic_item( [ line_net_amount, d, tab ] )
 
-  , generic_item( [ line_vat_rate, d, [, `%`,  tab ] ] ) 
+  , generic_item( [ line_vat_rate, d, [ `%`,  tab ] ] ) 
 
   , generic_item( [ line_vat_amount, d, newline ] )
 
