@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( amat_chung_hsin, `02 Jan, 2025` ).
+i_version( amat_chung_hsin, `27 Jan, 2025` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -220,7 +220,7 @@ i_line_rule_cut( line_invoice_line, [
 i_line_rule_cut( line_invoice_line_1, [
 %=======================================================================
   
-    q10(generic_item( [ line_dummy, w, tab ] ))
+    q10(generic_item( [ line_dummy, s, q10(tab) ] ))
 
   , generic_item( [ line_po_dummy, d, tab ] )
 
