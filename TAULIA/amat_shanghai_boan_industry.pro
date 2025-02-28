@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `20 Jan, 2025` ).
+i_version(amat_shanghai_boan_industry, `2025-02-28 19:55:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -425,7 +425,7 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_descr, s1, tab ] )
 
-  , generic_item( [ line_desc_dummy1, w, tab ] )  
+  , q10(generic_item( [ line_desc_dummy1, w, tab ] )  )
   
   , generic_item( [ line_quantity, d ] )
 
