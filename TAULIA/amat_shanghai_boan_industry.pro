@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `2025-02-28 19:55:51` ).
+i_version(amat_shanghai_boan_industry, `2025-02-28 20:15:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -425,9 +425,9 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_descr, s1, tab ] )
 
-  , q10(generic_item( [ line_desc_dummy1, w, tab ] )  )
+  , q10(generic_item( [ line_desc_dummy1, s1, tab ] )  )
   
-  , generic_item( [ line_quantity, d ] )
+  , generic_item( [ line_quantity, d, q10(tab) ] )
 
   , generic_item( [ line_unit_amount, d, tab ] )
 
@@ -489,7 +489,7 @@ i_line_rule_cut( line_invoice_line_2, [
 
   , generic_item( [ line_dummy1, s1, tab ] )
 
-  , generic_item( [ line_dummy2, s1, tab ] )  
+  , q10(generic_item( [ line_dummy2, s1, tab ] )  )
   
   , generic_item( [ line_quantity, d, q10(tab) ] )
 
