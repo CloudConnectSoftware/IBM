@@ -171,7 +171,7 @@ i_line_rule_cut( line_date_line, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ dummy_value, s1, newline ] )
+     , generic_item( [ dummy_value, s1, tab ] )
 
 ] ).
 
