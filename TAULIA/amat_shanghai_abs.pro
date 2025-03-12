@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `2025-03-12 17:45:32` ).
+i_version(amat_shanghai_abs, `2025-03-12 20:22:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -300,9 +300,9 @@ i_line_rule_cut( line_add_line_date_new1, [
 
   , clear(regexp_allow_partial_matching)
 
-  , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew1 )) 
+  , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew11 )) 
 
-  , invoice_date(DateNew1)  
+  , invoice_date(DateNew11)  
   
   , trace( [ `Invoice Date Now` , invoice_date ] )
 
