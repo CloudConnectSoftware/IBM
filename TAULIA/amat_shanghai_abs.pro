@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `16 Oct,2023` ).
+i_version(amat_shanghai_abs, `2025-03-12 17:45:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,6 +54,8 @@ i_rule_list( [
     , get_invoice_date
 
     , get_invoice_date_1
+
+    , get_invoice_date_2
 
     , get_order_number
 
@@ -242,6 +244,65 @@ i_line_rule_cut( line_date_line1, [
 	, invoice_date(DateNew1)  , trace( [ `Invoice Date Now` , invoice_date ] )
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE  NEW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_2, [
+%=======================================================================
+
+   
+     q(0,25,line)
+
+   , line_add_line_date_new
+
+   , q(0,1,line)
+
+   , line_add_line_date_new1
+   
+ ] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_line_date_new, [
+%=======================================================================
+
+       q0n(anything)   
+     
+     , read_ahead([ `开票日期`, `：` ])
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ dummy_date, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_add_line_date_new1, [
+%=======================================================================
+
+    set(regexp_allow_partial_matching)
+      
+  , generic_item( [ date_11, w, `年` ] )
+
+  , generic_item( [ date_21, w, `月` ] )
+  
+  , generic_item( [ date_31, w, [ `日`,  newline ] ] )
+
+  , clear(regexp_allow_partial_matching)
+
+  , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew1 )) 
+
+  , invoice_date(DateNew1)  
+  
+  , trace( [ `Invoice Date Now` , invoice_date ] )
+
+
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -584,9 +645,15 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made - EInvoice number details updated
 
+% Updated on   - 12 Mar, 2025
+% Updated by   - Rohini
+% Changes made - Invoice date updated
+ 
+ 
 % Updated on   - 
 % Updated by   -
 % Changes made - 
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
