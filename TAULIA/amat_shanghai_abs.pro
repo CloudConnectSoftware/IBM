@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `2025-03-12 20:22:32` ).
+i_version(amat_shanghai_abs, `2025-03-12 20:27:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -231,11 +231,15 @@ i_line_rule_cut( line_date_line1, [
 
      , generic_item( [ dummy_value1, s, `：` ] )
 
+     , set(regexp_allow_partial_matching)
+     
     ,  generic_item( [ date_raw_11, d, [`年` ] ] )
 
     ,  generic_item( [ date_raw_21, d, [`月` ] ] )
 
     ,  generic_item( [ date_raw_31, d, [`日`,  newline ] ] )
+
+    , clear(regexp_allow_partial_matching)
      
     , check( date_raw_11 = DateRaw1 )   
 
