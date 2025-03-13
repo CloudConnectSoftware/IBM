@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_new_power_plasma, `25 Oct, 2024` ).
+i_version(amat_new_power_plasma,  `2025-03-13 19:00:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -377,6 +377,8 @@ i_section( get_invoice_lines, [
               
                 [line_invoice_line, q10(line_append_line) ]
 
+              ,  [line_invoice_line_1, q10(line_append_line) ]
+
               , line
 
         ] )
@@ -456,6 +458,37 @@ i_line_rule_cut( line_invoice_line, [
 
 
 %=======================================================================
+i_line_rule_cut( line_invoice_line_1, [
+%=======================================================================
+
+    generic_item( [ line_month_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_date_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_amount, d, newline ] )
+
+  
+  , or( [ 
+
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+] )
+
+
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
@@ -481,6 +514,11 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 22 Oct,2024
 % Updated by   -  Rohini
 % Changes made -  New Invoice format mapped
+
+% Updated on   - 13 Mar, 2025
+% Updated by   -   Rohini
+% Changes made -  line_invoice_line_1 mapped
+
 
 % Updated on   - 
 % Updated by   -  
