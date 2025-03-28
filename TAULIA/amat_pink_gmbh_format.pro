@@ -499,7 +499,7 @@ i_line_rule_cut( line_rebate_line, [
 i_line_rule_cut( line_amount_with_discount, [
 %=======================================================================
  
-    , generic_item( [ line_net_amount, d , [`€`,  newline ] ] )
+     generic_item( [ line_net_amount, d , [`€`,  newline ] ] )
 
 
 ] ).
