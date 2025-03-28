@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_pink_gmbh_format, `2025-03-28 18:14:32` ).
+i_version(amat_pink_gmbh_format, `2025-03-28 18:31:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -32,7 +32,9 @@ i_rule_list( [
 
     , get_order_number
 
-    , get_total_net
+   % , get_total_net   % without additional value 
+
+   , get_total_net_additional % with additional value 
 
     , get_total_vat
 
@@ -311,6 +313,29 @@ i_rule(get_total_invoice, [
   , generic_horizontal_details( [ [ `total`, `amount`, `gross`, tab ], total_invoice, d , [ `€`,  newline ] ] )
 
  ] )
+] ).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_net_additional, [
+%=======================================================================
+
+    q0n(line)
+
+  
+
+  , or([
+
+    generic_horizontal_details( [ [ `Summe`, `Brutto`, tab ], total_net, d , [ `€`,  newline ] ] )
+  
+  , generic_horizontal_details( [ [ `total`, `amount`, `gross`, tab ], total_net, d , [ `€`,  newline ] ] )
+
+ ] )
+
 ] ).
 
 
