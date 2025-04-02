@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `2025-02-28 20:15:51` ).
+i_version(amat_shanghai_boan_industry, `2025-04-02 10:24:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,6 +52,8 @@ i_rule_list( [
     , get_einvoice_number
   
     , get_invoice_date
+
+    , get_invoice_date_1
 
     , get_invoice_date_2
 
@@ -188,6 +190,70 @@ i_line_rule_cut( line_add_line_date, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE  NEW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_1, [
+%=======================================================================
+
+   
+     q(0,25,line)
+
+   , line_add_date_new
+
+   , q(0,1,line)
+
+   , line_add_date_new1
+   
+ ] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_date_new, [
+%=======================================================================
+
+       q0n(anything) 
+
+     , or([ 
+
+       read_ahead([ `开票日期`, `：` ]) 
+     
+    ] )
+    
+     , trace( [ `Found address`] )
+
+     , generic_item( [ dummy_date_new, s1, newline ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_add_date_new1, [
+%=======================================================================
+
+    set(regexp_allow_partial_matching)
+      
+  , generic_item( [ date_111, w, `年` ] )
+
+  , generic_item( [ date_211, w, `月` ] )
+  
+  , generic_item( [ date_311, w, [ `日`,  newline ] ] )
+
+  , clear(regexp_allow_partial_matching)
+
+  , check(strcat_list( [ date_111,` ` , date_211,` `, date_311 ], DateNew11 )) 
+
+  , invoice_date(DateNew11)  
+  
+  , trace( [ `Invoice Date Now` , invoice_date ] )
+
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INVOICE DATE 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,7 +266,7 @@ i_rule_cut(get_invoice_date_2, [
 
    , or( [                             
 
-        generic_horizontal_details( [ [ `开票日期`, `：`,  tab ], invoice_date_raw, s1, newline ] )
+        generic_horizontal_details( [ [ `开票日期`, `：`,  q10(tab) ], invoice_date_raw, s1, newline ] )
 
       , generic_vertical_details( [ [ `开票日期`, `：`,  tab ], `开票日期`, q(0,1), (start,500,500),  invoice_date_raw, s1, newline ] )
 
@@ -555,6 +621,11 @@ i_line_rule_cut( line_desc_append_1, [
 % Updated on   - 20 Jan, 2025
 % Updated by   - Rohini
 % Changes made - Line details mapped line_invoice_line_2
+
+
+% Updated on   - 01 Apr, 2025
+% Updated by   - Rohini
+% Changes made - Invoice date updated
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
