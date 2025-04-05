@@ -113,7 +113,7 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
- , generic_horizontal_details( [ [ Before Text ], Space, Variable, Data Type, After ] )
+ , generic_horizontal_details( [ [  `Order`,  `identifier`, `:`,  tab ], order_number, d, newline ] )
 
 ] ).
 
