@@ -60,25 +60,6 @@ i_rule( get_supplier_detail, [
 
 ] ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BUYER TAX DETAILS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut( get_buyer_tax, [
-%=======================================================================
-
-     q(0,40,line)
-
-    , [generic_horizontal_details( [ [ `統一編號`, dummy(s) ],buyer_vat_number, s1, newline ] )
-
-    , generic_item( [ buyer_tax_type, `VAT` ] )]
-      
-
-] ).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,7 +75,7 @@ i_rule( get_invoice_number, [
 
     , or([
 
-      generic_horizontal_details( [ [ `發票號碼`, `：`], invoice_number, s, [ tab, `格`] ] )
+      generic_horizontal_details( [ [  `Date`, `:`,  tab ], invoice_number, s1, newline ] )
 
     
 ] )
@@ -114,24 +95,8 @@ i_rule_cut( get_invoice_date, [
 
      q(0,50,line)
 
-    ,   generic_vertical_details( [ [ `電子發票證明聯`,  newline ], `電子發票證明聯`, q(0,1), (start,100,400), invoice_date_raw, s1, newline ] )
-    
-    , check( invoice_date_raw = DateRaw )
+    ,  generic_horizontal_details( [ [ `Invoice`,  `Number`, `:`,  tab ], invoice_date, date , newline ] )
 
-    , trace( [ `Invoice date raw` , DateRaw ] )
-
-    , check(string_string_replace( DateRaw, ` 年`, ``, DateStrip ))
-
-     , check(string_string_replace( DateStrip, ` 月`, ``, DateStrip1 ))
-
-      , check(string_string_replace( DateStrip1, ` 日`, ``, DateStrip2 ))
-
-    , trace( [ `Date Stripped Space` , DateStrip2 ] )
-
-    , invoice_date(DateStrip2)
-
-    , trace( [ `Invoice Date` , invoice_date ] )
-    
 
 ] ).
 
@@ -148,29 +113,8 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
- , or( [
+ , generic_horizontal_details( [ [ Before Text ], Space, Variable, Data Type, After ] )
 
-      find_order_number
-
-   ])
-
-
-] ).
- 
-%=======================================================================
-i_line_rule_cut( find_order_number, [
-%=======================================================================
-
-    q0n(anything)
-
-
-, or( [
-            [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_45) ]
-
-          , [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("4"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_44) ]
-    ] )
-
- 
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -185,17 +129,9 @@ i_rule_cut(get_total_net, [
 
     q0n(line)
 
-   
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
+  , generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab ], total_net , d , [ `€`,  newline ] ] )
 
-  , generic_horizontal_details( [ [`銷售額合計`, tab ], total_net , d , newline ] )
 
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching) 
-    
 ] ).
 
 
@@ -211,16 +147,7 @@ i_rule_cut(get_total_vat, [
 
     q0n(line)
 
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
-   
-  , generic_horizontal_details( [ [ `零稅率`,  tab, `免稅`,  tab ], total_vat , d , newline ] )
-    
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching) 
- 
+   , generic_horizontal_details( [ [ `VAT`,  `25`, `,`, `5`,  `%`, `:`,  tab ], total_vat , d , [ `€`,  newline ] ] )
 
 ] ).
 
@@ -236,18 +163,9 @@ i_rule_cut(get_total_amount, [
 
     q0n(line)
 
-   , set(regexp_cross_word_boundaries)
- 
-   , set(regexp_allow_partial_matching)
-   
-  , [generic_horizontal_details( [ [ `總計`,  tab ], total_invoice , d , [`統一編號`, `：`] ] )
+   , generic_horizontal_details( [ [ `Invoice`,  `Total`, `:`,  tab ], total_invoice , d , [ `€`,  newline ] ] )
 
-  , generic_item( [ currency, `NTD` ] )]
     
-  , clear(regexp_cross_word_boundaries)
- 
-  , clear(regexp_allow_partial_matching) 
- 
 
 ] ).
 
@@ -285,7 +203,7 @@ i_line_rule_cut( line_header_line, [
     
     or([
       
-      [ `品名`, tab, `數量`, tab, `單價`, tab ]
+      [ `Product`,  tab, `Product`,  `Code`,  tab, `Amount`,  `Unit`,  tab  ]
 
 
 ] )
@@ -298,7 +216,7 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-   [`銷售額合計`,  tab ]
+   [`Total`,  `Excluding`,  `VAT`, `:`,  tab ]
 
      , trace( [ `Found End line` ] )
 
@@ -310,46 +228,21 @@ i_line_rule_cut( line_invoice_line, [
 
     generic_item( [ line_descr, s1 , tab ] )
 
-  , generic_item( [ line_quantity, d , tab ] )
+  , generic_item( [ line_descr_dummy,s1, tab ] )
 
-  , generic_item( [ line_unit_amount, d, tab ] )
+  , generic_item( [ line_descr_dummy,s1, tab ] )
 
-  , generic_item( [ line_net_amount, d, newline ] )
+  , generic_item( [ line_quantity, d, tab ] )
 
-  , generic_item( [ line_vat_type, `VAT` ] ) % When tax is 5 %
+  , generic_item( [ line_unit_amount_dummy, d, tab ] ) % Unit amount is 1 always as per AMAT request
 
-          ,q10([	% LINE VAT Rate Calculation
-  
-       with( invoice , total_vat , VAT )
+  , generic_item( [ line_net_amount, d, tab ] )
 
-      , with( invoice , total_net , Net )
+  , generic_item( [ line_vat_rate, d, newline ] )
 
-      , trace( [ `vat tot`, VAT ] )
-
-     , trace( [ `sub total`, Net ] )
-
-     , check(sys_calculate_str_divide( VAT, Net, VAT_RATE))
-
-     , trace( [ `VAT Rate`, VAT_RATE ] )
-  
-     , check(sys_calculate_str_multiply( VAT_RATE, `100`, VAT_PERCENT )) 
-
-     , generic_item( [ line_vat_rate , VAT_PERCENT ] )
-
-       ])
-         
-    
+  , generic_item( [ line_buyers_order_number,`10` ] )
 
 
-
-  , or( [ 
-
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-] )
 
 ] ).
 
@@ -359,18 +252,8 @@ i_line_rule_cut( line_invoice_line, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
 
-% Mapped on - 13 Feb,2023
-% Mapped by - Sushmitha
-
-
-% Updated on   - 24 Feb, 2023
-% Updated by   - Rohini
-% Changes made -  Buyer VAT mapped, Currency mapped
-
-
-% Updated on   - 16 Aug,2023
-% Updated by   - Sushmitha
-% Changes made - updated line level to capture default line vat rate
+% Mapped on - 05 Apr, 2025
+% Mapped by - Rohini
 
 % Updated on   - 
 % Updated by   -
