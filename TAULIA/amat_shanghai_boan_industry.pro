@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_boan_industry, `2025-04-02 10:24:51` ).
+i_version(amat_shanghai_boan_industry, `2025-04-24 17:30:51` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,6 +108,8 @@ i_rule( get_invoice_number, [
             generic_horizontal_details( [ [ `发票号码`, `：` ], invoice_number_dummy, d, newline ] )
       
           , generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
+
+          , generic_vertical_details( [ [`发`,  `票`,  `号`,  `码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
      ])
     
      , check( invoice_number_dummy = Invstripnew )
@@ -138,6 +140,8 @@ i_rule( get_einvoice_number, [
           generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
         
       ,  generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
+
+      , generic_vertical_details( [ [`发`,  `票`,  `号`,  `码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
             
       ,  generic_horizontal_details( [ [`发票号码`, `：` ], einvoice_number, d, newline ] )    
 
@@ -218,6 +222,8 @@ i_line_rule_cut( line_add_date_new, [
      , or([ 
 
        read_ahead([ `开票日期`, `：` ]) 
+
+      , read_ahead([  `开票`,  `日期`, `：` ]) 
      
     ] )
     
@@ -626,6 +632,11 @@ i_line_rule_cut( line_desc_append_1, [
 % Updated on   - 01 Apr, 2025
 % Updated by   - Rohini
 % Changes made - Invoice date updated
+
+
+% Updated on   - 23 Apr, 2025
+% Updated by   - Rohini
+% Changes made - Invoice date and Invoice number updated
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
