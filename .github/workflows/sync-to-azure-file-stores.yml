@@ -1,63 +1,208 @@
-name: Sync to Azure Storage
+name: CentralRulesSync
 
 on:
   push:
-    branches: [master]
-
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      sinceCommit:
+        description: 'Since Commit SHA [Optional]'
+        required: false
+        default: ''
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
-
-    env:
-      REPO_NAME: ${{ github.event.repository.name }}
-      TARGET_FOLDER: Rules/${{ github.event.repository.name }}
+    if: github.event_name != 'pull_request'
+    runs-on: windows-latest
+    concurrency:
+      group: centralrules-sync
+      cancel-in-progress: false
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-    - name: Install azcopy
-      run: |
-        wget -O azcopy.tar.gz https://aka.ms/downloadazcopy-v10-linux
-        tar -xf azcopy.tar.gz
-        sudo cp ./azcopy_linux_amd64_*/azcopy /usr/bin/
+      - name: Set variables
+        shell: bash
+        run: |
+          echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "IS_MAIN_BRANCH=$([[ '${GITHUB_REF##*/}' == 'main' || '${GITHUB_REF##*/}' == 'master' ]] && echo 'true' || echo 'false')" >> $GITHUB_ENV
+          echo "IS_PR=$([[ '${{ github.event_name }}' == 'pull_request' ]] && echo 'true' || echo 'false')" >> $GITHUB_ENV
 
-    # Generate SAS for Blob
-    - name: Generate SAS for Blob Container
-      id: sas_blob
-      run: |
-        EXPIRY=$(date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ')
-        SAS=$(az storage container generate-sas \
-          --account-name "${{ secrets.BLOB_STORAGE_ACCOUNT_NAME }}" \
-          --account-key "${{ secrets.BLOB_STORAGE_ACCOUNT_KEY }}" \
-          --name "${{ secrets.BLOB_CONTAINER_NAME }}" \
-          --permissions rwdl \
-          --expiry $EXPIRY \
-          --output tsv)
-        echo "sas_token=$SAS" >> $GITHUB_OUTPUT
+      - name: Mount File Share
+        env:
+          FilestoreKey: ${{ secrets.FILESTORE_KEY }}
+          FilestoreUrl: ${{ secrets.FILESTORE_URL }}
+        shell: powershell
+        run: |
+          $acctKey = ConvertTo-SecureString -String "$env:FilestoreKey" -AsPlainText -Force
+          $credential = New-Object System.Management.Automation.PSCredential -ArgumentList "Azure\sapcentralrules", $acctKey
+          New-PSDrive -Name F -PSProvider FileSystem -Root "$env:FilestoreUrl" -Credential $credential -Persist
 
-    - name: Sync to Blob Container (Rules/${{ env.REPO_NAME }})
-      run: |
-        azcopy sync "./" "https://${{ secrets.BLOB_STORAGE_ACCOUNT_NAME }}.blob.core.windows.net/${{ secrets.BLOB_CONTAINER_NAME }}/${{ env.TARGET_FOLDER }}?${{ steps.sas_blob.outputs.sas_token }}" --recursive --check-md5=FailIfDifferent
+      - name: Sync and Copy Repository to centralrules
+        env:
+          BranchName: ${{ github.ref_name }}
+          Repo: ${{ github.event.repository.name }}
+        shell: powershell
+        run: |
+          $destinationFolder = "F:\Rules\$($env:Repo)"
+          $activeBranch = $env:BranchName
+          if ($activeBranch -ne 'master')
+          {
+            $destinationFolder += "\$($activeBranch)"
+          }
+          $sourceFolder = "$($env:GITHUB_WORKSPACE)"
+          cd $sourceFolder
+          function Convert-OctalEscapesToUtf8($input) {
+            return ($input -replace '\\([0-7]{3})', { [char][byte]("0$($args[0].Groups[1].Value)") })
+          }
+          try
+          {
+            $result = git diff --name-status HEAD^ HEAD
+            Write-Host "Git Result :" $result
+            if(!([string]::IsNullOrEmpty($result)))
+            {
+              $files = $result.Split([System.Environment]::NewLine)
+              
+              foreach ($file in $files)
+              {
+                $fileToDelete = ""
+                if ($file.StartsWith("R") -eq 1)
+                {
+                  Write-Host "Name change detected"
+                  $renameArray = $file.Split("	")
+                  $file = "A " + $renameArray[2]
+                  $fileToDelete = "D " + $renameArray[1]
+                  Write-Host "File to add " + $file
+                  Write-Host "File to delete " + $fileToDelete
+                }
+                if ($file.StartsWith("M") -or $file.StartsWith("A") -or $file.StartsWith("C") -or $file.StartsWith("T"))
+                {
+                  $fileName = $file.Substring(2)
+                  Write-Host "Processing addition/modification for: $fileName"
 
-    # Generate SAS for File Share
-    - name: Generate SAS for File Share
-      id: sas_file
-      run: |
-        EXPIRY=$(date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ')
-        SAS=$(az storage share generate-sas \
-          --account-name "${{ secrets.FILE_SHARE_ACCOUNT_NAME }}" \
-          --account-key "${{ secrets.FILE_SHARE_ACCOUNT_KEY }}" \
-          --name "${{ secrets.FILE_SHARE_NAME }}" \
-          --permissions rwdl \
-          --expiry $EXPIRY \
-          --output tsv)
-        echo "sas_token=$SAS" >> $GITHUB_OUTPUT
+                  $source = Join-Path $sourceFolder $fileName
+                  $destination = Join-Path $destinationFolder $fileName
+                  $destination = $destination.Replace("/", "\")
+                  $destination = $destination.Replace("\00", "")  # Clean nulls
 
-    - name: Sync to File Share (Rules/${{ env.REPO_NAME }})
-      run: |
-        azcopy sync "./" "https://${{ secrets.FILE_SHARE_ACCOUNT_NAME }}.file.core.windows.net/${{ secrets.FILE_SHARE_NAME }}/${{ env.TARGET_FOLDER }}?${{ steps.sas_file.outputs.sas_token }}" --recursive --check-md5=FailIfDifferent
+                  # Ensure destination path exists
+                  New-Item -ItemType File -Path $destination -Force | Out-Null
+                  Copy-Item -Path $source -Destination $destination -Force
+
+                  $file = $fileToDelete  # If it was a rename, process delete next
+                }
+                if ($file.StartsWith("D") -eq 1)
+                {
+                  $fileName = $file.Substring(2)
+                  $targetFile = Join-Path $destinationFolder $fileName
+                  Write-Host "Deleting from file share: $targetFile"
+                  if (Test-Path $targetFile)
+                  {
+                      Remove-Item $targetFile -ErrorAction Stop
+                  }
+                  else
+                  {
+                      Write-Host "File already deleted: $targetFile"
+                  }
+                }
+              }
+            }
+          }
+          Catch
+          {
+            echo "Exception encountered halting process and not updating on remote"
+            echo $_
+          }
+
+      - name: Sync to Azure Blob Container
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          Repo: ${{ github.event.repository.name }}
+        shell: powershell
+        run: |
+          # Write your PowerShell commands here.
+          Write-Host "Source Branch:" $env:GITHUB_REF_NAME
+          Write-Host "Branch:" $env:BRANCH_NAME
+          $result=$(git diff-tree --no-commit-id --name-status -c -r $env:GITHUB_SHA)
+          Write-Host "Result:"   $result
+          $sourceBranch = $env:GITHUB_REF
+          if ($env:BUILD_REASON -eq "PullRequest") 
+          {
+            # Extract the pull request number from the source branch
+            $pullRequestNumber = ($sourceBranch -split '/')[2]
+            git fetch origin $sourceBranch
+            Write-Host "pullRequestNumber:"  $pullRequestNumber
+            # Get the list of changed files in the pull request
+            $result = git diff --name-status origin/master..$sourceBranch
+            Write-Host "changedFiles:"  $result
+          }
+          else
+          {
+            # Get the list of changed files in the current branch/commit
+            $result = git diff --name-status HEAD^ HEAD
+            Write-Host "Result:"   $result
+          }
+
+          Write-Host "Git Result :" $result
+          if(!([string]::IsNullOrEmpty($result)))
+          {
+            $files=$Result.Split([System.Environment]::NewLine)
+            
+            # Define temp folders manually
+            $tempFolder = Join-Path $env:GITHUB_WORKSPACE "temp"
+            $tempDeleteFolder = Join-Path $env:GITHUB_WORKSPACE "tempdelete"
+            md $tempFolder
+            md $tempDeleteFolder
+
+            foreach ($file in $files)
+            {
+              $fileToDelete = ""
+              if($file.StartsWith("R") -eq 1)
+              {
+                Write-Host "Name change detected"
+                $renameArray = $file.Split("	")
+                $file = "A " + $renameArray[2]
+                $fileToDelete = "D " + $renameArray[1]
+                Write-Host "File to add " + $file
+                Write-Host "File to delelte " + $fileToDelete
+              }
+              if ($file.StartsWith("M") -eq 1 -Or $file.StartsWith("A") -eq 1 -Or $file.StartsWith("C") -eq 1 -Or $file.StartsWith("T") -eq 1)
+              {
+                $fileName=$file.Substring(2)
+                Write-Host "About to Find Source"
+                $source="$($env:GITHUB_WORKSPACE)" + "\" + $fileName
+                Write-Host $source
+                $destination="$($tempFolder)" + "/" + $fileName
+                $destination=$destination.Replace("/","\")
+                $destination=$destination.Replace("\00", "")
+                Write-Host "Destination Found" $destination
+                New-Item $destination -type file -Force
+                Write-Host $destination
+                Copy-Item -Path $source -Destination $destination
+                $file = $fileToDelete
+              }
+              if ($file.StartsWith("D") -eq 1)
+              {
+                try
+                {
+                  $fileName = $file.Substring(2).Trim() -replace '\\', '/'
+                  az storage blob delete -c "rulescontainer" -n "Rules\$($env:Repo)\$fileName" --connection-string "$($env:AZURE_STORAGE_CONNECTION_STRING)"
+                }
+                catch
+                {
+                  Write-Host "Attempted deletion failed"
+                }
+              }
+            }
+            az storage blob upload-batch -s $tempFolder -d "rulescontainer/Rules/$($env:Repo)" --overwrite --connection-string "$($env:AZURE_STORAGE_CONNECTION_STRING)"
+          }
+
+      - name: Unmount File Share
+        shell: powershell
+        run: |
+          Remove-PSDrive -Name F -PSProvider FileSystem
