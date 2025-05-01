@@ -1,0 +1,63 @@
+name: Sync to Azure Storage
+
+on:
+  push:
+    branches: [master]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    env:
+      REPO_NAME: ${{ github.event.repository.name }}
+      TARGET_FOLDER: Rules/${{ github.event.repository.name }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install azcopy
+      run: |
+        wget -O azcopy.tar.gz https://aka.ms/downloadazcopy-v10-linux
+        tar -xf azcopy.tar.gz
+        sudo cp ./azcopy_linux_amd64_*/azcopy /usr/bin/
+
+    # Generate SAS for Blob
+    - name: Generate SAS for Blob Container
+      id: sas_blob
+      run: |
+        EXPIRY=$(date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ')
+        SAS=$(az storage container generate-sas \
+          --account-name "${{ secrets.BLOB_STORAGE_ACCOUNT_NAME }}" \
+          --account-key "${{ secrets.BLOB_STORAGE_ACCOUNT_KEY }}" \
+          --name "${{ secrets.BLOB_CONTAINER_NAME }}" \
+          --permissions rwdl \
+          --expiry $EXPIRY \
+          --output tsv)
+        echo "sas_token=$SAS" >> $GITHUB_OUTPUT
+
+    - name: Sync to Blob Container (Rules/${{ env.REPO_NAME }})
+      run: |
+        azcopy sync "./" "https://${{ secrets.BLOB_STORAGE_ACCOUNT_NAME }}.blob.core.windows.net/${{ secrets.BLOB_CONTAINER_NAME }}/${{ env.TARGET_FOLDER }}?${{ steps.sas_blob.outputs.sas_token }}" --recursive --check-md5=FailIfDifferent
+
+    # Generate SAS for File Share
+    - name: Generate SAS for File Share
+      id: sas_file
+      run: |
+        EXPIRY=$(date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ')
+        SAS=$(az storage share generate-sas \
+          --account-name "${{ secrets.FILE_SHARE_ACCOUNT_NAME }}" \
+          --account-key "${{ secrets.FILE_SHARE_ACCOUNT_KEY }}" \
+          --name "${{ secrets.FILE_SHARE_NAME }}" \
+          --permissions rwdl \
+          --expiry $EXPIRY \
+          --output tsv)
+        echo "sas_token=$SAS" >> $GITHUB_OUTPUT
+
+    - name: Sync to File Share (Rules/${{ env.REPO_NAME }})
+      run: |
+        azcopy sync "./" "https://${{ secrets.FILE_SHARE_ACCOUNT_NAME }}.file.core.windows.net/${{ secrets.FILE_SHARE_NAME }}/${{ env.TARGET_FOLDER }}?${{ steps.sas_file.outputs.sas_token }}" --recursive --check-md5=FailIfDifferent
