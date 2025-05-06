@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_rh_electronics_hebrew, `2025-04-14 19:51:32` ).
+i_version(amat_rh_electronics_hebrew, `2025-05-06 18:51:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -599,6 +599,8 @@ i_section( get_invoice_lines, [
 
                  [ line_invoice_line_hebrew, q10(line_append_line) , q10(line_append_line), q10(line_append_line) ]
 
+             , [ line_invoice_line_hebrew_1, q10(line_append_line) ]
+
               ,  [line_invoice_line_english, q10(line_append_line)]
               
               ,  [ line_invoice_line, q10(line_append_line) , q10(line_append_line) ]
@@ -782,7 +784,7 @@ i_line_rule_cut( line_invoice_line_hebrew, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line_hebrew, [
+i_line_rule_cut( line_invoice_line_hebrew_1, [
 %=======================================================================
 
 
@@ -790,13 +792,15 @@ i_line_rule_cut( line_invoice_line_hebrew, [
 	
 	, generic_item( [ currency_exchange_rate, d, [  q10(tab), `USD` ]] )
 
-	, generic_item( [ line_dummy_usd, d,  `USD` ] )
+	, generic_item( [ line_dummy_usd, d,  [  q10(tab), `USD` ] ] )
 
     , generic_item( [ line_unit_amount_dummy,d ] )
 
     , generic_item( [ line_quantity_uom_code, w, q10(tab)  ] )
 
     , generic_item( [ line_quantity, d, q10(tab) ] )
+
+    , generic_item( [ line_descr_dummy, s1, tab ] )
 
     , generic_item( [ line_descr, s, q10(tab) ] )
 
@@ -957,6 +961,11 @@ i_line_rule_cut( line_invoice_line_english_1, [
 % Updated on   - 14 April, 2025
 % Updated by   -  Rohini
 % Changes made - Line details updated  with start line
+
+
+% Updated on   - 06 May, 2025
+% Updated by   -  Rohini
+% Changes made - Line details updated line_hebrew_1
 
 % Updated on   - 
 % Updated by   - 
