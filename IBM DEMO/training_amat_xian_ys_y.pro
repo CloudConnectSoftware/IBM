@@ -26,7 +26,7 @@ i_rule_list( [
 
     , get_invoice_number
   
-    , get_invoice_date
+    %, get_invoice_date - Do not use this format
 
     , get_invoice_date_1
 

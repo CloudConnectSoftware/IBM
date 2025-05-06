@@ -55,7 +55,7 @@ i_rule_list( [
 
     , get_invoice_date_1
 
-    , get_invoice_date_2
+   % , get_invoice_date_2 -= Do not use this format
 
     , get_order_number
 
