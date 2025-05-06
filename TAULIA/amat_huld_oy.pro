@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_huld_oy,  `2025-04-05 19:28:32` ).
+i_version(amat_huld_oy,  `2025-05-06 19:28:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -245,7 +245,7 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_descr_dummy,s1, tab ] )
 
-  , generic_item( [ line_descr_dummy,s1, tab ] )
+  , q10(generic_item( [ line_descr_dummy,s1, tab ] ))
 
   , generic_item( [ line_unit_amount_dummy, d, tab ] ) % Unit amount is 1 always as per AMAT request
 
