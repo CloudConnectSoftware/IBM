@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( d_taulia_ibm_amat, `2025-04-17 08:56:13` ).
+i_version( d_taulia_ibm_amat, `2025-05-07 09:07:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -259,7 +259,7 @@ line_level_item( `Taulia JSON`, `Custom Line Field Is Service`, `Yes`, `Set line
 header_level_scenario( `1`, `Body of Email`, `No`, `No`, `Return to Sender`, ``, `The document is the body of an email that was sent without any attachments.`, `No`, `No`, `Body of Email`, `No`, `No`, ( i_mail( attachment, `body.html` ) ) ).
 header_level_scenario( `2`, `Credit Note`, `No`, `No`, `Process With Positive Values`, ``, `The document has been recognised as a credit note.`, `No`, `No`, `Credit Note`, `No`, `No`, ( grammar_set( credit_note ) ) ).
 header_level_scenario( `3`, `Duplicate`, `No`, `No`, `Process As Normal`, ``, `The document has been recognised as a duplicate of one that has previously processed successfully.`, `No`, `No`, `Duplicate`, `No`, `No`, ( grammar_set( i_analyse_duplicate ) ) ).
-header_level_scenario( `4`, `Future Date`, `No`, `No`, `Process As Normal`, ``, `The document date is in the future.`, `No`, `No`, `Future Date`, `No`, `No`, ( grammar_set( future_dated, invoice_date ) ) ).
+header_level_scenario( `4`, `Future Date`, `Yes`, `No`, `Return to Sender`, ``, `The document date is in the future.`, `No`, `No`, `Future Date`, `No`, `No`, ( grammar_set( future_dated, invoice_date ) ) ).
 header_level_scenario( `6`, `Invalid Invoice Date`, `Yes`, `No`, `Return to Sender`, ``, `The value for the Invoice Date was '<data>Invoice Date</data>', which is invalid.`, `No`, `No`, `Invalid Invoice Date`, `No`, `No`, ( grammar_set( invoice, `i_analyse_invalid_invoice_date` ) ) ).
 header_level_scenario( `7`, `Invalid Invoice Number`, `Yes`, `No`, `Return to Sender`, ``, `The value for the Invoice Number was '<data>Invoice Number</data>', which is invalid.`, `No`, `No`, `Invalid Invoice Number`, `No`, `No`, ( grammar_set( invoice, `i_analyse_invalid_invoice_number` ) ) ).
 header_level_scenario( `11`, `Missing Currency`, `Yes`, `No`, `Return to Sender`, ``, `The document is missing the following piece of data: Currency`, `No`, `No`, `Missing Currency`, `Yes`, `Yes`, ( not( result( _, invoice, currency, _ ) ) ) ).
