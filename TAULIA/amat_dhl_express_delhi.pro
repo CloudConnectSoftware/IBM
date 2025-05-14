@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_dhl_express_delhi, `2025-04-30 19:27:22` ).
+i_version(amat_dhl_express_delhi, `2025-05-14 16:10:22` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,6 +52,8 @@ i_rule( get_supplier_detail, [
   %  supplier_vat_number(`07AABCD3611Q1ZK`)
 
   , order_number(`4400841627`)
+
+  , supplier_registration_number(`IN.ebilling@dhl.com`)
 
 ] ).
 
