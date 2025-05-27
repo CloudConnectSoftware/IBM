@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `2025-04-03 15:00:32` ).
+i_version(amat_shanghai_abs, `2025-05-27 15:00:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -494,8 +494,13 @@ i_line_rule_cut( line_header_line, [
 %=======================================================================
 
          
-      [ `项目名称`, tab, `规格型号`, tab ]
+       or([
+         
+          [`项目名称`, tab, `规格型号`, tab ]
 
+      , [`项目名称`,  tab, `规`,  `格型号`,  tab, `单`,  `位`,  tab ]
+
+  ] )
     , trace( [ `Found Start line` ] )
 
 ] ).
@@ -664,7 +669,10 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made - Invoice date updated
  
- 
+ % Updated on   - 27 May, 2025
+% Updated by   - Rohini
+% Changes made - Start line updated
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
