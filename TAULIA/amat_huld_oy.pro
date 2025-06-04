@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_huld_oy,  `2025-05-06 19:28:32` ).
+i_version(amat_huld_oy,  `2025-06-04 19:52:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -112,7 +112,32 @@ i_rule( get_order_number, [
 
      q(0,50,line)
 
- , generic_horizontal_details( [ [  `Order`,  `identifier`, `:`,  tab ], order_number, d, newline ] )
+     , or([
+
+     generic_horizontal_details( [ [  `Order`,  `identifier`, `:`,  tab ], order_number, d, newline ] )
+
+  ,  find_order_number
+
+] )
+
+] ).
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+
+, or( [
+            [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] )]
+
+          , [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("4"),1,1) , q(dec,8,10) , end ] ] )]
+    ] )
+
+ 
+] ).
+
 
 ] ).
 
@@ -268,9 +293,14 @@ i_line_rule_cut( line_invoice_line, [
 % Mapped on - 05 Apr, 2025
 % Mapped by - Rohini
 
+% Updated on   - 04 June, 2025
+% Updated by   - Rohini
+% Changes made -  Order number updated
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
