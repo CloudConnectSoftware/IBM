@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_rh_electronics_hebrew, `2025-05-06 18:51:32` ).
+i_version(amat_rh_electronics_hebrew, `2025-06-13 18:51:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -636,6 +636,8 @@ i_line_rule_cut( line_header_line, [
 
      , [ `ריחמ`,  `כ`, `"`, `הס`,  tab, `רעש`,  `מ`, `"`, `עמ`,  `ללוכ`,  `'`, `חיל`,  `ריחמ`,  `הדיחיל`,  `ריחמ`,  tab]
 
+     ,  [ `ריחמ`,  `כ`, `"`, `הס`,  tab, `רעש`,  tab, `מ`, `"`, `עמ`,  `ללוכ`,  `'`, `חיל`,  `ריחמ`,  `הדיחיל`,  `ריחמ`,  tab ]
+
 
 ] )
 
@@ -966,6 +968,10 @@ i_line_rule_cut( line_invoice_line_english_1, [
 % Updated on   - 06 May, 2025
 % Updated by   -  Rohini
 % Changes made - Line details updated line_hebrew_1
+
+% Updated on   - 12 June, 2025
+% Updated by   -  Rohini
+% Changes made - Line details updated with start line
 
 % Updated on   - 
 % Updated by   - 
