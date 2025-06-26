@@ -209,9 +209,15 @@ i_rule( get_original_invoice_number, [
      q(0,40,line)
 
      , test(credit_note)
-     
-     , generic_horizontal_details( [ [ `공`,  `급`,  `받`,  `는`,  `자`,  tab ], original_invoice_number_raw, s1, newline ] )
 
+     , or([
+
+       generic_horizontal_details( [ [ `공`,  `급`,  `받`,  `는`,  `자`,  tab ], original_invoice_number_raw, s1, newline ] )
+     
+     , generic_horizontal_details( [ [`당초승인번호` ], original_invoice_number_raw, s1, newline ] )
+
+   ] )
+   
      , check( original_invoice_number_raw = OriRaw )
 
      , trace( [ `Original Invoice Number raw` , OriRaw ] )
@@ -434,6 +440,37 @@ i_line_rule_cut( line_end_line, [
  ] )
  
      , trace( [ `Found End line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_credit_line, [
+%=======================================================================
+
+    generic_item( [ line_month_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_dummy, d, q10(tab) ] )
+
+  , generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, [  tab, `-`] ] )
+
+  , generic_item( [ line_unit_amount, d,[  tab, `-`] ] )
+
+  , generic_item( [ line_net_amount, d, [  tab, `-` ] ] )
+
+  , generic_item( [ line_vat_amount, d,newline ] )
+
+
+  , or( [ 
+
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+] )
+
 
 ] ).
 
