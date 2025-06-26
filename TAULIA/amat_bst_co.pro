@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `2025-06-26 16:11:32` ). 
+i_version(amat_bst_co, `2025-06-26 16:31:32` ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -210,13 +210,25 @@ i_rule( get_original_invoice_number, [
 
      , test(credit_note)
      
-     , generic_horizontal_details( [ [ `공`,  `급`,  `받`,  `는`,  `자`,  tab ], invoice_number_raw1, s1, newline ] )
+     , generic_horizontal_details( [ [ `공`,  `급`,  `받`,  `는`,  `자`,  tab ], original_invoice_number_raw, s1, newline ] )
 
-     , check( invoice_number_raw1 = InvRaw1 )
+     , check( original_invoice_number_raw = OriRaw )
 
-     , check( q_sys_sub_string( InvRaw1, 9, 16, Inv_new1 ) )
+     , trace( [ `Original Invoice Number raw` , OriRaw ] )
 
-     , original_invoice_number(Inv_new1)     
+     , check(string_string_replace( OriRaw, ` `, ``, OriStrip ))
+
+     , trace( [ `Original Invoice Number Stripped Space`, OriStrip ] )
+     
+     , original_invoice_number_raw1(OriStrip)   
+
+     , check( original_invoice_number_raw1 = OriStripnew )
+
+     , check( q_sys_sub_string( OriStripnew, 9, 16, OriInv_new ) )
+
+     , original_invoice_number(OriInv_new)     
+
+     , trace( [ `Invoice Number` , original_invoice_number ] ) 
 
 ] ).
 
@@ -412,8 +424,15 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-   [`합계금액`,  tab, `현`,  `금`,  tab ]
+    or([
 
+       [ `https`,  `:`, `/`, `/`, `w`,  `w`,  `w`]
+      
+      
+     , [`합계금액`,  tab, `현`,  `금`,  tab ]
+
+ ] )
+ 
      , trace( [ `Found End line` ] )
 
 ] ).
