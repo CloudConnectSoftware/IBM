@@ -377,7 +377,7 @@ i_section( get_invoice_lines, [
               
               
                   
-                  [line_descr_line_1, line_invoice_line_5 , q10(line_append_line) ]
+                  [line_descr_line_1, line_invoice_line_5  ]
 
                 , [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
                   
