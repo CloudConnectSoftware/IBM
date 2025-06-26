@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `06 Dec, 2024` ).
+i_version(amat_bst_co, `2025-06-26 16:11:32` ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -365,7 +365,9 @@ i_section( get_invoice_lines, [
               
               
                   
-                  [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
+                  [line_descr_line_1, line_invoice_line_5 , q10(line_append_line) ]
+
+                , [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
                   
                 , [line_descr_line, line_invoice_line_5 ,q10(line_append_line) ]
                 
@@ -479,6 +481,15 @@ i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
     generic_item( [ line_descr, s1, newline ] )
+  
+] ).
+%=======================================================================
+i_line_rule_cut( line_descr_line_1, [
+%=======================================================================
+
+     generic_item( [ line_descr, s1, tab ] )
+
+  ,  generic_item( [ line_descr_dummy, s1, newline ] )
   
 ] ).
 
@@ -595,7 +606,7 @@ i_line_rule_cut( line_invoice_line_5, [
 
   , generic_item( [ line_dummy, d, q10(tab) ] )
 
-  , generic_append( [line_descr, s1, tab, ` `, ` `  ] )
+  , q10(generic_append( [line_descr, s1, tab, ` `, ` `  ] ))
 
   , generic_item( [ line_quantity, d, tab ] )
 
@@ -685,6 +696,10 @@ i_line_rule_cut( line_invoice_line_6, [
 % Updated on   - 21 Aug,2024
 % Updated by   - Rohini
 % Changes made - Invoice amount updated
+
+% Updated on   - 26 June, 2025
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 % Updated on   - 
 % Updated by   -
