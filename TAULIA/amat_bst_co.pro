@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_bst_co, `2025-06-26 16:31:32` ). 
+i_version(amat_bst_co, `2025-06-30 18:31:32` ). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -338,7 +338,12 @@ i_rule(get_total_vat, [
 
     q0n(line)
 
-  , generic_vertical_details( [ [ `세`,  `액`,  tab ], `세`, q(0,1), (start,100,900), total_vat, d , q10(tab) ] )
+  , or([
+
+    generic_vertical_details( [ [ `세`,  `액`,  tab ], `세`, q(0,1), (start,100,900), total_vat, d , newline ] )
+
+
+  ] )
 
 ] ).
 
@@ -756,6 +761,10 @@ i_line_rule_cut( line_invoice_line_6, [
 % Updated on   - 26 June, 2025
 % Updated by   - Rohini
 % Changes made - Line details updated
+
+% Updated on   - 30 June, 2025
+% Updated by   - Rohini
+% Changes made - Total Vat updated
 
 % Updated on   - 
 % Updated by   -
