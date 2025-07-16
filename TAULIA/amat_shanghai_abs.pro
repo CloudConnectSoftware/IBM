@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `2025-05-27 15:00:32` ).
+i_version(amat_shanghai_abs, `2025-07-16 21:00:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -107,7 +107,8 @@ i_rule( get_invoice_number, [
  
         , generic_vertical_details( [ [ `电`,  `子`,  `发`,  `票`,  `（`,  `增`,  `值`,  `税`,  `专`], `电`, q(0,1,up), (start,100,900), invoice_number_dummy, s1, newline ] )
 
-     
+        , generic_vertical_details( [ [ `发`,  `票`,  `号`,  `码`, `：`,  newline ], `票`, q(0,1,up), (start,100,900), invoice_number_dummy, s1, newline ] )
+
      ])
 
      
@@ -140,6 +141,8 @@ i_rule( get_einvoice_number, [
 
     , generic_vertical_details( [ [ `电`,  `子`,  `发`,  `票`,  `（`,  `增`,  `值`,  `税`,  `专`], `电`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
 
+    , generic_vertical_details( [ [ `发`,  `票`,  `号`,  `码`, `：`,  newline ], `票`, q(0,1,up), (start,100,900), einvoice_number, s1, newline ] )
+     
     , generic_horizontal_details( [ [`发票号码`, dummy(s) ], einvoice_number, d, newline ] )
 
      ])
@@ -673,10 +676,13 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made - Start line updated
 
+% Updated on   - 16 July, 2025
+% Updated by   - Rohini
+% Changes made -  Invoice number updated
+ 
 % Updated on   - 
 % Updated by   -
 % Changes made - 
  
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
