@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_mgcolipu_offsupp,  `2025-07-25 17:19:05` ).
+i_version(amat_shanghai_mgcolipu_offsupp,  `2025-07-25 17:49:05` ).
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -53,6 +53,8 @@ i_rule_list( [
    % , get_invoice_date do not unfreeze this format
 
     , get_invoice_date_1
+
+    , get_invoice_date_2
 
     , get_order_number
 
@@ -221,7 +223,7 @@ i_line_rule_cut( line_add_line_date_11, [
 
        q0n(anything)
      
-     , read_ahead([ `开票日期`, `：` ])
+     , read_ahead([ `开票日期` ]) 
 
      , trace( [ `Found address`] )
 
@@ -236,6 +238,55 @@ i_line_rule_cut( line_add_line_date_11, [
     , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew1 )) 
 
     , invoice_date(DateNew1)  
+    
+    , trace( [ `Invoice Date Now` , invoice_date ] )
+
+] ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_2, [
+%=======================================================================
+
+   
+     q(0,25,line)
+
+   , line_add_line_date_21
+
+   
+ ] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_line_date_21, [
+%=======================================================================
+
+       q0n(anything)
+     
+     , read_ahead([ `开票日期` ]) 
+
+     , trace( [ `Found address`] )
+
+     , generic_item( [ dummy_date2, w, `：` ] )
+
+    , set(regexp_allow_partial_matching)
+    
+    , generic_item( [ date_new1, w, `年` ] ) 
+
+    , generic_item( [ date_new2, w, `月` ] )
+    
+    , generic_item( [ date_new3, w, [ `日`,  newline ] ] )
+
+    , clear(regexp_allow_partial_matching)
+
+    , check(strcat_list( [ date_new1,` ` , date_new2,` `, date_new3 ], DateNew2 )) 
+
+    , invoice_date(DateNew2)  
     
     , trace( [ `Invoice Date Now` , invoice_date ] )
 
