@@ -4,8 +4,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_mgcolipu_offsupp, `03 Sep, 2024` ).
-
+i_version(amat_shanghai_mgcolipu_offsupp,  `2025-07-25 17:19:05` ).
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format(_).
@@ -50,7 +50,7 @@ i_rule_list( [
 
     , get_einvoice_number
   
-    , get_invoice_date
+   % , get_invoice_date do not unfreeze this format
 
     , get_invoice_date_1
 
@@ -225,17 +225,17 @@ i_line_rule_cut( line_add_line_date_11, [
 
      , trace( [ `Found address`] )
 
-     , generic_item( [ dummy_date, w, `：` ] )
+     , generic_item( [ dummy_date1, w, `：` ] )
 
-    , generic_item( [ date_1, w, `年` ] )
+    , generic_item( [ date_11, w, `年` ] )
 
-    , generic_item( [ date_2, w, `月` ] )
+    , generic_item( [ date_21, w, `月` ] )
     
-    , generic_item( [ date_3, w, [ `日`,  newline ] ] )
+    , generic_item( [ date_31, w, [ `日`,  newline ] ] )
 
-    , check(strcat_list( [ date_1,` ` , date_2,` `, date_3 ], DateNew )) 
+    , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew1 )) 
 
-    , invoice_date(DateNew)  
+    , invoice_date(DateNew1)  
     
     , trace( [ `Invoice Date Now` , invoice_date ] )
 
