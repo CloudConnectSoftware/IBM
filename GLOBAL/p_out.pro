@@ -21,7 +21,6 @@ i_user_field( invoice, user_document_reference, `Identifier used in results rout
 i_initialise_rule(  [  set( hilti_live ), trace([`Set HILTI LIVE flag`]) ]) :- i_mail(supplier,`hilti`).
 %=======================================================================
 
-
 %=======================================================================
 i_initialise_rule( [
 %=======================================================================
