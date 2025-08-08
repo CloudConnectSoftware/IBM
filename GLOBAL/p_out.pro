@@ -52,7 +52,6 @@ ii_initialise_rule( [
 .
 
 
-
 %=======================================================================
 i_rule( egs_get_suppliers_code_for_buyer, [ check( i_user_check( egs_retrieve_buyer, `suppliers_code_for_buyer`, VALUE ) ) , suppliers_code_for_buyer( VALUE ) ] ).
 %=======================================================================
