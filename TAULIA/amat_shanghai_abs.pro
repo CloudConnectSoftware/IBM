@@ -236,7 +236,7 @@ i_line_rule_cut( line_date_line1, [
       
         read_ahead([`开票日期`])
 
-      , read_ahead([`开票日期`])
+      , read_ahead([ `开`,  `票日`,  `期` ])
 
       ])
 
