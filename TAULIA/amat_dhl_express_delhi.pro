@@ -4,14 +4,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_dhl_express_delhi, `2025-05-14 16:10:22` ).
+i_version(amat_dhl_express_delhi, `2025-09-08 16:18:22` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 i_date_format(_).
 
 i_trace_lists.
-
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
@@ -161,7 +161,14 @@ i_rule(get_total_invoice, [
 
     q0n(line)
 
-  , generic_horizontal_details( [ [`Please`,  `Pay`,  `this`,  `Amount`,  tab, `INR`,  tab ], total_invoice, d , newline ] )
+  , or([
+
+    generic_horizontal_details( [ [`Please`,  `Pay`,  `this`,  `Amount`,  tab, `INR`,  tab ], total_invoice, d , newline ] )
+
+  , generic_horizontal_details( [ [`Please`,  `Pay`,  `This`,  `Amount`, `:`,  `INR`,  tab ], total_invoice, d , newline ] )
+
+] )
+
 
   , generic_item( [ currency,`INR` ] )
 
@@ -179,7 +186,14 @@ i_rule(get_non_taxable_line, [
 
     q0n(line)
 
-  , generic_horizontal_details( [ [`Total`,  `Non`, `-`, `Taxable`,  tab ], line_net_amount, d , tab ] )
+ 
+  , or([
+
+    generic_horizontal_details( [ [`Total`,  `Non`, `-`, `Taxable`,  tab ], line_net_amount, d , tab ] )
+
+  , generic_horizontal_details( [ [`Total`,  `Non`, `-`, `Taxable`, `:`,  tab  ], line_net_amount, d , newline ] )
+
+  ] )
 
   , generic_item( [ line_buyers_order_number,`1` ] )
 
@@ -199,11 +213,13 @@ i_rule(get_taxable_line, [
 
     q0n(line)
 
-  , or([
+, or([
 
     generic_horizontal_details( [ [`Total`,  `Taxable`,  tab ], line_net_amount, d , tab ] )
 
   , generic_horizontal_details( [ [`Total`,  `Taxable`,  tab ], line_net_amount, d , newline ] )
+
+  , generic_horizontal_details( [ [`Total`,  `Taxable`, `:`,  tab ], line_net_amount, d , tab ] )
 
   ] )
   
@@ -226,6 +242,9 @@ i_rule(get_taxable_line, [
 % Mapped on - 24 Apr, 2025
 % Mapped by - Rohini 
 
+% Updated on   - 08 Sep, 2025
+% Updated by   - Rohini
+% Changes made -  Total amount and line details updated
 
 
 % Updated on   - 
