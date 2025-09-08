@@ -162,7 +162,7 @@ i_rule(get_total_vat_igst, [
 
     q0n(line)
 
-  , generic_horizontal_details( [ [`IGST`, `@`,  generic_item( [ default_vat_rate, d ] ), `%`,  tab ], total_vat, d , newline ] )
+  , generic_horizontal_details( [ [`IGST`, `@`,  `18`, `%`,  tab ], total_vat, d , newline ] )
 
 ] ).
 
