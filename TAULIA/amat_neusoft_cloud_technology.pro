@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_neusoft_cloud_technology, `2025-03-13 18:35:32` ).
+i_version(amat_neusoft_cloud_technology, `2025-09-11 19:35:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,7 +103,9 @@ i_rule( get_invoice_number, [
 
      , or([       
 
-            generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
+         generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
+
+      ,  generic_vertical_details( [ [ `发`,  `票`,  `号码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
 
      ])
     
@@ -135,6 +137,8 @@ i_rule( get_einvoice_number, [
         generic_vertical_details( [ [ `电子发票`, `（`, `增值税专用发票`, `）`,  tab ], `电子发票`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
             
       , generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
+
+      , generic_vertical_details( [ [ `发`,  `票`,  `号码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
       
       , generic_horizontal_details( [ [`发票号码`, `：` ], einvoice_number, d, newline ] )    
 
@@ -230,6 +234,8 @@ i_line_rule_cut( line_add_line_date_new, [
        
      , read_ahead([`开票日期`])
 
+     , read_ahead([`开票`,  `日期`])
+
            
       ])  
       
@@ -282,6 +288,8 @@ i_line_rule_cut( line_add_date_new, [
      , or([ 
 
        read_ahead([ `开票日期`, `：` ]) 
+
+    ,  read_ahead([`开票`,  `日期`, `：` ]) 
      
     ] )
     
@@ -650,6 +658,11 @@ i_line_rule_cut( line_desc_append, [
 % Updated on   - 31 July, 2024
 % Updated by   - Rohini
 % Changes made - EInvoice number details updated
+
+% Updated on   - 11 Sep, 2025
+% Updated by   - Rohini
+% Changes made - Invoice number and date updated
+
 
 % Updated on   - 
 % Updated by   -
