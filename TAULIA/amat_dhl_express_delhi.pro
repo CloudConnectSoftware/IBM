@@ -11,13 +11,18 @@ i_version(amat_dhl_express_delhi, `2025-09-08 16:48:22` ).
 i_date_format(_).
 
 i_trace_lists.
- 
+
+i_user_field( invoice, attachment_type, `attachmentType` ).  % This is a requirement
+
+i_user_field( invoice, dummy_rounding_amount, `dummy_rounding_amount` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
       get_supplier_detail
+
+    , attachment_type(`LEGAL_INVOICE`)  % This is a requirement 
 
     , get_invoice_number
  
