@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_tianjin_toyo_lint,`2025-03-20 23:22:42` ).
+i_version(amat_tianjin_toyo_lint,`2025-10-27 18:22:42` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -408,6 +408,8 @@ i_section( get_invoice_lines, [
 
                , [line_invoice_line_1, q10(line_desc_append)] 
 
+               , [line_invoice_line_2, q10(line_desc_append)] 
+
               , line
 
         ] )
@@ -504,6 +506,36 @@ i_line_rule_cut( line_invoice_line_1, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_2, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, tab ] )
+
+  , generic_item( [ line_dummy1, s1, tab ] )
+  
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_rate, d, [`%`,  tab ] ] ) 
+
+  , generic_item( [ line_vat_amount, d, newline ] )
+
+
+  , or( [ 
+
+    [ test(order_number_45), general_count_rule_10 ]
+
+  , [ test(order_number_44), general_count_rule_1 ]
+
+  ] )
+  
+
+] ).
+
 
 %=======================================================================
 i_line_rule_cut( line_desc_append, [
@@ -524,6 +556,10 @@ i_line_rule_cut( line_desc_append, [
 % Mapped on - 05 Sep, 2024
 % Mapped by - Yamini M 
 
+
+% Updated on   - 27 Oct, 2025
+% Updated by   - Rohini
+% Changes made - line details updated with line_invoice_line_2
 
 % Updated on   - 
 % Updated by   -
