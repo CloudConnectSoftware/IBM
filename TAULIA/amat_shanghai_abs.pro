@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_shanghai_abs, `2025-08-13 21:00:32` ).
+i_version(amat_shanghai_abs, `2025-11-05 11:44:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -101,7 +101,7 @@ i_rule( get_invoice_number, [
 
      , or([
 
-           generic_horizontal_details( [ [`发票号码`, dummy(s) ], invoice_number_dummy, s1, newline ] )
+          generic_horizontal_details( [ [`发票号码`, dummy(s) ], invoice_number_dummy, s1, newline ] )
 
         , generic_horizontal_details( [ [`发票号`,  `码`,  `：` ], invoice_number_dummy, s1, newline ] )
 
@@ -110,6 +110,8 @@ i_rule( get_invoice_number, [
         , generic_vertical_details( [ [ `电`,  `子`,  `发`,  `票`,  `（`,  `增`,  `值`,  `税`,  `专`], `电`, q(0,1,up), (start,100,900), invoice_number_dummy, s1, newline ] )
 
         , generic_vertical_details( [ [ `发`,  `票`,  `号`,  `码`, `：`,  newline ], `票`, q(0,1,up), (start,100,900), invoice_number_dummy, s1, newline ] )
+
+        , generic_vertical_details( [ [`发`,  `票`,  `号码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), invoice_number_dummy, s1, newline ] )
 
      ])
 
@@ -144,6 +146,8 @@ i_rule( get_einvoice_number, [
     , generic_vertical_details( [ [ `电`,  `子`,  `发`,  `票`,  `（`,  `增`,  `值`,  `税`,  `专`], `电`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
 
     , generic_vertical_details( [ [ `发`,  `票`,  `号`,  `码`, `：`,  newline ], `票`, q(0,1,up), (start,100,900), einvoice_number, s1, newline ] )
+     
+    , generic_vertical_details( [ [`发`,  `票`,  `号码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), einvoice_number, s1, newline ] )
      
     , generic_horizontal_details( [ [`发票号码`, dummy(s) ], einvoice_number, d, newline ] )
 
@@ -513,6 +517,8 @@ i_line_rule_cut( line_header_line, [
 
       , [`项目名称`,  tab, `规`,  `格型号`,  tab, `单`,  `位`,  tab ]
 
+      , [ `项`,  `目名称`,  tab, `规格型号`,  tab, `单`,  tab, `位`,  tab ]
+
   ] )
     , trace( [ `Found Start line` ] )
 
@@ -628,6 +634,36 @@ i_line_rule_cut( line_invoice_line_2, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_3, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1, tab ] )                     
+
+  , generic_item( [ line_dummy, s1, tab ] )
+
+  , generic_item( [ line_dummy, s1, tab ] )
+
+  , generic_item( [ line_quantity, d, tab ] )
+
+  , generic_item( [ line_unit_amount, d, tab ] )
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_rate, d, [`%`,  tab ] ] )
+
+  , generic_item( [ line_vat_amount, d, newline ] )
+
+  , or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
+
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
+
+
+] ).
 
 %=======================================================================
 i_line_rule_cut( line_invoice_append, [
@@ -690,9 +726,13 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made -  Invoice number updated
  
+% Updated on   - 05 Nov, 2025
+% Updated by   - Rohini
+% Changes made - Mapped line_invoice_line_3
+  
 % Updated on   - 
 % Updated by   -
-% Changes made - 
- 
+% Changes made -
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
