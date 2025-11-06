@@ -86,7 +86,7 @@ i_rule( get_invoice_date, [
   
   q(0,10,line)
 
-, generic_vertical_details( [ [`PO`,  `Number`,  tab, `Date` ], Date, q(0,1), (start,10,10), invoice_date, date, q10(tab) ] )
+, generic_vertical_details( [ [`PO`,  `Number`,  tab, `Date` ], `Date`, q(0,1), (start,10,10), invoice_date, date, q10(tab) ] )
   
 
 ] ).
