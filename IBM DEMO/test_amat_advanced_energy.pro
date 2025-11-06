@@ -59,8 +59,18 @@ i_rule( get_supplier_detail, [
 %=======================================================================
 i_rule( get_invoice_number, [
 %=======================================================================
+  
+  %q0n(line)
+
+  %qn0(line)
+
+  %q(100,500,line)
 
   
+  q(0,10,line)
+
+  , generic_horizontal_details( [ [ `INVOICE`,  `#` ],  invoice_number, d , newline ] )
+
 
 ] ).
 
@@ -73,7 +83,10 @@ i_rule( get_invoice_number, [
 %=======================================================================
 i_rule( get_invoice_date, [
 %=======================================================================
+  
+  q(0,10,line)
 
+, generic_vertical_details( [ [`PO`,  `Number`,  tab, `Date` ], Date, q(0,1), (start,10,10), invoice_date, date, q10(tab) ] )
   
 
 ] ).
