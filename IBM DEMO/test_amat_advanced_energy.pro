@@ -30,6 +30,8 @@ i_rule_list( [
 
     , get_total_invoice
 
+    , get_currency
+
     , get_invoice_lines
 
 ] ).
@@ -101,7 +103,9 @@ i_rule( get_invoice_date, [
 i_rule( get_order_number, [
 %=======================================================================
 
-  
+   q0n(line)
+
+  , generic_vertical_details( [ [ `PO`,  `Number`,  tab  ], `PO` , q(0,1), (start,100,100), order_number, d , tab ] )
 
 ] ).
 
@@ -115,7 +119,9 @@ i_rule( get_order_number, [
 i_rule( get_total_net, [
 %=======================================================================
 
-  
+  q0n(line)
+
+  , generic_horizontal_details( [ [ `Sub`,  `Total`, `:`,  tab, `USD`, tab ], total_net, d, newline ] )
 
 ] ).
 
@@ -129,9 +135,12 @@ i_rule( get_total_net, [
 i_rule( get_total_vat, [
 %=======================================================================
 
-  
+    q0n(line)
+
+  , generic_horizontal_details( [ [ `State`,  `Tax`, `:`,  tab, `0`, `.`, `00`,  tab ], total_vat, d, newline ] )
 
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,6 +152,29 @@ i_rule( get_total_vat, [
 i_rule( get_total_invoice, [
 %=======================================================================
 
-  
+      q0n(line)
+
+  , generic_horizontal_details( [ [  `Total`, `:`,  tab, `USD`,  tab ], total_invoice, d, newline ] )
+
+ % , generic_horizontal_details( [ [  `Total`, `:`,  tab, generic_item( [ currency, w ] ) ,  tab ], total_invoice, d, newline ] )
+
+ % , generic_item( [ currency,`USD` ] )
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CURRENCY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule( get_currency, [
+%=======================================================================
+
+      q0n(line)
+
+  , generic_horizontal_details( [ [  `Total`, `:`,  tab ], currency, d, tab ] )
+
+] ).
+
