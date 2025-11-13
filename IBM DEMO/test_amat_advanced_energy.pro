@@ -178,3 +178,83 @@ i_rule( get_currency, [
 
 ] ).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  INVOICE LINES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_section( get_invoice_lines, [
+%=======================================================================
+
+      line_header_line
+
+    , qn0( [ peek_fails(line_end_line)
+
+    , or([  
+                  
+                   [ line_invoice_line, line_invoice_append]
+
+                  , line
+
+        ])
+
+    ] )
+
+
+] ).
+
+
+%=======================================================================
+i_line_rule_cut( line_header_line, [
+%=======================================================================
+
+    [ `Line`,  `#`,  tab, `P`, `/`, `N`,  tab, `Description`,  tab ]
+
+      , trace( [ `Found Start line` ] )
+
+] ).
+
+%=======================================================================
+i_line_rule_cut( line_end_line, [
+%=======================================================================
+ 
+    [  `Sub`,  `Total`, `:`,  tab, `USD`,  tab ]
+  
+  , trace( [ `Found End line` ] )
+
+] ).
+
+
+%=======================================================================
+i_line_rule( line_invoice_line, [
+%=======================================================================
+   
+    
+     generic_item( [ line_buyers_order_number, d, tab ] )
+
+  %, generic_item( [ line_item, s, q10(tab) ] )
+
+    , generic_item( [ line_item, s1, tab ] )
+
+    , generic_item( [ line_descr, s1, tab ] )
+
+    , generic_item( [ line_quantity, d, tab ] )
+
+    , generic_item( [ line_unit_amount, d, tab ] )
+
+    , generic_item( [ line_net_amount, d, newline ] )
+
+] ).
+
+%=======================================================================
+i_line_rule( line_invoice_append, [
+%=======================================================================
+
+  % generic_append( [ Variable, Data Type, After, Before Text, After Text  ] )
+
+    generic_append( [ line_descr, s1, newline , ` `, `` ] )
+
+] ).
