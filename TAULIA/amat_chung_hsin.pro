@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( amat_chung_hsin, `27 Jan, 2025` ).
+i_version( amat_chung_hsin, `2025-11-18 14:19:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -152,7 +152,9 @@ i_section( get_invoice_lines, [
 
         , or( [   
 
-                  [line_descr_line, line_invoice_line_1  , q10(line_append_line)]
+                  [line_descr_line, line_invoice_line  , q10(line_append_line)]
+
+                , [line_descr_line, line_invoice_line_1  , q10(line_append_line)]
 
                 , [line_descr_line_1, line_invoice_line_1  , q10(line_append_line)]
 
