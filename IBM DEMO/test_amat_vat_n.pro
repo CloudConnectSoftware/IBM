@@ -66,11 +66,11 @@ i_rule( get_supplier_detail, [
 i_rule( get_invoice_number, [
 %=======================================================================
   
-q(0,20,line),
+  q(0,20,line)
 
 % %11: `INVOICE`,  `1137765`,  tab, `4521376069`,  newline
 
-generic_horizontal_details([[ `INVOICE`], invoice_number ,d,tab ])
+, generic_horizontal_details([[ `INVOICE`], invoice_number ,d,tab ])
 
 ] ).
 
@@ -84,13 +84,14 @@ generic_horizontal_details([[ `INVOICE`], invoice_number ,d,tab ])
 i_rule( get_invoice_date, [
 %=======================================================================
 
-q(0,20,line),
+  q(0,20,line)
 
 % `Invoice`,  `Date`,  tab, `11`, `/`, `12`, `/`, `2025`,  newline
  
-%generic_horizontal_details( [ [ Before Text ], Space, Variable, Data Type, After ] )
- 
+%generic_horizontal_details( [ [ Before Text ],  Variable, Data Type, After ] )
 
-generic_horizontal_details([[`Invoice`,  `Date`, tab], date , newline])
+%, generic_horizontal_details([[`Invoice`,  `Date`, tab ], date , newline ])
+
+, generic_horizontal_details([[`Invoice`,  `Date`, tab ],invoice_date, date , newline ])
 
 ] ).
