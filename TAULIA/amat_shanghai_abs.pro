@@ -523,6 +523,8 @@ i_line_rule_cut( line_header_line, [
 
       , [  `品名`,  tab, `數量`,  tab, `單價`,  tab ]
 
+      , [ `项目名称`,  tab, `规格型`,  `号`,  tab, `单`,  `位`,  tab ]
+
   ] )
     , trace( [ `Found Start line` ] )
 
