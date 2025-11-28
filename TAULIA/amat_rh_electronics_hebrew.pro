@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_rh_electronics_hebrew, `2025-11-21 18:51:32` ).
+i_version(amat_rh_electronics_hebrew, `2025-11-28 13:51:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -601,6 +601,8 @@ i_section( get_invoice_lines, [
 
              , [ line_invoice_line_hebrew_1, q10(line_append_line) ]
 
+             , [ line_invoice_line_hebrew_2, q10(line_append_line)  ]
+
               ,  [line_invoice_line_english, q10(line_append_line)]
               
               ,  [ line_invoice_line, q10(line_append_line) , q10(line_append_line) ]
@@ -815,6 +817,33 @@ i_line_rule_cut( line_invoice_line_hebrew_1, [
     , generic_item( [ line_descr_dummy, s1, newline ] )
 
 ] ).
+
+%=======================================================================
+i_line_rule_cut( line_invoice_line_hebrew_2, [
+%=======================================================================
+
+
+	  generic_item( [ line_net_amount, d, q10(tab) ] )
+	
+	, generic_item( [ currency_exchange_rate, d, [  q10(tab), `USD` ]] )
+
+	, generic_item( [ line_dummy_usd, d,  [  q10(tab), `USD` ] ] )
+
+    , generic_item( [ line_unit_amount_dummy,d ] )
+
+    , generic_item( [ line_quantity_uom_code, w, q10(tab)  ] )
+
+    , generic_item( [ line_quantity, d, q10(tab) ] )
+
+    , generic_item( [ line_descr, s, q10(tab) ] )
+
+    , generic_item( [ line_buyers_order_number, d, q10(tab) ] )
+
+    , generic_item( [ dummy_po, [ begin, q(dec,10,10), end ], q10(tab) ] )
+
+    , generic_item( [ line_descr_dummy, s1, newline ] )
+
+] ).
 %=======================================================================
 i_line_rule_cut( line_invoice_line_english_1, [
 %=======================================================================
@@ -975,10 +1004,13 @@ i_line_rule_cut( line_invoice_line_english_1, [
 % Updated by   -  Rohini
 % Changes made - Line details updated with start line
 
+% Updated on   - 28 nOV, 2025
+% Updated by   -  Rohini
+% Changes made - line_invoice_hebrew_2 mapped
+
 % Updated on   - 
 % Updated by   - 
 % Changes made -
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
