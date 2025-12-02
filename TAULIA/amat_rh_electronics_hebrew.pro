@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_rh_electronics_hebrew, `2025-11-28 13:51:32` ).
+i_version(amat_rh_electronics_hebrew, `2025-12-02 13:51:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -796,9 +796,9 @@ i_line_rule_cut( line_invoice_line_hebrew_1, [
 
 	  generic_item( [ line_net_amount, d, q10(tab) ] )
 	
-	, generic_item( [ currency_exchange_rate, d, [  q10(tab), `USD` ]] )
+	, generic_item( [ currency_exchange_rate, d, [  q10(tab), dummy(w) ]] )
 
-	, generic_item( [ line_dummy_usd, d,  [  q10(tab), `USD` ] ] )
+	, generic_item( [ line_dummy_usd, d,  [  q10(tab), dummy(w) ] ] )
 
     , generic_item( [ line_unit_amount_dummy,d ] )
 
@@ -825,9 +825,9 @@ i_line_rule_cut( line_invoice_line_hebrew_2, [
 
 	  generic_item( [ line_net_amount, d, q10(tab) ] )
 	
-	, generic_item( [ currency_exchange_rate, d, [  q10(tab), `USD` ]] )
+	, generic_item( [ currency_exchange_rate, d, [  q10(tab), dummy(w) ]] )
 
-	, generic_item( [ line_dummy_usd, d,  [  q10(tab), `USD` ] ] )
+	, generic_item( [ line_dummy_usd, d,  [  q10(tab), dummy(w)  ] ] )
 
     , generic_item( [ line_unit_amount_dummy,d ] )
 
