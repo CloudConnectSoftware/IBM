@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_dhl_express_delhi, `2025-09-19 16:04:23` ).
+i_version(amat_dhl_express_delhi, `2025-12-03 16:04:23` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -58,7 +58,7 @@ i_rule( get_supplier_detail, [
 
   %  supplier_vat_number(`07AABCD3611Q1ZK`)
 
-  , order_number(`4400935894`)
+  , order_number(`4400841627`)
 
   , supplier_registration_number(`IN.ebilling@dhl.com`)
 
@@ -272,9 +272,9 @@ i_rule(get_taxable_line, [
 % Updated by   - Rohini
 % Changes made - Order number updated as per AMAT email
 
-% Updated on   - 
-% Updated by   -
-% Changes made - 
+% Updated on   - 03 Dec, 2025
+% Updated by   - Rohini
+% Changes made - PO 4400935894 updated to 4400841627 as per email from Dhanyashree
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
