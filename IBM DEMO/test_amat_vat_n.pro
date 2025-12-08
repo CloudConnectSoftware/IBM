@@ -176,3 +176,5 @@ i_line_rule_cut( line_invoice_line, [
 
 
 ] ).
+
+%test%
