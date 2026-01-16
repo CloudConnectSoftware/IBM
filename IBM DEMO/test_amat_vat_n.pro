@@ -118,6 +118,10 @@ i_rule( get_invoice_date, [
 , generic_horizontal_details([[`Invoice`,  `Date`, tab ],invoice_date, date , newline ])
 
 ] ).
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ORDER NUMBER
