@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( amat_chung_hsin, `2025-11-18 14:19:05` ).
+i_version( amat_chung_hsin, `2025-12-30 20:19:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -160,7 +160,7 @@ i_section( get_invoice_lines, [
 
                 , [ line_invoice_line  , q10(line_append_line)]
 
-                , [ line_invoice_line_2 ]
+                ,  line_invoice_line_2 
 
                 , line
 
@@ -241,7 +241,9 @@ i_line_rule_cut( line_invoice_line_1, [
 i_line_rule_cut( line_invoice_line_2, [
 %=======================================================================
   
-    generic_item( [ line_dummy, w, tab ] )
+    generic_item( [ line_dummy, s, q10(tab) ] )
+
+  , q10(generic_item( [ line_dummy, d, q10(tab) ] ))
 
   , generic_item( [ line_po_dummy, d, tab ] )
 
@@ -322,6 +324,10 @@ i_line_rule_cut( line_invoice_line_3, [
 % Updated on   - 02 Jan, 2025
 % Updated by   - Rohini
 % Changes made - Line details updated line_invoice_line_1
+
+% Updated on   - 29 Dec, 2025
+% Updated by   - Rohini
+% Changes made - Line details updated
 
 % Updated on   - 
 % Updated by   -

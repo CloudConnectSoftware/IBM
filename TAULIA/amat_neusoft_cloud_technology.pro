@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_neusoft_cloud_technology, `2025-09-11 19:35:32` ).
+i_version(amat_neusoft_cloud_technology, `2025-12-29 19:35:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,6 +57,8 @@ i_rule_list( [
 
     , get_invoice_date_2
 
+    , get_invoice_date_3
+
     , get_order_number
 
     , get_total_net
@@ -101,9 +103,11 @@ i_rule( get_invoice_number, [
 
      q(0,5,line)
 
-     , or([       
+     , or([   
 
-         generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
+         generic_horizontal_details( [ [ `发`,  `票`,  `号`,  `码`,  `：` ], invoice_number_dummy, d, newline ] )
+
+      ,  generic_vertical_details( [ [`发票号码`, `：`,  newline ], `发票号码`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
 
       ,  generic_vertical_details( [ [ `发`,  `票`,  `号码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), invoice_number_dummy, d, newline ] )
 
@@ -141,6 +145,8 @@ i_rule( get_einvoice_number, [
       , generic_vertical_details( [ [ `发`,  `票`,  `号码`, `：`,  newline ], `发`, q(0,1,up), (start,100,900), einvoice_number, d, newline ] )
       
       , generic_horizontal_details( [ [`发票号码`, `：` ], einvoice_number, d, newline ] )    
+
+      , generic_horizontal_details( [ [ `发`,  `票`,  `号`,  `码`,  `：` ], einvoice_number, d, newline ] )
 
      ])
     
@@ -243,17 +249,17 @@ i_line_rule_cut( line_add_line_date_new, [
 
      , generic_item( [ dummy_date1, s,  `：` ] )
 
-  , generic_item( [ date_11, w, `年` ] )
+     , generic_item( [ date_11, w, `年` ] )
 
-  , generic_item( [ date_21, w, `月` ] )
+     , generic_item( [ date_21, w, `月` ] )
   
-  , generic_item( [ date_31, w, [ `日`,  newline ] ] )
+      , generic_item( [ date_31, w, [ `日`,  newline ] ] )
 
-  , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew1 )) 
+      , check(strcat_list( [ date_11,` ` , date_21,` `, date_31 ], DateNew1 )) 
 
-  , invoice_date(DateNew1)  
+       , invoice_date(DateNew1)  
   
-  , trace( [ `Invoice Date Now` , invoice_date ] )
+      , trace( [ `Invoice Date Now` , invoice_date ] )
 
 
 ] ).
@@ -322,6 +328,65 @@ i_line_rule_cut( line_add_date_new1, [
 
 
 ] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INVOICE DATE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_invoice_date_3, [
+%=======================================================================
+
+   
+     q(0,25,line)
+
+   , line_add_line_date_new_1
+
+   
+ ] ).
+
+%=======================================================================
+i_line_rule_cut( line_add_line_date_new_1, [
+%=======================================================================
+
+       q0n(anything)
+
+      , or([
+       
+      read_ahead([ `开`,  `票`,  `日`,  `期`])
+       
+     , read_ahead([`开票日期`])
+
+     , read_ahead([`开票`,  `日期`])
+
+           
+      ])  
+      
+      , trace( [ `Found address`] )
+
+     , set(regexp_allow_partial_matching)
+
+     , generic_item( [ dummy_datenew1, s,  `：` ] )
+
+     , generic_item( [ date_new11, w, `年` ] )
+
+     , generic_item( [ date_new21, w, `月` ] )
+  
+      , generic_item( [ date_new31, w, [ `日`,  newline ] ] )
+
+       , clear(regexp_allow_partial_matching)
+
+      , check(strcat_list( [ date_new11,` ` , date_new21,` `, date_new31 ], NewDate1 )) 
+
+       , invoice_date(NewDate1)  
+  
+      , trace( [ `Invoice Date Now` , invoice_date ] )
+
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
