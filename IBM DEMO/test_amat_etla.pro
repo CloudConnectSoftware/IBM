@@ -18,23 +18,15 @@ i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
       get_supplier_detail
-
     , get_invoice_number
-    
     , get_invoice_date
-
-    , get_order_number
-
+    , get_total_invoice
+    , get_exchange_rate
     , get_currency
 
     , get_total_net
-
     , get_total_vat
-
-    , get_total_invoice
-
     , get_invoice_lines
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,8 +40,6 @@ i_rule_cut( get_supplier_detail, [
 %=======================================================================
 
      sender_name( `ETLA LIMITED` )
-   
-  
 
 ] ).
 
@@ -64,8 +54,6 @@ i_rule_cut( get_invoice_number, [
 %=======================================================================
 
      q(0,40,line)
-
-    , check_text(`INVOICE` )
 
     %06: `BILL`,  `TO`,  tab, `:`,  tab, `INVOICE`,  `NO`,  tab, `:`,  `INV`, `-`, `650201022`,  newline
 
@@ -87,10 +75,53 @@ i_rule_cut( get_invoice_date, [
 
      q(0,40,line)
 
-     %, check_text(`INVOICE` )
-
 %07: `DAU0015`,  tab, `INVOICE`,  `DATE`,  tab, `:`,  `12`, `-`, `JAN`, `-`, `26`,  newline
 
      , generic_horizontal_details( [ [`INVOICE`, `DATE`, tab, `:`], invoice_date, date, newline ] )
 
 ] )
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut(get_total_invoice, [
+%=======================================================================
+
+  q(0,40,line)
+
+  , [generic_horizontal_details( [ [`TOTAL`, `:`, tab, `USD` ], total_invoice, d , newline ] )
+  ] )
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EXCHANGE RATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut(get_exchange_rate, [
+%=======================================================================
+
+  q(0,40,line)
+
+    %21: `Bank`,  `Address`,  `:`,  `10`,  `TAMPINES`,  `CENTRAL`,  `1`,  `#`, `03`, `-`, `08`, `/`, `09`,  `SINGAPORE`,  `529536`,  tab, `Exchange`,  `Rate`,  tab, `:`,  tab, `1`, `.`, `28000`,  newline
+
+  , generic_horizontal_details( [ [`Exchange`, `Rate`, tab, `:`, tab ], currency_exchange_rate, d , newline ] )
+
+] ).
+
+% get_currency
+
+i_rule_cut( get_currency,[
+
+     q(0,40,line)
+
+     %20: `Bank`,  `Name`,  tab, `:`,  `DBS`,  `BANK`,  `LTD`,  tab, `Doc`, `.`,  `Curr`,  tab, `:`,  tab, `USD`,  newline
+     ,generic_horizontal_details ([[`Curr`,  tab, `:`,  tab,], currency,newline])
+])
+
