@@ -26,7 +26,6 @@ i_rule_list( [
 
     , get_total_net
     , get_total_vat
-    , get_invoice_lines
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,6 +80,34 @@ i_rule_cut( get_invoice_date, [
 
 ] )
 
+
+
+
+
+% get_currency
+
+i_rule_cut( get_currency,[
+
+     q(0,40,line)
+
+     %20: `Bank`,  `Name`,  tab, `:`,  `DBS`,  `BANK`,  `LTD`,  tab, `Doc`, `.`,  `Curr`,  tab, `:`,  tab, `USD`,  newline
+     ,generic_horizontal_details ([[`Curr`,  tab, `:`,  tab,], currency,newline])
+])
+
+% get_exchange_rate
+i_rule_cut(get_exchange_rate, [
+
+ q(0,40,line)
+  %21: `Bank`,  `Address`,  `:`,  `10`,  `TAMPINES`,  `CENTRAL`,  `1`,  `#`, `03`, `-`, `08`, `/`, `09`,  `SINGAPORE`,  `529536`,  tab, `Exchange`,  `Rate`,  tab, `:`,  tab, `1`, `.`, `28000`,  newline
+
+  , generic_horizontal_details( [ [`Exchange`, `Rate`, tab, `:`, tab ], currency_exchange_rate, d , newline ] )
+])
+
+% get_total_vat
+
+
+%23: `USD`,  `A`, `/`, `C`,  tab, `:`,  `0029000593010`,  tab, `GST`,  tab, `:`,  tab, `SGD`,  `249`, `.`, `98`,  newline
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL AMOUNT
@@ -95,33 +122,3 @@ i_rule_cut(get_total_invoice, [
 
   , [generic_horizontal_details( [ [`TOTAL`, `:`, tab, `USD` ], total_invoice, d , newline ] )
   ] )
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% EXCHANGE RATE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%=======================================================================
-i_rule_cut(get_exchange_rate, [
-%=======================================================================
-
-  q(0,40,line)
-
-    %21: `Bank`,  `Address`,  `:`,  `10`,  `TAMPINES`,  `CENTRAL`,  `1`,  `#`, `03`, `-`, `08`, `/`, `09`,  `SINGAPORE`,  `529536`,  tab, `Exchange`,  `Rate`,  tab, `:`,  tab, `1`, `.`, `28000`,  newline
-
-  , generic_horizontal_details( [ [`Exchange`, `Rate`, tab, `:`, tab ], currency_exchange_rate, d , newline ] )
-
-] ).
-
-% get_currency
-
-i_rule_cut( get_currency,[
-
-     q(0,40,line)
-
-     %20: `Bank`,  `Name`,  tab, `:`,  `DBS`,  `BANK`,  `LTD`,  tab, `Doc`, `.`,  `Curr`,  tab, `:`,  tab, `USD`,  newline
-     ,generic_horizontal_details ([[`Curr`,  tab, `:`,  tab,], currency,newline])
-])
-
