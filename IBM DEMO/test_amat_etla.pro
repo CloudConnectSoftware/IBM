@@ -56,7 +56,7 @@ i_rule_cut( get_invoice_number, [
 
     %06: `BILL`,  `TO`,  tab, `:`,  tab, `INVOICE`,  `NO`,  tab, `:`,  `INV`, `-`, `650201022`,  newline
 
-       generic_horizontal_details( [ [`INVOICE`, `NO`, tab, `:`], invoice_number, s1, newline ] )
+     ,  generic_horizontal_details( [ [`INVOICE`, `NO`, tab, `:`], invoice_number, s1, newline ] )
 
      
 
