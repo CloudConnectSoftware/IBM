@@ -118,3 +118,5 @@ i_rule_cut(get_total_invoice, [
   , generic_horizontal_details( [ [`TOTAL`, `:`, tab, `USD` ], total_invoice, d , newline ] )
   
   ] )
+
+  %% test line %%
