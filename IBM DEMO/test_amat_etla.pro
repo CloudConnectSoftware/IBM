@@ -78,7 +78,7 @@ i_rule_cut( get_invoice_date, [
 
      , generic_horizontal_details( [ [`INVOICE`, `DATE`, tab, `:`], invoice_date, date, newline ] )
 
-] )
+] ).
 
 
 
@@ -86,22 +86,22 @@ i_rule_cut( get_invoice_date, [
 
 % get_currency
 
-i_rule_cut( get_currency,[
+%i_rule_cut( get_currency,[
 
-     q(0,40,line)
-     ,generic_horizontal_details ([[`Curr`,  tab, `:`,  tab,], currency,newline])
-])
+ %    q(0,40,line)
+ %    ,generic_horizontal_details ([[`Curr`,  tab, `:`,  tab,], currency,newline])
+%])
 
 % get_exchange_rate
-i_rule_cut(get_exchange_rate, [
+%i_rule_cut(get_exchange_rate, [
 
- q(0,40,line)
+% q(0,40,line)
 
-  , generic_horizontal_details( [ [`Exchange`, `Rate`, tab, `:`, tab ], currency_exchange_rate, d , newline ] )
-])
+ % , generic_horizontal_details( [ [`Exchange`, `Rate`, tab, `:`, tab ], currency_exchange_rate, d , newline ] )
+%])
 
 
-,generic_horizontal_details([[`Taxable`,  `Amount`,  tab, `:`, tab]])
+%,generic_horizontal_details([[`Taxable`,  `Amount`,  tab, `:`, tab]])
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,6 +117,6 @@ i_rule_cut(get_total_invoice, [
 
   , generic_horizontal_details( [ [`TOTAL`, `:`, tab, `USD` ], total_invoice, d , newline ] )
   
-  ] )
+  ] ).
 
   %% test line %%
