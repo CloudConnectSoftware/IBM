@@ -61,6 +61,8 @@ i_rule_list( [
 
     , get_total_net
 
+    , get_total_vat
+
     , get_total_invoice
 
     , get_invoice_lines
@@ -104,6 +106,8 @@ i_rule( get_invoice_number, [
           generic_horizontal_details( [ [`发票号码`, dummy(s) ], invoice_number_dummy, s1, newline ] )
 
         , generic_horizontal_details( [ [`发票号`,  `码`,  `：` ], invoice_number_dummy, s1, newline ] )
+
+        , generic_horizontal_details( [ [`发票号码`,  `：` ], invoice_number_dummy, s1, newline ] )
 
         , generic_horizontal_details( [ [ `发`,  `票`,  `号`,  `码`,  `：`], invoice_number_dummy, s1, newline ] )
 
@@ -156,6 +160,8 @@ i_rule( get_einvoice_number, [
     , generic_horizontal_details( [ [`发票号`,  `码`,  `：` ], einvoice_number, s1, newline ] )
 
     , generic_horizontal_details( [ [ `发`,  `票`,  `号`,  `码`,  `：`], einvoice_number, s1, newline ] )
+
+    , generic_horizontal_details( [ [`发票号码`,  `：` ], einvoice_number, s1, newline ] )
 
      ])
     
@@ -247,6 +253,8 @@ i_line_rule_cut( line_date_line1, [
       , read_ahead([ `开`,  `票日`,  `期` ])
 
       , read_ahead([ `开`,  `票`,  `日`,  `期` ])
+
+      , read_ahead([ `开票日期` ])
 
       ])
 
@@ -406,6 +414,30 @@ i_rule_cut(get_total_net, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL VAT AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut(get_total_vat, [
+%=======================================================================
+  
+
+   qn0(line)
+
+, or([  
+
+      [generic_horizontal_details( [ [ `¥`, dummy(d),  tab, `¥`],  total_vat, d, newline ] )
+
+        , generic_item( [ currency, `RMB` ] )]
+
+    
+])
+                                                                                                                                
+] ). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TOTAL AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -474,6 +506,8 @@ i_rule_cut(get_total_invoice, [
 
            , generic_horizontal_details( [ [ `柒佰捌拾圆整`,  tab, `¥` ], total_invoice, d, newline ] )
 
+           , generic_horizontal_details( [ [ `伍仟捌佰肆拾圆零壹分`,  tab, `¥` ], total_invoice, d, newline ] )
+
            , generic_horizontal_details( [ [ `柒万肆仟柒佰捌拾圆整`,  tab, `（`, `小写`, `）`,  `¥` ], total_invoice, d, newline ] )
     
     ])          
@@ -530,6 +564,8 @@ i_line_rule_cut( line_header_line, [
       , [  `品名`,  tab, `數量`,  tab, `單價`,  tab ]
 
       , [ `项目名称`,  tab, `规格型`,  `号`,  tab, `单`,  `位`,  tab ]
+
+      , [ `项目名`,  `称`,  tab, `规格`,  `型`,  `号`,  tab, `单`,  tab ]
 
   ] )
     , trace( [ `Found Start line` ] )
@@ -742,9 +778,14 @@ i_line_rule_cut( line_invoice_append, [
 % Updated by   - Rohini
 % Changes made - Mapped line_invoice_line_3
   
+% Updated on   - 27 Jan, 2026
+% Updated by   - Rohini
+% Changes made - New format mapped
+
 % Updated on   - 
 % Updated by   -
 % Changes made -
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
