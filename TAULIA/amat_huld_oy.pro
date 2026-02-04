@@ -201,8 +201,14 @@ i_rule_cut(get_total_net, [
 
     q0n(line)
 
+  , or([
+
+    generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab, `-`], total_net , d , [ `€`,  newline ] ] )
+
   , generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab ], total_net , d , [ `€`,  newline ] ] )
 
+
+] )
 
 ] ).
 
@@ -219,7 +225,15 @@ i_rule_cut(get_total_vat, [
 
     q0n(line)
 
+   , or([
+
+     generic_horizontal_details( [ [`VAT`,  `25`, `,`, `5`,  `%`, `:`,  tab, `-` ], total_vat , d , [ `€`,  newline ] ] )
+
+
    , generic_horizontal_details( [ [ `VAT`,  `25`, `,`, `5`,  `%`, `:`,  tab ], total_vat , d , [ `€`,  newline ] ] )
+
+
+] )
 
 ] ).
 
@@ -235,9 +249,14 @@ i_rule_cut(get_total_amount, [
 
     q0n(line)
 
+   , or([
+     
+     generic_horizontal_details( [ [`Invoice`,  `Total`, `:`,  tab, `-` ], total_invoice , d , [ `€`,  newline ] ] )
+
    , generic_horizontal_details( [ [ `Invoice`,  `Total`, `:`,  tab ], total_invoice , d , [ `€`,  newline ] ] )
 
-    
+
+] )
 
 ] ).
 
