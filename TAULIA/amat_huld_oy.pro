@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Huld Oy 
+% Huld Oy  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -251,7 +251,7 @@ i_rule_cut(get_total_amount, [
 
    , or([
      
-     generic_horizontal_details( [ [`Invoice`,  `Total`, `:`,  tab, `-` ], total_invoice , d , [ `€`,  newline ] ] )
+      generic_horizontal_details( [ [`Invoice`,  `Total`, `:`,  tab, `-` ], total_invoice , d , [ `€`,  newline ] ] )
 
    , generic_horizontal_details( [ [ `Invoice`,  `Total`, `:`,  tab ], total_invoice , d , [ `€`,  newline ] ] )
 
