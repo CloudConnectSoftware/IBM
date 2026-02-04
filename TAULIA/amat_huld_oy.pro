@@ -122,7 +122,7 @@ i_rule_cut( get_original_invoice_number, [
 
      q(0,50,line)
 
-    ,  generic_horizontal_details( [ [`Related`,  `to`,  `invoice` ], orignal_invoice_number, d , newline ] )
+    ,  generic_horizontal_details( [ [`Related`,  `to`,  `invoice` ], original_invoice_number, d , newline ] )
 
 
 ] ).
