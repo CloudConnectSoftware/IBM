@@ -203,7 +203,7 @@ i_rule_cut(get_total_net, [
 
   , or([
 
-    generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab, `-`], total_net , d , [ `€`,  newline ] ] )
+    generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab, `-`], total_net , d , [  `€`,  newline ] ] )
 
   , generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab ], total_net , d , [ `€`,  newline ] ] )
 
