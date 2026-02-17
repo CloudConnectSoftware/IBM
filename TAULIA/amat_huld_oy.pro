@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Huld Oy 
+% Huld Oy  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_huld_oy,  `2025-06-04 19:52:32` ).
+i_version(amat_huld_oy,  `2026-02-04 22:52:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -25,6 +25,8 @@ i_rule_list( [
     , set_credit_note
 
     , get_invoice_number 
+
+    , get_original_invoice_number
   
     , get_invoice_date
 
@@ -108,6 +110,22 @@ i_rule_cut( get_invoice_number, [
 
 ] ).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ORIGINAL INVOICE NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule_cut( get_original_invoice_number, [
+%=======================================================================
+
+     q(0,50,line)
+
+    ,  generic_horizontal_details( [ [`Related`,  `to`,  `invoice` ], original_invoice_number, d , newline ] )
+
+
+] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,8 +201,14 @@ i_rule_cut(get_total_net, [
 
     q0n(line)
 
+  , or([
+
+    generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab, `-`], total_net , d , [  `€`,  newline ] ] )
+
   , generic_horizontal_details( [ [`Total`,  `Excluding`,  `VAT`, `:`,  tab ], total_net , d , [ `€`,  newline ] ] )
 
+
+] )
 
 ] ).
 
@@ -201,7 +225,15 @@ i_rule_cut(get_total_vat, [
 
     q0n(line)
 
+   , or([
+
+     generic_horizontal_details( [ [`VAT`,  `25`, `,`, `5`,  `%`, `:`,  tab, `-` ], total_vat , d , [ `€`,  newline ] ] )
+
+
    , generic_horizontal_details( [ [ `VAT`,  `25`, `,`, `5`,  `%`, `:`,  tab ], total_vat , d , [ `€`,  newline ] ] )
+
+
+] )
 
 ] ).
 
@@ -217,9 +249,14 @@ i_rule_cut(get_total_amount, [
 
     q0n(line)
 
+   , or([
+     
+      generic_horizontal_details( [ [`Invoice`,  `Total`, `:`,  tab, `-` ], total_invoice , d , [ `€`,  newline ] ] )
+
    , generic_horizontal_details( [ [ `Invoice`,  `Total`, `:`,  tab ], total_invoice , d , [ `€`,  newline ] ] )
 
-    
+
+] )
 
 ] ).
 
@@ -256,7 +293,9 @@ i_section( get_invoice_lines, [
 
         , or( [              
                  
-        line_invoice_line
+       [ test(credit_note), line_credit_line ]
+        
+       , line_invoice_line
 
       , line
 
@@ -293,6 +332,28 @@ i_line_rule_cut( line_end_line, [
 ] ).
 
 %=======================================================================
+i_line_rule_cut( line_credit_line, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1 , [ tab, `-`] ] )
+
+  , generic_item( [ line_quantity,d ] )
+
+   , generic_item( [ line_quantity_uom_code,w, tab ] )
+
+  , generic_item( [ line_unit_amount_dummy, d, [tab, `-`] ] ) % Unit amount is 1 always as per AMAT request
+
+  , generic_item( [ line_net_amount, d, tab ] )
+
+  , generic_item( [ line_vat_rate, d, newline ] )
+
+  , generic_item( [ line_buyers_order_number,`10` ] )
+
+
+
+] ).
+
+%=======================================================================
 i_line_rule_cut( line_invoice_line, [
 %=======================================================================
 
@@ -315,7 +376,6 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAPPING AUDIT TRAIL
@@ -326,6 +386,10 @@ i_line_rule_cut( line_invoice_line, [
 % Updated on   - 04 June, 2025
 % Updated by   - Rohini
 % Changes made -  Order number updated
+
+% Updated on   - 04 Feb, 2026
+% Updated by   - Rohini
+% Changes made - Credit note mapped
 
 % Updated on   - 
 % Updated by   -
