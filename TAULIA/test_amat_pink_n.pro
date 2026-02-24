@@ -222,7 +222,7 @@ set(reverse_punctuation_in_numbers)
 
 ,generic_item( [ line_unit_amount , d , tab ] )
 
-,generic item( [ line_dummy, s1, tab])
+,generic_item( [ line_dummy, s1, tab])
 
 ,generic_item( [ line_net_amount , d , [`€`,  newline ] ] )
 
