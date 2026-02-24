@@ -67,8 +67,9 @@ i_rule( get_invoice_number, [
    q0n(line)
 
    % , generic_vertical_details( [ [ `INVOICE`,  `NO`, `.`,  tab ], `Invoice`,q(0,1), (start,100,100), invoice_number, d, tab ] )
-   , generic_horizontal_details( [ [ `Invoice`,  `no`, `.`, `:`, ], Space, invoice_number, d, newline ] )
+   , generic_horizontal_details( [ [ `Invoice`,  `no`, `.`, `:` ], invoice_number, d, newline ] )
 ] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,8 +83,7 @@ i_rule( get_invoice_date, [
 
   q0n(line)
 
- %, generic_vertical_details( [ [ `INVOICE`,  `DATE`,  newline ], `DATE`,q(0,1), (start,100,100), invoice_date, date , newline ] )
-, generic_item( [ date, Data Type, After ] )
+ , generic_vertical_details( [ [ `Invoice`,  `no`, `.`, `:`,  newline ], `DATE`,q(0,1,up), (start,100,100), invoice_date, date , newline ] )
 
 ] ).
 
@@ -101,7 +101,7 @@ i_rule( get_order_number, [
 
 , generic_horizontal_details( [ [ `Order`,  `no`, `.`, `:`,  ], tab, order_number, d, tab ] )
 
-,generic_item( [ order_number, [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_45) 
+% ,generic_item( [ order_number, [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_45) 
 
 ] ).
 
