@@ -226,8 +226,9 @@ set(reverse_punctuation_in_numbers)
 
 ,generic_item( [ line_net_amount , d , [`€`,  newline ] ] )
 
-, or( [ 
+, clear(reverse_punctuation_in_numbers)
 
+, or( [ 
 
     [ test(order_number_45), general_count_rule_10 ]
 
@@ -235,7 +236,7 @@ set(reverse_punctuation_in_numbers)
 
   , [ test(order_number_42), general_count_rule_10 ]
 
-, clear(reverse_punctuation_in_numbers)
+] )
 
 ] ).
 
