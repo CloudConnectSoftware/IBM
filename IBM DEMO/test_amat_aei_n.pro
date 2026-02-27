@@ -196,23 +196,7 @@ i_section( get_invoice_lines, [
 
         , or( [
               
-                  [line_descr_line, line_invoice_line_1 , q10(line_append_line) ]
-
-                 , [line_descr_line, line_invoice_line_5 , q10(line_append_line) ]
-
-                 , [line_descr_line, line_invoice_line_4 , q10(line_append_line) ]
-
-                 , [line_descr_line, line_invoice_line_3 , q10(line_append_line) ]
-
-                 , [line_descr_line_1, line_invoice_line_3, q10(line_append_line) ]
-
-                 , [line_descr_line, line_append_line, line_invoice_line_3, line_append_line]
-         
-               % , [line_item_line, line_invoice_line_3 , line_itemappend_line]
-                
-                , [ line_invoice_line, q10(line_append_line) ]
-
-                , line_invoice_line_6
+                  [line_descr_line, line_invoice_line , q10(line_append_line) ]     
 
      
               , line
@@ -281,187 +265,20 @@ i_line_rule_cut( line_invoice_line, [
 ] ).
 
 %=======================================================================
-i_line_rule_cut( line_invoice_line_1, [
-%=======================================================================
-
-    generic_item( [ line_month_dummy, d, q10(tab) ] )
-
-  , generic_item( [ line_dummy, d, q10(tab) ] )
-
-  , generic_append( [ line_descr, s1, tab, ``, ` `  ] )
-
-  , generic_item( [ line_unit_amount_dummy, d,tab ] )
-
-  , generic_item( [ line_net_amount, d, tab ] )
-
-  , generic_item( [ line_vat_amount, d,newline ] )
-
-  , or( [ 
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-] )
-
-
-] ).
-
-%=======================================================================
 i_line_rule_cut( line_descr_line, [
 %=======================================================================
 
-    generic_item( [ line_descr, s1, newline ] )
-  
-] ).
+  generic_item( [ line_descr, s1, newline ] )
 
-%=======================================================================
-i_line_rule_cut( line_descr_line_1, [
-%=======================================================================
 
-      generic_item( [ line_descr, s1, tab ] )
-
-    , generic_item( [ line_descr_dummy, s1, newline ] )
-  
 ] ).
 
 %=======================================================================
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
-     q10(generic_append( [ line_descr, s1, tab, ` `, ` `  ] ))
-   
-   , generic_append( [ line_descr, s1, newline, ` `, ` `  ])
-  
-] ).
-%=======================================================================
-i_line_rule_cut( line_invoice_line_3, [
-%=======================================================================
+%  generic_append( [ Variable, Data Type, After, Before Text, After Text  ] )
 
-    generic_item( [ line_month_dummy, d ] )
-
-  , generic_item( [ line_dummy, d, tab ] )
-  
-  , generic_item( [ line_quantity_dummy, d, tab ] )
-
-  , generic_item( [ line_unit_amount_dummy, d, tab ] )
-
-  , generic_item( [ line_net_amount, d, tab ] )
-
-  , generic_item( [ line_vat_amount, d, newline ] )
-
-
-  , or( [ 
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-] )
-
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_4, [
-%=======================================================================
-
-    generic_item( [ line_month_dummy, d, q10(tab) ] )
-
-  , generic_item( [ line_dummy, d, q10(tab) ] )
-
-  , generic_append( [ line_descr, s1, tab, ` `, ` `  ] )
-
-   , generic_item( [ line_dummy, w, tab ] )
-  
- , generic_item( [ line_quantity_dummy, d, tab ] )
-
-  , generic_item( [ line_unit_amount_dummy, d,tab ] )
-
-  , generic_item( [ line_net_amount, d, tab ] )
-
-  , generic_item( [ line_vat_amount, d,newline ] )
-
-
-  , or( [ 
-
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-] )
-
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_item_line, [
-%=======================================================================
-
-    generic_item( [ line_item, s1, newline ] )
-  
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_itemappend_line, [
-%=======================================================================
-
-    generic_append( [ line_item, s1, newline, ` `, ` `  ] )
-  
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_5, [
-%=======================================================================
-
-    generic_item( [ line_month_dummy, d ] )
-
-  , generic_item( [ line_dummy, d , q10(tab) ] )
-
-  , generic_item( [ line_unit_amount_dummy, d, tab ] )
-
-  , generic_item( [ line_net_amount, d, tab ] )
-
-  , generic_item( [ line_vat_amount, d, newline ] )
-
-
-  , or( [ 
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-] )
-
-
-] ).
-
-%=======================================================================
-i_line_rule_cut( line_invoice_line_6, [
-%=======================================================================
-
-    generic_item( [ line_month_dummy, d, tab ] )
-
-  , generic_item( [ line_dummy, d ] )
-
-  , generic_item( [ line_descr, s1, tab ] )
-
-  , generic_item( [ line_quantity, d, tab  ] )
-
-  , generic_item( [ line_unit_amount, d,tab ] )
-
-  , generic_item( [ line_net_amount, d, tab ] )
-
-  , generic_item( [ line_vat_amount, d,newline ] )
-
-  , or( [ 
-
-    [ test(order_number_45), general_count_rule_10 ]
-
-  , [ test(order_number_44), general_count_rule_1 ]
-
-] )
-
+ generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
 
 ] ).
