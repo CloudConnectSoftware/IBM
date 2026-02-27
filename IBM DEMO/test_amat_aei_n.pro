@@ -239,7 +239,7 @@ i_line_rule_cut( line_invoice_line, [
 
   , generic_item( [ line_dummy, d, q10(tab) ] )
 
-  , q10(generic_item( [ line_item, s1 ,tab ] ))
+  , generic_item( [ line_item, s1 ,tab ] )
 
   , generic_item( [ line_descr, s , q10(tab) ] )
 
@@ -273,12 +273,15 @@ i_line_rule_cut( line_descr_line, [
 
 ] ).
 
+
 %=======================================================================
 i_line_rule_cut( line_append_line, [
 %=======================================================================
 
 %  generic_append( [ Variable, Data Type, After, Before Text, After Text  ] )
 
- generic_append( [ line_descr, s1, newline, ` `, ` `  ] )
+  q10(generic_append( [ line_descr, s1, tab, ` `, ` `  ] ))
+   
+   , generic_append( [ line_descr, s1, newline, ` `, ` `  ])
 
 ] ).
