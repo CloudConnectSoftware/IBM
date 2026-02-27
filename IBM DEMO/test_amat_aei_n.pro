@@ -66,7 +66,7 @@ i_rule_cut( get_invoice_number, [
 
     
 
-     , generic_horizontal_details( [ [ `전자세금계산서`,  tab, `승인번호`,  tab ], invoice_number, s1, newline ] )
+     , generic_horizontal_details( [ [ `전자세금계산서`,  tab, `승인번호`,  tab ], invoice_number, s1 , newline ] )
 
      
     
@@ -86,7 +86,7 @@ i_rule( get_invoice_date, [
 
      q0n(line)
 
-  , generic_vertical_details( [ [`작성일자`,  tab], `작성일자`, q(0,1), (start,100,400), invoice_date, date, tab ] )
+  , generic_vertical_details( [ [`작성일자`,  tab], `작성일자`, q(0,1), (start,400,400), invoice_date, date, tab ] )
 
 
 ] ).
