@@ -152,9 +152,6 @@ i_rule(get_total_vat, [
 
   , generic_item( [ buyer_tax_type,`SGST` ] )
 
-  , generic_item( [ total_vat,`0` ] )
-
-
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,6 +219,11 @@ i_rule(get_non_taxable_line, [
   , generic_item( [ line_buyers_order_number,`1` ] )
 
   , generic_item( [ line_descr,`Total Non - Taxable line` ] )
+
+  
+  , generic_item( [ total_vat,`0` ] )
+
+
 
 ] ).
 
