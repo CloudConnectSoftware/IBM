@@ -152,6 +152,8 @@ i_rule(get_total_vat, [
 
   , generic_item( [ buyer_tax_type,`SGST` ] )
 
+  , generic_item( [ total_vat,`0` ] )
+
 
 ] ).
 
