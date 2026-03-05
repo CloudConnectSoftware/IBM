@@ -34,9 +34,15 @@ i_rule_list( [
    
     , get_total_net
 
+    , get_total_net_crossword
+
     , get_total_vat
 
+    , get_total_vat_crossword
+
     , get_total_amount
+
+    , get_total_invoice_crossword
 
     , get_currency
 
@@ -406,6 +412,8 @@ i_line_rule_cut( line_header_line, [
       
       [ `Product`,  tab, `Product`,  `Code`,  tab, `Amount`,  `Unit`,  tab  ]
 
+    , [ `Description`,  tab, `Quantity`,  tab, `Rate`,  tab ]
+
 
 ] )
 
@@ -417,9 +425,17 @@ i_line_rule_cut( line_header_line, [
 i_line_rule_cut( line_end_line, [
 %=======================================================================
      
-   [`Total`,  `Excluding`,  `VAT`, `:`,  tab ]
+      or([
+        
+        [`Total`,  `Excluding`,  `VAT`, `:`,  tab ]
 
-     , trace( [ `Found End line` ] )
+      , [ `Net`,  `total`,  tab ]
+
+  
+] )
+
+
+   , trace( [ `Found End line` ] )
 
 ] ).
 
