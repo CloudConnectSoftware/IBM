@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_huld_oy,  `2026-02-04 22:52:32` ).
+i_version(amat_huld_oy,  `2026-03-05 19:52:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -258,6 +258,96 @@ i_rule_cut(get_total_amount, [
 
 ] )
 
+] ). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL NET AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_net_crossword, [
+%=======================================================================
+
+   q(0,200, line )
+
+  , set(reverse_punctuation_in_numbers)
+
+  , set(regexp_cross_word_boundaries)
+
+  , or([
+
+  generic_horizontal_details( [ [`Net`,  `total`,  tab ], total_net,d, [ `€`,  newline ] ] )
+
+   ] )
+
+   ,clear(regexp_cross_word_boundaries)
+
+   , clear(reverse_punctuation_in_numbers)
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL VAT AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_vat_crossword, [
+%=======================================================================
+
+   q(0,200, line )
+
+  , set(reverse_punctuation_in_numbers)
+
+  , set(regexp_cross_word_boundaries)
+
+  , or([
+
+  generic_horizontal_details( [ [ `Tax`,  `total`,  tab ], total_vat,d, [ `€`,  newline ] ] )
+
+   ] )
+
+   ,clear(regexp_cross_word_boundaries)
+
+   , clear(reverse_punctuation_in_numbers)
+
+
+] ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOTAL INVOICE AMOUNT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%=======================================================================
+i_rule(get_total_invoice_crossword, [
+%=======================================================================
+
+   q(0,200, line )
+
+  , set(reverse_punctuation_in_numbers)
+
+  , set(regexp_cross_word_boundaries)
+
+  , or([
+
+  [ generic_horizontal_details( [ [`Total`,  `payable`,  tab ], total_invoice,d, [ `€`,  newline ] ] )
+
+    , generic_item( [ currency, `EUR` ] )]
+     
+   ] )
+
+
+   ,clear(regexp_cross_word_boundaries)
+
+   , clear(reverse_punctuation_in_numbers)
+
+
 ] ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -296,6 +386,8 @@ i_section( get_invoice_lines, [
        [ test(credit_note), line_credit_line ]
         
        , line_invoice_line
+
+       , line_invoice_line_crossword
 
       , line
 
@@ -375,6 +467,34 @@ i_line_rule_cut( line_invoice_line, [
 
 ] ).
 
+%=======================================================================
+i_line_rule_cut( line_invoice_line_crossword, [
+%=======================================================================
+
+    generic_item( [ line_descr, s1 , tab ] )
+
+  , generic_item( [ line_quantity,d, [ `h`,  tab ] ] )
+
+  , generic_item( [ line_unit_amount_dummy, d, [ `€`,  tab ] ] ) % Unit amount is 1 always as per AMAT request
+
+  , set(regexp_cross_word_boundaries)
+
+  , set(reverse_punctuation_in_numbers)
+
+  , generic_item( [ line_net_amount, d, [ `€`,  tab ] ] )
+
+  , generic_item( [ line_vat_rate, d, [ `%`,  tab ] ] )
+
+  , generic_item( [ line_total_amount, d, [ `€`,  newline ] ] )
+
+  , generic_item( [ line_buyers_order_number,`10` ] )
+
+  , clear(regexp_cross_word_boundaries)
+
+  , clear(reverse_punctuation_in_numbers)
+
+] ).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -391,10 +511,13 @@ i_line_rule_cut( line_invoice_line, [
 % Updated by   - Rohini
 % Changes made - Credit note mapped
 
+% Updated on   - 05 Mar, 2026
+% Updated by   - Amount updated for cross word format
+% Changes made - 
+
 % Updated on   - 
 % Updated by   -
 % Changes made - 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
