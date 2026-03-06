@@ -61,7 +61,7 @@ i_rule( get_invoice_number, [
 
       q0n(line)
 
-    generic_horizontal_details( [ [`INVOICE`, `#` ], invoice_number, s1, newline ] )
+    , generic_horizontal_details( [ [`INVOICE`, `#` ], invoice_number, s1, newline ] )
 
 ] ).
 
@@ -91,14 +91,31 @@ i_rule( get_invoice_date, [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=======================================================================
-i_rule( get_order_number, [
+i_rule_cut( get_order_number, [
 %=======================================================================
 
-      q0n(line)
+     q0n(line)
 
-      ,  generic_vertical_details( [ [  `PO`, `Number` ],  `PO` , q(0,1), (start,100,400), order_number, d, tab ] )
+  ,  find_order_number
 
-]).
+
+] ).
+ 
+%=======================================================================
+i_line_rule_cut( find_order_number, [
+%=======================================================================
+
+    q0n(anything)
+
+
+, or( [
+            [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("5"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_45) ]
+
+          , [ generic_item( [ order_number , [ begin, q(dec("4"),1,1) , q(dec("4"),1,1) , q(dec,8,10) , end ] ] ), set(order_number_44) ]
+    ] )
+
+ 
+] ).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,15 +224,21 @@ i_line_rule( line_invoice_line, [
 
     ,  generic_item( [ line_item, s1, tab ] )
 
-    ,  generic_item( [ line_descr, s1, tab ] )
+    ,  generic_item( [ line_descr, s1, q10(tab) ] )
    
-    ,  generic_item( [ line_quantity, d, q10(tab) ] )
+    ,  generic_item( [ line_quantity, d, tab ] )
 
     , generic_item( [ line_unit_amount, d, tab ] )
 
     , generic_item( [ line_net_amount, d, newline ] )
 
+, or( [ 
+		
+		[ test(order_number_45), general_count_rule_10 ]
 
+		, [ test(order_number_44), general_count_rule_1 ]
+
+	] )
 
 ] ).
 
