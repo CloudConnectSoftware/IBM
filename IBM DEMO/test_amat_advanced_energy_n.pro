@@ -226,7 +226,7 @@ i_line_rule( line_invoice_line, [
 
     ,  generic_item( [ line_descr, s1 ] )
 
-    , generic_item( [ line_quantity_uom_code, s1, q10(tab) ] )
+    % , generic_item( [ line_quantity_uom_code, s1, q10(tab) ] )
    
     ,  generic_item( [ line_quantity, d, tab ] )
 
