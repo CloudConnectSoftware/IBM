@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SEKIDENKO INC
+% ADVANCED ENERGY SEKIDENKO INC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -16,7 +16,6 @@ i_trace_lists.
 i_rule_list( [
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    
       get_supplier_detail
 
     , get_invoice_number
@@ -120,7 +119,7 @@ i_line_rule_cut( find_order_number, [
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOTAL VAT AMOUNT
+% TOTAL TAX AMOUNT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -132,7 +131,7 @@ i_rule(get_total_vat, [
 
     , or([   
 
-           generic_horizontal_details( [ [`State`,  `Tax`, `:`,  tab ],  total_vat, d,  newline ] )
+           generic_horizontal_details( [ [`State`,  `Tax`, `:`,  tab ],  total_vat, d,  tab ] )
         
     ] )
 
@@ -152,7 +151,7 @@ i_rule(get_total_invoice, [
 
     , or([
 
-          generic_horizontal_details( [ [`Total`, `:`,  tab, `USD`,  tab ],  total_invoice, d,   newline ] )
+          generic_horizontal_details( [ [`Total`, `:`,  tab, `USD`,  tab ],  total_invoice, d, newline ] )
 
          , generic_item( [ currency,`USD` ] )
         
