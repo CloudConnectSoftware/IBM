@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_new_power_plasma,  `2025-03-13 19:15:32` ).
+i_version(amat_new_power_plasma,  `2026-03-17 19:15:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -227,6 +227,8 @@ i_rule_cut( get_invoice_date, [
      , generic_vertical_details( [ [`작`,  `성`,  `일`,  `자`,  tab ], `작`, q(0,1), (start,100,400), invoice_date, date, tab ] )
 
      , generic_vertical_details( [ [ `Date`,  `of`,  `issue` ], `Date`, q(0,1), (start,100,400), invoice_date, date, tab ] )
+
+     , generic_vertical_details( [ [`작성일자`,  tab ], `작성일자`, q(0,1), (start,100,400), invoice_date, date, tab ] )
 
   ] )
 
@@ -519,6 +521,10 @@ i_line_rule_cut( line_append_line, [
 % Updated by   -   Rohini
 % Changes made -  line_invoice_line_1 mapped
 
+
+% Updated on   - 17 Mar, 2026
+% Updated by   -   Rohini
+% Changes made -   Invoice date updated
 
 % Updated on   - 
 % Updated by   -  
