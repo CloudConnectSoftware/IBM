@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_new_power_plasma,  `2026-03-17 19:15:32` ).
+i_version(amat_new_power_plasma,  `2026-03-23 19:15:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,15 +105,20 @@ i_rule_cut( get_invoice_number, [
 
      , generic_horizontal_details( [ [`승인번호`,  q10(tab) ], invoice_number_raw, s1, newline ] )
           
-    , check( invoice_number_raw = InvRaw )
+
+     , check( invoice_number_raw = InvRaw )
 
     , trace( [ `Invoice Number raw` , InvRaw ] )
 
-     , check(string_string_replace( InvRaw, ` `, ``, Invstrip ))
+    , check(string_string_replace( InvRaw, ` `, ``, Invstrip ))
 
-     , trace( [ `Invoice Number Stripped Space`, Invstrip ] )
+    , trace( [ `Invoice Number raw` , Invstrip ] )
+
+     , check(string_string_replace( Invstrip, `-`, ``, Invstrip1 ))
+
+     , trace( [ `Invoice Number Stripped Space`, Invstrip1 ] )
      
-     , invoice_number_raw1(Invstrip)   
+     , invoice_number_raw1(Invstrip1)   
 
      , check( invoice_number_raw1 = Invstripnew )
 
@@ -195,13 +200,21 @@ i_rule( get_einvoice_number, [
 
     , check( einvoice_number_raw = EInvRaw )
 
-    , trace( [ `E Invoice Number raw` , EInvRaw ] )
+     , trace( [ `e-Invoice number raw` , EInvRaw ] )
 
      , check(string_string_replace( EInvRaw, `-`, ``, EInvstrip ))
 
-     , trace( [ `EInvoice Number Stripped Space`, EInvstrip ] )
+     , trace( [ `e-Invoice Stripped Space` , EInvstrip ] )
+
+    , einvoice_number_raw1(EInvstrip)
+
+    , trace( [ `E Invoice Number raw` , EInvstrip ] )
+
+     , check(string_string_replace( EInvstrip, ` `, ``, EInvstrip1 ))
+
+     , trace( [ `EInvoice Number Stripped Space`, EInvstrip1 ] )
      
-     , einvoice_number(EInvstrip)  
+     , einvoice_number(EInvstrip1) 
   
     
 ] ).
@@ -525,6 +538,11 @@ i_line_rule_cut( line_append_line, [
 % Updated on   - 17 Mar, 2026
 % Updated by   -   Rohini
 % Changes made -   Invoice date updated
+
+
+% Updated on   - 23 Mar, 2026
+% Updated by   -   Rohini
+% Changes made -   Invoice number updated
 
 % Updated on   - 
 % Updated by   -  
