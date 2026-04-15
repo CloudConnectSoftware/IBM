@@ -221,7 +221,7 @@ i_rule(get_non_taxable_line, [
   , generic_item( [ line_descr,`Total Non - Taxable line` ] )
 
   
- % , generic_item( [ total_vat,`0` ] ) % Unfreeze this when there is no tax on the Invoice -(without tax - CGST/SGST)
+  , generic_item( [ total_vat,`0` ] ) % Unfreeze this when there is no tax on the Invoice -(without tax - CGST/SGST)
 
 
 
