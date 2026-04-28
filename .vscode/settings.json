@@ -1,8 +1,12 @@
 
 {
     "files.associations": {
-      "*.pro":"ctprolog"
+      "*.pro":"prolog"
     }
+
+   ,"prolog.executablePath": "C:/Program Files/swipl/bin/swipl.exe",
+   "editor.autoIndent": false,
+
   }
 {
     "telemetry.enableCrashReporter": false
