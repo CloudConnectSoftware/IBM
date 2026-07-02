@@ -567,6 +567,8 @@ i_line_rule_cut( line_header_line, [
 
       , [ `项目名`,  `称`,  tab, `规格`,  `型`,  `号`,  tab, `单`,  tab ]
 
+      , [ `项目`,  `名称`,  tab, `规格型号`,  tab, `单`,  `位`,  tab ]
+
   ] )
     , trace( [ `Found Start line` ] )
 
