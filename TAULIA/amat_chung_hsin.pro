@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( amat_chung_hsin, `2025-12-30 20:19:05` ).
+i_version( amat_chung_hsin, `2026-07-06 19:19:05` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -178,6 +178,8 @@ i_line_rule_cut( line_header_line, [
   or([
       
         [`PROJECT`,  tab, `PO`, `#`,  tab, `PO`,  `Item`,  tab ]
+
+      , [  `P`, `/`, `N`,  tab, `Description`,  tab, `QTY`,  newline ]
     
 ] )
 
@@ -328,6 +330,10 @@ i_line_rule_cut( line_invoice_line_3, [
 % Updated on   - 29 Dec, 2025
 % Updated by   - Rohini
 % Changes made - Line details updated
+
+% Updated on   - 07 July, 2026
+% Updated by   - Rohini
+% Changes made - Line details updated with start line
 
 % Updated on   - 
 % Updated by   -
