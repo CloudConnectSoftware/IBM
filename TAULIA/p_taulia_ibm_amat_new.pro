@@ -238,6 +238,33 @@ i_analyse_line_buyers_order_number( LID )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% SUPPLIER'S CODE FOR BUYER / BUYER REGISTRATION NUMBER
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_invoice_fields_first:-i_analyse_supplier_code____.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+i_analyse_supplier_code____
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:-
+(
+	result( _, invoice, suppliers_code_for_buyer, SCFB ),
+	trace( [ SCFB, `Suppliers Code for Buyer Found` ] )
+
+	;
+
+	not( result( _, invoice, suppliers_code_for_buyer, SCFB ) ),
+	i_mail( to, TO ),
+	assertz_derived_data( invoice, buyer_registration_number, TO, i_analyse_supplier_code ),
+	trace( [ buyer_registration_number, `No SCFB, Buyer Reg Number set` ] )
+
+).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % PREDICATES
