@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_new_power_plasma,  `2026-03-23 19:15:32` ).
+i_version(amat_new_power_plasma,  `2026-08-13 19:33:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,10 +103,15 @@ i_rule_cut( get_invoice_number, [
 
      , check_text(`승인번호` )
 
+     , or([
+
+      generic_horizontal_details( [ [`승인번호`,  q10(tab) ], invoice_number_raw, s, `관리번호` ] )
+
      , generic_horizontal_details( [ [`승인번호`,  q10(tab) ], invoice_number_raw, s1, newline ] )
           
+] )
 
-     , check( invoice_number_raw = InvRaw )
+ , check( invoice_number_raw = InvRaw )
 
     , trace( [ `Invoice Number raw` , InvRaw ] )
 
@@ -190,7 +195,9 @@ i_rule( get_einvoice_number, [
 
      , or([        
 
-       generic_horizontal_details( [ [`승인번호`,  q10(tab) ], einvoice_number_raw, s1, newline ] )
+      generic_horizontal_details( [ [`승인번호`,  q10(tab) ], invoice_number_raw, s, `관리번호` ] )
+     
+    , generic_horizontal_details( [ [`승인번호`,  q10(tab) ], einvoice_number_raw, s1, newline ] )
     
     , generic_horizontal_details( [ [ `Approval`,  `number` ], einvoice_number_raw, s, [`Control` ] ] )
      
@@ -242,6 +249,8 @@ i_rule_cut( get_invoice_date, [
      , generic_vertical_details( [ [ `Date`,  `of`,  `issue` ], `Date`, q(0,1), (start,100,400), invoice_date, date, tab ] )
 
      , generic_vertical_details( [ [`작성일자`,  tab ], `작성일자`, q(0,1), (start,100,400), invoice_date, date, tab ] )
+     
+     , generic_vertical_details( [ [`작성일자`, `*`,  tab ], `작성일자`, q(0,1), (start,100,400), invoice_date, date, tab ] )
 
   ] )
 
@@ -306,6 +315,8 @@ i_rule(get_total_net, [
 
   , generic_vertical_details( [ [ `Supply`,  `Price`,  tab], `Supply`, q(0,1), (start,100,900), total_net, d , tab ] )
 
+  , generic_vertical_details( [ [ `공급가액`, `*`,  tab ], `공급가액`, q(0,1), (start,100,900), total_net, d , tab ] )
+
 ] )
 
 ] ). 
@@ -335,6 +346,9 @@ i_rule(get_total_vat, [
   , generic_vertical_details( [ [ `Tax`, `*`,  newline ], `Tax`, q(0,1), (start,100,900), total_vat, d, newline ] )
 
   , generic_vertical_details( [ [ `Tax`,  tab, `Remarks` ], `Tax`, q(0,1), (start,100,900), total_vat, d, newline ] )
+
+  , generic_vertical_details( [ [`세액`, `*`,  newline ], `세액`, q(0,1), (start,100,900), total_vat, d, newline ] )
+
 
 
 ] ) 
@@ -368,6 +382,9 @@ i_rule(get_total_invoice, [
   , generic_vertical_details( [ [ `이`, `금액을`, `(` ], `이`, q(0,1), (start,10,900), total_invoice, d , newline ] )
 
   , generic_vertical_details( [ [`Sum`,  tab, `cash`,  tab ], `Sum`, q(0,2), (start,10,900), total_invoice, d , tab ] )
+  
+  , generic_vertical_details( [ [ `이`,  `금액을`,  `청구` ], `이`, q(0,1), (start,10,900), total_invoice, d , tab ] )
+
 
 ] )
 
@@ -416,6 +433,8 @@ i_line_rule_cut( line_header_line, [
     , [`month`,  `Work`,  tab, `Item`,  `name`,  tab ]
 
     , [`month`,  tab, `Work`,  tab, `Item`,  `name`,  tab ]
+
+    , [  `월`,  tab, `일`,  tab, `품목명`,  tab, `규격`,  tab ]
 
 
 ] )
