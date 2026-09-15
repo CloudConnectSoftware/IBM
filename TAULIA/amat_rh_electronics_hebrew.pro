@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version(amat_rh_electronics_hebrew, `2026-07-10 18:51:32` ).
+i_version(amat_rh_electronics_hebrew, `2026-09-15 18:31:32` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -786,6 +786,8 @@ i_line_rule_cut( line_invoice_line_hebrew, [
 
     , q10(generic_item( [ line_descr_dummy, s1, tab ] ))
 
+    , q10(generic_item( [ line_descr_dummy, s1, tab ] ))
+
     , generic_item( [ line_descr_dummy, s, q10(tab) ] )
 
     , generic_item( [ line_buyers_order_number, d, q10(tab) ] )
@@ -1014,6 +1016,10 @@ i_line_rule_cut( line_invoice_line_english_1, [
 % Updated on   - 28 nOV, 2025
 % Updated by   -  Rohini
 % Changes made - line_invoice_hebrew_2 mapped
+
+% Updated on   - 15 Sep, 2026
+% Updated by   -  Rohini
+% Changes made - line_invoice_hebrew updated
 
 % Updated on   - 
 % Updated by   - 
