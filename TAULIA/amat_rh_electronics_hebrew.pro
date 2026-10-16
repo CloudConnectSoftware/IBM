@@ -597,9 +597,9 @@ i_section( get_invoice_lines, [
         , or( [
                
 
-                [ line_invoice_line_hebrew, q10(line_append_line) , q10(line_append_line), q10(line_append_line) ]
+                [ line_invoice_line_hebrew_1, q10(line_append_line) , q10(line_append_line), q10(line_append_line) ]
 
-             ,  [ line_invoice_line_hebrew_1, q10(line_append_line) ]
+             ,  [ line_invoice_line_hebrew, q10(line_append_line) ]
 
              ,  [ line_invoice_line_hebrew_2, q10(line_append_line)  ]
 
