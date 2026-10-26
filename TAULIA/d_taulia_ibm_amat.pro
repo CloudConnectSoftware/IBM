@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i_version( d_taulia_ibm_amat, `23/07/2026 11:12:38` ).
+i_version( d_taulia_ibm_amat, `26/10/2026 10:14:01` ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -137,6 +137,7 @@ header_level_item( `Taulia JSON`, `Additional Attachment File Name`, `Yes`, `Map
 header_level_item( `Taulia JSON`, `Additional Attachment Mime Type`, `Yes`, `Map as required.`, `Map as required.`, `Never`, ``, `Rules (Mapped)`, `additional_attachment_mime_type`, `String`, `1`, `No`, ``, `6`, ( true ), ( true ) ).
 header_level_item( `Taulia JSON`, `Additional Attachment Type`, `Yes`, `Map as required.`, `Map as required.`, `Never`, ``, `Rules (Mapped)`, `additional_attachment_attachment_type`, `String`, `1`, `No`, ``, `6`, ( true ), ( true ) ).
 header_level_item( `Taulia JSON`, `Tax Clearance UUID`, `Yes`, `Map as required.`, `Map as required.`, `Never`, ``, `Rules (Mapped)`, `tax_clearance_uuid`, `String`, `1`, `No`, ``, `6`, ( true ), ( true ) ).
+header_level_item( `Taulia JSON`, `Other Currency`, `Yes`, `Map other currency if required.`, `Map other currency if required.`, `Never`, ``, `Rules (Mapped)`, `other_currency`, `String`, `1`, `No`, ``, `6`, ( true ), ( true ) ).
 
 %-----------------------------------------------------------------------
 % Header Level Functional Items
